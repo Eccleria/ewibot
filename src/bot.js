@@ -15,7 +15,7 @@ const onMessageHandler = async (message) => {
 
   if (author.id === self) return;
 
-  if (isApologies(content)) {
+  if (isApologies(content.toLowerCase())) {
     await message.react("😄");
   }
 };
