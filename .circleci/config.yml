@@ -1,0 +1,25 @@
+version: "2.1"
+orbs:
+  node: circleci/node@4.2.1
+jobs:
+  lint:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+          override-ci-command: npm install
+      - run: npm run lint
+  prettier:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+          override-ci-command: npm install
+      - run: npm run prettier
+workflows:
+  commit_workflow:
+    jobs:
+      - lint
+      - prettier
