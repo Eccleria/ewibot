@@ -1,0 +1,29 @@
+{
+  "name": "blindtest-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0",
+    "ffmpeg-static": "^4.4.0",
+    "nodemon": "^2.0.12",
+    "spotify-web-api-node": "^5.0.2",
+    "ytdl-core": "^4.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "prettier": "^2.3.2"
+  },
+  "scripts": {
+    "start": "babel-node src/bot.js",
+    "dev": "nodemon --exec babel-node src/bot.js",
+    "lint": "eslint src",
+    "prettier": "prettier --write src"
+  }
+}
