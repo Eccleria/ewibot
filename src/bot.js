@@ -15,6 +15,7 @@ const client = new Client({
 
 const threadId = "926909785117429861";
 
+const reactId = "826036478672109588";
 const self = process.env.CLIENTID;
 
 const onMessageHandler = async (message) => {
@@ -22,8 +23,10 @@ const onMessageHandler = async (message) => {
   // ignoring message from himself
   if (author.id === self) return;
 
+  // console.log(content);
+
   if (isApologies(content.toLowerCase())) {
-    message.react("😄");
+    message.react(reactId);
   }
 
   const thread = channel.isThread
