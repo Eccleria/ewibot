@@ -3,7 +3,17 @@ require("dotenv").config();
 
 import { Client, Intents } from "discord.js";
 
+import SpotifyWebApi from "spotify-web-api-node";
+
 import { isApologies, isYoutubeLink } from "./helpers";
+import { generateSpotifyClient } from "./spotifyHelper";
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.SPOTIFY_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  redirectUri: "http://localhost:3001",
+});
+
 // Create an instance of a Discord client
 const client = new Client({
   intents: [
@@ -12,6 +22,10 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   ],
 });
+
+generateSpotifyClient(spotifyApi);
+
+client.spotifyApi = spotifyApi;
 
 const envs = [
   {
@@ -46,8 +60,6 @@ const onMessageHandler = async (message) => {
 
   const { panDuomReactId, playlistThreadId } = currentEnv;
 
-  // console.log(content);
-
   if (isApologies(content.toLowerCase())) {
     message.react(panDuomReactId);
   }
@@ -59,11 +71,8 @@ const onMessageHandler = async (message) => {
 
   if (channel.id === playlistThreadId) {
     //
-    const foundLink = isYoutubeLink(content);
-    if (foundLink)
-      message.reply(
-        `lien trouvé et ajouté à la playlist: <${isYoutubeLink(content)}>`
-      );
+    const foundLink = await isYoutubeLink(content, client);
+    if (foundLink) message.reply(`${foundLink}`);
   }
 };
 
