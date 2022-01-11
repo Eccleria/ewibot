@@ -104,8 +104,6 @@ export const parseLink = async (messageContent, client) => {
       process.env.SPOTIFY_PLAYLIST_ID
     );
 
-    console.log(currentPlaylist.body.tracks.items);
-
     if (
       currentPlaylist.body.tracks.items
         .map(({ track }) => track.uri)
@@ -115,8 +113,6 @@ export const parseLink = async (messageContent, client) => {
     client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
       songId,
     ]);
-
-    console.log("chanson ajoutée");
 
     const {
       body: { tracks },
