@@ -72,7 +72,7 @@ const onMessageHandler = async (message) => {
   if (channel.id === playlistThreadId) {
     //
     const foundLink = await parseLink(content, client);
-    if (foundLink) message.reply(`${foundLink}`);
+    if (foundLink) message.reply(foundLink);
   }
 };
 

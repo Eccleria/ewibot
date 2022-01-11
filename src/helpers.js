@@ -87,6 +87,18 @@ export const parseLink = async (messageContent, client) => {
   if (songId) {
     // check if song is already in playlist
 
+    const currentPlaylist = await client.spotifyApi.getPlaylist(
+      process.env.SPOTIFY_PLAYLIST_ID
+    );
+
+    console.log(currentPlaylist.body.tracks.items);
+
+    if (
+      currentPlaylist.body.tracks.items
+        .map(({ track }) => track.uri)
+        .includes(songId)
+    )
+      return "Cette chanson est deja dans la playlist !";
     client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
       songId,
     ]);
@@ -96,9 +108,6 @@ export const parseLink = async (messageContent, client) => {
     const {
       body: { tracks },
     } = await client.spotifyApi.getTracks([songId.split(":")[2]]);
-
-    console.log(tracks[0]);
-    console.log(tracks[0].artists);
 
     const artists = tracks[0].artists.reduce(
       (acc, { name }) => `${acc},  ${name}`,
