@@ -45,34 +45,70 @@ const sanitizeTitle = (title) => {
     .replace(/original soundtrack/gi, "");
 };
 
-export const isYoutubeLink = async (messageContent, client) => {
-  const res = await youtubeRegex.exec(messageContent);
+const parseYoutubeLink = async (messageContent, client) => {
+  const isYoutubeLink = await youtubeRegex.exec(messageContent);
 
-  if (!res) return null;
+  if (!isYoutubeLink) return null;
 
-  const youtubeLink = res[0];
+  const youtubeLink = isYoutubeLink[0];
 
   const infos = await ytdl.getInfo(youtubeLink);
 
-  if (infos.videoDetails) {
-    const { artist, song } = infos.videoDetails.media;
+  const searchQuery =
+    infos.videoDetails &&
+    infos.videoDetails.media &&
+    infos.videoDetails.media.artist &&
+    infos.videoDetails.media.song
+      ? `${infos.videoDetails.media.song} ${infos.videoDetails.media.artist}`
+      : sanitizeTitle(infos.videoDetails.title);
 
-    const title = sanitizeTitle(infos.videoDetails.title);
+  const dataFound = await client.spotifyApi.searchTracks(searchQuery);
+  const { items } = dataFound.body.tracks;
+  return items[0].uri;
+};
 
-    const searchQuery = artist && song ? `${song} ${artist}` : title;
+const parseSpotifyLink = async (messageContent) => {
+  // https://open.spotify.com/track/3HctJdhy5CFb06NKIVp92U?si=cde5ab12a0f64fa6
+  const isSpotifyLink = messageContent.includes("open.spotify.com/track");
 
-    const dataFound = await client.spotifyApi.searchTracks(searchQuery);
+  if (!isSpotifyLink) return null;
 
-    const { items } = dataFound.body.tracks;
+  const spotifyId = messageContent
+    .split("open.spotify.com/track")[1]
+    .slice(1, "3HctJdhy5CFb06NKIVp92Ue".length);
+  return `spotify:track:${spotifyId}`;
+};
 
-    if (items.length > 0) {
-      client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
-        items[0].uri,
-      ]);
-      console.log(`Chanson ajoutée : ${searchQuery}`);
-      return null;
-      // return `Chanson ajoutée : ${searchQuery}`;
-    }
+export const parseLink = async (messageContent, client) => {
+  const songId =
+    (await parseSpotifyLink(messageContent)) ||
+    (await parseYoutubeLink(messageContent, client));
+  console.log("ID : ", songId);
+  if (songId) {
+    // check if song is already in playlist
+
+    client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
+      songId,
+    ]);
+
+    console.log("chanson ajoutée");
+
+    const {
+      body: { tracks },
+    } = await client.spotifyApi.getTracks([songId.split(":")[2]]);
+
+    console.log(tracks[0]);
+    console.log(tracks[0].artists);
+
+    const artists = tracks[0].artists.reduce(
+      (acc, { name }) => `${acc},  ${name}`,
+      ""
+    );
+
+    const result = `${tracks[0].name} ${artists}`;
+
+    // return null;
+    return `Chanson ajoutée : ${result}`;
   }
 
   return null;

@@ -5,7 +5,7 @@ import { Client, Intents } from "discord.js";
 
 import SpotifyWebApi from "spotify-web-api-node";
 
-import { isApologies, isYoutubeLink } from "./helpers";
+import { isApologies, parseLink } from "./helpers";
 import { generateSpotifyClient } from "./spotifyHelper";
 
 const spotifyApi = new SpotifyWebApi({
@@ -71,7 +71,7 @@ const onMessageHandler = async (message) => {
 
   if (channel.id === playlistThreadId) {
     //
-    const foundLink = await isYoutubeLink(content, client);
+    const foundLink = await parseLink(content, client);
     if (foundLink) message.reply(`${foundLink}`);
   }
 };
