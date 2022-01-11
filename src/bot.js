@@ -13,28 +13,51 @@ const client = new Client({
   ],
 });
 
-const threadId = "926909785117429861";
+const envs = [
+  {
+    // test env
+    name: "test",
+    guildId: "926909708072284170",
+    playlistThreadId: "926909785117429861",
+    panDuomReactId: "😊",
+  },
+  {
+    name: "prod",
+    guildId: "816961245743808582",
+    playlistThreadId: "892785771541585980",
+    panDuomReactId: "826036478672109588",
+  },
+];
 
-const reactId = "826036478672109588";
 const self = process.env.CLIENTID;
 
 const onMessageHandler = async (message) => {
   const { channel, author, content } = message;
+
+  const currentEnv = envs.find(({ guildId }) => guildId === channel.guild.id);
+
   // ignoring message from himself
-  if (author.id === self) return;
+  if (
+    author.id === self ||
+    !currentEnv ||
+    (process.env.DEBUG === "yes" && currentEnv.name === "prod")
+  )
+    return;
+
+  const { panDuomReactId, playlistThreadId } = currentEnv;
 
   // console.log(content);
 
   if (isApologies(content.toLowerCase())) {
-    message.react(reactId);
+    message.react(panDuomReactId);
   }
 
   const thread = channel.isThread
     ? null
-    : channel.threads.cache.find((x) => x.id === threadId);
+    : channel.threads.cache.find((x) => x.id === playlistThreadId);
   if (thread && thread.joinable) await thread.join();
 
-  if (channel.id === threadId) {
+  if (channel.id === playlistThreadId) {
     //
     const foundLink = isYoutubeLink(content);
     if (foundLink)
