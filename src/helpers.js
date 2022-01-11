@@ -64,7 +64,7 @@ const parseYoutubeLink = async (messageContent, client) => {
 
   const dataFound = await client.spotifyApi.searchTracks(searchQuery);
   const { items } = dataFound.body.tracks;
-  return items[0].uri;
+  return items && items[0] && items[0].uri;
 };
 
 const parseSpotifyLink = async (messageContent) => {
@@ -79,10 +79,23 @@ const parseSpotifyLink = async (messageContent) => {
   return `spotify:track:${spotifyId}`;
 };
 
+const parseAddCommand = async (messageContent, client) => {
+  if (!messageContent.startsWith("!addsong")) return null;
+
+  const searchQuery = messageContent.split(" ").slice(1).join(" ");
+
+  const dataFound = await client.spotifyApi.searchTracks(searchQuery);
+  const { items } = dataFound.body.tracks;
+  return items && items[0] && items[0].uri;
+};
+
 export const parseLink = async (messageContent, client) => {
-  const songId =
-    (await parseSpotifyLink(messageContent)) ||
-    (await parseYoutubeLink(messageContent, client));
+  const songSpotify = await parseSpotifyLink(messageContent);
+  const songYoutube = await parseYoutubeLink(messageContent, client);
+  const songManual = await parseAddCommand(messageContent, client);
+
+  const songId = songSpotify || songYoutube || songManual;
+
   console.log("ID : ", songId);
   if (songId) {
     // check if song is already in playlist
