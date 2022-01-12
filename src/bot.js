@@ -8,6 +8,8 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { isApologies, parseLink } from "./helpers";
 import { generateSpotifyClient } from "./spotifyHelper";
 
+import servers from "./servers";
+
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
@@ -27,38 +29,26 @@ generateSpotifyClient(spotifyApi);
 
 client.spotifyApi = spotifyApi;
 
-const envs = [
-  {
-    // test env
-    name: "test",
-    guildId: "926909708072284170",
-    playlistThreadId: "926909785117429861",
-    panDuomReactId: "😊",
-  },
-  {
-    name: "prod",
-    guildId: "816961245743808582",
-    playlistThreadId: "892785771541585980",
-    panDuomReactId: "826036478672109588",
-  },
-];
-
 const self = process.env.CLIENTID;
 
 const onMessageHandler = async (message) => {
   const { channel, author, content } = message;
 
-  const currentEnv = envs.find(({ guildId }) => guildId === channel.guild.id);
+  const currentServer = servers.find(
+    ({ guildId }) => guildId === channel.guild.id
+  );
 
   // ignoring message from himself
   if (
     author.id === self ||
-    !currentEnv ||
-    (process.env.DEBUG === "yes" && currentEnv.name === "prod")
+    !currentServer ||
+    (process.env.DEBUG === "yes" && currentServer.name === "prod")
   )
     return;
 
-  const { panDuomReactId, playlistThreadId } = currentEnv;
+  console.log(content);
+
+  const { panDuomReactId, playlistThreadId } = currentServer;
 
   if (isApologies(content.toLowerCase())) {
     message.react(panDuomReactId);
