@@ -25,6 +25,13 @@ export const isApologies = (messageContent) => {
   return messageContent.split(" ").some((e) => apologies.includes(e));
 };
 
+export const checkIsOnThread = async (channel, threadId) => {
+  const thread = channel.isThread
+    ? null
+    : channel.threads.cache.find((x) => x.id === threadId);
+  if (thread && thread.joinable) await thread.join();
+};
+
 const youtubeRegex = new RegExp(
   /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/gim
 );
@@ -109,7 +116,10 @@ export const parseLink = async (messageContent, client) => {
         .map(({ track }) => track.uri)
         .includes(songId)
     )
-      return "Cette chanson est deja dans la playlist !";
+      return {
+        answer: "Cette chanson est deja dans la playlist !",
+        songId: null,
+      };
     client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
       songId,
     ]);
@@ -126,8 +136,24 @@ export const parseLink = async (messageContent, client) => {
     const result = `${tracks[0].name} ${artists}`;
 
     // return null;
-    return `Chanson ajoutée : ${result}`;
+    return {
+      answer: `Chanson ajoutée : ${result}. Vous pouvez react avec ❌ pour annuler cet ajout !`,
+      songId,
+    };
   }
 
   return null;
+};
+
+export const deleteSongFromPlaylist = async (songId, client) => {
+  const tracks = [{ uri: songId }];
+  try {
+    await client.spotifyApi.removeTracksFromPlaylist(
+      process.env.SPOTIFY_PLAYLIST_ID,
+      tracks
+    );
+    return "Chanson supprimée de la playlist";
+  } catch {
+    return "erreur lors de la suppression";
+  }
 };
