@@ -12,12 +12,6 @@ import {
 import { generateSpotifyClient } from "./spotifyHelper";
 import servers from "./servers";
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: "http://localhost:3001",
-});
-
 // Create an instance of a Discord client
 const client = new Client({
   intents: [
@@ -29,8 +23,15 @@ const client = new Client({
 
 let cachedMessages = [];
 
-generateSpotifyClient(spotifyApi);
-client.spotifyApi = spotifyApi;
+if (process.env.USE_SPOTIFY === "yes") {
+  const spotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_CLIENT_ID,
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    redirectUri: "http://localhost:3001",
+  });
+  generateSpotifyClient(spotifyApi);
+  client.spotifyApi = spotifyApi;
+}
 
 const self = process.env.CLIENTID;
 
@@ -59,7 +60,7 @@ const onMessageHandler = async (message) => {
 
   checkIsOnThread(channel, playlistThreadId);
 
-  if (channel.id === playlistThreadId) {
+  if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
     //
     const foundLink = await parseLink(content, client);
     if (foundLink) {
@@ -81,10 +82,8 @@ const onReactionHandler = async (messageReaction) => {
 
   const foundMessage = cachedMessages.find(({ id }) => id === message.id);
 
-  console.log(users.cache);
-  console.log(message.mentions.users);
-
   if (
+    process.env.USE_SPOTIFY === "yes" &&
     foundMessage &&
     emoji.name === removeFromPlaylistEmoji &&
     users.cache
