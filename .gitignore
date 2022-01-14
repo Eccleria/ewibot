@@ -2,4 +2,3 @@ secret.json
 node_modules
 .env
 *.log
-.vs
