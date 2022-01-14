@@ -29,11 +29,11 @@ const getToken = async (spotifyApi, code) => {
 };
 
 const refreshToken = async (spotifyApi) => {
+  console.log("tentative de refresh");
   const data = await spotifyApi.refreshAccessToken();
   console.log("refresh");
 
   spotifyApi.setAccessToken(data.body["access_token"]);
-  spotifyApi.setRefreshToken(data.body["refresh_token"]);
 };
 
 export const generateSpotifyClient = async (spotifyApi) => {
