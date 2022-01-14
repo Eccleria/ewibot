@@ -4,8 +4,6 @@ require("dotenv").config();
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
-  isApologies,
-  isHello,
   MessageHandler,
   whichEmote,
   parseLink,
@@ -53,7 +51,7 @@ const onMessageHandler = async (message) => {
   )
     return;
 
-  const { panDuomReactId, playlistThreadId, helloReactId } = currentServer;
+  const { playlistThreadId } = currentServer;
 
   MessageHandler(message, content);
 

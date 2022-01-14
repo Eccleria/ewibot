@@ -30,28 +30,9 @@ const emotes = [
   "🤨",
 ];
 
-const hello = [
-  "bonjour",
-  "hello",
-  "yo",
-  "salut",
-  "bonsoir",
-  "coucou"
-];
+const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
-const punctuation = [
-  ".",
-  ",",
-  "!",
-  "?",
-  "|",
-  "~",
-  "*",
-  "(",
-  ")",
-  "[",
-  "]"
-];
+const punctuation = [".", ",", "!", "?", "|", "~", "*", "(", ")", "[", "]"];
 
 export const MessageHandler = async (message, messageContent) => {
   messageContent = messageContent = messageContent.split(" ");
@@ -59,7 +40,7 @@ export const MessageHandler = async (message, messageContent) => {
     // delete every punctuation from message content
     let len = messageContent[i].length;
     if (punctuation.includes(messageContent[i][len - 1])) {
-      messageContent[i] = messageContent[i].slice(0, len - 1)
+      messageContent[i] = messageContent[i].slice(0, len - 1);
     }
   }
   if (messageContent.some((e) => apologies.includes(e))) {
