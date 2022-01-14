@@ -21,7 +21,7 @@ const client = new Client({
   ],
 });
 
-let cachedMessages = [];
+client.playlistCachedMessages = [];
 
 if (process.env.USE_SPOTIFY === "yes") {
   const spotifyApi = new SpotifyWebApi({
@@ -50,8 +50,6 @@ const onMessageHandler = async (message) => {
   )
     return;
 
-  console.log(content);
-
   const { panDuomReactId, playlistThreadId } = currentServer;
 
   if (isApologies(content.toLowerCase())) {
@@ -66,21 +64,25 @@ const onMessageHandler = async (message) => {
     if (foundLink) {
       const { answer, songId } = foundLink;
       const newMessage = await message.reply(answer);
-      cachedMessages = [...cachedMessages, { ...newMessage, songId }];
+      client.playlistCachedMessages = [
+        ...client.playlistCachedMessages,
+        { ...newMessage, songId },
+      ];
     }
   }
 };
 
 const onReactionHandler = async (messageReaction) => {
   const { message, emoji, users } = messageReaction;
-  console.log(message.mentions);
   const currentServer = servers.find(
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
   const { removeFromPlaylistEmoji } = currentServer;
 
-  const foundMessage = cachedMessages.find(({ id }) => id === message.id);
+  const foundMessage = client.playlistCachedMessages.find(
+    ({ id }) => id === message.id
+  );
 
   if (
     process.env.USE_SPOTIFY === "yes" &&
@@ -93,7 +95,9 @@ const onReactionHandler = async (messageReaction) => {
     const { songId } = foundMessage;
 
     const result = await deleteSongFromPlaylist(songId, client);
-    cachedMessages = cachedMessages.filter(({ id }) => id !== message.id);
+    client.playlistCachedMessages = client.playlistCachedMessages.filter(
+      ({ id }) => id !== message.id
+    );
     await message.reply(result);
   }
 };

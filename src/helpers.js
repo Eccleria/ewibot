@@ -120,26 +120,33 @@ export const parseLink = async (messageContent, client) => {
         answer: "Cette chanson est deja dans la playlist !",
         songId: null,
       };
-    client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
-      songId,
-    ]);
+    try {
+      client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
+        songId,
+      ]);
 
-    const {
-      body: { tracks },
-    } = await client.spotifyApi.getTracks([songId.split(":")[2]]);
+      const {
+        body: { tracks },
+      } = await client.spotifyApi.getTracks([songId.split(":")[2]]);
 
-    const artists = tracks[0].artists.reduce(
-      (acc, { name }) => `${acc},  ${name}`,
-      ""
-    );
+      const artists = tracks[0].artists.reduce(
+        (acc, { name }) => `${acc},  ${name}`,
+        ""
+      );
 
-    const result = `${tracks[0].name} ${artists}`;
+      const result = `${tracks[0].name} ${artists}`;
 
-    // return null;
-    return {
-      answer: `Chanson ajoutée : ${result}. Vous pouvez react avec ❌ pour annuler cet ajout !`,
-      songId,
-    };
+      // return null;
+      return {
+        answer: `Chanson ajoutée : ${result}. Vous pouvez react avec ❌ pour annuler cet ajout !`,
+        songId,
+      };
+    } catch {
+      return {
+        answer: "Erreur lors de l'ajout",
+        songId: null,
+      };
+    }
   }
 
   return null;
