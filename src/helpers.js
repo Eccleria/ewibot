@@ -23,31 +23,54 @@ const apologies = [
 
 const emotes = [
   "918249094391144469", //Ewiyay
+  "822437083003355146", //BjornLove
+  "843097186710716416", //Ewilhug
+  "841675143596212267", //Ewinklan
   "😄",
   "🤨",
 ];
 
-const bonjour = [
-    "bonjour",
-    "hello",
-    "yo",
-    "salut",
-    "bonsoir",
-    "bonjour,",
-    "salut,",
-    "hello,"
+const hello = [
+  "bonjour",
+  "hello",
+  "yo",
+  "salut",
+  "bonsoir",
+  "coucou"
 ];
 
-export const isApologies = (messageContent) => {
-  return messageContent.split(" ").some((e) => apologies.includes(e));
+const punctuation = [
+  ".",
+  ",",
+  "!",
+  "?",
+  "|",
+  "~",
+  "*",
+  "(",
+  ")",
+  "[",
+  "]"
+];
+
+export const MessageHandler = async (message, messageContent) => {
+  messageContent = messageContent = messageContent.split(" ");
+  for (let i = 0; i < messageContent.length; i++) {
+    // delete every punctuation from message content
+    let len = messageContent[i].length;
+    if (punctuation.includes(messageContent[i][len - 1])) {
+      messageContent[i] = messageContent[i].slice(0, len - 1)
+    }
+  }
+  if (messageContent.some((e) => apologies.includes(e))) {
+    message.react("😠"); //PanDuom 826036478672109588
+  }
+  if (hello.includes(messageContent[0]) && Math.random() < 0.5) {
+    await message.react("👋");
+  }
 };
 
-export const isBonjour = (messageContent) => {
-  const message = messageContent.split(" ");
-  return bonjour.includes(message[0]);
-};
-
-export const isEmote = (messageContent) => {
+export const whichEmote = (messageContent) => {
   messageContent = messageContent.split(" ").filter((e) => emotes.includes(e));
   return messageContent;
 };

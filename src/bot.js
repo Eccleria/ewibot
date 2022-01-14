@@ -5,8 +5,9 @@ import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
   isApologies,
-  isEmote,
-  isBonjour,
+  isHello,
+  MessageHandler,
+  whichEmote,
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
@@ -54,16 +55,10 @@ const onMessageHandler = async (message) => {
 
   const { panDuomReactId, playlistThreadId, helloReactId } = currentServer;
 
-  if (isApologies(content.toLowerCase())) {
-    message.react(panDuomReactId);
-  }
+  MessageHandler(message, content);
 
-  if (isBonjour(content.toLowerCase())) {
-    message.react(helloReactId);
-  }
-
-  if (isEmote(content.toLowerCase()) != []) {
-    const reaction = isEmote(content.toLowerCase());
+  if (whichEmote(content.toLowerCase()) != []) {
+    const reaction = whichEmote(content.toLowerCase());
     for (let i = 0; i < reaction.length; i++) {
       await message.react(reaction[i]);
     }

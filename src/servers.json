@@ -3,9 +3,7 @@
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
-    "panDuomReactId": "😊",
-    "removeFromPlaylistEmoji": "❌",
-    "helloReactId": "👋"
+    "removeFromPlaylistEmoji": "❌"
   },
   {
     "name": "prod",
