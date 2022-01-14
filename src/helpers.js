@@ -21,8 +21,35 @@ const apologies = [
   "navrée",
 ];
 
+const emotes = [
+  "918249094391144469", //Ewiyay
+  "😄",
+  "🤨",
+];
+
+const bonjour = [
+    "bonjour",
+    "hello",
+    "yo",
+    "salut",
+    "bonsoir",
+    "bonjour,",
+    "salut,",
+    "hello,"
+];
+
 export const isApologies = (messageContent) => {
   return messageContent.split(" ").some((e) => apologies.includes(e));
+};
+
+export const isBonjour = (messageContent) => {
+  const message = messageContent.split(" ");
+  return bonjour.includes(message[0]);
+};
+
+export const isEmote = (messageContent) => {
+  messageContent = messageContent.split(" ").filter((e) => emotes.includes(e));
+  return messageContent;
 };
 
 export const checkIsOnThread = async (channel, threadId) => {
