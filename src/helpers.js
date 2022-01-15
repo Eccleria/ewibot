@@ -30,8 +30,6 @@ export const reactionHandler = async (
   messageContent,
   currentServer
 ) => {
-  if (Math.random() < 0.5) return;
-
   const words = messageContent.split(" ");
   const wordsWithoutPunctuation = words.map((word) => {
     for (const p of punctuation) {
