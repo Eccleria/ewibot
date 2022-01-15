@@ -21,37 +21,43 @@ const apologies = [
   "navrée",
 ];
 
-const emotes = [
-  "918249094391144469", //Ewiyay
-  "822437083003355146", //BjornLove
-  "843097186710716416", //Ewilhug
-  "841675143596212267", //Ewinklan
-  "😄",
-  "🤨",
-];
-
 const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
 const punctuation = [".", ",", "!", "?", "|", "~", "*", "(", ")", "[", "]"];
 
-export const MessageHandler = async (message, messageContent) => {
-  messageContent = messageContent = messageContent.split(" ");
-  for (let i = 0; i < messageContent.length; i++) {
-    // delete every punctuation from message content
-    let len = messageContent[i].length;
-    if (punctuation.includes(messageContent[i][len - 1])) {
-      messageContent[i] = messageContent[i].slice(0, len - 1);
+export const reactionHandler = async (
+  message,
+  messageContent,
+  currentServer
+) => {
+  if (Math.random() < 0.5) return;
+
+  const words = messageContent.split(" ");
+  const wordsWithoutPunctuation = words.map((word) => {
+    for (const p of punctuation) {
+      word.replace(p, "");
     }
+    return word;
+  });
+
+  console.log(wordsWithoutPunctuation);
+
+  if (
+    wordsWithoutPunctuation.some((e) => apologies.includes(e)) &&
+    message.channel.id !== currentServer.helpChannelId
+  ) {
+    await message.react(currentServer.emotes.panDuomReactId);
   }
-  if (messageContent.some((e) => apologies.includes(e)) && message.channel != "816986852359274526") {
-    await message.react("😠"); //PanDuom 826036478672109588
-  }
-  if (hello.includes(messageContent[0]) && Math.random() < 0.5) {
+  if (hello.includes(wordsWithoutPunctuation[0])) {
     await message.react("👋");
   }
-  const reactions = messageContent.filter((e) => emotes.includes(e));
-  for (let i = 0; i < reactions.length; i++) {
-    await message.react(reactions[i]);
+  const emotes = Object.values(currentServer.emotes);
+  for (const word of words) {
+    const foundEmotes = emotes.filter((emote) => word.includes(emote));
+    console.log(foundEmotes);
+    for (const e of foundEmotes) {
+      await message.react(e);
+    }
   }
 };
 

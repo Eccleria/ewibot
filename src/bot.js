@@ -4,7 +4,7 @@ require("dotenv").config();
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
-  MessageHandler,
+  reactionHandler,
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
@@ -52,7 +52,7 @@ const onMessageHandler = async (message) => {
 
   const { playlistThreadId } = currentServer;
 
-  MessageHandler(message, content);
+  reactionHandler(message, content, currentServer);
 
   checkIsOnThread(channel, playlistThreadId);
 
@@ -62,6 +62,7 @@ const onMessageHandler = async (message) => {
     if (foundLink) {
       const { answer, songId } = foundLink;
       const newMessage = await message.reply(answer);
+      await newMessage.react(currentServer.emotes.removeFromPlaylistEmoji);
       client.playlistCachedMessages = [
         ...client.playlistCachedMessages,
         { ...newMessage, songId },
@@ -76,7 +77,7 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
-  const { removeFromPlaylistEmoji } = currentServer;
+  const { removeFromPlaylistEmoji } = currentServer.emotes;
 
   const foundMessage = client.playlistCachedMessages.find(
     ({ id }) => id === message.id
