@@ -5,7 +5,6 @@ import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
   MessageHandler,
-  whichEmote,
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
