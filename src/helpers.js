@@ -21,8 +21,44 @@ const apologies = [
   "navrée",
 ];
 
-export const isApologies = (messageContent) => {
-  return messageContent.split(" ").some((e) => apologies.includes(e));
+const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
+
+const punctuation = [".", ",", "!", "?", "|", "~", "*", "(", ")", "[", "]"];
+
+export const reactionHandler = async (
+  message,
+  messageContent,
+  currentServer
+) => {
+  if (Math.random() < 0.5) return;
+
+  const words = messageContent.split(" ");
+  const wordsWithoutPunctuation = words.map((word) => {
+    for (const p of punctuation) {
+      word.replace(p, "");
+    }
+    return word;
+  });
+
+  console.log(wordsWithoutPunctuation);
+
+  if (
+    wordsWithoutPunctuation.some((e) => apologies.includes(e)) &&
+    message.channel.id !== currentServer.helpChannelId
+  ) {
+    await message.react(currentServer.emotes.panDuomReactId);
+  }
+  if (hello.includes(wordsWithoutPunctuation[0])) {
+    await message.react("👋");
+  }
+  const emotes = Object.values(currentServer.emotes);
+  for (const word of words) {
+    const foundEmotes = emotes.filter((emote) => word.includes(emote));
+    console.log(foundEmotes);
+    for (const e of foundEmotes) {
+      await message.react(e);
+    }
+  }
 };
 
 export const checkIsOnThread = async (channel, threadId) => {

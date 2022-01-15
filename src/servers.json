@@ -3,14 +3,28 @@
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
-    "panDuomReactId": "😊",
-    "removeFromPlaylistEmoji": "❌"
+    "helpChannelId": "932000373063954464",
+    "emotes": {
+      "panDuomReactId": "😠",
+      "ewiyayReactId": "🤨",
+      "bjornLoveReactId": "😠",
+      "ewilhugReactId": "😠",
+      "ewinkLan": "😠",
+      "removeFromPlaylistEmoji": "❌"
+    }
   },
   {
     "name": "prod",
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
-    "panDuomReactId": "826036478672109588",
-    "removeFromPlaylistEmoji": "❌"
+    "helpChannelId": "816986852359274526",
+    "emotes": {
+      "panDuomReactId": "826036478672109588",
+      "ewiyayReactId": "918249094391144469",
+      "bjornLoveReactId": "822437083003355146",
+      "ewilhugReactId": "843097186710716416",
+      "ewinkLan": "841675143596212267",
+      "removeFromPlaylistEmoji": "❌"
+    }
   }
 ]
