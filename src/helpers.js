@@ -149,13 +149,10 @@ export const parseLink = async (messageContent, client) => {
 
   const songId = songSpotify || songYoutube || songManual;
 
-  console.log("ID : ", songId);
   if (songId) {
     // check if song is already in playlist
 
     const currentPlaylist = await getEntirePlaylist(client);
-    console.log(currentPlaylist);
-    console.log(currentPlaylist.length);
 
     if (currentPlaylist.includes(songId))
       return {
