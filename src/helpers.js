@@ -38,8 +38,6 @@ export const reactionHandler = async (
     return word;
   });
 
-  console.log(wordsWithoutPunctuation);
-
   if (
     wordsWithoutPunctuation.some((e) => apologies.includes(e)) &&
     message.channel.id !== currentServer.helpChannelId
@@ -52,7 +50,6 @@ export const reactionHandler = async (
   const emotes = Object.values(currentServer.emotes);
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote));
-    console.log(foundEmotes);
     for (const e of foundEmotes) {
       await message.react(e);
     }
