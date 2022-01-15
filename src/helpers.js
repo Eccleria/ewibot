@@ -43,17 +43,16 @@ export const MessageHandler = async (message, messageContent) => {
       messageContent[i] = messageContent[i].slice(0, len - 1);
     }
   }
-  if (messageContent.some((e) => apologies.includes(e))) {
-    message.react("😠"); //PanDuom 826036478672109588
+  if (messageContent.some((e) => apologies.includes(e)) && message.channel != "816986852359274526") {
+    await message.react("😠"); //PanDuom 826036478672109588
   }
   if (hello.includes(messageContent[0]) && Math.random() < 0.5) {
     await message.react("👋");
   }
-};
-
-export const whichEmote = (messageContent) => {
-  messageContent = messageContent.split(" ").filter((e) => emotes.includes(e));
-  return messageContent;
+  const reactions = messageContent.filter((e) => emotes.includes(e));
+  for (let i = 0; i < reactions.length; i++) {
+    await message.react(reactions[i]);
+  }
 };
 
 export const checkIsOnThread = async (channel, threadId) => {

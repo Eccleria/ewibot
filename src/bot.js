@@ -55,13 +55,6 @@ const onMessageHandler = async (message) => {
 
   MessageHandler(message, content);
 
-  if (whichEmote(content.toLowerCase()) != []) {
-    const reaction = whichEmote(content.toLowerCase());
-    for (let i = 0; i < reaction.length; i++) {
-      await message.react(reaction[i]);
-    }
-  }
-
   checkIsOnThread(channel, playlistThreadId);
 
   if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
