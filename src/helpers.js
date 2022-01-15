@@ -23,28 +23,23 @@ const apologies = [
 
 const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
-const punctuation = [".", ",", "!", "?", "|", "~", "*", "(", ")", "[", "]"];
-
 export const reactionHandler = async (
   message,
   messageContent,
   currentServer
 ) => {
-  const words = messageContent.split(" ");
-  const wordsWithoutPunctuation = words.map((word) => {
-    for (const p of punctuation) {
-      word.replace(p, "");
-    }
-    return word;
-  });
-
   if (
-    wordsWithoutPunctuation.some((e) => apologies.includes(e)) &&
+    apologies.some((apology) => messageContent.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
     await message.react(currentServer.emotes.panDuomReactId);
   }
-  if (hello.includes(wordsWithoutPunctuation[0])) {
+
+  if (Math.random() < 0.8) return;
+
+  const words = messageContent.split(" ");
+
+  if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
     await message.react("👋");
   }
   const emotes = Object.values(currentServer.emotes);
