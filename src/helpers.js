@@ -112,6 +112,26 @@ const parseSpotifyLink = async (messageContent) => {
   return `spotify:track:${spotifyId}`;
 };
 
+const getEntirePlaylist = async (client) => {
+  let offset = 0;
+  let tracksIds = [];
+
+  let loop = true;
+  do {
+    let tracks = await client.spotifyApi.getPlaylistTracks(
+      process.env.SPOTIFY_PLAYLIST_ID,
+      { limit: 100, offset }
+    );
+    const trackIds = tracks.body.items.map(({ track }) => track.uri);
+    if (trackIds.length === 0) loop = false;
+    tracksIds = [...tracksIds, ...trackIds];
+
+    offset += 100;
+  } while (loop);
+
+  return tracksIds;
+};
+
 const parseAddCommand = async (messageContent, client) => {
   if (!messageContent.startsWith("!addsong")) return null;
 
@@ -133,15 +153,11 @@ export const parseLink = async (messageContent, client) => {
   if (songId) {
     // check if song is already in playlist
 
-    const currentPlaylist = await client.spotifyApi.getPlaylist(
-      process.env.SPOTIFY_PLAYLIST_ID
-    );
+    const currentPlaylist = await getEntirePlaylist(client);
+    console.log(currentPlaylist);
+    console.log(currentPlaylist.length);
 
-    if (
-      currentPlaylist.body.tracks.items
-        .map(({ track }) => track.uri)
-        .includes(songId)
-    )
+    if (currentPlaylist.includes(songId))
       return {
         answer: "Cette chanson est deja dans la playlist !",
         songId: null,

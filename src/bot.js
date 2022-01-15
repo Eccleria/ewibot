@@ -62,7 +62,8 @@ const onMessageHandler = async (message) => {
     if (foundLink) {
       const { answer, songId } = foundLink;
       const newMessage = await message.reply(answer);
-      await newMessage.react(currentServer.emotes.removeFromPlaylistEmoji);
+      if (songId)
+        await newMessage.react(currentServer.emotes.removeFromPlaylistEmoji);
       client.playlistCachedMessages = [
         ...client.playlistCachedMessages,
         { ...newMessage, songId },
