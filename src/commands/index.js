@@ -15,4 +15,13 @@ const help = {
   },
 };
 
-export default [helloWorld, help];
+const ingore = {
+  name: "ignore",
+  trigger: "!ignore",
+  action: async (message /* client */) => {
+    await message.channel.send("ignored");
+  },
+  help: "une commande qui empêche le bot de réagir à vos phrases",
+};
+
+export default [helloWorld, help, ignore];
