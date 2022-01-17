@@ -26,6 +26,7 @@ const ignore = {
   trigger: "!ignore",
   action: async (message, client) => {
     const db = client.db;
+    console.log("DB", db);
     const authorId = message.author.id;
     if (getIgnoredUsers(db).includes(authorId)) {
       removeIgnoredUser(authorId, db);
