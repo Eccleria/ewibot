@@ -15,7 +15,7 @@ const help = {
   },
 };
 
-const ingore = {
+const ignore = {
   name: "ignore",
   trigger: "!ignore",
   action: async (message /* client */) => {

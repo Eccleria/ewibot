@@ -12,6 +12,7 @@ import {
 } from "./helpers";
 import servers from "./servers";
 import commands from "./commands";
+import { Low, JSONFile } from 'lowdb';
 
 // Create an instance of a Discord client
 const client = new Client({
@@ -35,6 +36,8 @@ if (process.env.USE_SPOTIFY === "yes") {
 }
 
 const self = process.env.CLIENTID;
+
+
 
 const onMessageHandler = async (message) => {
   const { channel, author, content } = message;
