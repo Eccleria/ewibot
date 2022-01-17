@@ -4,6 +4,7 @@ import {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
+  isUserIgnored,
 } from "./dbHelper.js";
 
 import {
@@ -22,4 +23,5 @@ export {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
+  isUserIgnored,
 };

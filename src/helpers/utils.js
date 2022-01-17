@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
 
+import { isUserIgnored } from "./dbHelper.js";
+
 export const isCommand = (content) => content[0] === "!";
 
 const apologies = [
@@ -26,8 +28,12 @@ const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 export const reactionHandler = async (
   message,
   messageContent,
-  currentServer
+  currentServer,
+  client
 ) => {
+  console.log("hihi");
+
+  if (await isUserIgnored(message.author.id, client.db)) return;
   if (
     apologies.some((apology) => messageContent.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId

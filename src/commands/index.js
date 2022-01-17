@@ -31,10 +31,10 @@ const ignore = {
     if (getIgnoredUsers(db).includes(authorId)) {
       removeIgnoredUser(authorId, db);
       await message.channel.send("Je ne vous ignore plus");
-      return;
+    } else {
+      addIgnoredUser(authorId, db);
+      await message.channel.send("Dorénavant je vous ignore");
     }
-    addIgnoredUser(authorId, db);
-    await message.channel.send("Dorénavant je vous ignore");
   },
   help: "Une commande qui empêche Ewibot de réagir à vos messages",
 };

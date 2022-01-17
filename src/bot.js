@@ -64,7 +64,7 @@ const onMessageHandler = async (message) => {
 
   const { playlistThreadId } = currentServer;
 
-  reactionHandler(message, content, currentServer);
+  reactionHandler(message, content, currentServer, client);
 
   if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
     checkIsOnThread(channel, playlistThreadId);
