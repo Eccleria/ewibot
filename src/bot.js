@@ -8,8 +8,8 @@ import {
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
+  generateSpotifyClient,
 } from "./helpers";
-import { generateSpotifyClient } from "./spotifyHelper";
 import servers from "./servers";
 import commands from "./commands";
 
@@ -72,9 +72,9 @@ const onMessageHandler = async (message) => {
     }
   }
 
-  const commandName = content.split(" ").toLowerCase();
+  const commandName = content.toLowerCase().split(" ")[0];
 
-  const command = commands.find(({ trigger }) => commandName.includes(trigger));
+  const command = commands.find(({ trigger }) => commandName === trigger);
   if (command) command.action(message, client);
 };
 

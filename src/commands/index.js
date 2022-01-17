@@ -1,17 +1,17 @@
 const helloWorld = {
   name: "hello world",
   trigger: "!hello",
-  action: (message, client) => {
-    console.log(message, client);
-    message.channel.send("hello, world !");
+  action: async (message /* client */) => {
+    await message.channel.send("hello, world !");
   },
+  help: "une commande qui permet de dire bonjour",
 };
 
 const help = {
   name: "help",
   trigger: "!help",
-  action: (message) => {
-    message.channel.send("commande d'aide, à venir");
+  action: async (message) => {
+    await message.channel.send("commande d'aide, à venir");
   },
 };
 
