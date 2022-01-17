@@ -2,6 +2,7 @@
   "name": "blindtest-bot",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "license": "MIT",
   "dependencies": {
     "discord.js": "^13.5.1",
@@ -15,17 +16,14 @@
     "ytdl-core": "^4.10.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/node": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-node": "^11.1.0",
     "prettier": "^2.3.2"
   },
   "scripts": {
-    "start": "babel-node src/bot.js",
-    "dev": "nodemon --exec babel-node src/bot.js",
+    "start": "node --experimental-json-modules src/bot.js",
+    "dev": "nodemon --exec node --experimental-json-modules src/bot.js",
     "lint": "eslint src",
     "prettier": "prettier --write src"
   }

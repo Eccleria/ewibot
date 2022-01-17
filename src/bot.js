@@ -1,5 +1,5 @@
-//eslint-disable-next-line
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
@@ -9,14 +9,14 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
-} from "./helpers";
-import servers from "./servers";
-import commands from "./commands";
+} from "./helpers/index.js";
+import servers from "./servers.json";
+import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
 // Use JSON file for storage
-const file = join(__dirname, "db.json");
+const file = join("db", "db.json");
 const adapter = new JSONFile(file);
 const db = new Low(adapter);
 // Read data from JSON file, this will set db.data content

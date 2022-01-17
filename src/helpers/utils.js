@@ -1,5 +1,5 @@
-//eslint-disable-next-line
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 import ytdl from "ytdl-core";
 
 export const isCommand = (content) => content[0] === "!";
@@ -28,9 +28,8 @@ export const reactionHandler = async (
   messageContent,
   currentServer
 ) => {
-  const loweredMessage = messageContent.toLowerCase();
   if (
-    apologies.some((apology) => loweredMessage.includes(apology)) &&
+    apologies.some((apology) => messageContent.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
     await message.react(currentServer.emotes.panDuomReactId);
@@ -38,7 +37,7 @@ export const reactionHandler = async (
 
   if (Math.random() < 0.8) return;
 
-  const words = loweredMessage.split(" ");
+  const words = messageContent.split(" ");
 
   if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
     await message.react("👋");

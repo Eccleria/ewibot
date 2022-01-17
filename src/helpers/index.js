@@ -1,11 +1,17 @@
-import { generateSpotifyClient } from "./spotifyHelper";
+import { generateSpotifyClient } from "./spotifyHelper.js";
+
+import {
+  addIgnoredUser,
+  removeIgnoredUser,
+  getIgnoredUsers,
+} from "./dbHelper.js";
 
 import {
   reactionHandler,
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
-} from "./utils";
+} from "./utils.js";
 
 export {
   reactionHandler,
@@ -13,4 +19,7 @@ export {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
+  addIgnoredUser,
+  removeIgnoredUser,
+  getIgnoredUsers,
 };
