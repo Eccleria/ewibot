@@ -28,8 +28,9 @@ export const reactionHandler = async (
   messageContent,
   currentServer
 ) => {
+  const loweredMessage = messageContent.toLowerCase();
   if (
-    apologies.some((apology) => messageContent.includes(apology)) &&
+    apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
     await message.react(currentServer.emotes.panDuomReactId);
@@ -37,7 +38,7 @@ export const reactionHandler = async (
 
   if (Math.random() < 0.8) return;
 
-  const words = messageContent.split(" ");
+  const words = loweredMessage.split(" ");
 
   if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
     await message.react("👋");
