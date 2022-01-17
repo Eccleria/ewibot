@@ -11,6 +11,7 @@ import {
 } from "./helpers";
 import { generateSpotifyClient } from "./spotifyHelper";
 import servers from "./servers";
+import commands from "./commands";
 
 // Create an instance of a Discord client
 const client = new Client({
@@ -54,9 +55,9 @@ const onMessageHandler = async (message) => {
 
   reactionHandler(message, content, currentServer);
 
-  checkIsOnThread(channel, playlistThreadId);
-
   if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
+    checkIsOnThread(channel, playlistThreadId);
+
     //
     const foundLink = await parseLink(content, client);
     if (foundLink) {
@@ -70,6 +71,11 @@ const onMessageHandler = async (message) => {
       ];
     }
   }
+
+  const commandName = content.split(" ").toLowerCase();
+
+  const command = commands.find(({ trigger }) => commandName.includes(trigger));
+  if (command) command.action(message, client);
 };
 
 const onReactionHandler = async (messageReaction) => {
