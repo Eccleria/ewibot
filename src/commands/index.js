@@ -1,3 +1,5 @@
+import { addIgnoredUser, removeIgnoredUser, getIgnoredUsers } from "../helpers/dbHelper"
+
 const helloWorld = {
   name: "hello world",
   trigger: "!hello",
@@ -15,4 +17,21 @@ const help = {
   },
 };
 
-export default [helloWorld, help];
+const ignore = {
+  name: "ignore",
+  trigger: "!ignore",
+  action: async (message, client) => {
+    const db = client.db;
+    const authorId = message.author.id;
+    if (getIgnoredUsers(db).includes(authorId)) {
+      removeIgnoredUser(authorId, db);
+      await message.channel.send("Je ne vous ignore plus");
+      return
+    }
+    addIgnoredUser(authorId, db);
+    await message.channel.send("Dorénavant je vous ignore");
+  },
+  help: "Une commande qui empêche Ewibot de réagir à vos messages",
+};
+
+export default [helloWorld, help, ignore];

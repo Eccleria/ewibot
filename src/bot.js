@@ -12,6 +12,16 @@ import {
 } from "./helpers";
 import servers from "./servers";
 import commands from "./commands";
+import { join } from "path";
+import { Low, JSONFile } from "lowdb";
+
+// Use JSON file for storage
+const file = join(__dirname, "db.json");
+const adapter = new JSONFile(file);
+const db = new Low(adapter);
+// Read data from JSON file, this will set db.data content
+db.read();
+db.data ||= { ignoredUsersIds: [] };
 
 // Create an instance of a Discord client
 const client = new Client({
@@ -23,6 +33,8 @@ const client = new Client({
 });
 
 client.playlistCachedMessages = [];
+
+client.db = db;
 
 if (process.env.USE_SPOTIFY === "yes") {
   const spotifyApi = new SpotifyWebApi({
