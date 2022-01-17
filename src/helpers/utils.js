@@ -28,7 +28,7 @@ export const reactionHandler = async (
   messageContent,
   currentServer
 ) => {
-  loweredMessage = messageContent.toLowerCase();
+  const loweredMessage = messageContent.toLowerCase();
   if (
     apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId

@@ -12,7 +12,7 @@ import {
 } from "./helpers";
 import servers from "./servers";
 import commands from "./commands";
-import { Low, JSONFile } from 'lowdb';
+//import { Low, JSONFile } from 'lowdb';
 
 // Create an instance of a Discord client
 const client = new Client({
