@@ -33,41 +33,43 @@ export const reactionHandler = async (
     apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
-    await message.react(currentServer.emotes.panDuomReactId);
+    await message.react(currentServer.autoEmotes.panDuomReactId);
   }
 
   const words = loweredMessage.split(" ");
-
-  // abcde
-  console.log(words);
-  if (words.length > 4) {
-    const unicodeWord = words.map(char => char.charCodeAt(0));
-    let nb = 1;
-    for (let i = 1; i < unicodeWord.length - 1; i++) {
-      if (unicodeWord[i] == unicodeWord[i - 1] + 1) {
-        nb++;
-        if (nb == 4) {
-          await message.react(currentServer.tslicheyeReactId);
-          i = unicodeWord.length; //for loop ending
-        }
-      } else if (nb < 4) {
-        nb = 1;
-      }
-    }
-  }
+  if (isAbcd(words)) await message.react(currentServer.tslicheyeReactId);
 
   if (Math.random() < 0.8) return;
 
   if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
     await message.react("👋");
   }
-  const emotes = Object.values(currentServer.emotes);
+  const emotes = Object.values(currentServer.autoEmotes);
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote));
     for (const e of foundEmotes) {
       await message.react(e);
     }
   }
+};
+
+const isAbcd = (words) => {
+  if (words.length >= 4) {
+    const reduced = words.reduce(((precedent, current, index) => {
+      const unicodeWord = current.charCodeAt(0);
+      if (index !== 0) return {
+          latestUnicode: unicodeWord,
+          isAbcd: precedent.isAbcd && unicodeWord > precedent.lastestUnicode
+        }
+      else if (unicodeWord < 97 || unicodeWord > 122) return {
+        latestUnicode: unicodeWord,
+        isAbcd: false
+      }
+      else return { latestUnicode: unicodeWord, isAbcd: true }
+    }), { latestUnicode: null, isAbcd: true });
+    return reduced.isAbcd;
+  }
+  return false;
 };
 
 export const checkIsOnThread = async (channel, threadId) => {

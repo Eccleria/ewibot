@@ -4,7 +4,7 @@
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
     "helpChannelId": "932000373063954464",
-    "emotes": {
+    "autoEmotes": {
       "panDuomReactId": "😠",
       "ewiyayReactId": "🤨",
       "bjornLoveReactId": "😠",
@@ -19,7 +19,7 @@
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
     "helpChannelId": "816986852359274526",
-    "emotes": {
+    "autoEmotes": {
       "panDuomReactId": "826036478672109588",
       "ewiyayReactId": "918249094391144469",
       "bjornLoveReactId": "822437083003355146",
