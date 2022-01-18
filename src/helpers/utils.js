@@ -36,9 +36,27 @@ export const reactionHandler = async (
     await message.react(currentServer.emotes.panDuomReactId);
   }
 
-  if (Math.random() < 0.8) return;
-
   const words = loweredMessage.split(" ");
+
+  // abcde
+  console.log(words);
+  if (words.length > 4) {
+    const unicodeWord = words.map(char => char.charCodeAt(0));
+    let nb = 1;
+    for (let i = 1; i < unicodeWord.length - 1; i++) {
+      if (unicodeWord[i] == unicodeWord[i - 1] + 1) {
+        nb++;
+        if (nb == 4) {
+          await message.react(currentServer.tslicheyeReactId);
+          i = unicodeWord.length; //for loop ending
+        }
+      } else if (nb < 4) {
+        nb = 1;
+      }
+    }
+  }
+
+  if (Math.random() < 0.8) return;
 
   if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
     await message.react("👋");
