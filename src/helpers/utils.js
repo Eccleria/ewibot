@@ -23,6 +23,30 @@ const apologies = [
 
 const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
+const isAbcd = (words) => {
+  if (words.length >= 4) {
+    const reduced = words.reduce(
+      (precedent, current, index) => {
+        const unicodeWord = current.charCodeAt(0);
+        if (index !== 0)
+          return {
+            latestUnicode: unicodeWord,
+            isAbcd: true,
+          };
+        else if (unicodeWord < 97 || unicodeWord > 122)
+          return {
+            latestUnicode: unicodeWord,
+            isAbcd: false,
+          };
+        else return { latestUnicode: unicodeWord, isAbcd: true };
+      },
+      { latestUnicode: null, isAbcd: true }
+    );
+    return reduced.isAbcd;
+  }
+  return false;
+};
+
 export const reactionHandler = async (
   message,
   messageContent,
@@ -51,25 +75,6 @@ export const reactionHandler = async (
       await message.react(e);
     }
   }
-};
-
-const isAbcd = (words) => {
-  if (words.length >= 4) {
-    const reduced = words.reduce(((precedent, current, index) => {
-      const unicodeWord = current.charCodeAt(0);
-      if (index !== 0) return {
-          latestUnicode: unicodeWord,
-          isAbcd: precedent.isAbcd && unicodeWord > precedent.lastestUnicode
-        }
-      else if (unicodeWord < 97 || unicodeWord > 122) return {
-        latestUnicode: unicodeWord,
-        isAbcd: false
-      }
-      else return { latestUnicode: unicodeWord, isAbcd: true }
-    }), { latestUnicode: null, isAbcd: true });
-    return reduced.isAbcd;
-  }
-  return false;
 };
 
 export const checkIsOnThread = async (channel, threadId) => {
