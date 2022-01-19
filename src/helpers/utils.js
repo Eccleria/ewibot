@@ -31,7 +31,7 @@ const isAbcd = (words) => {
         if (index !== 0)
           return {
             latestUnicode: unicodeWord,
-            isAbcd: true,
+            isAbcd: precedent.isAbcd && unicodeWord > precedent.lastestUnicode,
           };
         else if (unicodeWord < 97 || unicodeWord > 122)
           return {
