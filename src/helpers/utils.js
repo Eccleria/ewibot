@@ -1,6 +1,8 @@
-//eslint-disable-next-line
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 import ytdl from "ytdl-core";
+
+import { isUserIgnored } from "./dbHelper.js";
 
 export const isCommand = (content) => content[0] === "!";
 
@@ -50,9 +52,14 @@ const isAbcd = (words) => {
 export const reactionHandler = async (
   message,
   messageContent,
-  currentServer
+  currentServer,
+  client
 ) => {
+  console.log("hihi");
+
   const loweredMessage = messageContent.toLowerCase();
+
+  if (await isUserIgnored(message.author.id, client.db)) return;
   if (
     apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId

@@ -1,4 +1,5 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 import waitForUserInput from "wait-for-user-input";
 
 const buildCode = async (spotifyApi) => {
