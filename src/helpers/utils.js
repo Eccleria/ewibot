@@ -23,6 +23,30 @@ const apologies = [
 
 const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
+const isAbcd = (words) => {
+  if (words.length >= 4) {
+    const reduced = words.reduce(
+      (precedent, current, index) => {
+        const unicodeWord = current.charCodeAt(0);
+        if (index !== 0)
+          return {
+            latestUnicode: unicodeWord,
+            isAbcd: precedent.isAbcd && unicodeWord > precedent.lastestUnicode,
+          };
+        else if (unicodeWord < 97 || unicodeWord > 122)
+          return {
+            latestUnicode: unicodeWord,
+            isAbcd: false,
+          };
+        else return { latestUnicode: unicodeWord, isAbcd: true };
+      },
+      { latestUnicode: null, isAbcd: true }
+    );
+    return reduced.isAbcd;
+  }
+  return false;
+};
+
 export const reactionHandler = async (
   message,
   messageContent,
@@ -33,17 +57,18 @@ export const reactionHandler = async (
     apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
-    await message.react(currentServer.emotes.panDuomReactId);
+    await message.react(currentServer.autoEmotes.panDuomReactId);
   }
 
-  if (Math.random() < 0.8) return;
-
   const words = loweredMessage.split(" ");
+  if (isAbcd(words)) await message.react(currentServer.tslicheyeReactId);
+
+  if (Math.random() < 0.8) return;
 
   if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
     await message.react("👋");
   }
-  const emotes = Object.values(currentServer.emotes);
+  const emotes = Object.values(currentServer.autoEmotes);
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote));
     for (const e of foundEmotes) {

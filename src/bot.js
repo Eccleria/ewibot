@@ -64,7 +64,7 @@ const onMessageHandler = async (message) => {
       const { answer, songId } = foundLink;
       const newMessage = await message.reply(answer);
       if (songId)
-        await newMessage.react(currentServer.emotes.removeFromPlaylistEmoji);
+        await newMessage.react(currentServer.autoEmotes.removeFromPlaylistEmoji);
       client.playlistCachedMessages = [
         ...client.playlistCachedMessages,
         { ...newMessage, songId },
@@ -84,7 +84,7 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
-  const { removeFromPlaylistEmoji } = currentServer.emotes;
+  const { removeFromPlaylistEmoji } = currentServer.autoEmotes;
 
   const foundMessage = client.playlistCachedMessages.find(
     ({ id }) => id === message.id
