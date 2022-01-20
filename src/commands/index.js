@@ -38,8 +38,13 @@ const help = {
   trigger: "!help",
   action: async (message) => {
     const words = message.content.split(" ");
-    if (words.length === 1) await message.channel.send("Cette commande permet d'afficher l'aide \
-d'une commande. Pour obtenir l'aide d'une commande 'ex', tapez !help ex");
+    if (words.length === 1) {
+      const helpText = commands.reduce(((acc, cur) => { return acc.concat(`\n- ${cur.name}`) }),
+        `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \
+d'une commande 'ex', tapez !help ex. \nPour le moment, les commandes suivantes ont été \
+implémentées :\n- help`);
+      await message.channel.send(helpText);
+    }
     else {
       const command = commands.find(cmd => cmd.name === words[1]);
       if (command === undefined) {
