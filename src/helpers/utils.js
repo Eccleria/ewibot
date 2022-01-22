@@ -27,7 +27,6 @@ const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
 const isAbcd = (words) => {
   if (words.length >= 4) {
-    console.log(words);
     const reduced = words.reduce(
       (precedent, current, index) => {
         const unicodeWord = current.charCodeAt(0);
