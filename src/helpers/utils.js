@@ -23,7 +23,15 @@ const apologies = [
   "navrée",
 ];
 
-const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
+const hello = [
+  "bonjour",
+  "hello",
+  "yo",
+  "salut",
+  "bonsoir",
+  "coucou",
+  "bijour",
+];
 
 const isAbcd = (words) => {
   if (words.length >= 4) {
