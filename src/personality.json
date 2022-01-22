@@ -1,0 +1,49 @@
+{
+  {
+    "name": "normal",
+    "commands": {
+      "help": {
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tapez !help ex. \nPour le moment, les commandes suivantes ont implémentées: \n- help",
+        "error1": "La commande ",
+        "error2": " n'existe pas."
+      },
+      "ignore": {
+        "ignored": "Dorénavant je ne réagirai plus à vos message.",
+        "notignored": "Je vais de nouveau réagir à vos messages.",
+        "help": "Cette commande m'empêche ou non de réagir à vos messages."
+      },
+      "helloWorld": {
+        "hello": "hello, world !",
+        "help": "Cette commande permet de dire bonjour."
+      }
+    },
+    "spotify": {
+      "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
+      "errorAdding": "Erreur lors de l'ajout.",
+      "songAdded1": "Chanson ajoutée : ",
+      "songAdded2": "Vous pouvez react avec ",
+      "songAdded3": "pour annuler cet ajout !",
+      "errorSupressing": "Erreur lors de la suppression.",
+      "songSupressed": "Chanson supprimée de la playlist"
+    }
+  },
+  {
+    "name": "funny",
+    "commands": {
+      "helloWorld": {
+        "hello": "Coucou, un cookie ?",
+        "help": "Cette commande me permet de proposer un cookie."
+      },
+      "help": {
+        "init": "Tapez !help pouet pour des infos sur la commande pouet. \nCommandes disponibles :",
+        "error1": "La commande ",
+        "error2": " appartient à un Monde encore inconnu."
+      },
+      "ignore": {
+        "ignored": "Dorénavant vous n'aurez plus de cookies sur vos messages'.",
+        "notignored": "Ca y est, vous avez faim ? Voilà un cookie",
+        "help": "Cette commande m'empêche ou non de m'amuser avec vos messages."
+      }
+    }
+  }
+}
