@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
-
 import { isUserIgnored } from "./dbHelper.js";
+import personality from "../personality.json"
 
 export const isCommand = (content) => content[0] === "!";
 
@@ -83,6 +83,11 @@ export const reactionHandler = async (
     }
   }
 };
+
+export const whichPersonality = () => {
+  if (Math.random() < 0.95) return personality.normal.name;
+  else return personality.funny.name;
+}
 
 export const checkIsOnThread = async (channel, threadId) => {
   const thread = channel.isThread

@@ -1,6 +1,6 @@
 {
-  {
-    "name": "normal",
+  "normal": {
+    "name":  "normal",
     "commands": {
       "help": {
         "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tapez !help ex. \nPour le moment, les commandes suivantes ont implémentées: \n- help",
@@ -27,8 +27,8 @@
       "songSupressed": "Chanson supprimée de la playlist"
     }
   },
-  {
-    "name": "funny",
+  "funny": {
+    "name":  "funny",
     "commands": {
       "helloWorld": {
         "hello": "Coucou, un cookie ?",
