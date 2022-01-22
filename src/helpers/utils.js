@@ -27,13 +27,14 @@ const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
 const isAbcd = (words) => {
   if (words.length >= 4) {
+    console.log(words);
     const reduced = words.reduce(
       (precedent, current, index) => {
         const unicodeWord = current.charCodeAt(0);
         if (index !== 0)
           return {
             latestUnicode: unicodeWord,
-            isAbcd: precedent.isAbcd && unicodeWord > precedent.lastestUnicode,
+            isAbcd: precedent.isAbcd && unicodeWord > precedent.latestUnicode,
           };
         else if (unicodeWord < 97 || unicodeWord > 122)
           return {
