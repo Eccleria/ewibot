@@ -12,10 +12,11 @@
       "ewinkLan": "😠",
       "removeFromPlaylistEmoji": "❌"
     },
-    "tslicheyeReactId": "👁️"
+    "tslicheyeReactId": "👁️",
+    "bjornskissReactId": "😉"
   },
   {
-    "name": "prod",
+    "name": "prod", 
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
     "helpChannelId": "816986852359274526",
@@ -27,6 +28,7 @@
       "ewinkLan": "841675143596212267",
       "removeFromPlaylistEmoji": "❌"
     },
-    "tslisheyeReactId": "822487568766730270"
+    "tslisheyeReactId": "822487568766730270",
+    "bjornskissReactId": "823880259040313376"
   }
 ]

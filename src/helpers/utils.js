@@ -25,6 +25,32 @@ const apologies = [
 
 const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
+const gifs = (currentServer) => {
+  return {
+    "dogHype":
+    {
+      "name": "dogHype",
+      "url": "https://tenor.com/view/dance-dog-cute-excited-gif-14148125",
+      "emote": currentServer.bjornskissReactId
+    },
+    "blingee":
+    {
+      "name": "blingee",
+      "url": "-blingee-",
+      "emote": currentServer.autoEmotes.panDuomReactId
+    }
+  }
+}
+
+const whichGif = (words, currentServer) => {
+  const gif = Object.values(gifs(currentServer));
+
+  for (const word of words) {
+    const foundGifs = gif.filter((object) => word.includes(object.url));
+    return foundGifs
+  }
+}
+
 const isAbcd = (words) => {
   if (words.length >= 4) {
     const reduced = words.reduce(
@@ -69,6 +95,11 @@ export const reactionHandler = async (
 
   const words = loweredMessage.split(" ");
   if (isAbcd(words)) await message.react(currentServer.tslicheyeReactId);
+
+  const foundGifs = whichGif(words, currentServer);
+  for (const gif of foundGifs) {
+    await message.react(gif.emote);
+  }
 
   if (Math.random() < 0.8) return;
 
