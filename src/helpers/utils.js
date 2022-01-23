@@ -31,6 +31,8 @@ const hello = [
   "bonsoir",
   "coucou",
   "bijour",
+  "bonjoir",
+  "hey"
 ];
 
 const isAbcd = (words) => {
