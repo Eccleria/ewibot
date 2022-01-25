@@ -7,7 +7,7 @@ import {
 const helloWorld = {
   name: "helloWorld",
   action: async (message /* client */) => {
-    await message.channel.send("hello, world !");
+    await message.channel.send("Hello, world !");
   },
   help: "Cette commande permet de dire bonjour",
 };
@@ -20,15 +20,15 @@ const ignore = {
     const authorId = message.author.id;
     if (getIgnoredUsers(db).includes(authorId)) {
       removeIgnoredUser(authorId, db);
-      await message.channel.send("Je vais de nouveau réagir à vos messages.");
+      await message.channel.send("Je vais de nouveau réagir à tes messages.");
     } else {
       addIgnoredUser(authorId, db);
       await message.channel.send(
-        "Dorénavant je ne réagirai plus à vos message."
+        "Dorénavant je ne réagirai plus à tes message."
       );
     }
   },
-  help: "Cette commande empêche ou non Ewibot de réagir à vos messages.",
+  help: "Cette commande empêche ou non Ewibot de réagir à tes messages.",
 };
 
 const commands = [helloWorld, ignore];
@@ -43,16 +43,13 @@ const help = {
           return acc.concat(`\n- ${cur.name}`);
         },
         `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \
-d'une commande 'ex', tapez !help ex. \nPour le moment, les commandes suivantes ont été \
+d'une commande 'ex', tape !help ex. \nPour le moment, les commandes suivantes ont été \
 implémentées :\n- help`
       );
       await message.channel.send(helpText);
     } else {
       const command = commands.find((cmd) => cmd.name === words[1]);
-      if (command === undefined) {
-        await message.channel.send(`La commande "${words[1]}" n'existe pas.`);
-        return;
-      }
+      if (!command) { return; }
       await message.channel.send(command.help);
     }
   },
