@@ -21,6 +21,8 @@ const apologies = [
   "pardon",
   "navré",
   "navrée",
+  "deso",
+  "déso"
 ];
 
 const hello = [
