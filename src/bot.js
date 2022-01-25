@@ -119,10 +119,35 @@ const onReactionHandler = async (messageReaction) => {
   }
 };
 
+/*
+const onPrivateMessage = async (message) => {
+  const { channel, author} = message;
+
+  const currentServer = servers.find(
+    ({ guildId }) => guildId === channel.guild.id
+  );
+
+  // ignoring message from himself
+  if (
+    author.id === self ||
+    !currentServer ||
+    (process.env.DEBUG === "yes" && currentServer.name === "prod")
+  )
+    return;
+
+  // Tiitch id, Eccléria id
+  if (author.id !== "141962573900808193" || author.id !== "290505766631112714") return;
+
+
+};
+*/
+
 // Create an event listener for messages
 client.on("messageCreate", onMessageHandler);
 
 client.on("messageReactionAdd", onReactionHandler);
+
+//client.on("", onPrivateMessage);
 
 client.once("ready", () => {
   console.log("I am ready!");
