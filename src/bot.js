@@ -75,7 +75,9 @@ const onMessageHandler = async (message) => {
       const { answer, songId } = foundLink;
       const newMessage = await message.reply(answer);
       if (songId)
-        await newMessage.react(currentServer.autoEmotes.removeFromPlaylistEmoji);
+        await newMessage.react(
+          currentServer.autoEmotes.removeFromPlaylistEmoji
+        );
       client.playlistCachedMessages = [
         ...client.playlistCachedMessages,
         { ...newMessage, songId },
@@ -85,7 +87,7 @@ const onMessageHandler = async (message) => {
 
   const commandName = content.toLowerCase().split(" ")[0];
 
-  const command = commands.find(({ trigger }) => commandName === trigger);
+  const command = commands.find(({ name }) => commandName.slice(1) === name);
   if (command) command.action(message, client);
 };
 
