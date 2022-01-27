@@ -4,6 +4,7 @@ dotenv.config();
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
+  isCommand,
   reactionHandler,
   parseLink,
   checkIsOnThread,
@@ -88,7 +89,7 @@ const onMessageHandler = async (message) => {
   const commandName = content.toLowerCase().split(" ")[0];
 
   const command = commands.find(({ name }) => commandName.slice(1) === name);
-  if (command) command.action(message, client);
+  if (command && isCommand(content)) command.action(message, client);
 };
 
 const onReactionHandler = async (messageReaction) => {
