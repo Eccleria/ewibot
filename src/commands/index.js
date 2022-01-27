@@ -61,8 +61,10 @@ const reminder = {
     });
     await message.channel.send("Le reminder a été créé.");
   },
-  help: "Première version. Tapez $reminder --h--m-- *contenu* pour \
-avoir un rappel du bot avec le *contenu* au bout de la durée indiquée.",
+  help: "Tape $reminder --h--m-- *contenu* pour avoir un rappel avec \
+le *contenu* au bout de la durée indiquée.\nPour supprimer un reminder\
+, tape $reminder. Si tu as demandé plusieurs reminder, seul le premier\
+sera supprimé",
 };
 
 const commands = [helloWorld, ignore, reminder];
