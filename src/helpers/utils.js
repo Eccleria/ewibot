@@ -40,19 +40,14 @@ const hello = [
 const isAbcd = (words) => {
   if (words.length >= 4) {
     const reduced = words.reduce(
-      (precedent, current, index) => {
+      (precedent, current) => {
         const unicodeWord = current.charCodeAt(0);
-        if (index !== 0)
+        if (unicodeWord >= 97 && unicodeWord <= 122)
           return {
             latestUnicode: unicodeWord,
             isAbcd: precedent.isAbcd && unicodeWord > precedent.latestUnicode,
           };
-        else if (unicodeWord < 97 || unicodeWord > 122)
-          return {
-            latestUnicode: unicodeWord,
-            isAbcd: false,
-          };
-        else return { latestUnicode: unicodeWord, isAbcd: true };
+        else return { latestUnicode: unicodeWord, isAbcd: false };
       },
       { latestUnicode: null, isAbcd: true }
     );
