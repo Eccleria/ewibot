@@ -6,7 +6,7 @@ import {
 
 const helloWorld = {
   name: "ping",
-  action: async (message /* client */) => {
+  action: async (message) => {
     await message.channel.send("pong !");
   },
   help: "Cette commande n'a pas besoin de description",
@@ -31,7 +31,15 @@ const ignore = {
   help: "Cette commande empêche ou non Ewibot de réagir à tes messages.",
 };
 
-const commands = [helloWorld, ignore];
+const reminder = {
+  name: "reminder",
+  action: async () => {
+    return null
+  },
+  help: "Commande en cours de construction"
+};
+
+const commands = [helloWorld, ignore, reminder];
 
 const help = {
   name: "help",
