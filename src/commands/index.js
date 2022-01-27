@@ -33,10 +33,36 @@ const ignore = {
 
 const reminder = {
   name: "reminder",
-  action: async () => {
-    return null
+  action: async (message, client) => {
+    const { channel, content, author } = message;
+    const words = content.toLowerCase().split(" ");
+    if (words.length < 2) {
+      const removed = client.remindme.splice(
+        client.remindme.findIndex((element) => element.authorId === author.id),
+        1
+      );
+      clearTimeout(removed[0].timeout);
+      await message.channel.send("Le reminder a été supprimé.");
+      return;
+    }
+    const wordTiming = words[1];
+    let timing = 0;
+    for (let i = 2, j = 0; i >= 0; i--, j += 3) {
+      timing += parseInt(wordTiming.slice(j, j + 2)) * 60 ** i;
+      console.log(timing);
+    }
+    timing *= 1000;
+    const timeoutObj = setTimeout(async () => {
+      await channel.send(content.slice(19));
+    }, timing);
+    client.remindme.push({
+      authorId: author.id,
+      timeout: timeoutObj,
+    });
+    await message.channel.send("Le reminder a été créé.");
   },
-  help: "Commande en cours de construction"
+  help: "Première version. Tapez $reminder --h--m-- *contenu* pour \
+avoir un rappel du bot avec le *contenu* au bout de la durée indiquée.",
 };
 
 const commands = [helloWorld, ignore, reminder];

@@ -35,6 +35,7 @@ const client = new Client({
 client.playlistCachedMessages = [];
 
 client.db = db;
+client.remindme = [];
 
 if (process.env.USE_SPOTIFY === "yes") {
   const spotifyApi = new SpotifyWebApi({
