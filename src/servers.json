@@ -13,7 +13,7 @@
       "removeFromPlaylistEmoji": "❌",
       "salimmdrReactId": "😂"
     },
-    "tslicheyeReactId": "👁️"
+    "eyeReactId": "👁️"
   },
   {
     "name": "prod",
@@ -29,6 +29,6 @@
       "removeFromPlaylistEmoji": "❌",
       "salimmdrReactId": "823904313792266250"
     },
-    "tslisheyeReactId": "822487568766730270"
+    "eyeReactId": "822487568766730270"
   }
 ]

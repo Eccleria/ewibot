@@ -78,7 +78,7 @@ export const reactionHandler = async (
   }
 
   const words = loweredMessage.split(" ");
-  if (isAbcd(words)) await message.react(currentServer.tslicheyeReactId);
+  if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   if (Math.random() < 0.8) return;
 
