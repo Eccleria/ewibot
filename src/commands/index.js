@@ -39,7 +39,7 @@ const help = {
     const words = message.content.split(" ");
     if (words.length === 1) {
       const baseText = `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \
-d'une commande 'ex', tape !help ex. \nPour le moment, les commandes suivantes ont été \
+d'une commande 'ex', tape $help ex. \nPour le moment, les commandes suivantes ont été \
 implémentées :\n- help`;
       const helpText = commands.reduce((acc, cur) => {
         return acc.concat(`, ${cur.name}`);

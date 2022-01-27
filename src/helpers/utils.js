@@ -4,7 +4,7 @@ import ytdl from "ytdl-core";
 
 import { isUserIgnored } from "./dbHelper.js";
 
-export const isCommand = (content) => content[0] === "!";
+export const isCommand = (content) => content[0] === "$";
 
 const apologies = [
   "desolé",
@@ -22,7 +22,7 @@ const apologies = [
   "navré",
   "navrée",
   "deso",
-  "déso"
+  "déso",
 ];
 
 const hello = [
@@ -34,7 +34,7 @@ const hello = [
   "coucou",
   "bijour",
   "bonjoir",
-  "hey"
+  "hey",
 ];
 
 const isAbcd = (words) => {
