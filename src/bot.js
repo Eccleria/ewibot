@@ -87,7 +87,7 @@ const onMessageHandler = async (message) => {
 
   const commandName = content.toLowerCase().split(" ")[0];
 
-  const command = commands.find(({ trigger }) => commandName === trigger);
+  const command = commands.find(({ name }) => commandName.slice(1) === name);
   if (command) command.action(message, client);
 };
 
