@@ -9,7 +9,7 @@ const helloWorld = {
   action: async (message /* client */) => {
     await message.channel.send("pong !");
   },
-  help: "Cette commande permet de dire bonjour",
+  help: "Cette commande n'a pas besoin de description",
 };
 
 const ignore = {
