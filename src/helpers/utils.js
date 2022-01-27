@@ -55,8 +55,6 @@ export const reactionHandler = async (
   currentServer,
   client
 ) => {
-  console.log("hihi");
-
   const loweredMessage = messageContent.toLowerCase();
 
   if (await isUserIgnored(message.author.id, client.db)) return;

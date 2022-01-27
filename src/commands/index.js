@@ -5,9 +5,9 @@ import {
 } from "../helpers/index.js";
 
 const helloWorld = {
-  name: "helloWorld",
+  name: "ping",
   action: async (message /* client */) => {
-    await message.channel.send("Hello, world !");
+    await message.channel.send("pong !");
   },
   help: "Cette commande permet de dire bonjour",
 };
@@ -24,7 +24,7 @@ const ignore = {
     } else {
       addIgnoredUser(authorId, db);
       await message.channel.send(
-        "Dorénavant je ne réagirai plus à tes message."
+        "Dorénavant je ne réagirai plus à tes messages."
       );
     }
   },
@@ -38,18 +38,18 @@ const help = {
   action: async (message) => {
     const words = message.content.split(" ");
     if (words.length === 1) {
-      const helpText = commands.reduce(
-        (acc, cur) => {
-          return acc.concat(`\n- ${cur.name}`);
-        },
-        `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \
+      const baseText = `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \
 d'une commande 'ex', tape !help ex. \nPour le moment, les commandes suivantes ont été \
-implémentées :\n- help`
-      );
+implémentées :\n- help`;
+      const helpText = commands.reduce((acc, cur) => {
+        return acc.concat(`, ${cur.name}`);
+      }, baseText);
       await message.channel.send(helpText);
     } else {
       const command = commands.find((cmd) => cmd.name === words[1]);
-      if (!command) { return; }
+      if (!command) {
+        return;
+      }
       await message.channel.send(command.help);
     }
   },
