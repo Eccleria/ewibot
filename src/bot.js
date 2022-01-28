@@ -143,13 +143,17 @@ const onPrivateMessage = async (message) => {
 
   const newContent = content.split(" ").slice(1).join(" ");
 
-  const channel = await client.channels.fetch(destinationChannelId);
+  try {
+    const channel = await client.channels.fetch(destinationChannelId);
 
-  if (channel) {
-    channel.sendTyping();
-    setTimeout(() => {
-      channel.send(newContent);
-    }, 2000);
+    if (channel) {
+      channel.sendTyping();
+      setTimeout(() => {
+        channel.send(newContent);
+      }, 2000);
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
