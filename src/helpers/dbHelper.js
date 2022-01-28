@@ -26,26 +26,31 @@ const getIgnoredUsers = (db) => {
 
 export { addIgnoredUser, removeIgnoredUser, getIgnoredUsers, isUserIgnored };
 
-const addBirthday = async (message, db) => {
-  const words = message.content.toLowerCase().split(" ");
-  const birthday = words[1];
-  if (!isUserBirthday(message, db)) {
-    db.data.birthdayUsers = [...db.data.birthdayUsers, { "userId": message.author.id, "userBirthday": birthday}];
+const addBirthday = async (authorId, db, birthday) => {
+  if (!isUserBirthday(authorId, db)) {
+    db.data.birthdayUsers = [
+      ...db.data.birthdayUsers,
+      { userId: authorId, userBirthday: birthday },
+    ];
     await db.write();
   }
 };
 
-const removeBirthday = async (message, db) => {
-  if (isUserBirthday(message, db)) {
+const removeBirthday = async (authorId, db) => {
+  if (isUserBirthday(authorId, db)) {
     db.data.birthdayUsers = db.data.birthdayUsers.filter(
-      ({ userId }) => userId !== message.author.id
+      ({ userId }) => userId !== authorId
     );
     await db.write();
   }
 };
 
-const isUserBirthday = (message, db) => {
-  return db.data.birthdayUsers.map(obj => {return obj.userId}).includes(message.author.id)
+const isUserBirthday = (authorId, db) => {
+  return db.data.birthdayUsers
+    .map((obj) => {
+      return obj.userId;
+    })
+    .includes(authorId);
 };
 
 const getBirthday = (db) => {
