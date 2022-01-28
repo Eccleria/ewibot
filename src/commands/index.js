@@ -53,7 +53,7 @@ const reminder = {
     }
     timing *= 1000;
     const timeoutObj = setTimeout(async () => {
-      await channel.send(content.slice(19));
+      await channel.send(words.slice(2).join(" "));
     }, timing);
     client.remindme.push({
       authorId: author.id,
@@ -62,7 +62,7 @@ const reminder = {
     await message.channel.send("Le reminder a été créé.");
   },
   help: "Tape $reminder --h--m-- *contenu* pour avoir un rappel avec \
-le *contenu* au bout de la durée indiquée.\nPour supprimer un reminder\
+le *contenu* au bout du délai indiqué.\nPour supprimer un reminder\
 , tape $reminder. Si tu as demandé plusieurs reminder, seul le premier\
 sera supprimé",
 };
