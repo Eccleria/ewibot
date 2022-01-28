@@ -25,7 +25,7 @@ const apologies = [
 
 const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
 
-const gifs = (currentServer) => {
+const gifsReact = (currentServer) => {
   return {
     "dogHype":
     {
@@ -40,16 +40,30 @@ const gifs = (currentServer) => {
       "emote": currentServer.autoEmotes.panDuomReactId
     }
   }
-}
+};
 
-const whichGif = (words, currentServer) => {
-  const gif = Object.values(gifs(currentServer));
+const whichGifReact = (words, currentServer) => {
+  const gif = Object.values(gifsReact(currentServer));
 
   for (const word of words) {
     const foundGifs = gif.filter((object) => word.includes(object.url));
     return foundGifs
   }
+};
+
+const gifsStarWars = {
+  "generalKenobi": {
+    "trigger": "hello there",
+    "url": "https://tenor.com/view/hello-there-general-kenobi-star-wars-grevious-gif-17774326"
+  }
 }
+
+const whichStarWars = (content) => {
+  const gifs = Object.values(gifsStarWars);
+  for (const object of gifs) {
+    if (content.includes(object.trigger)) return object;
+  }
+};
 
 const isAbcd = (words) => {
   if (words.length >= 4) {
@@ -96,7 +110,7 @@ export const reactionHandler = async (
   const words = loweredMessage.split(" ");
   if (isAbcd(words)) await message.react(currentServer.tslicheyeReactId);
 
-  const foundGifs = whichGif(words, currentServer);
+  const foundGifs = whichGifReact(words, currentServer);
   for (const gif of foundGifs) {
     await message.react(gif.emote);
   }
@@ -113,6 +127,11 @@ export const reactionHandler = async (
       await message.react(e);
     }
   }
+
+  if (Math.random() < 0.99) return;
+
+  const foundSWGif = whichStarWars(loweredMessage);
+  if (foundSWGif) await message.reply(foundSWGif.url);
 };
 
 export const checkIsOnThread = async (channel, threadId) => {
