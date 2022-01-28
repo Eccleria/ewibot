@@ -5,6 +5,11 @@ import {
   removeIgnoredUser,
   getIgnoredUsers,
   isUserIgnored,
+  addApologyUser,
+  getApologyUsers,
+  isApologyUser,
+  addApologyCount,
+  resetApologyCount,
 } from "./dbHelper.js";
 
 import {
@@ -26,4 +31,8 @@ export {
   removeIgnoredUser,
   getIgnoredUsers,
   isUserIgnored,
+  addApologyUser,
+  getApologyUsers,
+  addApologyCount,
+  resetApologyCount,
 };

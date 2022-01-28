@@ -25,3 +25,38 @@ const getIgnoredUsers = (db) => {
 };
 
 export { addIgnoredUser, removeIgnoredUser, getIgnoredUsers, isUserIgnored };
+
+const addApologyUser = async (authorId, db) => {
+  if (!isApologyUser(authorId, db)) {
+    db.data.apologiesCounting.push({ userId: authorId, counter: 0 });
+    await db.write();
+  }
+};
+
+const getApologyUsers = (db) => {
+  return db.data.apologiesCounting;
+};
+
+const isApologyUser = (authorId, db) => {
+  return getApologyUsers(db).includes(({ userId }) => userId === authorId);
+};
+
+const addApologyCount = async (authorId, db) => {
+  for (const obj of db.data.apologiesCounting)
+    if (Object.values(obj)[0] === authorId) {
+      obj.counter += 1;
+      await db.write();
+    }
+};
+
+const resetApologyCount = async (db) => {
+  db.data.apologiesCounting.map((obj) => (obj.counter = 0));
+  await db.write();
+};
+export {
+  addApologyUser,
+  getApologyUsers,
+  isApologyUser,
+  addApologyCount,
+  resetApologyCount,
+};
