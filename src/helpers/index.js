@@ -8,6 +8,7 @@ import {
 } from "./dbHelper.js";
 
 import {
+  isCommand,
   reactionHandler,
   parseLink,
   checkIsOnThread,
@@ -15,6 +16,7 @@ import {
 } from "./utils.js";
 
 export {
+  isCommand,
   reactionHandler,
   parseLink,
   checkIsOnThread,

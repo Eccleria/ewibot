@@ -4,7 +4,7 @@ import ytdl from "ytdl-core";
 
 import { isUserIgnored } from "./dbHelper.js";
 
-export const isCommand = (content) => content[0] === "!";
+export const isCommand = (content) => content[0] === "$";
 
 const apologies = [
   "desolé",
@@ -21,26 +21,33 @@ const apologies = [
   "pardon",
   "navré",
   "navrée",
+  "deso",
+  "déso",
 ];
 
-const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
+const hello = [
+  "bonjour",
+  "hello",
+  "yo",
+  "salut",
+  "bonsoir",
+  "coucou",
+  "bijour",
+  "bonjoir",
+  "hey",
+];
 
 const isAbcd = (words) => {
   if (words.length >= 4) {
     const reduced = words.reduce(
-      (precedent, current, index) => {
+      (precedent, current) => {
         const unicodeWord = current.charCodeAt(0);
-        if (index !== 0)
+        if (unicodeWord >= 97 && unicodeWord <= 122)
           return {
             latestUnicode: unicodeWord,
-            isAbcd: precedent.isAbcd && unicodeWord > precedent.lastestUnicode,
+            isAbcd: precedent.isAbcd && unicodeWord > precedent.latestUnicode,
           };
-        else if (unicodeWord < 97 || unicodeWord > 122)
-          return {
-            latestUnicode: unicodeWord,
-            isAbcd: false,
-          };
-        else return { latestUnicode: unicodeWord, isAbcd: true };
+        else return { latestUnicode: unicodeWord, isAbcd: false };
       },
       { latestUnicode: null, isAbcd: true }
     );
@@ -55,8 +62,6 @@ export const reactionHandler = async (
   currentServer,
   client
 ) => {
-  console.log("hihi");
-
   const loweredMessage = messageContent.toLowerCase();
 
   if (await isUserIgnored(message.author.id, client.db)) return;
@@ -68,7 +73,7 @@ export const reactionHandler = async (
   }
 
   const words = loweredMessage.split(" ");
-  if (isAbcd(words)) await message.react(currentServer.tslicheyeReactId);
+  if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   if (Math.random() < 0.8) return;
 

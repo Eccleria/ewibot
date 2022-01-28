@@ -4,6 +4,7 @@ dotenv.config();
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
+  isCommand,
   reactionHandler,
   parseLink,
   checkIsOnThread,
@@ -75,7 +76,9 @@ const onMessageHandler = async (message) => {
       const { answer, songId } = foundLink;
       const newMessage = await message.reply(answer);
       if (songId)
-        await newMessage.react(currentServer.autoEmotes.removeFromPlaylistEmoji);
+        await newMessage.react(
+          currentServer.autoEmotes.removeFromPlaylistEmoji
+        );
       client.playlistCachedMessages = [
         ...client.playlistCachedMessages,
         { ...newMessage, songId },
@@ -85,8 +88,8 @@ const onMessageHandler = async (message) => {
 
   const commandName = content.toLowerCase().split(" ")[0];
 
-  const command = commands.find(({ trigger }) => commandName === trigger);
-  if (command) command.action(message, client);
+  const command = commands.find(({ name }) => commandName.slice(1) === name);
+  if (command && isCommand(content)) command.action(message, client);
 };
 
 const onReactionHandler = async (messageReaction) => {
