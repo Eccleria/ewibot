@@ -101,19 +101,41 @@ const onReactionHandler = async (messageReaction) => {
 
   const { removeFromPlaylistEmoji } = currentServer.autoEmotes;
 
-  const foundMessage = client.playlistCachedMessages.find(
+  const foundMessageSpotify = client.playlistCachedMessages.find(
     ({ id }) => id === message.id
   );
 
+  const foundReminder = client.remindme.find(
+    ({ answer }) => answer.id === message.id
+  );
+
   if (
-    process.env.USE_SPOTIFY === "yes" &&
-    foundMessage &&
+    foundReminder &&
     emoji.name === removeFromPlaylistEmoji &&
     users.cache
       .map((user) => user.id)
       .includes(message.mentions.users.first().id)
   ) {
-    const { songId } = foundMessage;
+    const removed = client.remindme.splice(
+      client.remindme.findIndex(
+        (cache) => cache.authorId === message.author.id
+      ),
+      1
+    );
+    clearTimeout(removed[0].timeout);
+    await message.channel.send("Le reminder a été supprimé.");
+    return;
+  }
+
+  if (
+    process.env.USE_SPOTIFY === "yes" &&
+    foundMessageSpotify &&
+    emoji.name === removeFromPlaylistEmoji &&
+    users.cache
+      .map((user) => user.id)
+      .includes(message.mentions.users.first().id)
+  ) {
+    const { songId } = foundMessageSpotify;
 
     const result = await deleteSongFromPlaylist(songId, client);
     client.playlistCachedMessages = client.playlistCachedMessages.filter(

@@ -3,6 +3,7 @@ import {
   removeIgnoredUser,
   getIgnoredUsers,
 } from "../helpers/index.js";
+import servers from "../servers.json";
 
 const helloWorld = {
   name: "ping",
@@ -47,19 +48,21 @@ const reminder = {
     }
     const wordTiming = words[1];
     let timing = 0;
-    for (let i = 2, j = 0; i >= 0; i--, j += 3) {
-      timing += parseInt(wordTiming.slice(j, j + 2)) * 60 ** i;
-      console.log(timing);
-    }
+    for (let i = 2, j = 0; i >= 0; i--, j += 3) timing += parseInt(wordTiming.slice(j, j + 2)) * 60 ** i;
     timing *= 1000;
     const timeoutObj = setTimeout(async () => {
       await channel.send(words.slice(2).join(" "));
     }, timing);
+    const answer = await message.reply(
+      `Le reminder a été créé. Vous pouvez react avec \
+${servers.autoEmotes.removeFromPlaylistEmoji} pour annuler cet ajout !`
+    );
+    answer.react(servers.autoEmotes.removeFromPlaylistEmoji);
     client.remindme.push({
-      authorId: author.id,
-      timeout: timeoutObj,
+      "authorId": author.id,
+      "message": answer,
+      "timeout": timeoutObj
     });
-    await message.channel.send("Le reminder a été créé.");
   },
   help: "Tape $reminder --h--m-- *contenu* pour avoir un rappel avec \
 le *contenu* au bout du délai indiqué.\nPour supprimer un reminder\
