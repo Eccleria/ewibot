@@ -3,7 +3,6 @@ import {
   removeIgnoredUser,
   getIgnoredUsers,
 } from "../helpers/index.js";
-import servers from "../servers.json";
 
 const helloWorld = {
   name: "ping",
@@ -34,40 +33,42 @@ const ignore = {
 
 const reminder = {
   name: "reminder",
-  action: async (message, client) => {
+  action: async (message, client, currentServer) => {
     const { channel, content, author } = message;
-    const words = content.toLowerCase().split(" ");
-    if (words.length < 2) {
-      const removed = client.remindme.splice(
-        client.remindme.findIndex((element) => element.authorId === author.id),
-        1
-      );
-      clearTimeout(removed[0].timeout);
-      await message.channel.send("Le reminder a été supprimé.");
-      return;
-    }
+    const words = content.split(" ");
     const wordTiming = words[1];
     let timing = 0;
-    for (let i = 2, j = 0; i >= 0; i--, j += 3) timing += parseInt(wordTiming.slice(j, j + 2)) * 60 ** i;
+    for (let i = 2, j = 0; i >= 0; i--, j += 3)
+      timing += parseInt(wordTiming.slice(j, j + 2)) * 60 ** i;
     timing *= 1000;
-    const timeoutObj = setTimeout(async () => {
-      await channel.send(words.slice(2).join(" "));
-    }, timing);
+    const timeoutObj = setTimeout(
+      async (client) => {
+        await channel.send(words.slice(2).join(" "));
+        client.remindme.splice(
+          client.remindme.findIndex(
+            (element) => element.authorId === author.id
+          ),
+          1
+        );
+      },
+      timing,
+      client
+    );
     const answer = await message.reply(
       `Le reminder a été créé. Vous pouvez react avec \
-${servers.autoEmotes.removeFromPlaylistEmoji} pour annuler cet ajout !`
+${currentServer.removeEmoji} pour annuler cet ajout !`
     );
-    answer.react(servers.autoEmotes.removeFromPlaylistEmoji);
+    answer.react(currentServer.removeEmoji);
     client.remindme.push({
-      "authorId": author.id,
-      "message": answer,
-      "timeout": timeoutObj
+      authorId: author.id,
+      botMessage: answer,
+      timeout: timeoutObj,
     });
   },
   help: "Tape $reminder --h--m-- *contenu* pour avoir un rappel avec \
 le *contenu* au bout du délai indiqué.\nPour supprimer un reminder\
-, tape $reminder. Si tu as demandé plusieurs reminder, seul le premier\
-sera supprimé",
+, clique sur la reac ❌. Si tu as demandé plusieurs reminder, seul \
+le premier sera supprimé",
 };
 
 const commands = [helloWorld, ignore, reminder];

@@ -76,10 +76,7 @@ const onMessageHandler = async (message) => {
     if (foundLink) {
       const { answer, songId } = foundLink;
       const newMessage = await message.reply(answer);
-      if (songId)
-        await newMessage.react(
-          currentServer.autoEmotes.removeFromPlaylistEmoji
-        );
+      if (songId) await newMessage.react(currentServer.removeEmoji);
       client.playlistCachedMessages = [
         ...client.playlistCachedMessages,
         { ...newMessage, songId },
@@ -90,7 +87,8 @@ const onMessageHandler = async (message) => {
   const commandName = content.toLowerCase().split(" ")[0];
 
   const command = commands.find(({ name }) => commandName.slice(1) === name);
-  if (command && isCommand(content)) command.action(message, client);
+  if (command && isCommand(content))
+    command.action(message, client, currentServer);
 };
 
 const onReactionHandler = async (messageReaction) => {
@@ -99,38 +97,42 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
-  const { removeFromPlaylistEmoji } = currentServer.autoEmotes;
+  const { removeEmoji } = currentServer;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
     ({ id }) => id === message.id
   );
 
   const foundReminder = client.remindme.find(
-    ({ answer }) => answer.id === message.id
+    ({ botMessage }) => botMessage.id === message.id
   );
 
   if (
     foundReminder &&
-    emoji.name === removeFromPlaylistEmoji &&
+    emoji.name === removeEmoji &&
     users.cache
       .map((user) => user.id)
       .includes(message.mentions.users.first().id)
   ) {
-    const removed = client.remindme.splice(
-      client.remindme.findIndex(
-        (cache) => cache.authorId === message.author.id
-      ),
-      1
-    );
-    clearTimeout(removed[0].timeout);
-    await message.channel.send("Le reminder a été supprimé.");
-    return;
+    try {
+      const removed = client.remindme.splice(
+        client.remindme.findIndex(
+          (cache) => cache.authorId === message.author.id
+        ),
+        1
+      );
+      clearTimeout(removed[0].timeout);
+      await message.channel.send("Le reminder a été supprimé.");
+      return;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   if (
     process.env.USE_SPOTIFY === "yes" &&
     foundMessageSpotify &&
-    emoji.name === removeFromPlaylistEmoji &&
+    emoji.name === removeEmoji &&
     users.cache
       .map((user) => user.id)
       .includes(message.mentions.users.first().id)
