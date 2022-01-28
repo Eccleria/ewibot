@@ -2,7 +2,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
 
-import { isUserIgnored } from "./dbHelper.js";
+import {
+  isUserIgnored,
+  isApologyUser,
+  addApologyUser,
+  addApologyCount,
+} from "./dbHelper.js";
 
 export const isCommand = (content) => content[0] === "$";
 
@@ -63,12 +68,16 @@ export const reactionHandler = async (
   client
 ) => {
   const loweredMessage = messageContent.toLowerCase();
+  const db = client.db;
+  const authorId = message.author.id;
 
-  if (await isUserIgnored(message.author.id, client.db)) return;
+  if (await isUserIgnored(authorId, db)) return;
   if (
     apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
+    if (!isApologyUser(authorId, db)) addApologyUser(authorId, db);
+    addApologyCount(authorId, db);
     await message.react(currentServer.autoEmotes.panDuomReactId);
   }
 

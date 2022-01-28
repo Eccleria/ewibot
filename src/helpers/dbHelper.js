@@ -28,17 +28,24 @@ export { addIgnoredUser, removeIgnoredUser, getIgnoredUsers, isUserIgnored };
 
 const addApologyUser = async (authorId, db) => {
   if (!isApologyUser(authorId, db)) {
-    db.data.apologiesCounting.push({ userId: authorId, counter: 0 });
+    db.data.apologiesCounting = [...db.data.apologiesCounting,
+      { userId: authorId, counter: 0 }
+    ];
     await db.write();
   }
 };
 
 const getApologyUsers = (db) => {
+  console.log(db.data.apologiesCounting);
   return db.data.apologiesCounting;
 };
 
 const isApologyUser = (authorId, db) => {
-  return getApologyUsers(db).includes(({ userId }) => userId === authorId);
+  return getApologyUsers(db)
+    .map(obj => {
+      return obj.userId
+    })
+    .includes(authorId);
 };
 
 const addApologyCount = async (authorId, db) => {

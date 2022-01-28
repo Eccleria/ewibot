@@ -33,6 +33,7 @@ export {
   isUserIgnored,
   addApologyUser,
   getApologyUsers,
+  isApologyUser,
   addApologyCount,
   resetApologyCount,
 };
