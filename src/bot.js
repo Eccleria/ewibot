@@ -100,7 +100,8 @@ const onMessageHandler = async (message) => {
     const commandName = content.toLowerCase().split(" ")[0];
 
     const command = commands.find(({ name }) => commandName.slice(1) === name);
-    if (command && isCommand(content)) command.action(message, client);
+    if (command && isCommand(content))
+      command.action(message, client, currentServer);
   }
 };
 
@@ -128,14 +129,14 @@ const onReactionHandler = async (messageReaction) => {
       .includes(message.mentions.users.first().id)
   ) {
     try {
-      const removed = client.remindme.splice(
-        client.remindme.findIndex(
-          (cache) => cache.authorId === message.author.id
-        ),
-        1
-      );
-      clearTimeout(removed[0].timeout);
-      await message.channel.send("Le reminder a été supprimé.");
+      client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
+        if (botMessage.id === message.id) {
+          clearTimeout(timeout);
+          botMessage.reply("Le reminder a été supprimé.");
+          return false;
+        }
+        return true;
+      });
       return;
     } catch (err) {
       console.log(err);

@@ -1,41 +1,93 @@
+import dayjs from "dayjs";
+import "dayjs/locale/fr.js";
+import Duration from "dayjs/plugin/duration.js";
+import relativeTime from "dayjs/plugin/relativeTime.js";
+dayjs.locale("fr");
+dayjs.extend(Duration);
+dayjs.extend(relativeTime);
+
+const sendDelayed = async (
+  client,
+  channel,
+  author,
+  messageContent,
+  botMessage
+) => {
+  await channel.send(`${author.toString()} : ${messageContent}`);
+  client.remindme = client.remindme.filter(
+    ({ botMessage: answer }) => answer.id !== botMessage.id
+  );
+};
+
+const formatMs = (nbr) => {
+  return dayjs.duration(nbr, "milliseconds").humanize();
+};
+
+const extractDuration = (str) => {
+  const lowerStr = str.toLowerCase();
+
+  // XXhYYmZZs
+
+  console.log(lowerStr);
+
+  const hours = Number(lowerStr.slice(0, 2));
+  const minutes = Number(lowerStr.slice(3, 5));
+  const seconds = Number(lowerStr.slice(6, 8));
+
+  const durationMs =
+    (isNaN(hours) ? 0 : hours * 3600) +
+    (isNaN(minutes) ? 0 : minutes * 60) +
+    (isNaN(seconds) ? 0 : seconds);
+
+  console.log(hours, minutes, seconds);
+
+  return durationMs * 1000;
+};
+
 const action = async (message, client, currentServer) => {
   const { channel, content, author } = message;
-  const words = content.split(" ");
-  const wordTiming = words[1];
-  let timing = 0;
-  for (let i = 2, j = 0; i >= 0; i--, j += 3)
-    timing += parseInt(wordTiming.slice(j, j + 2)) * 60 ** i;
-  timing *= 1000;
-  const timeoutObj = setTimeout(
-    async (client) => {
-      await channel.send(words.slice(2).join(" "));
-      client.remindme.splice(
-        client.remindme.findIndex((element) => element.authorId === author.id),
-        1
-      );
-    },
-    timing,
-    client
-  );
-  const answer = await message.reply(
-    `Le reminder a été créé. Vous pouvez react avec \
+  const args = content.split(" ");
+
+  const wordTiming = args[1];
+
+  const timing = extractDuration(wordTiming);
+
+  if (!timing) {
+    console.log("erreur de parsing");
+  } else {
+    console.log(timing);
+
+    const messageContent = args.slice(2).join(" ");
+
+    const answer = await message.reply(
+      `Je te rappelerai ça dans ${formatMs(timing)}. tu peux react avec \
 ${currentServer.removeEmoji} pour annuler cet ajout !`
-  );
-  answer.react(currentServer.removeEmoji);
-  client.remindme.push({
-    authorId: author.id,
-    botMessage: answer,
-    timeout: timeoutObj,
-  });
+    );
+
+    const timeoutObj = setTimeout(
+      sendDelayed,
+      timing,
+      client,
+      channel,
+      author,
+      messageContent,
+      answer
+    );
+
+    answer.react(currentServer.removeEmoji);
+    client.remindme.push({
+      authorId: author.id,
+      botMessage: answer,
+      timeout: timeoutObj,
+    });
+  }
 };
 
 const reminder = {
   name: "reminder",
   action,
-  help: "Tape $reminder --h--m-- *contenu* pour avoir un rappel avec \
-le *contenu* au bout du délai indiqué.\nPour supprimer un reminder\
-, clique sur la reac ❌. Si tu as demandé plusieurs reminder, seul \
-le premier sera supprimé",
+  help: "Tape $reminder XXhYYmZZs *contenu* pour avoir un rappel avec \
+le *contenu* au bout du délai indiqué.\n Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
 };
 
 export default reminder;
