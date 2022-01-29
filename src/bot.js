@@ -16,6 +16,8 @@ import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
+const ADMINS = ["141962573900808193", "290505766631112714"];
+
 // Use JSON file for storage
 const file = join("db", "db.json");
 const adapter = new JSONFile(file);
@@ -29,6 +31,11 @@ const client = new Client({
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_MESSAGE_TYPING,
+    Intents.FLAGS.DIRECT_MESSAGES,
+  ],
+  partials: [
+    "CHANNEL", // Required to receive DMs
   ],
 });
 
@@ -51,45 +58,49 @@ const self = process.env.CLIENTID;
 const onMessageHandler = async (message) => {
   const { channel, author, content } = message;
 
-  const currentServer = servers.find(
-    ({ guildId }) => guildId === channel.guild.id
-  );
+  if (channel.type === "DM") {
+    onPrivateMessage(message);
+  } else {
+    const currentServer = servers.find(
+      ({ guildId }) => guildId === channel.guild.id
+    );
 
-  // ignoring message from himself
-  if (
-    author.id === self ||
-    !currentServer ||
-    (process.env.DEBUG === "yes" && currentServer.name === "prod")
-  )
-    return;
+    // ignoring message from himself
+    if (
+      author.id === self ||
+      !currentServer ||
+      (process.env.DEBUG === "yes" && currentServer.name === "prod")
+    )
+      return;
 
-  const { playlistThreadId } = currentServer;
+    const { playlistThreadId } = currentServer;
 
-  reactionHandler(message, content, currentServer, client);
+    reactionHandler(message, content, currentServer, client);
 
-  if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
-    checkIsOnThread(channel, playlistThreadId);
+    if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
+      checkIsOnThread(channel, playlistThreadId);
 
-    //
-    const foundLink = await parseLink(content, client);
-    if (foundLink) {
-      const { answer, songId } = foundLink;
-      const newMessage = await message.reply(answer);
-      if (songId)
-        await newMessage.react(
-          currentServer.autoEmotes.removeFromPlaylistEmoji
-        );
-      client.playlistCachedMessages = [
-        ...client.playlistCachedMessages,
-        { ...newMessage, songId },
-      ];
+      //
+      const foundLink = await parseLink(content, client);
+      if (foundLink) {
+        const { answer, songId } = foundLink;
+        const newMessage = await message.reply(answer);
+        if (songId)
+          await newMessage.react(
+            currentServer.autoEmotes.removeFromPlaylistEmoji
+          );
+        client.playlistCachedMessages = [
+          ...client.playlistCachedMessages,
+          { ...newMessage, songId },
+        ];
+      }
     }
+
+    const commandName = content.toLowerCase().split(" ")[0];
+
+    const command = commands.find(({ name }) => commandName.slice(1) === name);
+    if (command && isCommand(content)) command.action(message, client);
   }
-
-  const commandName = content.toLowerCase().split(" ")[0];
-
-  const command = commands.find(({ name }) => commandName.slice(1) === name);
-  if (command && isCommand(content)) command.action(message, client);
 };
 
 const onReactionHandler = async (messageReaction) => {
@@ -122,10 +133,36 @@ const onReactionHandler = async (messageReaction) => {
   }
 };
 
+const onPrivateMessage = async (message) => {
+  const { author, content } = message;
+
+  // Tiitch id, Eccl�ria id
+  if (!ADMINS.includes(author.id)) return;
+
+  const destinationChannelId = content.split(" ")[0];
+
+  const newContent = content.split(" ").slice(1).join(" ");
+
+  try {
+    const channel = await client.channels.fetch(destinationChannelId);
+
+    if (channel) {
+      channel.sendTyping();
+      setTimeout(() => {
+        channel.send(newContent);
+      }, 2000);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 // Create an event listener for messages
 client.on("messageCreate", onMessageHandler);
 
 client.on("messageReactionAdd", onReactionHandler);
+
+//client.on("", onPrivateMessage);
 
 client.once("ready", () => {
   console.log("I am ready!");
