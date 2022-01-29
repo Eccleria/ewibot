@@ -4,9 +4,11 @@ import {
   getIgnoredUsers,
 } from "../helpers/index.js";
 
+import reminder from "./reminder.js";
+
 const helloWorld = {
   name: "ping",
-  action: async (message /* client */) => {
+  action: async (message) => {
     await message.channel.send("pong !");
   },
   help: "Cette commande n'a pas besoin de description",
@@ -31,7 +33,7 @@ const ignore = {
   help: "Cette commande empêche ou non Ewibot de réagir à tes messages.",
 };
 
-const commands = [helloWorld, ignore];
+const commands = [helloWorld, ignore, reminder];
 
 const help = {
   name: "help",

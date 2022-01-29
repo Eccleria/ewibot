@@ -42,6 +42,7 @@ const client = new Client({
 client.playlistCachedMessages = [];
 
 client.db = db;
+client.remindme = [];
 
 if (process.env.USE_SPOTIFY === "yes") {
   const spotifyApi = new SpotifyWebApi({
@@ -99,7 +100,8 @@ const onMessageHandler = async (message) => {
     const commandName = content.toLowerCase().split(" ")[0];
 
     const command = commands.find(({ name }) => commandName.slice(1) === name);
-    if (command && isCommand(content)) command.action(message, client);
+    if (command && isCommand(content))
+      command.action(message, client, currentServer);
   }
 };
 
@@ -109,21 +111,47 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
-  const { removeFromPlaylistEmoji } = currentServer.autoEmotes;
+  const { removeEmoji } = currentServer;
 
-  const foundMessage = client.playlistCachedMessages.find(
+  const foundMessageSpotify = client.playlistCachedMessages.find(
     ({ id }) => id === message.id
   );
 
+  const foundReminder = client.remindme.find(
+    ({ botMessage }) => botMessage.id === message.id
+  );
+
   if (
-    process.env.USE_SPOTIFY === "yes" &&
-    foundMessage &&
-    emoji.name === removeFromPlaylistEmoji &&
+    foundReminder &&
+    emoji.name === removeEmoji &&
     users.cache
       .map((user) => user.id)
       .includes(message.mentions.users.first().id)
   ) {
-    const { songId } = foundMessage;
+    try {
+      client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
+        if (botMessage.id === message.id) {
+          clearTimeout(timeout);
+          botMessage.reply("Le reminder a été supprimé.");
+          return false;
+        }
+        return true;
+      });
+      return;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  if (
+    process.env.USE_SPOTIFY === "yes" &&
+    foundMessageSpotify &&
+    emoji.name === removeEmoji &&
+    users.cache
+      .map((user) => user.id)
+      .includes(message.mentions.users.first().id)
+  ) {
+    const { songId } = foundMessageSpotify;
 
     const result = await deleteSongFromPlaylist(songId, client);
     client.playlistCachedMessages = client.playlistCachedMessages.filter(
