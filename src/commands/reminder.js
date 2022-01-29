@@ -60,7 +60,7 @@ const action = async (message, client, currentServer) => {
     const messageContent = args.slice(2).join(" ");
 
     const answer = await message.reply(
-      `Je te rappelerai ça dans ${formatMs(timing)}. tu peux react avec \
+      `Je te rappelerai ça dans ${formatMs(timing)}. Tu peux react avec \
 ${currentServer.removeEmoji} pour annuler cet ajout !`
     );
 
@@ -86,7 +86,7 @@ ${currentServer.removeEmoji} pour annuler cet ajout !`
 const reminder = {
   name: "reminder",
   action,
-  help: "Tape $reminder XXhYYmZZs *contenu* pour avoir un rappel avec \
+  help: "Tapez $reminder XXhYYmZZs *contenu* pour avoir un rappel avec \
 le *contenu* au bout du délai indiqué.\n Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
 };
 
