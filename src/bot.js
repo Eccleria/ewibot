@@ -88,7 +88,7 @@ const onMessageHandler = async (message) => {
         const newMessage = await message.reply(answer);
         if (songId)
           await newMessage.react(
-            currentServer.autoEmotes.removeFromPlaylistEmoji
+            currentServer.removeEmoji
           );
         client.playlistCachedMessages = [
           ...client.playlistCachedMessages,
