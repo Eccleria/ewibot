@@ -7,9 +7,11 @@ import {
   removeBirthday,
 } from "../helpers/index.js";
 
+import reminder from "./reminder.js";
+
 const helloWorld = {
   name: "ping",
-  action: async (message /* client */) => {
+  action: async (message) => {
     await message.channel.send("pong !");
   },
   help: "Cette commande n'a pas besoin de description",
@@ -53,7 +55,7 @@ const birthday = {
 La date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
 };
 
-const commands = [helloWorld, ignore, birthday];
+const commands = [helloWorld, ignore, reminder, birthday];
 
 const help = {
   name: "help",
