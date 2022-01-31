@@ -23,6 +23,15 @@ const db = new Low(adapter);
 // Read data from JSON file, this will set db.data content
 db.read();
 
+db.wasUpdated = false;
+
+setInterval(async () => {
+  if (db.wasUpdated) {
+    await db.write();
+    db.wasUpdated = false;
+  }
+}, 60000);
+
 // Create an instance of a Discord client
 const client = new Client({
   intents: [

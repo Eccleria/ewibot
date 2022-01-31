@@ -2,12 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
 
-import {
-  isUserIgnored,
-  isApologyUser,
-  addApologyUser,
-  addApologyCount,
-} from "./dbHelper.js";
+import { isUserIgnored, addApologyCount } from "./dbHelper.js";
 
 export const isCommand = (content) => content[0] === "$";
 
@@ -76,7 +71,6 @@ export const reactionHandler = async (
     apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
-    if (!isApologyUser(authorId, db)) addApologyUser(authorId, db);
     addApologyCount(authorId, db);
     await message.react(currentServer.autoEmotes.panDuomReactId);
   }

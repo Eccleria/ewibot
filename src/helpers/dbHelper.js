@@ -1,9 +1,9 @@
+// IGNORED USERS
 const addIgnoredUser = async (authorId, db) => {
   if (!db.data.ignoredUsersIds.includes(authorId)) {
     db.data.ignoredUsersIds.push(authorId);
-    //db.data.ignoredUsersIds = [...db.data.ignoredUsersIds, authorId];
-    await db.write();
   }
+  db.wasUpdated = true;
 };
 
 const removeIgnoredUser = async (authorId, db) => {
@@ -11,8 +11,8 @@ const removeIgnoredUser = async (authorId, db) => {
     db.data.ignoredUsersIds = db.data.ignoredUsersIds.filter(
       (id) => id !== authorId
     );
-    await db.write();
   }
+  db.wasUpdated = true;
 };
 
 const isUserIgnored = async (authorId, db) => {
@@ -24,46 +24,49 @@ const getIgnoredUsers = (db) => {
   return db.data.ignoredUsersIds;
 };
 
-export { addIgnoredUser, removeIgnoredUser, getIgnoredUsers, isUserIgnored };
-
-const addApologyUser = async (authorId, db) => {
-  if (!isApologyUser(authorId, db)) {
-    db.data.apologiesCounting = [...db.data.apologiesCounting,
-      { userId: authorId, counter: 0 }
-    ];
-    await db.write();
-  }
-};
+// APOLOGIES
 
 const getApologyUsers = (db) => {
-  console.log(db.data.apologiesCounting);
   return db.data.apologiesCounting;
 };
 
 const isApologyUser = (authorId, db) => {
   return getApologyUsers(db)
-    .map(obj => {
-      return obj.userId
+    .map((obj) => {
+      return obj.userId;
     })
     .includes(authorId);
 };
 
 const addApologyCount = async (authorId, db) => {
-  for (const obj of db.data.apologiesCounting)
-    if (Object.values(obj)[0] === authorId) {
-      obj.counter += 1;
-      await db.write();
+  const { apologiesCounting } = db.data;
+
+  if (isApologyUser(authorId, db)) {
+    for (const obj of apologiesCounting) {
+      if (obj.userId === authorId) {
+        obj.counter++;
+      }
     }
+  } else {
+    db.data.apologiesCounting = [
+      ...db.data.apologiesCounting,
+      { userId: authorId, counter: 1 },
+    ];
+  }
+  db.wasUpdated = true;
 };
 
 const resetApologyCount = async (db) => {
-  db.data.apologiesCounting.map((obj) => (obj.counter = 0));
-  await db.write();
+  db.data.apologiesCounting = [];
+  db.wasUpdated = true;
 };
 export {
-  addApologyUser,
   getApologyUsers,
   isApologyUser,
   addApologyCount,
   resetApologyCount,
+  addIgnoredUser,
+  removeIgnoredUser,
+  getIgnoredUsers,
+  isUserIgnored,
 };
