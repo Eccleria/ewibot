@@ -5,9 +5,14 @@ import {
   removeIgnoredUser,
   getIgnoredUsers,
   isUserIgnored,
+  getApologyUsers,
+  isApologyUser,
+  addApologyCount,
+  resetApologyCount,
 } from "./dbHelper.js";
 
 import {
+  isCommand,
   reactionHandler,
   parseLink,
   checkIsOnThread,
@@ -15,6 +20,7 @@ import {
 } from "./utils.js";
 
 export {
+  isCommand,
   reactionHandler,
   parseLink,
   checkIsOnThread,
@@ -24,4 +30,8 @@ export {
   removeIgnoredUser,
   getIgnoredUsers,
   isUserIgnored,
+  getApologyUsers,
+  isApologyUser,
+  addApologyCount,
+  resetApologyCount,
 };

@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
-import { isUserIgnored } from "./dbHelper.js";
+import { isUserIgnored, addApologyCount } from "./dbHelper.js";
 import personality from "../personality.json"
 
-export const isCommand = (content) => content[0] === "!";
+export const isCommand = (content) => content[0] === "$";
 
 const apologies = [
   "desolé",
@@ -21,26 +21,33 @@ const apologies = [
   "pardon",
   "navré",
   "navrée",
+  "deso",
+  "déso",
 ];
 
-const hello = ["bonjour", "hello", "yo", "salut", "bonsoir", "coucou"];
+const hello = [
+  "bonjour",
+  "hello",
+  "yo",
+  "salut",
+  "bonsoir",
+  "coucou",
+  "bijour",
+  "bonjoir",
+  "hey",
+];
 
 const isAbcd = (words) => {
   if (words.length >= 4) {
     const reduced = words.reduce(
-      (precedent, current, index) => {
+      (precedent, current) => {
         const unicodeWord = current.charCodeAt(0);
-        if (index !== 0)
+        if (unicodeWord >= 97 && unicodeWord <= 122)
           return {
             latestUnicode: unicodeWord,
-            isAbcd: precedent.isAbcd && unicodeWord > precedent.lastestUnicode,
+            isAbcd: precedent.isAbcd && unicodeWord > precedent.latestUnicode,
           };
-        else if (unicodeWord < 97 || unicodeWord > 122)
-          return {
-            latestUnicode: unicodeWord,
-            isAbcd: false,
-          };
-        else return { latestUnicode: unicodeWord, isAbcd: true };
+        else return { latestUnicode: unicodeWord, isAbcd: false };
       },
       { latestUnicode: null, isAbcd: true }
     );
@@ -55,20 +62,21 @@ export const reactionHandler = async (
   currentServer,
   client
 ) => {
-  console.log("hihi");
-
   const loweredMessage = messageContent.toLowerCase();
+  const db = client.db;
+  const authorId = message.author.id;
 
-  if (await isUserIgnored(message.author.id, client.db)) return;
+  if (await isUserIgnored(authorId, db)) return;
   if (
     apologies.some((apology) => loweredMessage.includes(apology)) &&
     message.channel.id !== currentServer.helpChannelId
   ) {
+    addApologyCount(authorId, db);
     await message.react(currentServer.autoEmotes.panDuomReactId);
   }
 
   const words = loweredMessage.split(" ");
-  if (isAbcd(words)) await message.react(currentServer.tslicheyeReactId);
+  if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   if (Math.random() < 0.8) return;
 
