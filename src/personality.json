@@ -1,11 +1,10 @@
 {
   "normal": {
-    "name":  "normal",
+    "name": "normal",
     "commands": {
       "help": {
-        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tapez !help ex. \nPour le moment, les commandes suivantes ont implémentées: \n- help",
-        "error1": "La commande ",
-        "error2": " n'existe pas."
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape $help ex. Pour le moment, les commandes suivantes ont été implémentées :",
+        "error": [ "La commande ", " n'existe pas." ]
       },
       "ignore": {
         "ignored": "Dorénavant je ne réagirai plus à vos message.",
@@ -13,22 +12,24 @@
         "help": "Cette commande m'empêche ou non de réagir à vos messages."
       },
       "helloWorld": {
-        "hello": "hello, world !",
-        "help": "Cette commande permet de dire bonjour."
+        "pong": "pong !",
+        "help": "Cette commande n'a pas besoin de description."
+      },
+      "reminder": {
+        "reply": [ "Je te rappelerai ça dans", "Tu peux react avec ", " pour annuler ce reminder !" ],
+        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
       }
     },
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
-      "songAdded1": "Chanson ajoutée : ",
-      "songAdded2": "Vous pouvez react avec ",
-      "songAdded3": "pour annuler cet ajout !",
+      "songAdded": [ "Chanson ajoutée : ", "Vous pouvez react avec ", "pour annuler cet ajout !" ],
       "errorSupressing": "Erreur lors de la suppression.",
-      "songSupressed": "Chanson supprimée de la playlist"
+      "songSupressed": "Chanson supprimée de la playlist."
     }
   },
   "funny": {
-    "name":  "funny",
+    "name": "funny",
     "commands": {
       "helloWorld": {
         "hello": "Coucou, un cookie ?",
@@ -40,10 +41,21 @@
         "error2": " appartient à un Monde encore inconnu."
       },
       "ignore": {
-        "ignored": "Dorénavant vous n'aurez plus de cookies sur vos messages'.",
-        "notignored": "Ca y est, vous avez faim ? Voilà un cookie",
+        "ignored": "Dorénavant tu n'auras plus de cookies sur tes messages.",
+        "notignored": "Ca y est, tu as faim ? Tiens, un cookie !",
         "help": "Cette commande m'empêche ou non de m'amuser avec vos messages."
+      },
+      "reminder": {
+        "reply": [ "Un jour je finirai à court de papier. Je ne suis pas un bloc-notes infini tu sais ? Bon bah rappel dans ", "Tu peux react avec ", " mais le post-it est déjà utilisé, désolé pour ta conscience." ],
+        "help": "Tapez $reminder XXhYYmZZs *cookies* pour avoir un rappel avec plein de *cookies*, car plus on est de fous, moins on a de cookies ! Attendez mais qu'est-ce que je reaconte...?"
       }
+    },
+    "spotify": {
+      "alreadyInPlaylist": "Bah alors, on radote ?",
+      "errorAdding": "La chanson est passée de l'autre côté et on ne m'a pas encore appris à faire le Grand Pas. Je ne peux pas l'ajouter'",
+      "songAdded": [ "J'ai rajouté la chanson mais à contrecœur : ", "Tu pouvez react avec ", "pour me donner encore du travail..." ],
+      "errorSupressing": "Désolé mais je l'aime trop. J'ai pas envie de l'enlever.",
+      "songSupressed": "C'est bon, c'est supprimé. Mais la prochaine fois tu me dois un jus de pomme."
     }
   }
 }
