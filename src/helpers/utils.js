@@ -66,11 +66,13 @@ export const reactionHandler = async (
   const db = client.db;
   const authorId = message.author.id;
 
-  if (await isUserIgnored(authorId, db)) return;
   if (
-    apologies.some((apology) => loweredMessage.includes(apology)) &&
+    (await isUserIgnored(authorId, db)) ||
     message.channel.id !== currentServer.helpChannelId
-  ) {
+  )
+    return;
+
+  if (apologies.some((apology) => loweredMessage.includes(apology))) {
     addApologyCount(authorId, db);
     await message.react(currentServer.autoEmotes.panDuomReactId);
   }
