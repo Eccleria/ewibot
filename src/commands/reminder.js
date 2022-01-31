@@ -13,7 +13,11 @@ const sendDelayed = async (
   messageContent,
   botMessage
 ) => {
-  await channel.send(`${author.toString()} : ${messageContent}`);
+  try {
+    await author.send(`${author.toString()} : ${messageContent}`);
+  } catch {
+    await channel.send(`${author.toString()} : ${messageContent}`);
+  }
   client.remindme = client.remindme.filter(
     ({ botMessage: answer }) => answer.id !== botMessage.id
   );
@@ -44,7 +48,6 @@ const extractDuration = (str) => {
   return durationMs * 1000;
 };
 
-
 const answerBot = async (message, currentServer, timing) => {
   try {
     const answer = await message.author.send(
@@ -63,7 +66,6 @@ ${currentServer.removeEmoji} pour annuler ce reminder !`
     return answer
   }
 }
-
 
 const action = async (message, client, currentServer) => {
   const { channel, content, author } = message;
