@@ -7,14 +7,12 @@ import {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
-  isAdmin,
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 
 const helloWorld = {
   name: "ping",
   action: async (message) => {
-    if (helloWorld.admin) if (!isAdmin(message.author.id)) return;
     await message.channel.send("pong !");
   },
   help: "Cette commande n'a pas besoin de description",
@@ -24,7 +22,6 @@ const helloWorld = {
 const ignore = {
   name: "ignore",
   action: async (message, client) => {
-    if (ignore.admin) if (!isAdmin(message.author.id)) return;
     const db = client.db;
     console.log("DB", db);
     const authorId = message.author.id;
@@ -45,9 +42,6 @@ const ignore = {
 const ignoreChannel = {
   name: "ignoreChannel",
   action: async (message, client) => {
-    if (ignoreChannel.admin) if (!isAdmin(message.author.id)) {
-      return;
-    }
     const db = client.db;
     const args = message.content.toLowerCase().split(" ");
     console.log(args)
@@ -69,7 +63,6 @@ const commands = [helloWorld, ignore, reminder, ignoreChannel];
 const help = {
   name: "help",
   action: async (message) => {
-    if (help.admin) if (!isAdmin(message.author.id)) return;
     const words = message.content.split(" ");
     if (words.length === 1) {
       const baseText = `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \

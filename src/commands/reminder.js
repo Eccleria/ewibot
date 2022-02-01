@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
 import Duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { isAdmin } from "../helpers/index.js";
 dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
@@ -46,7 +45,6 @@ const extractDuration = (str) => {
 };
 
 const action = async (message, client, currentServer) => {
-  if (reminder.admin) if (!isAdmin(message.author.id)) return;
   const { channel, content, author } = message;
   const args = content.split(" ");
 

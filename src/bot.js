@@ -107,7 +107,7 @@ const onMessageHandler = async (message) => {
 
     const commandName = content.split(" ")[0];
     const command = commands.find(({ name }) => commandName.slice(1) === name);
-    if (command && isCommand(commandName)) {
+    if (command && isCommand(commandName) && ((command.admin && isAdmin(message.author.id)) || !command.admin)) {
       command.action(message, client, currentServer);
     }
   }
