@@ -20,12 +20,10 @@ const isUserIgnored = async (authorId, db) => {
 };
 
 const getIgnoredUsers = (db) => {
-  console.log(db);
   return db.data.ignoredUsersIds;
 };
 
 // APOLOGIES
-
 const getApologyUsers = (db) => {
   return db.data.apologiesCounting;
 };
@@ -70,3 +68,24 @@ export {
   getIgnoredUsers,
   isUserIgnored,
 };
+
+//IGNORE CHANNEL
+const isIgnoredChannel = (db, channelId) => {
+  return db.data.ignoredChannelIds.includes(channelId);
+};
+
+const addIgnoredChannel = async (db, channelId) => {
+  if (!isIgnoredChannel(db, channelId)) {
+    db.data.ignoredChannelIds.push(channelId);
+  }
+  db.wasUpdated = true;
+};
+
+const removeIgnoredChannel = async (db, channelId) => {
+  if (isIgnoredChannel(db, channelId)) {
+    db.data.ignoredChannelIds = db.data.ignoredChannelIds.filter((id) => id !== channelId);
+  }
+  db.wasUpdated = true;
+}
+
+export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
