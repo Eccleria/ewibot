@@ -8,6 +8,10 @@ import {
   addBirthday,
   isUserBirthday,
   removeBirthday,
+  getApologyUsers,
+  isApologyUser,
+  addApologyCount,
+  resetApologyCount,
 } from "./dbHelper.js";
 
 import {
@@ -32,4 +36,8 @@ export {
   addBirthday,
   isUserBirthday,
   removeBirthday,
+  getApologyUsers,
+  isApologyUser,
+  addApologyCount,
+  resetApologyCount,
 };
