@@ -94,10 +94,7 @@ const onMessageHandler = async (message) => {
       if (foundLink) {
         const { answer, songId } = foundLink;
         const newMessage = await message.reply(answer);
-        if (songId)
-          await newMessage.react(
-            currentServer.removeEmoji
-          );
+        if (songId) await newMessage.react(currentServer.removeEmoji);
         client.playlistCachedMessages = [
           ...client.playlistCachedMessages,
           { ...newMessage, songId },
@@ -106,12 +103,9 @@ const onMessageHandler = async (message) => {
     }
 
     const commandName = content.split(" ")[0];
-    const userType = isAdmin(author.id);
-    const commandFiltered = commands.filter(com => {  // recover the commands the author is allowed to use
-      if (userType) return com;                       // If admin return every command
-      else if (userType === com.admin) return com;    // If not, return only non-admin command
-    });
-    const command = commandFiltered.find(({ name }) => commandName.slice(1) === name);
+    const command = commands
+      .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
+      .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
       command.action(message, client, currentServer);
     }

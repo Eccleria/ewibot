@@ -2,7 +2,11 @@ import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
 
-import { isUserIgnored, addApologyCount, isIgnoredChannel } from "./dbHelper.js";
+import {
+  isUserIgnored,
+  addApologyCount,
+  isIgnoredChannel,
+} from "./dbHelper.js";
 
 export const isCommand = (content) => content[0] === "$";
 
@@ -72,11 +76,9 @@ export const reactionHandler = async (
   const db = client.db;
   const authorId = message.author.id;
 
-  if (
-    (isUserIgnored(authorId, db)) ||
-    isIgnoredChannel(db, message.channel.id)
-  ) return;
- 
+  if (isUserIgnored(authorId, db) || isIgnoredChannel(db, message.channel.id))
+    return;
+
   if (apologies.some((apology) => loweredMessage.includes(apology))) {
     addApologyCount(authorId, db);
     await message.react(currentServer.autoEmotes.panDuomReactId);
