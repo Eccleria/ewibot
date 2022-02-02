@@ -13,7 +13,11 @@ const sendDelayed = async (
   messageContent,
   botMessage
 ) => {
-  await channel.send(`${author.toString()} : ${messageContent}`);
+  try {
+    await author.send(`${author.toString()} : ${messageContent}`);
+  } catch {
+    await channel.send(`${author.toString()} : ${messageContent}`);
+  }
   client.remindme = client.remindme.filter(
     ({ botMessage: answer }) => answer.id !== botMessage.id
   );
@@ -40,6 +44,29 @@ const extractDuration = (str) => {
   return durationMs * 1000;
 };
 
+const answerBot = async (message, currentServer, timing) => {
+  try {
+    const answer = await message.author.send(
+      `Je te rappelerai ça dans environ ${formatMs(
+        timing
+      )}. Tu peux react avec \
+${currentServer.removeEmoji} pour annuler ce reminder !`
+    );
+    await answer.react(currentServer.removeEmoji);
+    return answer;
+  } catch {
+    console.log(`Utilisateur ayant bloqué les DMs`);
+    const answer = await message.reply(
+      `Je te rappelerai ça dans environ ${formatMs(
+        timing
+      )}. Tu peux react avec \
+${currentServer.removeEmoji} pour annuler ce reminder !`
+    );
+    await answer.react(currentServer.removeEmoji);
+    return answer;
+  }
+};
+
 const action = async (message, client, currentServer) => {
   const { channel, content, author } = message;
   const args = content.split(" ");
@@ -55,10 +82,7 @@ const action = async (message, client, currentServer) => {
 
     const messageContent = args.slice(2).join(" ");
 
-    const answer = await message.reply(
-      `Je te rappelerai ça dans ${formatMs(timing)}. Tu peux react avec \
-${currentServer.removeEmoji} pour annuler cet ajout !`
-    );
+    const answer = answerBot(message, currentServer, timing);
 
     const timeoutObj = setTimeout(
       sendDelayed,
@@ -70,7 +94,6 @@ ${currentServer.removeEmoji} pour annuler cet ajout !`
       answer
     );
 
-    answer.react(currentServer.removeEmoji);
     client.remindme.push({
       authorId: author.id,
       botMessage: answer,
