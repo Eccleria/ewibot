@@ -1,9 +1,13 @@
 import {
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredChannel,
+} from "../helpers/dbHelper.js";
+import {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
 } from "../helpers/index.js";
-
 import reminder from "./reminder.js";
 
 const helloWorld = {
@@ -12,13 +16,13 @@ const helloWorld = {
     await message.channel.send("pong !");
   },
   help: "Cette commande n'a pas besoin de description",
+  admin: false,
 };
 
 const ignore = {
   name: "ignore",
   action: async (message, client) => {
     const db = client.db;
-    console.log("DB", db);
     const authorId = message.author.id;
     if (getIgnoredUsers(db).includes(authorId)) {
       removeIgnoredUser(authorId, db);
@@ -31,9 +35,32 @@ const ignore = {
     }
   },
   help: "Cette commande empêche ou non Ewibot de réagir à tes messages.",
+  admin: false,
 };
 
-const commands = [helloWorld, ignore, reminder];
+const ignoreChannel = {
+  name: "ignoreChannel",
+  action: async (message, client) => {
+    const db = client.db;
+    const ignoredChannelId =
+      message.content.toLowerCase().split(" ")[1] || message.channel.id;
+    if (isIgnoredChannel(db, ignoredChannelId)) {
+      removeIgnoredChannel(db, ignoredChannelId);
+      await message.reply(
+        `Je n'ignorerai plus les messages de <#${ignoredChannelId}>.`
+      );
+    } else {
+      addIgnoredChannel(db, ignoredChannelId);
+      await message.reply(
+        `Je vais ignorer les messages de <#${ignoredChannelId}>.`
+      );
+    }
+  },
+  help: "en construction",
+  admin: true,
+};
+
+const commands = [helloWorld, ignore, reminder, ignoreChannel];
 
 const help = {
   name: "help",
@@ -44,17 +71,20 @@ const help = {
 d'une commande 'ex', tape $help ex. \nPour le moment, les commandes suivantes ont été \
 implémentées :\n- help`;
       const helpText = commands.reduce((acc, cur) => {
-        return acc.concat(`, ${cur.name}`);
+        return acc.concat(`, ${cur.admin ? "_[admin]_ " : ""}${cur.name}`);
       }, baseText);
       await message.channel.send(helpText);
     } else {
-      const command = commands.find((cmd) => cmd.name === words[1]);
+      const command = commands.find(
+        (cmd) => !cmd.admin && cmd.name === words[1]
+      );
       if (!command) {
         return;
       }
       await message.channel.send(command.help);
     }
   },
+  admin: false,
 };
 
 export default [...commands, help];
