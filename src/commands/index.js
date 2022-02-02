@@ -47,11 +47,11 @@ const ignoreChannel = {
     console.log(args)
     if (isIgnoredChannel(db, args[1])) {
       removeIgnoredChannel(db, args[1]);
-      await message.reply(`Je vais de nouveau interagir avec les messages dans <#${args[1]}>.`);
+      await message.reply(`Je n'ignorerai plus les messages de <#${args[1]}>.`);
     }
     else {
       addIgnoredChannel(db, args[1]);
-      await message.reply(`Je n'interagirai plus avec les messages dans <#${args[1]}>.`);
+      await message.reply(`Je vais ignorer les messages de <#${args[1]}>.`);
     }
   },
   help: "en construction",

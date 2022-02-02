@@ -106,8 +106,13 @@ const onMessageHandler = async (message) => {
     }
 
     const commandName = content.split(" ")[0];
-    const command = commands.find(({ name }) => commandName.slice(1) === name);
-    if (command && isCommand(commandName) && ((command.admin && isAdmin(message.author.id)) || !command.admin)) {
+    const userType = isAdmin(author.id);
+    const commandFiltered = commands.filter(com => {  // recover the commands the author is allowed to use
+      if (userType) return com;                       // If admin return every command
+      else if (userType === com.admin) return com;    // If not, return only non-admin command
+    });
+    const command = commandFiltered.find(({ name }) => commandName.slice(1) === name);
+    if (command && isCommand(commandName)) {
       command.action(message, client, currentServer);
     }
   }

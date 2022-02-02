@@ -73,8 +73,8 @@ export const reactionHandler = async (
   const authorId = message.author.id;
 
   if (
-    (await isUserIgnored(authorId, db)) ||
-    await isIgnoredChannel(db, message.channel.id)
+    (isUserIgnored(authorId, db)) ||
+    isIgnoredChannel(db, message.channel.id)
   ) return;
  
   if (apologies.some((apology) => loweredMessage.includes(apology))) {
