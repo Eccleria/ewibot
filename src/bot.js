@@ -4,6 +4,7 @@ dotenv.config();
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
+  isAdmin,
   isCommand,
   reactionHandler,
   parseLink,
@@ -15,8 +16,6 @@ import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
-
-const ADMINS = ["141962573900808193", "290505766631112714"];
 
 // Use JSON file for storage
 const file = join("db", "db.json");
@@ -95,10 +94,7 @@ const onMessageHandler = async (message) => {
       if (foundLink) {
         const { answer, songId } = foundLink;
         const newMessage = await message.reply(answer);
-        if (songId)
-          await newMessage.react(
-            currentServer.removeEmoji
-          );
+        if (songId) await newMessage.react(currentServer.removeEmoji);
         client.playlistCachedMessages = [
           ...client.playlistCachedMessages,
           { ...newMessage, songId },
@@ -106,11 +102,13 @@ const onMessageHandler = async (message) => {
       }
     }
 
-    const commandName = content.toLowerCase().split(" ")[0];
-
-    const command = commands.find(({ name }) => commandName.slice(1) === name);
-    if (command && isCommand(content))
+    const commandName = content.split(" ")[0];
+    const command = commands
+      .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
+      .find(({ name }) => commandName.slice(1) === name);
+    if (command && isCommand(commandName)) {
       command.action(message, client, currentServer);
+    }
   }
 };
 
@@ -173,8 +171,8 @@ const onReactionHandler = async (messageReaction) => {
 const onPrivateMessage = async (message) => {
   const { author, content } = message;
 
-  // Tiitch id, Eccl�ria id
-  if (!ADMINS.includes(author.id)) return;
+  // Tiitch id, Eccléria id
+  if (!isAdmin(author.id)) return;
 
   const destinationChannelId = content.split(" ")[0];
 

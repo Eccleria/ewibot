@@ -1,12 +1,12 @@
 // IGNORED USERS
-const addIgnoredUser = async (authorId, db) => {
+const addIgnoredUser = (authorId, db) => {
   if (!db.data.ignoredUsersIds.includes(authorId)) {
     db.data.ignoredUsersIds.push(authorId);
   }
   db.wasUpdated = true;
 };
 
-const removeIgnoredUser = async (authorId, db) => {
+const removeIgnoredUser = (authorId, db) => {
   if (db.data.ignoredUsersIds.includes(authorId)) {
     db.data.ignoredUsersIds = db.data.ignoredUsersIds.filter(
       (id) => id !== authorId
@@ -15,17 +15,15 @@ const removeIgnoredUser = async (authorId, db) => {
   db.wasUpdated = true;
 };
 
-const isUserIgnored = async (authorId, db) => {
+const isUserIgnored = (authorId, db) => {
   return db.data.ignoredUsersIds.includes(authorId);
 };
 
 const getIgnoredUsers = (db) => {
-  console.log(db);
   return db.data.ignoredUsersIds;
 };
 
 // APOLOGIES
-
 const getApologyUsers = (db) => {
   return db.data.apologiesCounting;
 };
@@ -38,7 +36,7 @@ const isApologyUser = (authorId, db) => {
     .includes(authorId);
 };
 
-const addApologyCount = async (authorId, db) => {
+const addApologyCount = (authorId, db) => {
   const { apologiesCounting } = db.data;
 
   if (isApologyUser(authorId, db)) {
@@ -56,7 +54,7 @@ const addApologyCount = async (authorId, db) => {
   db.wasUpdated = true;
 };
 
-const resetApologyCount = async (db) => {
+const resetApologyCount = (db) => {
   db.data.apologiesCounting = [];
   db.wasUpdated = true;
 };
@@ -70,3 +68,26 @@ export {
   getIgnoredUsers,
   isUserIgnored,
 };
+
+//IGNORE CHANNEL
+const isIgnoredChannel = (db, channelId) => {
+  return db.data.ignoredChannelIds.includes(channelId);
+};
+
+const addIgnoredChannel = (db, channelId) => {
+  if (!isIgnoredChannel(db, channelId)) {
+    db.data.ignoredChannelIds.push(channelId);
+  }
+  db.wasUpdated = true;
+};
+
+const removeIgnoredChannel = (db, channelId) => {
+  if (isIgnoredChannel(db, channelId)) {
+    db.data.ignoredChannelIds = db.data.ignoredChannelIds.filter(
+      (id) => id !== channelId
+    );
+  }
+  db.wasUpdated = true;
+};
+
+export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };

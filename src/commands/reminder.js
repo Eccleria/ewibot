@@ -28,8 +28,6 @@ const extractDuration = (str) => {
 
   // XXhYYmZZs
 
-  console.log(lowerStr);
-
   const hours = Number(lowerStr.slice(0, 2));
   const minutes = Number(lowerStr.slice(3, 5));
   const seconds = Number(lowerStr.slice(6, 8));
@@ -38,8 +36,6 @@ const extractDuration = (str) => {
     (isNaN(hours) ? 0 : hours * 3600) +
     (isNaN(minutes) ? 0 : minutes * 60) +
     (isNaN(seconds) ? 0 : seconds);
-
-  console.log(hours, minutes, seconds);
 
   return durationMs * 1000;
 };
@@ -55,7 +51,7 @@ const action = async (message, client, currentServer) => {
   if (!timing) {
     console.log("erreur de parsing");
   } else {
-    console.log(timing);
+    console.log("timing: ", timing);
 
     const messageContent = args.slice(2).join(" ");
 
@@ -88,6 +84,7 @@ const reminder = {
   action,
   help: "Tapez $reminder XXhYYmZZs *contenu* pour avoir un rappel avec \
 le *contenu* au bout du délai indiqué.\n Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
+  admin: false,
 };
 
 export default reminder;
