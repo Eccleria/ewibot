@@ -47,21 +47,25 @@ const extractDuration = (str) => {
 const answerBot = async (message, currentServer, timing) => {
   try {
     const answer = await message.author.send(
-      `Je te rappelerai ça dans ${formatMs(timing)}. Tu peux react avec \
+      `Je te rappelerai ça dans environ ${formatMs(
+        timing
+      )}. Tu peux react avec \
 ${currentServer.removeEmoji} pour annuler ce reminder !`
     );
     await answer.react(currentServer.removeEmoji);
-    return answer
+    return answer;
   } catch {
     console.log(`Utilisateur ayant bloqué les DMs`);
     const answer = await message.reply(
-      `Je te rappelerai ça dans ${formatMs(timing)}. Tu peux react avec \
+      `Je te rappelerai ça dans environ ${formatMs(
+        timing
+      )}. Tu peux react avec \
 ${currentServer.removeEmoji} pour annuler ce reminder !`
     );
     await answer.react(currentServer.removeEmoji);
-    return answer
+    return answer;
   }
-}
+};
 
 const action = async (message, client, currentServer) => {
   const { channel, content, author } = message;
