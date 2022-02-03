@@ -121,6 +121,8 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
+  const PERSONALITY = whichPersonality();
+
   const { removeEmoji } = currentServer;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
@@ -142,7 +144,7 @@ const onReactionHandler = async (messageReaction) => {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
         if (botMessage.id === message.id) {
           clearTimeout(timeout);
-          botMessage.reply("Le reminder a été supprimé.");
+          botMessage.reply(PERSONALITY.commands.reminder.delete);
           return false;
         }
         return true;
@@ -162,8 +164,6 @@ const onReactionHandler = async (messageReaction) => {
       .includes(message.mentions.users.first().id)
   ) {
     const { songId } = foundMessageSpotify;
-
-    const PERSONALITY = whichPersonality();
 
     const result = await deleteSongFromPlaylist(songId, client, PERSONALITY.spotify);
     client.playlistCachedMessages = client.playlistCachedMessages.filter(

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
 import Duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import whichPersonality from "../helpers/index.js"
+import { whichPersonality } from "../helpers/index.js"
 dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);

@@ -3,34 +3,35 @@
     "name": "normal",
     "commands": {
       "helloWorld": {
-        "pong": "pong !",
-        "help": "Cette commande n'a pas besoin de description."
+        "help": "Cette commande n'a pas besoin de description.",
+        "pong": "pong !"
       },
       "help": {
-        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape $help ex. Pour le moment, les commandes suivantes ont été implémentées :",
-        "help": "Utilisez seulement $help"
+        "help": "Utilisez seulement $help",
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape $help ex. Pour le moment, les commandes suivantes ont été implémentées :"
       },
       "ignore": {
+        "help": "Cette commande m'empêche ou non de réagir à vos messages.",
         "ignored": "Dorénavant je ne réagirai plus à vos message.",
-        "notIgnored": "Je vais de nouveau réagir à vos messages.",
-        "help": "Cette commande m'empêche ou non de réagir à vos messages."
+        "notIgnored": "Je vais de nouveau réagir à vos messages."
       },
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de "
       },
       "reminder": {
-        "remind": "Je te rappelerai ça dans environ ",
+        "delete":  "Le remind a bien été supprimé",
+        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
         "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
-        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
+        "remind": "Je te rappelerai ça dans environ "
       }
     },
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
-      "songAdded": "Chanson ajoutée : ",
-      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
       "errorSupressing": "Erreur lors de la suppression.",
+      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
+      "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }
   },
@@ -38,8 +39,8 @@
     "name": "funny",
     "commands": {
       "helloWorld": {
-        "pong": "Coucou, un cookie ?",
-        "help": "Cette commande me permet de proposer un cookie."
+        "help": "Cette commande me permet de proposer un cookie.",
+        "pong": "Coucou, un cookie ?"
       },
       "help": {
         "init": "Tapez !help pouet pour des infos sur la commande pouet. \nCommandes disponibles :",
@@ -55,7 +56,7 @@
         "notIgnored": "Je n'ignorerai plus les messages de "
       },
       "reminder": {
-        "reply": [ "Je te rappelerai ça dans environ ", "Tu peux react avec ", " pour annuler ce reminder !" ],
+        "delete": "Le remind a bien été supprimé",
         "remind": "Je te rappelerai ça dans environ ",
         "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
@@ -64,9 +65,9 @@
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
-      "songAdded": "Chanson ajoutée : ",
-      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
       "errorSupressing": "Erreur lors de la suppression.",
+      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
+      "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }
   }
