@@ -85,7 +85,7 @@ const onMessageHandler = async (message) => {
 
     const { playlistThreadId } = currentServer;
 
-    const personality = whichPersonality();
+    const PERSONALITY = whichPersonality();
 
     reactionHandler(message, content, currentServer, client);
 
@@ -93,7 +93,7 @@ const onMessageHandler = async (message) => {
       checkIsOnThread(channel, playlistThreadId);
 
       //
-      const foundLink = await parseLink(content, client);
+      const foundLink = await parseLink(content, client, PERSONALITY.spotify, currentServer);
       if (foundLink) {
         const { answer, songId } = foundLink;
         const newMessage = await message.reply(answer);
@@ -110,7 +110,7 @@ const onMessageHandler = async (message) => {
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
-      command.action(message, personality.commands, client, currentServer);
+      command.action(message, PERSONALITY.commands, client, currentServer);
     }
   }
 };
@@ -163,7 +163,9 @@ const onReactionHandler = async (messageReaction) => {
   ) {
     const { songId } = foundMessageSpotify;
 
-    const result = await deleteSongFromPlaylist(songId, client);
+    const PERSONALITY = whichPersonality();
+
+    const result = await deleteSongFromPlaylist(songId, client, PERSONALITY.spotify);
     client.playlistCachedMessages = client.playlistCachedMessages.filter(
       ({ id }) => id !== message.id
     );
