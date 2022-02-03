@@ -63,12 +63,10 @@ const commands = [helloWorld, ignore, reminder, ignoreChannel];
 
 const help = {
   name: "help",
-  action: async (message) => {
+  action: async (message, personality) => {
     const words = message.content.split(" ");
     if (words.length === 1) {
-      const baseText = `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \
-d'une commande 'ex', tape $help ex. \nPour le moment, les commandes suivantes ont été \
-implémentées :\n- help`;
+      const baseText = personality.help.init;
       const helpText = commands.reduce((acc, cur) => {
         return acc.concat(`, ${cur.admin ? "_[admin]_ " : ""}${cur.name}`);
       }, baseText);

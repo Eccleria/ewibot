@@ -20,14 +20,16 @@
         "notIgnored": "Je n'ignorerai plus les messages de "
       },
       "reminder": {
-        "reply": [ "Je te rappelerai ça dans", "Tu peux react avec ", " pour annuler ce reminder !" ],
+        "remind": "Je te rappelerai ça dans environ ",
+        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
       }
     },
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
-      "songAdded": [ "Chanson ajoutée : ", "Vous pouvez react avec ", "pour annuler cet ajout !" ],
+      "songAdded": "Chanson ajoutée : ",
+      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
       "errorSupressing": "Erreur lors de la suppression.",
       "songSupressed": "Chanson supprimée de la playlist."
     }
@@ -53,16 +55,19 @@
         "notIgnored": "Je n'ignorerai plus les messages de "
       },
       "reminder": {
-        "reply": [ "Un jour je finirai à court de papier. Je ne suis pas un bloc-notes infini tu sais ? Bon bah rappel dans ", "Tu peux react avec ", " mais le post-it est déjà utilisé, désolé pour ta conscience." ],
-        "help": "Tapez $reminder XXhYYmZZs *cookies* pour avoir un rappel avec plein de *cookies*, car plus on est de fous, moins on a de cookies ! Attendez mais qu'est-ce que je reaconte...?"
+        "reply": [ "Je te rappelerai ça dans environ ", "Tu peux react avec ", " pour annuler ce reminder !" ],
+        "remind": "Je te rappelerai ça dans environ ",
+        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
+        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
       }
     },
     "spotify": {
-      "alreadyInPlaylist": "Bah alors, on radote ?",
-      "errorAdding": "La chanson est passée de l'autre côté et on ne m'a pas encore appris à faire le Grand Pas. Je ne peux pas l'ajouter'",
-      "songAdded": [ "J'ai rajouté la chanson mais à contrecœur : ", "Tu pouvez react avec ", "pour me donner encore du travail..." ],
-      "errorSupressing": "Désolé mais je l'aime trop. J'ai pas envie de l'enlever.",
-      "songSupressed": "C'est bon, c'est supprimé. Mais la prochaine fois tu me dois un jus de pomme."
+      "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
+      "errorAdding": "Erreur lors de l'ajout.",
+      "songAdded": "Chanson ajoutée : ",
+      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
+      "errorSupressing": "Erreur lors de la suppression.",
+      "songSupressed": "Chanson supprimée de la playlist."
     }
   }
 }
