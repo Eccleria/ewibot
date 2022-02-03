@@ -2,18 +2,22 @@
   "normal": {
     "name": "normal",
     "commands": {
-      "help": {
-        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape $help ex. Pour le moment, les commandes suivantes ont été implémentées :",
-        "error": [ "La commande ", " n'existe pas." ]
-      },
-      "ignore": {
-        "ignored": "Dorénavant je ne réagirai plus à vos message.",
-        "notignored": "Je vais de nouveau réagir à vos messages.",
-        "help": "Cette commande m'empêche ou non de réagir à vos messages."
-      },
       "helloWorld": {
         "pong": "pong !",
         "help": "Cette commande n'a pas besoin de description."
+      },
+      "help": {
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape $help ex. Pour le moment, les commandes suivantes ont été implémentées :",
+        "help": "Utilisez seulement $help"
+      },
+      "ignore": {
+        "ignored": "Dorénavant je ne réagirai plus à vos message.",
+        "notIgnored": "Je vais de nouveau réagir à vos messages.",
+        "help": "Cette commande m'empêche ou non de réagir à vos messages."
+      },
+      "ignoreChannel": {
+        "ignored": "Je vais ignorer les messages de ",
+        "notIgnored": "Je n'ignorerai plus les messages de "
       },
       "reminder": {
         "reply": [ "Je te rappelerai ça dans", "Tu peux react avec ", " pour annuler ce reminder !" ],
@@ -32,18 +36,21 @@
     "name": "funny",
     "commands": {
       "helloWorld": {
-        "hello": "Coucou, un cookie ?",
+        "pong": "Coucou, un cookie ?",
         "help": "Cette commande me permet de proposer un cookie."
       },
       "help": {
         "init": "Tapez !help pouet pour des infos sur la commande pouet. \nCommandes disponibles :",
-        "error1": "La commande ",
-        "error2": " appartient à un Monde encore inconnu."
+        "help": "Utilisez seulement $help"
       },
       "ignore": {
         "ignored": "Dorénavant tu n'auras plus de cookies sur tes messages.",
         "notignored": "Ca y est, tu as faim ? Tiens, un cookie !",
         "help": "Cette commande m'empêche ou non de m'amuser avec vos messages."
+      },
+      "ignoreChannel": {
+        "ignored": "Je vais ignorer les messages de ",
+        "notIgnored": "Je n'ignorerai plus les messages de "
       },
       "reminder": {
         "reply": [ "Un jour je finirai à court de papier. Je ne suis pas un bloc-notes infini tu sais ? Bon bah rappel dans ", "Tu peux react avec ", " mais le post-it est déjà utilisé, désolé pour ta conscience." ],

@@ -11,6 +11,7 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
+  whichPersonality,
 } from "./helpers/index.js";
 import servers from "./servers.json";
 import commands from "./commands/index.js";
@@ -84,6 +85,8 @@ const onMessageHandler = async (message) => {
 
     const { playlistThreadId } = currentServer;
 
+    const personality = whichPersonality();
+
     reactionHandler(message, content, currentServer, client);
 
     if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
@@ -107,7 +110,7 @@ const onMessageHandler = async (message) => {
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
-      command.action(message, client, currentServer);
+      command.action(message, personality.commands, client, currentServer);
     }
   }
 };

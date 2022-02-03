@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
-import personality from "../personality.json";
+import personalities from "../personalities.json";
 
 import {
   isUserIgnored,
@@ -103,8 +103,8 @@ export const reactionHandler = async (
 };
 
 export const whichPersonality = () => {
-  if (Math.random() < 0.95) return personality.normal.name;
-  else return personality.funny.name;
+  if (Math.random() < 0.99) return personalities.normal;
+  else return personalities.funny;
 };
 
 export const checkIsOnThread = async (channel, threadId) => {

@@ -7,56 +7,55 @@ import {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
+  whichPersonality,
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 
 const helloWorld = {
   name: "ping",
-  action: async (message) => {
-    await message.channel.send("pong !");
+  action: async (message, personality) => {
+    await message.channel.send(personality.helloWorld.pong);
   },
-  help: "Cette commande n'a pas besoin de description",
+  help: () => { return whichPersonality().commands.helloWorld.help },
   admin: false,
 };
 
 const ignore = {
   name: "ignore",
-  action: async (message, client) => {
+  action: async (message, personality, client) => {
     const db = client.db;
     const authorId = message.author.id;
     if (getIgnoredUsers(db).includes(authorId)) {
       removeIgnoredUser(authorId, db);
-      await message.channel.send("Je vais de nouveau réagir à tes messages.");
+      await message.channel.send(personality.ignore.notIgnored);
     } else {
       addIgnoredUser(authorId, db);
-      await message.channel.send(
-        "Dorénavant je ne réagirai plus à tes messages."
-      );
+      await message.channel.send(personality.ignore.ignored);
     }
   },
-  help: "Cette commande empêche ou non Ewibot de réagir à tes messages.",
+  help: () => { return whichPersonality().commands.ignore.help },
   admin: false,
 };
 
 const ignoreChannel = {
   name: "ignoreChannel",
-  action: async (message, client) => {
+  action: async (message, personality, client) => {
     const db = client.db;
     const ignoredChannelId =
       message.content.toLowerCase().split(" ")[1] || message.channel.id;
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
       await message.reply(
-        `Je n'ignorerai plus les messages de <#${ignoredChannelId}>.`
+        personality.ignoreChannel.notIgnored.concat(`<#${ignoredChannelId}>.`)
       );
     } else {
       addIgnoredChannel(db, ignoredChannelId);
       await message.reply(
-        `Je vais ignorer les messages de <#${ignoredChannelId}>.`
+        personality.ignoreChannel.ignored.concat(`<#${ignoredChannelId}>.`)
       );
     }
   },
-  help: "en construction",
+  help: () => { return " " },
   admin: true,
 };
 
@@ -81,9 +80,10 @@ implémentées :\n- help`;
       if (!command) {
         return;
       }
-      await message.channel.send(command.help);
+      await message.channel.send(command.help());
     }
   },
+  help: () => { return whichPersonality().commands.help.help},
   admin: false,
 };
 
