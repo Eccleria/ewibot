@@ -29,33 +29,33 @@ export { addIgnoredUser, removeIgnoredUser, getIgnoredUsers, isUserIgnored };
 // BIRTHDAY
 
 const getBirthday = (db) => {
-  return db.data.birthdayUsers;
+  return db.data.birthdays;
 };
 
 const isUserBirthday = (authorId, db) => {
   return getBirthday(db)
-    .map((obj) => {
-    return obj.userId
+    .birthdayUsers.map((obj) => {
+      return obj.userId;
     })
     .includes(authorId);
 };
 
-const addBirthday = async (authorId, db, birthday) => {
+const addBirthday = (authorId, db, birthday) => {
   if (!isUserBirthday(authorId, db)) {
-    db.data.birthdayUsers = [
-      ...db.data.birthdayUsers,
+    db.data.birthdays.birthdayUsers = [
+      ...db.data.birthdays.birthdayUsers,
       { userId: authorId, userBirthday: birthday },
     ];
-    await db.write();
+    db.wasUpdated = true;
   }
 };
 
-const removeBirthday = async (authorId, db) => {
+const removeBirthday = (authorId, db) => {
   if (isUserBirthday(authorId, db)) {
-    db.data.birthdayUsers = db.data.birthdayUsers.filter(
+    db.data.birthdays.birthdayUsers = db.data.birthdays.birthdayUsers.filter(
       ({ userId }) => userId !== authorId
     );
-    await db.write();
+    db.wasUpdated = true;
   }
 };
 
@@ -98,9 +98,4 @@ const resetApologyCount = async (db) => {
   db.wasUpdated = true;
 };
 
-export {
-  getApologyUsers,
-  isApologyUser,
-  addApologyCount,
-  resetApologyCount,
-};
+export { getApologyUsers, isApologyUser, addApologyCount, resetApologyCount };

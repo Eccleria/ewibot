@@ -2,12 +2,10 @@ import {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
-  addBirthday,
-  isUserBirthday,
-  removeBirthday,
 } from "../helpers/index.js";
 
 import reminder from "./reminder.js";
+import birthday from "./birthday.js";
 
 const helloWorld = {
   name: "ping",
@@ -34,25 +32,6 @@ const ignore = {
     }
   },
   help: "Cette commande empêche ou non Ewibot de réagir à tes messages.",
-};
-
-const birthday = {
-  name: "birthday",
-  action: async (message, client) => {
-    const content = message.content;
-    const authorId = message.author.id;
-    const db = client.db;
-    if (isUserBirthday(authorId, db)) {
-      removeBirthday(authorId, db);
-      await message.reply("Je ne te souhaiterai plus ton anniversaire.");
-      return;
-    }
-    const words = content.toLowerCase().split(" ");
-    addBirthday(authorId, db, words[1]);
-    await message.reply("Je te souhaiterai ton anniversaire.");
-  },
-  help: "Cette commande me permet ou non de te souhaiter ton anniversaire.\n\
-La date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
 };
 
 const commands = [helloWorld, ignore, reminder, birthday];

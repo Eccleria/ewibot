@@ -15,6 +15,7 @@ import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
+import { birthdayTimeout } from "./commands/birthday.js"
 
 const ADMINS = ["141962573900808193", "290505766631112714"];
 
@@ -26,13 +27,14 @@ const db = new Low(adapter);
 db.read();
 
 db.wasUpdated = false;
+db.birthdayInitiated = false;
 
 setInterval(async () => {
   if (db.wasUpdated) {
     await db.write();
     db.wasUpdated = false;
   }
-}, 60000);
+}, 10000);
 
 // Create an instance of a Discord client
 const client = new Client({
@@ -111,6 +113,13 @@ const onMessageHandler = async (message) => {
     const command = commands.find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(content))
       command.action(message, client, currentServer);
+
+    const birthdayChannel = await client.channels.fetch(currentServer.randomfloodChannelId);
+
+    if (!db.birthdayInitiated) {
+      birthdayTimeout(db, birthdayChannel);
+      console.log("birthday initiated");
+    }
   }
 };
 
