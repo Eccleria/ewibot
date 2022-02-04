@@ -77,6 +77,26 @@ const gifsStarWars = {
   "generalKenobi": {
     "trigger": "hello there",
     "url": "https://tenor.com/view/hello-there-general-kenobi-star-wars-grevious-gif-17774326"
+  },
+  "ironic": {
+    "trigger": "ironique",
+    "url": "https://tenor.com/view/ironic-star-wars-chode-gif-5274592"
+  },
+  "senate": {
+    "trigger": "sénat",
+    "url": "https://tenor.com/view/star-wars-i-am-the-senate-gif-10270130"
+  },
+  "unlimited power": {
+    "trigger": "illimité",
+    "url": "https://tenor.com/view/unlimited-power-star-wars-gif-10270127"
+  },
+  "visible confusion": {
+    "trigger": "confus",
+    "url": "https://tenor.com/view/obi-wan-confusion-gif-10824788"
+  },
+  "love democraty": {
+    "trigger": "démocratie",
+    "url": "https://tenor.com/view/star-wars-democracy-i-love-democracy-gif-13935227"
   }
 }
 
@@ -145,7 +165,7 @@ export const reactionHandler = async (
     }
   }
 
-  if (Math.random() < 0.99) return;
+  if (Math.random() < 0.8) return;
 
   const foundSWGif = whichStarWars(loweredMessage);
   if (foundSWGif) await message.reply(foundSWGif.url);
