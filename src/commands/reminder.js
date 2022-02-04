@@ -13,7 +13,11 @@ const sendDelayed = async (
   messageContent,
   botMessage
 ) => {
-  await channel.send(`${author.toString()} : ${messageContent}`);
+  try {
+    await author.send(`${author.toString()} : ${messageContent}`);
+  } catch {
+    await channel.send(`${author.toString()} : ${messageContent}`);
+  }
   client.remindme = client.remindme.filter(
     ({ botMessage: answer }) => answer.id !== botMessage.id
   );
@@ -28,8 +32,6 @@ const extractDuration = (str) => {
 
   // XXhYYmZZs
 
-  console.log(lowerStr);
-
   const hours = Number(lowerStr.slice(0, 2));
   const minutes = Number(lowerStr.slice(3, 5));
   const seconds = Number(lowerStr.slice(6, 8));
@@ -39,9 +41,30 @@ const extractDuration = (str) => {
     (isNaN(minutes) ? 0 : minutes * 60) +
     (isNaN(seconds) ? 0 : seconds);
 
-  console.log(hours, minutes, seconds);
-
   return durationMs * 1000;
+};
+
+const answerBot = async (message, currentServer, timing) => {
+  try {
+    const answer = await message.author.send(
+      `Je te rappelerai ça dans environ ${formatMs(
+        timing
+      )}. Tu peux react avec \
+${currentServer.removeEmoji} pour annuler ce reminder !`
+    );
+    await answer.react(currentServer.removeEmoji);
+    return answer;
+  } catch {
+    console.log(`Utilisateur ayant bloqué les DMs`);
+    const answer = await message.reply(
+      `Je te rappelerai ça dans environ ${formatMs(
+        timing
+      )}. Tu peux react avec \
+${currentServer.removeEmoji} pour annuler ce reminder !`
+    );
+    await answer.react(currentServer.removeEmoji);
+    return answer;
+  }
 };
 
 const action = async (message, client, currentServer) => {
@@ -55,14 +78,11 @@ const action = async (message, client, currentServer) => {
   if (!timing) {
     console.log("erreur de parsing");
   } else {
-    console.log(timing);
+    console.log("timing: ", timing);
 
     const messageContent = args.slice(2).join(" ");
 
-    const answer = await message.reply(
-      `Je te rappelerai ça dans ${formatMs(timing)}. Tu peux react avec \
-${currentServer.removeEmoji} pour annuler cet ajout !`
-    );
+    const answer = answerBot(message, currentServer, timing);
 
     const timeoutObj = setTimeout(
       sendDelayed,
@@ -74,7 +94,6 @@ ${currentServer.removeEmoji} pour annuler cet ajout !`
       answer
     );
 
-    answer.react(currentServer.removeEmoji);
     client.remindme.push({
       authorId: author.id,
       botMessage: answer,
@@ -88,6 +107,7 @@ const reminder = {
   action,
   help: "Tapez $reminder XXhYYmZZs *contenu* pour avoir un rappel avec \
 le *contenu* au bout du délai indiqué.\n Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
+  admin: false,
 };
 
 export default reminder;
