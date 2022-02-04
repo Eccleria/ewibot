@@ -25,7 +25,6 @@ const getIgnoredUsers = (db) => {
 
 export { addIgnoredUser, removeIgnoredUser, getIgnoredUsers, isUserIgnored };
 
-
 // BIRTHDAY
 const getBirthday = (db) => {
   return db.data.birthdays;
@@ -59,7 +58,6 @@ const removeBirthday = (authorId, db) => {
 };
 
 export { addBirthday, removeBirthday, isUserBirthday, getBirthday };
-
 
 // APOLOGY COUNTING
 const getApologyUsers = (db) => {
@@ -97,13 +95,7 @@ const resetApologyCount = (db) => {
   db.wasUpdated = true;
 };
 
-export {
-  getApologyUsers,
-  isApologyUser,
-  addApologyCount,
-  resetApologyCount,
-};
-
+export { getApologyUsers, isApologyUser, addApologyCount, resetApologyCount };
 
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {

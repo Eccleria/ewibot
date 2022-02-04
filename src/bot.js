@@ -16,7 +16,7 @@ import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
-import { birthdayTimeout } from "./commands/birthday.js"
+import { birthdayTimeout } from "./commands/birthday.js";
 
 // Use JSON file for storage
 const file = join("db", "db.json");
@@ -110,8 +110,11 @@ const onMessageHandler = async (message) => {
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
       command.action(message, client, currentServer);
+    }
 
-    const birthdayChannel = await client.channels.fetch(currentServer.randomfloodChannelId);
+    const birthdayChannel = await client.channels.fetch(
+      currentServer.randomfloodChannelId
+    );
 
     if (!db.birthdayInitiated) {
       birthdayTimeout(db, birthdayChannel);

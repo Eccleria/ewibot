@@ -61,7 +61,6 @@ const ignoreChannel = {
   admin: true,
 };
 
-
 const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel];
 
 const help = {
