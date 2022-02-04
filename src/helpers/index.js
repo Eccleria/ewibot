@@ -16,6 +16,7 @@ import {
 } from "./dbHelper.js";
 
 import {
+  isAdmin,
   isCommand,
   reactionHandler,
   parseLink,
@@ -24,6 +25,7 @@ import {
 } from "./utils.js";
 
 export {
+  isAdmin,
   isCommand,
   reactionHandler,
   parseLink,
