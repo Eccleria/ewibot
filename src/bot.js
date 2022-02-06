@@ -174,21 +174,54 @@ const onPrivateMessage = async (message) => {
   // Tiitch id, Eccléria id
   if (!isAdmin(author.id)) return;
 
-  const destinationChannelId = content.split(" ")[0];
+  const commandCheck = content.split(" ")[0];
+  if (commandCheck === "channel") {
+    const destinationChannelId = content.split(" ")[1];
 
-  const newContent = content.split(" ").slice(1).join(" ");
+    const newContent = content.split(" ").slice(2).join(" ");
 
-  try {
-    const channel = await client.channels.fetch(destinationChannelId);
+    try {
+      const channel = await client.channels.fetch(destinationChannelId);
 
-    if (channel) {
-      channel.sendTyping();
-      setTimeout(() => {
-        channel.send(newContent);
-      }, 2000);
+      if (channel) {
+        channel.sendTyping();
+        setTimeout(() => {
+          channel.send(newContent);
+        }, 2000);
+      }
+    } catch (e) {
+      console.log(e);
     }
-  } catch (e) {
-    console.log(e);
+  }
+  else if (commandCheck === "reply") {
+    //const destinationChannelId = content.split(" ")[1];
+    const messageReplyId = content.split(" ")[2];
+
+    const newContent = content.split(" ").slice(3).join(" ");
+
+    try {
+      const channels = await client.channels
+      const channel = await channels.fetch( async (channel) => {
+        const foundChannel = channel.find(({ messages }) => messages.id === messageReplyId);
+        return foundChannel.id;
+      })
+      console.log(channel); //.messages.fetch(messageReplyId)
+      //const tests = await channel.find(({ messages }) => messages.id === messageReplyId)
+      //console.log(tests);
+      const messageReply = await channel.messages.fetch(messageReplyId);
+
+      if (channel && messageReply) {
+        channel.sendTyping();
+        setTimeout(() => {
+          messageReply.reply(newContent);
+        }, 2000);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  else {
+    await message.reply("error");
   }
 };
 
@@ -196,8 +229,6 @@ const onPrivateMessage = async (message) => {
 client.on("messageCreate", onMessageHandler);
 
 client.on("messageReactionAdd", onReactionHandler);
-
-//client.on("", onPrivateMessage);
 
 client.once("ready", () => {
   console.log("I am ready!");
