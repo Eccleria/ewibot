@@ -11,6 +11,8 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
+  isCountUserMessage,
+  addCountUserMessageNumber,
 } from "./helpers/index.js";
 import servers from "./servers.json";
 import commands from "./commands/index.js";
@@ -109,6 +111,8 @@ const onMessageHandler = async (message) => {
     if (command && isCommand(commandName)) {
       command.action(message, client, currentServer);
     }
+
+    if (isCountUserMessage(client.db, author.id)) addCountUserMessageNumber(client.db, author.id);
   }
 };
 

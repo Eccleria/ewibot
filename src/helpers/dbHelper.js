@@ -1,3 +1,4 @@
+
 // IGNORED USERS
 const addIgnoredUser = (authorId, db) => {
   if (!db.data.ignoredUsersIds.includes(authorId)) {
@@ -91,3 +92,33 @@ const removeIgnoredChannel = (db, channelId) => {
 };
 
 export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
+
+// Message Counting
+
+const getCountUserMessages = (db) => {
+  return db.data.messageCount;
+};
+
+const isCountUserMessage = (db, authorId) => {
+  return getCountUserMessages(db)
+    .map((obj) => {
+      return obj.userId;
+    })
+    .includes(authorId);
+};
+
+const addCountUserMessage = (db, authorId) => {
+  if (!isCountUserMessage(db, authorId)) {
+    db.data.messageCount.push({ "userId": authorId, "messageNumber": 0 });
+    db.wasUpdated = true;
+  }
+}
+
+const removeCountUserMessage = (db, authorId) => {
+  if (isCountUserMessage(db, authorId)) {
+    db.data.messageCount = db.data.messageCount.filter(({ userId }) => userId !== authorId );
+    db.wasUpdated = true;
+  }
+}
+
+export { isCountUserMessage, addCountUserMessage, removeCountUserMessage };

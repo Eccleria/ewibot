@@ -9,6 +9,9 @@ import {
   isApologyUser,
   addApologyCount,
   resetApologyCount,
+  isCountUserMessage,
+  addCountUserMessage,
+  removeCountUserMessage,
 } from "./dbHelper.js";
 
 import {
@@ -18,6 +21,7 @@ import {
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
+  addCountUserMessageNumber,
 } from "./utils.js";
 
 export {
@@ -36,4 +40,8 @@ export {
   isApologyUser,
   addApologyCount,
   resetApologyCount,
+  isCountUserMessage,
+  addCountUserMessage,
+  removeCountUserMessage,
+  addCountUserMessageNumber,
 };

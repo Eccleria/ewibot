@@ -2,6 +2,9 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   addIgnoredChannel,
+  isCountUserMessage,
+  addCountUserMessage,
+  removeCountUserMessage,
 } from "../helpers/dbHelper.js";
 import {
   addIgnoredUser,
@@ -60,7 +63,26 @@ const ignoreChannel = {
   admin: true,
 };
 
-const commands = [helloWorld, ignore, reminder, ignoreChannel];
+const messageCount = {
+  name: "messageCount",
+  action: async (message, client) => {
+    const db = client.db;
+    const authorId = message.author.id;
+    if (isCountUserMessage(db, authorId)) {
+      removeCountUserMessage(db, authorId);
+      await message.reply("Je ne compterai plus le nombre de vos messages.");
+      db.wasUpdated = true;
+    } else {
+      addCountUserMessage(db, authorId);
+      await message.reply("Je vais compter le nombre de vos messages.");
+      db.wasUpdated = true;
+    }
+  },
+  help: "en construction",
+  admin: false,
+}
+
+const commands = [helloWorld, ignore, reminder, ignoreChannel, messageCount];
 
 const help = {
   name: "help",
