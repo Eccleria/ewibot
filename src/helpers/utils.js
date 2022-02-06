@@ -89,7 +89,7 @@ export const reactionHandler = async (
 
   if (Math.random() < 0.8) return;
 
-  if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
+  if (hello.some((helloMessage) => words[0] === helloMessage)) {
     await message.react(currentServer.helloEmoji);
   }
   const emotes = Object.values(currentServer.autoEmotes);
