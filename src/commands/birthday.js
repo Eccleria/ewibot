@@ -87,7 +87,7 @@ const birthday = {
     }
   },
   help: "Cette commande me permet ou non de te souhaiter ton anniversaire.\n\
-La date est � indiquer au format JJ/MM/AAAA. L'ann�e est optionnelle.",
+La date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
 };
 
 export default birthday;
