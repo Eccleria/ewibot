@@ -2,6 +2,12 @@
   "normal": {
     "name": "normal",
     "commands": {
+      "birthday": {
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nLa date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
+        "birthday": [ "Joyeux anniversaire ", " ! :birthday: :birthday: :Duomfetard:" ],
+        "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
+        "addUser": "Je te souhaiterai ton anniversaire."
+      },
       "helloWorld": {
         "help": "Cette commande n'a pas besoin de description.",
         "pong": "pong !"
@@ -19,8 +25,12 @@
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de "
       },
+      "messageCount": {
+        "addUser": "Je compterai le nombre de messages que vous envoyez.",
+        "removeUser":  "Je ne compterai plus le nombre de vos messages."
+      },
       "reminder": {
-        "delete":  "Le remind a bien été supprimé",
+        "delete": "Le remind a bien été supprimé",
         "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
         "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "remind": "Je te rappelerai ça dans environ "
@@ -38,6 +48,12 @@
   "funny": {
     "name": "funny",
     "commands": {
+      "birthday": {
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nLa date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
+        "birthday": [ "Joyeux anniversaire ", " ! :birthday: :birthday: :Duomfetard:" ],
+        "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
+        "addUser": "Je te souhaiterai ton anniversaire."
+      },
       "helloWorld": {
         "help": "Cette commande me permet de proposer un cookie.",
         "pong": "Coucou, un cookie ?"
