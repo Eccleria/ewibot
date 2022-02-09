@@ -93,8 +93,7 @@ const removeIgnoredChannel = (db, channelId) => {
 
 export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
 
-// Message Counting
-
+// MESSAGE COUNTING
 const getCountUserMessages = (db) => {
   return db.data.messageCount;
 };
