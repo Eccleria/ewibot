@@ -3,7 +3,7 @@
   "apologiesCounting": [],
   "birthdays": {
     "wishedToday": false,
-    "birthdayUsers": []
+    "users": []
   },
   "ignoredChannelIds": []
 }

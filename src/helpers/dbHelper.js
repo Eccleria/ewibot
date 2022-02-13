@@ -30,27 +30,27 @@ const getBirthday = (db) => {
   return db.data.birthdays;
 };
 
-const isUserBirthday = (authorId, db) => {
+const isbirthdayDate = (authorId, db) => {
   return getBirthday(db)
-    .birthdayUsers.map((obj) => {
+    .users.map((obj) => {
       return obj.userId;
     })
     .includes(authorId);
 };
 
 const addBirthday = (authorId, db, birthday) => {
-  if (!isUserBirthday(authorId, db)) {
-    db.data.birthdays.birthdayUsers = [
-      ...db.data.birthdays.birthdayUsers,
-      { userId: authorId, userBirthday: birthday },
+  if (!isbirthdayDate(authorId, db)) {
+    db.data.birthdays.users = [
+      ...db.data.birthdays.users,
+      { userId: authorId, birthdayDate: birthday },
     ];
     db.wasUpdated = true;
   }
 };
 
 const removeBirthday = (authorId, db) => {
-  if (isUserBirthday(authorId, db)) {
-    db.data.birthdays.birthdayUsers = db.data.birthdays.birthdayUsers.filter(
+  if (isbirthdayDate(authorId, db)) {
+    db.data.birthdays.users = db.data.birthdays.users.filter(
       ({ userId }) => userId !== authorId
     );
     db.wasUpdated = true;
@@ -65,7 +65,7 @@ const resetWished = (db) => {
 export {
   addBirthday,
   removeBirthday,
-  isUserBirthday,
+  isbirthdayDate,
   getBirthday,
   resetWished,
 };
