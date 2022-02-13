@@ -13,7 +13,8 @@
       "salimmdrReactId": "😂"
     },
     "removeEmoji": "❌",
-    "eyeReactId": "👁️"
+    "eyeReactId": "👁️",
+    "helloEmoji": "👋"
   },
   {
     "name": "prod",
@@ -29,6 +30,7 @@
       "salimmdrReactId": "823904313792266250"
     },
     "removeEmoji": "❌",
-    "eyeReactId": "822487568766730270"
+    "eyeReactId": "822487568766730270",
+    "helloEmoji": "👋"
   }
 ]
