@@ -39,13 +39,11 @@ const isbirthdayDate = (authorId, db) => {
 };
 
 const addBirthday = (authorId, db, birthday) => {
-  if (!isbirthdayDate(authorId, db)) {
-    db.data.birthdays.users = [
-      ...db.data.birthdays.users,
-      { userId: authorId, birthdayDate: birthday },
-    ];
-    db.wasUpdated = true;
-  }
+  db.data.birthdays.users = [
+    ...db.data.birthdays.users.filter(({ userId }) => userId !== authorId),
+    { userId: authorId, birthdayDate: birthday },
+  ];
+  db.wasUpdated = true;
 };
 
 const removeBirthday = (authorId, db) => {
@@ -57,18 +55,7 @@ const removeBirthday = (authorId, db) => {
   }
 };
 
-const resetWished = (db) => {
-  db.data.birthdays.wishedToday = false;
-  db.wasUpdated = true;
-};
-
-export {
-  addBirthday,
-  removeBirthday,
-  isbirthdayDate,
-  getBirthday,
-  resetWished,
-};
+export { addBirthday, removeBirthday, isbirthdayDate, getBirthday };
 
 // APOLOGY COUNTING
 const getApologyUsers = (db) => {
