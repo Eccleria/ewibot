@@ -57,8 +57,18 @@ const birthday = {
         .millisecond(0); // 8AM, local hour
 
       if (date.isValid()) {
-        addBirthday(authorId, db, date.toISOString());
-        await message.reply("Je te souhaiterai ton anniversaire.");
+        if (date.year() < 1950) {
+          await message.reply(
+            "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)"
+          );
+        } else if (date.year() > dayjs().subtract(5, "year").year()) {
+          await message.reply(
+            "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)"
+          );
+        } else {
+          addBirthday(authorId, db, date.toISOString());
+          await message.reply("Je te souhaiterai ton anniversaire.");
+        }
       } else await message.reply("Erreur de parsing dans la date");
     } else if (words.length === 1) {
       const birthdays = getBirthday(db).users;
