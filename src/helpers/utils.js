@@ -80,18 +80,18 @@ export const reactionHandler = async (
   if (isUserIgnored(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return;
 
-  if (apologies.some((apology) => loweredMessage.includes(apology))) {
+  const words = loweredMessage.split(" ");
+  if (apologies.some((apology) => words.some((word) => word === apology))) {
     addApologyCount(authorId, db);
     await message.react(currentServer.autoEmotes.panDuomReactId);
   }
 
-  const words = loweredMessage.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   if (Math.random() < 0.8) return;
 
-  if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
-    await message.react("👋");
+  if (hello.some((helloMessage) => words[0] === helloMessage)) {
+    await message.react(currentServer.helloEmoji);
   }
   const emotes = Object.values(currentServer.autoEmotes);
   for (const word of words) {

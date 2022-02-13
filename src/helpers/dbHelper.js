@@ -23,7 +23,41 @@ const getIgnoredUsers = (db) => {
   return db.data.ignoredUsersIds;
 };
 
-// APOLOGIES
+export { addIgnoredUser, removeIgnoredUser, getIgnoredUsers, isUserIgnored };
+
+// BIRTHDAY
+const getBirthday = (db) => {
+  return db.data.birthdays;
+};
+
+const isbirthdayDate = (authorId, db) => {
+  return getBirthday(db)
+    .users.map((obj) => {
+      return obj.userId;
+    })
+    .includes(authorId);
+};
+
+const addBirthday = (authorId, db, birthday) => {
+  db.data.birthdays.users = [
+    ...db.data.birthdays.users.filter(({ userId }) => userId !== authorId),
+    { userId: authorId, birthdayDate: birthday },
+  ];
+  db.wasUpdated = true;
+};
+
+const removeBirthday = (authorId, db) => {
+  if (isbirthdayDate(authorId, db)) {
+    db.data.birthdays.users = db.data.birthdays.users.filter(
+      ({ userId }) => userId !== authorId
+    );
+    db.wasUpdated = true;
+  }
+};
+
+export { addBirthday, removeBirthday, isbirthdayDate, getBirthday };
+
+// APOLOGY COUNTING
 const getApologyUsers = (db) => {
   return db.data.apologiesCounting;
 };
@@ -58,16 +92,8 @@ const resetApologyCount = (db) => {
   db.data.apologiesCounting = [];
   db.wasUpdated = true;
 };
-export {
-  getApologyUsers,
-  isApologyUser,
-  addApologyCount,
-  resetApologyCount,
-  addIgnoredUser,
-  removeIgnoredUser,
-  getIgnoredUsers,
-  isUserIgnored,
-};
+
+export { getApologyUsers, isApologyUser, addApologyCount, resetApologyCount };
 
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
