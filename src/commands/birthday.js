@@ -5,6 +5,7 @@ import {
   isUserBirthday,
   removeBirthday,
   getBirthday,
+  resetWished,
 } from "../helpers/index.js";
 
 const happyBirthday = async (db, channel) => {
@@ -42,8 +43,7 @@ const happyBirthday = async (db, channel) => {
 };
 
 const resetWishedToday = (db) => {
-  db.data.birthdays.wishedToday = false;
-  db.wasUpdated = true;
+  resetWished(db);
 };
 
 export const birthdayTimeout = (db, channel) => {

@@ -57,7 +57,18 @@ const removeBirthday = (authorId, db) => {
   }
 };
 
-export { addBirthday, removeBirthday, isUserBirthday, getBirthday };
+const resetWished = (db) => {
+  db.data.birthdays.wishedToday = false;
+  db.wasUpdated = true;
+};
+
+export {
+  addBirthday,
+  removeBirthday,
+  isUserBirthday,
+  getBirthday,
+  resetWished,
+};
 
 // APOLOGY COUNTING
 const getApologyUsers = (db) => {
