@@ -9,6 +9,7 @@ import {
   getIgnoredUsers,
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
+import birthday from "./birthday.js";
 
 const helloWorld = {
   name: "ping",
@@ -60,7 +61,7 @@ const ignoreChannel = {
   admin: true,
 };
 
-const commands = [helloWorld, ignore, reminder, ignoreChannel];
+const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel];
 
 const help = {
   name: "help",

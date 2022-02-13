@@ -1,6 +1,12 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import dayjs from "dayjs";
+import RelativeTime from "dayjs/plugin/relativeTime.js";
+import "dayjs/locale/fr.js";
+dayjs.extend(RelativeTime);
+dayjs.locale("fr");
+
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
@@ -16,6 +22,7 @@ import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
+import { wishBirthday } from "./commands/birthday.js";
 
 // Use JSON file for storage
 const file = join("db", "db.json");
@@ -25,13 +32,37 @@ const db = new Low(adapter);
 db.read();
 
 db.wasUpdated = false;
+db.birthdayInitiated = false;
 
 setInterval(async () => {
   if (db.wasUpdated) {
     await db.write();
     db.wasUpdated = false;
   }
-}, 60000);
+}, 10000);
+
+const tomorrow = dayjs()
+  .add(1, "day")
+  .hour(8)
+  .minute(0)
+  .second(0)
+  .millisecond(0);
+const timeToTomorrow = tomorrow.diff(dayjs());
+
+const frequency = 24 * 60 * 60 * 1000;
+
+setTimeout(async () => {
+  const server = servers.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const channel = await client.channels.fetch(server.randomfloodChannelId);
+
+  console.log("hello, timeoutBirthday");
+
+  wishBirthday(db, channel);
+
+  setInterval(wishBirthday, frequency, db, channel); // 24 hours, in ms
+}, timeToTomorrow);
 
 // Create an instance of a Discord client
 const client = new Client({
