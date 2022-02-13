@@ -84,6 +84,7 @@ implémentées :\n- help`;
       await message.channel.send(command.help);
     }
   },
+  help: "Utilisez seulement $help",
   admin: false,
 };
 
