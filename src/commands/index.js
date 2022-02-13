@@ -61,7 +61,28 @@ const ignoreChannel = {
   admin: true,
 };
 
-const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel];
+const roll = {
+  name: "roll",
+  action: async (message) => {
+    const args = message.content.toLowerCase().split(" ");
+    const diceNumbers = args[1].split("d").map(nb => Number(nb));
+    if (args[1] && diceNumbers[0] && diceNumbers[1]) {
+      let total = 0;
+      for (let i = 0; i < diceNumbers[0]; i++) {
+        total += Math.round(diceNumbers[1] * Math.random()) + 1;
+      }
+      await message.reply(total.toString());
+    }
+    else {
+      message.reply("Erreur de parsing");
+    }
+  },
+  help: "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez \
+_nombre de dés_ **d** _nombre de faces des dés_. \nEx pour 2 dés à 6 faces : $roll 2d6",
+  admin: false,
+}
+
+const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel, roll];
 
 const help = {
   name: "help",
