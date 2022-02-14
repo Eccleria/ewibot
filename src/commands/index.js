@@ -72,7 +72,7 @@ const roll = {
   action: async (message) => {
     const args = message.content.toLowerCase().split(" ");
     const diceNumbers = args[1].split("d").map(nb => Number(nb));
-    if (args[1] && diceNumbers[0] && diceNumbers[1]) {
+    if (args[1] && !isNaN(diceNumbers[0]) && !isNaN(diceNumbers[1])) {
       let total = 0;
       for (let i = 0; i < diceNumbers[0]; i++) {
         total += Math.round(diceNumbers[1] * Math.random()) + 1;
