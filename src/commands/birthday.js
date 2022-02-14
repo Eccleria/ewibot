@@ -22,13 +22,17 @@ export const wishBirthday = async (db, channel) => {
   });
 
   if (foundBirthdays.length !== 0) {
+    let initialText = "OWH ! Aujourd'hui on fête ";
+    if (foundBirthdays.length === 1)
+      initialText = initialText.concat("l'anniversaire de : \n");
+    else initialText = initialText.concat("les anniversaires de : \n");
     const birthdayText = foundBirthdays.reduce(
       (acc, { userId, birthdayDate }) => {
         const currentAge = today.year() - dayjs(birthdayDate).year();
 
         return `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
       },
-      "OWH ! Aujourd'hui on fete les anniversaires de : \n"
+      initialText
     );
     await channel.send(birthdayText);
   }
