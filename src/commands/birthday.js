@@ -22,10 +22,10 @@ export const wishBirthday = async (db, channel) => {
   });
 
   if (foundBirthdays.length !== 0) {
-    let initialText = "OWH ! Aujourd'hui on fête ";
-    if (foundBirthdays.length === 1)
-      initialText = initialText.concat("l'anniversaire de : \n");
-    else initialText = initialText.concat("les anniversaires de : \n");
+    const initialText =
+      foundBirthdays.length === 1
+        ? "OWH ! Aujourd'hui on fête l'anniversaire de : \n"
+        : "OWH ! Aujourd'hui on fête les anniversaires de : \n";
     const birthdayText = foundBirthdays.reduce(
       (acc, { userId, birthdayDate }) => {
         const currentAge = today.year() - dayjs(birthdayDate).year();
