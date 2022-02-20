@@ -27,7 +27,8 @@
       },
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
-        "notIgnored": "Je n'ignorerai plus les messages de "
+        "notIgnored": "Je n'ignorerai plus les messages de ",
+        "help":  "Ewibot ignore ou non le channel. Utilisation : `$ignoreChannel channelId` dans n'importe quel channem'\n`$ignoreChannel` dans le channel concerné"
       },
       "messageCount": {
         "addUser": "Je compterai le nombre de messages que vous envoyez.",
@@ -76,7 +77,8 @@
       },
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
-        "notIgnored": "Je n'ignorerai plus les messages de "
+        "notIgnored": "Je n'ignorerai plus les messages de ",
+        "help": "Ewibot ignore ou non le channel. Utilisation : `$ignoreChannel channelId` dans n'importe quel channem'\n`$ignoreChannel` dans le channel concerné"
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé",

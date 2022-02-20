@@ -7,6 +7,7 @@ import {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
+  isAdmin,
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
@@ -61,7 +62,7 @@ const ignoreChannel = {
     }
   },
   help: () => {
-    return " ";
+    return personnalities.normal.ignoreChannel.help;
   },
   admin: true,
 };
@@ -82,7 +83,7 @@ const help = {
       const command = commands.find(
         (cmd) => !cmd.admin && cmd.name === words[1]
       );
-      if (!command) {
+      if (!command || (!isAdmin(message.author.id) && command.admin)) {
         return;
       }
       await message.channel.send(command.help());
