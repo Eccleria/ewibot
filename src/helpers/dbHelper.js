@@ -95,7 +95,7 @@ const resetApologyCount = (db) => {
 
 export { getApologyUsers, isApologyUser, addApologyCount, resetApologyCount };
 
-//IGNORE CHANNEL
+// IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
   return db.data.ignoredChannelIds.includes(channelId);
 };
@@ -117,3 +117,29 @@ const removeIgnoredChannel = (db, channelId) => {
 };
 
 export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
+
+  // REMINDER
+const isReminder = (db, botMessageId) => {
+  return db.data.reminder.includes(({ answerId }) => answerId === botMessageId)
+};
+
+const addReminder = (db, message, botMessage, timing, messageContent) => {
+  if (!isReminder(db, botMessage.id)) {
+    db.data.reminder = [...db.data.reminder, {
+      "authorId": message.author.id,
+      "answerId": botMessage.id,
+      "waitingTime": timing,
+      "content": messageContent
+    }];
+    db.wasUpdated = true;
+  }
+};
+
+const removeReminder = (db, botMessageId) => {
+  if (isReminder(db, botMessageId)) {
+    db.data.reminder.filter(({ answerId }) => answerId !== botMessageId);
+    db.wasUpdated = true;
+  }
+};
+
+export { isReminder, addReminder, removeReminder };

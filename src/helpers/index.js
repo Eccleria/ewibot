@@ -13,6 +13,8 @@ import {
   isApologyUser,
   addApologyCount,
   resetApologyCount,
+  addReminder,
+  removeReminder,
 } from "./dbHelper.js";
 
 import {
@@ -44,4 +46,6 @@ export {
   isApologyUser,
   addApologyCount,
   resetApologyCount,
+  addReminder,
+  removeReminder,
 };

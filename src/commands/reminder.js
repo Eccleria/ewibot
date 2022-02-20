@@ -6,6 +6,10 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
+export const initReminder = (client) => {
+  const db = client.db;
+}
+
 const sendDelayed = async (
   client,
   channel,
@@ -14,7 +18,7 @@ const sendDelayed = async (
   botMessage
 ) => {
   try {
-    await author.send(`${author.toString()} : ${messageContent}`);
+    await author.send(`${author.toString()} : ${messageContent}`); //MP
   } catch {
     await channel.send(`${author.toString()} : ${messageContent}`);
   }
