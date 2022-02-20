@@ -7,17 +7,19 @@ import {
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,
-  whichPersonality,
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
+import personnalities from "../personnalities.json";
 
 const helloWorld = {
   name: "ping",
   action: async (message, personality) => {
     await message.channel.send(personality.helloWorld.pong);
   },
-  help: () => { return whichPersonality().commands.helloWorld.help },
+  help: () => {
+    return personnalities.normal.commands.helloWorld.help;
+  },
   admin: false,
 };
 
@@ -34,7 +36,9 @@ const ignore = {
       await message.channel.send(personality.ignore.ignored);
     }
   },
-  help: () => { return whichPersonality().commands.ignore.help },
+  help: () => {
+    return personnalities.normal.commands.ignore.help;
+  },
   admin: false,
 };
 
@@ -56,7 +60,9 @@ const ignoreChannel = {
       );
     }
   },
-  help: () => { return " " },
+  help: () => {
+    return " ";
+  },
   admin: true,
 };
 
@@ -69,9 +75,9 @@ const help = {
     if (words.length === 1) {
       const baseText = personality.help.init;
       const helpText = commands.reduce((acc, cur) => {
-        return acc.concat(`, ${cur.admin ? "_[admin]_ " : ""}${cur.name}`);
-      }, baseText);
-      await message.channel.send(helpText);
+        return `${cur.admin ? "_[admin]_ " : ""}${cur.name}, ${acc}`;
+      }, "");
+      await message.channel.send(`${baseText} - ${helpText.slice(0, -2)}`);
     } else {
       const command = commands.find(
         (cmd) => !cmd.admin && cmd.name === words[1]
@@ -82,7 +88,9 @@ const help = {
       await message.channel.send(command.help());
     }
   },
-  help: () => { return whichPersonality().commands.help.help},
+  help: () => {
+    return personnalities.normal.commands.help.help;
+  },
   admin: false,
 };
 

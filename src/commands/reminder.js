@@ -2,10 +2,13 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
 import Duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { whichPersonality } from "../helpers/index.js"
 dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
+
+import personnalities from "../personnalities.json";
+
+const PERSONNALITY = personnalities.normal;
 
 const sendDelayed = async (
   client,
@@ -48,14 +51,24 @@ const extractDuration = (str) => {
 const answerBot = async (message, personality, currentServer, timing) => {
   try {
     const answer = await message.author.send(
-      personality.reminder.remind.concat(`${formatMs(timing)}`, personality.reminder.react[0], `${currentServer.removeEmoji}`, personality.reminder.react[1])
+      personality.reminder.remind.concat(
+        `${formatMs(timing)}`,
+        personality.reminder.react[0],
+        `${currentServer.removeEmoji}`,
+        personality.reminder.react[1]
+      )
     );
     await answer.react(currentServer.removeEmoji);
     return answer;
   } catch {
     console.log(`Utilisateur ayant bloqué les DMs`);
     const answer = await message.reply(
-      personality.reminder.remind.concat(`${formatMs(timing)}`, personality.reminder.react[0], `${currentServer.removeEmoji}`, personality.reminder.react[1])
+      personality.reminder.remind.concat(
+        `${formatMs(timing)}`,
+        personality.reminder.react[0],
+        `${currentServer.removeEmoji}`,
+        personality.reminder.react[1]
+      )
     );
     await answer.react(currentServer.removeEmoji);
     return answer;
@@ -100,7 +113,9 @@ const action = async (message, client, currentServer) => {
 const reminder = {
   name: "reminder",
   action,
-  help: () => { return whichPersonality().commands.helloWorld.help },
+  help: () => {
+    return PERSONNALITY.commands.helloWorld.help;
+  },
   admin: false,
 };
 

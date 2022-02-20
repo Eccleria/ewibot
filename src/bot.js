@@ -7,6 +7,8 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
+import personnalities from "./personnalities.json";
+
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
@@ -17,7 +19,6 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
-  whichPersonality,
 } from "./helpers/index.js";
 import servers from "./servers.json";
 import commands from "./commands/index.js";
@@ -96,6 +97,8 @@ if (process.env.USE_SPOTIFY === "yes") {
 
 const self = process.env.CLIENTID;
 
+const PERSONNALITY = personnalities.normal;
+
 const onMessageHandler = async (message) => {
   const { channel, author, content } = message;
 
@@ -116,15 +119,18 @@ const onMessageHandler = async (message) => {
 
     const { playlistThreadId } = currentServer;
 
-    const PERSONALITY = whichPersonality();
-
     reactionHandler(message, content, currentServer, client);
 
     if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
       checkIsOnThread(channel, playlistThreadId);
 
       //
-      const foundLink = await parseLink(content, client, PERSONALITY.spotify, currentServer);
+      const foundLink = await parseLink(
+        content,
+        client,
+        PERSONNALITY.spotify,
+        currentServer
+      );
       if (foundLink) {
         const { answer, songId } = foundLink;
         const newMessage = await message.reply(answer);
@@ -141,7 +147,7 @@ const onMessageHandler = async (message) => {
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
-      command.action(message, PERSONALITY.commands, client, currentServer);
+      command.action(message, PERSONNALITY.commands, client, currentServer);
     }
   }
 };
@@ -151,8 +157,6 @@ const onReactionHandler = async (messageReaction) => {
   const currentServer = servers.find(
     ({ guildId }) => guildId === message.channel.guild.id
   );
-
-  const PERSONALITY = whichPersonality();
 
   const { removeEmoji } = currentServer;
 
@@ -175,7 +179,7 @@ const onReactionHandler = async (messageReaction) => {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
         if (botMessage.id === message.id) {
           clearTimeout(timeout);
-          botMessage.reply(PERSONALITY.commands.reminder.delete);
+          botMessage.reply(PERSONNALITY.commands.reminder.delete);
           return false;
         }
         return true;
@@ -196,7 +200,11 @@ const onReactionHandler = async (messageReaction) => {
   ) {
     const { songId } = foundMessageSpotify;
 
-    const result = await deleteSongFromPlaylist(songId, client, PERSONALITY.spotify);
+    const result = await deleteSongFromPlaylist(
+      songId,
+      client,
+      PERSONNALITY.spotify
+    );
     client.playlistCachedMessages = client.playlistCachedMessages.filter(
       ({ id }) => id !== message.id
     );

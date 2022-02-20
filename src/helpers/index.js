@@ -22,7 +22,6 @@ import {
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
-  whichPersonality,
 } from "./utils.js";
 
 export {
@@ -45,5 +44,4 @@ export {
   isApologyUser,
   addApologyCount,
   resetApologyCount,
-  whichPersonality,
 };

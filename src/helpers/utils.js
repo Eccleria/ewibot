@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
 import ytdl from "ytdl-core";
-import personalities from "../personalities.json";
 
 import {
   isUserIgnored,
@@ -102,11 +101,6 @@ export const reactionHandler = async (
   }
 };
 
-export const whichPersonality = () => {
-  if (Math.random() < 0.99) return personalities.normal;
-  else return personalities.funny;
-};
-
 export const checkIsOnThread = async (channel, threadId) => {
   const thread = channel.isThread
     ? null
@@ -198,7 +192,12 @@ const parseAddCommand = async (messageContent, client) => {
   return items && items[0] && items[0].uri;
 };
 
-export const parseLink = async (messageContent, client, personality, currentServer) => {
+export const parseLink = async (
+  messageContent,
+  client,
+  personality,
+  currentServer
+) => {
   const songSpotify = await parseSpotifyLink(messageContent);
   const songYoutube = await parseYoutubeLink(messageContent, client);
   const songManual = await parseAddCommand(messageContent, client);
@@ -233,7 +232,12 @@ export const parseLink = async (messageContent, client, personality, currentServ
 
       // return null;
       return {
-        answer: personality.songAdded.concat(`${result}`, personality.reminder.react[0], `${currentServer.removeEmoji}`, personality.reminder.react[1]),
+        answer: personality.songAdded.concat(
+          `${result}`,
+          personality.reminder.react[0],
+          `${currentServer.removeEmoji}`,
+          personality.reminder.react[1]
+        ),
         songId,
       };
     } catch {
