@@ -10,54 +10,59 @@ import {
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
+import personnalities from "../personnalities.json";
 
 const helloWorld = {
   name: "ping",
-  action: async (message) => {
-    await message.channel.send("pong !");
+  action: async (message, personality) => {
+    await message.channel.send(personality.helloWorld.pong);
   },
-  help: "Cette commande n'a pas besoin de description",
+  help: () => {
+    return personnalities.normal.commands.helloWorld.help;
+  },
   admin: false,
 };
 
 const ignore = {
   name: "ignore",
-  action: async (message, client) => {
+  action: async (message, personality, client) => {
     const db = client.db;
     const authorId = message.author.id;
     if (getIgnoredUsers(db).includes(authorId)) {
       removeIgnoredUser(authorId, db);
-      await message.channel.send("Je vais de nouveau réagir à tes messages.");
+      await message.channel.send(personality.ignore.notIgnored);
     } else {
       addIgnoredUser(authorId, db);
-      await message.channel.send(
-        "Dorénavant je ne réagirai plus à tes messages."
-      );
+      await message.channel.send(personality.ignore.ignored);
     }
   },
-  help: "Cette commande empêche ou non Ewibot de réagir à tes messages.",
+  help: () => {
+    return personnalities.normal.commands.ignore.help;
+  },
   admin: false,
 };
 
 const ignoreChannel = {
   name: "ignoreChannel",
-  action: async (message, client) => {
+  action: async (message, personality, client) => {
     const db = client.db;
     const ignoredChannelId =
       message.content.toLowerCase().split(" ")[1] || message.channel.id;
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
       await message.reply(
-        `Je n'ignorerai plus les messages de <#${ignoredChannelId}>.`
+        personality.ignoreChannel.notIgnored.concat(`<#${ignoredChannelId}>.`)
       );
     } else {
       addIgnoredChannel(db, ignoredChannelId);
       await message.reply(
-        `Je vais ignorer les messages de <#${ignoredChannelId}>.`
+        personality.ignoreChannel.ignored.concat(`<#${ignoredChannelId}>.`)
       );
     }
   },
-  help: "en construction",
+  help: () => {
+    return " ";
+  },
   admin: true,
 };
 
@@ -65,16 +70,14 @@ const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel];
 
 const help = {
   name: "help",
-  action: async (message) => {
+  action: async (message, personality) => {
     const words = message.content.split(" ");
     if (words.length === 1) {
-      const baseText = `Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide \
-d'une commande 'ex', tape $help ex. \nPour le moment, les commandes suivantes ont été \
-implémentées :\n- help`;
+      const baseText = personality.help.init;
       const helpText = commands.reduce((acc, cur) => {
-        return acc.concat(`, ${cur.admin ? "_[admin]_ " : ""}${cur.name}`);
-      }, baseText);
-      await message.channel.send(helpText);
+        return `${cur.admin ? "_[admin]_ " : ""}${cur.name}, ${acc}`;
+      }, "");
+      await message.channel.send(`${baseText} - ${helpText.slice(0, -2)}`);
     } else {
       const command = commands.find(
         (cmd) => !cmd.admin && cmd.name === words[1]
@@ -82,10 +85,12 @@ implémentées :\n- help`;
       if (!command) {
         return;
       }
-      await message.channel.send(command.help);
+      await message.channel.send(command.help());
     }
   },
-  help: "Utilisez seulement $help",
+  help: () => {
+    return personnalities.normal.commands.help.help;
+  },
   admin: false,
 };
 

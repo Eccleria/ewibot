@@ -1,0 +1,100 @@
+{
+  "normal": {
+    "name": "normal",
+    "commands": {
+      "birthday": {
+        "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
+        "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\n Utilisation : \n\
+        `$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date\n\
+        `$birthday del` pour supprimer ta date \n\
+        `$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...)",
+        "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
+        "getUser": "Ton anniversaire est le ",
+        "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi.",
+        "addUser": "Je te souhaiterai ton anniversaire.",
+        "parsingError": "Erreur de parsing dans la date."
+      },
+      "helloWorld": {
+        "help": "Cette commande n'a pas besoin de description.",
+        "pong": "pong !"
+      },
+      "help": {
+        "help": "Utilisez seulement $help",
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape $help ex.\nPour le moment, les commandes suivantes ont été implémentées :\n"
+      },
+      "ignore": {
+        "help": "Cette commande m'empêche ou non de réagir à vos messages.",
+        "ignored": "Dorénavant je ne réagirai plus à vos messages.",
+        "notIgnored": "Je vais de nouveau réagir à vos messages."
+      },
+      "ignoreChannel": {
+        "ignored": "Je vais ignorer les messages de ",
+        "notIgnored": "Je n'ignorerai plus les messages de "
+      },
+      "messageCount": {
+        "addUser": "Je compterai le nombre de messages que vous envoyez.",
+        "removeUser": "Je ne compterai plus le nombre de vos messages."
+      },
+      "reminder": {
+        "delete": "Le remind a bien été supprimé",
+        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
+        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
+        "remind": "Je te rappelerai ça dans environ "
+      }
+    },
+    "spotify": {
+      "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
+      "errorAdding": "Erreur lors de l'ajout.",
+      "errorSupressing": "Erreur lors de la suppression.",
+      "react": ["Vous pouvez react avec ", "pour annuler cet ajout !"],
+      "songAdded": "Chanson ajoutée : ",
+      "songSupressed": "Chanson supprimée de la playlist."
+    }
+  },
+  "funny": {
+    "name": "funny",
+    "commands": {
+      "birthday": {
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nLa date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
+        "birthday": [
+          "Joyeux anniversaire ",
+          " ! :birthday: :birthday: :Duomfetard:"
+        ],
+        "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
+        "addUser": "Je te souhaiterai ton anniversaire."
+      },
+      "helloWorld": {
+        "help": "Cette commande me permet de proposer un cookie.",
+        "pong": "Coucou, un cookie ?"
+      },
+      "help": {
+        "init": "Tapez !help pouet pour des infos sur la commande pouet. \nCommandes disponibles :",
+        "help": "Utilisez seulement $help"
+      },
+      "ignore": {
+        "ignored": "Dorénavant tu n'auras plus de cookies sur tes messages.",
+        "notignored": "Ca y est, tu as faim ? Tiens, un cookie !",
+        "help": "Cette commande m'empêche ou non de m'amuser avec vos messages."
+      },
+      "ignoreChannel": {
+        "ignored": "Je vais ignorer les messages de ",
+        "notIgnored": "Je n'ignorerai plus les messages de "
+      },
+      "reminder": {
+        "delete": "Le remind a bien été supprimé",
+        "remind": "Je te rappelerai ça dans environ ",
+        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
+        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du d�lai indiqu�. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
+      }
+    },
+    "spotify": {
+      "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
+      "errorAdding": "Erreur lors de l'ajout.",
+      "errorSupressing": "Erreur lors de la suppression.",
+      "react": ["Vous pouvez react avec ", "pour annuler cet ajout !"],
+      "songAdded": "Chanson ajoutée : ",
+      "songSupressed": "Chanson supprimée de la playlist."
+    }
+  }
+}
