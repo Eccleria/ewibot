@@ -2,20 +2,45 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
 import Duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
+import { addReminder, removeReminder } from "../helpers";
 dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
+const addClientReminder = (client, author, answerId, timeoutObj) => {
+  client.remindme.push({
+    authorId: author.id,
+    botMessageId: answerId,
+    timeout: timeoutObj,
+  });
+}
+
 export const initReminder = (client) => {
   const db = client.db;
-}
+  db.data.reminder.forEach(async (element) => {
+    const author = await client.users.fetch(element.authorId); // Find user
+    const channel = await client.channels.fetch(element.channelId); //Find channel
+
+    const timeoutObj = setTimeout(
+      sendDelayed,
+      element.timing,
+      client,
+      channel,
+      author,
+      element.messageContent,
+      element.answerId
+    );
+
+    addClientReminder(client, author, element.answerId, timeoutObj);
+  });
+};
 
 const sendDelayed = async (
   client,
   channel,
   author,
   messageContent,
-  botMessage
+  botMessageId
 ) => {
   try {
     await author.send(`${author.toString()} : ${messageContent}`); //MP
@@ -23,8 +48,9 @@ const sendDelayed = async (
     await channel.send(`${author.toString()} : ${messageContent}`);
   }
   client.remindme = client.remindme.filter(
-    ({ botMessage: answer }) => answer.id !== botMessage.id
+    ({ botMessageId: answer }) => answer.id !== botMessageId
   );
+  removeReminder(client.db, botMessageId);
 };
 
 const formatMs = (nbr) => {
@@ -95,14 +121,18 @@ const action = async (message, client, currentServer) => {
       channel,
       author,
       messageContent,
-      answer
+      answer.id
     );
+
+    addClientReminder(client, author, answer.id, timeoutObj);
 
     client.remindme.push({
       authorId: author.id,
-      botMessage: answer,
+      botMessageId: answer.id,
       timeout: timeoutObj,
     });
+
+    addReminder(client.db, message, answer.id, timing, messageContent);
   }
 };
 

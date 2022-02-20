@@ -118,19 +118,23 @@ const removeIgnoredChannel = (db, channelId) => {
 
 export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
 
-  // REMINDER
+// REMINDER
 const isReminder = (db, botMessageId) => {
-  return db.data.reminder.includes(({ answerId }) => answerId === botMessageId)
+  return db.data.reminder.includes(({ answerId }) => answerId === botMessageId);
 };
 
-const addReminder = (db, message, botMessage, timing, messageContent) => {
-  if (!isReminder(db, botMessage.id)) {
-    db.data.reminder = [...db.data.reminder, {
-      "authorId": message.author.id,
-      "answerId": botMessage.id,
-      "waitingTime": timing,
-      "content": messageContent
-    }];
+const addReminder = (db, message, botMessageId, timing, messageContent) => {
+  if (!isReminder(db, botMessageId)) {
+    db.data.reminder = [
+      ...db.data.reminder,
+      {
+        authorId: message.author.id,
+        answerId: botMessageId,
+        channelId: message.channel.id,
+        waitingTime: timing,
+        content: messageContent,
+      },
+    ];
     db.wasUpdated = true;
   }
 };
