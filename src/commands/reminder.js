@@ -114,7 +114,7 @@ const reminder = {
   name: "reminder",
   action,
   help: () => {
-    return PERSONNALITY.commands.helloWorld.help;
+    return PERSONNALITY.commands.reminder.help;
   },
   admin: false,
 };

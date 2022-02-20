@@ -83,7 +83,9 @@ const birthday = {
       else await message.reply(replies.userNotFound);
     }
   },
-  help: replies.help,
+  help: () => {
+    return replies.help;
+  },
 };
 
 export default birthday;
