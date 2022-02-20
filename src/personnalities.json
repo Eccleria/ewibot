@@ -5,10 +5,7 @@
       "birthday": {
         "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
-        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\n Utilisation : \n\
-        `$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date\n\
-        `$birthday del` pour supprimer ta date \n\
-        `$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...)",
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\n Utilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date\n`$birthday del` pour supprimer ta date \n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...)",
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "getUser": "Ton anniversaire est le ",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi.",
