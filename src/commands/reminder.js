@@ -7,13 +7,17 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
+import personnalities from "../personnalities.json";
+
+const PERSONNALITY = personnalities.normal;
+
 const addClientReminder = (client, author, answerId, timeoutObj) => {
   client.remindme.push({
     authorId: author.id,
     botMessageId: answerId,
     timeout: timeoutObj,
   });
-}
+};
 
 export const initReminder = (client) => {
   const db = client.db;
@@ -74,23 +78,27 @@ const extractDuration = (str) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (message, currentServer, timing) => {
+const answerBot = async (message, personality, currentServer, timing) => {
   try {
     const answer = await message.author.send(
-      `Je te rappelerai ça dans environ ${formatMs(
-        timing
-      )}. Tu peux react avec \
-${currentServer.removeEmoji} pour annuler ce reminder !`
+      personality.reminder.remind.concat(
+        `${formatMs(timing)}`,
+        personality.reminder.react[0],
+        `${currentServer.removeEmoji}`,
+        personality.reminder.react[1]
+      )
     );
     await answer.react(currentServer.removeEmoji);
     return answer;
   } catch {
     console.log(`Utilisateur ayant bloqué les DMs`);
     const answer = await message.reply(
-      `Je te rappelerai ça dans environ ${formatMs(
-        timing
-      )}. Tu peux react avec \
-${currentServer.removeEmoji} pour annuler ce reminder !`
+      personality.reminder.remind.concat(
+        `${formatMs(timing)}`,
+        personality.reminder.react[0],
+        `${currentServer.removeEmoji}`,
+        personality.reminder.react[1]
+      )
     );
     await answer.react(currentServer.removeEmoji);
     return answer;
@@ -139,8 +147,9 @@ const action = async (message, client, currentServer) => {
 const reminder = {
   name: "reminder",
   action,
-  help: "Tapez $reminder XXhYYmZZs *contenu* pour avoir un rappel avec \
-le *contenu* au bout du délai indiqué.\n Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
+  help: () => {
+    return PERSONNALITY.commands.reminder.help;
+  },
   admin: false,
 };
 

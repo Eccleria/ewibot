@@ -12,6 +12,12 @@ import {
   getBirthday,
 } from "../helpers/index.js";
 
+import personnalities from "../personnalities.json";
+
+const PERSONNALITY = personnalities.normal;
+
+const replies = PERSONNALITY.commands.birthday;
+
 export const wishBirthday = async (db, channel) => {
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
   const users = db.data.birthdays.users;
@@ -46,7 +52,7 @@ const birthday = {
     if (words[1] && words[1] === "del") {
       if (isbirthdayDate(authorId, db)) {
         removeBirthday(authorId, db);
-        await message.reply("Je ne te souhaiterai plus ton anniversaire.");
+        await message.reply(replies.removeUser);
         return;
       }
     } else if (words[1] === "add" && words[2]) {
@@ -58,38 +64,28 @@ const birthday = {
 
       if (date.isValid()) {
         if (date.year() < 1950) {
-          await message.reply(
-            "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)"
-          );
+          await message.reply(replies.tooOld);
         } else if (date.year() > dayjs().subtract(5, "year").year()) {
-          await message.reply(
-            "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)"
-          );
+          await message.reply(replies.tooYoung);
         } else {
           addBirthday(authorId, db, date.toISOString());
-          await message.reply("Je te souhaiterai ton anniversaire.");
+          await message.reply(replies.addUser);
         }
-      } else await message.reply("Erreur de parsing dans la date");
+      } else await message.reply(replies.parsingError);
     } else if (words.length === 1) {
       const birthdays = getBirthday(db).users;
       const user = birthdays.find(({ userId }) => userId === authorId);
 
       if (user)
         await message.reply(
-          `Ton anniversaire est le ${dayjs(user.birthdayDate).format(
-            "DD/MM/YYYY"
-          )}`
+          `${replies.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`
         );
-      else
-        await message.reply(
-          "Pas d'anniversaire stocké dans la base de données pour toi"
-        );
+      else await message.reply(replies.userNotFound);
     }
   },
-  help: "Cette commande me permet ou non de te souhaiter ton anniversaire.\n Utilisation : \n\
-  `$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date\n\
-  `$birthday del` pour supprimer ta date \n\
-  `$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...)",
+  help: () => {
+    return replies.help;
+  },
 };
 
 export default birthday;
