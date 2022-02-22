@@ -19,12 +19,14 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
+  removeReminder,
 } from "./helpers/index.js";
 import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 import { wishBirthday } from "./commands/birthday.js";
+import { initReminder } from "./commands/reminder.js";
 
 // Use JSON file for storage
 const file = join("db", "db.json");
@@ -84,6 +86,16 @@ client.playlistCachedMessages = [];
 
 client.db = db;
 client.remindme = [];
+
+// Recreate older reminder supressed by bot reboot
+setTimeout(
+  async () => {
+    initReminder(client);
+    console.log("try to initiate reminders from db");
+  },
+  2000,
+  client
+);
 
 if (process.env.USE_SPOTIFY === "yes") {
   const spotifyApi = new SpotifyWebApi({
@@ -164,8 +176,8 @@ const onReactionHandler = async (messageReaction) => {
     ({ id }) => id === message.id
   );
 
-  const foundReminder = client.remindme.find(
-    ({ botMessage }) => botMessage.id === message.id
+  const foundReminder = client.remindme.filter(
+    (reminder) => reminder.botMessageId === message.id
   );
 
   if (
@@ -180,6 +192,7 @@ const onReactionHandler = async (messageReaction) => {
         if (botMessage.id === message.id) {
           clearTimeout(timeout);
           botMessage.reply(PERSONNALITY.commands.reminder.delete);
+          removeReminder(client.db, botMessage.id);
           return false;
         }
         return true;

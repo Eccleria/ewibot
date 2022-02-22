@@ -120,10 +120,12 @@ export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
 
 // REMINDER
 const isReminder = (db, botMessageId) => {
-  return db.data.reminder.includes(({ answerId }) => answerId === botMessageId);
+  return db.data.reminder
+    .map((obj) => { return obj.answerId })
+    .includes(botMessageId);
 };
 
-const addReminder = (db, message, botMessageId, timing, messageContent) => {
+const addReminder = (db, message, botMessageId, timing, sendingTime, messageContent) => {
   if (!isReminder(db, botMessageId)) {
     db.data.reminder = [
       ...db.data.reminder,
@@ -131,6 +133,7 @@ const addReminder = (db, message, botMessageId, timing, messageContent) => {
         authorId: message.author.id,
         answerId: botMessageId,
         channelId: message.channel.id,
+        startingTime: sendingTime,
         waitingTime: timing,
         content: messageContent,
       },
@@ -141,9 +144,19 @@ const addReminder = (db, message, botMessageId, timing, messageContent) => {
 
 const removeReminder = (db, botMessageId) => {
   if (isReminder(db, botMessageId)) {
-    db.data.reminder.filter(({ answerId }) => answerId !== botMessageId);
+    db.data.reminder = db.data.reminder.filter((element) => element.answerId !== botMessageId);
     db.wasUpdated = true;
   }
 };
 
-export { isReminder, addReminder, removeReminder };
+const updateReminder = (db, botMessageId, sendingTime, timing) => {
+  db.data.reminder.map((element) => {
+    if (element.answerId === botMessageId) {
+      element.startingTime = sendingTime;
+      element.waitingTime = timing;
+    }
+  })
+  db.wasUpdated = true;
+}
+
+export { isReminder, addReminder, removeReminder, updateReminder };

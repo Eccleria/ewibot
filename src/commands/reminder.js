@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
 import Duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { addReminder, removeReminder } from "../helpers";
+import { addReminder, removeReminder, updateReminder } from "../helpers/dbHelper.js";
 dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
@@ -11,32 +11,39 @@ import personnalities from "../personnalities.json";
 
 const PERSONNALITY = personnalities.normal;
 
-const addClientReminder = (client, author, answerId, timeoutObj) => {
+const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
   client.remindme.push({
-    authorId: author.id,
-    botMessageId: answerId,
+    authorId: authorId,
+    botMessage: botMessage,
     timeout: timeoutObj,
   });
 };
 
-export const initReminder = (client) => {
+export const initReminder = async (client) => {
   const db = client.db;
-  db.data.reminder.forEach(async (element) => {
-    const author = await client.users.fetch(element.authorId); // Find user
-    const channel = await client.channels.fetch(element.channelId); //Find channel
+  if (db.data && db.data.reminder.length > 0)
+    db.data.reminder.forEach(async (element) => {
+      const author = await client.users.fetch(element.authorId); // Find user
+      const channel = await client.channels.fetch(element.channelId); //Find channel
+      const botMessage = await channel.messages.fetch(element.answerId); //Find bot response
 
-    const timeoutObj = setTimeout(
-      sendDelayed,
-      element.timing,
-      client,
-      channel,
-      author,
-      element.messageContent,
-      element.answerId
-    );
+      const now = dayjs();
+      const difference = element.timing - now.diff(dayjs(element.startingTime));
+      const newTiming = difference > 0 ? difference : 10000;
 
-    addClientReminder(client, author, element.answerId, timeoutObj);
-  });
+      const timeoutObj = setTimeout(
+        sendDelayed,
+        newTiming,
+        client,
+        channel,
+        author,
+        element.content,
+        botMessage
+      );
+
+      addClientReminder(client, author.id, botMessage, timeoutObj);
+      updateReminder(db, botMessage.id, now.toISOString(), newTiming);
+    });
 };
 
 const sendDelayed = async (
@@ -44,7 +51,7 @@ const sendDelayed = async (
   channel,
   author,
   messageContent,
-  botMessageId
+  botMessage
 ) => {
   try {
     await author.send(`${author.toString()} : ${messageContent}`); //MP
@@ -52,9 +59,9 @@ const sendDelayed = async (
     await channel.send(`${author.toString()} : ${messageContent}`);
   }
   client.remindme = client.remindme.filter(
-    ({ botMessageId: answer }) => answer.id !== botMessageId
+    ({ botMessage: answer }) => answer.id !== botMessage.id
   );
-  removeReminder(client.db, botMessageId);
+  removeReminder(client.db, botMessage.id);
 };
 
 const formatMs = (nbr) => {
@@ -105,10 +112,9 @@ const answerBot = async (message, personality, currentServer, timing) => {
   }
 };
 
-const action = async (message, client, currentServer) => {
+const action = async (message, personality, client, currentServer) => {
   const { channel, content, author } = message;
   const args = content.split(" ");
-
   const wordTiming = args[1];
 
   const timing = extractDuration(wordTiming);
@@ -120,7 +126,9 @@ const action = async (message, client, currentServer) => {
 
     const messageContent = args.slice(2).join(" ");
 
-    const answer = answerBot(message, currentServer, timing);
+    const answer = await answerBot(message, personality, currentServer, timing);
+
+    const date = dayjs().toISOString();
 
     const timeoutObj = setTimeout(
       sendDelayed,
@@ -129,18 +137,12 @@ const action = async (message, client, currentServer) => {
       channel,
       author,
       messageContent,
-      answer.id
+      answer
     );
 
-    addClientReminder(client, author, answer.id, timeoutObj);
+    addClientReminder(client, author.id, answer, timeoutObj);
 
-    client.remindme.push({
-      authorId: author.id,
-      botMessageId: answer.id,
-      timeout: timeoutObj,
-    });
-
-    addReminder(client.db, message, answer.id, timing, messageContent);
+    addReminder(client.db, message, answer.id, timing, date, messageContent);
   }
 };
 

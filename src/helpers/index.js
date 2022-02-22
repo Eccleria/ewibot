@@ -15,6 +15,7 @@ import {
   resetApologyCount,
   addReminder,
   removeReminder,
+  updateReminder,
 } from "./dbHelper.js";
 
 import {
@@ -48,4 +49,5 @@ export {
   resetApologyCount,
   addReminder,
   removeReminder,
+  updateReminder,
 };
