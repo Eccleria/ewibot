@@ -85,18 +85,18 @@ export const reactionHandler = async (
   if (isUserIgnored(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return;
 
-  if (apologies.some((apology) => loweredMessage.includes(apology))) {
+  const words = loweredMessage.split(" ");
+  if (apologies.some((apology) => words.some((word) => word === apology))) {
     addApologyCount(authorId, db);
     await message.react(currentServer.autoEmotes.panDuomReactId);
   }
 
-  const words = loweredMessage.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   if (Math.random() < 0.8) return;
 
-  if (hello.some((helloMessage) => words[0].includes(helloMessage))) {
-    await message.react("👋");
+  if (hello.some((helloMessage) => words[0] === helloMessage)) {
+    await message.react(currentServer.helloEmoji);
   }
   const emotes = Object.values(currentServer.autoEmotes);
   for (const word of words) {
@@ -198,7 +198,12 @@ const parseAddCommand = async (messageContent, client) => {
   return items && items[0] && items[0].uri;
 };
 
-export const parseLink = async (messageContent, client) => {
+export const parseLink = async (
+  messageContent,
+  client,
+  personality,
+  currentServer
+) => {
   const songSpotify = await parseSpotifyLink(messageContent);
   const songYoutube = await parseYoutubeLink(messageContent, client);
   const songManual = await parseAddCommand(messageContent, client);
@@ -212,7 +217,7 @@ export const parseLink = async (messageContent, client) => {
 
     if (currentPlaylist.includes(songId))
       return {
-        answer: "Cette chanson est deja dans la playlist !",
+        answer: personality.alreadyInPlaylist,
         songId: null,
       };
     try {
@@ -233,12 +238,17 @@ export const parseLink = async (messageContent, client) => {
 
       // return null;
       return {
-        answer: `Chanson ajoutée : ${result}. Vous pouvez react avec ❌ pour annuler cet ajout !`,
+        answer: personality.songAdded.concat(
+          `${result}`,
+          personality.reminder.react[0],
+          `${currentServer.removeEmoji}`,
+          personality.reminder.react[1]
+        ),
         songId,
       };
     } catch {
       return {
-        answer: "Erreur lors de l'ajout",
+        answer: personality.errorAdding,
         songId: null,
       };
     }
@@ -247,15 +257,15 @@ export const parseLink = async (messageContent, client) => {
   return null;
 };
 
-export const deleteSongFromPlaylist = async (songId, client) => {
+export const deleteSongFromPlaylist = async (songId, client, personality) => {
   const tracks = [{ uri: songId }];
   try {
     await client.spotifyApi.removeTracksFromPlaylist(
       process.env.SPOTIFY_PLAYLIST_ID,
       tracks
     );
-    return "Chanson supprimée de la playlist";
+    return personality.songSupressed;
   } catch {
-    return "erreur lors de la suppression";
+    return personality.errorSupressing;
   }
 };
