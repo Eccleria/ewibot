@@ -66,12 +66,6 @@ const isAbcd = (words) => {
   return false;
 };
 
-export const addCountUserMessageNumber = (db, authorId) => {
-  const foundUser = db.data.messageCount.find(({ userId }) => userId === authorId);
-  foundUser.messageNumber++;
-  db.wasUpdated = true;
-}
-
 export const reactionHandler = async (
   message,
   messageContent,

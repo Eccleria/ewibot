@@ -19,8 +19,8 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
-  isCountUserMessage,
-  addCountUserMessageNumber,
+  isUserMessagesCounted,
+  addUserMessageCount,
 } from "./helpers/index.js";
 import servers from "./servers.json";
 import commands from "./commands/index.js";
@@ -144,6 +144,8 @@ const onMessageHandler = async (message) => {
       }
     }
 
+    if (isUserMessagesCounted(client.db, author.id)) addUserMessageCount(client.db, author.id, 1);
+
     const commandName = content.split(" ")[0];
     const command = commands
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
@@ -151,8 +153,6 @@ const onMessageHandler = async (message) => {
     if (command && isCommand(commandName)) {
       command.action(message, PERSONNALITY.commands, client, currentServer);
     }
-
-    if (isCountUserMessage(client.db, author.id)) addCountUserMessageNumber(client.db, author.id);
   }
 };
 

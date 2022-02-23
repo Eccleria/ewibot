@@ -32,7 +32,12 @@
       },
       "messageCount": {
         "addUser": "Je compterai le nombre de messages que vous envoyez.",
-        "removeUser": "Je ne compterai plus le nombre de vos messages."
+        "countModified": "Votre compte de message a bien été modifié. Il est de ",
+        "errorNumber": "Erreur sur le nombre.",
+        "help": "Cette commande permet au bot de compter le nombre de messages que tu as envoyé. Utilisation :\n- `$messageCount nb_de_messages` pour qu'Ewibot commence à compter vos messages, en partant du nombre indiqué.\n- `$messageCount` pour avoir le compte actuel.",
+        "number": [ "Tu as envoyé ", " messages jusqu'à présent." ],
+        "removeUser": "Je ne compterai plus le nombre de vos messages.",
+        "userNotFound": "Pas de compte de message stocké dans la base de donnée pour toi."
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
@@ -80,10 +85,19 @@
         "notIgnored": "Je n'ignorerai plus les messages de ",
         "help": "Ewibot ignore ou non le channel. Utilisation : `$ignoreChannel channelId` dans n'importe quel channem'\n`$ignoreChannel` dans le channel concerné"
       },
+      "messageCount": {
+        "addUser": "Je compterai le nombre de messages que vous envoyez.",
+        "countModified": "Votre compte de message a bien été modifié. Il est de ",
+        "errorNumber": "Erreur sur le nombre.",
+        "help": "Cette commande permet au bot de compter le nombre de messages que tu as envoyé. Utilisation :\n- `$messageCount nb_de_messages` pour qu'Ewibot commence à compter vos messages, en partant du nombre indiqué.\n- `$messageCount` pour avoir le compte actuel.",
+        "number": [ "Tu as envoyé ", " messages jusqu'à présent, si tu n'as pas triché au début..." ],
+        "removeUser": "Je ne compterai plus le nombre de vos messages.",
+        "userNotFound": "Pas de compte de message stocké dans la base de donnée pour toi."
+      },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
         "remind": "Je te rappelerai ça dans environ ",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
+        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du d�lai indiqu�. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
       }
     },
