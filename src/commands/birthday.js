@@ -50,11 +50,7 @@ const action = async (message, client) => {
       return;
     }
   } else if (words[1] === "add" && words[2]) {
-    const date = dayjs(words[2], "DD-MM-YYYY")
-      .hour(8)
-      .minute(0)
-      .second(0)
-      .millisecond(0); // 8AM, local hour
+    const date = dayjs(words[2], "DD-MM-YYYY");
 
     if (date.isValid()) {
       if (date.year() < 1950) {
