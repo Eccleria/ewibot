@@ -2,14 +2,17 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
 import Duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { addReminder, removeReminder, updateReminder } from "../helpers/dbHelper.js";
+import {
+  addReminder,
+  removeReminder,
+  updateReminder,
+} from "../helpers/dbHelper.js";
 dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
 import personnalities from "../personnalities.json";
-
-const PERSONNALITY = personnalities.normal;
+const PERSONALITY = personnalities.normal;
 
 const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
   client.remindme.push({
@@ -141,7 +144,6 @@ const action = async (message, personality, client, currentServer) => {
     );
 
     addClientReminder(client, author.id, answer, timeoutObj);
-
     addReminder(client.db, message, answer.id, timing, date, messageContent);
   }
 };
@@ -150,7 +152,7 @@ const reminder = {
   name: "reminder",
   action,
   help: () => {
-    return PERSONNALITY.commands.reminder.help;
+    return PERSONALITY.commands.reminder.help;
   },
   admin: false,
 };

@@ -121,11 +121,20 @@ export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
 // REMINDER
 const isReminder = (db, botMessageId) => {
   return db.data.reminder
-    .map((obj) => { return obj.answerId })
+    .map((obj) => {
+      return obj.answerId;
+    })
     .includes(botMessageId);
 };
 
-const addReminder = (db, message, botMessageId, timing, sendingTime, messageContent) => {
+const addReminder = (
+  db,
+  message,
+  botMessageId,
+  timing,
+  sendingTime,
+  messageContent
+) => {
   if (!isReminder(db, botMessageId)) {
     db.data.reminder = [
       ...db.data.reminder,
@@ -144,7 +153,9 @@ const addReminder = (db, message, botMessageId, timing, sendingTime, messageCont
 
 const removeReminder = (db, botMessageId) => {
   if (isReminder(db, botMessageId)) {
-    db.data.reminder = db.data.reminder.filter((element) => element.answerId !== botMessageId);
+    db.data.reminder = db.data.reminder.filter(
+      (element) => element.answerId !== botMessageId
+    );
     db.wasUpdated = true;
   }
 };
@@ -155,8 +166,8 @@ const updateReminder = (db, botMessageId, sendingTime, timing) => {
       element.startingTime = sendingTime;
       element.waitingTime = timing;
     }
-  })
+  });
   db.wasUpdated = true;
-}
+};
 
 export { isReminder, addReminder, removeReminder, updateReminder };
