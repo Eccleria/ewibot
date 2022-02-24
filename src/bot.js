@@ -192,22 +192,14 @@ const onPrivateMessage = async (message) => {
     } catch (e) {
       console.log(e);
     }
-  }
-  else if (commandCheck === "reply") {
-    //const destinationChannelId = content.split(" ")[1];
+  } else if (commandCheck === "reply") {
+    const destinationChannelId = content.split(" ")[1];
     const messageReplyId = content.split(" ")[2];
 
     const newContent = content.split(" ").slice(3).join(" ");
 
     try {
-      const channels = await client.channels
-      const channel = await channels.fetch( async (channel) => {
-        const foundChannel = channel.find(({ messages }) => messages.id === messageReplyId);
-        return foundChannel.id;
-      })
-      console.log(channel); //.messages.fetch(messageReplyId)
-      //const tests = await channel.find(({ messages }) => messages.id === messageReplyId)
-      //console.log(tests);
+      const channel = await client.channels.fetch(destinationChannelId);
       const messageReply = await channel.messages.fetch(messageReplyId);
 
       if (channel && messageReply) {
@@ -219,8 +211,7 @@ const onPrivateMessage = async (message) => {
     } catch (e) {
       console.log(e);
     }
-  }
-  else {
+  } else {
     await message.reply("error");
   }
 };
