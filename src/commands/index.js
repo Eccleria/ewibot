@@ -11,6 +11,7 @@ import {
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
+import concrete from "./concrete.js"
 import personnalities from "../personnalities.json";
 
 const helloWorld = {
@@ -67,7 +68,7 @@ const ignoreChannel = {
   admin: true,
 };
 
-const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel];
+const commands = [concrete, helloWorld, ignore, reminder, birthday, ignoreChannel];
 
 const help = {
   name: "help",

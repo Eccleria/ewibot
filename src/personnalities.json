@@ -12,6 +12,10 @@
         "addUser": "Je te souhaiterai ton anniversaire.",
         "parsingError": "Erreur de parsing dans la date."
       },
+      "concrete": {
+        "help": "Parfait pour bétonner des gens.",
+        "author":  "Envoyé par"
+      },
       "helloWorld": {
         "help": "Cette commande n'a pas besoin de description.",
         "pong": "pong !"
@@ -62,6 +66,9 @@
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "addUser": "Je te souhaiterai ton anniversaire."
       },
+      "concrete": {
+        "help": "Parfait pour bétonner des gens."
+      },
       "helloWorld": {
         "help": "Cette commande me permet de proposer un cookie.",
         "pong": "Coucou, un cookie ?"
@@ -83,7 +90,7 @@
       "reminder": {
         "delete": "Le remind a bien été supprimé",
         "remind": "Je te rappelerai ça dans environ ",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
+        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du d�lai indiqu�. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
       }
     },

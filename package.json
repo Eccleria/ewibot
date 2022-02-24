@@ -5,6 +5,7 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
+    "canvas": "^2.9.0",
     "dayjs": "^1.10.7",
     "discord.js": "^13.5.1",
     "dotenv": "^10.0.0",
