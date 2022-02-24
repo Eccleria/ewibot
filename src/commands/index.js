@@ -10,7 +10,7 @@ import {
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
-import personnalities from "../personnalities.json";
+import personalities from "../personalities.json";
 
 const helloWorld = {
   name: "ping",
@@ -18,7 +18,7 @@ const helloWorld = {
     await message.channel.send(personality.helloWorld.pong);
   },
   help: () => {
-    return personnalities.normal.commands.helloWorld.help;
+    return personalities.normal.commands.helloWorld.help;
   },
   admin: false,
 };
@@ -37,7 +37,7 @@ const ignore = {
     }
   },
   help: () => {
-    return personnalities.normal.commands.ignore.help;
+    return personalities.normal.commands.ignore.help;
   },
   admin: false,
 };
@@ -61,7 +61,7 @@ const ignoreChannel = {
     }
   },
   help: () => {
-    return personnalities.normal.ignoreChannel.help;
+    return personalities.normal.ignoreChannel.help;
   },
   admin: true,
 };
@@ -89,7 +89,7 @@ const help = {
     }
   },
   help: () => {
-    return personnalities.normal.commands.help.help;
+    return personalities.normal.commands.help.help;
   },
   admin: false,
 };

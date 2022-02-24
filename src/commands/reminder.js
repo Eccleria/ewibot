@@ -6,9 +6,9 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
-import personnalities from "../personnalities.json";
+import personalities from "../personalities.json";
 
-const PERSONNALITY = personnalities.normal;
+const PERSONALITY = personalities.normal;
 
 const sendDelayed = async (
   client,
@@ -114,7 +114,7 @@ const reminder = {
   name: "reminder",
   action,
   help: () => {
-    return PERSONNALITY.commands.reminder.help;
+    return PERSONALITY.commands.reminder.help;
   },
   admin: false,
 };

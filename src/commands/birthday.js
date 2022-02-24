@@ -9,9 +9,9 @@ import {
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
-import personnalities from "../personnalities.json";
+import personalities from "../personalities.json";
 
-const PERSONALITY = personnalities.normal;
+const PERSONALITY = personalities.normal;
 const replies = PERSONALITY.commands.birthday;
 
 export const wishBirthday = async (db, channel) => {

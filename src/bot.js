@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import personnalities from "./personnalities.json";
+import personalities from "./personalities.json";
 
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
@@ -97,7 +97,7 @@ if (process.env.USE_SPOTIFY === "yes") {
 
 const self = process.env.CLIENTID;
 
-const PERSONNALITY = personnalities.normal;
+const PERSONALITY = personalities.normal;
 
 const onMessageHandler = async (message) => {
   const { channel, author, content } = message;
@@ -128,7 +128,7 @@ const onMessageHandler = async (message) => {
       const foundLink = await parseLink(
         content,
         client,
-        PERSONNALITY.spotify,
+        PERSONALITY.spotify,
         currentServer
       );
       if (foundLink) {
@@ -147,7 +147,7 @@ const onMessageHandler = async (message) => {
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
-      command.action(message, PERSONNALITY.commands, client, currentServer);
+      command.action(message, PERSONALITY.commands, client, currentServer);
     }
   }
 };
@@ -179,7 +179,7 @@ const onReactionHandler = async (messageReaction) => {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
         if (botMessage.id === message.id) {
           clearTimeout(timeout);
-          botMessage.reply(PERSONNALITY.commands.reminder.delete);
+          botMessage.reply(PERSONALITY.commands.reminder.delete);
           return false;
         }
         return true;
@@ -203,7 +203,7 @@ const onReactionHandler = async (messageReaction) => {
     const result = await deleteSongFromPlaylist(
       songId,
       client,
-      PERSONNALITY.spotify
+      PERSONALITY.spotify
     );
     client.playlistCachedMessages = client.playlistCachedMessages.filter(
       ({ id }) => id !== message.id
