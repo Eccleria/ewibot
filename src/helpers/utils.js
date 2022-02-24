@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import {
-  isUserIgnored,
+  isIgnoredUser,
   addApologyCount,
   isIgnoredChannel,
 } from "./dbHelper.js";
@@ -75,7 +75,7 @@ export const reactionHandler = async (
   const db = client.db;
   const authorId = message.author.id;
 
-  if (isUserIgnored(authorId, db) || isIgnoredChannel(db, message.channel.id))
+  if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return;
 
   const words = loweredMessage.split(" ");

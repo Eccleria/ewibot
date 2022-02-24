@@ -6,18 +6,17 @@ dayjs.extend(CustomParseFormat);
 
 import {
   addBirthday,
-  isbirthdayDate,
+  isBirthdayDate,
   removeBirthday,
-  getBirthday,
 } from "../helpers/index.js";
 import personnalities from "../personnalities.json";
 
-const PERSONNALITY = personnalities.normal;
-const replies = PERSONNALITY.commands.birthday;
+const PERSONALITY = personnalities.normal;
+const replies = PERSONALITY.commands.birthday;
 
 export const wishBirthday = async (db, channel) => {
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
-  const users = db.data.birthdays.users;
+  const users = db.data.birthdaysUsers;
 
   const foundBirthdays = users.filter(({ birthdayDate }) => {
     const date = dayjs(birthdayDate);
@@ -45,7 +44,7 @@ const action = async (message, client) => {
   const words = content.toLowerCase().split(" ");
 
   if (words[1] && words[1] === "del") {
-    if (isbirthdayDate(authorId, db)) {
+    if (isBirthdayDate(authorId, db)) {
       removeBirthday(authorId, db);
       await message.reply(replies.removeUser);
       return;
@@ -68,8 +67,8 @@ const action = async (message, client) => {
       }
     } else await message.reply(replies.parsingError);
   } else if (words.length === 1) {
-    const birthdays = getBirthday(db).users;
-    const user = birthdays.find(({ userId }) => userId === authorId);
+    const users = db.data.birthdaysUsers;
+    const user = users.find(({ userId }) => userId === authorId);
 
     if (user)
       await message.reply(

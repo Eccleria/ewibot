@@ -1,19 +1,16 @@
-import { generateSpotifyClient } from "./spotifyHelper.js";
-
 import {
   addIgnoredUser,
   removeIgnoredUser,
-  getIgnoredUsers,
-  isUserIgnored,
+  isIgnoredUser,
   getBirthday,
   addBirthday,
-  isbirthdayDate,
   removeBirthday,
   getApologyUsers,
   isApologyUser,
   addApologyCount,
-  resetApologyCount,
 } from "./dbHelper.js";
+
+import { generateSpotifyClient } from "./spotifyHelper.js";
 
 import {
   isAdmin,
@@ -31,17 +28,16 @@ export {
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
+
   generateSpotifyClient,
+
   addIgnoredUser,
   removeIgnoredUser,
-  getIgnoredUsers,
-  isUserIgnored,
+  isIgnoredUser,
   getBirthday,
   addBirthday,
-  isbirthdayDate,
   removeBirthday,
   getApologyUsers,
   isApologyUser,
   addApologyCount,
-  resetApologyCount,
 };

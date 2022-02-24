@@ -2,11 +2,10 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   addIgnoredChannel,
-} from "../helpers/dbHelper.js";
+} from "../helpers/index.js";
 import {
   addIgnoredUser,
   removeIgnoredUser,
-  getIgnoredUsers,
   isAdmin,
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
@@ -29,7 +28,7 @@ const ignore = {
   action: async (message, personality, client) => {
     const db = client.db;
     const authorId = message.author.id;
-    if (getIgnoredUsers(db).includes(authorId)) {
+    if (db.data.ignoredUsersIds.includes(authorId)) {
       removeIgnoredUser(authorId, db);
       await message.channel.send(personality.ignore.notIgnored);
     } else {
