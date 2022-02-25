@@ -53,7 +53,7 @@ const removeBirthday = (authorId, db) => {
   }
 };
 
-export { addBirthday, removeBirthday };
+export { addBirthday, removeBirthday, isBirthdayDate };
 
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {

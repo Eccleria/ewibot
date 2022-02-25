@@ -176,8 +176,10 @@ const onReactionHandler = async (messageReaction) => {
       .includes(message.mentions.users.first().id)
   ) {
     try {
+      console.log("coucou");
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
         if (botMessage.id === message.id) {
+          console.log("salut")
           clearTimeout(timeout);
           botMessage.reply(PERSONALITY.commands.reminder.delete);
           return false;

@@ -75,7 +75,7 @@ const answerBot = async (message, personality, currentServer, timing) => {
   }
 };
 
-const action = async (message, client, currentServer) => {
+const action = async (message, personality, client, currentServer) => {
   const { channel, content, author } = message;
   const args = content.split(" ");
 
@@ -90,7 +90,7 @@ const action = async (message, client, currentServer) => {
 
     const messageContent = args.slice(2).join(" ");
 
-    const answer = answerBot(message, currentServer, timing);
+    const answer = answerBot(message, personality, currentServer, timing);
 
     const timeoutObj = setTimeout(
       sendDelayed,

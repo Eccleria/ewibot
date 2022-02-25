@@ -36,41 +36,41 @@ export const wishBirthday = async (db, channel) => {
   }
 };
 
-const action = async (message, client) => {
+const action = async (message, personality, client) => {
   const content = message.content;
   const authorId = message.author.id;
   const db = client.db;
-
   const words = content.toLowerCase().split(" ");
 
   if (words[1] && words[1] === "del") {
     if (isBirthdayDate(authorId, db)) {
       removeBirthday(authorId, db);
-      await message.reply(replies.removeUser);
+      await message.reply(personality.birthday.removeUser);
       return;
     }
   } else if (words[1] === "add" && words[2]) {
+
     const date = dayjs(words[2], "DD-MM-YYYY");
 
     if (date.isValid()) {
       if (date.year() < 1950) {
-        await message.reply(replies.tooOld);
+        await message.reply(personality.birthday.tooOld);
       } else if (date.year() > dayjs().subtract(5, "year").year()) {
-        await message.reply(replies.tooYoung);
+        await message.reply(personality.birthday.tooYoung);
       } else {
         addBirthday(authorId, db, date.toISOString());
-        await message.reply(replies.addUser);
+        await message.reply(personality.birthday.addUser);
       }
-    } else await message.reply(replies.parsingError);
+    } else await message.reply(personality.birthday.parsingError);
   } else if (words.length === 1) {
     const users = db.data.birthdaysUsers;
     const user = users.find(({ userId }) => userId === authorId);
 
     if (user)
       await message.reply(
-        `${replies.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`
+        `${personality.birthday.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`
       );
-    else await message.reply(replies.userNotFound);
+    else await message.reply(personality.birthday.userNotFound);
   }
 };
 
