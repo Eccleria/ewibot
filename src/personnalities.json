@@ -5,7 +5,7 @@
       "birthday": {
         "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
-        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\n Utilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date\n`$birthday del` pour supprimer ta date \n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...)",
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\n Utilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "getUser": "Ton anniversaire est le ",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi.",
@@ -17,8 +17,8 @@
         "pong": "pong !"
       },
       "help": {
-        "help": "Utilisez seulement $help",
-        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape $help ex.\nPour le moment, les commandes suivantes ont été implémentées :\n"
+        "help": "Utilisez seulement `$help`.",
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande 'ex', tape `$help ex`.\nPour le moment, les commandes suivantes ont été implémentées :\n"
       },
       "ignore": {
         "help": "Cette commande m'empêche ou non de réagir à vos messages.",
@@ -28,7 +28,7 @@
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help":  "Ewibot ignore ou non le channel. Utilisation : `$ignoreChannel channelId` dans n'importe quel channem'\n`$ignoreChannel` dans le channel concerné"
+        "help":  "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
       },
       "messageCount": {
         "addUser": "Je compterai le nombre de messages que vous envoyez.",
@@ -36,7 +36,7 @@
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
-        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier.",
+        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
         "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
         "remind": "Je te rappelerai ça dans environ "
       }
@@ -57,7 +57,7 @@
         "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nLa date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
         "birthday": [
           "Joyeux anniversaire ",
-          " ! :birthday: :birthday: :Duomfetard:"
+          " ! :birthday: :birthday:"
         ],
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "addUser": "Je te souhaiterai ton anniversaire."
@@ -67,8 +67,8 @@
         "pong": "Coucou, un cookie ?"
       },
       "help": {
-        "init": "Tapez !help pouet pour des infos sur la commande pouet. \nCommandes disponibles :",
-        "help": "Utilisez seulement $help"
+        "init": "Tapez `!help pouet` pour des infos sur la commande `pouet`. \nCommandes disponibles :",
+        "help": "Utilisez seulement `$help`."
       },
       "ignore": {
         "ignored": "Dorénavant tu n'auras plus de cookies sur tes messages.",
@@ -78,13 +78,13 @@
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help": "Ewibot ignore ou non le channel. Utilisation : `$ignoreChannel channelId` dans n'importe quel channem'\n`$ignoreChannel` dans le channel concerné"
+        "help": "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
         "remind": "Je te rappelerai ça dans environ ",
         "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
-        "help": "Tapez $reminder XXhYYmZZs contenu pour avoir un rappel avec le contenu au bout du d�lai indiqu�. Pour demander un reminder dans 10 secondes, tapez 00h00m10s en entier."
+        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."
       }
     },
     "spotify": {
