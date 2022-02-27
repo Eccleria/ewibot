@@ -69,22 +69,26 @@ const ignoreChannel = {
 
 const roll = {
   name: "roll",
-  action: async (message) => {
+  action: async (message, personality) => {
     const args = message.content.toLowerCase().split(" ");
-    const diceNumbers = args[1].split("d").map(nb => Number(nb));
-    if (args[1] && !isNaN(diceNumbers[0]) && !isNaN(diceNumbers[1])) {
-      let total = 0;
-      for (let i = 0; i < diceNumbers[0]; i++) {
-        total += Math.round(diceNumbers[1] * Math.random()) + 1;
+    if (args[1]) {
+      const diceNumbers = args[1].split("d").map(nb => Number(nb));
+      if (isNaN(diceNumbers[0]) && isNaN(diceNumbers[1])) await message.reply(personality.roll.parsingError);
+      else if (diceNumbers[0] > 20 || diceNumbers[1] > 100 || diceNumbers[0] <= 0 || diceNumbers[1] <= 0) {
+        await message.reply(personality.roll.numberError);
       }
-      await message.reply(total.toString());
-    }
-    else {
-      message.reply("Erreur de parsing");
+      else {
+        let total = 0;
+        for (let i = 0; i < diceNumbers[0]; i++) {
+          total += Math.round(diceNumbers[1] * Math.random()) + 1;
+        }
+        await message.reply(total.toString());
+      }
     }
   },
-  help: "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez \
-_nombre de dés_ **d** _nombre de faces des dés_. \nEx pour 2 dés à 6 faces : $roll 2d6",
+  help: () => {
+    return personnalities.normal.commands.roll.help;
+  },
   admin: false,
 }
 
