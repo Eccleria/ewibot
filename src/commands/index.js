@@ -87,7 +87,7 @@ const roll = {
         const diceValue = diceNumbers[1];
         const { total, details } = Array.from(new Array(diceNumber)).reduce(
           (acc) => {
-            const value = Math.round(diceValue * Math.random()) + 1;
+            const value = Math.round((diceValue - 1) * Math.random()) + 1;
             return {
               total: acc.total + value,
               details: [...acc.details, value],
