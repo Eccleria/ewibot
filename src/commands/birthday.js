@@ -89,7 +89,7 @@ const birthday = {
   help: () => {
     return personnalities.normal.commands.birthday.help;
   },
-  admin: false
+  admin: false,
 };
 
 export default birthday;
