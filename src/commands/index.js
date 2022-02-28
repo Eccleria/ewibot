@@ -67,7 +67,32 @@ const ignoreChannel = {
   admin: true,
 };
 
-const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel];
+const roll = {
+  name: "roll",
+  action: async (message, personality) => {
+    const args = message.content.toLowerCase().split(" ");
+    if (args[1]) {
+      const diceNumbers = args[1].split("d").map(nb => Number(nb));
+      if (isNaN(diceNumbers[0]) && isNaN(diceNumbers[1])) await message.reply(personality.roll.parsingError);
+      else if (diceNumbers[0] > 20 || diceNumbers[1] > 100 || diceNumbers[0] <= 0 || diceNumbers[1] <= 0) {
+        await message.reply(personality.roll.numberError);
+      }
+      else {
+        let total = 0;
+        for (let i = 0; i < diceNumbers[0]; i++) {
+          total += Math.round(diceNumbers[1] * Math.random()) + 1;
+        }
+        await message.reply(total.toString());
+      }
+    }
+  },
+  help: () => {
+    return personnalities.normal.commands.roll.help;
+  },
+  admin: false,
+}
+
+const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel, roll];
 
 const help = {
   name: "help",
