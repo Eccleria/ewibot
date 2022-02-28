@@ -81,7 +81,7 @@ export const reactionHandler = async (
   const words = loweredMessage.split(" ");
   if (apologies.some((apology) => words.some((word) => word === apology))) {
     addApologyCount(authorId, db);
-    await message.react(currentServer.autoEmotes.panDuomReactId);
+    await message.react(currentServer.panDuomReactId);
   }
 
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);

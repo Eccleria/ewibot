@@ -20,7 +20,7 @@ import {
   deleteSongFromPlaylist,
   generateSpotifyClient,
 } from "./helpers/index.js";
-import servers from "./servers.json";
+import commons from "./commons.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
@@ -54,7 +54,7 @@ const timeToTomorrow = tomorrow.diff(dayjs());
 const frequency = 24 * 60 * 60 * 1000;
 
 setTimeout(async () => {
-  const server = servers.find(({ name }) =>
+  const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
   const channel = await client.channels.fetch(server.randomfloodChannelId);
@@ -105,7 +105,7 @@ const onMessageHandler = async (message) => {
   if (channel.type === "DM") {
     onPrivateMessage(message);
   } else {
-    const currentServer = servers.find(
+    const currentServer = commons.find(
       ({ guildId }) => guildId === channel.guild.id
     );
 
@@ -154,7 +154,7 @@ const onMessageHandler = async (message) => {
 
 const onReactionHandler = async (messageReaction) => {
   const { message, emoji, users } = messageReaction;
-  const currentServer = servers.find(
+  const currentServer = commons.find(
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
