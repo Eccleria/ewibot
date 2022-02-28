@@ -73,7 +73,7 @@ const roll = {
     const args = message.content.toLowerCase().split(" ");
     if (args[1]) {
       const diceNumbers = args[1].split("d").map((nb) => Number(nb));
-      if (isNaN(diceNumbers[0]) && isNaN(diceNumbers[1]))
+      if (isNaN(diceNumbers[0]) || isNaN(diceNumbers[1]))
         await message.reply(personality.roll.parsingError);
       else if (
         diceNumbers[0] > 20 ||
