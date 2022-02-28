@@ -79,8 +79,12 @@ const help = {
       }, "");
       await message.channel.send(`${baseText} - ${helpText.slice(0, -2)}`);
     } else {
+      if (words[1] === "help") {
+        await message.channel.send(help.help());
+        return;
+      }
       const command = commands.find(
-        (cmd) => !cmd.admin && cmd.name === words[1]
+        (cmd) => cmd.name === words[1]
       );
       if (!command || (!isAdmin(message.author.id) && command.admin)) {
         return;

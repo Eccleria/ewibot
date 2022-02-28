@@ -11,9 +11,6 @@ import {
 } from "../helpers/index.js";
 import personalities from "../personalities.json";
 
-const PERSONALITY = personalities.normal;
-const replies = PERSONALITY.commands.birthday;
-
 export const wishBirthday = async (db, channel) => {
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
   const users = db.data.birthdaysUsers;
@@ -24,13 +21,17 @@ export const wishBirthday = async (db, channel) => {
   });
 
   if (foundBirthdays.length !== 0) {
+    const initialText =
+      foundBirthdays.length === 1
+        ? "OWH ! Aujourd'hui on fête l'anniversaire de : \n"
+        : "OWH ! Aujourd'hui on fête les anniversaires de : \n";
     const birthdayText = foundBirthdays.reduce(
       (acc, { userId, birthdayDate }) => {
         const currentAge = today.year() - dayjs(birthdayDate).year();
 
         return `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
       },
-      "OWH ! Aujourd'hui on fete les anniversaires de : \n"
+      initialText
     );
     await channel.send(birthdayText);
   }
@@ -78,8 +79,9 @@ const birthday = {
   name: "birthday",
   action,
   help: () => {
-    return replies.help;
+    return personalities.normal.commands.birthday.help;
   },
+  admin: false
 };
 
 export default birthday;
