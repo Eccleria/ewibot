@@ -28,7 +28,7 @@
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help":  "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
+        "help": "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
       },
       "messageCount": {
         "addUser": "Je compterai le nombre de messages que vous envoyez.",
@@ -39,6 +39,11 @@
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
         "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
         "remind": "Je te rappelerai ça dans environ "
+      },
+      "roll": {
+        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
+        "numberError": "Les nombres donnés ne respectent pas les limites.",
+        "parsingError": "Erreur de parsing."
       }
     },
     "spotify": {
@@ -55,10 +60,7 @@
     "commands": {
       "birthday": {
         "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nLa date est à indiquer au format JJ/MM/AAAA. L'année est optionnelle.",
-        "birthday": [
-          "Joyeux anniversaire ",
-          " ! :birthday: :birthday:"
-        ],
+        "birthday": ["Joyeux anniversaire ", " ! :birthday: :birthday:"],
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "addUser": "Je te souhaiterai ton anniversaire."
       },
@@ -85,6 +87,11 @@
         "remind": "Je te rappelerai ça dans environ ",
         "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."
+      },
+      "roll": {
+        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
+        "numberError": "Les nombres donnés ne respectent pas les limites.",
+        "parsingError": "Erreur de parsing."
       }
     },
     "spotify": {
