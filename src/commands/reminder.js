@@ -10,19 +10,19 @@ import personalities from "../jsons/personalities.json";
 
 const PERSONALITY = personalities.normal;
 
-const sendDelayed = async (
+const sendDelayed = async ( // Function sending the reminder to the user
   client,
   channel,
   author,
   messageContent,
   botMessage
 ) => {
-  try {
+  try { // try to DM
     await author.send(`${author.toString()} : ${messageContent}`);
-  } catch {
+  } catch { // send in the original channel
     await channel.send(`${author.toString()} : ${messageContent}`);
   }
-  client.remindme = client.remindme.filter(
+  client.remindme = client.remindme.filter( // removes from cache
     ({ botMessage: answer }) => answer.id !== botMessage.id
   );
 };
@@ -31,10 +31,10 @@ const formatMs = (nbr) => {
   return dayjs.duration(nbr, "milliseconds").humanize();
 };
 
-const extractDuration = (str) => {
+const extractDuration = (str) => { // returns the waiting time in ms
   const lowerStr = str.toLowerCase();
 
-  // XXhYYmZZs
+  // Date writing format: XXhYYmZZs
 
   const hours = Number(lowerStr.slice(0, 2));
   const minutes = Number(lowerStr.slice(3, 5));
@@ -48,8 +48,8 @@ const extractDuration = (str) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (message, personality, currentServer, timing) => {
-  try {
+const answerBot = async (message, personality, currentServer, timing) => { // Confirm or not the reminder to user 
+  try { // try to DM
     const answer = await message.author.send(
       personality.reminder.remind.concat(
         `${formatMs(timing)}`,
@@ -60,7 +60,7 @@ const answerBot = async (message, personality, currentServer, timing) => {
     );
     await answer.react(currentServer.removeEmoji);
     return answer;
-  } catch {
+  } catch { // reply to the request message
     console.log(`Utilisateur ayant bloqué les DMs`);
     const answer = await message.reply(
       personality.reminder.remind.concat(
@@ -83,7 +83,7 @@ const action = async (message, personality, client, currentServer) => {
 
   const timing = extractDuration(wordTiming);
 
-  if (!timing) {
+  if (!timing) { //Checks for timing format
     console.log("erreur de parsing");
   } else {
     console.log("timing: ", timing);
@@ -92,7 +92,7 @@ const action = async (message, personality, client, currentServer) => {
 
     const answer = answerBot(message, personality, currentServer, timing);
 
-    const timeoutObj = setTimeout(
+    const timeoutObj = setTimeout( // Set waiting time before reminding to user
       sendDelayed,
       timing,
       client,
@@ -102,7 +102,7 @@ const action = async (message, personality, client, currentServer) => {
       answer
     );
 
-    client.remindme.push({
+    client.remindme.push({ // Add request to cache 
       authorId: author.id,
       botMessage: answer,
       timeout: timeoutObj,

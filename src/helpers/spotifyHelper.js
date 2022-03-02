@@ -45,7 +45,7 @@ export const generateSpotifyClient = async (spotifyApi) => {
 
 const youtubeRegex = new RegExp(
   /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/gim
-);
+); // Youtube Link recognition
 
 const sanitizeTitle = (title) => {
   return title
@@ -61,7 +61,7 @@ const sanitizeTitle = (title) => {
     .replace(/ ost /gi, "")
     .replace(/credits/gi, "")
     .replace(/original soundtrack/gi, "");
-};
+}; // Youtube link clear
 
 const parseYoutubeLink = async (messageContent, client) => {
   const isYoutubeLink = await youtubeRegex.exec(messageContent);
@@ -137,37 +137,35 @@ export const parseLink = async (
   const songYoutube = await parseYoutubeLink(messageContent, client);
   const songManual = await parseAddCommand(messageContent, client);
 
-  const songId = songSpotify || songYoutube || songManual;
+  const songId = songSpotify || songYoutube || songManual; // Select between Spotify, Youtube or manual song
 
   if (songId) {
-    // check if song is already in playlist
-
     const currentPlaylist = await getEntirePlaylist(client);
 
-    if (currentPlaylist.includes(songId))
+    if (currentPlaylist.includes(songId))   // check if song is already in playlist
       return {
         answer: personality.alreadyInPlaylist,
         songId: null,
       };
-    try {
+
+    try { //try to add the music to Spotify Playlist
       client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
         songId,
       ]);
 
-      const {
+      const { // get tracks results from the query
         body: { tracks },
       } = await client.spotifyApi.getTracks([songId.split(":")[2]]);
 
-      const artists = tracks[0].artists.reduce(
+      const artists = tracks[0].artists.reduce( // Get the artists
         (acc, { name }) => `${acc},  ${name}`,
         ""
       );
 
-      const result = `${tracks[0].name} ${artists}`;
+      const result = `${tracks[0].name} ${artists}`; // The result is the first one
 
-      // return null;
       return {
-        answer: personality.songAdded.concat(
+        answer: personality.songAdded.concat( // Bot answer
           `${result}`,
           personality.reminder.react[0],
           `${currentServer.removeEmoji}`,
@@ -176,14 +174,14 @@ export const parseLink = async (
         songId,
       };
     } catch {
-      return {
+      return { // If error
         answer: personality.errorAdding,
         songId: null,
       };
     }
   }
 
-  return null;
+  return null; // if no song founded from spotify, Youtube, manual
 };
 
 export const deleteSongFromPlaylist = async (songId, client, personality) => {

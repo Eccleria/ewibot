@@ -12,7 +12,7 @@ import reminder from "./reminder.js";
 import birthday from "./birthday.js";
 import personalities from "../jsons/personalities.json";
 
-const helloWorld = {
+const helloWorld = { // Is useful to verify is Ewibot is active or not.
   name: "ping",
   action: async (message, personality) => {
     await message.channel.send(personality.helloWorld.pong);
@@ -23,7 +23,7 @@ const helloWorld = {
   admin: false,
 };
 
-const ignore = {
+const ignore = { // Allows to add or remove users that Ewibot will (or not) react to their messages.
   name: "ignore",
   action: async (message, personality, client) => {
     const db = client.db;
@@ -42,7 +42,7 @@ const ignore = {
   admin: false,
 };
 
-const ignoreChannel = {
+const ignoreChannel = { // ADMIN Allows to add or remove channels where Ewibot will (or not) react.
   name: "ignoreChannel",
   action: async (message, personality, client) => {
     const db = client.db;
@@ -98,4 +98,4 @@ const help = {
   admin: false,
 };
 
-export default [...commands, help];
+export default [...commands, help]; // Regroups all commands

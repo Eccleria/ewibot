@@ -15,20 +15,20 @@ export const wishBirthday = async (db, channel) => {
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
   const users = db.data.birthdaysUsers;
 
-  const foundBirthdays = users.filter(({ birthdayDate }) => {
+  const foundBirthdays = users.filter(({ birthdayDate }) => { // Checks if it is birthday for some users
     const date = dayjs(birthdayDate);
     return date.month() === today.month() && date.date() === today.date();
   });
 
   if (foundBirthdays.length !== 0) {
-    const initialText =
+    const initialText = // For correct grammar
       foundBirthdays.length === 1
         ? "OWH ! Aujourd'hui on fête l'anniversaire de : \n"
         : "OWH ! Aujourd'hui on fête les anniversaires de : \n";
+
     const birthdayText = foundBirthdays.reduce(
       (acc, { userId, birthdayDate }) => {
-        const currentAge = today.year() - dayjs(birthdayDate).year();
-
+        const currentAge = today.year() - dayjs(birthdayDate).year(); // Age computation
         return `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
       },
       initialText
@@ -43,27 +43,27 @@ const action = async (message, personality, client) => {
   const db = client.db;
   const words = content.toLowerCase().split(" ");
 
-  if (words[1] && words[1] === "del") {
+  if (words[1] && words[1] === "del") { // remove user
     if (isBirthdayDate(authorId, db)) {
       removeBirthday(authorId, db);
       await message.reply(personality.birthday.removeUser);
       return;
     }
-  } else if (words[1] === "add" && words[2]) {
+  } else if (words[1] === "add" && words[2]) { // add user
 
     const date = dayjs(words[2], "DD-MM-YYYY");
 
-    if (date.isValid()) {
-      if (date.year() < 1950) {
+    if (date.isValid()) { // Checks date validity
+      if (date.year() < 1950) { // If too old
         await message.reply(personality.birthday.tooOld);
-      } else if (date.year() > dayjs().subtract(5, "year").year()) {
+      } else if (date.year() > dayjs().subtract(5, "year").year()) { // If year of birth > now year - 5 => too young
         await message.reply(personality.birthday.tooYoung);
       } else {
         addBirthday(authorId, db, date.toISOString());
         await message.reply(personality.birthday.addUser);
       }
     } else await message.reply(personality.birthday.parsingError);
-  } else if (words.length === 1) {
+  } else if (words.length === 1) { // checks if user is in DB and tells user
     const users = db.data.birthdaysUsers;
     const user = users.find(({ userId }) => userId === authorId);
 
@@ -75,7 +75,7 @@ const action = async (message, personality, client) => {
   }
 };
 
-const birthday = {
+const birthday = { // Allows Ewibot to wish happy birthday to users willing to
   name: "birthday",
   action,
   help: () => {
