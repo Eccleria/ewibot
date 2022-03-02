@@ -6,9 +6,8 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
-import personalities from "../jsons/personalities.json";
+import { PERSONALITY } from "./personality.js";
 
-const PERSONALITY = personalities.normal;
 
 const sendDelayed = async ( // Function sending the reminder to the user
   client,

@@ -7,10 +7,11 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import personalities from "./jsons/personalities.json";
-
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
+import { join } from "path";
+import { Low, JSONFile } from "lowdb";
+
 import {
   isAdmin,
   isCommand,
@@ -22,9 +23,8 @@ import {
 } from "./helpers/index.js";
 import commons from "./jsons/commons.json";
 import commands from "./commands/index.js";
-import { join } from "path";
-import { Low, JSONFile } from "lowdb";
 import { wishBirthday } from "./commands/birthday.js";
+import { PERSONALITY } from "./commands/personality.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -96,9 +96,6 @@ if (process.env.USE_SPOTIFY === "yes") {  // Spotify API cache
 }
 
 const self = process.env.CLIENTID;
-
-// Bot PERSONALITY
-const PERSONALITY = personalities.normal;
 
 // Bot event FUNCTIONS
 const onMessageHandler = async (message) => {

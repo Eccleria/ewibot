@@ -9,7 +9,7 @@ import {
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
-import personalities from "../jsons/personalities.json";
+import { PERSONALITY } from "./personality.js";
 
 export const wishBirthday = async (db, channel) => {
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
@@ -79,7 +79,7 @@ const birthday = { // Allows Ewibot to wish happy birthday to users willing to
   name: "birthday",
   action,
   help: () => {
-    return personalities.normal.commands.birthday.help;
+    return PERSONALITY.commands.birthday.help;
   },
   admin: false
 };

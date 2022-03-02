@@ -10,7 +10,8 @@ import {
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
-import personalities from "../jsons/personalities.json";
+import personality from "./personality.js";
+import { PERSONALITY } from "./personality.js";
 
 const helloWorld = { // Is useful to verify is Ewibot is active or not.
   name: "ping",
@@ -18,7 +19,7 @@ const helloWorld = { // Is useful to verify is Ewibot is active or not.
     await message.channel.send(personality.helloWorld.pong);
   },
   help: () => {
-    return personalities.normal.commands.helloWorld.help;
+    return PERSONALITY.commands.helloWorld.help;
   },
   admin: false,
 };
@@ -37,7 +38,7 @@ const ignore = { // Allows to add or remove users that Ewibot will (or not) reac
     }
   },
   help: () => {
-    return personalities.normal.commands.ignore.help;
+    return PERSONALITY.commands.ignore.help;
   },
   admin: false,
 };
@@ -61,12 +62,12 @@ const ignoreChannel = { // ADMIN Allows to add or remove channels where Ewibot w
     }
   },
   help: () => {
-    return personalities.normal.ignoreChannel.help;
+    return PERSONALITY.ignoreChannel.help;
   },
   admin: true,
 };
 
-const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel];
+const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel, personality];
 
 const help = {
   name: "help",
@@ -93,7 +94,7 @@ const help = {
     }
   },
   help: () => {
-    return personalities.normal.commands.help.help;
+    return PERSONALITY.commands.help.help;
   },
   admin: false,
 };
