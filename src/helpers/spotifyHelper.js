@@ -74,9 +74,9 @@ const parseYoutubeLink = async (messageContent, client) => {
 
   const searchQuery =
     infos.videoDetails &&
-      infos.videoDetails.media &&
-      infos.videoDetails.media.artist &&
-      infos.videoDetails.media.song
+    infos.videoDetails.media &&
+    infos.videoDetails.media.artist &&
+    infos.videoDetails.media.song
       ? `${infos.videoDetails.media.song} ${infos.videoDetails.media.artist}`
       : sanitizeTitle(infos.videoDetails.title);
 
@@ -142,22 +142,26 @@ export const parseLink = async (
   if (songId) {
     const currentPlaylist = await getEntirePlaylist(client);
 
-    if (currentPlaylist.includes(songId))   // check if song is already in playlist
+    if (currentPlaylist.includes(songId))
+      // check if song is already in playlist
       return {
         answer: personality.alreadyInPlaylist,
         songId: null,
       };
 
-    try { //try to add the music to Spotify Playlist
+    try {
+      //try to add the music to Spotify Playlist
       client.spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_PLAYLIST_ID, [
         songId,
       ]);
 
-      const { // get tracks results from the query
+      const {
+        // get tracks results from the query
         body: { tracks },
       } = await client.spotifyApi.getTracks([songId.split(":")[2]]);
 
-      const artists = tracks[0].artists.reduce( // Get the artists
+      const artists = tracks[0].artists.reduce(
+        // Get the artists
         (acc, { name }) => `${acc},  ${name}`,
         ""
       );
@@ -165,7 +169,8 @@ export const parseLink = async (
       const result = `${tracks[0].name} ${artists}`; // The result is the first one
 
       return {
-        answer: personality.songAdded.concat( // Bot answer
+        answer: personality.songAdded.concat(
+          // Bot answer
           `${result}`,
           personality.reminder.react[0],
           `${currentServer.removeEmoji}`,
@@ -174,7 +179,8 @@ export const parseLink = async (
         songId,
       };
     } catch {
-      return { // If error
+      return {
+        // If error
         answer: personality.errorAdding,
         songId: null,
       };

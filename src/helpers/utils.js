@@ -42,12 +42,15 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-export const isAdmin = (authorId) => { // Check if is admin users
+export const isAdmin = (authorId) => {
+  // Check if is admin users
   return ADMINS.includes(authorId);
 };
 
-const isAbcd = (words) => { // Check if message content is having all first word letters in alphabetic order
-  if (words.length >= 4) { // Need at least 4 words
+const isAbcd = (words) => {
+  // Check if message content is having all first word letters in alphabetic order
+  if (words.length >= 4) {
+    // Need at least 4 words
     const reduced = words.reduce(
       (precedent, current) => {
         const unicodeWord = current.charCodeAt(0);
@@ -90,7 +93,7 @@ export const reactionHandler = async (
 
   if (hello.some((helloMessage) => words[0] === helloMessage)) {
     await message.react(currentServer.helloEmoji);
-  } 
+  }
 
   const emotes = Object.values(currentServer.autoEmotes); // Ewibot reacts with the same emoji that inside the message
   for (const word of words) {
@@ -101,7 +104,8 @@ export const reactionHandler = async (
   }
 };
 
-export const checkIsOnThread = async (channel, threadId) => { // If Ewibot not in the thread, add Ewibot
+export const checkIsOnThread = async (channel, threadId) => {
+  // If Ewibot not in the thread, add Ewibot
   const thread = channel.isThread
     ? null
     : channel.threads.cache.find((x) => x.id === threadId);

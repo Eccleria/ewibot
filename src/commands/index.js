@@ -13,7 +13,8 @@ import birthday from "./birthday.js";
 import personality from "./personality.js";
 import { PERSONALITY } from "./personality.js";
 
-const helloWorld = { // Is useful to verify is Ewibot is active or not.
+const helloWorld = {
+  // Is useful to verify is Ewibot is active or not.
   name: "ping",
   action: async (message, personality) => {
     await message.channel.send(personality.helloWorld.pong);
@@ -24,7 +25,8 @@ const helloWorld = { // Is useful to verify is Ewibot is active or not.
   admin: false,
 };
 
-const ignore = { // Allows to add or remove users that Ewibot will (or not) react to their messages.
+const ignore = {
+  // Allows to add or remove users that Ewibot will (or not) react to their messages.
   name: "ignore",
   action: async (message, personality, client) => {
     const db = client.db;
@@ -43,7 +45,8 @@ const ignore = { // Allows to add or remove users that Ewibot will (or not) reac
   admin: false,
 };
 
-const ignoreChannel = { // ADMIN Allows to add or remove channels where Ewibot will (or not) react.
+const ignoreChannel = {
+  // ADMIN Allows to add or remove channels where Ewibot will (or not) react.
   name: "ignoreChannel",
   action: async (message, personality, client) => {
     const db = client.db;
@@ -67,7 +70,14 @@ const ignoreChannel = { // ADMIN Allows to add or remove channels where Ewibot w
   admin: true,
 };
 
-const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel, personality];
+const commands = [
+  helloWorld,
+  ignore,
+  reminder,
+  birthday,
+  ignoreChannel,
+  personality,
+];
 
 const help = {
   name: "help",
@@ -84,9 +94,7 @@ const help = {
         await message.channel.send(help.help());
         return;
       }
-      const command = commands.find(
-        (cmd) => cmd.name === words[1]
-      );
+      const command = commands.find((cmd) => cmd.name === words[1]);
       if (!command || (!isAdmin(message.author.id) && command.admin)) {
         return;
       }

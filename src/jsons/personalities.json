@@ -11,7 +11,6 @@
         "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
-
       },
       "helloWorld": {
         "help": "Cette commande n'a pas besoin de description.",
@@ -29,7 +28,7 @@
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help":  "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
+        "help": "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
       },
       "messageCount": {
         "addUser": "Je compterai le nombre de messages que vous envoyez.",
@@ -91,7 +90,7 @@
       },
       "personality": {
         "change": "Plus de fun. Maintenant je serai ",
-        "currentName":  "Actuellement, j'ai la personalité ",
+        "currentName": "Actuellement, j'ai la personalité ",
         "nameError": "Erreur d'argument.",
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot.\nUtilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`"
@@ -99,7 +98,7 @@
       "reminder": {
         "delete": "Le remind a bien été supprimé.",
         "remind": "Je te rappelerai ça dans environ ",
-        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
+        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."
       }
     },
