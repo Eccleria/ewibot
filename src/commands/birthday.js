@@ -9,7 +9,7 @@ import {
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
-import personalities from "../personalities.json";
+import personalities from "../jsons/personalities.json";
 
 export const wishBirthday = async (db, channel) => {
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour

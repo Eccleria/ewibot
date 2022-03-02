@@ -10,7 +10,7 @@ import {
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
-import personalities from "../personalities.json";
+import personalities from "../jsons/personalities.json";
 
 const helloWorld = {
   name: "ping",

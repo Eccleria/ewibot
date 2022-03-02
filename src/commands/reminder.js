@@ -6,7 +6,7 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
-import personalities from "../personalities.json";
+import personalities from "../jsons/personalities.json";
 
 const PERSONALITY = personalities.normal;
 

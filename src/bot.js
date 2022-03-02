@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import personalities from "./personalities.json";
+import personalities from "./jsons/personalities.json";
 
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
@@ -20,7 +20,7 @@ import {
   deleteSongFromPlaylist,
   generateSpotifyClient,
 } from "./helpers/index.js";
-import commons from "./commons.json";
+import commons from "./jsons/commons.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
