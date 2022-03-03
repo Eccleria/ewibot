@@ -14,8 +14,9 @@ import {
 
 import {
   generateSpotifyClient,
-  deleteSongFromPlaylist,
   parseLink,
+  spotifyReply,
+  removeSpotify,
 } from "./spotifyHelper.js";
 
 import {
@@ -33,8 +34,9 @@ export {
   checkIsOnThread,
   // spotifyHelper
   generateSpotifyClient,
-  deleteSongFromPlaylist,
   parseLink,
+  spotifyReply,
+  removeSpotify,
   // dbHelper
   addIgnoredUser,
   removeIgnoredUser,

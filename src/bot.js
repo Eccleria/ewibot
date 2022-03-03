@@ -16,10 +16,9 @@ import {
   isAdmin,
   isCommand,
   reactionHandler,
-  parseLink,
   checkIsOnThread,
-  deleteSongFromPlaylist,
   generateSpotifyClient,
+  removeSpotify,
 } from "./helpers/index.js";
 import commons from "./jsons/commons.json";
 import commands from "./commands/index.js";
@@ -121,33 +120,15 @@ const onMessageHandler = async (message) => {
 
     reactionHandler(message, content, currentServer, client);
 
-    // spotify stuff
-    if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
-      checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
-
-      const foundLink = await parseLink(
-        content,
-        client,
-        PERSONALITY.spotify,
-        currentServer
-      );
-      if (foundLink) {
-        const { answer, songId } = foundLink;
-        const newMessage = await message.reply(answer);
-        if (songId) await newMessage.react(currentServer.removeEmoji);
-        client.playlistCachedMessages = [
-          ...client.playlistCachedMessages,
-          { ...newMessage, songId },
-        ];
-      }
-    }
-
     // check for command
     const commandName = content.split(" ")[0];
     const command = commands
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin) //filter appropriate commands if user has or not admin rigths
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
+      if (command.name === "spotify" && process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) { // spotify stuff
+        checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
+      }
       command.action(message, PERSONALITY.commands, client, currentServer);
     }
   }
@@ -161,10 +142,7 @@ const onReactionHandler = async (messageReaction) => {
 
   const { removeEmoji } = currentServer;
 
-  const foundMessageSpotify = client.playlistCachedMessages.find(
-    // found corresponding spotify message
-    ({ id }) => id === message.id
-  );
+  removeSpotify(messageReaction, PERSONALITY, client, currentServer);
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
@@ -196,26 +174,6 @@ const onReactionHandler = async (messageReaction) => {
     }
   }
 
-  if (
-    process.env.USE_SPOTIFY === "yes" &&
-    foundMessageSpotify &&
-    emoji.name === removeEmoji &&
-    users.cache
-      .map((user) => user.id) // if user reacting is the owner of spotify message
-      .includes(message.mentions.users.first().id)
-  ) {
-    const { songId } = foundMessageSpotify;
-
-    const result = await deleteSongFromPlaylist(
-      songId,
-      client,
-      PERSONALITY.spotify
-    );
-    client.playlistCachedMessages = client.playlistCachedMessages.filter(
-      ({ id }) => id !== message.id
-    );
-    await message.reply(result);
-  }
 };
 
 const onPrivateMessage = async (message) => {
