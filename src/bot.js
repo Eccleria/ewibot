@@ -76,9 +76,11 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_MESSAGE_TYPING,
     Intents.FLAGS.DIRECT_MESSAGES,
+    Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
+    "REACTION",
   ],
 });
 
@@ -165,27 +167,88 @@ const onMessageHandler = async (message) => {
 };
 
 const onReactionHandler = async (messageReaction) => {
-  const { message, emoji, users } = messageReaction;
-  const currentServer = servers.find(
-    ({ guildId }) => guildId === message.channel.guild.id
-  );
+  if (messageReaction.message.channel.type === "DM")
+    onDMReactionHandler(messageReaction);
+  else {
+    const { message, emoji, users } = messageReaction;
+    const currentServer = servers.find(
+      ({ guildId }) => guildId === message.channel.guild.id
+    );
 
-  const { removeEmoji } = currentServer;
+    const { removeEmoji } = currentServer;
 
-  const foundMessageSpotify = client.playlistCachedMessages.find(
-    ({ id }) => id === message.id
-  );
+    const foundMessageSpotify = client.playlistCachedMessages.find(
+      ({ id }) => id === message.id
+    );
+
+    const foundReminder = client.remindme.find(
+      (reminder) => reminder.botMessageId === message.id
+    );
+
+    if (
+      foundReminder &&
+      emoji.name === removeEmoji &&
+      users.cache
+        .map((user) => user.id)
+        .includes(message.mentions.users.first().id)
+    ) {
+      try {
+        client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
+          if (botMessage.id === message.id) {
+            clearTimeout(timeout);
+            botMessage.reply(PERSONNALITY.commands.reminder.delete);
+            removeReminder(client.db, botMessage.id);
+            return false;
+          }
+          return true;
+        });
+        return;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (
+      process.env.USE_SPOTIFY === "yes" &&
+      foundMessageSpotify &&
+      emoji.name === removeEmoji &&
+      users.cache
+        .map((user) => user.id)
+        .includes(message.mentions.users.first().id)
+    ) {
+      const { songId } = foundMessageSpotify;
+
+      const result = await deleteSongFromPlaylist(
+        songId,
+        client,
+        PERSONNALITY.spotify
+      );
+      client.playlistCachedMessages = client.playlistCachedMessages.filter(
+        ({ id }) => id !== message.id
+      );
+      await message.reply(result);
+    }
+  }
+};
+
+const onDMReactionHandler = async (messageReaction) => {
+  const removeEmoji = servers[0].removeEmoji;
+  const { emoji, message, users } = messageReaction;
 
   const foundReminder = client.remindme.filter(
     (reminder) => reminder.botMessageId === message.id
   );
+  const usersCollection = await users.fetch();
 
+  /*
+  console.log("users", users);
+  console.log("first", usersCollection.first());
+  console.log("\n")
+  */
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
-    users.cache
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
+    usersCollection.first().id != self
   ) {
     try {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
@@ -201,27 +264,6 @@ const onReactionHandler = async (messageReaction) => {
     } catch (err) {
       console.log(err);
     }
-  }
-
-  if (
-    process.env.USE_SPOTIFY === "yes" &&
-    foundMessageSpotify &&
-    emoji.name === removeEmoji &&
-    users.cache
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
-  ) {
-    const { songId } = foundMessageSpotify;
-
-    const result = await deleteSongFromPlaylist(
-      songId,
-      client,
-      PERSONNALITY.spotify
-    );
-    client.playlistCachedMessages = client.playlistCachedMessages.filter(
-      ({ id }) => id !== message.id
-    );
-    await message.reply(result);
   }
 };
 
