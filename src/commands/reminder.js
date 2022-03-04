@@ -92,7 +92,7 @@ const answerBot = async (message, personality, currentServer, timing) => {
   try {
     const answer = await message.author.send(
       personality.reminder.remind.concat(
-        `${formatMs(timing)}`,
+        `${formatMs(timing)}. `,
         personality.reminder.react[0],
         `${currentServer.removeEmoji}`,
         personality.reminder.react[1]
