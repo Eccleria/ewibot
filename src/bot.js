@@ -157,7 +157,6 @@ const onReactionHandler = async (messageReaction) => {
   const currentServer = servers.find(
     ({ guildId }) => guildId === message.channel.guild.id
   );
-
   const { removeEmoji } = currentServer;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
@@ -165,9 +164,8 @@ const onReactionHandler = async (messageReaction) => {
   );
 
   const foundReminder = client.remindme.find(
-    ({ botMessage }) => botMessage.id === message.id
+    (reminder) => reminder.botMessage.id === message.id
   );
-
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
@@ -186,7 +184,7 @@ const onReactionHandler = async (messageReaction) => {
       });
       return;
     } catch (err) {
-      console.log(err);
+      console.log("reminderError", err);
     }
   }
 
