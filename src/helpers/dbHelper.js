@@ -130,18 +130,19 @@ const isReminder = (db, botMessageId) => {
 const addReminder = (
   db,
   message,
-  botMessageId,
+  botMessage,
   timing,
   sendingTime,
   messageContent
 ) => {
-  if (!isReminder(db, botMessageId)) {
+  if (!isReminder(db, botMessage.id)) {
     db.data.reminder = [
       ...db.data.reminder,
       {
         authorId: message.author.id,
-        answerId: botMessageId,
-        channelId: message.channel.id,
+        answerId: botMessage.id,
+        requestChannelId: message.channel.id,
+        answerChannelId: botMessage.channel.id,
         startingTime: sendingTime,
         waitingTime: timing,
         content: messageContent,

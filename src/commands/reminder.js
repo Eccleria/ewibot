@@ -27,18 +27,18 @@ export const initReminder = async (client) => {
   if (db.data && db.data.reminder.length > 0)
     db.data.reminder.forEach(async (element) => {
       const author = await client.users.fetch(element.authorId); // Find user
-      const channel = await client.channels.fetch(element.channelId); //Find channel
-      const botMessage = await channel.messages.fetch(element.answerId); //Find bot response
+      const requestChannel = await client.channels.fetch(element.requestChannelId); //Find channel with user's request
+      const answerChannel = await client.channels.fetch(element.answerChannelId); //Find channel with Ewibot answer
+      const botMessage = await answerChannel.messages.fetch(element.answerId); //Find bot response
 
       const now = dayjs();
-      const difference = element.timing - now.diff(dayjs(element.startingTime));
+      const difference = Number(element.waitingTime) - now.diff(dayjs(element.startingTime));
       const newTiming = difference > 0 ? difference : 10000;
-
       const timeoutObj = setTimeout(
         sendDelayed,
         newTiming,
         client,
-        channel,
+        requestChannel,
         author,
         element.content,
         botMessage
@@ -144,7 +144,7 @@ const action = async (message, personality, client, currentServer) => {
     );
 
     addClientReminder(client, author.id, answer, timeoutObj);
-    addReminder(client.db, message, answer.id, timing, date, messageContent);
+    addReminder(client.db, message, answer, timing, date, messageContent);
   }
 };
 
