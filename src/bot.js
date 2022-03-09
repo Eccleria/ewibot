@@ -181,7 +181,7 @@ const onReactionHandler = async (messageReaction) => {
     );
 
     const foundReminder = client.remindme.find(
-      (reminder) => reminder.botMessageId === message.id
+      ({ botMessage }) => botMessage.id === message.id
     );
 
     if (

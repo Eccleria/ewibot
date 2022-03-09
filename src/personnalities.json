@@ -36,7 +36,7 @@
         "removeUser": "Je ne compterai plus le nombre de vos messages."
       },
       "reminder": {
-        "delete": "Le remind a bien été supprimé",
+        "delete": "Le remind a bien été supprimé.",
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
         "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
         "remind": "Je te rappelerai ça dans environ "

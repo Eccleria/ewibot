@@ -92,7 +92,6 @@ const extractDuration = (str) => {
 };
 
 const answerBot = async (message, personality, currentServer, timing) => {
-  /*
   try {
     const answer = await message.author.send(
       personality.reminder.remind.concat(
@@ -105,18 +104,18 @@ const answerBot = async (message, personality, currentServer, timing) => {
     await answer.react(currentServer.removeEmoji);
     return answer;
   } catch {
-  console.log(`Utilisateur ayant bloqué les DMs`);*/
-  const answer = await message.reply(
-    personality.reminder.remind.concat(
-      `${formatMs(timing)}. `,
-      personality.reminder.react[0],
-      `${currentServer.removeEmoji}`,
-      personality.reminder.react[1]
-    )
-  );
-  await answer.react(currentServer.removeEmoji);
-  return answer;
-  //}
+    console.log(`Utilisateur ayant bloqué les DMs`);
+    const answer = await message.reply(
+      personality.reminder.remind.concat(
+        `${formatMs(timing)}. `,
+        personality.reminder.react[0],
+        `${currentServer.removeEmoji}`,
+        personality.reminder.react[1]
+      )
+    );
+    await answer.react(currentServer.removeEmoji);
+    return answer;
+  }
 };
 
 const action = async (message, personality, client, currentServer) => {
