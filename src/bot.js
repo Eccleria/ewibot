@@ -238,7 +238,6 @@ const onDMReactionHandler = async (messageReaction) => {
     (reminder) => reminder.botMessageId === message.id
   );
   const usersCollection = await users.fetch();
-
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
@@ -260,7 +259,7 @@ const onDMReactionHandler = async (messageReaction) => {
       });
       return;
     } catch (err) {
-      console.log(err);
+      console.log("reminderError", err);
     }
   }
 };

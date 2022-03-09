@@ -234,13 +234,14 @@ export const parseLink = async (
       return {
         answer: personality.songAdded.concat(
           `${result}`,
-          personality.reminder.react[0],
+          personality.react[0],
           `${currentServer.removeEmoji}`,
-          personality.reminder.react[1]
+          personality.react[1]
         ),
         songId,
       };
-    } catch {
+    } catch (err) {
+      console.log(err);
       return {
         answer: personality.errorAdding,
         songId: null,
