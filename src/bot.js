@@ -27,6 +27,7 @@ import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 import { wishBirthday } from "./commands/birthday.js";
+import { sendCount } from "./commands/messageCount.js";
 
 // Use JSON file for storage
 const file = join("db", "db.json");
@@ -144,7 +145,10 @@ const onMessageHandler = async (message) => {
       }
     }
 
-    if (isUserMessagesCounted(client.db, author.id)) addUserMessageCount(client.db, author.id, 1);
+    if (isUserMessagesCounted(client.db, author.id)) {
+      addUserMessageCount(client.db, author.id, 1);
+      sendCount(message, PERSONNALITY.commands, client);
+    }
 
     const commandName = content.split(" ")[0];
     const command = commands

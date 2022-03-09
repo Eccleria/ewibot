@@ -35,6 +35,7 @@
         "countModified": "Votre compte de message a bien été modifié. Il est de ",
         "errorNumber": "Erreur sur le nombre.",
         "help": "Cette commande permet au bot de compter le nombre de messages que tu as envoyé. Utilisation :\n- `$messageCount nb_de_messages` pour qu'Ewibot commence à compter vos messages, en partant du nombre indiqué.\n- `$messageCount` pour avoir le compte actuel.",
+        "notification": "Et hop, 1000 messages de plus ! Cela vous en fait ",
         "number": [ "Tu as envoyé ", " messages jusqu'à présent." ],
         "removeUser": "Je ne compterai plus le nombre de vos messages.",
         "userNotFound": "Pas de compte de message stocké dans la base de donnée pour toi."
@@ -90,6 +91,7 @@
         "countModified": "Votre compte de message a bien été modifié. Il est de ",
         "errorNumber": "Erreur sur le nombre.",
         "help": "Cette commande permet au bot de compter le nombre de messages que tu as envoyé. Utilisation :\n- `$messageCount nb_de_messages` pour qu'Ewibot commence à compter vos messages, en partant du nombre indiqué.\n- `$messageCount` pour avoir le compte actuel.",
+        "notification": "Et hop, 1000 messages de plus ! Cela vous en fait ",
         "number": [ "Tu as envoyé ", " messages jusqu'à présent, si tu n'as pas triché au début..." ],
         "removeUser": "Je ne compterai plus le nombre de vos messages.",
         "userNotFound": "Pas de compte de message stocké dans la base de donnée pour toi."

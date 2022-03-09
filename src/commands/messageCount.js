@@ -10,14 +10,14 @@ const getUserMessageCount = (db, authorId) => {
   return db.data.messageCount.filter(( user ) => user.userId === authorId);
 };
 
-const sendCount = async (message, client) => {
+const sendCount = async (message, personality, client) => {
   const authorId = message.author.id;
   const db = client.db;
 
-  const user = getUserMessageCount(db, authorId);
+  const user = getUserMessageCount(db, authorId)[0];
   if (user.messageNumber % 1000 === 0)
-    await message.reply(`Et hop, 1000 messages de plus ! \
-Cela vous en fait ${user.messageCount}`);
+    await message.reply(personality.messageCount.notification +
+      `${user.messageNumber}.`);
 };
 
 const action = async (message, personality, client) => {
