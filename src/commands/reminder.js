@@ -17,11 +17,12 @@ const sendDelayed = async (
   messageContent,
   botMessage
 ) => {
+  /*
   try {
     await author.send(`${author.toString()} : ${messageContent}`);
-  } catch {
-    await channel.send(`${author.toString()} : ${messageContent}`);
-  }
+  } catch {*/
+  await channel.send(`${author.toString()} : ${messageContent}`);
+  //}
   client.remindme = client.remindme.filter(
     ({ botMessage: answer }) => answer.id !== botMessage.id
   );
@@ -49,10 +50,11 @@ const extractDuration = (str) => {
 };
 
 const answerBot = async (message, personality, currentServer, timing) => {
+  /*
   try {
     const answer = await message.author.send(
       personality.reminder.remind.concat(
-        `${formatMs(timing)}`,
+        `${formatMs(timing)}. `,
         personality.reminder.react[0],
         `${currentServer.removeEmoji}`,
         personality.reminder.react[1]
@@ -61,21 +63,21 @@ const answerBot = async (message, personality, currentServer, timing) => {
     await answer.react(currentServer.removeEmoji);
     return answer;
   } catch {
-    console.log(`Utilisateur ayant bloqué les DMs`);
-    const answer = await message.reply(
-      personality.reminder.remind.concat(
-        `${formatMs(timing)}`,
-        personality.reminder.react[0],
-        `${currentServer.removeEmoji}`,
-        personality.reminder.react[1]
-      )
-    );
-    await answer.react(currentServer.removeEmoji);
-    return answer;
-  }
+  console.log(`Utilisateur ayant bloqué les DMs`);*/
+  const answer = await message.reply(
+    personality.reminder.remind.concat(
+      `${formatMs(timing)}. `,
+      personality.reminder.react[0],
+      `${currentServer.removeEmoji}`,
+      personality.reminder.react[1]
+    )
+  );
+  await answer.react(currentServer.removeEmoji);
+  return answer;
+  //}
 };
 
-const action = async (message, client, currentServer) => {
+const action = async (message, personality, client, currentServer) => {
   const { channel, content, author } = message;
   const args = content.split(" ");
 
@@ -90,7 +92,7 @@ const action = async (message, client, currentServer) => {
 
     const messageContent = args.slice(2).join(" ");
 
-    const answer = answerBot(message, currentServer, timing);
+    const answer = await answerBot(message, personality, currentServer, timing);
 
     const timeoutObj = setTimeout(
       sendDelayed,
