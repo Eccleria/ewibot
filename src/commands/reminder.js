@@ -32,8 +32,9 @@ export const initReminder = async (client) => {
       const botMessage = await answerChannel.messages.fetch(element.answerId); //Find bot response
 
       const now = dayjs();
-      const difference = Number(element.waitingTime) - now.diff(dayjs(element.startingTime));
+      const difference = dayjs(element.reminderTime).diff(now);
       const newTiming = difference > 0 ? difference : 10000;
+      console.log("newTiming", newTiming);
       const timeoutObj = setTimeout(
         sendDelayed,
         newTiming,
@@ -45,7 +46,7 @@ export const initReminder = async (client) => {
       );
 
       addClientReminder(client, author.id, botMessage, timeoutObj);
-      updateReminder(db, botMessage.id, now.toISOString(), newTiming);
+      updateReminder(db, botMessage.id, now.millisecond(newTiming).toISOString());
     });
 };
 
@@ -128,10 +129,7 @@ const action = async (message, personality, client, currentServer) => {
     console.log("timing: ", timing);
 
     const messageContent = args.slice(2).join(" ");
-
     const answer = await answerBot(message, personality, currentServer, timing);
-
-    const date = dayjs().toISOString();
 
     const timeoutObj = setTimeout(
       sendDelayed,
@@ -143,8 +141,10 @@ const action = async (message, personality, client, currentServer) => {
       answer
     );
 
+    const reminderDate = dayjs().millisecond(timing).toISOString();
+
     addClientReminder(client, author.id, answer, timeoutObj);
-    addReminder(client.db, message, answer, timing, date, messageContent);
+    addReminder(client.db, message, answer, reminderDate, messageContent);
   }
 };
 

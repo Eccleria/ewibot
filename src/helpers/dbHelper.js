@@ -131,8 +131,7 @@ const addReminder = (
   db,
   message,
   botMessage,
-  timing,
-  sendingTime,
+  endingTime,
   messageContent
 ) => {
   if (!isReminder(db, botMessage.id)) {
@@ -143,8 +142,7 @@ const addReminder = (
         answerId: botMessage.id,
         requestChannelId: message.channel.id,
         answerChannelId: botMessage.channel.id,
-        startingTime: sendingTime,
-        waitingTime: timing,
+        reminderTime: endingTime,
         content: messageContent,
       },
     ];
@@ -161,12 +159,9 @@ const removeReminder = (db, botMessageId) => {
   }
 };
 
-const updateReminder = (db, botMessageId, sendingTime, timing) => {
+const updateReminder = (db, botMessageId, newReminderTime) => {
   db.data.reminder.map((element) => {
-    if (element.answerId === botMessageId) {
-      element.startingTime = sendingTime;
-      element.waitingTime = timing;
-    }
+    if (element.answerId === botMessageId) element.reminderTime = newReminderTime;
   });
   db.wasUpdated = true;
 };

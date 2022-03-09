@@ -80,7 +80,6 @@ const client = new Client({
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
-    "REACTION",
   ],
 });
 
@@ -240,21 +239,20 @@ const onDMReactionHandler = async (messageReaction) => {
   );
   const usersCollection = await users.fetch();
 
-  /*
-  console.log("users", users);
-  console.log("first", usersCollection.first());
-  console.log("\n")
-  */
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
     usersCollection.first().id != self
   ) {
     try {
-      client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
+      client.remindme = client.remindme.filter(async ({ authorId, botMessage, timeout }) => {
         if (botMessage.id === message.id) {
           clearTimeout(timeout);
-          botMessage.reply(PERSONNALITY.commands.reminder.delete);
+          try {
+            await botMessage.reply(PERSONNALITY.commands.reminder.delete);
+          } catch {
+            console.log("Changement de paramètres de confidentialité pour l'utilisateur " + `${authorId}`)
+          }
           removeReminder(client.db, botMessage.id);
           return false;
         }
