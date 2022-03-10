@@ -1,8 +1,4 @@
-import {
-  isIgnoredUser,
-  addApologyCount,
-  isIgnoredChannel,
-} from "./index.js";
+import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 

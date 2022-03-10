@@ -203,7 +203,12 @@ const deleteSongFromPlaylist = async (songId, client, personality) => {
   }
 };
 
-export const spotifyReply = async (foundLink, message, client, currentServer) => {
+export const spotifyReply = async (
+  foundLink,
+  message,
+  client,
+  currentServer
+) => {
   // Ewibot reply for command query
   if (foundLink) {
     const { answer, songId } = foundLink;
@@ -216,7 +221,12 @@ export const spotifyReply = async (foundLink, message, client, currentServer) =>
   }
 };
 
-export const removeSpotify = async (messageReaction, PERSONALITY, client, currentServer) => {
+export const removeSpotify = async (
+  messageReaction,
+  PERSONALITY,
+  client,
+  currentServer
+) => {
   //remove song from client cache and spotify playlist using react
   const { message, emoji, users } = messageReaction;
   const { removeEmoji } = currentServer;

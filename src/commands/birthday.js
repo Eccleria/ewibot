@@ -11,7 +11,8 @@ import {
 } from "../helpers/index.js";
 import { PERSONALITY } from "./personality.js";
 
-export const wishBirthday = async (db, channel) => { // Wish birthdays if there are some
+export const wishBirthday = async (db, channel) => {
+  // Wish birthdays if there are some
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
   const users = db.data.birthdaysUsers;
 
@@ -21,7 +22,8 @@ export const wishBirthday = async (db, channel) => { // Wish birthdays if there 
     return date.month() === today.month() && date.date() === today.date();
   });
 
-  if (foundBirthdays.length !== 0) { // if there is a birthday
+  if (foundBirthdays.length !== 0) {
+    // if there is a birthday
     const initialText = // For correct grammar
       foundBirthdays.length === 1
         ? "OWH ! Aujourd'hui on fête l'anniversaire de : \n"

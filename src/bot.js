@@ -28,7 +28,6 @@ import {
 // jsons imports
 import commons from "./jsons/commons.json";
 
-
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
 const adapter = new JSONFile(file);
@@ -57,7 +56,8 @@ const tomorrow = dayjs()
 const timeToTomorrow = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
 const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
-setTimeout(async () => { // init birthday check
+setTimeout(async () => {
+  // init birthday check
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
@@ -103,7 +103,8 @@ if (process.env.USE_SPOTIFY === "yes") {
 const self = process.env.CLIENTID; // get self Discord Id
 
 // Bot event FUNCTIONS
-const onMessageHandler = async (message) => { // Function triggered for each message sent
+const onMessageHandler = async (message) => {
+  // Function triggered for each message sent
   const { channel, author, content } = message;
 
   if (channel.type === "DM") {
@@ -130,7 +131,12 @@ const onMessageHandler = async (message) => { // Function triggered for each mes
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin) //filter appropriate commands if user has or not admin rigths
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
-      if (command.name === "spotify" && process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) { // spotify stuff
+      if (
+        command.name === "spotify" &&
+        process.env.USE_SPOTIFY === "yes" &&
+        channel.id === playlistThreadId
+      ) {
+        // spotify stuff
         checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
       }
       command.action(message, PERSONALITY.commands, client, currentServer);
@@ -144,7 +150,7 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
-    const { removeEmoji } = currentServer;
+  const { removeEmoji } = currentServer;
   removeSpotify(messageReaction, PERSONALITY, client, currentServer);
 
   const foundReminder = client.remindme.find(

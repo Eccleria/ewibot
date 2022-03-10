@@ -75,7 +75,8 @@ const roll = {
   name: "roll",
   action: async (message, personality) => {
     const args = message.content.toLowerCase().split(" ");
-    if (args[1]) { //if enough args
+    if (args[1]) {
+      //if enough args
       const diceNumbers = args[1].split("d").map((nb) => Number(nb));
       if (isNaN(diceNumbers[0]) || isNaN(diceNumbers[1]))
         await message.reply(personality.roll.parsingError);
@@ -113,13 +114,22 @@ const roll = {
   admin: false,
 };
 
-const commands = [birthday, helloWorld, ignore, ignoreChannel, personality, reminder, roll];
+const commands = [
+  birthday,
+  helloWorld,
+  ignore,
+  ignoreChannel,
+  personality,
+  reminder,
+  roll,
+];
 
 const help = {
   name: "help",
   action: async (message, personality) => {
     const words = message.content.split(" ");
-    if (words.length === 1) { //$help
+    if (words.length === 1) {
+      //$help
       const baseText = personality.help.init;
       const helpText = commands.reduce((acc, cur) => {
         return `${cur.admin ? "_[admin]_ " : ""}${cur.name}, ${acc}`;
