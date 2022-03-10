@@ -1,16 +1,17 @@
 import {
+  //dbHelper
   isIgnoredChannel,
   removeIgnoredChannel,
   addIgnoredChannel,
-} from "../helpers/index.js";
-import {
   addIgnoredUser,
   removeIgnoredUser,
+  //utils
   isAdmin,
 } from "../helpers/index.js";
+
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY, personality } from "./personality.js";
 
 const helloWorld = {
   // Is useful to verify is Ewibot is active or not.
@@ -25,7 +26,7 @@ const helloWorld = {
 };
 
 const ignore = {
-  // Allows to add or remove users that Ewibot will (or not) react to their messages.
+  // Allows users to choose if they want Ewibot reacting or not to their messages.
   name: "ignore",
   action: async (message, personality, client) => {
     const db = client.db;
@@ -70,10 +71,11 @@ const ignoreChannel = {
 };
 
 const roll = {
+  // Allow to get the total and each individual results for dice rolls.
   name: "roll",
   action: async (message, personality) => {
     const args = message.content.toLowerCase().split(" ");
-    if (args[1]) {
+    if (args[1]) { //if enough args
       const diceNumbers = args[1].split("d").map((nb) => Number(nb));
       if (isNaN(diceNumbers[0]) || isNaN(diceNumbers[1]))
         await message.reply(personality.roll.parsingError);
@@ -111,25 +113,28 @@ const roll = {
   admin: false,
 };
 
-const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel, roll];
+const commands = [birthday, helloWorld, ignore, ignoreChannel, personality, reminder, roll];
 
 const help = {
   name: "help",
   action: async (message, personality) => {
     const words = message.content.split(" ");
-    if (words.length === 1) {
+    if (words.length === 1) { //$help
       const baseText = personality.help.init;
       const helpText = commands.reduce((acc, cur) => {
         return `${cur.admin ? "_[admin]_ " : ""}${cur.name}, ${acc}`;
       }, "");
       await message.channel.send(`${baseText} - ${helpText.slice(0, -2)}`);
     } else {
+      //$help help
       if (words[1] === "help") {
         await message.channel.send(help.help());
         return;
       }
+      //$help command
       const command = commands.find((cmd) => cmd.name === words[1]);
       if (!command || (!isAdmin(message.author.id) && command.admin)) {
+        //if user doesn't have the rigths
         return;
       }
       await message.channel.send(command.help());

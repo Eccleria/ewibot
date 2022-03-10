@@ -1,10 +1,10 @@
 import personalities from "../jsons/personalities.json";
 
-export var PERSONALITY = personalities.normal;
+export var PERSONALITY = personalities.normal; // common var for all files
 
 const action = (message) => {
   const args = message.content.toLowerCase().split(" ");
-  const nameList = Object.keys(personalities);
+  const nameList = Object.keys(personalities); // List of all personalities names
   const replies = PERSONALITY.commands.personality;
 
   if (args.length === 1) {

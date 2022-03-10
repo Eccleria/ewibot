@@ -1,13 +1,10 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import {
   isIgnoredUser,
   addApologyCount,
   isIgnoredChannel,
-} from "./dbHelper.js";
+} from "./index.js";
 
-export const isCommand = (content) => content[0] === "$"; // check if is a Ewibot command
+export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
 const apologies = [
   "desolé",
@@ -48,7 +45,7 @@ export const isAdmin = (authorId) => {
 };
 
 const isAbcd = (words) => {
-  // Check if message content is having all first word letters in alphabetic order
+  // Check if message content is having all words first letters in alphabetic order
   if (words.length >= 4) {
     // Need at least 4 words
     const reduced = words.reduce(
@@ -79,23 +76,26 @@ export const reactionHandler = async (
   const authorId = message.author.id;
 
   if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
-    return;
+    return; //check for ignore users or channels
 
   const words = loweredMessage.split(" ");
+
+  // If message contains apology, Ewibot reacts
   if (apologies.some((apology) => words.some((word) => word === apology))) {
     addApologyCount(authorId, db);
     await message.react(currentServer.panDuomReactId);
-  } // If message contains apology, Ewibot reacts
+  }
 
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
-  if (Math.random() < 0.8) return; // Allows to reduce Ewibot react frequency
+  if (Math.random() < 0.8) return; // Allows to limit Ewibot react frequency
 
   if (hello.some((helloMessage) => words[0] === helloMessage)) {
     await message.react(currentServer.helloEmoji);
   }
 
-  const emotes = Object.values(currentServer.autoEmotes); // Ewibot reacts with the same emoji that inside the message
+  // Ewibot reacts with the same emojis that are inside the message
+  const emotes = Object.values(currentServer.autoEmotes);
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
     for (const e of foundEmotes) {

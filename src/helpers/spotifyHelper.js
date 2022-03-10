@@ -187,7 +187,7 @@ export const parseLink = async (
     }
   }
 
-  return null; // if no song founded from spotify, Youtube, manual
+  return null; // if no song founded from spotify, Youtube or manual query
 };
 
 const deleteSongFromPlaylist = async (songId, client, personality) => {
@@ -204,6 +204,7 @@ const deleteSongFromPlaylist = async (songId, client, personality) => {
 };
 
 export const spotifyReply = async (foundLink, message, client, currentServer) => {
+  // Ewibot reply for command query
   if (foundLink) {
     const { answer, songId } = foundLink;
     const newMessage = await message.reply(answer);
@@ -216,6 +217,7 @@ export const spotifyReply = async (foundLink, message, client, currentServer) =>
 };
 
 export const removeSpotify = async (messageReaction, PERSONALITY, client, currentServer) => {
+  //remove song from client cache and spotify playlist using react
   const { message, emoji, users } = messageReaction;
   const { removeEmoji } = currentServer;
 
@@ -228,8 +230,8 @@ export const removeSpotify = async (messageReaction, PERSONALITY, client, curren
     process.env.USE_SPOTIFY === "yes" &&
     foundMessageSpotify &&
     emoji.name === removeEmoji &&
-    users.cache
-      .map((user) => user.id) // if user reacting is the owner of spotify message
+    users.cache // if user reacting is the owner of spotify message
+      .map((user) => user.id)
       .includes(message.mentions.users.first().id)
   ) {
     const { songId } = foundMessageSpotify;

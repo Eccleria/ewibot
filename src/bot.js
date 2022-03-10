@@ -12,6 +12,11 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
+// commands imports
+import commands from "./commands/index.js";
+import { wishBirthday } from "./commands/birthday.js";
+import { PERSONALITY } from "./commands/personality.js";
+// helpers imports
 import {
   isAdmin,
   isCommand,
@@ -20,10 +25,9 @@ import {
   generateSpotifyClient,
   removeSpotify,
 } from "./helpers/index.js";
+// jsons imports
 import commons from "./jsons/commons.json";
-import commands from "./commands/index.js";
-import { wishBirthday } from "./commands/birthday.js";
-import { PERSONALITY } from "./commands/personality.js";
+
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -36,7 +40,7 @@ db.wasUpdated = false;
 db.birthdayInitiated = false;
 
 setInterval(async () => {
-  // db updater loop
+  // db updater loop, used to centralize db.write()
   if (db.wasUpdated) {
     await db.write();
     db.wasUpdated = false;
@@ -50,10 +54,10 @@ const tomorrow = dayjs()
   .minute(0)
   .second(0)
   .millisecond(0);
-const timeToTomorrow = tomorrow.diff(dayjs());
+const timeToTomorrow = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
 const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
-setTimeout(async () => {
+setTimeout(async () => { // init birthday check
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
@@ -63,7 +67,7 @@ setTimeout(async () => {
 
   wishBirthday(db, channel);
 
-  setInterval(wishBirthday, frequency, db, channel); // Next birthday check
+  setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
 }, timeToTomorrow);
 
 // Discord CLIENT
@@ -96,10 +100,10 @@ if (process.env.USE_SPOTIFY === "yes") {
   client.spotifyApi = spotifyApi;
 }
 
-const self = process.env.CLIENTID;
+const self = process.env.CLIENTID; // get self Discord Id
 
 // Bot event FUNCTIONS
-const onMessageHandler = async (message) => {
+const onMessageHandler = async (message) => { // Function triggered for each message sent
   const { channel, author, content } = message;
 
   if (channel.type === "DM") {
