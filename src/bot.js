@@ -140,15 +140,13 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === message.channel.guild.id
   );
 
-  const { removeEmoji } = currentServer;
-
+    const { removeEmoji } = currentServer;
   removeSpotify(messageReaction, PERSONALITY, client, currentServer);
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
     ({ botMessage }) => botMessage.id === message.id
   );
-
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
@@ -170,10 +168,9 @@ const onReactionHandler = async (messageReaction) => {
       });
       return;
     } catch (err) {
-      console.log(err);
+      console.log("reminderError", err);
     }
   }
-
 };
 
 const onPrivateMessage = async (message) => {

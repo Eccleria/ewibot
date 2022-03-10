@@ -16,13 +16,14 @@ const sendDelayed = async (
   messageContent,
   botMessage
 ) => {
+  /*
   try {
     // try to DM
     await author.send(`${author.toString()} : ${messageContent}`);
-  } catch {
+  } catch {*/
     // send in the original channel
     await channel.send(`${author.toString()} : ${messageContent}`);
-  }
+  //}
   client.remindme = client.remindme.filter(
     // removes from cache
     ({ botMessage: answer }) => answer.id !== botMessage.id
@@ -57,7 +58,7 @@ const answerBot = async (message, personality, currentServer, timing) => {
     // try to DM
     const answer = await message.author.send(
       personality.reminder.remind.concat(
-        `${formatMs(timing)}`,
+        `${formatMs(timing)}. `,
         personality.reminder.react[0],
         `${currentServer.removeEmoji}`,
         personality.reminder.react[1]
@@ -97,7 +98,7 @@ const action = async (message, personality, client, currentServer) => {
 
     const messageContent = args.slice(2).join(" ");
 
-    const answer = answerBot(message, personality, currentServer, timing);
+    const answer = await answerBot(message, personality, currentServer, timing);
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user
