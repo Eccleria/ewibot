@@ -10,7 +10,6 @@ import {
 } from "../helpers/index.js";
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
-import personality from "./personality.js";
 import { PERSONALITY } from "./personality.js";
 
 const helloWorld = {
@@ -107,7 +106,7 @@ const roll = {
     }
   },
   help: () => {
-    return personnalities.normal.commands.roll.help;
+    return PERSONALITY.commands.roll.help;
   },
   admin: false,
 };
