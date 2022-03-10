@@ -26,7 +26,11 @@ import {
   checkIsOnThread,
 } from "./utils.js";
 
-import { onPrivateMessage, onPublicMessage, removeReminder } from "./listeners.js";
+import {
+  onPrivateMessage,
+  onPublicMessage,
+  removeReminder,
+} from "./listeners.js";
 
 export {
   // listeners

@@ -4,6 +4,8 @@ import waitForUserInput from "wait-for-user-input";
 
 import ytdl from "ytdl-core";
 
+import { PERSONALITY } from "../commands/personality.js";
+
 const buildCode = async (spotifyApi) => {
   const scopes = [
     "playlist-modify-public",
@@ -221,12 +223,7 @@ export const spotifyReply = async (
   }
 };
 
-export const removeSpotify = async (
-  messageReaction,
-  PERSONALITY,
-  client,
-  currentServer
-) => {
+export const removeSpotify = async (messageReaction, client, currentServer) => {
   //remove song from client cache and spotify playlist using react
   const { message, emoji, users } = messageReaction;
   const { removeEmoji } = currentServer;

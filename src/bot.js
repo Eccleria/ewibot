@@ -12,9 +12,6 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
-// commands imports
-import { wishBirthday } from "./commands/birthday.js";
-import { PERSONALITY } from "./commands/personality.js";
 // helpers imports
 import {
   generateSpotifyClient,
@@ -25,6 +22,8 @@ import {
 } from "./helpers/index.js";
 // jsons imports
 import commons from "./jsons/commons.json";
+// commands imports
+import { wishBirthday } from "./commands/birthday.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -120,7 +119,7 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  removeSpotify(messageReaction, PERSONALITY, client, currentServer);
+  removeSpotify(messageReaction, client, currentServer);
 
   removeReminder(messageReaction, client, currentServer);
 };
