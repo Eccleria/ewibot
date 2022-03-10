@@ -11,7 +11,9 @@ import {
 
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
-import { PERSONALITY, personality } from "./personality.js";
+//import personality from "./personality.js";
+
+import { PERSONALITY } from "./personality.js";
 
 const helloWorld = {
   // Is useful to verify is Ewibot is active or not.
@@ -119,7 +121,7 @@ const commands = [
   helloWorld,
   ignore,
   ignoreChannel,
-  personality,
+  //personality,
   reminder,
   roll,
 ];
