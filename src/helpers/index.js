@@ -15,8 +15,7 @@ import {
 import {
   generateSpotifyClient,
   parseLink,
-  spotifyReply,
-  removeSpotify,
+  deleteSongFromPlaylist,
 } from "./spotifyHelper.js";
 
 import {
@@ -30,6 +29,7 @@ import {
   onPrivateMessage,
   onPublicMessage,
   removeReminder,
+  removeSpotify,
 } from "./listeners.js";
 
 export {
@@ -37,6 +37,7 @@ export {
   onPrivateMessage,
   onPublicMessage,
   removeReminder,
+  removeSpotify,
   // utils
   isAdmin,
   isCommand,
@@ -45,8 +46,7 @@ export {
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
-  spotifyReply,
-  removeSpotify,
+  deleteSongFromPlaylist,
   // dbHelper
   addIgnoredUser,
   removeIgnoredUser,

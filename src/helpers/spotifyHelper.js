@@ -1,10 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
 import waitForUserInput from "wait-for-user-input";
-
 import ytdl from "ytdl-core";
-
-import { PERSONALITY } from "../commands/personality.js";
 
 const buildCode = async (spotifyApi) => {
   const scopes = [
@@ -192,7 +187,7 @@ export const parseLink = async (
   return null; // if no song founded from spotify, Youtube or manual query
 };
 
-const deleteSongFromPlaylist = async (songId, client, personality) => {
+export const deleteSongFromPlaylist = async (songId, client, personality) => {
   const tracks = [{ uri: songId }];
   try {
     await client.spotifyApi.removeTracksFromPlaylist(
@@ -202,55 +197,5 @@ const deleteSongFromPlaylist = async (songId, client, personality) => {
     return personality.songSupressed;
   } catch {
     return personality.errorSupressing;
-  }
-};
-
-export const spotifyReply = async (
-  foundLink,
-  message,
-  client,
-  currentServer
-) => {
-  // Ewibot reply for command query
-  if (foundLink) {
-    const { answer, songId } = foundLink;
-    const newMessage = await message.reply(answer);
-    if (songId) await newMessage.react(currentServer.removeEmoji);
-    client.playlistCachedMessages = [
-      ...client.playlistCachedMessages,
-      { ...newMessage, songId },
-    ];
-  }
-};
-
-export const removeSpotify = async (messageReaction, client, currentServer) => {
-  //remove song from client cache and spotify playlist using react
-  const { message, emoji, users } = messageReaction;
-  const { removeEmoji } = currentServer;
-
-  const foundMessageSpotify = client.playlistCachedMessages.find(
-    // found corresponding spotify message
-    ({ id }) => id === message.id
-  );
-
-  if (
-    process.env.USE_SPOTIFY === "yes" &&
-    foundMessageSpotify &&
-    emoji.name === removeEmoji &&
-    users.cache // if user reacting is the owner of spotify message
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
-  ) {
-    const { songId } = foundMessageSpotify;
-
-    const result = await deleteSongFromPlaylist(
-      songId,
-      client,
-      PERSONALITY.spotify
-    );
-    client.playlistCachedMessages = client.playlistCachedMessages.filter(
-      ({ id }) => id !== message.id
-    );
-    await message.reply(result);
   }
 };
