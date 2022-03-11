@@ -14,6 +14,9 @@ const action = async (message, personality, client) => {
     message.reply("Un seul argument attendu : une mention");
     return;
   }
+
+  channel.sendTyping();
+
   const recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
 
   const gifsPath = path.join(
@@ -23,8 +26,6 @@ const action = async (message, personality, client) => {
   );
 
   const dir = fs.readdirSync(gifsPath);
-
-  console.log(dir);
 
   if (!dir.includes(`${recipient.id}.gif`)) {
     //If not in db, must create the gif
