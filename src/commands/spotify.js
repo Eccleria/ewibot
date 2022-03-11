@@ -1,12 +1,7 @@
 import { PERSONALITY } from "./personality.js";
 import { parseLink } from "../helpers/index.js";
 
-const spotifyReply = async (
-  foundLink,
-  message,
-  client,
-  currentServer
-) => {
+const spotifyReply = async (foundLink, message, client, currentServer) => {
   // Ewibot reply for command query
   if (foundLink) {
     const { answer, songId } = foundLink;
@@ -21,11 +16,11 @@ const spotifyReply = async (
   }
 };
 
-const action = async (message, _personality, client, currentServer) => {
+const action = async (message, client, currentServer) => {
   const foundLink = await parseLink(
     message.content,
     client,
-    PERSONALITY.spotify,
+    PERSONALITY.getSpotify(),
     currentServer
   );
 
@@ -36,7 +31,7 @@ const spotify = {
   name: "spotify",
   action,
   help: () => {
-    return PERSONALITY.commands.spotify.help;
+    return PERSONALITY.getCommands().spotify.help;
   },
   admin: false,
 };

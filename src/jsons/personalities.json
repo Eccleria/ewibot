@@ -28,7 +28,7 @@
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help": "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
+        "help": "Ewibot ignore ou non le channel. Utilisation :\n- `$ignoreChannel channelId` dans n'importe quel channel.\n- `$ignoreChannel` dans le channel concerné."
       },
       "messageCount": {
         "addUser": "Je compterai le nombre de messages que vous envoyez.",
@@ -39,7 +39,7 @@
         "currentName": "Actuellement, j'ai la personalité ",
         "nameError": "Erreur d'argument.",
         "nameList": "La liste des personalités est : ",
-        "help": "Permet de choisir la personnalité d'Ewibot.\nUtilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`"
+        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
@@ -91,14 +91,14 @@
       "ignoreChannel": {
         "ignored": "Je vais ignorer les messages de ",
         "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help": "Ewibot ignore ou non le channel. Utilisation :\n`$ignoreChannel channelId` dans n'importe quel channel.\n`$ignoreChannel` dans le channel concerné."
+        "help": "Ewibot ignore ou non le channel. Utilisation :\n- `$ignoreChannel channelId` dans n'importe quel channel.\n- `$ignoreChannel` dans le channel concerné."
       },
       "personality": {
         "change": "Plus de fun. Maintenant je serai ",
         "currentName": "Actuellement, j'ai la personalité ",
         "nameError": "Erreur d'argument.",
         "nameList": "La liste des personalités est : ",
-        "help": "Permet de choisir la personnalité d'Ewibot.\nUtilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`"
+        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé.",

@@ -40,7 +40,7 @@ export const wishBirthday = async (db, channel) => {
   }
 };
 
-const action = async (message, personality, client) => {
+const action = async (message, client) => {
   const content = message.content;
   const authorId = message.author.id;
   const db = client.db;
@@ -50,7 +50,7 @@ const action = async (message, personality, client) => {
     // remove user
     if (isBirthdayDate(authorId, db)) {
       removeBirthday(authorId, db);
-      await message.reply(personality.birthday.removeUser);
+      await message.reply(PERSONALITY.getCommands().birthday.removeUser);
       return;
     }
   } else if (words[1] === "add" && words[2]) {
@@ -61,15 +61,15 @@ const action = async (message, personality, client) => {
       // Checks date validity
       if (date.year() < 1950) {
         // If too old
-        await message.reply(personality.birthday.tooOld);
+        await message.reply(PERSONALITY.getCommands().birthday.tooOld);
       } else if (date.year() > dayjs().subtract(5, "year").year()) {
         // If year of birth > now year - 5 => too young
-        await message.reply(personality.birthday.tooYoung);
+        await message.reply(PERSONALITY.getCommands().birthday.tooYoung);
       } else {
         addBirthday(authorId, db, date.toISOString());
-        await message.reply(personality.birthday.addUser);
+        await message.reply(PERSONALITY.getCommands().birthday.addUser);
       }
-    } else await message.reply(personality.birthday.parsingError);
+    } else await message.reply(PERSONALITY.getCommands().birthday.parsingError);
   } else if (words.length === 1) {
     // checks if user is in DB and tells user
     const users = db.data.birthdaysUsers;
@@ -77,11 +77,11 @@ const action = async (message, personality, client) => {
 
     if (user)
       await message.reply(
-        `${personality.birthday.getUser}${dayjs(user.birthdayDate).format(
-          "DD/MM/YYYY"
-        )}.`
+        `${PERSONALITY.getCommands().birthday.getUser}${dayjs(
+          user.birthdayDate
+        ).format("DD/MM/YYYY")}.`
       );
-    else await message.reply(personality.birthday.userNotFound);
+    else await message.reply(PERSONALITY.getCommands().birthday.userNotFound);
   }
 };
 
@@ -90,7 +90,7 @@ const birthday = {
   name: "birthday",
   action,
   help: () => {
-    return PERSONALITY.commands.birthday.help;
+    return PERSONALITY.getCommands().birthday.help;
   },
   admin: false,
 };

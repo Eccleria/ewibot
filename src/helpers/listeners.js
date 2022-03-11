@@ -59,7 +59,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
       // spotify stuff
       checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
     }
-    command.action(message, PERSONALITY.commands, client, currentServer);
+    command.action(message, client, currentServer);
   }
 };
 
@@ -85,7 +85,7 @@ export const removeReminder = (messageReaction, client, currentServer) => {
           // if it is the right message
           console.log("salut");
           clearTimeout(timeout); //cancel timeout
-          botMessage.reply(PERSONALITY.commands.reminder.delete);
+          botMessage.reply(PERSONALITY.getCommands().reminder.delete);
           return false;
         }
         return true;
@@ -120,7 +120,7 @@ export const removeSpotify = async (messageReaction, client, currentServer) => {
     const result = await deleteSongFromPlaylist(
       songId,
       client,
-      PERSONALITY.spotify
+      PERSONALITY.getSpotify()
     );
     client.playlistCachedMessages = client.playlistCachedMessages.filter(
       ({ id }) => id !== message.id

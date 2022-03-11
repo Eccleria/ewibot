@@ -52,16 +52,16 @@ const extractDuration = (str) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (message, personality, currentServer, timing) => {
+const answerBot = async (message, currentServer, timing) => {
   // Confirm or not the reminder to user
   try {
     // try to DM
     const answer = await message.author.send(
-      personality.reminder.remind.concat(
+      PERSONALITY.getCommands().reminder.remind.concat(
         `${formatMs(timing)}. `,
-        personality.reminder.react[0],
+        PERSONALITY.getCommands().reminder.react[0],
         `${currentServer.removeEmoji}`,
-        personality.reminder.react[1]
+        PERSONALITY.getCommands().reminder.react[1]
       )
     );
     await answer.react(currentServer.removeEmoji);
@@ -70,19 +70,18 @@ const answerBot = async (message, personality, currentServer, timing) => {
     // reply to the request message
     console.log(`Utilisateur ayant bloqué les DMs`);
     const answer = await message.reply(
-      personality.reminder.remind.concat(
-        `${formatMs(timing)}`,
-        personality.reminder.react[0],
-        `${currentServer.removeEmoji}`,
-        personality.reminder.react[1]
-      )
+      PERSONALITY.getCommands().reminder.remind +
+        `${formatMs(timing)}` +
+        PERSONALITY.getCommands().reminder.react[0] +
+        `${currentServer.removeEmoji}` +
+        PERSONALITY.getCommands().reminder.react[1]
     );
     await answer.react(currentServer.removeEmoji);
     return answer;
   }
 };
 
-const action = async (message, personality, client, currentServer) => {
+const action = async (message, client, currentServer) => {
   const { channel, content, author } = message;
   const args = content.split(" ");
 
@@ -98,7 +97,7 @@ const action = async (message, personality, client, currentServer) => {
 
     const messageContent = args.slice(2).join(" ");
 
-    const answer = await answerBot(message, personality, currentServer, timing);
+    const answer = await answerBot(message, currentServer, timing);
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user
@@ -124,7 +123,7 @@ const reminder = {
   name: "reminder",
   action,
   help: () => {
-    return PERSONALITY.commands.reminder.help;
+    return PERSONALITY.getCommands().reminder.help;
   },
   admin: false,
 };

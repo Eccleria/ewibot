@@ -11,18 +11,18 @@ import {
 
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
-//import personality from "./personality.js";
+import personality from "./personality.js";
 
 import { PERSONALITY } from "./personality.js";
 
 const helloWorld = {
   // Is useful to verify is Ewibot is active or not.
   name: "ping",
-  action: async (message, personality) => {
-    await message.channel.send(personality.helloWorld.pong);
+  action: async (message) => {
+    await message.channel.send(PERSONALITY.getCommands().helloWorld.pong);
   },
   help: () => {
-    return PERSONALITY.commands.helloWorld.help;
+    return PERSONALITY.getCommands().helloWorld.help;
   },
   admin: false,
 };
@@ -30,19 +30,19 @@ const helloWorld = {
 const ignore = {
   // Allows users to choose if they want Ewibot reacting or not to their messages.
   name: "ignore",
-  action: async (message, personality, client) => {
+  action: async (message, client) => {
     const db = client.db;
     const authorId = message.author.id;
     if (db.data.ignoredUsersIds.includes(authorId)) {
       removeIgnoredUser(authorId, db);
-      await message.channel.send(personality.ignore.notIgnored);
+      await message.channel.send(PERSONALITY.getCommands().ignore.notIgnored);
     } else {
       addIgnoredUser(authorId, db);
-      await message.channel.send(personality.ignore.ignored);
+      await message.channel.send(PERSONALITY.getCommands().ignore.ignored);
     }
   },
   help: () => {
-    return PERSONALITY.commands.ignore.help;
+    return PERSONALITY.getCommands().ignore.help;
   },
   admin: false,
 };
@@ -50,24 +50,26 @@ const ignore = {
 const ignoreChannel = {
   // ADMIN Allows to add or remove channels where Ewibot will (or not) react.
   name: "ignoreChannel",
-  action: async (message, personality, client) => {
+  action: async (message, client) => {
     const db = client.db;
     const ignoredChannelId =
       message.content.toLowerCase().split(" ")[1] || message.channel.id;
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
       await message.reply(
-        personality.ignoreChannel.notIgnored.concat(`<#${ignoredChannelId}>.`)
+        PERSONALITY.getCommands().ignoreChannel.notIgnored +
+          `<#${ignoredChannelId}>.`
       );
     } else {
       addIgnoredChannel(db, ignoredChannelId);
       await message.reply(
-        personality.ignoreChannel.ignored.concat(`<#${ignoredChannelId}>.`)
+        PERSONALITY.getCommands().ignoreChannel.ignored +
+          `<#${ignoredChannelId}>.`
       );
     }
   },
   help: () => {
-    return PERSONALITY.ignoreChannel.help;
+    return PERSONALITY.getCommands().ignoreChannel.help;
   },
   admin: true,
 };
@@ -111,7 +113,7 @@ const roll = {
     }
   },
   help: () => {
-    return PERSONALITY.commands.roll.help;
+    return PERSONALITY.getCommands().roll.help;
   },
   admin: false,
 };
@@ -121,7 +123,7 @@ const commands = [
   helloWorld,
   ignore,
   ignoreChannel,
-  //personality,
+  personality,
   reminder,
   roll,
 ];
@@ -153,7 +155,7 @@ const help = {
     }
   },
   help: () => {
-    return PERSONALITY.commands.help.help;
+    return PERSONALITY.getCommands().help.help;
   },
   admin: false,
 };
