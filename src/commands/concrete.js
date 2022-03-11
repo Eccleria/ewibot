@@ -1,44 +1,66 @@
-import personalities from "../personnalities.json"
+import personalities from "../personnalities.json";
 import Canvas from "canvas";
 import GIFEncoder from "gif-encoder-2";
 import { MessageAttachment } from "discord.js";
-import { isConcreteRecipient } from "../helpers/index.js";
+import path from "path";
+import fs from "fs";
 
 const replies = personalities.normal.commands;
 
-const action = async (message, _personality, client) => {
-  const { content, channel } = message; // author, 
-  const db = client.db;
-  const args = content.toLowerCase().split(" ");
+const action = async (message, personality, client) => {
+  const { channel, mentions } = message;
 
-  const recipient = args.length > 1 ? await client.users.fetch(args[1]) : -1; // find user from user id
+  if (mentions.users.size !== 1) {
+    message.reply("Un seul argument attendu : une mention");
+    return;
+  }
+  const recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
 
-  if (!isConcreteRecipient(db, recipient.id)) { //If not in db, must create the gif
+  const gifsPath = path.join(
+    path.resolve(path.dirname("")),
+    "concrete",
+    "gifs"
+  );
+
+  const dir = fs.readdirSync(gifsPath);
+
+  console.log(dir);
+
+  if (!dir.includes(`${recipient.id}.gif`)) {
+    //If not in db, must create the gif
+    //const gif = "https://tenor.com/view/gna-gna-gna-gif-11638410";
     const canvas = Canvas.createCanvas(339, 480); // Canvas creation
-    const context = canvas.getContext('2d'); // context allows canvas further modification
-    
-    const basicPath = "C:/Users/julie/Source/Repos/Titch88/ewibot/concrete/jpgs/frame-";
+    const context = canvas.getContext("2d"); // context allows canvas further modification
+
+    const basicPath = path.join(
+      path.resolve(path.dirname("")),
+      "concrete",
+      "jpgs"
+    );
 
     const encoder = new GIFEncoder(canvas.width, canvas.height); // width, heigth
-    encoder.setDelay(50); //delay between each gif frame in ms
+    encoder.setDelay(33); //delay between each gif frame in ms
     encoder.start();
 
+    const avatar = await Canvas.loadImage(
+      recipient.displayAvatarURL({ format: "jpg" })
+    );
 
-    for (let i = 1; i < 44; i++) {
-      const path = i <= 9 ? "0" + i.toString() : i.toString();
-      const picture = await Canvas.loadImage(basicPath + path + ".jpg");
+    for (let i = 100; i < 150; i++) {
+      const path = i.toString().padStart(4, "0");
+      const picture = await Canvas.loadImage(`${basicPath}/frame-${path}.jpg`);
       context.drawImage(picture, 0, 0, canvas.width, canvas.height); // add background
-      context.save()
+      context.save();
 
       //draw circle
       context.beginPath(); // Pick up the pen
-      context.arc(170, 400, 80, 0, Math.PI * 2, true); // Start the arc to form a circle
+      context.arc(160, 360, 40, 0, Math.PI * 2, true); // Start the arc to form a circle
       context.closePath(); // Put the pen down
       context.clip(); // Clip off the region you drew on
 
-      //draw avatar
-      const avatar = recipient !== -1 ? await Canvas.loadImage(recipient.displayAvatarURL({ format: 'jpg' })) : null;
-      context.drawImage(avatar, 89, 320, 160, 160);
+      //draw avatar until the concrete block overlap it
+      if (i < 131) context.drawImage(avatar, 120, 320, 80, 80);
+
       context.restore();
 
       encoder.addFrame(context);
@@ -46,23 +68,16 @@ const action = async (message, _personality, client) => {
     encoder.finish();
 
     const buffer = encoder.out.getData();
-    const attachment = new MessageAttachment(buffer, 'concrete.gif');//'concrete-' + `${recipient.toString()}` + '.gif');
-    
 
-    /*
-    const picture = await Canvas.loadImage("C:/Users/julie/Source/Repos/Titch88/ewibot/concrete/jpgs/frame-01.jpg");
-    context.drawImage(picture, 0, 0, canvas.width, canvas.height);
+    fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer);
 
-    context.beginPath(); // Pick up the pen
-    context.arc(170, 400, 80, 0, Math.PI * 2, true); // Start the arc to form a circle
-    context.closePath(); // Put the pen down
-    context.clip(); // Clip off the region you drew on
+    const attachment = new MessageAttachment(buffer, "concrete.gif"); //'concrete-' + `${recipient.toString()}` + '.gif');
 
-    const avatar = recipient !== -1 ? await Canvas.loadImage(recipient.displayAvatarURL({ format: 'jpg' })) : null;
-    context.drawImage(avatar, 89, 320, 160, 160);
+    await channel.send({ files: [attachment] });
+  } else {
+    const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
-    const attachment = new MessageAttachment(canvas.toBuffer(), 'profile-image.png');
-    */
+    const attachment = new MessageAttachment(buffer, "concrete.gif");
     await channel.send({ files: [attachment] });
   }
 };
@@ -73,7 +88,7 @@ const concrete = {
   help: () => {
     return replies.concrete.help;
   },
-  admin: false
-}
+  admin: false,
+};
 
 export default concrete;

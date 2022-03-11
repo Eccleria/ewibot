@@ -95,27 +95,6 @@ const resetApologyCount = (db) => {
 
 export { getApologyUsers, isApologyUser, addApologyCount, resetApologyCount };
 
-  //CONCRETE
-const isConcreteRecipient = (db, userId) => {
-  return db.data.concreteRecipients.includes(userId);
-};
-
-const addConcreteRecipient = (db, userId, avatar) => {
-  if (!isConcreteRecipient(db, userId)) {
-    db.data.concreteRecipients = [...db.data.concreteRecipients, { userId: userId, avatarId: avatar.id }];
-    db.wasUpdated = true;
-  }
-};
-
-const removeConcreteRecipient = (db, userId) => {
-  if (isConcreteRecipient(db, userId)) {
-    db.data.concreteRecipients = db.data.concreteRecipients.filter((user) => user === userId);
-    db.wasUpdated = true;
-  }
-};
-
-export { isConcreteRecipient, addConcreteRecipient, removeConcreteRecipient };
-
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
   return db.data.ignoredChannelIds.includes(channelId);
