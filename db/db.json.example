@@ -5,5 +5,7 @@
   "messageCount": [],
   "birthdays": {
     "users": []
-  }
+  },
+  "ignoredChannelIds": [],
+  "concreteRecipients": [],
 }

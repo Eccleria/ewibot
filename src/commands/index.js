@@ -12,6 +12,7 @@ import {
 import reminder from "./reminder.js";
 import { messageCount } from "./messageCount.js"
 import birthday from "./birthday.js";
+import concrete from "./concrete.js";
 import personnalities from "../personnalities.json";
 
 const helloWorld = {
@@ -110,7 +111,15 @@ const roll = {
   admin: false,
 };
 
-const commands = [helloWorld, ignore, reminder, birthday, ignoreChannel, messageCount, roll];
+const commands = [
+  helloWorld,
+  ignore,
+  reminder,
+  birthday,
+  ignoreChannel,
+  roll,
+  concrete,
+];
 
 const help = {
   name: "help",
