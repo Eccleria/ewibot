@@ -13,6 +13,9 @@ import {
   isApologyUser,
   addApologyCount,
   resetApologyCount,
+  isConcreteRecipient,
+  addConcreteRecipient,
+  removeConcreteRecipient,
 } from "./dbHelper.js";
 
 import {
@@ -44,4 +47,7 @@ export {
   isApologyUser,
   addApologyCount,
   resetApologyCount,
+  isConcreteRecipient,
+  addConcreteRecipient,
+  removeConcreteRecipient,
 };
