@@ -119,6 +119,7 @@ const commands = [
   ignoreChannel,
   roll,
   concrete,
+  messageCount,
 ];
 
 const help = {
