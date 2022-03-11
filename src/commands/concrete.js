@@ -8,10 +8,10 @@ import fs from "fs";
 const replies = personalities.normal.commands;
 
 const action = async (message, personality, client) => {
-  const { channel, mentions } = message;
+  const { channel, mentions, content} = message;
 
-  if (mentions.users.size !== 1) {
-    message.reply("Un seul argument attendu : une mention");
+  if (mentions.users.size !== 1) { //if no or too many mentions
+    message.reply(personality.concrete.errorMention);
     return;
   }
 
@@ -24,12 +24,13 @@ const action = async (message, personality, client) => {
     "concrete",
     "gifs"
   );
-
   const dir = fs.readdirSync(gifsPath);
 
-  if (!dir.includes(`${recipient.id}.gif`)) {
-    //If not in db, must create the gif
-    //const gif = "https://tenor.com/view/gna-gna-gna-gif-11638410";
+  const force = content.includes("--force");
+  const gifExists = dir.includes(`${recipient.id}.gif`);
+
+  if (!gifExists || (gifExists && force)) {
+    //If not in db or --force, must create the gif
     const canvas = Canvas.createCanvas(339, 480); // Canvas creation
     const context = canvas.getContext("2d"); // context allows canvas further modification
 
@@ -43,15 +44,15 @@ const action = async (message, personality, client) => {
     encoder.setDelay(33); //delay between each gif frame in ms
     encoder.start();
 
-    const avatar = await Canvas.loadImage(
+    const avatar = await Canvas.loadImage( // Load recipient avatar
       recipient.displayAvatarURL({ format: "jpg" })
     );
 
-    for (let i = 100; i < 150; i++) {
+    for (let i = 100; i < 150; i++) { // gif creation frame by frame
       const path = i.toString().padStart(4, "0");
       const picture = await Canvas.loadImage(`${basicPath}/frame-${path}.jpg`);
       context.drawImage(picture, 0, 0, canvas.width, canvas.height); // add background
-      context.save();
+      context.save(); //Save the general configuration
 
       //draw circle
       context.beginPath(); // Pick up the pen
@@ -62,19 +63,18 @@ const action = async (message, personality, client) => {
       //draw avatar until the concrete block overlap it
       if (i < 131) context.drawImage(avatar, 120, 320, 80, 80);
 
-      context.restore();
+      context.restore(); //Go back to the general contribution
 
       encoder.addFrame(context);
     }
     encoder.finish();
 
-    const buffer = encoder.out.getData();
-
-    fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer);
-
-    const attachment = new MessageAttachment(buffer, "concrete.gif"); //'concrete-' + `${recipient.toString()}` + '.gif');
+    const buffer = encoder.out.getData(); //Recover the gif
+    fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
+    const attachment = new MessageAttachment(buffer, "concrete.gif");
 
     await channel.send({ files: [attachment] });
+
   } else {
     const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
