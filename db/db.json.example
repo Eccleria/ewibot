@@ -4,5 +4,6 @@
   "birthdays": {
     "users": []
   },
-  "ignoredChannelIds": []
+  "ignoredChannelIds": [],
+  "concreteRecipients": [],
 }

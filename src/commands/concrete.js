@@ -6,15 +6,14 @@ import { isConcreteRecipient } from "../helpers/index.js";
 
 const replies = personalities.normal.commands;
 
-const action = async (message, personality, client) => {
-  const { content, author, channel } = message;
+const action = async (message, _personality, client) => {
+  const { content, channel } = message; // author, 
   const db = client.db;
   const args = content.toLowerCase().split(" ");
 
   const recipient = args.length > 1 ? await client.users.fetch(args[1]) : -1; // find user from user id
 
   if (!isConcreteRecipient(db, recipient.id)) { //If not in db, must create the gif
-    //const gif = "https://tenor.com/view/gna-gna-gna-gif-11638410";
     const canvas = Canvas.createCanvas(339, 480); // Canvas creation
     const context = canvas.getContext('2d'); // context allows canvas further modification
     
@@ -65,23 +64,7 @@ const action = async (message, personality, client) => {
     const attachment = new MessageAttachment(canvas.toBuffer(), 'profile-image.png');
     */
     await channel.send({ files: [attachment] });
-
-  /*
-    const embedMessage = new MessageEmbed()
-      .setTitle("Salut")
-      .setImage(gif);
-      */
-  //await channel.send(personality.concrete.author + `${author.toString()}` + gif);
-  //await channel.send({ embeds: [embedMessage] });
-    /*
-    if (args[1]) {
-      const recipient = client.cache.fetch(args[1]); // find user from user id
-      const embed = new MessageEmbed().setImage(["https://tenor.com/wrdT.gif"]);
-      await recipient.send(" tu viens de te faire bétonner ");
-    }
-    */
   }
-  
 };
 
 const concrete = {
