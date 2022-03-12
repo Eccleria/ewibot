@@ -1,6 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import dayjs from "dayjs";
+import RelativeTime from "dayjs/plugin/relativeTime.js";
+import "dayjs/locale/fr.js";
+dayjs.extend(RelativeTime);
+dayjs.locale("fr");
+
+import personnalities from "./personnalities.json";
+
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 import {
@@ -16,6 +24,7 @@ import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
+import { wishBirthday } from "./commands/birthday.js";
 
 // Use JSON file for storage
 const file = join("db", "db.json");
@@ -25,13 +34,37 @@ const db = new Low(adapter);
 db.read();
 
 db.wasUpdated = false;
+db.birthdayInitiated = false;
 
 setInterval(async () => {
   if (db.wasUpdated) {
     await db.write();
     db.wasUpdated = false;
   }
-}, 60000);
+}, 10000);
+
+const tomorrow = dayjs()
+  .add(1, "day")
+  .hour(8)
+  .minute(0)
+  .second(0)
+  .millisecond(0);
+const timeToTomorrow = tomorrow.diff(dayjs());
+
+const frequency = 24 * 60 * 60 * 1000;
+
+setTimeout(async () => {
+  const server = servers.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const channel = await client.channels.fetch(server.randomfloodChannelId);
+
+  console.log("hello, timeoutBirthday");
+
+  wishBirthday(db, channel);
+
+  setInterval(wishBirthday, frequency, db, channel); // 24 hours, in ms
+}, timeToTomorrow);
 
 // Create an instance of a Discord client
 const client = new Client({
@@ -64,6 +97,8 @@ if (process.env.USE_SPOTIFY === "yes") {
 
 const self = process.env.CLIENTID;
 
+const PERSONNALITY = personnalities.normal;
+
 const onMessageHandler = async (message) => {
   const { channel, author, content } = message;
 
@@ -90,7 +125,12 @@ const onMessageHandler = async (message) => {
       checkIsOnThread(channel, playlistThreadId);
 
       //
-      const foundLink = await parseLink(content, client);
+      const foundLink = await parseLink(
+        content,
+        client,
+        PERSONNALITY.spotify,
+        currentServer
+      );
       if (foundLink) {
         const { answer, songId } = foundLink;
         const newMessage = await message.reply(answer);
@@ -107,7 +147,7 @@ const onMessageHandler = async (message) => {
       .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
       .find(({ name }) => commandName.slice(1) === name);
     if (command && isCommand(commandName)) {
-      command.action(message, client, currentServer);
+      command.action(message, PERSONNALITY.commands, client, currentServer);
     }
   }
 };
@@ -117,7 +157,6 @@ const onReactionHandler = async (messageReaction) => {
   const currentServer = servers.find(
     ({ guildId }) => guildId === message.channel.guild.id
   );
-
   const { removeEmoji } = currentServer;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
@@ -125,9 +164,8 @@ const onReactionHandler = async (messageReaction) => {
   );
 
   const foundReminder = client.remindme.find(
-    ({ botMessage }) => botMessage.id === message.id
+    (reminder) => reminder.botMessage.id === message.id
   );
-
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
@@ -139,14 +177,14 @@ const onReactionHandler = async (messageReaction) => {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
         if (botMessage.id === message.id) {
           clearTimeout(timeout);
-          botMessage.reply("Le reminder a été supprimé.");
+          botMessage.reply(PERSONNALITY.commands.reminder.delete);
           return false;
         }
         return true;
       });
       return;
     } catch (err) {
-      console.log(err);
+      console.log("reminderError", err);
     }
   }
 
@@ -160,7 +198,11 @@ const onReactionHandler = async (messageReaction) => {
   ) {
     const { songId } = foundMessageSpotify;
 
-    const result = await deleteSongFromPlaylist(songId, client);
+    const result = await deleteSongFromPlaylist(
+      songId,
+      client,
+      PERSONNALITY.spotify
+    );
     client.playlistCachedMessages = client.playlistCachedMessages.filter(
       ({ id }) => id !== message.id
     );

@@ -4,6 +4,7 @@
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
     "helpChannelId": "932000373063954464",
+    "randomfloodChannelId": "935180557770448956",
     "autoEmotes": {
       "panDuomReactId": "😠",
       "ewiyayReactId": "🤨",
@@ -13,13 +14,15 @@
       "salimmdrReactId": "😂"
     },
     "removeEmoji": "❌",
-    "eyeReactId": "👁️"
+    "eyeReactId": "👁️",
+    "helloEmoji": "👋"
   },
   {
     "name": "prod", 
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
     "helpChannelId": "816986852359274526",
+    "randomfloodChannelId": "822132004581408828",
     "autoEmotes": {
       "panDuomReactId": "826036478672109588",
       "ewiyayReactId": "918249094391144469",
@@ -29,6 +32,7 @@
       "salimmdrReactId": "823904313792266250"
     },
     "removeEmoji": "❌",
-    "eyeReactId": "822487568766730270"
+    "eyeReactId": "822487568766730270",
+    "helloEmoji": "👋"
   }
 ]
