@@ -213,14 +213,13 @@ const onReactionHandler = async (messageReaction) => {
 const onPrivateMessage = async (message) => {
   const { author, content } = message;
 
-  // Tiitch id, Eccléria id
-  if (!isAdmin(author.id)) return;
+  if (!isAdmin(author.id)) return; // Tiitch id, Eccléria id
 
-  const commandCheck = content.split(" ")[0];
+  const args = content.split(" ");
+  const commandCheck = args[0];
   if (commandCheck === "channel") {
-    const destinationChannelId = content.split(" ")[1];
-
-    const newContent = content.split(" ").slice(2).join(" ");
+    const destinationChannelId = args.length > 1 ? args[1] : null;
+    const newContent = args.slice(2).join(" ");
 
     try {
       const channel = await client.channels.fetch(destinationChannelId);
@@ -229,16 +228,39 @@ const onPrivateMessage = async (message) => {
         channel.sendTyping();
         setTimeout(() => {
           channel.send(newContent);
-        }, 2000);
+        }, 3000);
       }
     } catch (e) {
-      console.log(e);
+      message.reply(`Erreur\n${e}`);
     }
   } else if (commandCheck === "reply") {
-    const destinationChannelId = content.split(" ")[1];
-    const messageReplyId = content.split(" ")[2];
+    const messageReplyId = args.length >= 2 ? args[1] : null;
+    const newContent = args.slice(2).join(" ");
 
-    const newContent = content.split(" ").slice(3).join(" ");
+    const fetchIDs = client.channels.cache.map((element) => element.id);
+    let foundMessage = null;
+    let foundChannel = null;
+    for (let id of fetchIDs) {
+      const channel = await client.channels.fetch(id);
+      if (channel.type === "GUILD_TEXT") {
+        try {
+          foundMessage = await channel.messages.fetch(messageReplyId);
+          foundChannel = channel;
+        } catch (e) {
+          console.log(`crash ${id}`);
+        }
+      }
+    }
+    if (foundChannel && foundMessage) {
+      foundChannel.sendTyping();
+      setTimeout(() => {
+        foundMessage.reply(newContent);
+      }, 3000);
+    }
+    /*
+    const destinationChannelId = args.length > 2 ? args[1] : null;
+    const messageReplyId = args.length > 3 ? args[2] : null;
+    const newContent = args.slice(3).join(" ");
 
     try {
       const channel = await client.channels.fetch(destinationChannelId);
@@ -248,14 +270,13 @@ const onPrivateMessage = async (message) => {
         channel.sendTyping();
         setTimeout(() => {
           messageReply.reply(newContent);
-        }, 2000);
+        }, 4000);
       }
     } catch (e) {
-      console.log(e);
+      message.reply(`Erreur\n${e}`);
     }
-  } else {
-    await message.reply("error");
-  }
+    */
+  } else await message.reply("Erreur de commande.");
 };
 
 // Create an event listener for messages
