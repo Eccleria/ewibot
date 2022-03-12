@@ -12,6 +12,10 @@
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
+      "concrete": {
+        "help": "Parfait pour bétonner des gens.",
+        "author": "Envoyé par"
+      },
       "helloWorld": {
         "help": "Cette commande n'a pas besoin de description.",
         "pong": "pong !"
@@ -74,6 +78,9 @@
         "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
+      },
+      "concrete": {
+        "help": "Parfait pour bétonner des gens."
       },
       "helloWorld": {
         "help": "Cette commande me permet de proposer un cookie.",
