@@ -10,7 +10,7 @@ const replies = personalities.normal.commands;
 const action = async (message, personality, client) => {
   const { channel, mentions, content} = message;
 
-  if (mentions.users.size !== 1) { //if no or too many mentions
+  if (mentions.users.size !== 1) { //if no or too many mentions, or @here/everyone
     message.reply(personality.concrete.errorMention);
     return;
   }
@@ -29,8 +29,8 @@ const action = async (message, personality, client) => {
   const force = content.includes("--force");
   const gifExists = dir.includes(`${recipient.id}.gif`);
 
-  if (!gifExists || (gifExists && force)) {
-    //If not in db or --force, must create the gif
+  if (!gifExists || force) {
+    //If not in db or --force, must create/recreate the gif
     const canvas = Canvas.createCanvas(339, 480); // Canvas creation
     const context = canvas.getContext("2d"); // context allows canvas further modification
 
