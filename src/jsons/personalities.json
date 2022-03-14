@@ -13,8 +13,8 @@
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
       "concrete": {
-        "help": "Parfait pour bétonner des gens.",
-        "author": "Envoyé par"
+        "help": "Cette commande permet de bétonner une personne. Utilisation :\n- `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "errorMention": "Il faut une seule mention."
       },
       "helloWorld": {
         "help": "Cette commande n'a pas besoin de description.",
@@ -80,7 +80,8 @@
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
       "concrete": {
-        "help": "Parfait pour bétonner des gens."
+        "help": "Parfait pour bétonner des gens. Utilisation \nIl suffit de taper `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "errorMention": "Il faut une seule mention."
       },
       "helloWorld": {
         "help": "Cette commande me permet de proposer un cookie.",
