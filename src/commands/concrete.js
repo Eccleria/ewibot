@@ -1,13 +1,12 @@
-import personalities from "../personnalities.json";
 import Canvas from "canvas";
 import GIFEncoder from "gif-encoder-2";
 import { MessageAttachment } from "discord.js";
 import path from "path";
 import fs from "fs";
 
-const replies = personalities.normal.commands;
+import { PERSONALITY } from "./personality.js";
 
-const action = async (message, personality, client) => {
+const action = async (message, client) => {
   const { channel, mentions } = message;
 
   if (mentions.users.size !== 1) {
@@ -87,7 +86,7 @@ const concrete = {
   name: "concrete",
   action,
   help: () => {
-    return replies.concrete.help;
+    return PERSONALITY.commands.concrete.help;
   },
   admin: false,
 };

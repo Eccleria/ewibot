@@ -43,7 +43,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
   const { playlistThreadId } = currentServer;
 
-  reactionHandler(message, content, currentServer, client);
+  reactionHandler(message, currentServer, client);
 
   // check for command
   const commandName = content.split(" ")[0];

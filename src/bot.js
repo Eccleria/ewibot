@@ -19,6 +19,7 @@ import {
   onPrivateMessage,
   onPublicMessage,
   removeReminder,
+  sanitizeContent,
 } from "./helpers/index.js";
 // jsons imports
 import commons from "./jsons/commons.json";
@@ -103,7 +104,7 @@ const self = process.env.CLIENTID; // get self Discord Id
 const onMessageHandler = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
-
+  console.log(sanitizeContent(message.content));
   if (channel.type === "DM") {
     onPrivateMessage(message, client);
   } else {

@@ -35,6 +35,14 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
+const punctuation = [".", ",", ":", "!", "?", ";"];
+
+export const sanitizeContent = (messageContent) => {
+  return messageContent.map((letter) => {
+    if (!punctuation.includes(letter)) return letter;
+  })
+};
+
 export const isAdmin = (authorId) => {
   // Check if is admin users
   return ADMINS.includes(authorId);
@@ -63,18 +71,16 @@ const isAbcd = (words) => {
 
 export const reactionHandler = async (
   message,
-  messageContent,
   currentServer,
   client
 ) => {
-  const loweredMessage = messageContent.toLowerCase();
   const db = client.db;
   const authorId = message.author.id;
 
   if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
 
-  const words = loweredMessage.split(" ");
+  const words = message.content.toLowerCase().split(" ");
 
   // If message contains apology, Ewibot reacts
   if (apologies.some((apology) => words.some((word) => word === apology))) {
@@ -84,7 +90,7 @@ export const reactionHandler = async (
 
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
-  if (Math.random() < 0.8) return; // Allows to limit Ewibot react frequency
+  if (Math.random() < 0.8) return; // Limit Ewibot react frequency
 
   if (hello.some((helloMessage) => words[0] === helloMessage)) {
     await message.react(currentServer.helloEmoji);
