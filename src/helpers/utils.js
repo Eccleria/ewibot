@@ -2,24 +2,7 @@ import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
-const apologies = [
-  "desolé",
-  "desolée",
-  "desole",
-  "desolee",
-  "dsl",
-  "sorry",
-  "sry",
-  "desoler",
-  "désolé",
-  "désolée",
-  "désoler",
-  "pardon",
-  "navré",
-  "navrée",
-  "deso",
-  "déso",
-];
+const apologyRegex = new RegExp(/(dsl)|(d[é|e]?sol?[e|é]*r?)|(so?r+y?)|(pardon)|(navr[e|é]*)/gm);
 
 const hello = [
   "bonjour",
@@ -35,12 +18,10 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-const punctuation = [".", ",", ":", "!", "?", ";"];
+const punctuation = new RegExp(/[_.?!,;:/-]/gm);
 
-export const sanitizeContent = (messageContent) => {
-  return messageContent.map((letter) => {
-    if (!punctuation.includes(letter)) return letter;
-  })
+export const sanitizePunctuation = (messageContent) => {
+  return messageContent.replaceAll(punctuation, "");
 };
 
 export const isAdmin = (authorId) => {
@@ -80,14 +61,20 @@ export const reactionHandler = async (
   if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
 
-  const words = message.content.toLowerCase().split(" ");
-
-  // If message contains apology, Ewibot reacts
-  if (apologies.some((apology) => words.some((word) => word === apology))) {
-    addApologyCount(authorId, db);
-    await message.react(currentServer.panDuomReactId);
+    // If message contains apology, Ewibot reacts
+  const loweredContent = message.content.toLowerCase();
+  const sanitizedContent = sanitizePunctuation(loweredContent);
+  const apologyResult = apologyRegex.exec(sanitizedContent);
+  apologyRegex.lastIndex = 0;
+  if (apologyResult !== null) {
+    const wordFound = apologyResult.input.slice(apologyResult.index).split(" ")[0];
+    if (apologyResult[0] === wordFound) {
+      addApologyCount(authorId, db);
+      await message.react(currentServer.panDuomReactId);
+    }
   }
 
+  const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   if (Math.random() < 0.8) return; // Limit Ewibot react frequency

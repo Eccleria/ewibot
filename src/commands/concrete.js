@@ -10,7 +10,7 @@ const action = async (message, client) => {
   const { channel, mentions, content } = message;
 
   if (mentions.users.size !== 1) { //if no or too many mentions, or @here/everyone
-    message.reply(personality.concrete.errorMention);
+    message.reply(PERSONALITY.commands.concrete.errorMention);
     return;
   }
 
