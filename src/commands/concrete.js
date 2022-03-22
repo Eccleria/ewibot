@@ -9,7 +9,8 @@ import { PERSONALITY } from "./personality.js";
 const action = async (message, client) => {
   const { channel, mentions, content } = message;
 
-  if (mentions.users.size !== 1) { //if no or too many mentions, or @here/everyone
+  if (mentions.users.size !== 1) {
+    //if no or too many mentions, or @here/everyone
     message.reply(PERSONALITY.commands.concrete.errorMention);
     return;
   }
@@ -43,11 +44,13 @@ const action = async (message, client) => {
     encoder.setDelay(33); //delay between each gif frame in ms
     encoder.start();
 
-    const avatar = await Canvas.loadImage( // Load recipient avatar
+    const avatar = await Canvas.loadImage(
+      // Load recipient avatar
       recipient.displayAvatarURL({ format: "jpg" })
     );
 
-    for (let i = 100; i < 150; i++) { // gif creation frame by frame
+    for (let i = 100; i < 150; i++) {
+      // gif creation frame by frame
       const path = i.toString().padStart(4, "0");
       const picture = await Canvas.loadImage(`${basicPath}/frame-${path}.jpg`);
       context.drawImage(picture, 0, 0, canvas.width, canvas.height); // add background
@@ -73,7 +76,6 @@ const action = async (message, client) => {
     const attachment = new MessageAttachment(buffer, "concrete.gif");
 
     await channel.send({ files: [attachment] });
-
   } else {
     const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 

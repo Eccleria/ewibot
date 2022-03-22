@@ -26,13 +26,19 @@ export const wishBirthday = async (db, channel) => {
     // if there is a birthday
     const initialText = // For correct grammar
       foundBirthdays.length === 1
-        ? "OWH ! Aujourd'hui on fête l'anniversaire de : \n"
-        : "OWH ! Aujourd'hui on fête les anniversaires de : \n";
+        ? PERSONALITY.getCommands().birthday.birthday
+        : PERSONALITY.getCommands().birthday.birthdays;
 
     const birthdayText = foundBirthdays.reduce(
       (acc, { userId, birthdayDate }) => {
-        const currentAge = today.year() - dayjs(birthdayDate).year(); // Age computation
-        return `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
+        const birthdayYear = dayjs(birthdayDate).year();
+        const currentAge =
+          birthdayYear === dayjs().year() ? "" : today.year() - birthdayYear; // Age computation
+        const text =
+          currentAge === ""
+            ? `${acc} <@${userId}> ♥ \n`
+            : `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
+        return text;
       },
       initialText
     );
@@ -55,14 +61,17 @@ const action = async (message, client) => {
     }
   } else if (words[1] === "add" && words[2]) {
     // add user
-    const date = dayjs(words[2], "DD-MM-YYYY");
-
+    const date = dayjs(words[2], ["DD-MM", "DD-MM-YYYY"]);
+    console.log(date);
     if (date.isValid()) {
       // Checks date validity
       if (date.year() < 1950) {
         // If too old
         await message.reply(PERSONALITY.getCommands().birthday.tooOld);
-      } else if (date.year() > dayjs().subtract(5, "year").year()) {
+      } else if (
+        date.year() > dayjs().subtract(5, "year").year() &&
+        date.year() !== dayjs().year()
+      ) {
         // If year of birth > now year - 5 => too young
         await message.reply(PERSONALITY.getCommands().birthday.tooYoung);
       } else {

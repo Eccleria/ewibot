@@ -2,7 +2,9 @@ import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
-const apologyRegex = new RegExp(/(dsl)|(d[é|e]?sol?[e|é]*r?)|(so?r+y?)|(pardon)|(navr[e|é]*)/gm);
+const apologyRegex = new RegExp(
+  /(dsl)|(d[é|e]?sol?[e|é]*r?)|(so?r+y?)|(pardon)|(navr[e|é]*)/gm
+);
 
 const hello = [
   "bonjour",
@@ -50,24 +52,22 @@ const isAbcd = (words) => {
   return false;
 };
 
-export const reactionHandler = async (
-  message,
-  currentServer,
-  client
-) => {
+export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
   const authorId = message.author.id;
 
   if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
 
-    // If message contains apology, Ewibot reacts
+  // If message contains apology, Ewibot reacts
   const loweredContent = message.content.toLowerCase();
   const sanitizedContent = sanitizePunctuation(loweredContent);
   const apologyResult = apologyRegex.exec(sanitizedContent);
   apologyRegex.lastIndex = 0;
   if (apologyResult !== null) {
-    const wordFound = apologyResult.input.slice(apologyResult.index).split(" ")[0];
+    const wordFound = apologyResult.input
+      .slice(apologyResult.index)
+      .split(" ")[0];
     if (apologyResult[0] === wordFound) {
       addApologyCount(authorId, db);
       await message.react(currentServer.panDuomReactId);
