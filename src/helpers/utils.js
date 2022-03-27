@@ -52,6 +52,10 @@ const isAbcd = (words) => {
   return false;
 };
 
+const isHungry = (loweredContent) => {
+  if (loweredContent.includes("faim")) return true
+};
+
 export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
   const authorId = message.author.id;
@@ -90,6 +94,13 @@ export const reactionHandler = async (message, currentServer, client) => {
     for (const e of foundEmotes) {
       await message.react(e);
     }
+  }
+
+  // If user says they is hungry
+  if (isHungry(loweredContent)) {
+    const reaction = Object.values(currentServer.hungryEmotes);
+    const random = Math.round(Math.random()); // 0 or 1
+    await message.react(reaction[random]);
   }
 };
 

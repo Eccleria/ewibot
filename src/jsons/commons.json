@@ -14,7 +14,11 @@
     "panDuomReactId": "😠",
     "removeEmoji": "❌",
     "eyeReactId": "👁️",
-    "helloEmoji": "👋"
+    "helloEmoji": "👋",
+    "hungryEmotes": {
+      "jambonBeurre": "🥖",
+      "jamBjornBeurre": "🧈"
+    }
   },
   {
     "name": "prod",
@@ -31,6 +35,10 @@
     "panDuomReactId": "826036478672109588",
     "removeEmoji": "❌",
     "eyeReactId": "822487568766730270",
-    "helloEmoji": "👋"
+    "helloEmoji": "👋",
+    "hungryEmotes": {
+      "jambonBeurre": "823904010335158323",
+      "jamBjornBeurre": "933464636223791144"
+    }
   }
 ]
