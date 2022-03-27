@@ -96,7 +96,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     }
   }
 
-  // If user says they is hungry
+  // If users say they are hungry
   if (isHungry(loweredContent)) {
     const reaction = Object.values(currentServer.hungryEmotes);
     const random = Math.round(Math.random()); // 0 or 1

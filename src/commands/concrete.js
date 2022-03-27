@@ -6,7 +6,7 @@ import fs from "fs";
 
 import { PERSONALITY } from "./personality.js";
 
-const action = async (message, client) => {
+const action = async (message, client, currentServer, self) => {
   const { channel, mentions, content } = message;
 
   if (mentions.users.size !== 1) {
@@ -75,12 +75,14 @@ const action = async (message, client) => {
     fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
     const attachment = new MessageAttachment(buffer, "concrete.gif");
 
-    await channel.send({ files: [attachment] });
+    const sentMessage = await channel.send({ files: [attachment] });
+    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
   } else {
     const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
     const attachment = new MessageAttachment(buffer, "concrete.gif");
-    await channel.send({ files: [attachment] });
+    const sentMessage = await channel.send({ files: [attachment] });
+    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
   }
 };
 

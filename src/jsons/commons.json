@@ -11,14 +11,15 @@
       "ewinkLan": "😉",
       "salimmdrReactId": "😂"
     },
-    "panDuomReactId": "😠",
-    "removeEmoji": "❌",
+    "edouin": "😭",
     "eyeReactId": "👁️",
     "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "🥖",
       "jamBjornBeurre": "🧈"
-    }
+    },
+    "panDuomReactId": "😠",
+    "removeEmoji": "❌"
   },
   {
     "name": "prod",
@@ -32,13 +33,14 @@
       "ewinkLan": "841675143596212267",
       "salimmdrReactId": "823904313792266250"
     },
-    "panDuomReactId": "826036478672109588",
-    "removeEmoji": "❌",
+    "edouin": "823872218928250890",
     "eyeReactId": "822487568766730270",
     "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "823904010335158323",
       "jamBjornBeurre": "933464636223791144"
-    }
+    },
+    "panDuomReactId": "826036478672109588",
+    "removeEmoji": "❌"
   }
 ]
