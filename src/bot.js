@@ -217,9 +217,19 @@ const onPrivateMessage = async (message) => {
 
   const args = content.split(" ");
   const commandCheck = args[0];
+  const contentSliced = args.slice(2);
+  const attachments = message.attachments.reduce((acc, cur) => {
+    return [...acc, cur.attachment];
+  }, []);
+
+  // Check if there is content to send
+  if (contentSliced.length === 0 && attachments.length === 0) {
+    message.reply("Wrong input");
+    return;
+  }
+
   if (commandCheck === "channel") {
     const destinationChannelId = args.length > 1 ? args[1] : null;
-    const newContent = args.slice(2).join(" ");
 
     try {
       const channel = await client.channels.fetch(destinationChannelId);
@@ -227,7 +237,12 @@ const onPrivateMessage = async (message) => {
       if (channel) {
         channel.sendTyping();
         setTimeout(() => {
-          channel.send(newContent);
+          if (contentSliced.length > 0)
+            channel.send({
+              content: contentSliced.join(" "),
+              files: attachments,
+            });
+          else channel.send({ files: attachments });
         }, 3000);
       }
     } catch (e) {
@@ -235,7 +250,6 @@ const onPrivateMessage = async (message) => {
     }
   } else if (commandCheck === "reply") {
     const messageReplyId = args.length >= 2 ? args[1] : null;
-    const newContent = args.slice(2).join(" ");
 
     const fetchIDs = client.channels.cache.map((element) => element.id);
     let foundMessage = null;
@@ -247,14 +261,19 @@ const onPrivateMessage = async (message) => {
           foundMessage = await channel.messages.fetch(messageReplyId);
           foundChannel = channel;
         } catch (e) {
-          console.log(`crash ${id}`);
+          //nothing to do
         }
       }
     }
     if (foundChannel && foundMessage) {
       foundChannel.sendTyping();
       setTimeout(() => {
-        foundMessage.reply(newContent);
+        if (contentSliced.length > 0)
+          foundMessage.reply({
+            content: contentSliced.join(" "),
+            files: attachments,
+          });
+        else foundMessage.reply({ files: attachments });
       }, 3000);
     }
     /*
