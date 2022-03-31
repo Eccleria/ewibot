@@ -22,6 +22,8 @@ import {
   parseLink,
   checkIsOnThread,
   deleteSongFromPlaylist,
+  onPMChannel,
+  onPMReply,
 } from "./utils.js";
 
 export {
@@ -32,6 +34,8 @@ export {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
+  onPMChannel,
+  onPMReply,
   addIgnoredUser,
   removeIgnoredUser,
   getIgnoredUsers,

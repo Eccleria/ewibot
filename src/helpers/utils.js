@@ -8,6 +8,8 @@ import {
   isIgnoredChannel,
 } from "./dbHelper.js";
 
+import servers from "../servers.json";
+
 export const isCommand = (content) => content[0] === "$";
 
 const apologies = [
@@ -82,7 +84,7 @@ export const reactionHandler = async (
   const words = loweredMessage.split(" ");
   if (apologies.some((apology) => words.some((word) => word === apology))) {
     addApologyCount(authorId, db);
-    await message.react(currentServer.autoEmotes.panDuomReactId);
+    await message.react(currentServer.autoEmotes.panduom);
   }
 
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
@@ -262,5 +264,114 @@ export const deleteSongFromPlaylist = async (songId, client, personality) => {
     return personality.songSupressed;
   } catch {
     return personality.errorSupressing;
+  }
+};
+
+const PMfindEmotes = (channel, args) => {
+  const position = args.indexOf("--emote");
+  if (position === -1) return [position, null];
+
+  const currentServer = servers.find(
+    ({ guildId }) => guildId === channel.guild.id
+  );
+
+  const emotes = currentServer
+    ? [
+      ...Object.entries(currentServer.ewilanEmotes),
+      ...Object.entries(currentServer.autoEmotes),
+    ]
+    : null;
+
+  if (emotes && args.length > position + 1) {
+    let foundEmotes = [];
+    for (const word of args.slice(position + 1)) foundEmotes = [...foundEmotes, emotes.find((emote) =>
+        word.includes(emote[0])
+      )];
+
+    return [position, foundEmotes]
+  }
+  else return [-1, []]
+};
+
+const PMContent = (channel, args) => {
+  // prepare text to send
+  let results = [0, []];
+  if (args.includes("--emote")) results = PMfindEmotes(channel, args);
+
+  const contentSliced = results[0] === 0 ? args.slice(2) : args.slice(2, results[0]); //get content + remove --emote
+  const emotesToSend = results[1].map((emote) => emote[1]); // fetch emotes emote
+  const content = [...contentSliced, ...emotesToSend].join(" "); // assemble text to send
+
+  return content
+};
+
+export const onPMChannel = async (
+  client,
+  message,
+  args,
+  attachments
+) => {
+  const destinationChannelId = args.length > 1 ? args[1] : null;
+  try {
+    const channel = await client.channels.fetch(destinationChannelId);
+
+    if (channel) {
+      const content = PMContent(channel, args);
+
+      channel.sendTyping();
+      setTimeout(() => {
+        if (content.length > 0)
+          channel.send({
+            content: content,
+            files: attachments,
+          });
+        else channel.send({ files: attachments });
+      }, 3000);
+    }
+  } catch (e) {
+    console.log("catch PMChannel")
+    message.reply("Exception");
+  }
+};
+
+export const onPMReply = async (
+  client,
+  message,
+  args,
+  attachments
+) => {
+  const messageReplyId = args.length >= 2 ? args[1] : null;
+
+  //Find channel and message
+  const fetchIDs = client.channels.cache.map((element) => element.id);
+  let foundMessage = null;
+  let foundChannel = null;
+  for (let id of fetchIDs) {
+    const channel = await client.channels.fetch(id);
+    if (channel.type === "GUILD_TEXT") {
+      try {
+        foundMessage = await channel.messages.fetch(messageReplyId);
+        foundChannel = channel;
+      } catch (e) {
+        //nothing to do
+      }
+    }
+  }
+
+  if (foundChannel && foundMessage) {
+    const content = PMContent(foundChannel, args);
+
+    foundChannel.sendTyping();
+    setTimeout(() => {
+      if (content.length > 0) // if content to send
+        foundMessage.reply({
+          content: content,
+          files: attachments,
+        });
+      else foundMessage.reply({ files: attachments });
+    }, 3000);
+  } else {
+    console.log("catch PMReply")
+    message.reply(`Erreur, message non trouvé`);
   }
 };

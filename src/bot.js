@@ -19,6 +19,8 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   generateSpotifyClient,
+  onPMChannel,
+  onPMReply,
 } from "./helpers/index.js";
 import servers from "./servers.json";
 import commands from "./commands/index.js";
@@ -217,84 +219,20 @@ const onPrivateMessage = async (message) => {
 
   const args = content.split(" ");
   const commandCheck = args[0];
-  const contentSliced = args.slice(2);
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
 
   // Check if there is content to send
-  if (contentSliced.length === 0 && attachments.length === 0) {
+  if (args.length === 2 && attachments.length === 0) {
     message.reply("Wrong input");
     return;
   }
 
   if (commandCheck === "channel") {
-    const destinationChannelId = args.length > 1 ? args[1] : null;
-
-    try {
-      const channel = await client.channels.fetch(destinationChannelId);
-
-      if (channel) {
-        channel.sendTyping();
-        setTimeout(() => {
-          if (contentSliced.length > 0)
-            channel.send({
-              content: contentSliced.join(" "),
-              files: attachments,
-            });
-          else channel.send({ files: attachments });
-        }, 3000);
-      }
-    } catch (e) {
-      message.reply(`Erreur\n${e}`);
-    }
+    onPMChannel(client, message, args, attachments);
   } else if (commandCheck === "reply") {
-    const messageReplyId = args.length >= 2 ? args[1] : null;
-
-    const fetchIDs = client.channels.cache.map((element) => element.id);
-    let foundMessage = null;
-    let foundChannel = null;
-    for (let id of fetchIDs) {
-      const channel = await client.channels.fetch(id);
-      if (channel.type === "GUILD_TEXT") {
-        try {
-          foundMessage = await channel.messages.fetch(messageReplyId);
-          foundChannel = channel;
-        } catch (e) {
-          //nothing to do
-        }
-      }
-    }
-    if (foundChannel && foundMessage) {
-      foundChannel.sendTyping();
-      setTimeout(() => {
-        if (contentSliced.length > 0)
-          foundMessage.reply({
-            content: contentSliced.join(" "),
-            files: attachments,
-          });
-        else foundMessage.reply({ files: attachments });
-      }, 3000);
-    }
-    /*
-    const destinationChannelId = args.length > 2 ? args[1] : null;
-    const messageReplyId = args.length > 3 ? args[2] : null;
-    const newContent = args.slice(3).join(" ");
-
-    try {
-      const channel = await client.channels.fetch(destinationChannelId);
-      const messageReply = await channel.messages.fetch(messageReplyId);
-
-      if (channel && messageReply) {
-        channel.sendTyping();
-        setTimeout(() => {
-          messageReply.reply(newContent);
-        }, 4000);
-      }
-    } catch (e) {
-      message.reply(`Erreur\n${e}`);
-    }
-    */
+    onPMReply(client, message, args, attachments);
   } else await message.reply("Erreur de commande.");
 };
 
