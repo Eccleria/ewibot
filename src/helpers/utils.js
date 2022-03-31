@@ -268,110 +268,110 @@ export const deleteSongFromPlaylist = async (songId, client, personality) => {
 };
 
 const PMfindEmotes = (channel, args) => {
-  const position = args.indexOf("--emote");
-  if (position === -1) return [position, null];
+  const position = args.indexOf("--emote"); //get --emote position
+  if (position === -1) return [position, null]; //==-1 => not in args
 
   const currentServer = servers.find(
+    //get emotes corresponding to the guild
     ({ guildId }) => guildId === channel.guild.id
   );
 
-  const emotes = currentServer
+  const emotes = currentServer //get all usefull emotes
     ? [
-      ...Object.entries(currentServer.ewilanEmotes),
-      ...Object.entries(currentServer.autoEmotes),
-    ]
+        ...Object.entries(currentServer.ewilanEmotes),
+        ...Object.entries(currentServer.autoEmotes),
+      ]
     : null;
 
   if (emotes && args.length > position + 1) {
+    //if correct server && enough args
     let foundEmotes = [];
-    for (const word of args.slice(position + 1)) foundEmotes = [...foundEmotes, emotes.find((emote) =>
-        word.includes(emote[0])
-      )];
+    for (const word of args.slice(position + 1))
+      foundEmotes = [
+        ...foundEmotes,
+        emotes.find((emote) => word.includes(emote[0])),
+      ];
 
-    return [position, foundEmotes]
-  }
-  else return [-1, []]
+    return [position, foundEmotes]; //return --emote position + found emotes
+  } else return [-1, []]; //if not correct serveer or not enough args
 };
 
 const PMContent = (channel, args) => {
   // prepare text to send
   let results = [0, []];
-  if (args.includes("--emote")) results = PMfindEmotes(channel, args);
+  if (args.includes("--emote")) results = PMfindEmotes(channel, args); //get --emote position + founded emotes
 
-  const contentSliced = results[0] === 0 ? args.slice(2) : args.slice(2, results[0]); //get content + remove --emote
+  const contentSliced =
+    results[0] === 0 ? args.slice(2) : args.slice(2, results[0]); //get content + remove --emote
   const emotesToSend = results[1].map((emote) => emote[1]); // fetch emotes emote
   const content = [...contentSliced, ...emotesToSend].join(" "); // assemble text to send
 
-  return content
+  return content;
 };
 
-export const onPMChannel = async (
-  client,
-  message,
-  args,
-  attachments
-) => {
+export const onPMChannel = async (client, message, args, attachments) => {
+  //handling the channel function
   const destinationChannelId = args.length > 1 ? args[1] : null;
   try {
-    const channel = await client.channels.fetch(destinationChannelId);
+    const channel = await client.channels.fetch(destinationChannelId); //get the channel
 
     if (channel) {
-      const content = PMContent(channel, args);
+      const content = PMContent(channel, args); //get the content to send
 
-      channel.sendTyping();
+      channel.sendTyping(); //simulate Ewibot is writing
       setTimeout(() => {
         if (content.length > 0)
+          //if content to send
           channel.send({
             content: content,
             files: attachments,
           });
-        else channel.send({ files: attachments });
+        else channel.send({ files: attachments }); //if no content
       }, 3000);
     }
   } catch (e) {
-    console.log("catch PMChannel")
+    //channel not found
+    console.log("catch PMChannel");
     message.reply("Exception");
   }
 };
 
-export const onPMReply = async (
-  client,
-  message,
-  args,
-  attachments
-) => {
-  const messageReplyId = args.length >= 2 ? args[1] : null;
+export const onPMReply = async (client, message, args, attachments) => {
+  //handling the reply function
+  const messageReplyId = args.length >= 2 ? args[1] : null; //get message to reply Id
 
   //Find channel and message
-  const fetchIDs = client.channels.cache.map((element) => element.id);
+  const fetchIDs = client.channels.cache.map((element) => element.id); //get all channels ids from every guild
   let foundMessage = null;
   let foundChannel = null;
   for (let id of fetchIDs) {
     const channel = await client.channels.fetch(id);
     if (channel.type === "GUILD_TEXT") {
       try {
-        foundMessage = await channel.messages.fetch(messageReplyId);
+        foundMessage = await channel.messages.fetch(messageReplyId); //try to find the message in channel
         foundChannel = channel;
       } catch (e) {
+        //if message not found => crash => catch
         //nothing to do
       }
     }
   }
 
   if (foundChannel && foundMessage) {
-    const content = PMContent(foundChannel, args);
+    const content = PMContent(foundChannel, args); //get the content to send
 
-    foundChannel.sendTyping();
+    foundChannel.sendTyping(); //simulate Ewibot is writing
     setTimeout(() => {
-      if (content.length > 0) // if content to send
+      if (content.length > 0)
+        //if content to send
         foundMessage.reply({
           content: content,
           files: attachments,
         });
-      else foundMessage.reply({ files: attachments });
+      else foundMessage.reply({ files: attachments }); //if no content
     }, 3000);
-  } else {
-    console.log("catch PMReply")
+  } else { //if channel or message not found
+    console.log("catch PMReply");
     message.reply(`Erreur, message non trouvé`);
   }
 };
