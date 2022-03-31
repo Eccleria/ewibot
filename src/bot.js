@@ -20,6 +20,9 @@ import {
   deleteSongFromPlaylist,
   generateSpotifyClient,
 } from "./helpers/index.js";
+import {
+  roleHandler,
+} from "./admin/role.js"
 import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
@@ -77,6 +80,8 @@ const client = new Client({
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
+    "MESSAGE", // MESSAGE && REACTION for role handling
+    "REACTION",
   ],
 });
 
@@ -157,6 +162,10 @@ const onReactionHandler = async (messageReaction) => {
   const currentServer = servers.find(
     ({ guildId }) => guildId === message.channel.guild.id
   );
+
+  if (currentServer.messageRoleId === message.id) {
+    roleHandler(client, messageReaction, currentServer);
+  }
   const { removeEmoji } = currentServer;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
