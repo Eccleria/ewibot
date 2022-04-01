@@ -83,11 +83,9 @@ export const onRemoveReminderReaction = (
       .includes(message.mentions.users.first().id)
   ) {
     try {
-      console.log("coucou");
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
         if (botMessage.id === message.id) {
           // if it is the right message
-          console.log("salut");
           clearTimeout(timeout); //cancel timeout
           botMessage.reply(PERSONALITY.getCommands().reminder.delete);
           return false;

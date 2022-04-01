@@ -26,8 +26,6 @@ class Personality {
   }
 }
 
-console.log("HIIIIIIIIIII");
-
 export const PERSONALITY = new Personality("normal", personalities.normal);
 
 // coming soon, but not today
