@@ -11,7 +11,7 @@ const action = async (message, client, currentServer, self) => {
 
   if (mentions.users.size !== 1) {
     //if no or too many mentions, or @here/everyone
-    message.reply(PERSONALITY.commands.concrete.errorMention);
+    message.reply(PERSONALITY.getCommands().concrete.errorMention);
     return;
   }
 
@@ -90,7 +90,7 @@ const concrete = {
   name: "concrete",
   action,
   help: () => {
-    return PERSONALITY.commands.concrete.help;
+    return PERSONALITY.getCommands().concrete.help;
   },
   admin: false,
 };

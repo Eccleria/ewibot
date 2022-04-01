@@ -61,8 +61,7 @@ const action = async (message, client) => {
     }
   } else if (words[1] === "add" && words[2]) {
     // add user
-    const date = dayjs(words[2], ["DD-MM", "DD-MM-YYYY"]);
-    console.log(date);
+    const date = dayjs(words[2], ["DD-MM-YYYY", "DD-MM"]);
     if (date.isValid()) {
       // Checks date validity
       if (date.year() < 1950) {

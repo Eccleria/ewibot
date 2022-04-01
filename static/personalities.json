@@ -24,7 +24,7 @@
       },
       "help": {
         "help": "Utilisez seulement `$help`.",
-        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `ex`, tape `$help ex`.\nPour le moment, les commandes suivantes ont été implémentées :\n"
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n"
       },
       "ignore": {
         "help": "Cette commande m'empêche ou non de réagir à vos messages.",
