@@ -76,20 +76,20 @@ const ignoreChannel = {
 const roll = {
   // Allow to get the total and each individual results for dice rolls.
   name: "roll",
-  action: async (message, personality) => {
+  action: async (message) => {
     const args = message.content.toLowerCase().split(" ");
     if (args[1]) {
       //if enough args
       const diceNumbers = args[1].split("d").map((nb) => Number(nb));
       if (isNaN(diceNumbers[0]) || isNaN(diceNumbers[1]))
-        await message.reply(personality.roll.parsingError);
+        await message.reply(PERSONALITY.getCommands().roll.parsingError);
       else if (
         diceNumbers[0] > 20 ||
         diceNumbers[1] > 100 ||
         diceNumbers[0] <= 0 ||
         diceNumbers[1] <= 0
       ) {
-        await message.reply(personality.roll.numberError);
+        await message.reply(PERSONALITY.getCommands().roll.numberError);
       } else {
         const diceNumber = diceNumbers[0];
         const diceValue = diceNumbers[1];
@@ -123,18 +123,17 @@ const commands = [
   helloWorld,
   ignore,
   ignoreChannel,
-  personality,
   reminder,
   roll,
 ];
 
 const help = {
   name: "help",
-  action: async (message, personality) => {
+  action: async (message) => {
     const words = message.content.split(" ");
     if (words.length === 1) {
       //$help
-      const baseText = personality.help.init;
+      const baseText = PERSONALITY.getCommands().help.init;
       const helpText = commands.reduce((acc, cur) => {
         return `${cur.admin ? "_[admin]_ " : ""}${cur.name}, ${acc}`;
       }, "");

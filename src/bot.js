@@ -13,15 +13,16 @@ import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
 // helpers imports
+import { generateSpotifyClient } from "./helpers/index.js";
+
 import {
-  generateSpotifyClient,
-  removeSpotify,
   onPrivateMessage,
   onPublicMessage,
-  removeReminder,
-} from "./helpers/index.js";
+  onRemoveReminderReaction,
+  onRemoveSpotifyReaction,
+} from "./listeners.js";
 // jsons imports
-import commons from "./jsons/commons.json";
+import commons from "../static/commons.json";
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 
@@ -119,9 +120,9 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  removeSpotify(messageReaction, client, currentServer);
+  onRemoveSpotifyReaction(messageReaction, client, currentServer);
 
-  removeReminder(messageReaction, client, currentServer);
+  onRemoveReminderReaction(messageReaction, client, currentServer);
 };
 
 // Create an event listener for messages
