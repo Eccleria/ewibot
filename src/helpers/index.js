@@ -25,19 +25,7 @@ import {
   checkIsOnThread,
 } from "./utils.js";
 
-import {
-  onPrivateMessage,
-  onPublicMessage,
-  removeReminder,
-  removeSpotify,
-} from "./listeners.js";
-
 export {
-  // listeners
-  onPrivateMessage,
-  onPublicMessage,
-  removeReminder,
-  removeSpotify,
   // utils
   isAdmin,
   isCommand,

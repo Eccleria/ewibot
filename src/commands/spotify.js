@@ -1,4 +1,4 @@
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "../personality.js";
 import { parseLink } from "../helpers/index.js";
 
 const spotifyReply = async (foundLink, message, client, currentServer) => {

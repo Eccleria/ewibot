@@ -4,7 +4,7 @@ import { MessageAttachment } from "discord.js";
 import path from "path";
 import fs from "fs";
 
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "../personality.js";
 
 const action = async (message, client, currentServer, self) => {
   const { channel, mentions, content } = message;

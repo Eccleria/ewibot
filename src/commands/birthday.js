@@ -9,7 +9,7 @@ import {
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "../personality.js";
 
 export const wishBirthday = async (db, channel) => {
   // Wish birthdays if there are some

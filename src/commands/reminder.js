@@ -6,7 +6,7 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "../personality.js";
 
 const sendDelayed = async (
   // Function sending the reminder to the user
@@ -21,8 +21,8 @@ const sendDelayed = async (
     // try to DM
     await author.send(`${author.toString()} : ${messageContent}`);
   } catch {*/
-    // send in the original channel
-    await channel.send(`${author.toString()} : ${messageContent}`);
+  // send in the original channel
+  await channel.send(`${author.toString()} : ${messageContent}`);
   //}
   client.remindme = client.remindme.filter(
     // removes from cache

@@ -12,8 +12,7 @@ import {
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
 import concrete from "./concrete.js";
-import personality from "./personality.js";
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
   // Is useful to verify is Ewibot is active or not.

@@ -1,5 +1,5 @@
-import { PERSONALITY } from "../commands/personality.js";
-import commands from "../commands/index.js";
+import { PERSONALITY } from "./personality.js";
+import commands from "./commands/index.js";
 
 import {
   isAdmin,
@@ -7,7 +7,7 @@ import {
   reactionHandler,
   checkIsOnThread,
   deleteSongFromPlaylist,
-} from "./index.js";
+} from "./helpers/index.js";
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
@@ -63,7 +63,11 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   }
 };
 
-export const removeReminder = (messageReaction, client, currentServer) => {
+export const onRemoveReminderReaction = (
+  messageReaction,
+  client,
+  currentServer
+) => {
   const { removeEmoji } = currentServer;
   const { message, emoji, users } = messageReaction;
 
@@ -97,7 +101,11 @@ export const removeReminder = (messageReaction, client, currentServer) => {
   }
 };
 
-export const removeSpotify = async (messageReaction, client, currentServer) => {
+export const onRemoveSpotifyReaction = async (
+  messageReaction,
+  client,
+  currentServer
+) => {
   //remove song from client cache and spotify playlist using react
   const { message, emoji, users } = messageReaction;
   const { removeEmoji } = currentServer;
