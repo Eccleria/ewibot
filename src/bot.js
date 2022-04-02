@@ -20,9 +20,7 @@ import {
   deleteSongFromPlaylist,
   generateSpotifyClient,
 } from "./helpers/index.js";
-import {
-  roleHandler,
-} from "./admin/role.js"
+import { roleHandler } from "./admin/role.js";
 import servers from "./servers.json";
 import commands from "./commands/index.js";
 import { join } from "path";
