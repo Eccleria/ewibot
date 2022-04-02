@@ -1,23 +1,31 @@
 [
   {
     "name": "test",
-    "guildId": "693565253174296577",
+    "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
     "helpChannelId": "932000373063954464",
     "randomfloodChannelId": "935180557770448956",
-    "messageRoleId": "959116779890823180",
+    "messageRoleId": "959431125028204564",
     "roles": {
       "orange": {
         "react": ":orange_circle:",
-        "roleId": "694883138119401512"
+        "roleId": "959360675451383828",
+        "name": "🟠"
       },
       "vert": {
         "react": ":green_circle:",
-        "roleId": "959140860291866704"
+        "roleId": "959360739800391680",
+        "name": "🟢"
       },
-      "jaune": {
-        "react": ":yellow_circle:",
-        "roleId": "959140893565288478"
+      "violet": {
+        "react": ":purple_circle:",
+        "roleId": "959360767063367691",
+        "name": "🟣"
+      },
+      "bleu": {
+        "react": ":blue_circle:",
+        "roleId": "959360716979175455",
+        "name": "🔵"
       }
     },
     "autoEmotes": {
@@ -42,19 +50,23 @@
     "roles": {
       "alavirien": {
         "react": ":blue_circle:",
-        "roleId": "816971306276880395"
+        "roleId": "816971306276880395",
+        "name": "🔵"
       },
       "frontaliers": {
         "react": ":green_circle:",
-        "roleId": "823882466024357918"
+        "roleId": "823882466024357918",
+        "name": "🟢"
       },
       "marchombres": {
         "react": ":orange_circle:",
-        "roleId": "959085951559290882"
+        "roleId": "959085951559290882",
+        "name": "🟠"
       },
       "dessinateurs": {
         "react": ":purple_circle:",
-        "roleId": "824226236523610125"
+        "roleId": "824226236523610125",
+        "name": "🟣"
       }
     },
     "autoEmotes": {
