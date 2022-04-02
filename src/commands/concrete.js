@@ -1,17 +1,17 @@
-import personalities from "../personnalities.json";
 import Canvas from "canvas";
 import GIFEncoder from "gif-encoder-2";
 import { MessageAttachment } from "discord.js";
 import path from "path";
 import fs from "fs";
 
-const replies = personalities.normal.commands;
+import { PERSONALITY } from "../personality.js";
 
-const action = async (message, personality, client) => {
-  const { channel, mentions, content} = message;
+const action = async (message, client, currentServer, self) => {
+  const { channel, mentions, content } = message;
 
-  if (mentions.users.size !== 1) { //if no or too many mentions, or @here/everyone
-    message.reply(personality.concrete.errorMention);
+  if (mentions.users.size !== 1) {
+    //if no or too many mentions, or @here/everyone
+    message.reply(PERSONALITY.getCommands().concrete.errorMention);
     return;
   }
 
@@ -44,11 +44,13 @@ const action = async (message, personality, client) => {
     encoder.setDelay(33); //delay between each gif frame in ms
     encoder.start();
 
-    const avatar = await Canvas.loadImage( // Load recipient avatar
+    const avatar = await Canvas.loadImage(
+      // Load recipient avatar
       recipient.displayAvatarURL({ format: "jpg" })
     );
 
-    for (let i = 100; i < 150; i++) { // gif creation frame by frame
+    for (let i = 100; i < 150; i++) {
+      // gif creation frame by frame
       const path = i.toString().padStart(4, "0");
       const picture = await Canvas.loadImage(`${basicPath}/frame-${path}.jpg`);
       context.drawImage(picture, 0, 0, canvas.width, canvas.height); // add background
@@ -73,13 +75,14 @@ const action = async (message, personality, client) => {
     fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
     const attachment = new MessageAttachment(buffer, "concrete.gif");
 
-    await channel.send({ files: [attachment] });
-
+    const sentMessage = await channel.send({ files: [attachment] });
+    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
   } else {
     const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
     const attachment = new MessageAttachment(buffer, "concrete.gif");
-    await channel.send({ files: [attachment] });
+    const sentMessage = await channel.send({ files: [attachment] });
+    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
   }
 };
 
@@ -87,7 +90,7 @@ const concrete = {
   name: "concrete",
   action,
   help: () => {
-    return replies.concrete.help;
+    return PERSONALITY.getCommands().concrete.help;
   },
   admin: false,
 };

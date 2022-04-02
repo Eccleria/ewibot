@@ -1,47 +1,50 @@
-import { generateSpotifyClient } from "./spotifyHelper.js";
-
 import {
   addIgnoredUser,
   removeIgnoredUser,
-  getIgnoredUsers,
-  isUserIgnored,
-  getBirthday,
+  isIgnoredUser,
   addBirthday,
-  isbirthdayDate,
   removeBirthday,
-  getApologyUsers,
+  isBirthdayDate,
   isApologyUser,
   addApologyCount,
-  resetApologyCount,
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
 } from "./dbHelper.js";
 
 import {
+  generateSpotifyClient,
+  parseLink,
+  deleteSongFromPlaylist,
+} from "./spotifyHelper.js";
+
+import {
   isAdmin,
   isCommand,
   reactionHandler,
-  parseLink,
   checkIsOnThread,
-  deleteSongFromPlaylist,
 } from "./utils.js";
 
 export {
+  // utils
   isAdmin,
   isCommand,
   reactionHandler,
-  parseLink,
   checkIsOnThread,
-  deleteSongFromPlaylist,
+  // spotifyHelper
   generateSpotifyClient,
+  parseLink,
+  deleteSongFromPlaylist,
+  // dbHelper
   addIgnoredUser,
   removeIgnoredUser,
-  getIgnoredUsers,
-  isUserIgnored,
-  getBirthday,
+  isIgnoredUser,
   addBirthday,
-  isbirthdayDate,
   removeBirthday,
-  getApologyUsers,
+  isBirthdayDate,
   isApologyUser,
   addApologyCount,
-  resetApologyCount,
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
 };
