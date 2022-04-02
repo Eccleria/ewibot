@@ -21,7 +21,7 @@ const roleInitiate = async (client, guild, roles) => {
   if (!client.roles) { //initialize client
     client.roles = {};
     roles.forEach((role) => {
-      client.roles[role[1].roleId] = { name: role[1].name, react: role[1].react, members: [] }
+      client.roles[role[1].roleId] = { name: role[1].name, members: [] }
     }, {});
   }
   console.log("client.roles", client.roles);
@@ -29,10 +29,8 @@ const roleInitiate = async (client, guild, roles) => {
   roles.forEach(async (roleList) => {
     const roleParam = Object.values(roleList[1]); //get role parameters
     const roleName = roleList[0]; //get role name
-    const roleReact = roleParam[0]; //get role reaction associated
-    const roleId = roleParam[1]; //get role id
+    const roleId = roleParam[0]; //get role id
     const role = await guild.roles.fetch(roleId); //fetch role
-    //console.log(role.members)
     const membersIds = role.members.reduce((acc, cur) => { //get the users having that role not in client
       if (!client.roles[roleId].members.includes(cur.id)) return [...acc, cur.id]
       else return acc;
@@ -41,7 +39,7 @@ const roleInitiate = async (client, guild, roles) => {
     const usersIdsToSort = [...client.roles[roleId].members, ...membersIds]; //concat already_in_client and not_in_client usersIds
     const sortedMembersIds = mergeSort(usersIdsToSort); //sort the members'_Ids_having_that_role list
     //add data to client
-    client.roles[roleId] = { name: roleName, react: roleReact, members: sortedMembersIds };
+    client.roles[roleId] = { name: roleName, members: sortedMembersIds };
   });
 };
 
@@ -82,7 +80,7 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
   const roleIdtoAdd = roleParam[1].roleId; //get triggering reaction associated role id
   const roleName = roleParam[1].name; //get triggering reaction name
   const role = await guild.roles.fetch(roleIdtoAdd) //get role
-  const roleMembers = role.members; //get all roleToAdd members
+  const roleMembers = role.members; //get all having_that_role members
   console.log("roleMembers.size", roleMembers.size)
 
   //get every userId that reacted but not in client
@@ -94,8 +92,8 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
   console.log("usersIdsToChangeRole", usersIdsToChangeRole)
 
   //get other message reactions data
-  const message = await messageReaction.message.fetch(); //fetch all message information
-  const messageReactions = message.reactions.cache; //get all message reactions
+  const message = await messageReaction.message.fetch(); //fetch message information
+  const messageReactions = message.reactions.cache; //get message reactions
   const messageOtherReactions = messageReactions.filter((object) => {
     const emojiName = object.emoji.name;
     return emojiName !== roleName && reactionsNames.includes(emojiName)
@@ -106,21 +104,22 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
     if (roleMembers.every((member) => member.user.id !== userId)) {//if doesn't have the role
       const guildMember = await guild.members.fetch(userId) //get guildMember
 
-      //check if user has multiple reactions
+      //check if user has other reactions, if yes remove them
       messageOtherReactions.forEach(async (element) => {
         const usersReacted = await element.users.fetch(); //get users that reacted
         if (usersReacted.has(userId)) {
-          console.log("foundUser", element.emoji.name, userId);
+          console.log("foundUserwithReaction", element.emoji.name, userId);
           await element.users.remove(userId);
-          console.log("removed Reaction");
+          console.log("removed Reaction", element.emoji.name, userId);
         }
       })
 
       //taking care of roles and client
       await guildMember.roles.add(roleIdtoAdd); //add role to user
+      console.log("guildMemberRoles", guildMember.roles.cache.keys())
       const guildMemberRoles = guildMember.roles.cache;
       const rolesToRemove = guildMemberRoles.reduce((acc, cur) => {
-        if (rolesIds.includes(cur.id)) return [...acc, cur.id];
+        if (rolesIds.includes(cur.id) && cur.id !== roleIdtoAdd) return [...acc, cur.id];
         else return [...acc];
       }, []);
       console.log("rolesToRemove", rolesToRemove);
@@ -133,7 +132,8 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
       return guildMember;
     }
   })
-  console.log("guildMembersToChangeRole", guildMembersToChangeRole.length);
+  console.log("guildMembersToChangeRole", guildMembersToChangeRole.keys());
+  console.log("clientUpdated", client.roles)
 
   //'🔵' blue
   // '🟠' orange

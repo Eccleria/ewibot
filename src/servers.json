@@ -8,22 +8,18 @@
     "messageRoleId": "959431125028204564",
     "roles": {
       "orange": {
-        "react": ":orange_circle:",
         "roleId": "959360675451383828",
         "name": "🟠"
       },
       "vert": {
-        "react": ":green_circle:",
         "roleId": "959360739800391680",
         "name": "🟢"
       },
       "violet": {
-        "react": ":purple_circle:",
         "roleId": "959360767063367691",
         "name": "🟣"
       },
       "bleu": {
-        "react": ":blue_circle:",
         "roleId": "959360716979175455",
         "name": "🔵"
       }
@@ -49,22 +45,18 @@
     "messageRoleId": "",
     "roles": {
       "alavirien": {
-        "react": ":blue_circle:",
         "roleId": "816971306276880395",
         "name": "🔵"
       },
       "frontaliers": {
-        "react": ":green_circle:",
         "roleId": "823882466024357918",
         "name": "🟢"
       },
       "marchombres": {
-        "react": ":orange_circle:",
         "roleId": "959085951559290882",
         "name": "🟠"
       },
       "dessinateurs": {
-        "react": ":purple_circle:",
         "roleId": "824226236523610125",
         "name": "🟣"
       }
