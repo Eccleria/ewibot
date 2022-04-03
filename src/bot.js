@@ -16,10 +16,13 @@ import { Low, JSONFile } from "lowdb";
 import { generateSpotifyClient } from "./helpers/index.js";
 
 import {
+  //message handler
   onPrivateMessage,
   onPublicMessage,
+  //reaction handler
   onRemoveReminderReaction,
   onRemoveSpotifyReaction,
+  onDMReactionHandler,
 } from "./listeners.js";
 // jsons imports
 import commons from "../static/commons.json";
@@ -128,120 +131,17 @@ const onMessageHandler = async (message) => {
 };
 
 const onReactionHandler = async (messageReaction) => {
+  // Function triggered for each reaction created
   const currentServer = commons.find(
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
   if (messageReaction.message.channel.type === "DM")
-    onDMReactionHandler(messageReaction);
+    onDMReactionHandler(messageReaction, client, currentServer, self);
   else {
-    const { message, emoji, users } = messageReaction;
-    const currentServer = servers.find(
-      ({ guildId }) => guildId === message.channel.guild.id
-    );
+    onRemoveSpotifyReaction(messageReaction, client, currentServer);
 
-    const { removeEmoji } = currentServer;
-
-    const foundMessageSpotify = client.playlistCachedMessages.find(
-      ({ id }) => id === message.id
-    );
-
-    const foundReminder = client.remindme.find(
-      ({ botMessage }) => botMessage.id === message.id
-    );
-
-    if (
-      foundReminder &&
-      emoji.name === removeEmoji &&
-      users.cache
-        .map((user) => user.id)
-        .includes(message.mentions.users.first().id)
-    ) {
-      try {
-        client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
-          if (botMessage.id === message.id) {
-            clearTimeout(timeout);
-            botMessage.reply(PERSONNALITY.commands.reminder.delete);
-            removeReminder(client.db, botMessage.id);
-            return false;
-          }
-          return true;
-        });
-        return;
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    if (
-      process.env.USE_SPOTIFY === "yes" &&
-      foundMessageSpotify &&
-      emoji.name === removeEmoji &&
-      users.cache
-        .map((user) => user.id)
-        .includes(message.mentions.users.first().id)
-    ) {
-      const { songId } = foundMessageSpotify;
-
-      const result = await deleteSongFromPlaylist(
-        songId,
-        client,
-        PERSONNALITY.spotify
-      );
-      client.playlistCachedMessages = client.playlistCachedMessages.filter(
-        ({ id }) => id !== message.id
-      );
-      await message.reply(result);
-    }
+    onRemoveReminderReaction(messageReaction, client, currentServer);
   }
-};
-
-const onDMReactionHandler = async (messageReaction) => {
-  const removeEmoji = servers[0].removeEmoji;
-  const { emoji, message, users } = messageReaction;
-
-  const foundReminder = client.remindme.filter(
-    (reminder) => reminder.botMessageId === message.id
-  );
-  const usersCollection = await users.fetch();
-  if (
-    foundReminder &&
-    emoji.name === removeEmoji &&
-    usersCollection.first().id != self
-  ) {
-    try {
-      client.remindme = client.remindme.filter(async ({ authorId, botMessage, timeout }) => {
-        if (botMessage.id === message.id) {
-          clearTimeout(timeout);
-          try {
-            await botMessage.reply(PERSONNALITY.commands.reminder.delete);
-          } catch {
-            console.log("Changement de paramètres de confidentialité pour l'utilisateur " + `${authorId}`)
-          }
-          removeReminder(client.db, botMessage.id);
-          return false;
-        }
-        return true;
-      });
-      return;
-    } catch (err) {
-      console.log("reminderError", err);
-    }
-  }
-};
-
-const onPrivateMessage = async (message) => {
-  const { author, content } = message;
-
-  // Tiitch id, Eccléria id
-  if (!isAdmin(author.id)) return;
-
-  const destinationChannelId = content.split(" ")[0];
-
-  const newContent = content.split(" ").slice(1).join(" ");
-
-  onRemoveSpotifyReaction(messageReaction, client, currentServer);
-
-  onRemoveReminderReaction(messageReaction, client, currentServer);
 };
 
 // Create an event listener for messages

@@ -11,10 +11,10 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
-import personnalities from "../personnalities.json";
-const PERSONALITY = personnalities.normal;
+import { PERSONALITY } from "../personnalities.json";
 
 const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
+  //add the reminder in the client
   client.remindme.push({
     authorId: authorId,
     botMessage: botMessage,
@@ -23,6 +23,7 @@ const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
 };
 
 export const initReminder = async (client) => {
+  //recover reminders from db
   const db = client.db;
   if (db.data && db.data.reminder.length > 0)
     db.data.reminder.forEach(async (element) => {
@@ -31,11 +32,13 @@ export const initReminder = async (client) => {
       const answerChannel = await client.channels.fetch(element.answerChannelId); //Find channel with Ewibot answer
       const botMessage = await answerChannel.messages.fetch(element.answerId); //Find bot response
 
+      //compute new reminder waiting time
       const now = dayjs();
       const difference = dayjs(element.reminderTime).diff(now);
-      const newTiming = difference > 0 ? difference : 10000;
+      const newTiming = difference > 0 ? difference : 10000; //if passed, waiting time of 10s
       console.log("newTiming", newTiming);
-      const timeoutObj = setTimeout(
+
+      const timeoutObj = setTimeout( //set Timeout until reminder
         sendDelayed,
         newTiming,
         client,
@@ -45,8 +48,8 @@ export const initReminder = async (client) => {
         botMessage
       );
 
-      addClientReminder(client, author.id, botMessage, timeoutObj);
-      updateReminder(db, botMessage.id, now.millisecond(newTiming).toISOString());
+      addClientReminder(client, author.id, botMessage, timeoutObj); //add to client
+      updateReminder(db, botMessage.id, now.millisecond(newTiming).toISOString()); //modify db
     });
 };
 
@@ -60,7 +63,7 @@ const sendDelayed = async (
 ) => {
   
   try {
-    await author.send(`${author.toString()} : ${messageContent}`); //MP
+    await author.send(`${author.toString()} : ${messageContent}`); //try to DM
   } catch {
     await channel.send(`${author.toString()} : ${messageContent}`);
   }
@@ -72,7 +75,7 @@ const sendDelayed = async (
   removeReminder(client.db, botMessage.id);
 };
 
-const formatMs = (nbr) => {
+const formatMs = (nbr) => { //get text from waiting time
   return dayjs.duration(nbr, "milliseconds").humanize();
 };
 
@@ -110,7 +113,7 @@ const answerBot = async (message, currentServer, timing) => {
     return answer;
   } catch {
     // reply to the request message
-    console.log(`Utilisateur ayant bloqué les DMs`);*/
+    console.log(`Utilisateur ayant bloqué les DMs`);
   const answer = await message.reply(
     PERSONALITY.getCommands().reminder.remind +
       `${formatMs(timing)}` +

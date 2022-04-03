@@ -2,11 +2,15 @@ import { PERSONALITY } from "./personality.js";
 import commands from "./commands/index.js";
 
 import {
+  //utils
   isAdmin,
   isCommand,
   reactionHandler,
   checkIsOnThread,
+  //SpotifyHelper
   deleteSongFromPlaylist,
+  //db
+  removeReminder,
 } from "./helpers/index.js";
 
 export const onPrivateMessage = async (message, client) => {
@@ -38,8 +42,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
     author.id === self || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
     (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
-  )
-    return;
+  ) return;
 
   const { playlistThreadId } = currentServer;
 
@@ -67,7 +70,7 @@ export const onRemoveReminderReaction = (
   messageReaction,
   client,
   currentServer
-) => {
+) => { //handle reminder removal triggered by user reaction
   const { removeEmoji } = currentServer;
   const { message, emoji, users } = messageReaction;
 
@@ -88,6 +91,7 @@ export const onRemoveReminderReaction = (
           // if it is the right message
           clearTimeout(timeout); //cancel timeout
           botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+          removeReminder(client.db, botMessage.id); //remove in db
           return false;
         }
         return true;
@@ -132,5 +136,40 @@ export const onRemoveSpotifyReaction = async (
       ({ id }) => id !== message.id
     );
     await message.reply(result);
+  }
+};
+
+
+export const onDMReactionHandler = async (messageReaction, client, currentServer, self) => {
+  const removeEmoji = currentServer.removeEmoji;
+  const { emoji, message, users } = messageReaction;
+
+  const foundReminder = client.remindme.filter(
+    (reminder) => reminder.botMessageId === message.id
+  );
+  const usersCollection = await users.fetch();
+  if (
+    foundReminder &&
+    emoji.name === removeEmoji &&
+    usersCollection.first().id != self
+  ) {
+    try {
+      client.remindme = client.remindme.filter(async ({ authorId, botMessage, timeout }) => {
+        if (botMessage.id === message.id) {
+          clearTimeout(timeout);
+          try {
+            await botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+          } catch {
+            console.log("Changement de paramètres de confidentialité pour l'utilisateur " + `${authorId}`)
+          }
+          removeReminder(client.db, botMessage.id);
+          return false;
+        }
+        return true;
+      });
+      return;
+    } catch (err) {
+      console.log("reminderError", err);
+    }
   }
 };
