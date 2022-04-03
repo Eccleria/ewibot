@@ -3,7 +3,6 @@
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
-    "helpChannelId": "932000373063954464",
     "randomfloodChannelId": "935180557770448956",
     "autoEmotes": {
       "panduom": "🍳",
@@ -48,13 +47,18 @@
     },
     "removeEmoji": "❌",
     "eyeReactId": "👁️",
-    "helloEmoji": "👋"
+    "helloEmoji": "👋",
+    "hungryEmotes": {
+      "jambonBeurre": "🥖",
+      "jamBjornBeurre": "🧈"
+    },
+    "panDuomReactId": "😠",
+    "removeEmoji": "❌"
   },
   {
     "name": "prod",
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
-    "helpChannelId": "816986852359274526",
     "randomfloodChannelId": "822132004581408828",
     "autoEmotes": {
       "panduom": "826036478672109588",
@@ -97,8 +101,14 @@
       "trigerred": "822487646076534854",
       "tslisheye": "822487568766730270"
     },
-    "removeEmoji": "❌",
+    "edouin": "823872218928250890",
     "eyeReactId": "822487568766730270",
-    "helloEmoji": "👋"
+    "helloEmoji": "👋",
+    "hungryEmotes": {
+      "jambonBeurre": "823904010335158323",
+      "jamBjornBeurre": "933464636223791144"
+    },
+    "panDuomReactId": "826036478672109588",
+    "removeEmoji": "❌"
   }
 ]
