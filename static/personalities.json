@@ -63,7 +63,7 @@
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
-      "react": ["Vous pouvez react avec ", "pour annuler cet ajout !"],
+      "react": ["Vous pouvez react avec ", " pour annuler cet ajout !"],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }

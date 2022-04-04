@@ -169,16 +169,16 @@ export const parseLink = async (
         answer: personality.songAdded.concat(
           // Bot answer
           `${result}`,
-          personality.reminder.react[0],
+          personality.react[0],
           `${currentServer.removeEmoji}`,
-          personality.reminder.react[1]
+          personality.react[1]
         ),
         songId,
       };
-    } catch {
+    } catch (err) {
       return {
         // If error
-        answer: personality.errorAdding,
+        answer: personality.errorAdding + err.toString(),
         songId: null,
       };
     }
