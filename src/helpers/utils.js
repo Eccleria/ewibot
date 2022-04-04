@@ -53,7 +53,7 @@ const isAbcd = (words) => {
 };
 
 const isHungry = (loweredContent) => {
-  if (loweredContent.includes("faim")) return true
+  return loweredContent.includes("faim");
 };
 
 export const reactionHandler = async (message, currentServer, client) => {
@@ -68,7 +68,8 @@ export const reactionHandler = async (message, currentServer, client) => {
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
-  if (apologyResult !== null) { //if found apology
+  if (apologyResult !== null) {
+    //if found apology
     const wordFound = apologyResult.input //get triggering word
       .slice(apologyResult.index)
       .split(" ")[0];
