@@ -1,5 +1,6 @@
 import { PERSONALITY } from "./personality.js";
 import commands from "./commands/index.js";
+import commons from "../static/commons.json"
 
 import {
   isAdmin,
@@ -7,31 +8,108 @@ import {
   reactionHandler,
   checkIsOnThread,
   deleteSongFromPlaylist,
+  PMContent,
 } from "./helpers/index.js";
+
+//DM Handler
+const onPMChannel = async (client, message, args, attachments) => {
+  //handling the channel function
+  const destinationChannelId = args.length > 1 ? args[1] : null;
+  try {
+    const channel = await client.channels.fetch(destinationChannelId); //get the channel
+
+    if (channel) {
+      const currentServer = commons.find(
+        ({ guildId }) => guildId === channel.guild.id
+      );
+      const content = PMContent(currentServer, args); //get the content to send
+
+      channel.sendTyping(); //simulate Ewibot is writing
+      setTimeout(() => {
+        if (content.length > 0)
+          //if content to send
+          channel.send({
+            content: content,
+            files: attachments,
+          });
+        else channel.send({ files: attachments }); //if no content
+      }, 3000);
+    }
+  } catch (e) {
+    //channel not found
+    console.log("catch PMChannel");
+    message.reply("Exception");
+  }
+};
+
+const onPMReply = async (client, message, args, attachments) => {
+  //handling the reply function
+  const messageReplyId = args.length >= 2 ? args[1] : null; //get message to reply Id
+
+  //Find channel and message
+  const fetchIDs = client.channels.cache.map((element) => element.id); //get all channels ids from every guild
+  let foundMessage = null;
+  let foundChannel = null;
+  for (let id of fetchIDs) {
+    const channel = await client.channels.fetch(id);
+    if (channel.type === "GUILD_TEXT") {
+      try {
+        foundMessage = await channel.messages.fetch(messageReplyId); //try to find the message in channel
+        foundChannel = channel;
+      } catch (e) {
+        //if message not found => crash => catch
+        //nothing to do
+      }
+    }
+  }
+
+  if (foundChannel && foundMessage) {
+    const currentServer = commons.find(
+      ({ guildId }) => guildId === foundChannel.guild.id
+    );
+    const content = PMContent(currentServer, args); //get the content to send
+
+    foundChannel.sendTyping(); //simulate Ewibot is writing
+    setTimeout(() => {
+      if (content.length > 0)
+        //if content to send, even though no attachment
+        foundMessage.reply({
+          content: content,
+          files: attachments,
+        });
+      else foundMessage.reply({ files: attachments }); //if no content
+    }, 3000);
+  } else { //if channel or message not found
+    console.log("catch PMReply");
+    message.reply(`Erreur, message non trouvé`);
+  }
+};
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
 
   if (!isAdmin(author.id)) return; // If not admin, no rigth to
 
-  const destinationChannelId = content.split(" ")[0];
+  const args = content.split(" ");
+  const commandCheck = args[0];
+  const attachments = message.attachments.reduce((acc, cur) => {
+    return [...acc, cur.attachment];
+  }, []);
 
-  const newContent = content.split(" ").slice(1).join(" ");
-
-  try {
-    const channel = await client.channels.fetch(destinationChannelId);
-
-    if (channel) {
-      channel.sendTyping(); // effect of Ewibot writing
-      setTimeout(() => {
-        channel.send(newContent);
-      }, 2000); // duration
+    // Check if there is content to send
+    if (args.length === 2 && attachments.length === 0) { //if no text && no attachments
+      message.reply("Wrong input");
+      return;
     }
-  } catch (e) {
-    console.log(e);
-  }
+
+  if (commandCheck === "channel") {
+    onPMChannel(client, message, args, attachments);
+  } else if (commandCheck === "reply") {
+    onPMReply(client, message, args, attachments);
+  } else await message.reply("Erreur de commande.");
 };
 
+//Public Handler
 export const onPublicMessage = (message, client, currentServer, self) => {
   const { author, content, channel } = message;
   if (
@@ -59,7 +137,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
       // spotify stuff
       checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
     }
-    command.action(message, client, currentServer, self);
+    command.action(message, client, currentServer, self); //anytime
   }
 };
 

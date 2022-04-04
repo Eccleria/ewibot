@@ -7,7 +7,7 @@
     "autoEmotes": {
       "panduom": "🍳",
       "ewiyay": "🤩",
-      "bjornlove": "😍",
+      "lovebjorn": "😍",
       "ewilhug": "🙏",
       "ewinklan": "😉",
       "salimmdr": "😂"
@@ -52,8 +52,7 @@
       "jambonBeurre": "🥖",
       "jamBjornBeurre": "🧈"
     },
-    "panDuomReactId": "😠",
-    "removeEmoji": "❌"
+    "panDuomReactId": "😠"
   },
   {
     "name": "prod",
@@ -63,7 +62,7 @@
     "autoEmotes": {
       "panduom": "826036478672109588",
       "ewiyay": "918249094391144469",
-      "bjornlove": "822437083003355146",
+      "lovebjorn": "822437083003355146",
       "ewilhug": "843097186710716416",
       "ewinklan": "841675143596212267",
       "salimmdr": "823904313792266250"

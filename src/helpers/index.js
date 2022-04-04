@@ -23,8 +23,7 @@ import {
   isCommand,
   reactionHandler,
   checkIsOnThread,
-  onPMChannel,
-  onPMReply,
+  PMContent,
 } from "./utils.js";
 
 export {
@@ -33,8 +32,7 @@ export {
   isCommand,
   reactionHandler,
   checkIsOnThread,
-  onPMChannel,
-  onPMReply,
+  PMContent,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
