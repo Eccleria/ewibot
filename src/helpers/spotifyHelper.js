@@ -115,7 +115,7 @@ const getEntirePlaylist = async (client) => {
 };
 
 const parseAddCommand = async (messageContent, client) => {
-  if (!messageContent.startsWith("!addsong")) return null;
+  if (!messageContent.startsWith("search")) return null;
 
   const searchQuery = messageContent.split(" ").slice(1).join(" ");
 

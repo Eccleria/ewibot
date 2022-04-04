@@ -57,13 +57,16 @@
         "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
         "numberError": "Les nombres donnés ne respectent pas les limites.",
         "parsingError": "Erreur de parsing."
+      },
+      "spotify": {
+        "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       }
     },
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
-      "react": ["Vous pouvez react avec ", " pour annuler cet ajout !"],
+      "react": [". Vous pouvez react avec ", " pour annuler cet ajout !"],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }

@@ -17,7 +17,7 @@ const spotifyReply = async (foundLink, message, client, currentServer) => {
 };
 
 const action = async (message, client, currentServer) => {
-  const lnk = message.content.split(" ")[1];
+  const lnk = message.content.split(" ").slice(1).join(" ");
 
   const foundLink = await parseLink(
     lnk,
