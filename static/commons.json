@@ -1,9 +1,10 @@
 [
   {
     "name": "test",
-    "guildId": "926909708072284170",
+    "guildId": "693565253174296577",
     "playlistThreadId": "926909785117429861",
     "randomfloodChannelId": "935180557770448956",
+    "logChannelId": "960915596298567690",
     "autoEmotes": {
       "ewiyayReactId": "😄",
       "bjornLoveReactId": "😍",
@@ -26,6 +27,7 @@
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
     "randomfloodChannelId": "822132004581408828",
+    "logChannelId": "959168176908804106",
     "autoEmotes": {
       "ewiyayReactId": "918249094391144469",
       "bjornLoveReactId": "822437083003355146",

@@ -20,6 +20,9 @@ import {
   onPublicMessage,
   onRemoveReminderReaction,
   onRemoveSpotifyReaction,
+  onEmoji,
+  onRoleCreate,
+  onRoleDelete,
 } from "./listeners.js";
 // jsons imports
 import commons from "../static/commons.json";
@@ -126,13 +129,19 @@ const onReactionHandler = async (messageReaction) => {
 };
 
 // Create an event listener for messages
+client.once("ready", () => {
+  console.log("I am ready!");
+});
+
 client.on("messageCreate", onMessageHandler);
 
 client.on("messageReactionAdd", onReactionHandler);
 
-client.once("ready", () => {
-  console.log("I am ready!");
-});
+client.on("roleCreate", onRoleCreate);
+client.on("roleDelete", onRoleDelete);
+
+client.on("emojiCreate", onEmoji);
+client.on("emojiDelete", onEmoji);
 
 // Log our bot in using the token from https://discord.com/developers/applications
 client.login(process.env.TOKEN);

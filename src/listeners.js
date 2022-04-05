@@ -1,6 +1,6 @@
 import { PERSONALITY } from "./personality.js";
 import commands from "./commands/index.js";
-
+import commons from "../static/commons.json"
 import {
   isAdmin,
   isCommand,
@@ -134,3 +134,44 @@ export const onRemoveSpotifyReaction = async (
     await message.reply(result);
   }
 };
+
+export const onEmoji = async (guildEmoji) => {
+  console.log("emoji listener")
+  const guild = await guildEmoji.guild.fetch();
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === guild.id
+  );
+  console.log("currentServer", currentServer)
+  const channel = currentServer.logChannelId;
+
+  if (guildEmoji.available) {
+    await channel.send(`Un emoji a été créé : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
+  } else {
+    await channel.send(`Un emoji a été supprimé : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
+  }
+};
+
+export const onRoleCreate = async (role) => {
+  console.log("role create")
+  const guild = await role.guild.fetch();
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === guild.id
+  );
+  //console.log("currentServer", currentServer)
+  const logChannel = currentServer.logChannelId;
+  const channel = await guild.channels.fetch(logChannel);
+  await channel.send(`Un rôle a été créé : ${role.name}.`)
+};
+
+export const onRoleDelete = async (role) => {
+  console.log("role delete")
+  const guild = await role.guild.fetch();
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === guild.id
+  );
+  //console.log("currentServer", currentServer)
+  const logChannel = currentServer.logChannelId;
+  const channel = await guild.channels.fetch(logChannel);
+  await channel.send(`Un rôle a été supprimé : ${role.name}.`)
+};
+
