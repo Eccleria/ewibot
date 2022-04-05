@@ -1,4 +1,4 @@
-﻿//Merge Sort algorithm
+﻿/*//Merge Sort algorithm
 const mergeSort = (T) => {
   const len = T.length;
   if (len <= 1) return T;
@@ -15,7 +15,7 @@ const merge = (T1, T2) => {
   if (T2.length === 0) return T1;
   if (T1[0] <= T2[0]) return [T1[0], ...merge(T1.slice(1), T2)];
   else return [T2[0], ...merge(T1, T2.slice(1))];
-};
+};*/
 
 const roleInitiate = async (client, guild, roles) => {
   if (!client.roles) {
@@ -40,9 +40,9 @@ const roleInitiate = async (client, guild, roles) => {
     }, []);
     console.log(roleName, membersIds);
     const usersIdsToSort = [...client.roles[roleId].members, ...membersIds]; //concat already_in_client and not_in_client usersIds
-    const sortedMembersIds = mergeSort(usersIdsToSort); //sort the members'_Ids_having_that_role list
+    //const sortedMembersIds = mergeSort(usersIdsToSort); //sort the members'_Ids_having_that_role list
     //add data to client
-    client.roles[roleId] = { name: roleName, members: sortedMembersIds };
+    client.roles[roleId] = { name: roleName, members: usersIdsToSort };
   });
 };
 
@@ -141,7 +141,8 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
         ); //remove precedent user role.s in client
       });
       const toSort = [...client.roles[roleIdtoAdd].members, userId];
-      client.roles[roleIdtoAdd].members = mergeSort(toSort); //add new user role in client
+      //client.roles[roleIdtoAdd].members = mergeSort(toSort); //add new user role in client
+      client.roles[roleIdtoAdd].members = toSort; //add new user role in client
     }
   });
   console.log("clientUpdated", await client.roles);
