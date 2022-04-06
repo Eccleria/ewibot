@@ -16,7 +16,7 @@ export const wishBirthday = async (db, channel) => {
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
   const users = db.data.birthdaysUsers;
 
-  const foundBirthdays = (users||[]).filter(({ birthdayDate }) => {
+  const foundBirthdays = (users || []).filter(({ birthdayDate }) => {
     // Checks if it is birthday for some users
     const date = dayjs(birthdayDate);
     return date.month() === today.month() && date.date() === today.date();
