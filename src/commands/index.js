@@ -12,6 +12,7 @@ import {
 import reminder from "./reminder.js";
 import birthday from "./birthday.js";
 import concrete from "./concrete.js";
+import spotify from "./spotify.js";
 import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
@@ -125,6 +126,7 @@ const commands = [
   ignoreChannel,
   reminder,
   roll,
+  spotify,
 ];
 
 const help = {

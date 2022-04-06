@@ -17,12 +17,16 @@ const spotifyReply = async (foundLink, message, client, currentServer) => {
 };
 
 const action = async (message, client, currentServer) => {
+  const lnk = message.content.split(" ").slice(1).join(" ");
+
   const foundLink = await parseLink(
-    message.content,
+    lnk,
     client,
     PERSONALITY.getSpotify(),
     currentServer
   );
+
+  console.log(foundLink);
 
   await spotifyReply(foundLink, message, client, currentServer);
 };

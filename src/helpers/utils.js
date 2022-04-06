@@ -2,8 +2,8 @@ import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
-const apologyRegex = new RegExp(
-  /(dsl)|(d[é|e]?sol?[e|é]*r?)|(so?r+y?)|(pardon)|(navr[e|é]*)/gm
+const apologyRegex = new RegExp( //regex for apology detection
+  /^((dsl)|(d[é|e]+sol?[e|é]*r?)|(so?r+y)|(pardon)|(navr[e|é]+))/gm
 );
 
 const hello = [
@@ -20,7 +20,7 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-const punctuation = new RegExp(/[_.?!,;:/-]/gm);
+const punctuation = new RegExp(/[_.?!,;:/-/*]/gm);
 
 export const sanitizePunctuation = (messageContent) => {
   return messageContent.replaceAll(punctuation, "");
@@ -53,7 +53,7 @@ const isAbcd = (words) => {
 };
 
 const isHungry = (loweredContent) => {
-  if (loweredContent.includes("faim")) return true
+  return loweredContent.includes("faim");
 };
 
 export const reactionHandler = async (message, currentServer, client) => {
@@ -64,17 +64,20 @@ export const reactionHandler = async (message, currentServer, client) => {
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
-  const loweredContent = message.content.toLowerCase();
-  const sanitizedContent = sanitizePunctuation(loweredContent);
-  const apologyResult = apologyRegex.exec(sanitizedContent);
-  apologyRegex.lastIndex = 0;
+  const loweredContent = message.content.toLowerCase(); //get text in Lower Case
+  const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
+  const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
+  apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
-    const wordFound = apologyResult.input
+    //if found apology
+    const wordFound = apologyResult.input //get triggering word
       .slice(apologyResult.index)
       .split(" ")[0];
+
+    //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) {
-      addApologyCount(authorId, db);
-      await message.react(currentServer.panDuomReactId);
+      addApologyCount(authorId, db); //add data to db
+      await message.react(currentServer.panDuomReactId); //add message reaction
     }
   }
 
