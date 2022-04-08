@@ -42,7 +42,8 @@ export const onPublicMessage = (message, client, currentServer, self) => {
     author.id === self || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
     (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
-  ) return;
+  )
+    return;
 
   const { playlistThreadId } = currentServer;
 
@@ -70,7 +71,8 @@ export const onRemoveReminderReaction = (
   messageReaction,
   client,
   currentServer
-) => { //handle reminder removal triggered by user reaction
+) => {
+  //handle reminder removal triggered by user reaction
   const { removeEmoji } = currentServer;
   const { message, emoji, users } = messageReaction;
 
@@ -139,8 +141,12 @@ export const onRemoveSpotifyReaction = async (
   }
 };
 
-
-export const onDMReactionHandler = async (messageReaction, client, currentServer, self) => {
+export const onDMReactionHandler = async (
+  messageReaction,
+  client,
+  currentServer,
+  self
+) => {
   const removeEmoji = currentServer.removeEmoji;
   const { emoji, message, users } = messageReaction;
 
@@ -154,19 +160,24 @@ export const onDMReactionHandler = async (messageReaction, client, currentServer
     usersCollection.first().id != self
   ) {
     try {
-      client.remindme = client.remindme.filter(async ({ authorId, botMessage, timeout }) => {
-        if (botMessage.id === message.id) {
-          clearTimeout(timeout);
-          try {
-            await botMessage.reply(PERSONALITY.getCommands().reminder.delete);
-          } catch {
-            console.log("Changement de paramètres de confidentialité pour l'utilisateur " + `${authorId}`)
+      client.remindme = client.remindme.filter(
+        async ({ authorId, botMessage, timeout }) => {
+          if (botMessage.id === message.id) {
+            clearTimeout(timeout);
+            try {
+              await botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+            } catch {
+              console.log(
+                "Changement de paramï¿½tres de confidentialitï¿½ pour l'utilisateur " +
+                  `${authorId}`
+              );
+            }
+            removeReminder(client.db, botMessage.id);
+            return false;
           }
-          removeReminder(client.db, botMessage.id);
-          return false;
+          return true;
         }
-        return true;
-      });
+      );
       return;
     } catch (err) {
       console.log("reminderError", err);

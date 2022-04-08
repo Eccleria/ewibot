@@ -123,7 +123,8 @@ const removeReminder = (db, botMessageId) => {
 
 const updateReminder = (db, botMessageId, newReminderTime) => {
   db.data.reminder.map((element) => {
-    if (element.answerId === botMessageId) element.reminderTime = newReminderTime;
+    if (element.answerId === botMessageId)
+      element.reminderTime = newReminderTime;
   });
   db.wasUpdated = true;
 };

@@ -133,9 +133,8 @@ const onMessageHandler = async (message) => {
 const onReactionHandler = async (messageReaction) => {
   // Function triggered for each reaction created
   if (messageReaction.message.channel.type === "DM") {
-    const currentServer = commons.find(
-      (data) => data.name === "test"
-    );
+    // if happening in DM
+    const currentServer = commons.find((data) => data.name === "test");
     onDMReactionHandler(messageReaction, client, currentServer, self);
   } else {
     const currentServer = commons.find(
