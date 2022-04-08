@@ -50,7 +50,8 @@
       "reminder": {
         "delete": "Le remind a bien été supprimé.",
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
+        "notEnoughArgs": "Pas assez d'arguments",
+        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
         "remind": "Je te rappelerai ça dans environ "
       },
       "roll": {
@@ -114,9 +115,10 @@
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé.",
-        "remind": "Je te rappelerai ça dans environ ",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
-        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."
+        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
+        "notEnoughArgs": "Pas assez d'arguments",
+        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
+        "remind": "Je te rappelerai ça dans environ "
       },
       "roll": {
         "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",

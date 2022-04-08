@@ -11,7 +11,7 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
-import { PERSONALITY } from "../personnalities.json";
+import { PERSONALITY } from "../personality.js";
 
 const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
   //add the reminder in the client
@@ -103,7 +103,7 @@ const answerBot = async (message, currentServer, timing) => {
     // try to DM
     const answer = await message.author.send(
       PERSONALITY.getCommands().reminder.remind.concat(
-        `${formatMs(timing)}. `,
+        `${formatMs(timing)}.`,
         PERSONALITY.getCommands().reminder.react[0],
         `${currentServer.removeEmoji}`,
         PERSONALITY.getCommands().reminder.react[1]
@@ -131,6 +131,10 @@ const action = async (message, client, currentServer) => {
   const args = content.split(" ");
   const wordTiming = args[1];
 
+  if (args.length <= 1) { //if only $reminder
+    message.reply(PERSONALITY.getCommands().reminder.notEnoughArgs)
+    return;
+  }
   const timing = extractDuration(wordTiming);
 
   if (!timing) {

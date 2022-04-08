@@ -132,12 +132,15 @@ const onMessageHandler = async (message) => {
 
 const onReactionHandler = async (messageReaction) => {
   // Function triggered for each reaction created
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
-  );
-  if (messageReaction.message.channel.type === "DM")
+  if (messageReaction.message.channel.type === "DM") {
+    const currentServer = commons.find(
+      (data) => data.name === "test"
+    );
     onDMReactionHandler(messageReaction, client, currentServer, self);
-  else {
+  } else {
+    const currentServer = commons.find(
+      ({ guildId }) => guildId === messageReaction.message.guild.id
+    );
     onRemoveSpotifyReaction(messageReaction, client, currentServer);
 
     onRemoveReminderReaction(messageReaction, client, currentServer);
