@@ -7,57 +7,57 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import personnalities from "./personnalities.json";
-
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
-import {
-  isAdmin,
-  isCommand,
-  reactionHandler,
-  parseLink,
-  checkIsOnThread,
-  deleteSongFromPlaylist,
-  generateSpotifyClient,
-  isUserMessagesCounted,
-  addUserMessageCount,
-} from "./helpers/index.js";
-import servers from "./servers.json";
-import commands from "./commands/index.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
+
+// helpers imports
+import { generateSpotifyClient } from "./helpers/index.js";
+
+import {
+  onPrivateMessage,
+  onPublicMessage,
+  onRemoveReminderReaction,
+  onRemoveSpotifyReaction,
+} from "./listeners.js";
+// jsons imports
+import commons from "../static/commons.json";
+// commands imports
 import { wishBirthday } from "./commands/birthday.js";
 import { sendCount } from "./commands/messageCount.js";
 
-// Use JSON file for storage
-const file = join("db", "db.json");
+// DB
+const file = join("db", "db.json"); // Use JSON file for storage
 const adapter = new JSONFile(file);
 const db = new Low(adapter);
-// Read data from JSON file, this will set db.data content
-db.read();
+
+db.read(); // Read data from JSON file, this will set db.data content
 
 db.wasUpdated = false;
 db.birthdayInitiated = false;
 
 setInterval(async () => {
+  // db updater loop, used to centralize db.write()
   if (db.wasUpdated) {
     await db.write();
     db.wasUpdated = false;
   }
 }, 10000);
 
+// BIRTHDAY
 const tomorrow = dayjs()
   .add(1, "day")
   .hour(8)
   .minute(0)
   .second(0)
   .millisecond(0);
-const timeToTomorrow = tomorrow.diff(dayjs());
-
-const frequency = 24 * 60 * 60 * 1000;
+const timeToTomorrow = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
+const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
 setTimeout(async () => {
-  const server = servers.find(({ name }) =>
+  // init birthday check
+  const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
   const channel = await client.channels.fetch(server.randomfloodChannelId);
@@ -66,10 +66,10 @@ setTimeout(async () => {
 
   wishBirthday(db, channel);
 
-  setInterval(wishBirthday, frequency, db, channel); // 24 hours, in ms
+  setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
 }, timeToTomorrow);
 
-// Create an instance of a Discord client
+// Discord CLIENT
 const client = new Client({
   intents: [
     Intents.FLAGS.GUILDS,
@@ -83,12 +83,13 @@ const client = new Client({
   ],
 });
 
-client.playlistCachedMessages = [];
+client.playlistCachedMessages = []; // Spotify messages cache
 
-client.db = db;
-client.remindme = [];
+client.db = db; // db cache
+client.remindme = []; // reminders cache
 
 if (process.env.USE_SPOTIFY === "yes") {
+  // Spotify API cache
   const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
@@ -98,17 +99,17 @@ if (process.env.USE_SPOTIFY === "yes") {
   client.spotifyApi = spotifyApi;
 }
 
-const self = process.env.CLIENTID;
+const self = process.env.CLIENTID; // get self Discord Id
 
-const PERSONNALITY = personnalities.normal;
-
+// Bot event FUNCTIONS
 const onMessageHandler = async (message) => {
-  const { channel, author, content } = message;
+  // Function triggered for each message sent
+  const { channel } = message;
 
   if (channel.type === "DM") {
-    onPrivateMessage(message);
+    onPrivateMessage(message, client);
   } else {
-    const currentServer = servers.find(
+    const currentServer = commons.find(
       ({ guildId }) => guildId === channel.guild.id
     );
 
@@ -120,134 +121,24 @@ const onMessageHandler = async (message) => {
     )
       return;
 
-    const { playlistThreadId } = currentServer;
-
-    reactionHandler(message, content, currentServer, client);
-
-    if (process.env.USE_SPOTIFY === "yes" && channel.id === playlistThreadId) {
-      checkIsOnThread(channel, playlistThreadId);
-
-      //
-      const foundLink = await parseLink(
-        content,
-        client,
-        PERSONNALITY.spotify,
-        currentServer
-      );
-      if (foundLink) {
-        const { answer, songId } = foundLink;
-        const newMessage = await message.reply(answer);
-        if (songId) await newMessage.react(currentServer.removeEmoji);
-        client.playlistCachedMessages = [
-          ...client.playlistCachedMessages,
-          { ...newMessage, songId },
-        ];
-      }
-    }
-
-    if (isUserMessagesCounted(client.db, author.id)) {
-      addUserMessageCount(client.db, author.id, 1);
-      sendCount(message, PERSONNALITY.commands, client);
-    }
-
-    const commandName = content.split(" ")[0];
-    const command = commands
-      .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin)
-      .find(({ name }) => commandName.slice(1) === name);
-    if (command && isCommand(commandName)) {
-      command.action(message, PERSONNALITY.commands, client, currentServer);
-    }
+    onPublicMessage(message, client, currentServer, self);
   }
 };
 
 const onReactionHandler = async (messageReaction) => {
-  const { message, emoji, users } = messageReaction;
-  const currentServer = servers.find(
-    ({ guildId }) => guildId === message.channel.guild.id
-  );
-  const { removeEmoji } = currentServer;
-
-  const foundMessageSpotify = client.playlistCachedMessages.find(
-    ({ id }) => id === message.id
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  const foundReminder = client.remindme.find(
-    (reminder) => reminder.botMessage.id === message.id
-  );
-  if (
-    foundReminder &&
-    emoji.name === removeEmoji &&
-    users.cache
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
-  ) {
-    try {
-      client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
-        if (botMessage.id === message.id) {
-          clearTimeout(timeout);
-          botMessage.reply(PERSONNALITY.commands.reminder.delete);
-          return false;
-        }
-        return true;
-      });
-      return;
-    } catch (err) {
-      console.log("reminderError", err);
-    }
-  }
+  onRemoveSpotifyReaction(messageReaction, client, currentServer);
 
-  if (
-    process.env.USE_SPOTIFY === "yes" &&
-    foundMessageSpotify &&
-    emoji.name === removeEmoji &&
-    users.cache
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
-  ) {
-    const { songId } = foundMessageSpotify;
-
-    const result = await deleteSongFromPlaylist(
-      songId,
-      client,
-      PERSONNALITY.spotify
-    );
-    client.playlistCachedMessages = client.playlistCachedMessages.filter(
-      ({ id }) => id !== message.id
-    );
-    await message.reply(result);
-  }
-};
-
-const onPrivateMessage = async (message) => {
-  const { author, content } = message;
-
-  // Tiitch id, Eccléria id
-  if (!isAdmin(author.id)) return;
-
-  const destinationChannelId = content.split(" ")[0];
-
-  const newContent = content.split(" ").slice(1).join(" ");
-
-  try {
-    const channel = await client.channels.fetch(destinationChannelId);
-
-    if (channel) {
-      channel.sendTyping();
-      setTimeout(() => {
-        channel.send(newContent);
-      }, 2000);
-    }
-  } catch (e) {
-    console.log(e);
-  }
+  onRemoveReminderReaction(messageReaction, client, currentServer);
 };
 
 // Create an event listener for messages
 client.on("messageCreate", onMessageHandler);
 
 client.on("messageReactionAdd", onReactionHandler);
-
-//client.on("", onPrivateMessage);
 
 client.once("ready", () => {
   console.log("I am ready!");

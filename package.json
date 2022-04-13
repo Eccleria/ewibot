@@ -16,7 +16,7 @@
     "nodemon": "^2.0.12",
     "spotify-web-api-node": "^5.0.2",
     "wait-for-user-input": "^1.0.0",
-    "ytdl-core": "^4.10.0"
+    "ytdl-core": "^4.11.0"
   },
   "devDependencies": {
     "eslint": "^7.18.0",

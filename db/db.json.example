@@ -1,11 +1,9 @@
 {
-  "ignoredUsersIds": [ "816960467335512114", "816979516916105220" ], // Maeva / Andarta Picture
   "apologiesCounting": [],
-  "ignoredChannelIds": [],
-  "messageCount": [],
-  "birthdays": {
-    "users": []
-  },
-  "ignoredChannelIds": [],
+  "birthdaysUsers": [],
   "concreteRecipients": [],
+  "ignoredChannelIds": [],
+  "ignoredUsersIds": [ "816960467335512114", "816979516916105220" ], // Maeva / Andarta Picture
+  "messageCount": [],
+  "reminder": []
 }

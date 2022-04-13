@@ -1,38 +1,44 @@
 import dayjs from "dayjs";
 import CustomParseFormat from "dayjs/plugin/customParseFormat.js";
 import "dayjs/locale/fr.js";
-
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
 
 import {
   addBirthday,
-  isbirthdayDate,
+  isBirthdayDate,
   removeBirthday,
-  getBirthday,
 } from "../helpers/index.js";
-
-import personnalities from "../personnalities.json";
+import { PERSONALITY } from "../personality.js";
 
 export const wishBirthday = async (db, channel) => {
+  // Wish birthdays if there are some
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
-  const users = db.data.birthdays.users;
+  const users = db.data.birthdaysUsers;
 
   const foundBirthdays = users.filter(({ birthdayDate }) => {
+    // Checks if it is birthday for some users
     const date = dayjs(birthdayDate);
     return date.month() === today.month() && date.date() === today.date();
   });
 
   if (foundBirthdays.length !== 0) {
-    const initialText =
+    // if there is a birthday
+    const initialText = // For correct grammar
       foundBirthdays.length === 1
-        ? "OWH ! Aujourd'hui on fête l'anniversaire de : \n"
-        : "OWH ! Aujourd'hui on fête les anniversaires de : \n";
+        ? PERSONALITY.getCommands().birthday.birthday
+        : PERSONALITY.getCommands().birthday.birthdays;
+
     const birthdayText = foundBirthdays.reduce(
       (acc, { userId, birthdayDate }) => {
-        const currentAge = today.year() - dayjs(birthdayDate).year();
-
-        return `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
+        const birthdayYear = dayjs(birthdayDate).year();
+        const currentAge =
+          birthdayYear === dayjs().year() ? "" : today.year() - birthdayYear; // Age computation
+        const text =
+          currentAge === ""
+            ? `${acc} <@${userId}> ♥ \n`
+            : `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
+        return text;
       },
       initialText
     );
@@ -40,54 +46,59 @@ export const wishBirthday = async (db, channel) => {
   }
 };
 
-const action = async (message, personality, client) => {
+const action = async (message, client) => {
   const content = message.content;
   const authorId = message.author.id;
   const db = client.db;
-  const replies = personality.birthday;
-
   const words = content.toLowerCase().split(" ");
 
   if (words[1] && words[1] === "del") {
-    if (isbirthdayDate(authorId, db)) {
+    // remove user
+    if (isBirthdayDate(authorId, db)) {
       removeBirthday(authorId, db);
-      await message.reply(replies.removeUser);
+      await message.reply(PERSONALITY.getCommands().birthday.removeUser);
       return;
     }
   } else if (words[1] === "add" && words[2]) {
-    const date = dayjs(words[2], "DD-MM-YYYY")
-      .hour(8)
-      .minute(0)
-      .second(0)
-      .millisecond(0); // 8AM, local hour
-
+    // add user
+    const date = dayjs(words[2], ["DD-MM-YYYY", "DD-MM"]);
     if (date.isValid()) {
+      // Checks date validity
       if (date.year() < 1950) {
-        await message.reply(replies.tooOld);
-      } else if (date.year() > dayjs().subtract(5, "year").year()) {
-        await message.reply(replies.tooYoung);
+        // If too old
+        await message.reply(PERSONALITY.getCommands().birthday.tooOld);
+      } else if (
+        date.year() > dayjs().subtract(5, "year").year() &&
+        date.year() !== dayjs().year()
+      ) {
+        // If year of birth > now year - 5 => too young
+        await message.reply(PERSONALITY.getCommands().birthday.tooYoung);
       } else {
         addBirthday(authorId, db, date.toISOString());
-        await message.reply(replies.addUser);
+        await message.reply(PERSONALITY.getCommands().birthday.addUser);
       }
-    } else await message.reply(replies.parsingError);
+    } else await message.reply(PERSONALITY.getCommands().birthday.parsingError);
   } else if (words.length === 1) {
-    const birthdays = getBirthday(db).users;
-    const user = birthdays.find(({ userId }) => userId === authorId);
+    // checks if user is in DB and tells user
+    const users = db.data.birthdaysUsers;
+    const user = users.find(({ userId }) => userId === authorId);
 
     if (user)
       await message.reply(
-        `${replies.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`
+        `${PERSONALITY.getCommands().birthday.getUser}${dayjs(
+          user.birthdayDate
+        ).format("DD/MM/YYYY")}.`
       );
-    else await message.reply(replies.userNotFound);
+    else await message.reply(PERSONALITY.getCommands().birthday.userNotFound);
   }
 };
 
 const birthday = {
+  // Allows Ewibot to wish happy birthday to users willing to
   name: "birthday",
   action,
   help: () => {
-    return personnalities.normal.commands.birthday.help;
+    return PERSONALITY.getCommands().birthday.help;
   },
   admin: false,
 };
