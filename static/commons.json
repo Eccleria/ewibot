@@ -4,7 +4,10 @@
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
     "randomfloodChannelId": "935180557770448956",
-    "messageRoleId": "961305463226515528",
+    "roleHandle": {
+      "channelId": "935180557770448956",
+      "messageId": "961305463226515528"
+    },
     "roles": {
       "orange": {
         "roleId": "959360675451383828",
@@ -46,6 +49,10 @@
     "playlistThreadId": "892785771541585980",
     "randomfloodChannelId": "822132004581408828",
     "messageRoleId": "",
+    "roleHandle": {
+      "channelId": "817066925976191037",
+      "messageId": ""
+    },
     "roles": {
       "alavirien": {
         "roleId": "816971306276880395",

@@ -10,7 +10,7 @@ dayjs.locale("fr");
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
-import { roleHandler } from "./admin/role.js";
+import { roleInit, roleHandler } from "./admin/role.js";
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
@@ -105,6 +105,9 @@ if (process.env.USE_SPOTIFY === "yes") {
 
 const self = process.env.CLIENTID; // get self Discord Id
 
+//ROLES
+setTimeout(roleInit, 5000, client, commons);
+
 // Bot event FUNCTIONS
 const onMessageHandler = async (message) => {
   // Function triggered for each message sent
@@ -125,9 +128,8 @@ const onReactionHandler = async (messageReaction) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.messageRoleId === messageReaction.message.id) {
+  if (currentServer.roleHandle.messageId === messageReaction.message.id)
     roleHandler(client, messageReaction, currentServer);
-  }
 
   onRemoveSpotifyReaction(messageReaction, client, currentServer);
 

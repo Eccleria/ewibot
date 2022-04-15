@@ -1,13 +1,42 @@
-﻿const roleClientHandler = async (client, guild, roles) => {
-  if (!client.roles) {
-    //initialize client
-    client.roles = {};
-    roles.forEach((role) => {
-      client.roles[role[1].roleId] = { name: role[1].name, members: [] };
-    }, {});
-  }
-  console.log("client.roles", client.roles);
+﻿export const roleInit = async (client, commons) => {
+  const server =
+    process.env.DEBUG === "yes"
+      ? commons.find(({ name }) => name === "test")
+      : commons.find(({ name }) => name === "prod");
+  const rolesJson = Object.entries(server.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
 
+  //client init
+  client.roles = {};
+  rolesJson.forEach((role) => {
+    client.roles[role[1].roleId] = { name: role[1].name, members: [] };
+  }, {});
+
+  //react check
+  const channel = await client.channels.fetch(server.roleHandle.channelId); //get the channel
+  const message = await channel.messages.fetch(server.roleHandle.messageId); //get the message
+  const messageReactions = message.reactions.cache; //get all the reactions data
+  const reactionsNames = rolesJson.map((element) => element[1].name); //get the name of handled reactions
+  await reactionsNames.forEach(async (emoteName) => {
+    //get messageReaction associated to emoteName
+    const messageReaction = messageReactions.find(
+      (object) => object.emoji.name === emoteName
+    );
+    let users = {};
+    try {
+      users = await messageReaction.users.fetch(); //get all users that reacted with emoteName
+      console.log("initHasUsers", users.size);
+      if (!users.has(process.env.CLIENTID))
+        //if no bot reaction
+        await message.react(emoteName); //add missing reaction
+    } catch {
+      await message.react(emoteName); //add missing reaction
+      console.log("init No users", users);
+    }
+  });
+};
+
+const roleClientHandler = async (client, guild, roles) => {
+  console.log("client.roles", client.roles);
   roles.forEach(async (roleList) => {
     const roleParam = Object.values(roleList[1]); //get role parameters
     const roleName = roleList[0]; //get role name
@@ -21,7 +50,6 @@
     }, []);
     console.log("client before synchro", roleName, membersIds);
     const usersIdsToSort = [...client.roles[roleId].members, ...membersIds]; //concat already_in_client and not_in_client usersIds
-    //const sortedMembersIds = mergeSort(usersIdsToSort); //sort the members'_Ids_having_that_role list
     //add data to client
     client.roles[roleId] = { name: roleName, members: usersIdsToSort };
   });
@@ -29,14 +57,13 @@
 
 export const roleHandler = async (client, messageReaction, currentServer) => {
   //synchronize client data
-  const rolesJson = Object.entries(currentServer.roles); //get all the roles we are working with - format : [color, {react:, roleId:, name:}]
+  const rolesJson = Object.entries(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
   const guild = await client.guilds.fetch(currentServer.guildId); //fetch the guild
   await roleClientHandler(client, guild, rolesJson); //handle client data
 
-  //get all guild roles usefull data
-  const reactionsNames = rolesJson.map((element) => element[1].name); //get all reactions names
+  //get reaction names
+  const reactionsNames = rolesJson.map((element) => element[1].name);
   console.log("reactionsNames", reactionsNames);
-  const rolesIds = rolesJson.map((element) => element[1].roleId); //get all roles ids
 
   //check for correct triggering reaction
   const reactionName = messageReaction.emoji.name; //get triggering reaction name
@@ -48,10 +75,24 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
     return;
   }
 
+  //check if there are all emote required
+  const message = await messageReaction.message.fetch(); //fetch message information
+  const messageReactions = message.reactions.cache; //get all reactions on the message
+
   //get role parameters in servers.json
   const roleParam = rolesJson.find((role) => role[1].name === reactionName); //get json data for triggering role
   const roleIdtoAdd = roleParam[1].roleId; //get the role id associated to the triggering reaction
   const roleName = roleParam[1].name; //get triggering reaction name
+  const rolesIds = rolesJson.map((element) => element[1].roleId); //get all roles ids
+
+  //get other message reactions data
+  const messageOtherReactions = messageReactions.filter((object) => {
+    const emojiName = object.emoji.name;
+    return emojiName !== roleName && reactionsNames.includes(emojiName);
+  }); //get other than triggering reaction data
+  console.log("messageOtherReactions.keys()", messageOtherReactions.keys());
+
+  //get guild role data
   const roleGuild = await guild.roles.fetch(roleIdtoAdd); //get role from guild
   const roleGuildMembers = roleGuild.members; //get all having_that_role members
   console.log("roleGuildMembers.size", roleGuildMembers.size);
@@ -60,20 +101,15 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
   const sameReactUsers = await messageReaction.users.fetch(); //all users having the same reaction
   const usersIdsToChangeRole = sameReactUsers.reduce((acc, cur) => {
     const userId = cur.id;
-    //if client has userId in the roleIdtoAdd member list, nothing to do
-    if (client.roles[roleIdtoAdd].members.includes(userId)) return acc;
+    //if client has userId in the roleIdtoAdd member list or is bot, nothing to do
+    if (
+      client.roles[roleIdtoAdd].members.includes(userId) ||
+      userId === process.env.CLIENTID
+    )
+      return acc;
     else return [...acc, userId]; //return userId if not in client
   }, []);
   console.log("usersIdsToChangeRole", usersIdsToChangeRole);
-
-  //get other message reactions data
-  const message = await messageReaction.message.fetch(); //fetch message information
-  const messageReactions = message.reactions.cache; //get all reactions on the message
-  const messageOtherReactions = messageReactions.filter((object) => {
-    const emojiName = object.emoji.name;
-    return emojiName !== roleName && reactionsNames.includes(emojiName);
-  }); //get other than triggering reaction data
-  console.log("messageOtherReactions.keys()", messageOtherReactions.keys());
 
   //handle client, role and reaction change for every identified user
   await usersIdsToChangeRole.forEach(async (userId) => {
