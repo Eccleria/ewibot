@@ -124,6 +124,7 @@ const onMessageHandler = async (message) => {
 };
 
 const onReactionHandler = async (messageReaction) => {
+  // Function triggered for each reaction added
   const currentServer = commons.find(
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
