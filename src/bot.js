@@ -20,12 +20,15 @@ import {
   onPublicMessage,
   onRemoveReminderReaction,
   onRemoveSpotifyReaction,
-  onEmoji,
+  onChannelCreate,
+  onChannelDelete,
+  onChannelUpdate,
   onRoleCreate,
   onRoleDelete,
 } from "./listeners.js";
 // jsons imports
-import commons from "../static/commons.json";
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 
@@ -140,8 +143,9 @@ client.on("messageReactionAdd", onReactionHandler);
 client.on("roleCreate", onRoleCreate);
 client.on("roleDelete", onRoleDelete);
 
-client.on("emojiCreate", onEmoji);
-client.on("emojiDelete", onEmoji);
+client.on("channelCreate", onChannelCreate);
+client.on("channelDelete", onChannelDelete);
+client.on("channelUpdate", onChannelUpdate);
 
 // Log our bot in using the token from https://discord.com/developers/applications
 client.login(process.env.TOKEN);

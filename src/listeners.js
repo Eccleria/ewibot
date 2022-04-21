@@ -1,6 +1,10 @@
 import { PERSONALITY } from "./personality.js";
 import commands from "./commands/index.js";
-import commons from "../static/commons.json"
+
+// jsons imports
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("./static/commons.json"));
+
 import {
   isAdmin,
   isCommand,
@@ -135,6 +139,7 @@ export const onRemoveSpotifyReaction = async (
   }
 };
 
+/*
 export const onEmoji = async (guildEmoji) => {
   console.log("emoji listener")
   const guild = await guildEmoji.guild.fetch();
@@ -145,33 +150,98 @@ export const onEmoji = async (guildEmoji) => {
   const channel = currentServer.logChannelId;
 
   if (guildEmoji.available) {
-    await channel.send(`Un emoji a été créé : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
+    await channel.send(`Un emoji a ï¿½tï¿½ crï¿½ï¿½ : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
   } else {
-    await channel.send(`Un emoji a été supprimé : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
+    await channel.send(`Un emoji a ï¿½tï¿½ supprimï¿½ : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
   }
+};
+*/
+
+export const onChannelCreate = async (channel) => {
+  //receive GuildChannel
+  const type = channel.type;
+  console.log("new Channel", type);
+  if (type === "DM") return;
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === channel.guildId
+  );
+  const logChannel = await channel.client.channels.fetch(
+    currentServer.logChannelId
+  );
+  logChannel.send(
+    PERSONALITY.getAdmin().channelCreate[0] +
+    `"${channel.name}"` +
+    PERSONALITY.getAdmin().channelCreate[1] +
+    `"${type}"` +
+    PERSONALITY.getAdmin().channelCreate[2] +
+    `<#${channel.parentId}>`
+  );
+};
+
+export const onChannelDelete = async (channel) => {
+  //receive DMChannel or GuildChannel
+  const type = channel.type;
+  console.log("typeDelete", type);
+  if (type === "DM") return;
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === channel.guildId
+  );
+  const logChannel = await channel.client.channels.fetch(
+    currentServer.logChannelId
+  );
+  logChannel.send(
+    PERSONALITY.getAdmin().channelDelete[0] +
+    `"${channel.name}"` +
+    PERSONALITY.getAdmin().channelDelete[1] +
+    `"${type}"` +
+    PERSONALITY.getAdmin().channelDelete[2] +
+    `<#${channel.parentId}>`
+  );
+};
+
+export const onChannelUpdate = async (oldChannel, newChannel) => {
+  console.log("channelUpdate");
+  const dataToCompare = [
+    ["type", oldChannel.type, newChannel.type],
+    ["name", oldChannel.name, newChannel.name],
+    ["parentId", oldChannel.parentId, newChannel.parentId],
+    ["rawPosition", oldChannel.rawPosition, newChannel.rawPosition],
+  ];
+
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === newChannel.guildId
+  );
+  const logChannel = await newChannel.client.channels.fetch(
+    currentServer.logChannelId
+  );
+
+  const text = dataToCompare.reduce((acc, cur) => {
+    if (cur[1] !== cur[2]) return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}`;
+    else return acc;
+  },
+    PERSONALITY.getAdmin().channelUpdate[0] +
+      `"${oldChannel.name}"` +
+    PERSONALITY.getAdmin().channelUpdate[1]
+  );
+  logChannel.send(text);
 };
 
 export const onRoleCreate = async (role) => {
-  console.log("role create")
+  console.log("role create");
   const guild = await role.guild.fetch();
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === guild.id
-  );
+  const currentServer = commons.find(({ guildId }) => guildId === guild.id);
   //console.log("currentServer", currentServer)
   const logChannel = currentServer.logChannelId;
   const channel = await guild.channels.fetch(logChannel);
-  await channel.send(`Un rôle a été créé : ${role.name}.`)
+  await channel.send(`Un rï¿½le a ï¿½tï¿½ crï¿½ï¿½ : ${role.name}.`);
 };
 
 export const onRoleDelete = async (role) => {
-  console.log("role delete")
+  console.log("role delete");
   const guild = await role.guild.fetch();
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === guild.id
-  );
+  const currentServer = commons.find(({ guildId }) => guildId === guild.id);
   //console.log("currentServer", currentServer)
   const logChannel = currentServer.logChannelId;
   const channel = await guild.channels.fetch(logChannel);
-  await channel.send(`Un rôle a été supprimé : ${role.name}.`)
+  await channel.send(`Un rï¿½le a ï¿½tï¿½ supprimï¿½ : ${role.name}.`);
 };
-

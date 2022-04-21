@@ -1,6 +1,13 @@
 {
   "normal": {
     "name": "normal",
+    "admin": {
+      "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelUpdate": [ "Salon ", " modifié !\n" ],
+      "roleCreate": "Un rôle a été créé : ",
+      "roleDelete": "Un rôle a été supprimé : "
+    },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
@@ -50,7 +57,7 @@
       "reminder": {
         "delete": "Le remind a bien été supprimé",
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
+        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "remind": "Je te rappelerai ça dans environ "
       },
       "roll": {
@@ -66,13 +73,20 @@
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
-      "react": [". Vous pouvez react avec ", " pour annuler cet ajout !"],
+      "react": [ ". Vous pouvez react avec ", " pour annuler cet ajout !" ],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }
   },
   "funny": {
     "name": "funny",
+    "admin": {
+      "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelUpdate": [ "Salon ", " modifié !\n" ],
+      "roleCreate": "Un rôle a été créé : ",
+      "roleDelete": "Un rôle a été supprimé : "
+    },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
@@ -118,7 +132,7 @@
       "reminder": {
         "delete": "Le remind a bien été supprimé.",
         "remind": "Je te rappelerai ça dans environ ",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
+        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."
       },
       "roll": {
@@ -131,7 +145,7 @@
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
-      "react": ["Vous pouvez react avec ", "pour annuler cet ajout !"],
+      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }

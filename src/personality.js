@@ -1,4 +1,6 @@
-import personalities from "../static/personalities.json";
+// jsons imports
+import { readFileSync } from "fs";
+const personalities = JSON.parse(readFileSync("./static/personalities.json"));
 
 //export var PERSONALITY = personalities.normal; // common var for all files
 
@@ -23,6 +25,9 @@ class Personality {
   }
   getSpotify() {
     return this.personality.spotify;
+  }
+  getAdmin() {
+    return this.personality.admin;
   }
 }
 
