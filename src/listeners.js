@@ -202,10 +202,10 @@ export const onChannelDelete = async (channel) => {
 export const onChannelUpdate = async (oldChannel, newChannel) => {
   console.log("channelUpdate");
   const dataToCompare = [
-    ["type", oldChannel.type, newChannel.type],
-    ["name", oldChannel.name, newChannel.name],
-    ["parentId", oldChannel.parentId, newChannel.parentId],
-    ["rawPosition", oldChannel.rawPosition, newChannel.rawPosition],
+    [oldChannel.type, newChannel.type],
+    [oldChannel.name, newChannel.name],
+    [oldChannel.parentId, newChannel.parentId],
+    [oldChannel.rawPosition, newChannel.rawPosition],
   ];
 
   const currentServer = commons.find(
@@ -215,33 +215,67 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     currentServer.logChannelId
   );
 
-  const text = dataToCompare.reduce((acc, cur) => {
-    if (cur[1] !== cur[2]) return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}`;
+  const text = dataToCompare.reduce((acc, cur, idx) => {
+    if (cur[0] !== cur[1]) return acc + `${PERSONALITY.getAdmin().channelUpdate.features[idx]} ${cur[0]} => ${cur[1]}`;
     else return acc;
   },
-    PERSONALITY.getAdmin().channelUpdate[0] +
+    PERSONALITY.getAdmin().channelUpdate.text[0] +
       `"${oldChannel.name}"` +
-    PERSONALITY.getAdmin().channelUpdate[1]
+    PERSONALITY.getAdmin().channelUpdate.text[1]
   );
   logChannel.send(text);
 };
 
 export const onRoleCreate = async (role) => {
   console.log("role create");
-  const guild = await role.guild.fetch();
-  const currentServer = commons.find(({ guildId }) => guildId === guild.id);
-  //console.log("currentServer", currentServer)
-  const logChannel = currentServer.logChannelId;
-  const channel = await guild.channels.fetch(logChannel);
-  await channel.send(`Un r�le a �t� cr�� : ${role.name}.`);
+  //get logChannelId
+  const currentServer = commons.find(({ guildId }) => guildId === role.guild.id);
+  const logChannel = await role.client.channels.fetch(currentServer.logChannelId);
+
+  logChannel.send(PERSONALITY.getAdmin().roleCreate + `${role.name}.`);
 };
 
 export const onRoleDelete = async (role) => {
   console.log("role delete");
-  const guild = await role.guild.fetch();
-  const currentServer = commons.find(({ guildId }) => guildId === guild.id);
-  //console.log("currentServer", currentServer)
-  const logChannel = currentServer.logChannelId;
-  const channel = await guild.channels.fetch(logChannel);
-  await channel.send(`Un r�le a �t� supprim� : ${role.name}.`);
+  //get logChannelId
+  const currentServer = commons.find(({ guildId }) => guildId === role.guild.id);
+  const logChannel = await role.guild.channels.fetch(currentServer.logChannelId);
+
+  logChannel.send(PERSONALITY.getAdmin().roleDelete + `${role.name}.`);
+};
+
+export const onRoleUpdate = async (oldRole, newRole) => {
+  const currentServer = commons.find(({ guildId }) => guildId === oldRole.guild.id);
+  const logChannel = await oldRole.guild.channels.fetch(currentServer.logChannelId);
+
+  console.log(oldRole.icon, oldRole.color, oldRole.hexColor, oldRole.unicodeEmoji)
+  const dataToCompare = [
+    [oldRole.color, newRole.color],
+    [oldRole.hoist, newRole.hoist],
+    [oldRole.icon, newRole.icon],
+    [oldRole.name, newRole.name],
+    [oldRole.permissions.missing(newRole.permissions), //[new permissions]
+      newRole.permissions.missing(oldRole.permissions)] //[removed permissions]
+  ]; 
+
+  const text = dataToCompare.reduce((acc, cur, idx) => {
+    if (idx === 4) {
+      const draft1 = cur[0].lenght === 0 ? "" : cur[0].join(", ");
+      const draft2 = cur[1].lenght === 0 ? "" : cur[1].join(", ");
+      return acc + `${PERSONALITY.getAdmin().roleUpdate.features[idx]}` +
+        `${PERSONALITY.getAdmin().roleUpdate.text[2]}` +
+        `${draft1}` +
+        `${PERSONALITY.getAdmin().roleUpdate.text[3]}` +
+        `${draft2}`;
+    }
+    if (cur[0] !== cur[1]) return acc +
+      `${PERSONALITY.getAdmin().roleUpdate.features[idx]}${cur[0]} => ${cur[1]}\n`;
+    else return acc;
+  },
+    PERSONALITY.getAdmin().roleUpdate.text[0] +
+    `"${oldRole.name}"` +
+    PERSONALITY.getAdmin().roleUpdate.text[1]
+  );
+
+  logChannel.send(text);
 };

@@ -4,9 +4,16 @@
     "admin": {
       "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
-      "channelUpdate": [ "Salon ", " modifié !\n" ],
+      "channelUpdate": {
+        "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
+        "text": [ "Salon ", " modifié !\n" ]
+      },
       "roleCreate": "Un rôle a été créé : ",
-      "roleDelete": "Un rôle a été supprimé : "
+      "roleDelete": "Un rôle a été supprimé : ",
+      "roleUpdate": {
+        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Nom : ", "- Permissions : " ],
+        "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
+      }
     },
     "commands": {
       "birthday": {
@@ -83,9 +90,16 @@
     "admin": {
       "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
-      "channelUpdate": [ "Salon ", " modifié !\n" ],
+      "channelUpdate": {
+        "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
+        "text": [ "Salon ", " modifié !\n" ]
+      },
       "roleCreate": "Un rôle a été créé : ",
-      "roleDelete": "Un rôle a été supprimé : "
+      "roleDelete": "Un rôle a été supprimé : ",
+      "roleUpdate": {
+        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Nom : ", "- Permissions : " ],
+        "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
+      }
     },
     "commands": {
       "birthday": {
