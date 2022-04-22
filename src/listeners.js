@@ -139,68 +139,51 @@ export const onRemoveSpotifyReaction = async (
   }
 };
 
-/*
-export const onEmoji = async (guildEmoji) => {
-  console.log("emoji listener")
-  const guild = await guildEmoji.guild.fetch();
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === guild.id
-  );
-  console.log("currentServer", currentServer)
-  const channel = currentServer.logChannelId;
-
-  if (guildEmoji.available) {
-    await channel.send(`Un emoji a �t� cr�� : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
-  } else {
-    await channel.send(`Un emoji a �t� supprim� : ${guildEmoji.name}, ${guildEmoji.identifier} par ${guildEmoji.author.username}`)
-  }
-};
-*/
-
 export const onChannelCreate = async (channel) => {
-  //receive GuildChannel
   const type = channel.type;
-  console.log("new Channel", type);
   if (type === "DM") return;
+
+  //get logChannelId
   const currentServer = commons.find(
     ({ guildId }) => guildId === channel.guildId
   );
   const logChannel = await channel.client.channels.fetch(
     currentServer.logChannelId
   );
+
   logChannel.send(
     PERSONALITY.getAdmin().channelCreate[0] +
-    `"${channel.name}"` +
-    PERSONALITY.getAdmin().channelCreate[1] +
-    `"${type}"` +
-    PERSONALITY.getAdmin().channelCreate[2] +
-    `<#${channel.parentId}>`
-  );
+      `"${channel.name}"` +
+      PERSONALITY.getAdmin().channelCreate[1] +
+      `"${type}"` +
+      PERSONALITY.getAdmin().channelCreate[2] +
+      `<#${channel.parentId}>`
+  ); //send log
 };
 
 export const onChannelDelete = async (channel) => {
-  //receive DMChannel or GuildChannel
   const type = channel.type;
-  console.log("typeDelete", type);
   if (type === "DM") return;
+
+  //get logChannelId
   const currentServer = commons.find(
     ({ guildId }) => guildId === channel.guildId
   );
   const logChannel = await channel.client.channels.fetch(
     currentServer.logChannelId
   );
+
   logChannel.send(
     PERSONALITY.getAdmin().channelDelete[0] +
-    `"${channel.name}"` +
-    PERSONALITY.getAdmin().channelDelete[1] +
-    `"${type}"` +
-    PERSONALITY.getAdmin().channelDelete[2] +
-    `<#${channel.parentId}>`
-  );
+      `"${channel.name}"` +
+      PERSONALITY.getAdmin().channelDelete[1] +
+      `"${type}"` +
+      PERSONALITY.getAdmin().channelDelete[2] +
+      `<#${channel.parentId}>`
+  ); //send log
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
-  console.log("channelUpdate");
   const dataToCompare = [
     [oldChannel.type, newChannel.type],
     [oldChannel.name, newChannel.name],
@@ -208,6 +191,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     [oldChannel.rawPosition, newChannel.rawPosition],
   ];
 
+  //get logChannelId
   const currentServer = commons.find(
     ({ guildId }) => guildId === newChannel.guildId
   );
@@ -216,66 +200,91 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   );
 
   const text = dataToCompare.reduce((acc, cur, idx) => {
-    if (cur[0] !== cur[1]) return acc + `${PERSONALITY.getAdmin().channelUpdate.features[idx]} ${cur[0]} => ${cur[1]}`;
+    //create log to send
+    if (cur[0] !== cur[1])
+      return (
+        acc +
+        `${PERSONALITY.getAdmin().channelUpdate.features[idx]} ${cur[0]} => ${
+          cur[1]
+        }`
+      );
     else return acc;
-  },
-    PERSONALITY.getAdmin().channelUpdate.text[0] +
-      `"${oldChannel.name}"` +
-    PERSONALITY.getAdmin().channelUpdate.text[1]
-  );
-  logChannel.send(text);
+  }, PERSONALITY.getAdmin().channelUpdate.text[0] + `"${oldChannel.name}"` + PERSONALITY.getAdmin().channelUpdate.text[1]);
+  logChannel.send(text); //send log
 };
 
 export const onRoleCreate = async (role) => {
-  console.log("role create");
   //get logChannelId
-  const currentServer = commons.find(({ guildId }) => guildId === role.guild.id);
-  const logChannel = await role.client.channels.fetch(currentServer.logChannelId);
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === role.guild.id
+  );
+  const logChannel = await role.client.channels.fetch(
+    currentServer.logChannelId
+  );
 
+  //send log
   logChannel.send(PERSONALITY.getAdmin().roleCreate + `${role.name}.`);
 };
 
 export const onRoleDelete = async (role) => {
-  console.log("role delete");
   //get logChannelId
-  const currentServer = commons.find(({ guildId }) => guildId === role.guild.id);
-  const logChannel = await role.guild.channels.fetch(currentServer.logChannelId);
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === role.guild.id
+  );
+  const logChannel = await role.guild.channels.fetch(
+    currentServer.logChannelId
+  );
 
+  //send log
   logChannel.send(PERSONALITY.getAdmin().roleDelete + `${role.name}.`);
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
-  const currentServer = commons.find(({ guildId }) => guildId === oldRole.guild.id);
-  const logChannel = await oldRole.guild.channels.fetch(currentServer.logChannelId);
+  //get logChannel
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === oldRole.guild.id
+  );
+  const logChannel = await oldRole.guild.channels.fetch(
+    currentServer.logChannelId
+  );
 
-  console.log(oldRole.icon, oldRole.color, oldRole.hexColor, oldRole.unicodeEmoji)
+  //get all data to compare
   const dataToCompare = [
     [oldRole.color, newRole.color],
     [oldRole.hoist, newRole.hoist],
     [oldRole.icon, newRole.icon],
+    [oldRole.unicodeEmoji, newRole.unicodeEmoji],
     [oldRole.name, newRole.name],
-    [oldRole.permissions.missing(newRole.permissions), //[new permissions]
-      newRole.permissions.missing(oldRole.permissions)] //[removed permissions]
-  ]; 
+    [
+      oldRole.permissions.missing(newRole.permissions), //[new permissions]
+      newRole.permissions.missing(oldRole.permissions),
+    ], //[removed permissions]
+  ];
 
   const text = dataToCompare.reduce((acc, cur, idx) => {
-    if (idx === 4) {
+    //create log to send
+    if (idx === 5) {
+      //if permissions, get permissions removed and added
       const draft1 = cur[0].lenght === 0 ? "" : cur[0].join(", ");
       const draft2 = cur[1].lenght === 0 ? "" : cur[1].join(", ");
-      return acc + `${PERSONALITY.getAdmin().roleUpdate.features[idx]}` +
+      return (
+        acc +
+        `${PERSONALITY.getAdmin().roleUpdate.features[idx]}` +
         `${PERSONALITY.getAdmin().roleUpdate.text[2]}` +
         `${draft1}` +
         `${PERSONALITY.getAdmin().roleUpdate.text[3]}` +
-        `${draft2}`;
+        `${draft2}`
+      );
     }
-    if (cur[0] !== cur[1]) return acc +
-      `${PERSONALITY.getAdmin().roleUpdate.features[idx]}${cur[0]} => ${cur[1]}\n`;
+    if (cur[0] !== cur[1]) //if different => modified => log
+      return (
+        acc +
+        `${PERSONALITY.getAdmin().roleUpdate.features[idx]}${cur[0]} => ${
+          cur[1]
+        }\n`
+      );
     else return acc;
-  },
-    PERSONALITY.getAdmin().roleUpdate.text[0] +
-    `"${oldRole.name}"` +
-    PERSONALITY.getAdmin().roleUpdate.text[1]
-  );
+  }, PERSONALITY.getAdmin().roleUpdate.text[0] + `"${oldRole.name}"` + PERSONALITY.getAdmin().roleUpdate.text[1]);
 
-  logChannel.send(text);
+  logChannel.send(text); //send log
 };

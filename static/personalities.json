@@ -11,7 +11,7 @@
       "roleCreate": "Un rôle a été créé : ",
       "roleDelete": "Un rôle a été supprimé : ",
       "roleUpdate": {
-        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Nom : ", "- Permissions : " ],
+        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
         "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
       }
     },
@@ -97,7 +97,7 @@
       "roleCreate": "Un rôle a été créé : ",
       "roleDelete": "Un rôle a été supprimé : ",
       "roleUpdate": {
-        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Nom : ", "- Permissions : " ],
+        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
         "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
       }
     },
