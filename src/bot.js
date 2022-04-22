@@ -26,6 +26,7 @@ import {
   onRoleCreate,
   onRoleDelete,
   onRoleUpdate,
+  onMessageDelete,
 } from "./listeners.js";
 // jsons imports
 import { readFileSync } from "fs";
@@ -138,6 +139,7 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", onMessageHandler);
+client.on("messageDelete", onMessageDelete);
 
 client.on("messageReactionAdd", onReactionHandler);
 

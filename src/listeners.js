@@ -13,6 +13,8 @@ import {
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
 
+import { MessageEmbed } from "discord.js";
+
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
 
@@ -276,7 +278,8 @@ export const onRoleUpdate = async (oldRole, newRole) => {
         `${draft2}`
       );
     }
-    if (cur[0] !== cur[1]) //if different => modified => log
+    if (cur[0] !== cur[1])
+      //if different => modified => log
       return (
         acc +
         `${PERSONALITY.getAdmin().roleUpdate.features[idx]}${cur[0]} => ${
@@ -287,4 +290,68 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   }, PERSONALITY.getAdmin().roleUpdate.text[0] + `"${oldRole.name}"` + PERSONALITY.getAdmin().roleUpdate.text[1]);
 
   logChannel.send(text); //send log
+};
+
+export const onMessageDelete = async (message) => {
+  console.log("messageDeleted")
+  if (!message.guild) return; //Ignore DM
+
+  //get logChannel
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === message.guildId
+  );
+  const logChannel = await message.guild.channels.fetch(
+    currentServer.logChannelId
+  );
+
+  //get data to send
+  const personality = PERSONALITY.getAdmin().messageDelete;
+
+  //setup embed
+  const embed = new MessageEmbed()
+    .setColor("DARK_RED")
+    .setTitle(personality.title)
+    .setDescription(personality.description)
+    .addFields(
+      { name: personality.author, value: message.author.tag, inline: true }, // messageDeleted's Author
+      { name: personality.date, value: `${message.createdAt.toString().slice(4, 24)}`, inline: true } //date of message creation
+    );
+
+  //get auditLog
+  const fetchedLogs = await message.guild.fetchAuditLogs({
+    limit: 1,
+    type: "MESSAGE_DELETE",
+  });
+  const deletionLog = fetchedLogs.entries.first();
+
+  //get message data
+  const content = message.content;
+  const attachments = message.attachments.reduce((acc, cur) => {
+    return [...acc, cur.attachment];
+  }, []);
+  console.log("attachments", attachments);
+
+  //if no AuditLog
+  if (!deletionLog) {
+    embed.addField(personality.executor, personality.auditLog.noLog, true);
+    if (content) embed.addField(personality.content, content, false);
+    await logChannel.send({ embeds: [embed] });
+    await logChannel.send({ files: attachments });
+  }
+
+  const { executor, target } = deletionLog;
+  console.log(content)
+  if (target.id === message.author.id) {
+    //check if log report the correct message deleted 
+    embed.addField(personality.executor, executor.tag, true);
+    if (content) embed.addField(personality.content, content, false);
+    await logChannel.send({ embeds: [embed] });
+    await logChannel.send({ files: attachments });
+  } else {
+    //if bot or author deleted the message
+    embed.addField(personality.executor, personality.auditLog.inconclusive, true);
+    if (content) embed.addField(personality.content, content, false);
+    await logChannel.send({ embeds: [embed]});
+    await logChannel.send({files: attachments });
+  }
 };

@@ -8,6 +8,19 @@
         "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
         "text": [ "Salon ", " modifié !\n" ]
       },
+      "messageDelete": {
+        "auditLog": {
+          "inconclusive": "Le propriétaire ou un bot.",
+          "noLog": "Aucun log relatif n'a été trouvé."
+        },
+        "author": "Auteur :",
+        "content": "Contenu du message :",
+        "date": "Envoyé le :",
+        "description": "Un message a été supprimé.",
+        "title": "Message supprimé",
+        "footer": "Envoyé par Ewibot",
+        "executor": "Supprimé par :"
+      },
       "roleCreate": "Un rôle a été créé : ",
       "roleDelete": "Un rôle a été supprimé : ",
       "roleUpdate": {
@@ -93,6 +106,19 @@
       "channelUpdate": {
         "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
         "text": [ "Salon ", " modifié !\n" ]
+      },
+      "messageDelete": {
+        "auditLog": {
+          "inconclusive": "Le propriétaire ou un bot.",
+          "noLog": "Aucun log relatif n'a été trouvé."
+        },
+        "author": "Auteur :",
+        "content": "Contenu du message :",
+        "date": "Envoyé le :",
+        "description": "Un message a été supprimé.",
+        "title": "Message supprimé",
+        "footer": "Envoyé par Ewibot",
+        "executor": "Supprimé par :"
       },
       "roleCreate": "Un rôle a été créé : ",
       "roleDelete": "Un rôle a été supprimé : ",
