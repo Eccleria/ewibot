@@ -15,6 +15,7 @@ import { Low, JSONFile } from "lowdb";
 // helpers imports
 import { generateSpotifyClient } from "./helpers/index.js";
 
+// listeners imports
 import {
   onPrivateMessage,
   onPublicMessage,
@@ -27,10 +28,13 @@ import {
   onRoleDelete,
   onRoleUpdate,
   onMessageDelete,
+  onGuildBanAdd,
 } from "./listeners.js";
+
 // jsons imports
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
+
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 
@@ -150,6 +154,8 @@ client.on("roleUpdate", onRoleUpdate);
 client.on("channelCreate", onChannelCreate);
 client.on("channelDelete", onChannelDelete);
 client.on("channelUpdate", onChannelUpdate);
+
+client.on("guildBanAdd", onGuildBanAdd);
 
 // Log our bot in using the token from https://discord.com/developers/applications
 client.login(process.env.TOKEN);

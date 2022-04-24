@@ -305,16 +305,16 @@ export const onMessageDelete = async (message) => {
   );
 
   //get data to send
-  const personality = PERSONALITY.getAdmin().messageDelete;
+  const personality = PERSONALITY.getAdmin();
 
   //setup embed
   const embed = new MessageEmbed()
     .setColor("DARK_RED")
-    .setTitle(personality.title)
-    .setDescription(personality.description)
+    .setTitle(personality.messageDelete.title)
+    .setDescription(personality.messageDelete.description)
     .addFields(
-      { name: personality.author, value: message.author.tag, inline: true }, // messageDeleted's Author
-      { name: personality.date, value: `${message.createdAt.toString().slice(4, 24)}`, inline: true } //date of message creation
+      { name: personality.messageDelete.author, value: message.author.tag, inline: true }, // messageDeleted's Author
+      { name: personality.messageDelete.date, value: `${message.createdAt.toString().slice(4, 24)}`, inline: true } //date of message creation
     );
 
   //get auditLog
@@ -333,8 +333,8 @@ export const onMessageDelete = async (message) => {
 
   //if no AuditLog
   if (!deletionLog) {
-    embed.addField(personality.executor, personality.auditLog.noLog, true);
-    if (content) embed.addField(personality.content, content, false);
+    embed.addField(personality.messageDelete.executor, personality.auditLog.noLog, true);
+    if (content) embed.addField(personality.messageDelete.content, content, false);
     await logChannel.send({ embeds: [embed] });
     await logChannel.send({ files: attachments });
   }
@@ -343,15 +343,66 @@ export const onMessageDelete = async (message) => {
   console.log(content)
   if (target.id === message.author.id) {
     //check if log report the correct message deleted 
-    embed.addField(personality.executor, executor.tag, true);
-    if (content) embed.addField(personality.content, content, false);
+    embed.addField(personality.messageDelete.executor, executor.tag, true);
+    if (content) embed.addField(personality.messageDelete.content, content, false);
     await logChannel.send({ embeds: [embed] });
     await logChannel.send({ files: attachments });
   } else {
     //if bot or author deleted the message
-    embed.addField(personality.executor, personality.auditLog.inconclusive, true);
-    if (content) embed.addField(personality.content, content, false);
+    embed.addField(personality.messageDelete.executor, personality.auditLog.inconclusive, true);
+    if (content) embed.addField(personality.messageDelete.content, content, false);
     await logChannel.send({ embeds: [embed]});
     await logChannel.send({files: attachments });
+  }
+};
+
+export const onGuildBanAdd = async (guildBan) => {
+  //get logChannel
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === guildBan.guild.id
+  );
+  const logChannel = await guildBan.guild.channels.fetch(
+    currentServer.logChannelId
+  );
+
+  //get personality
+  const personality = PERSONALITY.getAdmin();
+
+  //setup embed
+  const embed = new MessageEmbed()
+    .setColor("DARK_NAVY")
+    .setTitle(personality.guildBan.title)
+    .setDescription(personality.guildBan.description)
+    .addField(personality.guildBan.author, guildBan.user.tag, true);
+
+  //get auditLog
+  const fetchedLogs = await guildBan.guild.fetchAuditLogs({
+    limit: 1,
+    type: "MEMBER_BAN_ADD",
+  });
+  const banLog = fetchedLogs.entries.first();
+
+  //get ban reason
+  const reason = guildBan.reason;
+
+  //if no AuditLog
+  if (!banLog) {
+    embed.addField(personality.guildBan.executor, personality.auditLog.noLog, true);
+    if (reason) embed.addField(personality.guildBan.reason, reason, false);
+    await logChannel.send({ embeds: [embed] });
+  }
+
+  const { executor, target } = banLog;
+
+  if (target.id === guildBan.user.id) {
+    //check if log report the correct message deleted 
+    embed.addField(personality.guildBan.executor, executor.tag, true);
+    if (reason) embed.addField(personality.guildBan.reason, reason, false);
+    await logChannel.send({ embeds: [embed] });
+  } else {
+    //if bot or author deleted the message
+    embed.addField(personality.guildBan.executor, personality.auditLog.inconclusive, true);
+    if (reason) embed.addField(personality.guildBan.reason, reason, false);
+    await logChannel.send({ embeds: [embed] });
   }
 };

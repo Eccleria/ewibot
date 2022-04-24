@@ -2,24 +2,30 @@
   "normal": {
     "name": "normal",
     "admin": {
+      "auditLog": {
+        "inconclusive": "Le propriétaire ou un bot.",
+        "noLog": "Aucun log relatif n'a été trouvé."
+      },
       "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelUpdate": {
         "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
         "text": [ "Salon ", " modifié !\n" ]
       },
+      "guildBan": {
+        "author": "Membre :",
+        "description": "Un membre a été banni.",
+        "executor": "Banni par :",
+        "reason": "Raison du ban :",
+        "title": "Utilisateur banni"
+      },
       "messageDelete": {
-        "auditLog": {
-          "inconclusive": "Le propriétaire ou un bot.",
-          "noLog": "Aucun log relatif n'a été trouvé."
-        },
         "author": "Auteur :",
         "content": "Contenu du message :",
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
-        "title": "Message supprimé",
-        "footer": "Envoyé par Ewibot",
-        "executor": "Supprimé par :"
+        "executor": "Supprimé par :",
+        "title": "Message supprimé"
       },
       "roleCreate": "Un rôle a été créé : ",
       "roleDelete": "Un rôle a été supprimé : ",
@@ -101,24 +107,30 @@
   "funny": {
     "name": "funny",
     "admin": {
+      "auditLog": {
+        "inconclusive": "Le propriétaire ou un bot.",
+        "noLog": "Aucun log relatif n'a été trouvé."
+      },
       "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelUpdate": {
         "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
         "text": [ "Salon ", " modifié !\n" ]
       },
+      "guildBan": {
+        "author": "Membre :",
+        "description": "Un membre a été banni.",
+        "executor": "Banni par :",
+        "reason": "Raison du ban :",
+        "title": "Utilisateur banni"
+      },
       "messageDelete": {
-        "auditLog": {
-          "inconclusive": "Le propriétaire ou un bot.",
-          "noLog": "Aucun log relatif n'a été trouvé."
-        },
         "author": "Auteur :",
         "content": "Contenu du message :",
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
-        "title": "Message supprimé",
-        "footer": "Envoyé par Ewibot",
-        "executor": "Supprimé par :"
+        "executor": "Supprimé par :",
+        "title": "Message supprimé"
       },
       "roleCreate": "Un rôle a été créé : ",
       "roleDelete": "Un rôle a été supprimé : ",
