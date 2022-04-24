@@ -16,15 +16,15 @@
         "author": "Membre :",
         "description": "Un membre a été banni.",
         "executor": "Banni par :",
-        "reason": "Raison du ban :",
+        "text": "Raison du ban :",
         "title": "Utilisateur banni"
       },
       "messageDelete": {
         "author": "Auteur :",
-        "content": "Contenu du message :",
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
+        "text": "Contenu du message :",
         "title": "Message supprimé"
       },
       "roleCreate": "Un rôle a été créé : ",
@@ -121,15 +121,15 @@
         "author": "Membre :",
         "description": "Un membre a été banni.",
         "executor": "Banni par :",
-        "reason": "Raison du ban :",
+        "text": "Raison du ban :",
         "title": "Utilisateur banni"
       },
       "messageDelete": {
         "author": "Auteur :",
-        "content": "Contenu du message :",
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
+        "text": "Contenu du message :",
         "title": "Message supprimé"
       },
       "roleCreate": "Un rôle a été créé : ",

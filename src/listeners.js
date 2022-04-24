@@ -13,7 +13,12 @@ import {
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
 
-import { MessageEmbed } from "discord.js";
+import {
+  fetchAuditLog,
+  finishEmbed,
+  getLogChannel,
+  setupEmbed,
+} from "./admin/utils.js";
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
@@ -145,13 +150,7 @@ export const onChannelCreate = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
 
-  //get logChannelId
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === channel.guildId
-  );
-  const logChannel = await channel.client.channels.fetch(
-    currentServer.logChannelId
-  );
+  const logChannel = await getLogChannel(commons, channel); //get logChannelId
 
   logChannel.send(
     PERSONALITY.getAdmin().channelCreate[0] +
@@ -167,13 +166,7 @@ export const onChannelDelete = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
 
-  //get logChannelId
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === channel.guildId
-  );
-  const logChannel = await channel.client.channels.fetch(
-    currentServer.logChannelId
-  );
+  const logChannel = await getLogChannel(commons, channel); //get logChannelId
 
   logChannel.send(
     PERSONALITY.getAdmin().channelDelete[0] +
@@ -193,13 +186,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     [oldChannel.rawPosition, newChannel.rawPosition],
   ];
 
-  //get logChannelId
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === newChannel.guildId
-  );
-  const logChannel = await newChannel.client.channels.fetch(
-    currentServer.logChannelId
-  );
+  const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
 
   const text = dataToCompare.reduce((acc, cur, idx) => {
     //create log to send
@@ -216,39 +203,17 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 };
 
 export const onRoleCreate = async (role) => {
-  //get logChannelId
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === role.guild.id
-  );
-  const logChannel = await role.client.channels.fetch(
-    currentServer.logChannelId
-  );
-
-  //send log
-  logChannel.send(PERSONALITY.getAdmin().roleCreate + `${role.name}.`);
+  const logChannel = await getLogChannel(commons, role); //get logChannelId
+  logChannel.send(PERSONALITY.getAdmin().roleCreate + `${role.name}.`); //send log
 };
 
 export const onRoleDelete = async (role) => {
-  //get logChannelId
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === role.guild.id
-  );
-  const logChannel = await role.guild.channels.fetch(
-    currentServer.logChannelId
-  );
-
-  //send log
-  logChannel.send(PERSONALITY.getAdmin().roleDelete + `${role.name}.`);
+  const logChannel = await getLogChannel(commons, role); //get logChannelId
+  logChannel.send(PERSONALITY.getAdmin().roleDelete + `${role.name}.`); //send log
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
-  //get logChannel
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === oldRole.guild.id
-  );
-  const logChannel = await oldRole.guild.channels.fetch(
-    currentServer.logChannelId
-  );
+  const logChannel = await getLogChannel(commons, newRole); //get logChannelId
 
   //get all data to compare
   const dataToCompare = [
@@ -293,116 +258,102 @@ export const onRoleUpdate = async (oldRole, newRole) => {
 };
 
 export const onMessageDelete = async (message) => {
-  console.log("messageDeleted")
+  console.log("messageDeleted");
   if (!message.guild) return; //Ignore DM
 
-  //get logChannel
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === message.guildId
-  );
-  const logChannel = await message.guild.channels.fetch(
-    currentServer.logChannelId
-  );
-
-  //get data to send
-  const personality = PERSONALITY.getAdmin();
+  const logChannel = await getLogChannel(commons, message); //get logChannel
+  const personality = PERSONALITY.getAdmin(); //get personality
 
   //setup embed
-  const embed = new MessageEmbed()
-    .setColor("DARK_RED")
-    .setTitle(personality.messageDelete.title)
-    .setDescription(personality.messageDelete.description)
-    .addFields(
-      { name: personality.messageDelete.author, value: message.author.tag, inline: true }, // messageDeleted's Author
-      { name: personality.messageDelete.date, value: `${message.createdAt.toString().slice(4, 24)}`, inline: true } //date of message creation
-    );
+  const embed = setupEmbed(
+    "DARK_RED",
+    personality.messageDelete,
+    message.author
+  );
+  embed.addField(
+    personality.messageDelete.date,
+    `${message.createdAt.toString().slice(4, 24)}`,
+    true
+  ); //date of message creation
 
-  //get auditLog
-  const fetchedLogs = await message.guild.fetchAuditLogs({
-    limit: 1,
-    type: "MESSAGE_DELETE",
-  });
-  const deletionLog = fetchedLogs.entries.first();
+  const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
 
   //get message data
   const content = message.content;
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
-  console.log("attachments", attachments);
 
   //if no AuditLog
   if (!deletionLog) {
-    embed.addField(personality.messageDelete.executor, personality.auditLog.noLog, true);
-    if (content) embed.addField(personality.messageDelete.content, content, false);
-    await logChannel.send({ embeds: [embed] });
-    await logChannel.send({ files: attachments });
+    await finishEmbed(
+      personality.messageDelete,
+      personality.auditLog.noLog,
+      embed,
+      logChannel,
+      content
+    );
+    if (attachments.length) await logChannel.send({ files: attachments });
   }
 
   const { executor, target } = deletionLog;
-  console.log(content)
+
   if (target.id === message.author.id) {
-    //check if log report the correct message deleted 
-    embed.addField(personality.messageDelete.executor, executor.tag, true);
-    if (content) embed.addField(personality.messageDelete.content, content, false);
-    await logChannel.send({ embeds: [embed] });
-    await logChannel.send({ files: attachments });
+    //check if log report the correct user banned
+    await finishEmbed(
+      personality.messageDelete,
+      executor.tag,
+      embed,
+      logChannel,
+      content
+    );
+    if (attachments.length) await logChannel.send({ files: attachments });
   } else {
     //if bot or author deleted the message
-    embed.addField(personality.messageDelete.executor, personality.auditLog.inconclusive, true);
-    if (content) embed.addField(personality.messageDelete.content, content, false);
-    await logChannel.send({ embeds: [embed]});
-    await logChannel.send({files: attachments });
+    await finishEmbed(
+      personality.messageDelete,
+      personality.auditLog.inconclusive,
+      embed,
+      logChannel,
+      content
+    );
+    if (attachments.length) await logChannel.send({ files: attachments });
   }
 };
 
 export const onGuildBanAdd = async (guildBan) => {
-  //get logChannel
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === guildBan.guild.id
-  );
-  const logChannel = await guildBan.guild.channels.fetch(
-    currentServer.logChannelId
-  );
+  console.log("member banned from Discord Server");
 
-  //get personality
-  const personality = PERSONALITY.getAdmin();
-
-  //setup embed
-  const embed = new MessageEmbed()
-    .setColor("DARK_NAVY")
-    .setTitle(personality.guildBan.title)
-    .setDescription(personality.guildBan.description)
-    .addField(personality.guildBan.author, guildBan.user.tag, true);
-
-  //get auditLog
-  const fetchedLogs = await guildBan.guild.fetchAuditLogs({
-    limit: 1,
-    type: "MEMBER_BAN_ADD",
-  });
-  const banLog = fetchedLogs.entries.first();
-
-  //get ban reason
-  const reason = guildBan.reason;
+  const logChannel = await getLogChannel(commons, guildBan); //get logChannel
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const embed = setupEmbed("DARK_NAVY", personality.guildBan, guildBan.user); //setup embed
+  const banLog = await fetchAuditLog(guildBan.guild, "MEMBER_BAN_ADD"); //get auditLog
+  const reason = guildBan.reason; //get ban reason
 
   //if no AuditLog
   if (!banLog) {
-    embed.addField(personality.guildBan.executor, personality.auditLog.noLog, true);
-    if (reason) embed.addField(personality.guildBan.reason, reason, false);
-    await logChannel.send({ embeds: [embed] });
+    finishEmbed(
+      personality.guildBan,
+      personality.auditLog.noLog,
+      embed,
+      logChannel,
+      reason
+    );
   }
 
   const { executor, target } = banLog;
 
   if (target.id === guildBan.user.id) {
-    //check if log report the correct message deleted 
-    embed.addField(personality.guildBan.executor, executor.tag, true);
-    if (reason) embed.addField(personality.guildBan.reason, reason, false);
-    await logChannel.send({ embeds: [embed] });
+    //check if log report the correct message deleted
+    finishEmbed(personality.guildBan, executor.tag, embed, logChannel, reason);
   } else {
     //if bot or author deleted the message
-    embed.addField(personality.guildBan.executor, personality.auditLog.inconclusive, true);
-    if (reason) embed.addField(personality.guildBan.reason, reason, false);
-    await logChannel.send({ embeds: [embed] });
+    finishEmbed(
+      personality.guildBan,
+      personality.auditLog.inconclusive,
+      embed,
+      logChannel,
+      reason
+    );
   }
 };
