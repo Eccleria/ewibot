@@ -357,3 +357,47 @@ export const onGuildBanAdd = async (guildBan) => {
     );
   }
 };
+
+export const onGuildMemberUpdate = async (oldMember, newMember) => {
+  //check if timeout added or removed
+  const oldIsTimeout = oldMember.isCommunicationDisabled();
+  const newIsTimeout = newMember.isCommunicationDisabled();
+  if (!oldIsTimeout && !newIsTimeout) return; // if no timeout => return
+
+  const logChannel = await getLogChannel(commons, newMember); //get logChannel
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const embed = setupEmbed("ORANGE", personality.timeout, newMember.user); //setup embed
+  const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_ROLE_UPDATE"); //get auditLog
+  const reason = timeoutLog.reason; //get ban reason
+  const timeoutUntilDate = newMember.communicationDisabledUntil;
+  console.log("timeoutUntilDate", timeoutUntilDate);
+  const timeoutDuration = timeoutUntilDate.parse() - Date.now().parse();
+  console.log("timeoutDuration", timeoutDuration);
+  embed.addField(personality.timeout.duration, timeoutDuration, true); //date of message creation
+
+  //if no AuditLog
+  if (!timeoutLog)
+    finishEmbed(
+      personality.timeout,
+      personality.auditLog.noLog,
+      embed,
+      logChannel,
+      reason
+    );
+
+  const { executor, target } = timeoutLog;
+
+  if (target.id === newMember.user.id) {
+    //check if log report the correct message deleted
+    finishEmbed(personality.timeout, executor.tag, embed, logChannel, reason);
+  } else {
+    //if bot or author deleted the message
+    finishEmbed(
+      personality.timeout,
+      personality.auditLog.inconclusive,
+      embed,
+      logChannel,
+      reason
+    );
+  }
+};

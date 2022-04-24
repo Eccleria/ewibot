@@ -32,6 +32,14 @@
       "roleUpdate": {
         "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
         "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
+      },
+      "timeout": {
+        "author": "Membre :",
+        "description": "Un membre a été timeout.",
+        "duration": "Durée :",
+        "executor": "Timeout par :",
+        "text": "Raison du timeout :",
+        "title": "Timeout"
       }
     },
     "commands": {
@@ -137,6 +145,14 @@
       "roleUpdate": {
         "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
         "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
+      },
+      "timeout": {
+        "author": "Membre :",
+        "description": "Un membre a été timeout.",
+        "duration": "Durée :",
+        "executor": "Timeout par :",
+        "text": "Raison du timeout :",
+        "title": "Timeout"
       }
     },
     "commands": {
