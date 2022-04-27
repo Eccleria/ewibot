@@ -3,7 +3,7 @@ import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
 const apologyRegex = new RegExp( //regex for apology detection
-  /^((dsl)|(d[é|e]+sol?[e|é]*r?)|(so?r+y)|(pardon)|(navr[e|é]+))/gm
+  /((dsl)|(d[é|e]+sol?[e|é]*r?s?)|(so?r+y)|(pardon)|(navr[e|é]+))/gm
 );
 
 const hello = [
@@ -20,7 +20,7 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-const punctuation = new RegExp(/[_.?!,;:/-/*]/gm);
+const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 
 export const sanitizePunctuation = (messageContent) => {
   return messageContent.replaceAll(punctuation, "");
@@ -73,7 +73,6 @@ export const reactionHandler = async (message, currentServer, client) => {
     const wordFound = apologyResult.input //get triggering word
       .slice(apologyResult.index)
       .split(" ")[0];
-
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) {
       addApologyCount(authorId, db); //add data to db
