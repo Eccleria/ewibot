@@ -22,7 +22,8 @@ import {
   onRemoveSpotifyReaction,
 } from "./listeners.js";
 // jsons imports
-import commons from "../static/commons.json";
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 
