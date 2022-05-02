@@ -29,6 +29,7 @@ import {
   onRoleUpdate,
   onMessageDelete,
   onGuildBanAdd,
+  onGuildMemberRemove,
   onGuildMemberUpdate,
 } from "./listeners.js";
 
@@ -158,6 +159,7 @@ client.on("channelUpdate", onChannelUpdate);
 
 client.on("guildBanAdd", onGuildBanAdd);
 
+client.on("guildMemberRemove", onGuildMemberRemove);
 client.on("guildMemberUpdate", onGuildMemberUpdate);
 
 // Log our bot in using the token from https://discord.com/developers/applications

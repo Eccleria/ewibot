@@ -19,6 +19,14 @@
         "text": "Raison du ban :",
         "title": "Utilisateur banni"
       },
+      "guildKick": {
+        "author": "Membre :",
+        "description": "Un membre a été kick.",
+        "duration": "Durée :",
+        "executor": "Kick par :",
+        "text": "Raison du kick :",
+        "title": "Kick"
+      },
       "messageDelete": {
         "author": "Auteur :",
         "date": "Envoyé le :",
@@ -131,6 +139,14 @@
         "executor": "Banni par :",
         "text": "Raison du ban :",
         "title": "Utilisateur banni"
+      },
+      "guildKick": {
+        "author": "Membre :",
+        "description": "Un membre a été kick.",
+        "duration": "Durée :",
+        "executor": "Kick par :",
+        "text": "Raison du kick :",
+        "title": "Kick"
       },
       "messageDelete": {
         "author": "Auteur :",

@@ -401,3 +401,40 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
     );
   }
 };
+
+export const onGuildMemberRemove = async (guildKick) => {
+  console.log("member kicked from Discord Server");
+
+  const logChannel = await getLogChannel(commons, guildKick); //get logChannel
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const embed = setupEmbed("DARK_PURPLE", personality.guildKick, guildKick.user); //setup embed
+  const kickLog = await fetchAuditLog(guildKick.guild, "MEMBER_KICK"); //get auditLog
+  const reason = kickLog.reason; //get ban reason
+
+  //if no AuditLog
+  if (!kickLog) {
+    finishEmbed(
+      personality.guildKick,
+      personality.auditLog.noLog,
+      embed,
+      logChannel,
+      reason
+    );
+  }
+
+  const { executor, target } = kickLog;
+
+  if (target.id === guildKick.user.id) {
+    //check if log report the correct kick
+    finishEmbed(personality.guildKick, executor.tag, embed, logChannel, reason);
+  } else {
+    //if bot or author executed the kick
+    finishEmbed(
+      personality.guildKick,
+      personality.auditLog.inconclusive,
+      embed,
+      logChannel,
+      reason
+    );
+  }
+};
