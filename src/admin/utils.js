@@ -1,33 +1,36 @@
 import { MessageEmbed } from "discord.js";
 
 export const fetchAuditLog = async (guild, auditType) => {
+  //fetch the first corresponding audit log
   const fetchedLogs = await guild.fetchAuditLogs({
     limit: 1,
     type: auditType,
-  });
-  return fetchedLogs.entries.first();
+  }); //fetch logs
+  return fetchedLogs.entries.first(); //return the first
 };
 
 export const finishEmbed = async (
   personalityEvent,
-  fieldValue,
+  executor,
   embed,
   logChannel,
   text
 ) => {
-  embed.addField(personalityEvent.executor, fieldValue, true);
-  if (text) embed.addField(personalityEvent.text, text, false);
-  await logChannel.send({ embeds: [embed] });
+  //Finish the embed and send it the embed
+  embed.addField(personalityEvent.executor, executor, true); //add the executor section
+  if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+  await logChannel.send({ embeds: [embed] }); //send
 };
 
 export const getLogChannel = async (commons, eventObject) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
-  );
-  return await eventObject.guild.channels.fetch(currentServer.logChannelId);
+  ); //get server local data
+  return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return text-channel
 };
 
 export const setupEmbed = (color, personality, user) => {
+  //setup the embed object
   return new MessageEmbed()
     .setColor(color)
     .setTitle(personality.title)

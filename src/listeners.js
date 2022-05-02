@@ -403,6 +403,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
 };
 
 export const onGuildMemberRemove = async (guildKick) => {
+  //handle guildMember kicked or leaving the server
   console.log("member kicked from Discord Server");
 
   const logChannel = await getLogChannel(commons, guildKick); //get logChannel

@@ -139,7 +139,7 @@ const onReactionHandler = async (messageReaction) => {
   onRemoveReminderReaction(messageReaction, client, currentServer);
 };
 
-// Create an event listener for messages
+// Create event LISTENERS
 client.once("ready", () => {
   console.log("I am ready!");
 });
