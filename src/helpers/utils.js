@@ -144,7 +144,10 @@ export const PMContent = (currentServer, args) => {
 
   const contentSliced =
     results[0] === 0 ? args.slice(2) : args.slice(2, results[0]); //get content + remove --emote
-  const emotesToSend = results[1] === null ? "" : results[1].map((emote) => emote[1]); // fetch emotes emote
+  const emotesToSend = results[1] === null ? "" : results[1].map((emote) => {
+    if (emote[1].length === 18) return `<:${emote[0]}:${emote[1]}>`;
+    else return emote[1];
+  }); // fetch emotes emote
   const content = [...contentSliced, ...emotesToSend].join(" "); // assemble text to send
 
   return content;

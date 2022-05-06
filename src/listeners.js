@@ -1,6 +1,9 @@
 import { PERSONALITY } from "./personality.js";
 import commands from "./commands/index.js";
-import commons from "../static/commons.json"
+
+// jsons imports
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 import {
   isAdmin,
