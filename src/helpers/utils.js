@@ -74,12 +74,12 @@ export const reactionHandler = async (message, currentServer, client) => {
       .split(" ")[0];
     if (apologyResult[0] === wordFound) {
       addApologyCount(authorId, db);
-      await message.react(currentServer.panDuomReactId);
+      await message.react(currentServer.ewilanEmotes.PanDuom);
     }
   }
 
   const words = loweredContent.split(" ");
-  if (isAbcd(words)) await message.react(currentServer.eyeReactId);
+  if (isAbcd(words)) await message.react(currentServer.ewilanEmotes.TslichEye);
 
   if (Math.random() < 0.8) return; // Limit Ewibot react frequency
 

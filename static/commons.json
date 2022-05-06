@@ -24,6 +24,7 @@
       "DuomFetard": "🥳",
       "DuomProf": "👨‍🏫",
       "DuomUpAndTakeMyMoney": "💍",
+      "Edouin": "😭",
       "EllanaFort": "💪",
       "EllanaLunettes": "😎",
       "EllanaWhy": "😵",
@@ -39,6 +40,7 @@
       "MoneyMoney": "💸",
       "Musique": "🎼",
       "OKHans": "👍",
+      "PanDuom": "😠",
       "PatHans": "💏",
       "PousserDesYeux": "😱",
       "Reflexiom": "🤔",
@@ -50,13 +52,11 @@
       "lecture": "📚"
     },
     "removeEmoji": "❌",
-    "eyeReactId": "👁️",
     "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "🥖",
       "jamBjornBeurre": "🧈"
-    },
-    "panDuomReactId": "😠"
+    }
   },
   {
     "name": "prod",
@@ -83,6 +83,7 @@
       "DuomFetard": "822479563077976065",
       "DuomProf": "823910372087824435",
       "DuomUpAndTakeMyMoney": "827150172172713994",
+      "Edouin": "823872218928250890",
       "EllanaFort": "959838310191226970",
       "EllanaLunettes": "822430146899607582",
       "EllanaWhy": "862679920073375744",
@@ -98,6 +99,7 @@
       "MoneyMoney": "827156975829123073",
       "Musique": "829742160236118068",
       "OKHans": "869968268096581633",
+      "PanDuom": "826036478672109588",
       "PatHans": "961946126582431744",
       "PousserDesYeux": "822487646076534854",
       "Reflexiom": "822522746453753856",
@@ -108,14 +110,11 @@
       "chuchoteur": "822487268178657390",
       "lecture": "822489141312618507"
     },
-    "Edouin": "823872218928250890",
-    "eyeReactId": "822487568766730270",
     "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "823904010335158323",
       "jamBjornBeurre": "933464636223791144"
     },
-    "panDuomReactId": "826036478672109588",
     "removeEmoji": "❌"
   }
 ]

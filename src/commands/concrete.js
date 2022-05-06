@@ -76,13 +76,13 @@ const action = async (message, client, currentServer, self) => {
     const attachment = new MessageAttachment(buffer, "concrete.gif");
 
     const sentMessage = await channel.send({ files: [attachment] });
-    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
+    if (recipient.id === self) await sentMessage.react(currentServer.ewilanEmotes.Edouin);
   } else {
     const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
     const attachment = new MessageAttachment(buffer, "concrete.gif");
     const sentMessage = await channel.send({ files: [attachment] });
-    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
+    if (recipient.id === self) await sentMessage.react(currentServer.ewilanEmotes.Edouin);
   }
 };
 
