@@ -38,8 +38,14 @@
       "roleCreate": "Un rôle a été créé : ",
       "roleDelete": "Un rôle a été supprimé : ",
       "roleUpdate": {
+        "author": "Role :",
+        "description": "Un role a été modifié.",
+        "executor": "Modifié par :",
         "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
-        "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
+        "text": "Modifications :",
+        "permission": "- Permissions :",
+        "permissionAR": [ "\n  Ajoutée.s : ", "\n  Supprimée.s : " ],
+        "title": "Role mis à jour"
       },
       "timeout": {
         "author": "Membre :",

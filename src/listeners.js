@@ -213,52 +213,79 @@ export const onRoleDelete = async (role) => {
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
+  //handle role update event
   const logChannel = await getLogChannel(commons, newRole); //get logChannelId
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const embed = setupEmbed("YELLOW", personality.roleUpdate, newRole); //setup embed
+  const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE"); //get auditLog
 
   //get all data to compare
-  const dataToCompare = [
-    [oldRole.color, newRole.color],
-    [oldRole.hoist, newRole.hoist],
-    [oldRole.icon, newRole.icon],
-    [oldRole.unicodeEmoji, newRole.unicodeEmoji],
-    [oldRole.name, newRole.name],
-    [
-      oldRole.permissions.missing(newRole.permissions), //[new permissions]
-      newRole.permissions.missing(oldRole.permissions),
-    ], //[removed permissions]
-  ];
+  const changes = roleLog.changes.map((obj) => {
+    if (obj.key === "permissions")
+      return [
+        obj.key,
+        oldRole.permissions.missing(newRole.permissions),
+        newRole.permissions.missing(oldRole.permissions),
+      ];
+    else return [obj.key, obj.old, obj.new];
+  });
 
-  const text = dataToCompare.reduce((acc, cur, idx) => {
-    //create log to send
-    if (idx === 5) {
-      //if permissions, get permissions removed and added
-      const draft1 = cur[0].lenght === 0 ? "" : cur[0].join(", ");
-      const draft2 = cur[1].lenght === 0 ? "" : cur[1].join(", ");
+  //create log to send
+  const text = changes.reduce((acc, cur) => {
+    //if permissions, get permissions removed and added
+    if (cur[0] === "permissions") {
+      const draft1 =
+        cur[1].length === 0
+          ? ""
+          : `${personality.roleUpdate.permissionAR[0]} ${cur[1].join(", ")}`; //[new permissions]
+      const draft2 =
+        cur[2].length === 0
+          ? ""
+          : `${personality.roleUpdate.permissionAR[1]} ${cur[2].join(", ")}`; //[removed permissions]
       return (
         acc +
-        `${PERSONALITY.getAdmin().roleUpdate.features[idx]}` +
-        `${PERSONALITY.getAdmin().roleUpdate.text[2]}` +
+        `${personality.roleUpdate.permission}` +
         `${draft1}` +
-        `${PERSONALITY.getAdmin().roleUpdate.text[3]}` +
-        `${draft2}`
+        `${draft2}\n`
       );
-    }
-    if (cur[0] !== cur[1])
-      //if different => modified => log
-      return (
-        acc +
-        `${PERSONALITY.getAdmin().roleUpdate.features[idx]}${cur[0]} => ${
-          cur[1]
-        }\n`
-      );
-    else return acc;
-  }, PERSONALITY.getAdmin().roleUpdate.text[0] + `"${oldRole.name}"` + PERSONALITY.getAdmin().roleUpdate.text[1]);
+    } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
+  }, "");
 
-  logChannel.send(text); //send log
+  //if no AuditLog
+  if (!roleLog)
+    await finishEmbed(
+      personality.roleUpdate,
+      personality.auditLog.noLog,
+      embed,
+      logChannel,
+      text
+    );
+
+  const { executor, target } = roleLog;
+
+  if (target.id === newRole.id) {
+    //check if log report the correct role update
+    await finishEmbed(
+      personality.roleUpdate,
+      executor.tag,
+      embed,
+      logChannel,
+      text
+    );
+  } else {
+    //if bot or author deleted the message
+    await finishEmbed(
+      personality.roleUpdate,
+      personality.auditLog.inconclusive,
+      embed,
+      logChannel,
+      text
+    );
+  }
 };
 
 export const onMessageDelete = async (message) => {
-  console.log("messageDeleted");
+  // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
   const logChannel = await getLogChannel(commons, message); //get logChannel
@@ -362,7 +389,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   //check if timeout added or removed
   const oldIsTimeout = oldMember.isCommunicationDisabled();
   const newIsTimeout = newMember.isCommunicationDisabled();
-  if (!oldIsTimeout && !newIsTimeout) return; // if no timeout => return
+  if (!oldIsTimeout && newIsTimeout) return; // if no timeout added => return
 
   const logChannel = await getLogChannel(commons, newMember); //get logChannel
   const personality = PERSONALITY.getAdmin(); //get personality
@@ -408,7 +435,11 @@ export const onGuildMemberRemove = async (guildKick) => {
 
   const logChannel = await getLogChannel(commons, guildKick); //get logChannel
   const personality = PERSONALITY.getAdmin(); //get personality
-  const embed = setupEmbed("DARK_PURPLE", personality.guildKick, guildKick.user); //setup embed
+  const embed = setupEmbed(
+    "DARK_PURPLE",
+    personality.guildKick,
+    guildKick.user
+  ); //setup embed
   const kickLog = await fetchAuditLog(guildKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog.reason; //get ban reason
 
