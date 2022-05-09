@@ -214,9 +214,13 @@ export const onRoleDelete = async (role) => {
 
 export const onRoleUpdate = async (oldRole, newRole) => {
   //handle role update event
-  const logChannel = await getLogChannel(commons, newRole); //get logChannelId
+
   const personality = PERSONALITY.getAdmin(); //get personality
-  const embed = setupEmbed("YELLOW", personality.roleUpdate, newRole); //setup embed
+  const roleUpdate = personality.roleUpdate;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, newRole); //get logChannelId
+  const embed = setupEmbed("DARK_GOLD", roleUpdate, newRole); //setup embed
   const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE"); //get auditLog
 
   //get all data to compare
@@ -237,46 +241,29 @@ export const onRoleUpdate = async (oldRole, newRole) => {
       const draft1 =
         cur[1].length === 0
           ? ""
-          : `${personality.roleUpdate.permissionAR[0]} ${cur[1].join(", ")}`; //[new permissions]
+          : `${roleUpdate.permissionAR[0]} ${cur[1].join(", ")}`; //[new permissions]
       const draft2 =
         cur[2].length === 0
           ? ""
-          : `${personality.roleUpdate.permissionAR[1]} ${cur[2].join(", ")}`; //[removed permissions]
-      return (
-        acc +
-        `${personality.roleUpdate.permission}` +
-        `${draft1}` +
-        `${draft2}\n`
-      );
+          : `${roleUpdate.permissionAR[1]} ${cur[2].join(", ")}`; //[removed permissions]
+      return acc + `${roleUpdate.permission}` + `${draft1}` + `${draft2}\n`;
     } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
   }, "");
 
   //if no AuditLog
   if (!roleLog)
-    await finishEmbed(
-      personality.roleUpdate,
-      personality.auditLog.noLog,
-      embed,
-      logChannel,
-      text
-    );
+    await finishEmbed(roleUpdate, auditLog.noLog, embed, logChannel, text);
 
   const { executor, target } = roleLog;
 
   if (target.id === newRole.id) {
     //check if log report the correct role update
-    await finishEmbed(
-      personality.roleUpdate,
-      executor.tag,
-      embed,
-      logChannel,
-      text
-    );
+    await finishEmbed(roleUpdate, executor.tag, embed, logChannel, text);
   } else {
     //if bot or author deleted the message
     await finishEmbed(
-      personality.roleUpdate,
-      personality.auditLog.inconclusive,
+      roleUpdate,
+      auditLog.inconclusive,
       embed,
       logChannel,
       text
@@ -288,21 +275,17 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
-  const logChannel = await getLogChannel(commons, message); //get logChannel
   const personality = PERSONALITY.getAdmin(); //get personality
+  const messageDelete = personality.roleUpdate;
+  const auditLog = personality.auditLog;
 
-  //setup embed
-  const embed = setupEmbed(
-    "DARK_RED",
-    personality.messageDelete,
-    message.author
-  );
+  const logChannel = await getLogChannel(commons, message); //get logChannel
+  const embed = setupEmbed("DARK_RED", messageDelete, message.author); //setup embed
   embed.addField(
-    personality.messageDelete.date,
+    messageDelete.date,
     `${message.createdAt.toString().slice(4, 24)}`,
     true
   ); //date of message creation
-
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
 
   //get message data
@@ -314,8 +297,8 @@ export const onMessageDelete = async (message) => {
   //if no AuditLog
   if (!deletionLog) {
     await finishEmbed(
-      personality.messageDelete,
-      personality.auditLog.noLog,
+      messageDelete,
+      auditLog.noLog,
       embed,
       logChannel,
       content
@@ -327,19 +310,13 @@ export const onMessageDelete = async (message) => {
 
   if (target.id === message.author.id) {
     //check if log report the correct user banned
-    await finishEmbed(
-      personality.messageDelete,
-      executor.tag,
-      embed,
-      logChannel,
-      content
-    );
+    await finishEmbed(messageDelete, executor.tag, embed, logChannel, content);
     if (attachments.length) await logChannel.send({ files: attachments });
   } else {
     //if bot or author deleted the message
     await finishEmbed(
-      personality.messageDelete,
-      personality.auditLog.inconclusive,
+      messageDelete,
+      auditLog.inconclusive,
       embed,
       logChannel,
       content
@@ -348,40 +325,31 @@ export const onMessageDelete = async (message) => {
   }
 };
 
-export const onGuildBanAdd = async (guildBan) => {
+export const onGuildBanAdd = async (userBan) => {
   console.log("member banned from Discord Server");
 
-  const logChannel = await getLogChannel(commons, guildBan); //get logChannel
   const personality = PERSONALITY.getAdmin(); //get personality
-  const embed = setupEmbed("DARK_NAVY", personality.guildBan, guildBan.user); //setup embed
-  const banLog = await fetchAuditLog(guildBan.guild, "MEMBER_BAN_ADD"); //get auditLog
-  const reason = guildBan.reason; //get ban reason
+  const guildBan = personality.guildBan;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, userBan); //get logChannel
+  const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user); //setup embed
+  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD"); //get auditLog
+  const reason = userBan.reason; //get ban reason
 
   //if no AuditLog
   if (!banLog) {
-    finishEmbed(
-      personality.guildBan,
-      personality.auditLog.noLog,
-      embed,
-      logChannel,
-      reason
-    );
+    finishEmbed(guildBan, auditLog.noLog, embed, logChannel, reason);
   }
 
   const { executor, target } = banLog;
 
-  if (target.id === guildBan.user.id) {
+  if (target.id === userBan.user.id) {
     //check if log report the correct message deleted
-    finishEmbed(personality.guildBan, executor.tag, embed, logChannel, reason);
+    finishEmbed(guildBan, executor.tag, embed, logChannel, reason);
   } else {
     //if bot or author deleted the message
-    finishEmbed(
-      personality.guildBan,
-      personality.auditLog.inconclusive,
-      embed,
-      logChannel,
-      reason
-    );
+    finishEmbed(guildBan, auditLog.inconclusive, embed, logChannel, reason);
   }
 };
 
@@ -391,11 +359,15 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const newIsTimeout = newMember.isCommunicationDisabled();
   if (!oldIsTimeout && newIsTimeout) return; // if no timeout added => return
 
-  const logChannel = await getLogChannel(commons, newMember); //get logChannel
   const personality = PERSONALITY.getAdmin(); //get personality
-  const embed = setupEmbed("ORANGE", personality.timeout, newMember.user); //setup embed
+  const timeout = personality.timeout;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, newMember); //get logChannel
+  const embed = setupEmbed("ORANGE", timeout, newMember.user); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_ROLE_UPDATE"); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
+
   const timeoutUntilDate = newMember.communicationDisabledUntil;
   console.log("timeoutUntilDate", timeoutUntilDate);
   const timeoutDuration = timeoutUntilDate.parse() - Date.now().parse();
@@ -404,69 +376,44 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
 
   //if no AuditLog
   if (!timeoutLog)
-    finishEmbed(
-      personality.timeout,
-      personality.auditLog.noLog,
-      embed,
-      logChannel,
-      reason
-    );
+    finishEmbed(timeout, auditLog.noLog, embed, logChannel, reason);
 
   const { executor, target } = timeoutLog;
 
   if (target.id === newMember.user.id) {
     //check if log report the correct message deleted
-    finishEmbed(personality.timeout, executor.tag, embed, logChannel, reason);
+    finishEmbed(timeout, executor.tag, embed, logChannel, reason);
   } else {
     //if bot or author deleted the message
-    finishEmbed(
-      personality.timeout,
-      personality.auditLog.inconclusive,
-      embed,
-      logChannel,
-      reason
-    );
+    finishEmbed(timeout, auditLog.inconclusive, embed, logChannel, reason);
   }
 };
 
-export const onGuildMemberRemove = async (guildKick) => {
+export const onGuildMemberRemove = async (userKick) => {
   //handle guildMember kicked or leaving the server
   console.log("member kicked from Discord Server");
 
-  const logChannel = await getLogChannel(commons, guildKick); //get logChannel
   const personality = PERSONALITY.getAdmin(); //get personality
-  const embed = setupEmbed(
-    "DARK_PURPLE",
-    personality.guildKick,
-    guildKick.user
-  ); //setup embed
-  const kickLog = await fetchAuditLog(guildKick.guild, "MEMBER_KICK"); //get auditLog
+  const guildKick = personality.guildKick;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, userKick); //get logChannel
+  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick.user); //setup userKick
+  const kickLog = await fetchAuditLog(userKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog.reason; //get ban reason
 
   //if no AuditLog
   if (!kickLog) {
-    finishEmbed(
-      personality.guildKick,
-      personality.auditLog.noLog,
-      embed,
-      logChannel,
-      reason
-    );
+    finishEmbed(guildKick, auditLog.noLog, embed, logChannel, reason);
   }
 
   const { executor, target } = kickLog;
 
-  if (target.id === guildKick.user.id) {
+  if (target.id === userKick.user.id) {
     //check if log report the correct kick
-    finishEmbed(personality.guildKick, executor.tag, embed, logChannel, reason);
+    finishEmbed(guildKick, executor.tag, embed, logChannel, reason);
   } else {
     //if bot or author executed the kick
-    finishEmbed(
-      personality.guildKick,
-      personality.auditLog.inconclusive,
-      embed,
-      logChannel,
-      reason
-    );
+    finishEmbed(guildKick, auditLog.inconclusive, embed, logChannel, reason);
   }
 };
