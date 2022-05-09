@@ -21,6 +21,8 @@ import {
   onPublicMessage,
   onRemoveReminderReaction,
   onRemoveSpotifyReaction,
+} from "./listeners.js"
+import {
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
@@ -29,9 +31,10 @@ import {
   onRoleUpdate,
   onMessageDelete,
   onGuildBanAdd,
+  onGuildMemberAdd,
   onGuildMemberRemove,
   onGuildMemberUpdate,
-} from "./listeners.js";
+} from "./admin/listeners.js";
 
 // jsons imports
 import { readFileSync } from "fs";
@@ -159,6 +162,7 @@ client.on("channelUpdate", onChannelUpdate);
 
 client.on("guildBanAdd", onGuildBanAdd);
 
+client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("guildMemberRemove", onGuildMemberRemove);
 client.on("guildMemberUpdate", onGuildMemberUpdate);
 
