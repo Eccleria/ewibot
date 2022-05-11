@@ -130,7 +130,7 @@ const onReactionHandler = async (messageReaction) => {
   );
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    roleHandler(client, messageReaction, currentServer);
+    await roleHandler(client, messageReaction, currentServer);
 
   onRemoveSpotifyReaction(messageReaction, client, currentServer);
 
