@@ -22,11 +22,7 @@ const reactionRemove = async (messageReactions, userId) => {
   //remove user reaction
   for (const element of messageReactions.values()) {
     const usersReacted = await element.users.fetch(); //get users that reacted
-    if (usersReacted.has(userId)) {
-      //console.log("foundUserwithReaction", element.emoji.name, userId);
-      await element.users.remove(userId);
-      //console.log("removed Reaction", element.emoji.name, userId);
-    }
+    if (usersReacted.has(userId)) await element.users.remove(userId);
   }
 };
 
@@ -42,18 +38,15 @@ const setRoles = async (guildMember, rolesIds, roleChange) => {
   });
 };
 
-export const roleHandler = async (
-  client,
-  messageReaction,
-  currentServer,
-  user
-) => {
+export const roleHandler = async (messageReaction, currentServer, user) => {
   //handle reactions added to the role message
   const userId = user.id;
   if (userId === process.env.CLIENTID) return; //if bot, return
 
   const rolesJson = Object.entries(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
-  const guild = await client.guilds.fetch(currentServer.guildId); //fetch the guild
+  const guild = await messageReaction.client.guilds.fetch(
+    currentServer.guildId
+  ); //fetch the guild
 
   //get reaction names
   const reactionsNames = rolesJson.map((element) => element[1].name); //get names of handled reactions
@@ -61,11 +54,8 @@ export const roleHandler = async (
 
   //check for correct triggering reaction
   const reactionName = messageReaction.emoji.name; //get triggering reaction name
-  console.log(reactionName);
   if (!reactionsNames.includes(reactionName) && reactionName !== removeEmote) {
-    //If undesired emote added to the message => remove it and return
     messageReaction.remove();
-    console.log("wrong reaction");
     return;
   }
 
@@ -73,17 +63,14 @@ export const roleHandler = async (
   const message = await messageReaction.message.fetch(); //fetch message information
   const messageReactions = message.reactions.cache; //get all reactions on the message
 
-  //get guildMember
   const guildMember = await guild.members.fetch(userId); //get guildMember
 
-  //get roles data from json
   const rolesIds = rolesJson.map((element) => element[1].roleId); //get all roles ids
 
   //if removeEmote => remove all reactions, cosmetic
   if (reactionName === removeEmote) {
     await reactionRemove(messageReactions, userId); //remove all user reactions
     await setRoles(guildMember, rolesIds); //remove all cosmetic role
-    //console.log("clientUpdated", await client.roles);
     return;
   }
 
@@ -96,17 +83,13 @@ export const roleHandler = async (
     const emojiName = object.emoji.name;
     return emojiName !== reactionName;
   });
-  //console.log("messageOtherReactions.keys()", messageOtherReactions.keys());
 
-  //handle role and reaction change for every identified user
-
+  //if doesn't have the triggering role, add it
   if (!guildMember.roles.cache.has(roleIdtoChg))
-    await guildMember.roles.add(roleIdtoChg); //if doesn't have the triggering role, add role to user
+    await guildMember.roles.add(roleIdtoChg);
 
-  //check if user has other reactions, if yes remove them
-  reactionRemove(messageOtherReactions, userId);
+  await reactionRemove(messageOtherReactions, userId); //remove reactions if user has other
 
   //taking care of roles
-  //console.log("guildMemberRoles", userId, guildMember.roles.cache.keys());
-  setRoles(guildMember, userId, rolesIds, roleIdtoChg);
+  await setRoles(guildMember, userId, rolesIds, roleIdtoChg);
 };
