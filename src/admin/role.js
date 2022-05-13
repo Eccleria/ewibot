@@ -29,7 +29,7 @@
     let users = {};
     try {
       users = await messageReaction.users.fetch(); //get all users that reacted with emoteName
-      console.log("initUsersReactions", users.size);
+      //console.log("initUsersReactions", users.size);
       if (!users.has(process.env.CLIENTID))
         //if no bot reaction
         await message.react(emoteName); //add missing reaction
@@ -69,9 +69,9 @@ const reactionRemove = (messageReactions, userId) => {
   messageReactions.forEach(async (element) => {
     const usersReacted = await element.users.fetch(); //get users that reacted
     if (usersReacted.has(userId)) {
-      console.log("foundUserwithReaction", element.emoji.name, userId);
+      //console.log("foundUserwithReaction", element.emoji.name, userId);
       await element.users.remove(userId);
-      console.log("removed Reaction", element.emoji.name, userId);
+      //console.log("removed Reaction", element.emoji.name, userId);
     }
   });
 };
@@ -113,7 +113,7 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
 
   //check for correct triggering reaction
   const reactionName = messageReaction.emoji.name; //get triggering reaction name
-  console.log(reactionName);
+  //console.log(reactionName);
   if (!reactionsNames.includes(reactionName) && reactionName !== removeEmote) {
     //If undesired emote added to the message => remove it and return
     messageReaction.remove();
@@ -141,7 +141,7 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
       //remove all cosmetic role
       const guildMember = await guild.members.fetch(userId); //get guildMember
       removeRoleClient(client, guildMember, userId, rolesIds); //remove roles
-      console.log("clientUpdated", await client.roles);
+      //console.log("clientUpdated", await client.roles);
     });
     return;
   }
@@ -155,14 +155,14 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
     const emojiName = object.emoji.name;
     return emojiName !== reactionName && reactionsNames.includes(emojiName);
   }); //get other reaction data than triggering reaction
-  console.log("messageOtherReactions.keys()", messageOtherReactions.keys());
+  //console.log("messageOtherReactions.keys()", messageOtherReactions.keys());
 
   //get guild role data
   const roleGuild = await guild.roles.fetch(roleIdtoChg); //get role from guild
   const roleGuildMembers = roleGuild.members; //get all having_that_role members
-  console.log("roleGuildMembers.keys()", roleGuildMembers.keys());
+  //console.log("roleGuildMembers.keys()", roleGuildMembers.keys());
 
-  console.log("client.roles", client.roles);
+  //console.log("client.roles", client.roles);
   //get every userId that reacted but not in client
   const usersIdsToChangeRole = triggeringReactUsers.reduce((acc, cur) => {
     const userId = cur.id;
@@ -185,7 +185,7 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
     //return if correct in client
     else return acc;
   }, []);
-  console.log("usersIdsToChangeRole", usersIdsToChangeRole);
+  //console.log("usersIdsToChangeRole", usersIdsToChangeRole);
 
   //handle client, role and reaction change for every identified user
   await usersIdsToChangeRole.forEach(async (userId) => {
@@ -198,7 +198,7 @@ export const roleHandler = async (client, messageReaction, currentServer) => {
     reactionRemove(messageOtherReactions, userId);
 
     //taking care of roles and client
-    console.log("guildMemberRoles", userId, guildMember.roles.cache.keys());
+    //console.log("guildMemberRoles", userId, guildMember.roles.cache.keys());
     removeRoleClient(client, guildMember, userId, rolesIds, roleIdtoChg);
 
     const newClientRoleMembers = [...client.roles[roleIdtoChg].members, userId];
