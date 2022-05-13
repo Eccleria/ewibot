@@ -123,14 +123,14 @@ const onMessageHandler = async (message) => {
   }
 };
 
-const onReactionHandler = async (messageReaction) => {
+const onReactionHandler = async (messageReaction, user) => {
   // Function triggered for each reaction added
   const currentServer = commons.find(
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    await roleHandler(client, messageReaction, currentServer);
+    await roleHandler(client, messageReaction, currentServer, user);
 
   onRemoveSpotifyReaction(messageReaction, client, currentServer);
 
