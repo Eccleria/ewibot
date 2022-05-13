@@ -9,6 +9,15 @@ import {
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
 
+import {
+  roleAdd,
+  roleRemove,
+} from "./admin/role.js"
+
+// jsons imports
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
 
@@ -65,11 +74,10 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
 export const onRemoveReminderReaction = (
   messageReaction,
-  client,
   currentServer
 ) => {
   const { removeEmoji } = currentServer;
-  const { message, emoji, users } = messageReaction;
+  const { message, emoji, users, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
@@ -101,11 +109,10 @@ export const onRemoveReminderReaction = (
 
 export const onRemoveSpotifyReaction = async (
   messageReaction,
-  client,
   currentServer
 ) => {
   //remove song from client cache and spotify playlist using react
-  const { message, emoji, users } = messageReaction;
+  const { client, message, emoji, users } = messageReaction;
   const { removeEmoji } = currentServer;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
@@ -134,3 +141,26 @@ export const onRemoveSpotifyReaction = async (
     await message.reply(result);
   }
 };
+
+export const onReactionAdd = async (messageReaction, user) => {
+  // Function triggered for each reaction added
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  );
+
+  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+    await roleAdd(messageReaction, currentServer, user);
+
+  onRemoveSpotifyReaction(messageReaction, currentServer);
+
+  onRemoveReminderReaction(messageReaction, currentServer);
+};
+
+export const onReactionRemove = async (messageReaction, user) => {
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  );
+
+  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+    await roleRemove(messageReaction, currentServer, user);
+}
