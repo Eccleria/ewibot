@@ -63,7 +63,7 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   }
 };
 
-export const roleRemove = async(messageReaction, currentServer, user) => {
+export const roleRemove = async (messageReaction, currentServer, user) => {
   const userId = user.id;
   if (userId === process.env.CLIENTID) return; //if bot, return
 
@@ -80,4 +80,4 @@ export const roleRemove = async(messageReaction, currentServer, user) => {
   const roleIdtoChg = roleParam.roleId; //get the role id associated to the triggering reaction
 
   await guildMember.roles.remove(roleIdtoChg); //remove all cosmetic role
-}
+};

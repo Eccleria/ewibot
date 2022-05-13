@@ -9,10 +9,7 @@ import {
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
 
-import {
-  roleAdd,
-  roleRemove,
-} from "./admin/role.js"
+import { roleAdd, roleRemove } from "./admin/role.js";
 
 // jsons imports
 import { readFileSync } from "fs";
@@ -72,10 +69,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   }
 };
 
-export const onRemoveReminderReaction = (
-  messageReaction,
-  currentServer
-) => {
+export const onRemoveReminderReaction = (messageReaction, currentServer) => {
   const { removeEmoji } = currentServer;
   const { message, emoji, users, client } = messageReaction;
 
@@ -163,4 +157,4 @@ export const onReactionRemove = async (messageReaction, user) => {
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
-}
+};
