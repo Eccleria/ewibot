@@ -108,9 +108,6 @@ if (process.env.USE_SPOTIFY === "yes") {
 
 const self = process.env.CLIENTID; // get self Discord Id
 
-//ROLES
-setTimeout(roleInit, 5000, client, commons);
-
 // Bot event FUNCTIONS
 const onMessageHandler = async (message) => {
   // Function triggered for each message sent
@@ -134,6 +131,7 @@ client.on("messageReactionRemove", onReactionRemove);
 
 client.once("ready", () => {
   console.log("I am ready!");
+  roleInit(client, commons);
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications

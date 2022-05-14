@@ -1,4 +1,5 @@
 ﻿export const roleInit = async (client, commons) => {
+  console.log("role init");
   // Client init and check reactions on role message
   const server =
     process.env.DEBUG === "yes"
@@ -36,31 +37,14 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   }
 
   //get all message reactions data
-  const message = await messageReaction.message.fetch(); //fetch message information
-  const messageReactions = message.reactions.cache; //get all reactions on the message
 
   const guildMember = await guild.members.fetch(userId); //get guildMember
 
   //get role parameters in servers.json
-  const rolesIds = rolesJson.map((element) => element.roleId); //get all roles ids
   const roleParam = rolesJson.find((role) => role.name === reactionName); //get json data for triggering role
   const roleIdtoChg = roleParam.roleId; //get the role id associated to the triggering reaction
-  const otherRoles = rolesIds.filter((roleId) => roleId !== roleIdtoChg);
-
-  //get other message reactions data
-  const messageOtherReactions = messageReactions.filter((object) => {
-    const emojiName = object.emoji.name;
-    return emojiName !== reactionName;
-  });
 
   await guildMember.roles.add(roleIdtoChg); //add requested role
-  for (const role of otherRoles) await guildMember.roles.remove(role); //remove other roles
-
-  //remove other reactions
-  for (const element of messageOtherReactions.values()) {
-    const usersReacted = await element.users.fetch(); //get users that reacted
-    if (usersReacted.has(userId)) await element.users.remove(userId);
-  }
 };
 
 export const roleRemove = async (messageReaction, currentServer, user) => {
