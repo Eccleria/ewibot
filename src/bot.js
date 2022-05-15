@@ -9,6 +9,9 @@ dayjs.locale("fr");
 
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
+
+import { roleInit } from "./admin/role.js";
+
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
@@ -18,11 +21,14 @@ import { generateSpotifyClient } from "./helpers/index.js";
 import {
   onPrivateMessage,
   onPublicMessage,
-  onRemoveReminderReaction,
-  onRemoveSpotifyReaction,
+  onReactionAdd,
+  onReactionRemove,
 } from "./listeners.js";
+
 // jsons imports
-import commons from "../static/commons.json";
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 
@@ -79,6 +85,8 @@ const client = new Client({
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
+    "MESSAGE", // MESSAGE && REACTION for role handling
+    "REACTION",
   ],
 });
 
@@ -115,23 +123,15 @@ const onMessageHandler = async (message) => {
   }
 };
 
-const onReactionHandler = async (messageReaction) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
-  );
-
-  onRemoveSpotifyReaction(messageReaction, client, currentServer);
-
-  onRemoveReminderReaction(messageReaction, client, currentServer);
-};
-
 // Create an event listener for messages
 client.on("messageCreate", onMessageHandler);
 
-client.on("messageReactionAdd", onReactionHandler);
+client.on("messageReactionAdd", onReactionAdd);
+client.on("messageReactionRemove", onReactionRemove);
 
 client.once("ready", () => {
   console.log("I am ready!");
+  roleInit(client, commons);
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
