@@ -146,6 +146,8 @@ export const onRemoveSpotifyReaction = async (
   }
 };
 
+//ADMIN
+
 export const onChannelCreate = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
@@ -216,11 +218,11 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   //handle role update event
 
   const personality = PERSONALITY.getAdmin(); //get personality
-  const roleUpdate = personality.roleUpdate;
+  const roleUp = personality.roleUpdate;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newRole); //get logChannelId
-  const embed = setupEmbed("DARK_GOLD", roleUpdate, newRole); //setup embed
+  const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
   const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE"); //get auditLog
 
   //get all data to compare
@@ -230,7 +232,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
         obj.key,
         oldRole.permissions.missing(newRole.permissions),
         newRole.permissions.missing(oldRole.permissions),
-      ];
+      ]; //compare both roles to get only changes and not all data.
     else return [obj.key, obj.old, obj.new];
   });
 
@@ -239,35 +241,25 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     //if permissions, get permissions removed and added
     if (cur[0] === "permissions") {
       const draft1 =
-        cur[1].length === 0
-          ? ""
-          : `${roleUpdate.permissionAR[0]} ${cur[1].join(", ")}`; //[new permissions]
+        cur[1].length === 0 ? "" : `${roleUp.new} ${cur[1].join(", ")}`; //[new permissions]
       const draft2 =
-        cur[2].length === 0
-          ? ""
-          : `${roleUpdate.permissionAR[1]} ${cur[2].join(", ")}`; //[removed permissions]
-      return acc + `${roleUpdate.permission}` + `${draft1}` + `${draft2}\n`;
+        cur[2].length === 0 ? "" : `${roleUp.old} ${cur[2].join(", ")}`; //[removed permissions]
+      return acc + `${roleUp.permission}` + `${draft1}` + `${draft2}\n`;
     } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
   }, "");
 
   //if no AuditLog
   if (!roleLog)
-    await finishEmbed(roleUpdate, auditLog.noLog, embed, logChannel, text);
+    await finishEmbed(roleUp, auditLog.noLog, embed, logChannel, text);
 
   const { executor, target } = roleLog;
 
   if (target.id === newRole.id) {
     //check if log report the correct role update
-    await finishEmbed(roleUpdate, executor.tag, embed, logChannel, text);
+    await finishEmbed(roleUp, executor.tag, embed, logChannel, text);
   } else {
     //if bot or author deleted the message
-    await finishEmbed(
-      roleUpdate,
-      auditLog.inconclusive,
-      embed,
-      logChannel,
-      text
-    );
+    await finishEmbed(roleUp, auditLog.inconclusive, embed, logChannel, text);
   }
 };
 
@@ -276,7 +268,7 @@ export const onMessageDelete = async (message) => {
   if (!message.guild) return; //Ignore DM
 
   const personality = PERSONALITY.getAdmin(); //get personality
-  const messageDelete = personality.roleUpdate;
+  const messageDelete = personality.messageDelete;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, message); //get logChannel
@@ -338,9 +330,8 @@ export const onGuildBanAdd = async (userBan) => {
   const reason = userBan.reason; //get ban reason
 
   //if no AuditLog
-  if (!banLog) {
+  if (!banLog)
     finishEmbed(guildBan, auditLog.noLog, embed, logChannel, reason);
-  }
 
   const { executor, target } = banLog;
 
@@ -403,9 +394,8 @@ export const onGuildMemberRemove = async (userKick) => {
   const reason = kickLog.reason; //get ban reason
 
   //if no AuditLog
-  if (!kickLog) {
+  if (!kickLog)
     finishEmbed(guildKick, auditLog.noLog, embed, logChannel, reason);
-  }
 
   const { executor, target } = kickLog;
 
