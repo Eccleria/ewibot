@@ -29,13 +29,13 @@ export const getLogChannel = async (commons, eventObject) => {
   return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return text-channel
 };
 
-export const setupEmbed = (color, personality, user, type) => {
+export const setupEmbed = (color, personality, object, type) => {
   //setup the embed object
   const embed = new MessageEmbed()
     .setColor(color)
     .setTitle(personality.title)
     .setDescription(personality.description);
-  if (type === "tag") embed.addField(personality.author, user.tag, true);
-  else embed.addField(personality.author, user.name, true);
+  if (type === "tag") embed.addField(personality.author, object.tag, true);
+  else embed.addField(personality.author, object.name, true);
   return embed;
 };

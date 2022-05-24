@@ -181,27 +181,34 @@ export const onChannelDelete = async (channel) => {
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
-  const dataToCompare = [
-    [oldChannel.type, newChannel.type],
-    [oldChannel.name, newChannel.name],
-    [oldChannel.parentId, newChannel.parentId],
-    [oldChannel.rawPosition, newChannel.rawPosition],
-  ];
+  //handle channel update event
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const chnUp = personality.channelUpdate;
+  const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
+  const embed = setupEmbed("DARK_AQUA", chnUp, newChannel); //setup embed
+  const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
-  const text = dataToCompare.reduce((acc, cur, idx) => {
+  const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
+  const text = changes.reduce((acc, cur) => {
     //create log to send
-    if (cur[0] !== cur[1])
-      return (
-        acc +
-        `${PERSONALITY.getAdmin().channelUpdate.features[idx]} ${cur[0]} => ${
-          cur[1]
-        }`
-      );
-    else return acc;
-  }, PERSONALITY.getAdmin().channelUpdate.text[0] + `"${oldChannel.name}"` + PERSONALITY.getAdmin().channelUpdate.text[1]);
-  logChannel.send(text); //send log
+    return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`
+  }, "");
+
+  //if no AuditLog
+  if (!chnLog)
+    await finishEmbed(chnUp, auditLog.noLog, embed, logChannel, text);
+
+  const { executor, target } = chnLog;
+
+  if (target.id === newChannel.id) {
+    //check if log report the correct channel update
+    await finishEmbed(chnUp, executor.tag, embed, logChannel, text);
+  } else {
+    //if bot or author
+    await finishEmbed(chnUp, auditLog.inconclusive, embed, logChannel, text);
+  }
 };
 
 export const onRoleCreate = async (role) => {

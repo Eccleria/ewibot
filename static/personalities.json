@@ -9,8 +9,11 @@
       "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelUpdate": {
-        "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
-        "text": [ "Salon ", " modifié !\n" ]
+        "author": "Salon :",
+        "description": "Un salon a été modifié.",
+        "executor": "Modifié par :",
+        "text": "Modifications :\n",
+        "title": "Salon modifié"
       },
       "guildBan": {
         "author": "Membre :",
@@ -137,8 +140,11 @@
       "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
       "channelUpdate": {
-        "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
-        "text": [ "Salon ", " modifié !\n" ]
+        "author": "Salon :",
+        "description": "Un salon a été modifié.",
+        "executor": "Modifié par :",
+        "text": "Modifications :\n",
+        "title": "Salon modifié"
       },
       "guildBan": {
         "author": "Membre :",
