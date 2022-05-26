@@ -35,6 +35,7 @@
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
+        "note": "*Note: see next message for attachments or embed. If nothing, it was an empty message.*",
         "text": "Contenu du message :",
         "title": "Message supprimé"
       },
@@ -178,6 +179,7 @@
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
+        "note": "*Note: see next message for attachments or embed. If nothing, it was an empty message.*",
         "text": "Contenu du message :",
         "title": "Message supprimé"
       },

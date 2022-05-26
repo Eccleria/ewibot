@@ -222,19 +222,17 @@ export const onRoleCreate = async (role) => {
 
   //if no AuditLog
   if (!roleLog)
-    await finishEmbed(roleCr, auditLog.noLog, embed, logChannel, text);
+    await finishEmbed(roleCr, auditLog.noLog, embed, logChannel);
 
   const { executor, target } = roleLog;
 
   if (target.id === role.id) {
     //check if log report the correct role update
-    await finishEmbed(roleCr, executor.tag, embed, logChannel, text);
+    await finishEmbed(roleCr, executor.tag, embed, logChannel);
   } else {
     //if bot or author deleted the message
-    await finishEmbed(roleCr, auditLog.inconclusive, embed, logChannel, text);
+    await finishEmbed(roleCr, auditLog.inconclusive, embed, logChannel);
   }
-
-  logChannel.send(PERSONALITY.getAdmin().roleCreate + `${role.name}.`); //send log
 };
 
 export const onRoleDelete = async (role) => {
@@ -259,8 +257,6 @@ export const onRoleDelete = async (role) => {
     //if bot or author deleted the message
     await finishEmbed(roleDe, auditLog.inconclusive, embed, logChannel);
   }
-
-  logChannel.send(PERSONALITY.getAdmin().roleDelete + `${role.name}.`); //send log
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
@@ -321,7 +317,7 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, message); //get logChannel
-  const embed = setupEmbed("DARK_RED", messageDelete, message.author); //setup embed
+  const embed = setupEmbed("DARK_RED", messageDelete, message.author, "tag"); //setup embed
   embed.addField(
     messageDelete.date,
     `${message.createdAt.toString().slice(4, 24)}`,
@@ -330,9 +326,12 @@ export const onMessageDelete = async (message) => {
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
 
   //get message data
-  const content = message.content;
+  const content = message.content ? message.content : messageDelete.note;
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
+  }, []);
+  const embedAttached = message.embeds.reduce((acc, cur) => {
+    return [...acc, cur];
   }, []);
 
   //if no AuditLog
@@ -344,6 +343,7 @@ export const onMessageDelete = async (message) => {
       logChannel,
       content
     );
+    if (embedAttached.length !== 0) await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
   }
 
@@ -352,6 +352,7 @@ export const onMessageDelete = async (message) => {
   if (target.id === message.author.id) {
     //check if log report the correct user banned
     await finishEmbed(messageDelete, executor.tag, embed, logChannel, content);
+    if (embedAttached.length !== 0) await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
   } else {
     //if bot or author deleted the message
@@ -362,6 +363,7 @@ export const onMessageDelete = async (message) => {
       logChannel,
       content
     );
+    if (embedAttached.length !== 0) await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
   }
 };
