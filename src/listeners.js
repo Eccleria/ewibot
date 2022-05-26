@@ -152,32 +152,54 @@ export const onChannelCreate = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
 
-  const logChannel = await getLogChannel(commons, channel); //get logChannelId
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const chnCr = personality.channelCreate;
+  const auditLog = personality.auditLog;
 
-  logChannel.send(
-    PERSONALITY.getAdmin().channelCreate[0] +
-      `"${channel.name}"` +
-      PERSONALITY.getAdmin().channelCreate[1] +
-      `"${type}"` +
-      PERSONALITY.getAdmin().channelCreate[2] +
-      `<#${channel.parentId}>`
-  ); //send log
+  const logChannel = await getLogChannel(commons, channel); //get logChannelId
+  const embed = setupEmbed("DARK_AQUA", chnCr, channel); //setup embed
+  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_CREATE"); //get auditLog
+
+  //if no AuditLog
+  if (!chnLog)
+    await finishEmbed(chnCr, auditLog.noLog, embed, logChannel);
+
+  const { executor, target } = chnLog;
+
+  if (target.id === channel.id) {
+    //check if log report the correct channel update
+    await finishEmbed(chnCr, executor.tag, embed, logChannel);
+  } else {
+    //if bot or author
+    await finishEmbed(chnCr, auditLog.inconclusive, embed, logChannel);
+  }
 };
 
 export const onChannelDelete = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
 
-  const logChannel = await getLogChannel(commons, channel); //get logChannelId
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const chnDe = personality.channelDelete;
+  const auditLog = personality.auditLog;
 
-  logChannel.send(
-    PERSONALITY.getAdmin().channelDelete[0] +
-      `"${channel.name}"` +
-      PERSONALITY.getAdmin().channelDelete[1] +
-      `"${type}"` +
-      PERSONALITY.getAdmin().channelDelete[2] +
-      `<#${channel.parentId}>`
-  ); //send log
+  const logChannel = await getLogChannel(commons, channel); //get logChannelId
+  const embed = setupEmbed("DARK_AQUA", chnDe, channel); //setup embed
+  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_DELETE"); //get auditLog
+
+  //if no AuditLog
+  if (!chnLog)
+    await finishEmbed(chnDe, auditLog.noLog, embed, logChannel);
+
+  const { executor, target } = chnLog;
+
+  if (target.id === channel.id) {
+    //check if log report the correct channel update
+    await finishEmbed(chnDe, executor.tag, embed, logChannel);
+  } else {
+    //if bot or author
+    await finishEmbed(chnDe, auditLog.inconclusive, embed, logChannel);
+  }
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {

@@ -6,8 +6,18 @@
         "inconclusive": "Le propriétaire ou un bot.",
         "noLog": "Aucun log relatif n'a été trouvé."
       },
-      "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
-      "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelCreate": {
+        "author": "Salon :",
+        "description": "Un salon a été créé.",
+        "executor": "Créé par :",
+        "title": "Salon créé"
+      },
+      "channelDelete": {
+        "author": "Salon :",
+        "description": "Un salon a été supprimé.",
+        "executor": "Supprimé par :",
+        "title": "Salon supprimé"
+      },
       "channelUpdate": {
         "author": "Salon :",
         "description": "Un salon a été modifié.",
@@ -63,7 +73,7 @@
         "text": "Modifications :",
         "permission": "- Permissions :",
         "title": "Role mis à jour"
-        },
+      },
       "timeout": {
         "author": "Membre :",
         "description": "Un membre a été timeout.",
@@ -71,8 +81,8 @@
         "executor": "Timeout par :",
         "text": "Raison du timeout :",
         "title": "Timeout"
-        }
-      },
+      }
+    },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
@@ -150,8 +160,18 @@
         "inconclusive": "Le propriétaire ou un bot.",
         "noLog": "Aucun log relatif n'a été trouvé."
       },
-      "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
-      "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelCreate": {
+        "author": "Salon :",
+        "description": "Un salon a été créé.",
+        "executor": "Créé par :",
+        "title": "Salon créé"
+      },
+      "channelDelete": {
+        "author": "Salon :",
+        "description": "Un salon a été supprimé.",
+        "executor": "Supprimé par :",
+        "title": "Salon supprimé"
+      },
       "channelUpdate": {
         "author": "Salon :",
         "description": "Un salon a été modifié.",
