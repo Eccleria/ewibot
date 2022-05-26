@@ -212,12 +212,54 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 };
 
 export const onRoleCreate = async (role) => {
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const roleCr = personality.roleCreate;
+  const auditLog = personality.auditLog;
+
   const logChannel = await getLogChannel(commons, role); //get logChannelId
+  const embed = setupEmbed("DARK_GOLD", roleCr, role); //setup embed
+  const roleLog = await fetchAuditLog(role.guild, "ROLE_CREATE"); //get auditLog
+
+  //if no AuditLog
+  if (!roleLog)
+    await finishEmbed(roleCr, auditLog.noLog, embed, logChannel, text);
+
+  const { executor, target } = roleLog;
+
+  if (target.id === role.id) {
+    //check if log report the correct role update
+    await finishEmbed(roleCr, executor.tag, embed, logChannel, text);
+  } else {
+    //if bot or author deleted the message
+    await finishEmbed(roleCr, auditLog.inconclusive, embed, logChannel, text);
+  }
+
   logChannel.send(PERSONALITY.getAdmin().roleCreate + `${role.name}.`); //send log
 };
 
 export const onRoleDelete = async (role) => {
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const roleDe = personality.roleDelete;
+  const auditLog = personality.auditLog;
+
   const logChannel = await getLogChannel(commons, role); //get logChannelId
+  const embed = setupEmbed("DARK_GOLD", roleDe, role); //setup embed
+  const roleLog = await fetchAuditLog(role.guild, "ROLE_DELETE"); //get auditLog
+
+  //if no AuditLog
+  if (!roleLog)
+    await finishEmbed(roleDe, auditLog.noLog, embed, logChannel);
+
+  const { executor, target } = roleLog;
+
+  if (target.id === role.id) {
+    //check if log report the correct role update
+    await finishEmbed(roleDe, executor.tag, embed, logChannel);
+  } else {
+    //if bot or author deleted the message
+    await finishEmbed(roleDe, auditLog.inconclusive, embed, logChannel);
+  }
+
   logChannel.send(PERSONALITY.getAdmin().roleDelete + `${role.name}.`); //send log
 };
 

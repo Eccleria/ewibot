@@ -38,8 +38,20 @@
         "text": "Contenu du message :",
         "title": "Message supprimé"
       },
-      "roleCreate": "Un rôle a été créé : ",
-      "roleDelete": "Un rôle a été supprimé : ",
+      "roleCreate": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
+      "roleDelete": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
       "roleUpdate": {
         "author": "Role :",
         "description": "Un role a été modifié.",
@@ -50,7 +62,7 @@
         "text": "Modifications :",
         "permission": "- Permissions :",
         "title": "Role mis à jour"
-      },
+        },
       "timeout": {
         "author": "Membre :",
         "description": "Un membre a été timeout.",
@@ -58,8 +70,8 @@
         "executor": "Timeout par :",
         "text": "Raison du timeout :",
         "title": "Timeout"
-      }
-    },
+        }
+      },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
@@ -169,8 +181,20 @@
         "text": "Contenu du message :",
         "title": "Message supprimé"
       },
-      "roleCreate": "Un rôle a été créé : ",
-      "roleDelete": "Un rôle a été supprimé : ",
+      "roleCreate": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
+      "roleDelete": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
       "roleUpdate": {
         "author": "Role :",
         "description": "Un role a été modifié.",
