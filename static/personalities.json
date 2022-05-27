@@ -2,6 +2,12 @@
   "normal": {
     "name": "normal",
     "admin": {
+      "alavirien": {
+        "author": "Membre :",
+        "description": "Un.e membre a reçu le rôle Alavirien·nes.",
+        "executor": "Ajouté par :",
+        "title": "Attribution du rôle Alavirien·nes"
+      },
       "auditLog": {
         "inconclusive": "Le propriétaire ou un bot.",
         "noLog": "Aucun log relatif n'a été trouvé."
@@ -128,6 +134,12 @@
   },
   "funny": {
     "name": "funny",
+    "alavirien": {
+      "author": "Membre :",
+      "description": "Un.e membre a reçu le rôle Alavirien·nes.",
+      "executor": "Ajouté par :",
+      "title": "Attribution du rôle Alavirien·nes"
+    },
     "admin": {
       "auditLog": {
         "inconclusive": "Le propriétaire ou un bot.",

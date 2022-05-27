@@ -36,11 +36,14 @@ import {
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
 
-// jsons imports
+//alavirien import
+import { checkAlavirien } from "./admin/alavirien.js";
+
+// json import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
-// commands imports
+// command import
 import { wishBirthday } from "./commands/birthday.js";
 
 // DB
@@ -68,7 +71,7 @@ const tomorrow = dayjs()
   .minute(0)
   .second(0)
   .millisecond(0);
-const timeToTomorrow = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
+const timeToTomorrowBD = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
 const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
 setTimeout(async () => {
@@ -83,7 +86,22 @@ setTimeout(async () => {
   wishBirthday(db, channel);
 
   setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
-}, timeToTomorrow);
+}, timeToTomorrowBD);
+
+//ALAVIRIEN
+const timeToTomorrowAlavirien = tomorrow.minute(5).diff(dayjs());
+
+setTimeout(async () => {
+  console.log("Alavirien check");
+
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const logChannel = await client.channels.fetch(server.logChannelId);
+  checkAlavirien(client, server, logChannel);
+
+  setInterval(() => checkAlavirien, frequency, client, server, logChannel)
+}, timeToTomorrowAlavirien);
 
 // Discord CLIENT
 const client = new Client({

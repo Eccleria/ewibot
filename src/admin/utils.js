@@ -34,7 +34,8 @@ export const setupEmbed = (color, personality, user, type) => {
   const embed = new MessageEmbed()
     .setColor(color)
     .setTitle(personality.title)
-    .setDescription(personality.description);
+    .setDescription(personality.description)
+    .setTimestamp();
   if (type === "tag") embed.addField(personality.author, user.tag, true);
   else embed.addField(personality.author, user.name, true);
   return embed;
