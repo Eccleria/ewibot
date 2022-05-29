@@ -9,6 +9,8 @@ import {
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
 
+import { presentationHandler } from "./admin/alavirien.js"
+
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
 
@@ -41,9 +43,14 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   )
     return;
 
-  const { playlistThreadId } = currentServer;
+  const { playlistThreadId, presentationChannelId } = currentServer;
 
   reactionHandler(message, currentServer, client);
+
+  if (channel.id === presentationChannelId) {
+    presentationHandler(client, currentServer, message);
+    return; //no command in presentation channel
+  }
 
   // check for command
   const commandName = content.split(" ")[0];

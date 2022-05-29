@@ -6,7 +6,8 @@
         "author": "Membre :",
         "description": "Un.e membre a reçu le rôle Alavirien·nes.",
         "executor": "Ajouté par :",
-        "title": "Attribution du rôle Alavirien·nes"
+        "title": "Attribution du rôle Alavirien·nes",
+        "tooShort": "Ce message est trop petit pour être considéré comme une présentation."
       },
       "auditLog": {
         "inconclusive": "Le propriétaire ou un bot.",
@@ -138,7 +139,8 @@
       "author": "Membre :",
       "description": "Un.e membre a reçu le rôle Alavirien·nes.",
       "executor": "Ajouté par :",
-      "title": "Attribution du rôle Alavirien·nes"
+      "title": "Attribution du rôle Alavirien·nes",
+      "tooShort": "Ce message est trop petit pour être considéré comme une présentation."
     },
     "admin": {
       "auditLog": {
