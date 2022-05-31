@@ -118,7 +118,7 @@ const roll = {
   admin: false,
 };
 
-const commands = process.env.USE_SPOTIFY === "yes" ? [
+const commands = [
   birthday,
   concrete,
   helloWorld,
@@ -127,14 +127,6 @@ const commands = process.env.USE_SPOTIFY === "yes" ? [
   reminder,
   roll,
   spotify,
-] : [
-  birthday,
-  concrete,
-  helloWorld,
-  ignore,
-  ignoreChannel,
-  reminder,
-  roll,
 ];
 
 const help = {
