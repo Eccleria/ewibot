@@ -1,5 +1,6 @@
 import { PERSONALITY } from "./personality.js";
-import allCommands from "./commands/index.js";
+
+import commands from "./commands/index.js";
 
 import {
   isAdmin,
@@ -53,8 +54,6 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
   // check for command
   const commandName = content.split(" ")[0];
-  const commands = process.env.USE_SPOTIFY === "yes" ? allCommands : allCommands.filter((cmd) => cmd.name !== "spotify");
-  console.log(commands);
   const command = commands
     .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin) //filter appropriate commands if user has or not admin rigths
     .find(({ name }) => commandName.slice(1) === name);
