@@ -96,12 +96,14 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    for (const e of foundEmotes) {
+    if (foundEmotes.length > 0) {
       // PRIDE MONTH, RAIBOWSSSSS
       if (today.getMonth() == 5) {
         await message.react("🏳️‍🌈");
       } else {
-        await message.react(e);
+        for (const e of foundEmotes) {
+          await message.react(e);
+        }
       }
     }
   }
