@@ -161,8 +161,10 @@ export const onChannelCreate = async (channel) => {
   const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_CREATE"); //get auditLog
 
   //if no AuditLog
-  if (!chnLog)
+  if (!chnLog) {
     await finishEmbed(chnCr, auditLog.noLog, embed, logChannel);
+    return
+  }
 
   const { executor, target } = chnLog;
 
@@ -188,8 +190,10 @@ export const onChannelDelete = async (channel) => {
   const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_DELETE"); //get auditLog
 
   //if no AuditLog
-  if (!chnLog)
+  if (!chnLog) {
     await finishEmbed(chnDe, auditLog.noLog, embed, logChannel);
+    return
+  }
 
   const { executor, target } = chnLog;
 
@@ -212,6 +216,14 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
+  //if position change, no AuditLog
+  const changePos = ["rawPosition", oldChannel.rawPosition, newChannel.rawPosition];
+  if (changePos[1] !== changePos[2]) {
+    const text = `- ${changePos[0]} : ${changePos[1]} => ${changePos[2]}\n`
+    await finishEmbed(chnUp, auditLog.noLog, embed, logChannel, text);
+    return
+  }
+
   const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
   const text = changes.reduce((acc, cur) => {
     //create log to send
@@ -219,8 +231,10 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   }, "");
 
   //if no AuditLog
-  if (!chnLog)
+  if (!chnLog) {
     await finishEmbed(chnUp, auditLog.noLog, embed, logChannel, text);
+    return
+  }
 
   const { executor, target } = chnLog;
 
@@ -243,8 +257,10 @@ export const onRoleCreate = async (role) => {
   const roleLog = await fetchAuditLog(role.guild, "ROLE_CREATE"); //get auditLog
 
   //if no AuditLog
-  if (!roleLog)
+  if (!roleLog) {
     await finishEmbed(roleCr, auditLog.noLog, embed, logChannel);
+    return 
+  }
 
   const { executor, target } = roleLog;
 
@@ -267,8 +283,10 @@ export const onRoleDelete = async (role) => {
   const roleLog = await fetchAuditLog(role.guild, "ROLE_DELETE"); //get auditLog
 
   //if no AuditLog
-  if (!roleLog)
+  if (!roleLog) {
     await finishEmbed(roleDe, auditLog.noLog, embed, logChannel);
+    return
+  }
 
   const { executor, target } = roleLog;
 
@@ -316,8 +334,10 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   }, "");
 
   //if no AuditLog
-  if (!roleLog)
+  if (!roleLog) {
     await finishEmbed(roleUp, auditLog.noLog, embed, logChannel, text);
+    return
+  }
 
   const { executor, target } = roleLog;
 
@@ -367,6 +387,7 @@ export const onMessageDelete = async (message) => {
     );
     if (embedAttached.length !== 0) await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
+    return
   }
 
   const { executor, target } = deletionLog;
@@ -403,8 +424,10 @@ export const onGuildBanAdd = async (userBan) => {
   const reason = userBan.reason; //get ban reason
 
   //if no AuditLog
-  if (!banLog)
+  if (!banLog) {
     finishEmbed(guildBan, auditLog.noLog, embed, logChannel, reason);
+    return 
+  }
 
   const { executor, target } = banLog;
 
@@ -439,8 +462,10 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   embed.addField(personality.timeout.duration, timeoutDuration, true); //date of message creation
 
   //if no AuditLog
-  if (!timeoutLog)
+  if (!timeoutLog) {
     finishEmbed(timeout, auditLog.noLog, embed, logChannel, reason);
+    return
+  }
 
   const { executor, target } = timeoutLog;
 
@@ -467,8 +492,10 @@ export const onGuildMemberRemove = async (userKick) => {
   const reason = kickLog.reason; //get ban reason
 
   //if no AuditLog
-  if (!kickLog)
+  if (!kickLog) {
     finishEmbed(guildKick, auditLog.noLog, embed, logChannel, reason);
+    return
+  }
 
   const { executor, target } = kickLog;
 
