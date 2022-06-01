@@ -20,9 +20,6 @@ import {
   onPrivateMessage,
   onPublicMessage,
   //reaction handler
-  onRemoveReminderReaction,
-  onRemoveSpotifyReaction,
-  onDMReactionHandler,
   onReactionAdd,
   onReactionRemove,
 } from "./listeners.js";
@@ -128,28 +125,13 @@ const onMessageHandler = async (message) => {
   const { channel } = message;
 
   if (channel.type === "DM") {
+    //if is a message un DM
     onPrivateMessage(message, client);
   } else {
     const currentServer = commons.find(
       ({ guildId }) => guildId === channel.guild.id
     );
     onPublicMessage(message, client, currentServer, self);
-  }
-};
-
-const onReactionHandler = async (messageReaction) => {
-  // Function triggered for each reaction created
-  if (messageReaction.message.channel.type === "DM") {
-    // if happening in DM
-    const currentServer = commons.find((data) => data.name === "test");
-    onDMReactionHandler(messageReaction, client, currentServer, self);
-  } else {
-    const currentServer = commons.find(
-      ({ guildId }) => guildId === messageReaction.message.guild.id
-    );
-    onRemoveSpotifyReaction(messageReaction, client, currentServer);
-
-    onRemoveReminderReaction(messageReaction, client, currentServer);
   }
 };
 

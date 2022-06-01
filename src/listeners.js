@@ -62,53 +62,16 @@ export const onPublicMessage = (message, client, currentServer, self) => {
     .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin) //filter appropriate commands if user has or not admin rigths
     .find(({ name }) => commandName.slice(1) === name);
   if (command && isCommand(commandName)) {
+    //if spotify command, .env ok && in right thread
     if (
       command.name === "spotify" &&
       process.env.USE_SPOTIFY === "yes" &&
       channel.id === playlistThreadId
     ) {
-      // spotify stuff
-      checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
+      //add bot if not on thread
+      checkIsOnThread(channel, playlistThreadId); 
     }
     command.action(message, client, currentServer, self);
-  }
-};
-
-export const onRemoveReminderReaction = (
-  messageReaction,
-  client,
-  currentServer
-) => {
-  //handle reminder removal triggered by user reaction
-  const { removeEmoji } = currentServer;
-  const { message, emoji, users, client } = messageReaction;
-
-  const foundReminder = client.remindme.find(
-    // found corresponding reminder message
-    ({ botMessage }) => botMessage.id === message.id
-  );
-  if (
-    foundReminder &&
-    emoji.name === removeEmoji &&
-    users.cache // if user reacting is the owner of reminder
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
-  ) {
-    try {
-      client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
-        if (botMessage.id === message.id) {
-          // if it is the right message
-          clearTimeout(timeout); //cancel timeout
-          botMessage.reply(PERSONALITY.getCommands().reminder.delete);
-          removeReminder(client.db, botMessage.id); //remove in db
-          return false;
-        }
-        return true;
-      });
-      return;
-    } catch (err) {
-      console.log("reminderError", err);
-    }
   }
 };
 
@@ -149,16 +112,26 @@ export const onRemoveSpotifyReaction = async (
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
+  const { channel } = messageReaction.message;
+
+  if (channel.type === "DM") {
+    onRemoveReminderReaction(messageReaction, user);
+    return;
+  }
+
   const currentServer = commons.find(
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+  if (currentServer.roleHandle.messageId === messageReaction.message.id) {
+    //if role reaction, handle it. No spotify or reminder.
     await roleAdd(messageReaction, currentServer, user);
+    return
+  }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
 
-  onRemoveReminderReaction(messageReaction, currentServer);
+  onRemoveReminderReaction(messageReaction, user, currentServer);
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
@@ -168,8 +141,47 @@ export const onReactionRemove = async (messageReaction, user) => {
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
+  };
+
+  
+export const onRemoveReminderReaction = (
+  messageReaction,
+  user,
+  currentServer
+) => {
+  //handle reminder removal triggered by user reaction
+  const { message, emoji, client } = messageReaction;
+  const removeEmoji = currentServer ? currentServer.removeEmoji : commons.find(({ name }) => name === "test").removeEmoji;
+  const userId = user.id;
+
+  const foundReminder = client.remindme.find(
+    // find corresponding reminder message
+    ({ botMessage }) => botMessage.id === message.id
+  );
+  if (
+    foundReminder &&
+    emoji.name === removeEmoji &&
+    userId === foundReminder.authorId // if user reacting is the owner of reminder
+  ) {
+    try {
+      client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
+        if (botMessage.id === message.id) {
+          // if it is the right message
+          clearTimeout(timeout); //cancel timeout
+          botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+          removeReminder(client.db, botMessage.id); //remove from db
+          return false; //remove from client
+        }
+        return true;
+      });
+      return;
+    } catch (err) {
+      console.log("reminderError", err);
+    }
+  }
 };
 
+/*
 export const onDMReactionHandler = async (
   messageReaction,
   client,
@@ -181,8 +193,8 @@ export const onDMReactionHandler = async (
 
   const foundReminder = client.remindme.filter(
     (reminder) => reminder.botMessageId === message.id
-  );
-  const usersCollection = await users.fetch();
+  ); //find reminder in client
+  const usersCollection = await users.fetch(); //get all users that reacted
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
@@ -197,8 +209,7 @@ export const onDMReactionHandler = async (
               await botMessage.reply(PERSONALITY.getCommands().reminder.delete);
             } catch {
               console.log(
-                "Changement de param�tres de confidentialit� pour l'utilisateur " +
-                  `${authorId}`
+                `Reminder confidentiality error - user: ${authorId}`
               );
             }
             removeReminder(client.db, botMessage.id);
@@ -213,3 +224,4 @@ export const onDMReactionHandler = async (
     }
   }
 };
+*/
