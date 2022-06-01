@@ -1,3 +1,4 @@
+// jsons imports
 import { readFileSync } from "fs";
 const personalities = JSON.parse(readFileSync("static/personalities.json"));
 
