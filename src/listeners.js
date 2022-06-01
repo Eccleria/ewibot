@@ -1,4 +1,5 @@
 import { PERSONALITY } from "./personality.js";
+
 import commands from "./commands/index.js";
 
 import {
