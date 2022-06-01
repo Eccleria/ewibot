@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import {
   //dbHelper
   isIgnoredChannel,
@@ -118,16 +121,19 @@ const roll = {
   admin: false,
 };
 
-const commands = [
-  birthday,
-  concrete,
-  helloWorld,
-  ignore,
-  ignoreChannel,
-  reminder,
-  roll,
-  spotify,
-];
+const commands =
+  process.env.USE_SPOTIFY === "yes"
+    ? [
+        birthday,
+        concrete,
+        helloWorld,
+        ignore,
+        ignoreChannel,
+        reminder,
+        roll,
+        spotify,
+      ]
+    : [birthday, concrete, helloWorld, ignore, ignoreChannel, reminder, roll];
 
 const help = {
   name: "help",

@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime.js";
 import "dayjs/locale/fr.js";
