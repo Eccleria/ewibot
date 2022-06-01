@@ -92,10 +92,17 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   // Ewibot reacts with the same emojis that are inside the message
   const emotes = Object.values(currentServer.autoEmotes);
+  const today = new Date();
+
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
     for (const e of foundEmotes) {
-      await message.react(e);
+      // PRIDE MONTH, RAIBOWSSSSS
+      if (today.getMonth() == 5) {
+        await message.react("🏳️‍🌈");
+      } else {
+        await message.react(e);
+      }
     }
   }
 
