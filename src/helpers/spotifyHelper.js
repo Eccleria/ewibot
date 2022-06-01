@@ -115,7 +115,7 @@ const getEntirePlaylist = async (client) => {
 };
 
 const parseAddCommand = async (messageContent, client) => {
-  if (!messageContent.startsWith("!addsong")) return null;
+  if (!messageContent.startsWith("search")) return null;
 
   const searchQuery = messageContent.split(" ").slice(1).join(" ");
 
@@ -169,16 +169,16 @@ export const parseLink = async (
         answer: personality.songAdded.concat(
           // Bot answer
           `${result}`,
-          personality.reminder.react[0],
+          personality.react[0],
           `${currentServer.removeEmoji}`,
-          personality.reminder.react[1]
+          personality.react[1]
         ),
         songId,
       };
-    } catch {
+    } catch (err) {
       return {
         // If error
-        answer: personality.errorAdding,
+        answer: personality.errorAdding + err.toString(),
         songId: null,
       };
     }

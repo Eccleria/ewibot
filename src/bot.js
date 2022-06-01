@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime.js";
 import "dayjs/locale/fr.js";
@@ -9,6 +6,9 @@ dayjs.locale("fr");
 
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
+
+import { roleInit } from "./admin/role.js";
+
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
@@ -23,9 +23,14 @@ import {
   onRemoveReminderReaction,
   onRemoveSpotifyReaction,
   onDMReactionHandler,
+  onReactionAdd,
+  onReactionRemove,
 } from "./listeners.js";
+
 // jsons imports
-import commons from "../static/commons.json";
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 import { initReminder } from "./commands/reminder.js";
@@ -84,6 +89,8 @@ const client = new Client({
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
+    "MESSAGE", // MESSAGE && REACTION for role handling
+    "REACTION",
   ],
 });
 
@@ -149,10 +156,12 @@ const onReactionHandler = async (messageReaction) => {
 // Create an event listener for messages
 client.on("messageCreate", onMessageHandler);
 
-client.on("messageReactionAdd", onReactionHandler);
+client.on("messageReactionAdd", onReactionAdd);
+client.on("messageReactionRemove", onReactionRemove);
 
 client.once("ready", () => {
   console.log("I am ready!");
+  roleInit(client, commons);
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
