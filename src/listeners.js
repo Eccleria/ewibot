@@ -163,7 +163,7 @@ export const onChannelCreate = async (channel) => {
   //if no AuditLog
   if (!chnLog) {
     await finishEmbed(chnCr, auditLog.noLog, embed, logChannel);
-    return
+    return;
   }
 
   const { executor, target } = chnLog;
@@ -192,7 +192,7 @@ export const onChannelDelete = async (channel) => {
   //if no AuditLog
   if (!chnLog) {
     await finishEmbed(chnDe, auditLog.noLog, embed, logChannel);
-    return
+    return;
   }
 
   const { executor, target } = chnLog;
@@ -217,23 +217,27 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
   //if position change, no AuditLog
-  const changePos = ["rawPosition", oldChannel.rawPosition, newChannel.rawPosition];
+  const changePos = [
+    "rawPosition",
+    oldChannel.rawPosition,
+    newChannel.rawPosition,
+  ];
   if (changePos[1] !== changePos[2]) {
-    const text = `- ${changePos[0]} : ${changePos[1]} => ${changePos[2]}\n`
+    const text = `- ${changePos[0]} : ${changePos[1]} => ${changePos[2]}\n`;
     await finishEmbed(chnUp, auditLog.noLog, embed, logChannel, text);
-    return
+    return;
   }
 
   const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
   const text = changes.reduce((acc, cur) => {
     //create log to send
-    return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`
+    return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
   }, "");
 
   //if no AuditLog
   if (!chnLog) {
     await finishEmbed(chnUp, auditLog.noLog, embed, logChannel, text);
-    return
+    return;
   }
 
   const { executor, target } = chnLog;
@@ -259,7 +263,7 @@ export const onRoleCreate = async (role) => {
   //if no AuditLog
   if (!roleLog) {
     await finishEmbed(roleCr, auditLog.noLog, embed, logChannel);
-    return 
+    return;
   }
 
   const { executor, target } = roleLog;
@@ -285,7 +289,7 @@ export const onRoleDelete = async (role) => {
   //if no AuditLog
   if (!roleLog) {
     await finishEmbed(roleDe, auditLog.noLog, embed, logChannel);
-    return
+    return;
   }
 
   const { executor, target } = roleLog;
@@ -317,7 +321,8 @@ export const onRoleUpdate = async (oldRole, newRole) => {
         obj.key,
         oldRole.permissions.missing(newRole.permissions),
         newRole.permissions.missing(oldRole.permissions),
-      ]; //compare both roles to get only changes and not all data.
+      ];
+    //compare both roles to get only changes and not all data.
     else return [obj.key, obj.old, obj.new];
   });
 
@@ -336,7 +341,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   //if no AuditLog
   if (!roleLog) {
     await finishEmbed(roleUp, auditLog.noLog, embed, logChannel, text);
-    return
+    return;
   }
 
   const { executor, target } = roleLog;
@@ -385,9 +390,10 @@ export const onMessageDelete = async (message) => {
       logChannel,
       content
     );
-    if (embedAttached.length !== 0) await logChannel.send({ embeds: embedAttached });
+    if (embedAttached.length !== 0)
+      await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
-    return
+    return;
   }
 
   const { executor, target } = deletionLog;
@@ -395,7 +401,8 @@ export const onMessageDelete = async (message) => {
   if (target.id === message.author.id) {
     //check if log report the correct user banned
     await finishEmbed(messageDelete, executor.tag, embed, logChannel, content);
-    if (embedAttached.length !== 0) await logChannel.send({ embeds: embedAttached });
+    if (embedAttached.length !== 0)
+      await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
   } else {
     //if bot or author deleted the message
@@ -406,7 +413,8 @@ export const onMessageDelete = async (message) => {
       logChannel,
       content
     );
-    if (embedAttached.length !== 0) await logChannel.send({ embeds: embedAttached });
+    if (embedAttached.length !== 0)
+      await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
   }
 };
@@ -426,7 +434,7 @@ export const onGuildBanAdd = async (userBan) => {
   //if no AuditLog
   if (!banLog) {
     finishEmbed(guildBan, auditLog.noLog, embed, logChannel, reason);
-    return 
+    return;
   }
 
   const { executor, target } = banLog;
@@ -464,7 +472,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   //if no AuditLog
   if (!timeoutLog) {
     finishEmbed(timeout, auditLog.noLog, embed, logChannel, reason);
-    return
+    return;
   }
 
   const { executor, target } = timeoutLog;
@@ -494,7 +502,7 @@ export const onGuildMemberRemove = async (userKick) => {
   //if no AuditLog
   if (!kickLog) {
     finishEmbed(guildKick, auditLog.noLog, embed, logChannel, reason);
-    return
+    return;
   }
 
   const { executor, target } = kickLog;

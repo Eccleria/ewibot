@@ -26,7 +26,7 @@ export const getLogChannel = async (commons, eventObject) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data
-  return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return text-channel
+  return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return the log channel
 };
 
 export const setupEmbed = (color, personality, object, type) => {
@@ -35,7 +35,10 @@ export const setupEmbed = (color, personality, object, type) => {
     .setColor(color)
     .setTitle(personality.title)
     .setDescription(personality.description);
-  if (type === "tag") embed.addField(personality.author, object.tag, true);
-  else embed.addField(personality.author, object.name, true);
+  if (type === "tag") {
+    //add the user tag if required
+    embed.addField(personality.author, object.tag, true);
+  }
+  else embed.addField(personality.author, object.name, true); //otherwise, add the object name (for channels, roles, ...)
   return embed;
 };
