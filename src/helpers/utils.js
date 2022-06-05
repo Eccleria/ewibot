@@ -74,7 +74,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     const wordFound = apologyResult.input //get triggering word
       .slice(apologyResult.index) //remove everything before word detected
       .split(" ")[0]; //split words and get the first
-
+    
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) {
       addApologyCount(authorId, db); //add data to db
