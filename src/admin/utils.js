@@ -38,7 +38,32 @@ export const setupEmbed = (color, personality, object, type) => {
   if (type === "tag") {
     //add the user tag if required
     embed.addField(personality.author, object.tag, true);
-  }
-  else embed.addField(personality.author, object.name, true); //otherwise, add the object name (for channels, roles, ...)
+  } else embed.addField(personality.author, object.name, true); //otherwise, add the object name (for channels, roles, ...)
   return embed;
+};
+
+export const endAdmin = (
+  object,
+  log,
+  eventPerso,
+  logPerso,
+  embed,
+  logChannel,
+  reason
+) => {
+  //if no AuditLog
+  if (!log) {
+    finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, reason);
+    return;
+  }
+
+  const { executor, target } = log;
+
+  if (target.id === object.id) {
+    //check if log report the correct kick
+    finishEmbed(eventPerso, executor.tag, embed, logChannel, reason);
+  } else {
+    //if bot or author executed the kick
+    finishEmbed(eventPerso, logPerso.inconclusive, embed, logChannel, reason);
+  }
 };
