@@ -64,8 +64,8 @@
         "title": "Rôle créé"
       },
       "roleUpdate": {
-        "author": "Role :",
-        "description": "Un role a été modifié.",
+        "author": "Rôle :",
+        "description": "Un rôle a été modifié.",
         "executor": "Modifié par :",
         "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
         "new": "\n  Ajoutée.s : ",
@@ -221,7 +221,6 @@
         "author": "Role :",
         "description": "Un role a été modifié.",
         "executor": "Modifié par :",
-        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
         "new": "\n  Ajoutée.s : ",
         "old": "\n  Supprimée.s : ",
         "text": "Modifications :",

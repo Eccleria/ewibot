@@ -90,6 +90,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_MESSAGE_TYPING,
     Intents.FLAGS.DIRECT_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
   ],
   partials: [
     "CHANNEL", // Required to receive DMs

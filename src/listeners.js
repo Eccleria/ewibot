@@ -1,5 +1,6 @@
 import { PERSONALITY } from "./personality.js";
 import commands from "./commands/index.js";
+import dayjs from "dayjs";
 
 // jsons imports
 import { readFileSync } from "fs";
@@ -355,22 +356,22 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   //check if timeout added or removed
   const oldIsTimeout = oldMember.isCommunicationDisabled();
   const newIsTimeout = newMember.isCommunicationDisabled();
-  if (!oldIsTimeout && newIsTimeout) return; // if no timeout added => return
+  console.log(oldIsTimeout, newIsTimeout);
+  if (!newIsTimeout) return; // if no timeout added => return
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const timeout = personality.timeout;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newMember); //get logChannel
-  const embed = setupEmbed("ORANGE", timeout, newMember.user); //setup embed
-  const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_ROLE_UPDATE"); //get auditLog
+  const embed = setupEmbed("ORANGE", timeout, newMember.user, "tag"); //setup embed
+  const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE"); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
+  console.log(timeoutLog);
 
-  const timeoutUntilDate = newMember.communicationDisabledUntil;
-  console.log("timeoutUntilDate", timeoutUntilDate);
-  const timeoutDuration = timeoutUntilDate.parse() - Date.now().parse();
-  console.log("timeoutDuration", timeoutDuration);
-  embed.addField(personality.timeout.duration, timeoutDuration, true); //date of message creation
+  const timeoutUntil = dayjs(newMember.communicationDisabledUntil);
+  const timeoutDuration = timeoutUntil.diff(dayjs(), "s");
+  embed.addField(timeout.duration, timeoutDuration.toString(), true); //date of message creation
 
   endAdmin(newMember.user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
 };
