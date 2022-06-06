@@ -385,7 +385,7 @@ export const onGuildMemberRemove = async (userKick) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, userKick); //get logChannel
-  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick.user); //setup userKick
+  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick.user, "tag"); //setup embed
   const kickLog = await fetchAuditLog(userKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog.reason; //get ban reason
 
