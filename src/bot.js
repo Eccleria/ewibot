@@ -19,8 +19,6 @@ import { generateSpotifyClient } from "./helpers/index.js";
 import {
   onPrivateMessage,
   onPublicMessage,
-  onRemoveReminderReaction,
-  onRemoveSpotifyReaction,
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
@@ -134,20 +132,10 @@ const onMessageHandler = async (message) => {
   }
 };
 
-
-const onReactionHandler = async (messageReaction) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
-  );
-
-  onRemoveSpotifyReaction(messageReaction, client, currentServer);
-
-  onRemoveReminderReaction(messageReaction, client, currentServer);
-};
-
 // Create event LISTENERS
 client.once("ready", () => {
   console.log("I am ready!");
+  roleInit(client, commons);
 });
 
 client.on("messageCreate", onMessageHandler);
