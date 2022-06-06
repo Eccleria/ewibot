@@ -3,7 +3,7 @@
     "name": "normal",
     "admin": {
       "auditLog": {
-        "inconclusive": "Le propriétaire ou un bot.",
+        "noExec": "Le propriétaire ou un bot.",
         "noLog": "Aucun log relatif n'a été trouvé."
       },
       "channelCreate": {
@@ -157,7 +157,7 @@
     "name": "funny",
     "admin": {
       "auditLog": {
-        "inconclusive": "Le propriétaire ou un bot.",
+        "noExec": "Le propriétaire ou un bot.",
         "noLog": "Aucun log relatif n'a été trouvé."
       },
       "channelCreate": {

@@ -278,20 +278,20 @@ export const onMessageDelete = async (message) => {
   if (!message.guild) return; //Ignore DM
 
   const personality = PERSONALITY.getAdmin(); //get personality
-  const messageDelete = personality.messageDelete;
+  const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, message); //get logChannel
-  const embed = setupEmbed("DARK_RED", messageDelete, message.author, "tag"); //setup embed
+  const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
   embed.addField(
-    messageDelete.date,
+    messageDel.date,
     `${message.createdAt.toString().slice(4, 24)}`,
     true
   ); //date of message creation
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
 
   //get message data
-  const content = message.content ? message.content : messageDelete.note;
+  const content = message.content ? message.content : messageDel.note;
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
@@ -301,13 +301,7 @@ export const onMessageDelete = async (message) => {
 
   //if no AuditLog
   if (!deletionLog) {
-    await finishEmbed(
-      messageDelete,
-      auditLog.noLog,
-      embed,
-      logChannel,
-      content
-    );
+    await finishEmbed(messageDel, auditLog.noLog, embed, logChannel, content);
     if (embedAttached.length !== 0)
       await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
@@ -318,19 +312,13 @@ export const onMessageDelete = async (message) => {
 
   if (target.id === message.author.id) {
     //check if log report the correct user banned
-    await finishEmbed(messageDelete, executor.tag, embed, logChannel, content);
+    await finishEmbed(messageDel, executor.tag, embed, logChannel, content);
     if (embedAttached.length !== 0)
       await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
   } else {
     //if bot or author deleted the message
-    await finishEmbed(
-      messageDelete,
-      auditLog.inconclusive,
-      embed,
-      logChannel,
-      content
-    );
+    await finishEmbed(messageDel, auditLog.noExec, embed, logChannel, content);
     if (embedAttached.length !== 0)
       await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });
@@ -359,12 +347,14 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   console.log(oldIsTimeout, newIsTimeout);
   if (!newIsTimeout) return; // if no timeout added => return
 
+  const user = newMember.user;
+
   const personality = PERSONALITY.getAdmin(); //get personality
   const timeout = personality.timeout;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newMember); //get logChannel
-  const embed = setupEmbed("ORANGE", timeout, newMember.user, "tag"); //setup embed
+  const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE"); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
   console.log(timeoutLog);
@@ -373,21 +363,23 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const timeoutDuration = timeoutUntil.diff(dayjs(), "s");
   embed.addField(timeout.duration, timeoutDuration.toString(), true); //date of message creation
 
-  endAdmin(newMember.user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
+  endAdmin(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
 };
 
-export const onGuildMemberRemove = async (userKick) => {
+export const onGuildMemberRemove = async (memberKick) => {
   //handle guildMember kicked or leaving the server
   console.log("member kicked from Discord Server");
+
+  const userKick = memberKick.user;
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const guildKick = personality.guildKick;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, userKick); //get logChannel
-  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick.user, "tag"); //setup embed
-  const kickLog = await fetchAuditLog(userKick.guild, "MEMBER_KICK"); //get auditLog
+  const logChannel = await getLogChannel(commons, memberKick); //get logChannel
+  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
+  const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog.reason; //get ban reason
 
-  endAdmin(userKick.user, kickLog, guildKick, auditLog, embed, logChannel, reason);
+  endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel, reason);
 };

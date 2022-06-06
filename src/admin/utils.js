@@ -64,6 +64,6 @@ export const endAdmin = (
     finishEmbed(eventPerso, executor.tag, embed, logChannel, reason);
   } else {
     //if bot or author executed the kick
-    finishEmbed(eventPerso, logPerso.inconclusive, embed, logChannel, reason);
+    finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, reason);
   }
 };
