@@ -29,7 +29,7 @@ export const getLogChannel = async (commons, eventObject) => {
   return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return the log channel
 };
 
-export const setupEmbed = (color, personality, object, type) => {
+export const setupEmbed = (color, personality, object, type, auditPerso) => {
   //setup the embed object
   const embed = new MessageEmbed()
     .setColor(color)
@@ -38,7 +38,8 @@ export const setupEmbed = (color, personality, object, type) => {
   if (type === "tag") {
     //add the user tag if required
     embed.addField(personality.author, object.tag, true);
-  } else embed.addField(personality.author, object.name, true); //otherwise, add the object name (for channels, roles, ...)
+  } else if (type === "Partial") embed.addField(type, auditPerso.partial)
+  else embed.addField(personality.author, object.name, true); //otherwise, add the object name (for channels, roles, ...)
   return embed;
 };
 
@@ -49,9 +50,15 @@ export const endAdmin = (
   logPerso,
   embed,
   logChannel,
-  reason
+  reason,
+  diff
 ) => {
   //if no AuditLog
+  console.log("diff", diff)
+  if (diff >= 5) {
+    finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
+    return;
+  }
   if (!log) {
     finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, reason);
     return;

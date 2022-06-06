@@ -280,6 +280,18 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, message); //get logChannel
+  if (message.partial) {
+    //if the message is partial and deleted, no possibility to fetch
+    //so only partial data
+    const embed = setupEmbed("DARK_RED", messageDel, null, "Partial", auditLog); //setup embed
+    if (message.createdAt) embed.addField(
+      messageDel.date,
+      `${message.createdAt.toString().slice(4, 24)}`,
+      true
+    ); //date of message creation
+    await logChannel.send({ embeds: [embed] }); //send
+    return;
+  }
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
   embed.addField(
     messageDel.date,
@@ -355,7 +367,6 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE"); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
-  console.log(timeoutLog);
 
   const timeoutUntil = dayjs(newMember.communicationDisabledUntil);
   const timeoutDuration = timeoutUntil.diff(dayjs(), "s");
@@ -379,7 +390,10 @@ export const onGuildMemberRemove = async (memberKick) => {
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog.reason; //get ban reason
 
-  endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel, reason);
+  const logCreationDate = dayjs(kickLog.createdAt);
+  const diff = dayjs().diff(logCreationDate, "s");
+
+  endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel, reason, diff);
 };
 
 export const onReactionAdd = async (messageReaction, user) => {
