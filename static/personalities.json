@@ -10,14 +10,29 @@
         "tooShort": "Ce message est trop petit pour être considéré comme une présentation."
       },
       "auditLog": {
-        "inconclusive": "Le propriétaire ou un bot.",
-        "noLog": "Aucun log relatif n'a été trouvé."
+        "noExec": "Le propriétaire ou un bot.",
+        "noLog": "Aucun log relatif n'a été trouvé.",
+        "partial": "Le message est inaccessible. Pas assez de données expoitables.",
+        "tooOld": "Aucun log récent correspondant. Le responsable est le propriétaire."
       },
-      "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
-      "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelCreate": {
+        "author": "Salon :",
+        "description": "Un salon a été créé.",
+        "executor": "Créé par :",
+        "title": "Salon créé"
+      },
+      "channelDelete": {
+        "author": "Salon :",
+        "description": "Un salon a été supprimé.",
+        "executor": "Supprimé par :",
+        "title": "Salon supprimé"
+      },
       "channelUpdate": {
-        "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
-        "text": [ "Salon ", " modifié !\n" ]
+        "author": "Salon :",
+        "description": "Un salon a été modifié.",
+        "executor": "Modifié par :",
+        "text": "Modifications :\n",
+        "title": "Salon modifié"
       },
       "guildBan": {
         "author": "Membre :",
@@ -39,19 +54,33 @@
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
+        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
         "text": "Contenu du message :",
         "title": "Message supprimé"
       },
-      "roleCreate": "Un rôle a été créé : ",
-      "roleDelete": "Un rôle a été supprimé : ",
+      "roleCreate": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
+      "roleDelete": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
       "roleUpdate": {
-        "author": "Role :",
-        "description": "Un role a été modifié.",
+        "author": "Rôle :",
+        "description": "Un rôle a été modifié.",
         "executor": "Modifié par :",
         "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
+        "new": "\n  Ajoutée.s : ",
+        "old": "\n  Supprimée.s : ",
         "text": "Modifications :",
         "permission": "- Permissions :",
-        "permissionAR": [ "\n  Ajoutée.s : ", "\n  Supprimée.s : " ],
         "title": "Role mis à jour"
       },
       "timeout": {
@@ -144,14 +173,29 @@
         "tooShort": "Ce message est trop petit pour être considéré comme une présentation."
       },
       "auditLog": {
-        "inconclusive": "Le propriétaire ou un bot.",
-        "noLog": "Aucun log relatif n'a été trouvé."
+        "noExec": "Le propriétaire ou un bot.",
+        "noLog": "Aucun log relatif n'a été trouvé.",
+        "partial": "Le message est inaccessible. Pas assez de données expoitables.",
+        "tooOld": "Aucun log récent correspondant. Le responsable est le propriétaire."
       },
-      "channelCreate": [ "Salon créé !\n- nom : ", "\n- type : ", "\n- parent : " ],
-      "channelDelete": [ "Salon supprimé !\n- nom : ", "\n- type : ", "\n- parent : " ],
+      "channelCreate": {
+        "author": "Salon :",
+        "description": "Un salon a été créé.",
+        "executor": "Créé par :",
+        "title": "Salon créé"
+      },
+      "channelDelete": {
+        "author": "Salon :",
+        "description": "Un salon a été supprimé.",
+        "executor": "Supprimé par :",
+        "title": "Salon supprimé"
+      },
       "channelUpdate": {
-        "features": [ "- Type :", "- Nom :", "- parentId :", "- rawPosition :" ],
-        "text": [ "Salon ", " modifié !\n" ]
+        "author": "Salon :",
+        "description": "Un salon a été modifié.",
+        "executor": "Modifié par :",
+        "text": "Modifications :\n",
+        "title": "Salon modifié"
       },
       "guildBan": {
         "author": "Membre :",
@@ -173,14 +217,33 @@
         "date": "Envoyé le :",
         "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
+        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
         "text": "Contenu du message :",
         "title": "Message supprimé"
       },
-      "roleCreate": "Un rôle a été créé : ",
-      "roleDelete": "Un rôle a été supprimé : ",
+      "roleCreate": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
+      "roleDelete": {
+        "author": "Rôle :",
+        "date": "Créé le :",
+        "description": "Un rôle a été créé.",
+        "executor": "Créé par :",
+        "title": "Rôle créé"
+      },
       "roleUpdate": {
-        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
-        "text": [ "Rôle ", " modifié !\n", "\n    - Ajoutée.s : ", "\n    - Supprimée.s : " ]
+        "author": "Role :",
+        "description": "Un role a été modifié.",
+        "executor": "Modifié par :",
+        "new": "\n  Ajoutée.s : ",
+        "old": "\n  Supprimée.s : ",
+        "text": "Modifications :",
+        "permission": "- Permissions :",
+        "title": "Role mis à jour"
       },
       "timeout": {
         "author": "Membre :",

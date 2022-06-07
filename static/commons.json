@@ -1,10 +1,32 @@
 [
   {
     "name": "test",
-    "guildId": "693565253174296577",
+    "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
     "randomfloodChannelId": "935180557770448956",
-    "logChannelId": "960915596298567690",
+    "logChannelId": "981478339439104090",
+    "roleHandle": {
+      "channelId": "967059786644488192",
+      "messageId": "973889029969936406"
+    },
+    "roles": {
+      "orange": {
+        "roleId": "959360675451383828",
+        "name": "🟠"
+      },
+      "vert": {
+        "roleId": "959360739800391680",
+        "name": "🟢"
+      },
+      "violet": {
+        "roleId": "959360767063367691",
+        "name": "🟣"
+      },
+      "bleu": {
+        "roleId": "959360716979175455",
+        "name": "🔵"
+      }
+    },
     "alavirienRoleId": "975349608110764072",
     "presentationChannelId": "",
     "autoEmotes": {
@@ -30,6 +52,28 @@
     "playlistThreadId": "892785771541585980",
     "randomfloodChannelId": "822132004581408828",
     "logChannelId": "959168176908804106",
+    "roleHandle": {
+      "channelId": "974735995872350208",
+      "messageId": "974736389914640464"
+    },
+    "roles": {
+      "reveurs": {
+        "roleId": "816971306276880395",
+        "name": "🔵"
+      },
+      "frontaliers": {
+        "roleId": "823882466024357918",
+        "name": "🟢"
+      },
+      "marchombres": {
+        "roleId": "959085951559290882",
+        "name": "🟠"
+      },
+      "dessinateurs": {
+        "roleId": "824226236523610125",
+        "name": "🟣"
+      }
+    },
     "alavirienRoleId": "826743423612092436",
     "presentationChannelId": "",
     "autoEmotes": {

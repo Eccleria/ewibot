@@ -3,7 +3,7 @@ import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
 const apologyRegex = new RegExp( //regex for apology detection
-  /^((dsl)|(d[é|e]+sol?[e|é]*r?)|(so?r+y)|(pardon)|(navr[e|é]+))/gm
+  /((dsl)|(d[é|e]+sol?[e|é]*r?s?)|(so?r+y)|(pardon)|(navr[e|é]+))/gm
 );
 
 const hello = [
@@ -20,10 +20,10 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-const punctuation = new RegExp(/[_.?!,;:/-/*]/gm);
+const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 
 export const sanitizePunctuation = (messageContent) => {
-  return messageContent.replaceAll(punctuation, "");
+  return messageContent.replaceAll(punctuation, " ");
 };
 
 export const isAdmin = (authorId) => {
@@ -67,13 +67,14 @@ export const reactionHandler = async (message, currentServer, client) => {
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
+
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
     const wordFound = apologyResult.input //get triggering word
-      .slice(apologyResult.index)
-      .split(" ")[0];
-
+      .slice(apologyResult.index) //remove everything before word detected
+      .split(" ")[0]; //split words and get the first
+    
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) {
       addApologyCount(authorId, db); //add data to db
@@ -92,10 +93,19 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   // Ewibot reacts with the same emojis that are inside the message
   const emotes = Object.values(currentServer.autoEmotes);
+  const today = new Date();
+
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    for (const e of foundEmotes) {
-      await message.react(e);
+    if (foundEmotes.length > 0) {
+      // PRIDE MONTH, RAIBOWSSSSS
+      if (today.getMonth() == 5) {
+        await message.react("🏳️‍🌈");
+      } else {
+        for (const e of foundEmotes) {
+          await message.react(e);
+        }
+      }
     }
   }
 

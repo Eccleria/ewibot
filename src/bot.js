@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime.js";
 import "dayjs/locale/fr.js";
@@ -9,6 +6,9 @@ dayjs.locale("fr");
 
 import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
+
+import { roleInit } from "./admin/role.js";
+
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
@@ -19,13 +19,13 @@ import { generateSpotifyClient } from "./helpers/index.js";
 import {
   onPrivateMessage,
   onPublicMessage,
-  onRemoveReminderReaction,
-  onRemoveSpotifyReaction,
 } from "./listeners.js"
 import {
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
+  onReactionAdd,
+  onReactionRemove,
   onRoleCreate,
   onRoleDelete,
   onRoleUpdate,
@@ -111,9 +111,12 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_MESSAGE_TYPING,
     Intents.FLAGS.DIRECT_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
+    "MESSAGE", // MESSAGE && REACTION for role handling
+    "REACTION",
   ],
 });
 
@@ -150,25 +153,17 @@ const onMessageHandler = async (message) => {
   }
 };
 
-const onReactionHandler = async (messageReaction) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
-  );
-
-  onRemoveSpotifyReaction(messageReaction, client, currentServer);
-
-  onRemoveReminderReaction(messageReaction, client, currentServer);
-};
-
 // Create event LISTENERS
 client.once("ready", () => {
   console.log("I am ready!");
+  roleInit(client, commons);
 });
 
 client.on("messageCreate", onMessageHandler);
 client.on("messageDelete", onMessageDelete);
 
-client.on("messageReactionAdd", onReactionHandler);
+client.on("messageReactionAdd", onReactionAdd);
+client.on("messageReactionRemove", onReactionRemove);
 
 client.on("roleCreate", onRoleCreate);
 client.on("roleDelete", onRoleDelete);

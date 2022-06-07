@@ -1,4 +1,5 @@
 import { PERSONALITY } from "./personality.js";
+
 import commands from "./commands/index.js";
 
 import {
@@ -70,13 +71,9 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   }
 };
 
-export const onRemoveReminderReaction = (
-  messageReaction,
-  client,
-  currentServer
-) => {
+export const onRemoveReminderReaction = (messageReaction, currentServer) => {
   const { removeEmoji } = currentServer;
-  const { message, emoji, users } = messageReaction;
+  const { message, emoji, users, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
@@ -108,11 +105,10 @@ export const onRemoveReminderReaction = (
 
 export const onRemoveSpotifyReaction = async (
   messageReaction,
-  client,
   currentServer
 ) => {
   //remove song from client cache and spotify playlist using react
-  const { message, emoji, users } = messageReaction;
+  const { client, message, emoji, users } = messageReaction;
   const { removeEmoji } = currentServer;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
