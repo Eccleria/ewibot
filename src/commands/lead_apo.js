@@ -2,11 +2,10 @@ import { MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { removeAppologyCount } from "../helpers/index.js"
 
-const action = async (message, client, _currentServer) => {
+const action = async (message, client) => {
   const db = client.db;
   const dbData = db.data.apologiesCounting; //array of {userId, counter}
 
-  //const sorted = mergeSort(dbData);
   const sorted = dbData.sort((a, b) => {
     if (a.counter < b.counter) {
       return -1;
@@ -17,13 +16,16 @@ const action = async (message, client, _currentServer) => {
     return 0
   }); // sort users by counters
 
-  //const filtered = sorted.filter((obj) => obj.counter > 9); //remove user with counter <= 9
-  //assembler les données dans un embed
-  //l'envoyer
   const guildMembers = message.guild.members;
 
-  let texts = [{ name: "10-19", text: "" }, { name: "20-29", text: "" }, { name: ">29", text: "" }];
+  let fields = [
+    { name: "10-19", value: "```md\n" },
+    { name: "20-29", value: "```md\n" },
+    { name: ">29", value: "```md\n" },
+    { name: "top 3", value: "```md\n" },
+  ];
 
+  let count = 0;
   for (const cur of sorted) {
     let guildMember;
     try {
@@ -31,25 +33,43 @@ const action = async (message, client, _currentServer) => {
     } catch {
       removeAppologyCount(cur.userId, db);
     }
-    if (guildMember) {
+    if (guildMember && cur.counter >= 10) {
       //console.log("guildMember", guildMember)
       const userNickname = guildMember.nickname || guildMember.user.username; //get nickname
-      const nickSliced = userNickname.slice(20).padEnd(20, " ");
-      const line = `${nickSliced} : ${cur.counter}`; // slice the name
+      const length = userNickname.length;
+      const nickSliced = length > 15 ? userNickname.slice(15) : userNickname + " ".repeat(15 - length);
+      const line = `${ nickSliced }: ${ cur.counter }`; // slice the name
 
-      if (cur.counter < 20 && cur.counter >= 10)
-        texts[0].text = `${texts[0].text}\n${line}`;
-      if (cur.counter < 30 && cur.counter >= 20)
-        texts[1].text = `${texts[1].text}\n${line}`;
-      else texts[2].text = `${texts[2].text}\n${line}`;
+      if (cur.counter < 20)
+        fields[0].value = `${fields[0].value}${line}\n`;
+      else if (cur.counter < 30)
+        fields[1].value = `${fields[1].value}${line}\n`;
+      else if (count >= sorted.length - 2) {
+        fields[3].value = `${fields[3].value}${line}\n`;
+      }
+      else fields[2].value = `${fields[2].value}${line}\n`;
     }
+    count = count + 1;
   }
-  console.log("texts", texts);
-  /*
-  const embed = new MessageEmbed().setColor("ORANGE").setTimestamp(); //create embed
-  //embed.addField('test', `${filtered[0].userId}: \t ${filtered[0].counter}`)
-  message.reply({embeds: [embed]})
-  */
+  
+  fields.map((cur) => cur.value = cur.value + "```");
+
+  console.log(fields)
+  //get personality
+  const personality = PERSONALITY.getCommands();
+  const lead_apo = personality.leaderboard_apology;
+
+  console.log({ name: fields[3].name, value: `${lead_apo.top3} ${fields[3].value}` })
+
+  const embed = new MessageEmbed()
+    .setColor("ORANGE")
+    .setTimestamp() //create embed
+    .setTitle(lead_apo.title)
+    .setDescription(lead_apo.description)
+    .addFields(fields.slice(0, 3))
+    .addField(fields[3].name, `${lead_apo.top3} ${fields[3].value}`);
+
+  message.reply({ embeds: [embed] })
 };
 
 const leaderboard_apology = {
