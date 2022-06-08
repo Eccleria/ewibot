@@ -27,7 +27,15 @@ const addApologyCount = (authorId, db) => {
   db.wasUpdated = true;
 };
 
-export { isApologyUser, addApologyCount };
+const removeAppologyCount = (authorId, db) => {
+  if (isApologyUser(authorId, db)) {
+    db.data.apologiesCounting = db.data.apologiesCounting
+      .filter((cur) => cur.userId !== authorId);
+    db.wasUpdated = true;
+  }
+};
+
+export { isApologyUser, addApologyCount, removeAppologyCount };
 
 // BIRTHDAY
 const isBirthdayDate = (authorId, db) => {
