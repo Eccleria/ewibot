@@ -11,6 +11,7 @@ import {
   getLogChannel,
   setupEmbed,
   endAdmin,
+  checkDB,
 } from "./utils.js";
 import { roleRemove, roleAdd } from "./role.js"
 import {
@@ -271,6 +272,8 @@ export const onGuildMemberRemove = async (memberKick) => {
   const diff = dayjs().diff(logCreationDate, "s");
 
   endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel, reason, diff);
+
+  checkDB(userKick.id, memberKick.client);
 };
 
 export const onReactionAdd = async (messageReaction, user) => {

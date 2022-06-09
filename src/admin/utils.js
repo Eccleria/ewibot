@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import { removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
 
 export const fetchAuditLog = async (guild, auditType) => {
   //fetch the first corresponding audit log
@@ -74,4 +75,13 @@ export const endAdmin = (
     //if bot or author executed the kick
     finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, reason);
   }
+};
+
+export const checkDB = (userId, client) => {
+  //check if user is in db for removal
+  const db = client.db;
+
+  removeBirthday(userId, db);
+  removeIgnoredUser(userId, db);
+  removeAlavirien(userId, db);
 };
