@@ -31,8 +31,11 @@ The [folder src](./src) is the folder containing all the source code for Ewibot.
 and the [main code](https://github.com/Titch88/ewibot/edit/master/readme.md#main-code).
 
 #### Admin
-The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. The 
-[role.js](./src/admin/role.js) is used to dispatch cosmetic roles among users.
+The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. 
+* _[alavirien.js](./src/admin/alavirien.js)_ dispatch the already named role to elligible users.
+* _[listeners.js](./src/admin/listners.js)_ regroups all the event function called, associated to admin need.
+* _[role.js](./src/admin/role.js)_ is used to dispatch cosmetic roles among users.
+* _[utils.js](./src/admin/utils.js)_ contains functions shared between different admin function, such as embed creation.
 
 #### Commands
 There are different commands available for the users. All are inside the files of the [commands folder](./src/commands). 
