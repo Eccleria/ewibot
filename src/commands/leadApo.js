@@ -40,11 +40,7 @@ const action = async (message, client) => {
     if (guildMember && cur.counter >= 10) {
       //if found && enough apologies
       const userNickname = guildMember.nickname || guildMember.user.username; //get nickname
-      const length = userNickname.length;
-      const nickSliced =
-        length > 15
-          ? userNickname.slice(15)
-          : userNickname + " ".repeat(15 - length); // slice the name, no more than 15 characters
+      const nickSliced = userNickname.slice(0, 15).padEnd(15, " ");
       const line = `${nickSliced}: ${cur.counter}`; // add count to the line
 
       //separate data
