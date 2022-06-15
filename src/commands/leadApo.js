@@ -6,6 +6,8 @@ const action = async (message, client) => {
   const db = client.db;
   const dbData = db.data.apologiesCounting; //array of {userId, counter}
 
+  message.channel.sendTyping();
+
   const sorted = dbData.sort((a, b) => {
     if (a.counter < b.counter) {
       return -1;
@@ -40,7 +42,7 @@ const action = async (message, client) => {
     if (guildMember && cur.counter >= 10) {
       //if found && enough apologies
       const userNickname = guildMember.nickname || guildMember.user.username; //get nickname
-      const nickSliced = userNickname.slice(0, 15).padEnd(15, " ");
+      const nickSliced = userNickname.slice(0, 25).padEnd(25, " ");
       const line = `${nickSliced}: ${cur.counter}`; // add count to the line
 
       //separate data
