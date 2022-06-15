@@ -283,15 +283,10 @@ export const onMessageDelete = async (message) => {
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
-    const embed = setupEmbed("DARK_RED", messageDel, null, "Partial", auditLog); //setup embed
-    if (message.createdAt) embed.addField(
-      messageDel.date,
-      `${message.createdAt.toString().slice(4, 24)}`,
-      true
-    ); //date of message creation
-    await logChannel.send({ embeds: [embed] }); //send
+    console.log("partial message deleted", message.createdAt.toString().slice(4, 24));
     return;
   }
+
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
   embed.addField(
     messageDel.date,
