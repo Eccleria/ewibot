@@ -16,7 +16,7 @@ import reminder from "./reminder.js";
 import birthday from "./birthday.js";
 import concrete from "./concrete.js";
 import spotify from "./spotify.js";
-import leaderboard_apology from "./lead_apo.js";
+import leaderboardApology from "./leadApo.js";
 import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
@@ -130,7 +130,7 @@ const commands =
         helloWorld,
         ignore,
         ignoreChannel,
-        leaderboard_apology,
+        leaderboardApology,
         reminder,
         roll,
         spotify,
@@ -141,7 +141,7 @@ const commands =
         helloWorld,
         ignore,
         ignoreChannel,
-        leaderboard_apology,
+        leaderboardApology,
         reminder,
         roll,
       ];

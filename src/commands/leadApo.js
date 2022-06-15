@@ -51,37 +51,38 @@ const action = async (message, client) => {
       if (cur.counter < 20) fields[0].value = `${fields[0].value}${line}\n`;
       else if (cur.counter < 30)
         fields[1].value = `${fields[1].value}${line}\n`;
-      else if (count >= sorted.length - 3) { //if top3
+      else if (count >= sorted.length - 3) {
+        //if top3
         fields[3].value = `${fields[3].value}${line}\n`;
       } else fields[2].value = `${fields[2].value}${line}\n`;
     }
     count = count + 1; //for find top3
   }
 
-  fields.map((cur) => (cur.value = cur.value + "```"));
+  fields.forEach((cur) => (cur.value = cur.value + "```"));
 
   //get personality
   const personality = PERSONALITY.getCommands();
-  const lead_apo = personality.leaderboard_apology;
+  const leadApo = personality.leaderboardApology;
 
   const embed = new MessageEmbed() //create embed
     .setColor("ORANGE")
-    .setTimestamp() 
-    .setTitle(lead_apo.title)
-    .setDescription(lead_apo.description)
+    .setTimestamp()
+    .setTitle(leadApo.title)
+    .setDescription(leadApo.description)
     .addFields(fields.slice(0, 3))
-    .addField(fields[3].name, `${lead_apo.top3} ${fields[3].value}`);
+    .addField(fields[3].name, `${leadApo.top3} ${fields[3].value}`);
 
   message.reply({ embeds: [embed] });
 };
 
-const leaderboard_apology = {
-  name: "lead_apo",
+const leaderboardApology = {
+  name: "leadApo",
   action,
   help: () => {
-    return PERSONALITY.getCommands().leaderboard_apology.help;
+    return PERSONALITY.getCommands().leaderboardApology.help;
   },
   admin: true,
 };
 
-export default leaderboard_apology;
+export default leaderboardApology;
