@@ -53,13 +53,15 @@ export const endAdmin = (
   reason,
   diff
 ) => {
-  //if no AuditLog
-  console.log("diff", diff)
+  
   if (diff >= 5) {
+    //if log too old
     finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
     return;
   }
+
   if (!log) {
+    //if no AuditLog
     finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, reason);
     return;
   }
