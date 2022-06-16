@@ -60,10 +60,10 @@
       },
       "roleDelete": {
         "author": "Rôle :",
-        "date": "Créé le :",
-        "description": "Un rôle a été créé.",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
+        "date": "Supprimé le :",
+        "description": "Un rôle a été supprimé.",
+        "executor": "Supprimé par :",
+        "title": "Rôle supprimé"
       },
       "roleUpdate": {
         "author": "Rôle :",
@@ -216,10 +216,10 @@
       },
       "roleDelete": {
         "author": "Rôle :",
-        "date": "Créé le :",
-        "description": "Un rôle a été créé.",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
+        "date": "Supprimé le :",
+        "description": "Un rôle a été supprimé.",
+        "executor": "Supprimé par :",
+        "title": "Rôle supprimé"
       },
       "roleUpdate": {
         "author": "Role :",
