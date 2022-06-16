@@ -34,7 +34,10 @@ export const setupEmbed = (color, personality, object, type, auditPerso) => {
   const embed = new MessageEmbed()
     .setColor(color)
     .setTitle(personality.title)
-    .setDescription(personality.description);
+    .setTimestamp();
+
+  if (personality.description) embed.setDescription(personality.description);
+
   if (type === "tag") {
     //add the user tag if required
     embed.addField(personality.author, object.tag, true);
