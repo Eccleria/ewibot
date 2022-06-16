@@ -24,6 +24,7 @@ import {
   getLogChannel,
   setupEmbed,
   endAdmin,
+  clientChannelUpdateProcess,
 } from "./admin/utils.js";
 
 import { roleAdd, roleRemove } from "./admin/role.js";
@@ -187,6 +188,7 @@ export const onChannelDelete = async (channel) => {
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
   //handle channel update event
+  console.log("yo")
   const personality = PERSONALITY.getAdmin(); //get personality
   const chnUp = personality.channelUpdate;
   const auditLog = personality.auditLog;
@@ -195,6 +197,10 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
+  //get client
+  const client = newChannel.client;
+  const channelUpdate = client.channelUpdate;
+
   //if position change, no AuditLog
   const changePos = [
     "rawPosition",
@@ -202,8 +208,14 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     newChannel.rawPosition,
   ];
   if (changePos[1] !== changePos[2]) {
-    const text = `- ${changePos[0]} : ${changePos[1]} => ${changePos[2]}\n`;
-    await finishEmbed(chnUp, auditLog.noLog, embed, logChannel, text);
+    //if timeout, clear it
+    const timeout = channelUpdate ? channelUpdate.timeout : null;
+    if (timeout) {
+      console.log("again rawPosition");
+      clearTimeout(timeout);
+    }
+
+    clientChannelUpdateProcess(client, oldChannel, newChannel); //update client data
     return;
   }
 
@@ -217,6 +229,27 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const diff = dayjs().diff(logCreationDate, "s");
 
   endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel, text, diff);
+  /* if event :
+   * if rawPosition 1)
+   * * create timeout
+   * * store old, new, timeout
+   * else
+   * * standard process
+   * ----------------------------------
+   * if new event :
+   * if rawPosition
+   * * check client
+   * * if client have rawPosition log
+   * * * cancel timeout
+   * * see 1)
+   * else
+   * * standard process
+   * ----------------------------------
+   * @ timeout end :
+   * list channels changes && org
+   * send embed
+   * clear client
+   */
 };
 
 export const onRoleCreate = async (role) => {
@@ -293,7 +326,10 @@ export const onMessageDelete = async (message) => {
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
-    console.log("partial message deleted", message.createdAt.toString().slice(4, 24));
+    console.log(
+      "partial message deleted",
+      message.createdAt.toString().slice(4, 24)
+    );
     return;
   }
 
@@ -311,13 +347,23 @@ export const onMessageDelete = async (message) => {
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
-  const embeds = message.embeds.reduce((acc, cur) => {
-    return [...acc, cur];
-  }, [embed]);
+  const embeds = message.embeds.reduce(
+    (acc, cur) => {
+      return [...acc, cur];
+    },
+    [embed]
+  );
 
   //if no AuditLog
   if (!deletionLog) {
-    await finishEmbed(messageDel, auditLog.noLog, embeds, logChannel, content, attachments);
+    await finishEmbed(
+      messageDel,
+      auditLog.noLog,
+      embeds,
+      logChannel,
+      content,
+      attachments
+    );
     /*if (embeds.length !== 0)
       await logChannel.send({ embeds: embeds });
     if (attachments.length) await logChannel.send({ files: attachments });*/
@@ -328,13 +374,27 @@ export const onMessageDelete = async (message) => {
 
   if (target.id === message.author.id) {
     //check if log report the correct user banned
-    await finishEmbed(messageDel, executor.tag, embeds, logChannel, content, attachments);
+    await finishEmbed(
+      messageDel,
+      executor.tag,
+      embeds,
+      logChannel,
+      content,
+      attachments
+    );
     /*if (embedAttached.length !== 0)
       await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });*/
   } else {
     //if bot or author deleted the message
-    await finishEmbed(messageDel, auditLog.noExec, embeds, logChannel, content, attachments);
+    await finishEmbed(
+      messageDel,
+      auditLog.noExec,
+      embeds,
+      logChannel,
+      content,
+      attachments
+    );
     /*if (embedAttached.length !== 0)
       await logChannel.send({ embeds: embedAttached });
     if (attachments.length) await logChannel.send({ files: attachments });*/
@@ -399,7 +459,16 @@ export const onGuildMemberRemove = async (memberKick) => {
   const logCreationDate = dayjs(kickLog.createdAt);
   const diff = dayjs().diff(logCreationDate, "s");
 
-  endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel, reason, diff);
+  endAdmin(
+    userKick,
+    kickLog,
+    guildKick,
+    auditLog,
+    embed,
+    logChannel,
+    reason,
+    diff
+  );
 };
 
 export const onReactionAdd = async (messageReaction, user) => {

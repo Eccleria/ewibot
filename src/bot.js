@@ -33,7 +33,7 @@ import {
   onReactionRemove,
 } from "./listeners.js";
 
-// jsons imports
+// jsons import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
@@ -103,6 +103,7 @@ client.playlistCachedMessages = []; // Spotify messages cache
 
 client.db = db; // db cache
 client.remindme = []; // reminders cache
+client.guildUpdate = {}; // guildUpdate event handling
 
 if (process.env.USE_SPOTIFY === "yes") {
   // Spotify API cache
@@ -133,7 +134,7 @@ const onMessageHandler = async (message) => {
 };
 
 // Create event LISTENERS
-client.once("ready", () => {
+client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
 });
