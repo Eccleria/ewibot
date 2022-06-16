@@ -10,42 +10,36 @@
       },
       "channelCreate": {
         "author": "Salon :",
-        "description": "Un salon a été créé.",
         "executor": "Créé par :",
         "title": "Salon créé"
       },
       "channelDelete": {
         "author": "Salon :",
-        "description": "Un salon a été supprimé.",
         "executor": "Supprimé par :",
         "title": "Salon supprimé"
       },
       "channelUpdate": {
         "author": "Salon :",
-        "description": "Un salon a été modifié.",
         "executor": "Modifié par :",
         "text": "Modifications :\n",
         "title": "Salon modifié"
       },
       "guildBan": {
         "author": "Membre :",
-        "description": "Un membre a été banni.",
         "executor": "Banni par :",
         "text": "Raison du ban :",
-        "title": "Utilisateur banni"
+        "title": "Membre banni"
       },
       "guildKick": {
         "author": "Membre :",
-        "description": "Un membre a été kick.",
         "duration": "Durée :",
         "executor": "Kick par :",
         "text": "Raison du kick :",
-        "title": "Kick"
+        "title": "Membre expulsé"
       },
       "messageDelete": {
         "author": "Auteur :",
         "date": "Envoyé le :",
-        "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
         "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
         "text": "Contenu du message :",
@@ -54,20 +48,17 @@
       "roleCreate": {
         "author": "Rôle :",
         "date": "Créé le :",
-        "description": "Un rôle a été créé.",
         "executor": "Créé par :",
         "title": "Rôle créé"
       },
       "roleDelete": {
         "author": "Rôle :",
         "date": "Supprimé le :",
-        "description": "Un rôle a été supprimé.",
         "executor": "Supprimé par :",
         "title": "Rôle supprimé"
       },
       "roleUpdate": {
         "author": "Rôle :",
-        "description": "Un rôle a été modifié.",
         "executor": "Modifié par :",
         "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
         "new": "\n  Ajoutée.s : ",
@@ -78,7 +69,6 @@
       },
       "timeout": {
         "author": "Membre :",
-        "description": "Un membre a été timeout.",
         "duration": "Durée :",
         "executor": "Timeout par :",
         "text": "Raison du timeout :",
@@ -166,42 +156,36 @@
       },
       "channelCreate": {
         "author": "Salon :",
-        "description": "Un salon a été créé.",
         "executor": "Créé par :",
         "title": "Salon créé"
       },
       "channelDelete": {
         "author": "Salon :",
-        "description": "Un salon a été supprimé.",
         "executor": "Supprimé par :",
         "title": "Salon supprimé"
       },
       "channelUpdate": {
         "author": "Salon :",
-        "description": "Un salon a été modifié.",
         "executor": "Modifié par :",
         "text": "Modifications :\n",
         "title": "Salon modifié"
       },
       "guildBan": {
         "author": "Membre :",
-        "description": "Un membre a été banni.",
         "executor": "Banni par :",
         "text": "Raison du ban :",
-        "title": "Utilisateur banni"
+        "title": "Membre banni"
       },
       "guildKick": {
         "author": "Membre :",
-        "description": "Un membre a été kick.",
         "duration": "Durée :",
         "executor": "Kick par :",
         "text": "Raison du kick :",
-        "title": "Kick"
+        "title": "Membre expulsé"
       },
       "messageDelete": {
         "author": "Auteur :",
         "date": "Envoyé le :",
-        "description": "Un message a été supprimé.",
         "executor": "Supprimé par :",
         "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
         "text": "Contenu du message :",
@@ -210,20 +194,17 @@
       "roleCreate": {
         "author": "Rôle :",
         "date": "Créé le :",
-        "description": "Un rôle a été créé.",
         "executor": "Créé par :",
         "title": "Rôle créé"
       },
       "roleDelete": {
         "author": "Rôle :",
         "date": "Supprimé le :",
-        "description": "Un rôle a été supprimé.",
         "executor": "Supprimé par :",
         "title": "Rôle supprimé"
       },
       "roleUpdate": {
         "author": "Role :",
-        "description": "Un role a été modifié.",
         "executor": "Modifié par :",
         "new": "\n  Ajoutée.s : ",
         "old": "\n  Supprimée.s : ",
@@ -233,7 +214,6 @@
       },
       "timeout": {
         "author": "Membre :",
-        "description": "Un membre a été timeout.",
         "duration": "Durée :",
         "executor": "Timeout par :",
         "text": "Raison du timeout :",
