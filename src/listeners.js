@@ -1,7 +1,12 @@
 import { PERSONALITY } from "./personality.js";
 
 import commands from "./commands/index.js";
+
 import dayjs from "dayjs";
+import RelativeTime from "dayjs/plugin/relativeTime.js";
+import "dayjs/locale/fr.js";
+dayjs.extend(RelativeTime);
+dayjs.locale("fr");
 
 import {
   isAdmin,
