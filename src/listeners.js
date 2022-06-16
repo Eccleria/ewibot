@@ -296,6 +296,7 @@ export const onMessageDelete = async (message) => {
     `${message.createdAt.toString().slice(4, 24)}`,
     true
   ); //date of message creation
+  embed.addField(messageDel.channel, `<#${message.channelId}>`, true); //message channel
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
 
   //get message data
