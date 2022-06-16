@@ -206,7 +206,10 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
   }, "");
 
-  endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel, text);
+  const logCreationDate = dayjs(chnLog.createdAt);
+  const diff = dayjs().diff(logCreationDate, "s");
+
+  endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel, text, diff);
 };
 
 export const onRoleCreate = async (role) => {
