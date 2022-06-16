@@ -311,16 +311,16 @@ export const onMessageDelete = async (message) => {
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
-  const embedAttached = message.embeds.reduce((acc, cur) => {
+  const embeds = message.embeds.reduce((acc, cur) => {
     return [...acc, cur];
-  }, []);
+  }, [embed]);
 
   //if no AuditLog
   if (!deletionLog) {
-    await finishEmbed(messageDel, auditLog.noLog, embed, logChannel, content);
-    if (embedAttached.length !== 0)
-      await logChannel.send({ embeds: embedAttached });
-    if (attachments.length) await logChannel.send({ files: attachments });
+    await finishEmbed(messageDel, auditLog.noLog, embeds, logChannel, content, attachments);
+    /*if (embeds.length !== 0)
+      await logChannel.send({ embeds: embeds });
+    if (attachments.length) await logChannel.send({ files: attachments });*/
     return;
   }
 
@@ -328,16 +328,16 @@ export const onMessageDelete = async (message) => {
 
   if (target.id === message.author.id) {
     //check if log report the correct user banned
-    await finishEmbed(messageDel, executor.tag, embed, logChannel, content);
-    if (embedAttached.length !== 0)
+    await finishEmbed(messageDel, executor.tag, embeds, logChannel, content, attachments);
+    /*if (embedAttached.length !== 0)
       await logChannel.send({ embeds: embedAttached });
-    if (attachments.length) await logChannel.send({ files: attachments });
+    if (attachments.length) await logChannel.send({ files: attachments });*/
   } else {
     //if bot or author deleted the message
-    await finishEmbed(messageDel, auditLog.noExec, embed, logChannel, content);
-    if (embedAttached.length !== 0)
+    await finishEmbed(messageDel, auditLog.noExec, embeds, logChannel, content, attachments);
+    /*if (embedAttached.length !== 0)
       await logChannel.send({ embeds: embedAttached });
-    if (attachments.length) await logChannel.send({ files: attachments });
+    if (attachments.length) await logChannel.send({ files: attachments });*/
   }
 };
 

@@ -16,6 +16,7 @@ import reminder from "./reminder.js";
 import birthday from "./birthday.js";
 import concrete from "./concrete.js";
 import spotify from "./spotify.js";
+import embeds from "./embeds.js";
 import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
@@ -125,7 +126,8 @@ const commands =
   process.env.USE_SPOTIFY === "yes"
     ? [
         birthday,
-        concrete,
+      concrete,
+      embeds,
         helloWorld,
         ignore,
         ignoreChannel,
@@ -133,7 +135,7 @@ const commands =
         roll,
         spotify,
       ]
-    : [birthday, concrete, helloWorld, ignore, ignoreChannel, reminder, roll];
+    : [birthday, concrete, embeds, helloWorld, ignore, ignoreChannel, reminder, roll];
 
 const help = {
   name: "help",
