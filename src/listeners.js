@@ -188,8 +188,8 @@ export const onChannelDelete = async (channel) => {
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
   //handle channel update event
-  console.log("yo")
-  const personality = PERSONALITY.getAdmin(); //get personality
+  //get personality
+  const personality = PERSONALITY.getAdmin();
   const chnUp = personality.channelUpdate;
   const auditLog = personality.auditLog;
 
@@ -215,13 +215,21 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       clearTimeout(timeout);
     }
 
-    clientChannelUpdateProcess(client, oldChannel, newChannel); //update client data
+    clientChannelUpdateProcess(
+      client,
+      oldChannel,
+      newChannel,
+      chnUp,
+      auditLog,
+      logChannel,
+      embed
+    ); //update client data
     return;
   }
 
   const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
   const text = changes.reduce((acc, cur) => {
-    //create log to send
+    //create text to send
     return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
   }, "");
 
@@ -229,27 +237,6 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const diff = dayjs().diff(logCreationDate, "s");
 
   endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel, text, diff);
-  /* if event :
-   * if rawPosition 1)
-   * * create timeout
-   * * store old, new, timeout
-   * else
-   * * standard process
-   * ----------------------------------
-   * if new event :
-   * if rawPosition
-   * * check client
-   * * if client have rawPosition log
-   * * * cancel timeout
-   * * see 1)
-   * else
-   * * standard process
-   * ----------------------------------
-   * @ timeout end :
-   * list channels changes && org
-   * send embed
-   * clear client
-   */
 };
 
 export const onRoleCreate = async (role) => {

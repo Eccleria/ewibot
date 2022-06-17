@@ -1,9 +1,4 @@
 import { MessageEmbed } from "discord.js";
-import { PERSONALITY } from "../personality.js";
-
-// jsons imports
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
 
 export const fetchAuditLog = async (guild, auditType) => {
   //fetch the first corresponding audit log
@@ -98,13 +93,29 @@ export const endAdmin = (
   }
 };
 
-export const clientChannelUpdateProcess = (client, oldChannel, newChannel) => {
+export const clientChannelUpdateProcess = (
+  client,
+  oldChannel,
+  newChannel,
+  chnUp,
+  logPerso,
+  logChannel,
+  embed
+) => {
   /* create timeout
    * store channels, timeout */
-  const timeout = setTimeout(channelUpdateLog, 5000, client, newChannel); //create timeout
+  const timeout = setTimeout(
+    channelUpdateLog,
+    5000,
+    client,
+    chnUp,
+    logPerso,
+    logChannel,
+    embed
+  ); //create timeout
 
   //handle client
-  const channelUpdate = client.channelUpdate
+  const channelUpdate = client.channelUpdate;
   const channels = channelUpdate ? channelUpdate.channels : null; //get data
   const newData = {
     id: newChannel.id,
@@ -120,26 +131,13 @@ export const clientChannelUpdateProcess = (client, oldChannel, newChannel) => {
   client.channelUpdate = updateData; //store
 };
 
-const channelUpdateLog = async (client, newChannel) => {
+const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //Function called after channelUpdate timeout end
   const { channels } = client.channelUpdate;
 
   //create old/new channel order
   const oldOrder = channels.sort((a, b) => a.oldPos - b.oldPos).slice(); //sort channels with oldPosition
-  const newOrder = channels.sort((a, b) => a.newPos - b.newPos).slice();
-
-  //personality
-  const personality = PERSONALITY.getAdmin();
-  const chnUp = personality.channelUpdate;
-  const logPerso = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
-
-  //embed
-  const embed = new MessageEmbed()
-    .setColor("DARK_AQUA")
-    .setTitle(chnUp.title)
-    .setTimestamp();
+  const newOrder = channels.sort((a, b) => a.newPos - b.newPos).slice(); //slice() for variable shallow copy
 
   //text
   const orderText = oldOrder.reduce((acc, cur, idx) => {
@@ -149,6 +147,8 @@ const channelUpdateLog = async (client, newChannel) => {
   }, "```md\n" + space2Strings("avant", "apres", 25, " | ") + "\n");
 
   finishEmbed(chnUp, logPerso.noLog, embed, logChannel, orderText); //send embed
+
+  client.channelUpdate = {}; //remove from client
 };
 
 const space2Strings = (str1, str2, dist, sep) => {
