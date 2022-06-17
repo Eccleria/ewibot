@@ -164,7 +164,7 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
     const spaced = space2Strings(cur.name, newOrder[idx].name, 25, " | ");
     if (idx === oldOrder.length - 1) return acc + "\n" + spaced + "\n```";
     return acc + "\n" + spaced;
-  }, "```md\n" + space2Strings("avant", "apres", 25, " | ") + "\n");
+  }, "```md\n" + space2Strings("avant", "apres", 15, " | ") + "\n");
 
   finishEmbed(chnUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
