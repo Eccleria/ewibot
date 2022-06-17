@@ -210,10 +210,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   if (changePos[1] !== changePos[2]) {
     //if timeout, clear it
     const timeout = channelUpdate ? channelUpdate.timeout : null;
-    if (timeout) {
-      console.log("again rawPosition");
-      clearTimeout(timeout);
-    }
+    if (timeout) clearTimeout(timeout);
 
     clientChannelUpdateProcess(
       client,

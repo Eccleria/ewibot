@@ -117,18 +117,37 @@ export const clientChannelUpdateProcess = (
   //handle client
   const channelUpdate = client.channelUpdate;
   const channels = channelUpdate ? channelUpdate.channels : null; //get data
-  const newData = {
+
+  //check for identical channels
+  let newData = {
     id: newChannel.id,
-    name: oldChannel.name,
-    oldPos: oldChannel.rawPosition,
-    newPos: newChannel.rawPosition,
+    name: oldChannel.name
   };
+  let updateData;
+  if (channels !== null && channels !== undefined) {
+    const names = channels.map((obj) => obj.name);
+    const index = names.findIndex((name) => name === oldChannel.name);
+    if (index !== -1) {
+      //if any doublon
+      const precedent = channels[index]; //get precedent
+      newData.oldPos = precedent.oldPos; //keep precedent oldPosition
+      newData.newPos = newChannel.rawPosition; //update newPosition
 
-  const updateData = channels
-    ? { channels: [...channels, newData], timeout: timeout }
-    : { channels: [newData], timeout: timeout }; //add
-
-  client.channelUpdate = updateData; //store
+      const filtered = channels.filter((_obj, idx) => idx !== index); //remove doublon
+      updateData = { channels: [...filtered, newData], timeout: timeout };
+    } else {
+      newData.oldPos = oldChannel.rawPosition;
+      newData.newPos = newChannel.rawPosition;
+      updateData = { channels: [...channels, newData], timeout: timeout };
+    }
+    client.channelUpdate = updateData; //store in client
+  } else {
+    //client not initialised or channels changes are too quick
+    newData.oldPos = oldChannel.rawPosition;
+    newData.newPos = newChannel.rawPosition;
+    updateData = { channels: [newData], timeout: timeout }; //add
+    client.channelUpdate = updateData; //store in client
+  }
 };
 
 const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
@@ -138,6 +157,7 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //create old/new channel order
   const oldOrder = channels.sort((a, b) => a.oldPos - b.oldPos).slice(); //sort channels with oldPosition
   const newOrder = channels.sort((a, b) => a.newPos - b.newPos).slice(); //slice() for variable shallow copy
+  console.log("oldOrder", oldOrder, "newOrder", newOrder);
 
   //text
   const orderText = oldOrder.reduce((acc, cur, idx) => {
