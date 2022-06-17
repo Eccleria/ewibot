@@ -169,8 +169,8 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
     const newAscii = newOrder[idx].name.charCodeAt(0);
 
     //if not standard ascii value, remove it
-    const oldName = oldAscii > 255 ? cur.name.slice(2) : cur.name;
-    const newName = newAscii > 255 ? newObj.name.slice(2) : newObj.name;
+    const oldName = oldAscii > 255 ? cur.name.slice(1) : cur.name;
+    const newName = newAscii > 255 ? newObj.name.slice(1) : newObj.name;
 
     //if parentId, indent text
     const oldIndent = cur.parentId ? `  ${oldName}` : oldName;
