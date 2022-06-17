@@ -121,7 +121,8 @@ export const clientChannelUpdateProcess = (
   //check for identical channels
   let newData = {
     id: newChannel.id,
-    name: oldChannel.name
+    name: oldChannel.name,
+    parentId: newChannel.parentId
   };
   let updateData;
   if (channels !== null && channels !== undefined) {
@@ -161,7 +162,7 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //text
   const space = 15;
   const orderText = oldOrder.reduce((acc, cur, idx) => {
-    const name2 = newOrder[idx].name
+    const newObj = newOrder[idx];
 
     //get first char ascii code
     const oldAscii = cur.name.charCodeAt(0);
@@ -169,9 +170,13 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
 
     //if not standard ascii value, remove it
     const oldName = oldAscii > 255 ? cur.name.slice(2) : cur.name;
-    const newName = newAscii > 255 ? name2.slice(2) : name2;
+    const newName = newAscii > 255 ? newObj.name.slice(2) : newObj.name;
 
-    const spaced = space2Strings(oldName, newName, space, " | "); 
+    //if parentId, indent text
+    const oldIndent = cur.parentId ? `  ${oldName}` : oldName;
+    const newIndent = newObj.parentId ? `  ${newName}` : newName;
+
+    const spaced = space2Strings(oldIndent, newIndent, space, " | ");
     if (idx === oldOrder.length - 1) return acc + "\n" + spaced + "\n```";
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " | ") + "\n");
