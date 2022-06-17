@@ -157,14 +157,24 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //create old/new channel order
   const oldOrder = channels.sort((a, b) => a.oldPos - b.oldPos).slice(); //sort channels with oldPosition
   const newOrder = channels.sort((a, b) => a.newPos - b.newPos).slice(); //slice() for variable shallow copy
-  console.log("oldOrder", oldOrder, "newOrder", newOrder);
 
   //text
+  const space = 15;
   const orderText = oldOrder.reduce((acc, cur, idx) => {
-    const spaced = space2Strings(cur.name, newOrder[idx].name, 25, " | ");
+    const name2 = newOrder[idx].name
+
+    //get first char ascii code
+    const oldAscii = cur.name.charCodeAt(0);
+    const newAscii = newOrder[idx].name.charCodeAt(0);
+
+    //if not standard ascii value, remove it
+    const oldName = oldAscii > 255 ? cur.name.slice(2) : cur.name;
+    const newName = newAscii > 255 ? name2.slice(2) : name2;
+
+    const spaced = space2Strings(oldName, newName, space, " | "); 
     if (idx === oldOrder.length - 1) return acc + "\n" + spaced + "\n```";
     return acc + "\n" + spaced;
-  }, "```md\n" + space2Strings("avant", "apres", 15, " | ") + "\n");
+  }, "```md\n" + space2Strings("avant", "apres", space, " | ") + "\n");
 
   finishEmbed(chnUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
@@ -172,6 +182,7 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
 };
 
 const space2Strings = (str1, str2, dist, sep) => {
+  //slice 2 strings, pad the end + add a separator
   const sliced1 = str1.slice(0, dist).padEnd(dist, " ");
   const sliced2 = str2.slice(0, dist).padEnd(dist, " ");
 
