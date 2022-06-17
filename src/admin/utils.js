@@ -24,16 +24,24 @@ export const finishEmbed = async (
     embed[0].addField(personalityEvent.executor, executor, true); //add the executor section
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
-    await logChannel.send({ embeds: embed }); //send
-    if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
+    try {
+      await logChannel.send({ embeds: embed }); //send
+      if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
+    } catch {
+      console.log(personalityEvent.title, embed)
+    }
     return;
   }
 
   embed.addField(personalityEvent.executor, executor, true);
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
-  await logChannel.send({ embeds: [embed] }); //send
-  if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
+  try {
+    await logChannel.send({ embeds: [embed] }); //send
+    if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
+  } catch {
+    console.log(personalityEvent.title, embed)
+  }
 };
 
 export const getLogChannel = async (commons, eventObject) => {
