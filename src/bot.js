@@ -26,6 +26,7 @@ import {
   onRoleDelete,
   onRoleUpdate,
   onMessageDelete,
+  onMessageUpdate,
   onGuildBanAdd,
   onGuildMemberRemove,
   onGuildMemberUpdate,
@@ -141,6 +142,7 @@ client.once("ready", async () => {
 
 client.on("messageCreate", onMessageHandler);
 client.on("messageDelete", onMessageDelete);
+client.on("messageUpdate", onMessageUpdate);
 
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);

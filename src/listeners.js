@@ -349,9 +349,6 @@ export const onMessageDelete = async (message) => {
       content,
       attachments
     );
-    /*if (embeds.length !== 0)
-      await logChannel.send({ embeds: embeds });
-    if (attachments.length) await logChannel.send({ files: attachments });*/
     return;
   }
 
@@ -367,9 +364,6 @@ export const onMessageDelete = async (message) => {
       content,
       attachments
     );
-    /*if (embedAttached.length !== 0)
-      await logChannel.send({ embeds: embedAttached });
-    if (attachments.length) await logChannel.send({ files: attachments });*/
   } else {
     //if bot or author deleted the message
     await finishEmbed(
@@ -380,11 +374,21 @@ export const onMessageDelete = async (message) => {
       content,
       attachments
     );
-    /*if (embedAttached.length !== 0)
-      await logChannel.send({ embeds: embedAttached });
-    if (attachments.length) await logChannel.send({ files: attachments });*/
   }
 };
+
+export const onMessageUpdate = async (oldMessage, newMessage) => {
+  //handle message update event
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const guildBan = personality.guildBan;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, newMessage); //get logChannel
+  const embed = setupEmbed("DARK_GREEN", guildBan, newMessage.user, "tag"); //setup embed
+  //no auditLog
+
+
+}
 
 export const onGuildBanAdd = async (userBan) => {
   console.log("member banned from Discord Server");
