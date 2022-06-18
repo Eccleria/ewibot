@@ -53,16 +53,26 @@
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
       "pronouns": {
-        "he": "il",
-        "she": "elle",
-        "they": "iel",
-        "ael": "æl",
-        "ask": "demandez",
-        "no": "pas de pronom",
-        "all": "tout pronom",
-        "male":  "masculins",
-        "neutral": "neutres",
-        "female": "féminins"
+        "pronouns": {
+          "ael": "æl",
+          "ask": "demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle. Vous ne pouvez cliquer que sur un seul bouton. Tout nouveau choix supprime le précédent.\n\n Pour retirer votre choix, cliquez sur le bouton Annuler.",
+          "he": "il",
+          "no": "pas de pronom",
+          "she": "elle",
+          "they": "iel",
+          "title": "Rôles pronoms"
+        },
+        "agreements": {
+          "all": "tout pronom",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle. Vous ne pouvez cliquer que sur un seul bouton. Tout nouveau choix supprime le précédent.\n\n Pour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "féminins",
+          "male": "masculins",
+          "neutral": "neutres",
+          "title": "Rôles accords"
+        }
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
@@ -138,16 +148,26 @@
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
       "pronouns": {
-        "he": "il",
-        "she": "elle",
-        "they": "iel",
-        "ael": "æl",
-        "ask": "demandez",
-        "no": "pas de pronom",
-        "all": "tout pronom",
-        "male": "masculins",
-        "neutral": "neutres",
-        "female": "féminins"
+        "pronouns": {
+          "ael": "æl",
+          "ask": "demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle. Vous ne pouvez cliquer que sur un seul bouton. Tout nouveau choix supprime le précédent.\n\n Pour retirer votre choix, cliquez sur le bouton Annuler.",
+          "he": "il",
+          "no": "pas de pronom",
+          "she": "elle",
+          "they": "iel",
+          "title": "Rôles pronoms"
+        },
+        "agreements": {
+          "all": "tout pronom",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle. Vous ne pouvez cliquer que sur un seul bouton. Tout nouveau choix supprime le précédent.\n\n Pour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "féminins",
+          "male": "masculins",
+          "neutral": "neutres",
+          "title": "Rôles accords"
+        }
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé.",

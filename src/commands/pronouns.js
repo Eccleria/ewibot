@@ -7,7 +7,8 @@ const action = async (message, client) => {
 
   //personality
   const personality = PERSONALITY.getCommands();
-  const pronounsP = personality.pronouns;
+  const pronounsP = personality.pronouns.pronouns;
+  const agreements = personality.pronouns.agreements;
 
   //create all buttons
   const style = "SECONDARY";
@@ -16,7 +17,7 @@ const action = async (message, client) => {
     createButton("she", pronounsP.she, style),
     createButton("they", pronounsP.they, style),
     createButton("ael", pronounsP.ael, style),
-    createButton("askP", pronounsP.askP, style)
+    createButton("askP", pronounsP.ask, style)
   );
   const row2 = new MessageActionRow().addComponents(
     createButton("no", pronounsP.no, style),
@@ -25,10 +26,10 @@ const action = async (message, client) => {
   const rowsPronouns = [row1, row2];
 
   const rowAgreement = new MessageActionRow().addComponents(
-    createButton("male", pronounsP.male, style),
-    createButton("neutral", pronounsP.neutral, style),
-    createButton("female", pronounsP.female, style),
-    createButton("askA", pronounsP.askA, style),
+    createButton("male", agreements.male, style),
+    createButton("neutral", agreements.neutral, style),
+    createButton("female", agreements.female, style),
+    createButton("askA", agreements.ask, style),
   );
 
   //message.reply({components: [row1, row2, row3]})
