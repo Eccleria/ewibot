@@ -3,6 +3,7 @@
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
+    "charteChannelId": "935180557770448956",
     "randomfloodChannelId": "935180557770448956",
     "roleHandle": {
       "channelId": "967059786644488192",
@@ -47,6 +48,7 @@
     "name": "prod",
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
+    "charteChannelId": "817066925976191037",
     "randomfloodChannelId": "822132004581408828",
     "roleHandle": {
       "channelId": "974735995872350208",
