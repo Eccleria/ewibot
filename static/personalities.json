@@ -54,6 +54,7 @@
       },
       "pronouns": {
         "pronouns": {
+          "all": "tout pronom",
           "ael": "æl",
           "ask": "demandez",
           "cancel": "Annuler",
@@ -62,16 +63,16 @@
           "no": "pas de pronom",
           "she": "elle",
           "they": "iel",
-          "title": "Rôles pronoms"
+          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
         },
         "agreements": {
-          "all": "tout pronom",
+          "ask": "demandez",
           "cancel": "Annuler",
           "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle. Vous ne pouvez cliquer que sur un seul bouton. Tout nouveau choix supprime le précédent.\n\n Pour retirer votre choix, cliquez sur le bouton Annuler.",
           "female": "féminins",
           "male": "masculins",
           "neutral": "neutres",
-          "title": "Rôles accords"
+          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
         }
       },
       "reminder": {
@@ -149,6 +150,7 @@
       },
       "pronouns": {
         "pronouns": {
+          "all": "tout pronom",
           "ael": "æl",
           "ask": "demandez",
           "cancel": "Annuler",
@@ -157,16 +159,16 @@
           "no": "pas de pronom",
           "she": "elle",
           "they": "iel",
-          "title": "Rôles pronoms"
+          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
         },
         "agreements": {
-          "all": "tout pronom",
+          "ask": "demandez",
           "cancel": "Annuler",
           "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle. Vous ne pouvez cliquer que sur un seul bouton. Tout nouveau choix supprime le précédent.\n\n Pour retirer votre choix, cliquez sur le bouton Annuler.",
           "female": "féminins",
           "male": "masculins",
           "neutral": "neutres",
-          "title": "Rôles accords"
+          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
         }
       },
       "reminder": {

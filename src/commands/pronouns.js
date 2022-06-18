@@ -1,6 +1,8 @@
 import { MessageActionRow, MessageButton } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 
+import { setupEmbed } from "../admin/utils.js";
+
 const action = async (message, client) => {
   const { content } = message;
   const args = content.toLowerCase().split(" ");
@@ -32,8 +34,13 @@ const action = async (message, client) => {
     createButton("askA", agreements.ask, style),
   );
 
-  //message.reply({components: [row1, row2, row3]})
+  //create embeds;
+  const embedPronouns = setupEmbed("ORANGE", pronounsP, null, "skip");
+  const embedAgreements = setupEmbed("ORANGE", agreements, null, "skip");
+
   //send messages
+  await message.channel.send({ embeds: [embedPronouns], components: rowsPronouns });
+  await message.channel.send({ embeds: [embedAgreements], components: [rowAgreement] });
 };
 
 const createButton = (id, label, style) => {
