@@ -110,8 +110,7 @@ export const clientChannelUpdateProcess = (
   logChannel,
   embed
 ) => {
-  /* create timeout
-   * store channels, timeout */
+  //create timeout, store channels & timeout
   const timeout = setTimeout(
     channelUpdateLog,
     5000,
@@ -126,13 +125,15 @@ export const clientChannelUpdateProcess = (
   const channelUpdate = client.channelUpdate;
   const channels = channelUpdate ? channelUpdate.channels : null; //get data
 
-  //check for identical channels
+  //initialise data to add to client
   let newData = {
     id: newChannel.id,
     name: oldChannel.name,
     parentId: newChannel.parentId
   };
   let updateData;
+
+  //check for identical channels
   if (channels !== null && channels !== undefined) {
     const names = channels.map((obj) => obj.name);
     const index = names.findIndex((name) => name === oldChannel.name);
@@ -142,19 +143,21 @@ export const clientChannelUpdateProcess = (
       newData.oldPos = precedent.oldPos; //keep precedent oldPosition
       newData.newPos = newChannel.rawPosition; //update newPosition
 
-      const filtered = channels.filter((_obj, idx) => idx !== index); //remove doublon
+      //remove doublon
+      const filtered = channels.filter((_obj, idx) => idx !== index); 
       updateData = { channels: [...filtered, newData], timeout: timeout };
     } else {
+      //if no doublon
       newData.oldPos = oldChannel.rawPosition;
       newData.newPos = newChannel.rawPosition;
       updateData = { channels: [...channels, newData], timeout: timeout };
     }
     client.channelUpdate = updateData; //store in client
   } else {
-    //client not initialised or channels changes are too quick
+    //client not initialised or channels changes are too quick for client
     newData.oldPos = oldChannel.rawPosition;
     newData.newPos = newChannel.rawPosition;
-    updateData = { channels: [newData], timeout: timeout }; //add
+    updateData = { channels: [newData], timeout: timeout };
     client.channelUpdate = updateData; //store in client
   }
 };
@@ -172,20 +175,20 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   const orderText = oldOrder.reduce((acc, cur, idx) => {
     const newObj = newOrder[idx];
 
-    //get first char ascii code
-    const oldAscii = cur.name.charCodeAt(0);
-    const newAscii = newOrder[idx].name.charCodeAt(0);
+    //if not standard ascii value (ie. is emote), remove it
+    const oldName = removeEmote(cur.name);
+    const newName = removeEmote(newObj.name);
 
-    //if not standard ascii value, remove it
-    const oldName = oldAscii > 255 ? cur.name.slice(1) : cur.name;
-    const newName = newAscii > 255 ? newObj.name.slice(1) : newObj.name;
-
-    //if parentId, indent text
+    //if has parentId, indent text
     const oldIndent = cur.parentId ? `  ${oldName}` : oldName;
     const newIndent = newObj.parentId ? `  ${newName}` : newName;
 
+    //create log line
     const spaced = space2Strings(oldIndent, newIndent, space, " | ");
-    if (idx === oldOrder.length - 1) return acc + "\n" + spaced + "\n```";
+    if (idx === oldOrder.length - 1) {
+      //if last one
+      return acc + "\n" + spaced + "\n```"; //add end of code line code
+    }
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " | ") + "\n");
 
@@ -201,3 +204,12 @@ const space2Strings = (str1, str2, dist, sep) => {
 
   return `${sliced1}${sep}${sliced2}`;
 };
+
+const removeEmote = (str) => {
+  let n = 0;
+  for (const char of str) {
+    const ascii = char.charCodeAt(0)
+    if (ascii > 255) n += char.length;
+  }
+  return str.slice(n);
+}

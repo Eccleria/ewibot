@@ -202,13 +202,13 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const client = newChannel.client;
   const channelUpdate = client.channelUpdate;
 
-  //if position change, no AuditLog
   const changePos = [
     "rawPosition",
     oldChannel.rawPosition,
     newChannel.rawPosition,
   ];
   if (changePos[1] !== changePos[2]) {
+    //if position change, no AuditLog
     //if timeout, clear it
     const timeout = channelUpdate ? channelUpdate.timeout : null;
     if (timeout) clearTimeout(timeout);
