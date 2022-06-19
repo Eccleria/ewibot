@@ -28,6 +28,7 @@ import {
   onMessageDelete,
   onMessageUpdate,
   onGuildBanAdd,
+  onGuildBanRemove,
   onGuildMemberRemove,
   onGuildMemberUpdate,
   onReactionAdd,
@@ -156,6 +157,7 @@ client.on("channelDelete", onChannelDelete);
 client.on("channelUpdate", onChannelUpdate);
 
 client.on("guildBanAdd", onGuildBanAdd);
+client.on("guildBanRemove", onGuildBanRemove);
 
 client.on("guildMemberRemove", onGuildMemberRemove);
 client.on("guildMemberUpdate", onGuildMemberUpdate);

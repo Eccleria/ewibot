@@ -405,6 +405,21 @@ export const onGuildBanAdd = async (userBan) => {
   endAdmin(userBan, banLog, guildBan, auditLog, embed, logChannel, reason);
 };
 
+export const onGuildBanRemove = async (userBan) => {
+  console.log("member unbanned from Discord Server");
+
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const guildUnban = personality.guildUnban;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, userBan); //get logChannel
+  const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user); //setup embed
+  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE"); //get auditLog
+  const reason = userBan.reason; //get ban reason
+
+  endAdmin(userBan, banLog, guildUnban, auditLog, embed, logChannel, reason);
+}
+
 export const onGuildMemberUpdate = async (oldMember, newMember) => {
   //check if timeout added or removed
   const oldIsTimeout = oldMember.isCommunicationDisabled();

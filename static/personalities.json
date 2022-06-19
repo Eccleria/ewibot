@@ -37,6 +37,12 @@
         "text": "Raison du kick :",
         "title": "Membre expulsé"
       },
+      "guildUnban": {
+        "author": "Membre :",
+        "executor": "Débanni par :",
+        "text": "Raison de la levée du ban :",
+        "title": "Membre débanni"
+      },
       "messageDelete": {
         "author": "Auteur :",
         "channel": "Salon :",
@@ -188,6 +194,12 @@
         "executor": "Kick par :",
         "text": "Raison du kick :",
         "title": "Membre expulsé"
+      },
+      "guildUnban": {
+        "author": "Membre :",
+        "executor": "Débanni par :",
+        "text": "Raison de la levée du ban :",
+        "title": "Membre débanni"
       },
       "messageDelete": {
         "author": "Auteur :",
