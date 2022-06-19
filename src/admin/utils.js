@@ -33,7 +33,7 @@ export const finishEmbed = async (
     return;
   }
 
-  embed.addField(personalityEvent.executor, executor, true);
+  if (personalityEvent.executor) embed.addField(personalityEvent.executor, executor, true);
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
   try {
@@ -51,7 +51,7 @@ export const getLogChannel = async (commons, eventObject) => {
   return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return the log channel
 };
 
-export const setupEmbed = (color, personality, object, type, auditPerso) => {
+export const setupEmbed = (color, personality, object, type) => {
   //setup the embed object
   const embed = new MessageEmbed()
     .setColor(color)
@@ -63,7 +63,7 @@ export const setupEmbed = (color, personality, object, type, auditPerso) => {
   if (type === "tag") {
     //add the user tag if required
     embed.addField(personality.author, object.tag, true);
-  } else if (type === "Partial") embed.addField(type, auditPerso.partial);
+  } else if (type === "skip") return embed;
   else embed.addField(personality.author, object.name, true); //otherwise, add the object name (for channels, roles, ...)
   return embed;
 };

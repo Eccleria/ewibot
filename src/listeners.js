@@ -379,16 +379,75 @@ export const onMessageDelete = async (message) => {
 
 export const onMessageUpdate = async (oldMessage, newMessage) => {
   //handle message update event
+  if (!oldMessage.guild) return; //Ignore DM
+
   const personality = PERSONALITY.getAdmin(); //get personality
-  const guildBan = personality.guildBan;
+  const messageU = personality.messageUpdate;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newMessage); //get logChannel
-  const embed = setupEmbed("DARK_GREEN", guildBan, newMessage.user, "tag"); //setup embed
-  //no auditLog
+  const embed = setupEmbed("DARK_GREEN", messageU, newMessage.author, "tag"); //setup embed
+  //no auditLog when message update
+
+  //add creation date + channel
+  embed.addField(
+    messageU.date,
+    `${oldMessage.createdAt.toString().slice(4, 24)}`,
+    true
+  ); //date of message creation
+  embed.addField(messageU.channel, `<#${oldMessage.channelId}>`, true); //message channel
 
 
-}
+  //check for content modif
+  const oldWords = oldMessage.content.split(" ");
+  const newWords = newMessage.content.split(" ");
+  console.log("oldWords", oldWords, "newWords", newWords);
+  console.log(oldWords.length, newWords.length)
+
+  const nLen = newWords.length;
+  const oLen = oldWords.length;
+
+  const wordToCheck =
+    oLen >= nLen
+      ? { words: oldWords, len: oLen, oLen: nLen }
+      : { words: newWords, len: nLen, oLen: oLen };
+  console.log("wordToCheck", wordToCheck)
+  const wordDiff = wordToCheck.words.reduce(
+    //get word difference
+    (acc, cur, idx) => {
+      if (idx <= wordToCheck.oLen - 1)
+        return cur !== newWords[idx]
+          ? {
+            old: [...acc.old, cur],
+            new: [...acc.new, newWords[idx]],
+            count: acc.count + 1,
+          }
+          : acc;
+      else return wordToCheck.len === oLen
+        ? {
+          old: [...acc.old, cur],
+          new: acc.new,
+          count: acc.count + 1,
+        }
+        : {
+          old: acc.old,
+          new: [...acc.new, newWords[idx]],
+          count: acc.count + 1,
+        };
+    },
+    { old: [], new: [], count: 0 }
+  );
+  console.log("wordDiff", wordDiff);
+
+  if (wordDiff.count !== 0) embed.addFields(
+    { name: messageU.contentOld, value: oldMessage.content },
+    { name: messageU.contentNew, value: newMessage.content },
+    { name: messageU.contentDiff, value: `${wordDiff.old.join(" ")}\n\n${wordDiff.new.join(" ")}`},
+  )
+
+  //check for embed difference
+  endAdmin(newMessage, null, messageU, auditLog, embed, logChannel);
+};
 
 export const onGuildBanAdd = async (userBan) => {
   console.log("member banned from Discord Server");
@@ -418,7 +477,7 @@ export const onGuildBanRemove = async (userBan) => {
   const reason = userBan.reason; //get ban reason
 
   endAdmin(userBan, banLog, guildUnban, auditLog, embed, logChannel, reason);
-}
+};
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {
   //check if timeout added or removed

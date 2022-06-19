@@ -52,6 +52,17 @@
         "text": "Contenu du message :",
         "title": "Message supprimé"
       },
+      "messageUpdate": {
+        "author": "Membre :",
+        "channel": "Salon :",
+        "contentDiff": "Mots différents",
+        "contentNew": "Nouveau contenu",
+        "contentOld": "Ancien contenu",
+        "date": "Envoyé le :",
+        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+        "text": "Contenu du message :",
+        "title": "Message modifié"
+      },
       "roleCreate": {
         "author": "Rôle :",
         "date": "Créé le :",
@@ -209,6 +220,16 @@
         "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
         "text": "Contenu du message :",
         "title": "Message supprimé"
+      },
+      "messageUpdate": {
+        "author": "Membre :",
+        "channel": "Salon :",
+        "contentNew": "yo",
+        "contentOld": "yo",
+        "date": "Envoyé le :",
+        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+        "text": "Contenu du message :",
+        "title": "Message modifié"
       },
       "roleCreate": {
         "author": "Rôle :",
