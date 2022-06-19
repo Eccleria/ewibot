@@ -383,9 +383,18 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageU = personality.messageUpdate;
-  const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newMessage); //get logChannel
+  if (oldMessage.partial || newMessage.partial) {
+    //if the message is partial and deleted, no possibility to fetch
+    //so only partial data
+    console.log(
+      "partial message modified",
+      oldMessage.createdAt.toString().slice(4, 24)
+    );
+    return;
+  }
+
   const embed = setupEmbed("DARK_GREEN", messageU, newMessage.author, "tag"); //setup embed
   //no auditLog when message update
 
@@ -398,59 +407,28 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   embed.addField(messageU.channel, `<#${oldMessage.channelId}>`, true); //message channel
 
   //check for content modif
-  const oldWords = oldMessage.content.split(" ");
-  const newWords = newMessage.content.split(" ");
-  console.log("oldWords", oldWords, "newWords", newWords);
-  console.log(oldWords.length, newWords.length);
+  const oldContent = oldMessage.content;
+  const newContent = newMessage.content;
+  console.log("oldContent", oldContent, "newContent", newContent);
 
-  const nLen = newWords.length;
-  const oLen = oldWords.length;
-
-  const wordToCheck =
-    oLen >= nLen
-      ? { words: oldWords, len: oLen, oLen: nLen }
-      : { words: newWords, len: nLen, oLen: oLen };
-  console.log("wordToCheck", wordToCheck);
-  const wordDiff = wordToCheck.words.reduce(
-    //get word difference
-    (acc, cur, idx) => {
-      if (idx <= wordToCheck.oLen - 1)
-        return cur !== newWords[idx]
-          ? {
-              old: [...acc.old, cur],
-              new: [...acc.new, newWords[idx]],
-              count: acc.count + 1,
-            }
-          : acc;
-      else
-        return wordToCheck.len === oLen
-          ? {
-              old: [...acc.old, cur],
-              new: acc.new,
-              count: acc.count + 1,
-            }
-          : {
-              old: acc.old,
-              new: [...acc.new, newWords[idx]],
-              count: acc.count + 1,
-            };
-    },
-    { old: [], new: [], count: 0 }
-  );
-  console.log("wordDiff", wordDiff);
-
-  if (wordDiff.count !== 0)
+  if (oldContent !== newContent)
     embed.addFields(
-      { name: messageU.contentOld, value: oldMessage.content },
-      { name: messageU.contentNew, value: newMessage.content },
-      {
-        name: messageU.contentDiff,
-        value: `${wordDiff.old.join(" ")}\n\n${wordDiff.new.join(" ")}`,
-      }
+      { name: messageU.contentOld, value: oldContent },
+      { name: messageU.contentNew, value: newContent }
     );
 
-  //check for embed difference
-  endAdmin(newMessage, null, messageU, auditLog, embed, logChannel);
+  //check for objects changes
+  const attachments = oldMessage.attachments.reduce((acc, cur) => {
+    if (newMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
+      return [...acc, cur.attachment];
+  }, []);
+  const embeds = oldMessage.embeds.reduce(
+    (acc, cur, idx) => {
+      if (cur.equals(newMessage.embeds[idx])) return [...acc, cur];
+    },
+    [embed]
+  );
+  finishEmbed(messageU, null, embeds, logChannel, null, attachments);
 };
 
 export const onGuildBanAdd = async (userBan) => {

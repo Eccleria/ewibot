@@ -19,16 +19,17 @@ export const finishEmbed = async (
 ) => {
   //Finish the embed and send it
   if (embed.author !== null) {
-    //embed.data is a embed property & not an array property
+    //embed.author is a embed property & not an array property
     //if contains multiple embeds, the 1st is the log
-    embed[0].addField(personalityEvent.executor, executor, true); //add the executor section
+    if (personalityEvent.executor)
+      embed[0].addField(personalityEvent.executor, executor, true); //add the executor section
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
     try {
       await logChannel.send({ embeds: embed }); //send
       if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch {
-      console.log(personalityEvent.title, embed);
+      console.log("finishEmbed error\n", personalityEvent.title, embed);
     }
     return;
   }
