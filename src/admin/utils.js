@@ -137,8 +137,8 @@ export const clientChannelUpdateProcess = (
 
   //check for identical channels
   if (channels !== null && channels !== undefined) {
-    const names = channels.map((obj) => obj.name);
-    const index = names.findIndex((name) => name === oldChannel.name);
+    const names = channels.map((obj) => obj.name); //get all channels names
+    const index = names.findIndex((name) => name === oldChannel.name); //find any doublon
     if (index !== -1) {
       //if any doublon
       const precedent = channels[index]; //get precedent
@@ -166,13 +166,52 @@ export const clientChannelUpdateProcess = (
 
 const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //Function called after channelUpdate timeout end
+  //client == {channels: [data], timeout: timeout}
+  //data == {id, name, parentId, oldPos, newPos}
+  
   const { channels } = client.channelUpdate;
+  
+  //sort by parentId
+  const parentIdOrder = channels
+    .sort((a, b) => a.parentId - b.parentId)
+    .slice(); //sort channels with oldPosition
+
+  //regroup channels w/ same parent
+  const regrouped = parentIdOrder.reduce((acc, cur) => {
+    //regroup according to parentId
+    console.log("acc", acc, "cur" , cur);
+    const list = acc.list; //get list
+    const len = list.length; //get list length
+    const lastParentId = acc.lastParentId; //get lastParentId
+    if (lastParentId === cur.parentId && cur.parentId !== null) {
+      //regroup
+      list[acc.lastAddIdx].push(cur);
+      return { list: list, lastParentId: lastParentId, lastAddIdx: acc.lastAddIdx}
+    } else if (lastParentId !== cur.parentId && cur.parentId !== null) {
+      //new to place correctly
+      const parentsIds = list.map((obj) => obj[0].id); //get all parent ids
+      const parentIdx = parentsIds.findIndex((id) => cur.parentId === id); //find parent index in list
+      if (parentIdx === -1) {
+        //no parent => new goup alone
+        return { list: [...list, [cur]], lastParentId: cur.parentId, lastAddIdx: len };
+      }
+      //has parent
+      console.log("parentIdx", parentIdx, len - 1)
+      parentIdx === len-1 ? list.push([cur]) : list.splice(parentIdx + 1, 0, [cur]); //insert [cur]
+      console.log("splice", list)
+      return { list: list, lastParentId: cur.parentId, lastAddIdx: parentIdx + 1};
+    }
+    //is parent
+    return { list: [...list, [cur]], lastParentId: cur.parentId, lastAddIdx: len };
+  }, { list: [], lastParentId: null, lastAddIdx: 0 }); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
+  console.log("regroup", regrouped.list);
 
   //create old/new channel order
+  //console.log("channels", channels);
   const oldOrder = channels.sort((a, b) => a.oldPos - b.oldPos).slice(); //sort channels with oldPosition
   const newOrder = channels.sort((a, b) => a.newPos - b.newPos).slice(); //slice() for variable shallow copy
 
-  //text
+  //write text for embed
   const space = 15;
   const orderText = oldOrder.reduce((acc, cur, idx) => {
     const newObj = newOrder[idx];
