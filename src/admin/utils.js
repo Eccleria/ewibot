@@ -28,19 +28,20 @@ export const finishEmbed = async (
       await logChannel.send({ embeds: embed }); //send
       if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch {
-      console.log(personalityEvent.title, embed)
+      console.log(personalityEvent.title, embed);
     }
     return;
   }
 
-  if (personalityEvent.executor) embed.addField(personalityEvent.executor, executor, true);
+  if (personalityEvent.executor)
+    embed.addField(personalityEvent.executor, executor, true);
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
   try {
     await logChannel.send({ embeds: [embed] }); //send
     if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
   } catch {
-    console.log(personalityEvent.title, embed)
+    console.log(personalityEvent.title, embed);
   }
 };
 
@@ -129,7 +130,7 @@ export const clientChannelUpdateProcess = (
   let newData = {
     id: newChannel.id,
     name: oldChannel.name,
-    parentId: newChannel.parentId
+    parentId: newChannel.parentId,
   };
   let updateData;
 
@@ -144,7 +145,7 @@ export const clientChannelUpdateProcess = (
       newData.newPos = newChannel.rawPosition; //update newPosition
 
       //remove doublon
-      const filtered = channels.filter((_obj, idx) => idx !== index); 
+      const filtered = channels.filter((_obj, idx) => idx !== index);
       updateData = { channels: [...filtered, newData], timeout: timeout };
     } else {
       //if no doublon
@@ -208,8 +209,8 @@ const space2Strings = (str1, str2, dist, sep) => {
 const removeEmote = (str) => {
   let n = 0;
   for (const char of str) {
-    const ascii = char.charCodeAt(0)
+    const ascii = char.charCodeAt(0);
     if (ascii > 255) n += char.length;
   }
   return str.slice(n);
-}
+};

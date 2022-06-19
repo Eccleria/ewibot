@@ -397,12 +397,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   ); //date of message creation
   embed.addField(messageU.channel, `<#${oldMessage.channelId}>`, true); //message channel
 
-
   //check for content modif
   const oldWords = oldMessage.content.split(" ");
   const newWords = newMessage.content.split(" ");
   console.log("oldWords", oldWords, "newWords", newWords);
-  console.log(oldWords.length, newWords.length)
+  console.log(oldWords.length, newWords.length);
 
   const nLen = newWords.length;
   const oLen = oldWords.length;
@@ -411,39 +410,44 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     oLen >= nLen
       ? { words: oldWords, len: oLen, oLen: nLen }
       : { words: newWords, len: nLen, oLen: oLen };
-  console.log("wordToCheck", wordToCheck)
+  console.log("wordToCheck", wordToCheck);
   const wordDiff = wordToCheck.words.reduce(
     //get word difference
     (acc, cur, idx) => {
       if (idx <= wordToCheck.oLen - 1)
         return cur !== newWords[idx]
           ? {
-            old: [...acc.old, cur],
-            new: [...acc.new, newWords[idx]],
-            count: acc.count + 1,
-          }
+              old: [...acc.old, cur],
+              new: [...acc.new, newWords[idx]],
+              count: acc.count + 1,
+            }
           : acc;
-      else return wordToCheck.len === oLen
-        ? {
-          old: [...acc.old, cur],
-          new: acc.new,
-          count: acc.count + 1,
-        }
-        : {
-          old: acc.old,
-          new: [...acc.new, newWords[idx]],
-          count: acc.count + 1,
-        };
+      else
+        return wordToCheck.len === oLen
+          ? {
+              old: [...acc.old, cur],
+              new: acc.new,
+              count: acc.count + 1,
+            }
+          : {
+              old: acc.old,
+              new: [...acc.new, newWords[idx]],
+              count: acc.count + 1,
+            };
     },
     { old: [], new: [], count: 0 }
   );
   console.log("wordDiff", wordDiff);
 
-  if (wordDiff.count !== 0) embed.addFields(
-    { name: messageU.contentOld, value: oldMessage.content },
-    { name: messageU.contentNew, value: newMessage.content },
-    { name: messageU.contentDiff, value: `${wordDiff.old.join(" ")}\n\n${wordDiff.new.join(" ")}`},
-  )
+  if (wordDiff.count !== 0)
+    embed.addFields(
+      { name: messageU.contentOld, value: oldMessage.content },
+      { name: messageU.contentNew, value: newMessage.content },
+      {
+        name: messageU.contentDiff,
+        value: `${wordDiff.old.join(" ")}\n\n${wordDiff.new.join(" ")}`,
+      }
+    );
 
   //check for embed difference
   endAdmin(newMessage, null, messageU, auditLog, embed, logChannel);

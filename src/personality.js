@@ -32,7 +32,11 @@ class Personality {
   }
 }
 
-export const PERSONALITY = new Personality("normal", personalities.normal, personalities.admin);
+export const PERSONALITY = new Personality(
+  "normal",
+  personalities.normal,
+  personalities.admin
+);
 
 // coming soon, but not today
 
