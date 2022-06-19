@@ -5,9 +5,10 @@ const personalities = JSON.parse(readFileSync("static/personalities.json"));
 //export var PERSONALITY = personalities.normal; // common var for all files
 
 class Personality {
-  constructor(name, personality) {
+  constructor(name, personality, admin) {
     this.name = name;
     this.personality = personality;
+    this.admin = admin;
   }
 
   set(name, personality) {
@@ -27,11 +28,11 @@ class Personality {
     return this.personality.spotify;
   }
   getAdmin() {
-    return this.personality.admin;
+    return this.admin;
   }
 }
 
-export const PERSONALITY = new Personality("normal", personalities.normal);
+export const PERSONALITY = new Personality("normal", personalities.normal, personalities.admin);
 
 // coming soon, but not today
 

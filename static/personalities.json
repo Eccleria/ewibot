@@ -1,98 +1,98 @@
 {
+  "admin": {
+    "auditLog": {
+      "noExec": "Le propriétaire ou un bot.",
+      "noLog": "Aucun log relatif n'a été trouvé.",
+      "partial": "Le message est inaccessible. Pas assez de données expoitables.",
+      "tooOld": "Aucun log récent correspondant."
+    },
+    "channelCreate": {
+      "author": "Salon :",
+      "executor": "Créé par :",
+      "title": "Salon créé"
+    },
+    "channelDelete": {
+      "author": "Salon :",
+      "executor": "Supprimé par :",
+      "title": "Salon supprimé"
+    },
+    "channelUpdate": {
+      "author": "Salon :",
+      "executor": "Modifié par :",
+      "text": "Modifications :\n",
+      "title": "Salon modifié"
+    },
+    "guildBan": {
+      "author": "Membre :",
+      "executor": "Banni par :",
+      "text": "Raison du ban :",
+      "title": "Membre banni"
+    },
+    "guildKick": {
+      "author": "Membre :",
+      "duration": "Durée :",
+      "executor": "Kick par :",
+      "text": "Raison du kick :",
+      "title": "Membre expulsé"
+    },
+    "guildUnban": {
+      "author": "Membre :",
+      "executor": "Débanni par :",
+      "text": "Raison de la levée du ban :",
+      "title": "Membre débanni"
+    },
+    "messageDelete": {
+      "author": "Auteur :",
+      "channel": "Salon :",
+      "date": "Envoyé le :",
+      "executor": "Supprimé par :",
+      "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+      "text": "Contenu du message :",
+      "title": "Message supprimé"
+    },
+    "messageUpdate": {
+      "author": "Membre :",
+      "channel": "Salon :",
+      "contentDiff": "Mots différents",
+      "contentNew": "Nouveau contenu",
+      "contentOld": "Ancien contenu",
+      "date": "Envoyé le :",
+      "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+      "text": "Contenu du message :",
+      "title": "Message modifié"
+    },
+    "roleCreate": {
+      "author": "Rôle :",
+      "date": "Créé le :",
+      "executor": "Créé par :",
+      "title": "Rôle créé"
+    },
+    "roleDelete": {
+      "author": "Rôle :",
+      "date": "Supprimé le :",
+      "executor": "Supprimé par :",
+      "title": "Rôle supprimé"
+    },
+    "roleUpdate": {
+      "author": "Rôle :",
+      "executor": "Modifié par :",
+      "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
+      "new": "\n  Ajoutée.s : ",
+      "old": "\n  Supprimée.s : ",
+      "text": "Modifications :",
+      "permission": "- Permissions :",
+      "title": "Role mis à jour"
+    },
+    "timeout": {
+      "author": "Membre :",
+      "duration": "Durée :",
+      "executor": "Timeout par :",
+      "text": "Raison du timeout :",
+      "title": "Timeout"
+    }
+  },
   "normal": {
     "name": "normal",
-    "admin": {
-      "auditLog": {
-        "noExec": "Le propriétaire ou un bot.",
-        "noLog": "Aucun log relatif n'a été trouvé.",
-        "partial": "Le message est inaccessible. Pas assez de données expoitables.",
-        "tooOld": "Aucun log récent correspondant."
-      },
-      "channelCreate": {
-        "author": "Salon :",
-        "executor": "Créé par :",
-        "title": "Salon créé"
-      },
-      "channelDelete": {
-        "author": "Salon :",
-        "executor": "Supprimé par :",
-        "title": "Salon supprimé"
-      },
-      "channelUpdate": {
-        "author": "Salon :",
-        "executor": "Modifié par :",
-        "text": "Modifications :\n",
-        "title": "Salon modifié"
-      },
-      "guildBan": {
-        "author": "Membre :",
-        "executor": "Banni par :",
-        "text": "Raison du ban :",
-        "title": "Membre banni"
-      },
-      "guildKick": {
-        "author": "Membre :",
-        "duration": "Durée :",
-        "executor": "Kick par :",
-        "text": "Raison du kick :",
-        "title": "Membre expulsé"
-      },
-      "guildUnban": {
-        "author": "Membre :",
-        "executor": "Débanni par :",
-        "text": "Raison de la levée du ban :",
-        "title": "Membre débanni"
-      },
-      "messageDelete": {
-        "author": "Auteur :",
-        "channel": "Salon :",
-        "date": "Envoyé le :",
-        "executor": "Supprimé par :",
-        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-        "text": "Contenu du message :",
-        "title": "Message supprimé"
-      },
-      "messageUpdate": {
-        "author": "Membre :",
-        "channel": "Salon :",
-        "contentDiff": "Mots différents",
-        "contentNew": "Nouveau contenu",
-        "contentOld": "Ancien contenu",
-        "date": "Envoyé le :",
-        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-        "text": "Contenu du message :",
-        "title": "Message modifié"
-      },
-      "roleCreate": {
-        "author": "Rôle :",
-        "date": "Créé le :",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
-      },
-      "roleDelete": {
-        "author": "Rôle :",
-        "date": "Supprimé le :",
-        "executor": "Supprimé par :",
-        "title": "Rôle supprimé"
-      },
-      "roleUpdate": {
-        "author": "Rôle :",
-        "executor": "Modifié par :",
-        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
-        "new": "\n  Ajoutée.s : ",
-        "old": "\n  Supprimée.s : ",
-        "text": "Modifications :",
-        "permission": "- Permissions :",
-        "title": "Role mis à jour"
-      },
-      "timeout": {
-        "author": "Membre :",
-        "duration": "Durée :",
-        "executor": "Timeout par :",
-        "text": "Raison du timeout :",
-        "title": "Timeout"
-      }
-    },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
@@ -170,96 +170,6 @@
   },
   "funny": {
     "name": "funny",
-    "admin": {
-      "auditLog": {
-        "noExec": "Le propriétaire ou un bot.",
-        "noLog": "Aucun log relatif n'a été trouvé.",
-        "partial": "Le message est inaccessible. Pas assez de données expoitables.",
-        "tooOld": "Aucun log récent correspondant."
-      },
-      "channelCreate": {
-        "author": "Salon :",
-        "executor": "Créé par :",
-        "title": "Salon créé"
-      },
-      "channelDelete": {
-        "author": "Salon :",
-        "executor": "Supprimé par :",
-        "title": "Salon supprimé"
-      },
-      "channelUpdate": {
-        "author": "Salon :",
-        "executor": "Modifié par :",
-        "text": "Modifications :\n",
-        "title": "Salon modifié"
-      },
-      "guildBan": {
-        "author": "Membre :",
-        "executor": "Banni par :",
-        "text": "Raison du ban :",
-        "title": "Membre banni"
-      },
-      "guildKick": {
-        "author": "Membre :",
-        "duration": "Durée :",
-        "executor": "Kick par :",
-        "text": "Raison du kick :",
-        "title": "Membre expulsé"
-      },
-      "guildUnban": {
-        "author": "Membre :",
-        "executor": "Débanni par :",
-        "text": "Raison de la levée du ban :",
-        "title": "Membre débanni"
-      },
-      "messageDelete": {
-        "author": "Auteur :",
-        "channel": "Salon :",
-        "date": "Envoyé le :",
-        "executor": "Supprimé par :",
-        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-        "text": "Contenu du message :",
-        "title": "Message supprimé"
-      },
-      "messageUpdate": {
-        "author": "Membre :",
-        "channel": "Salon :",
-        "contentNew": "yo",
-        "contentOld": "yo",
-        "date": "Envoyé le :",
-        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-        "text": "Contenu du message :",
-        "title": "Message modifié"
-      },
-      "roleCreate": {
-        "author": "Rôle :",
-        "date": "Créé le :",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
-      },
-      "roleDelete": {
-        "author": "Rôle :",
-        "date": "Supprimé le :",
-        "executor": "Supprimé par :",
-        "title": "Rôle supprimé"
-      },
-      "roleUpdate": {
-        "author": "Role :",
-        "executor": "Modifié par :",
-        "new": "\n  Ajoutée.s : ",
-        "old": "\n  Supprimée.s : ",
-        "text": "Modifications :",
-        "permission": "- Permissions :",
-        "title": "Role mis à jour"
-      },
-      "timeout": {
-        "author": "Membre :",
-        "duration": "Durée :",
-        "executor": "Timeout par :",
-        "text": "Raison du timeout :",
-        "title": "Timeout"
-      }
-    },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
