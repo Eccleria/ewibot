@@ -42,7 +42,26 @@
       "jamBjornBeurre": "🧈"
     },
     "panDuomReactId": "😠",
-    "removeEmoji": "❌"
+    "removeEmoji": "❌",
+    "pronouns": {
+      "pronouns": {
+        "all": "Tout pronom",
+        "ael": "Æl",
+        "askP": "Demandez",
+        "cancelP": "Annuler",
+        "he": "Il",
+        "no": "Pas de pronom",
+        "she": "Elle",
+        "they": "Iel"
+      },
+      "agreements": {
+        "askA": "Demandez",
+        "cancelA": "Annuler",
+        "female": "Féminins",
+        "male": "Masculins",
+        "neutral": "Neutres"
+      }
+    }
   },
   {
     "name": "prod",
