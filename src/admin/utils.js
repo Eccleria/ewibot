@@ -29,7 +29,7 @@ export const finishEmbed = async (
       await logChannel.send({ embeds: embed }); //send
       if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch {
-      console.log("finishEmbed error\n", personalityEvent.title, embed);
+      console.log("finishEmbed error\n", personalityEvent.title, embed, embed.map((obj) => obj.fields));
     }
     return;
   }
@@ -42,7 +42,7 @@ export const finishEmbed = async (
     await logChannel.send({ embeds: [embed] }); //send
     if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
   } catch {
-    console.log(personalityEvent.title, embed);
+    console.log("finishEmbed error\n", personalityEvent.title, embed, embed.fields);
   }
 };
 
@@ -195,7 +195,7 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
 
   //write text for embed
   const oLen = oldOrder.length;
-  console.log("oldOrder", oldOrder)
+  //console.log("oldOrder", oldOrder)
   const oText = oldOrder.reduce((acc, cur, idx) => {
     //cur = [x*{name, id, parent, old, new}]
     //write text for futur concatenation
@@ -230,12 +230,12 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   }, []);
 
   const space = 15;
-  console.log("oText", [oText])
+  //console.log("oText", [oText])
   const orderText = oText.reduce((acc, cur, idx) => {
     //console.log("acc", [acc], "cur", [cur]);
     //console.log("cur", [cur], "nCur", [nText[idx]]);
     const spaced = space2Strings(cur, nText[idx], space, " |");
-    console.log("spaced", [spaced])
+    //console.log("spaced", [spaced])
     if (idx === oText.length - 1) {
       //if last one
       return acc + spaced + "\n```"; //add end of code line code
