@@ -24,6 +24,7 @@ const action = async (message, client) => {
   const row2 = new MessageActionRow().addComponents(
     createButton("no", pronounsP.no, style),
     createButton("all", pronounsP.all, style),
+    createButton("cancelP", pronounsP.cancel, "DANGER")
   );
   const rowsPronouns = [row1, row2];
 
@@ -32,6 +33,7 @@ const action = async (message, client) => {
     createButton("neutral", agreements.neutral, style),
     createButton("female", agreements.female, style),
     createButton("askA", agreements.ask, style),
+    createButton("cancelA", agreements.cancel, "DANGER")
   );
 
   //create embeds;
