@@ -174,63 +174,74 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //sort by parentId
   const parentIdOrder = channels
     .sort((a, b) => a.parentId - b.parentId)
-    .slice(); //sort channels with oldPosition
+    .slice(); //sort channels with parentId
 
-  //regroup channels w/ same parent
-  const regrouped = parentIdOrder.reduce((acc, cur) => {
-    //regroup according to parentId
-    console.log("acc", acc, "cur" , cur);
-    const list = acc.list; //get list
-    const len = list.length; //get list length
-    const lastParentId = acc.lastParentId; //get lastParentId
-    if (lastParentId === cur.parentId && cur.parentId !== null) {
-      //regroup
-      list[acc.lastAddIdx].push(cur);
-      return { list: list, lastParentId: lastParentId, lastAddIdx: acc.lastAddIdx}
-    } else if (lastParentId !== cur.parentId && cur.parentId !== null) {
-      //new to place correctly
-      const parentsIds = list.map((obj) => obj[0].id); //get all parent ids
-      const parentIdx = parentsIds.findIndex((id) => cur.parentId === id); //find parent index in list
-      if (parentIdx === -1) {
-        //no parent => new goup alone
-        return { list: [...list, [cur]], lastParentId: cur.parentId, lastAddIdx: len };
-      }
-      //has parent
-      console.log("parentIdx", parentIdx, len - 1)
-      parentIdx === len-1 ? list.push([cur]) : list.splice(parentIdx + 1, 0, [cur]); //insert [cur]
-      console.log("splice", list)
-      return { list: list, lastParentId: cur.parentId, lastAddIdx: parentIdx + 1};
-    }
-    //is parent
-    return { list: [...list, [cur]], lastParentId: cur.parentId, lastAddIdx: len };
-  }, { list: [], lastParentId: null, lastAddIdx: 0 }); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
-  console.log("regroup", regrouped.list);
+  //regroup channels w/ same parent && sort parent channels
+  const oRegrouped = regroup(parentIdOrder, 'oldPos');
+  const nRegrouped = regroup(parentIdOrder);
 
   //create old/new channel order
-  //console.log("channels", channels);
-  const oldOrder = channels.sort((a, b) => a.oldPos - b.oldPos).slice(); //sort channels with oldPosition
-  const newOrder = channels.sort((a, b) => a.newPos - b.newPos).slice(); //slice() for variable shallow copy
+  console.log("oRegrouped.list", oRegrouped.list, "nRegrouped.list", nRegrouped.list);
+  const oldOrder = oRegrouped.list.reduce((acc, cur) => {
+    if (cur.length && cur.length > 1)
+      return [...acc, cur.sort((a, b) => a.oldPos - b.oldPos).slice()];
+    return [...acc, cur];
+  }, []); //sort channels with oldPosition
+  const newOrder = nRegrouped.list.reduce((acc, cur) => {
+    if (cur.length && cur.length > 1)
+      return [...acc, cur.sort((a, b) => a.newPos - b.newPos).slice()];
+    return [...acc, cur];
+  }, []); //slice() for variable shallow copy
+  //console.log("oldOrder", oldOrder)
 
   //write text for embed
+  const oLen = oldOrder.length;
+  const oText = oldOrder.reduce((acc, cur, idx) => {
+    //cur = [x*{name, id, parent, old, new}]
+    //write text for futur concatenation
+    const len = cur.length;
+    const lenNext = idx < oLen - 1 && idx !== 0 ? oldOrder[idx+1].length : null;
+    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? `\n\n` : null;
+
+    const text = cur.reduce((acc, cur) => {
+      //get text from list
+      const name = removeEmote(cur.name); //remove the emote if any
+      const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
+      return [...acc, `\n${indent}`];
+    }, [])
+    if (sep !== null) return [...acc, sep, ...text];
+    return [...acc, ...text];
+  }, []);
+
+  const nLen = newOrder.length;
+  const nText = newOrder.reduce((acc, cur, idx) => {
+    //write text for futur concatenation
+    //check length for separation
+    const len = cur.length;
+    const lenNext = idx < nLen - 1 && idx !== 0 ? newOrder[idx + 1].length : null;
+    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? `\n\n` : null;
+    const text = cur.reduce((acc, cur) => {
+      //get text from list
+      const name = removeEmote(cur.name); //remove the emote if any
+      const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
+      return [...acc, indent];
+    }, []);
+
+    if (sep !== null) return [...acc, sep, ...text];
+    return [...acc, ...text];
+  }, []);
+
   const space = 15;
-  const orderText = oldOrder.reduce((acc, cur, idx) => {
-    const newObj = newOrder[idx];
-
-    //if not standard ascii value (ie. is emote), remove it
-    const oldName = removeEmote(cur.name);
-    const newName = removeEmote(newObj.name);
-
-    //if has parentId, indent text
-    const oldIndent = cur.parentId ? `  ${oldName}` : oldName;
-    const newIndent = newObj.parentId ? `  ${newName}` : newName;
-
-    //create log line
-    const spaced = space2Strings(oldIndent, newIndent, space, " | ");
-    if (idx === oldOrder.length - 1) {
+  const orderText = oText.reduce((acc, cur, idx) => {
+    //console.log("acc", [acc], "cur", [cur]);
+    //console.log("cur", [cur], "nCur", [nText[idx]]);
+    const spaced = space2Strings(cur, nText[idx], space, " | ");
+    console.log("spaced", [spaced])
+    if (idx === oText.length - 1) {
       //if last one
-      return acc + "\n" + spaced + "\n```"; //add end of code line code
+      return acc + spaced + "\n```"; //add end of code line code
     }
-    return acc + "\n" + spaced;
+    return acc + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " | ") + "\n");
 
   finishEmbed(chnUp, logPerso.noLog, embed, logChannel, orderText); //send embed
@@ -240,8 +251,12 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
 
 const space2Strings = (str1, str2, dist, sep) => {
   //slice 2 strings, pad the end + add a separator
-  const sliced1 = str1.slice(0, dist).padEnd(dist, " ");
-  const sliced2 = str2.slice(0, dist).padEnd(dist, " ");
+  const sliced1 = str1.startsWith("\n")
+    ? str1.slice(0, dist + 1).padEnd(dist + 1, " ")
+    : str1.slice(0, dist).padEnd(dist, " ");
+  const sliced2 = str2.startsWith("\n")
+    ? str2.slice(0, dist + 1).padEnd(dist + 1, " ")
+    : str2.slice(0, dist).padEnd(dist, " ");
 
   return `${sliced1}${sep}${sliced2}`;
 };
@@ -254,3 +269,45 @@ const removeEmote = (str) => {
   }
   return str.slice(n);
 };
+
+const regroup = (element, type) => {
+  return element.reduce((acc, cur) => {
+    //regroup according to parentId
+    const list = acc.list; //get list
+    const len = list.length; //get list length
+    const lastParentId = acc.lastParentId; //get lastParentId
+    if (lastParentId === cur.parentId && cur.parentId !== null) {
+      //same parentId && not null : regroup
+      list[acc.lastAddIdx].push(cur);
+      return { list: list, lastParentId: lastParentId, lastAddIdx: acc.lastAddIdx }
+    } else if (lastParentId !== cur.parentId && cur.parentId !== null) {
+      //new to place correctly : 
+      const parentsIds = list.map((obj) => obj[0].id); //get all parent ids
+      const parentIdx = parentsIds.findIndex((id) => cur.parentId === id); //find parent index in list
+      if (parentIdx === -1) {
+        //no parent => new goup alone
+        return { list: [...list, [cur]], lastParentId: cur.parentId, lastAddIdx: len };
+      }
+      //has parent
+      parentIdx === len - 1 ? list.push([cur]) : list.splice(parentIdx + 1, 0, [cur]); //insert [cur]
+      return { list: list, lastParentId: cur.parentId, lastAddIdx: parentIdx + 1 };
+    }
+    //is a parent => sort with others
+    const parents = list.reduce((acc, cur) => {
+      console.log(cur)
+      if (cur.length === 1 && cur[0].parentId === null) {
+        if (type === 'oldPos') return [...acc, cur[0].oldPos];
+        return [...acc, cur[0].newPos];
+      }
+      return [...acc, null] //return null for index preservation
+    }, []); //[id, [], id, id, [], id]...
+    const parentIdx = parents.reduce((saved, now, indx) => {
+      //if is number && id < idToAdd => save index
+      const toCheck = type === 'oldPos' ? cur.oldPos : cur.newPos;
+      if (typeof now === 'number' && toCheck > now) return indx + 1;
+      return saved;
+    }, 0); //find parent index in list
+    list.splice(parentIdx, 0, [cur]);
+    return { list: list, lastParentId: cur.parentId, lastAddIdx: len };
+  }, { list: [], lastParentId: null, lastAddIdx: 0 }); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
+}
