@@ -277,31 +277,34 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
   const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE"); //get auditLog
 
-  //get all data to compare
-  const changes = roleLog.changes.map((obj) => {
-    if (obj.key === "permissions")
-      return [
-        obj.key,
-        oldRole.permissions.missing(newRole.permissions),
-        newRole.permissions.missing(oldRole.permissions),
-      ];
-    //compare both roles to get only changes and not all data.
-    else return [obj.key, obj.old, obj.new];
-  });
+  if (roleLog !== null) {
+    //get all data to compare
+    const changes = roleLog.changes.map((obj) => {
+      if (obj.key === "permissions")
+        return [
+          obj.key,
+          oldRole.permissions.missing(newRole.permissions),
+          newRole.permissions.missing(oldRole.permissions),
+        ];
+      //compare both roles to get only changes and not all data.
+      else return [obj.key, obj.old, obj.new];
+    });
 
-  //create log to send
-  const text = changes.reduce((acc, cur) => {
-    //if permissions, get permissions removed and added
-    if (cur[0] === "permissions") {
-      const draft1 =
-        cur[1].length === 0 ? "" : `${roleUp.new} ${cur[1].join(", ")}`; //[new permissions]
-      const draft2 =
-        cur[2].length === 0 ? "" : `${roleUp.old} ${cur[2].join(", ")}`; //[removed permissions]
-      return acc + `${roleUp.permission}` + `${draft1}` + `${draft2}\n`;
-    } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
-  }, "");
+    //create log to send
+    const text = changes.reduce((acc, cur) => {
+      //if permissions, get permissions removed and added
+      if (cur[0] === "permissions") {
+        const draft1 =
+          cur[1].length === 0 ? "" : `${roleUp.new} ${cur[1].join(", ")}`; //[new permissions]
+        const draft2 =
+          cur[2].length === 0 ? "" : `${roleUp.old} ${cur[2].join(", ")}`; //[removed permissions]
+        return acc + `${roleUp.permission}` + `${draft1}` + `${draft2}\n`;
+      } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
+    }, "");
 
-  endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel, text);
+    endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel, text);
+  }
+  endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel);
 };
 
 export const onMessageDelete = async (message) => {
