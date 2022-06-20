@@ -226,16 +226,20 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     return;
   }
 
-  const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
-  const text = changes.reduce((acc, cur) => {
-    //create text to send
-    return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
-  }, "");
+  if (chnLog) {
+    const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
+    const text = changes.reduce((acc, cur) => {
+      //create text to send
+      return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
+    }, "");
 
-  const logCreationDate = dayjs(chnLog.createdAt);
-  const diff = dayjs().diff(logCreationDate, "s");
+    const logCreationDate = dayjs(chnLog.createdAt);
+    const diff = dayjs().diff(logCreationDate, "s");
 
-  endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel, text, diff);
+    endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel, text, diff);
+    return
+  }
+  endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel);
 };
 
 export const onRoleCreate = async (role) => {

@@ -2,11 +2,16 @@ import { MessageEmbed } from "discord.js";
 
 export const fetchAuditLog = async (guild, auditType) => {
   //fetch the first corresponding audit log
-  const fetchedLogs = await guild.fetchAuditLogs({
-    limit: 1,
-    type: auditType,
-  }); //fetch logs
-  return fetchedLogs.entries.first(); //return the first
+  try {
+    const fetchedLogs = await guild.fetchAuditLogs({
+      limit: 1,
+      type: auditType,
+    }); //fetch logs
+    return fetchedLogs.entries.first(); //return the first
+  } catch (e) {
+    console.log("AuditLog Fetch Error", e)
+    return null;
+  }
 };
 
 export const finishEmbed = async (
