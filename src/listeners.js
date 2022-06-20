@@ -385,7 +385,7 @@ export const onMessageDelete = async (message) => {
 export const onMessageUpdate = async (oldMessage, newMessage) => {
   //handle message update event
   if (!oldMessage.guild) return; //Ignore DM
-  console.log(oldMessage, newMessage)
+  //console.log(oldMessage, newMessage)
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageU = personality.messageUpdate;
