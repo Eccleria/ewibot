@@ -181,7 +181,7 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   const nRegrouped = regroup(parentIdOrder);
 
   //create old/new channel order
-  console.log("oRegrouped.list", oRegrouped.list, "nRegrouped.list", nRegrouped.list);
+  //console.log("oRegrouped.list", oRegrouped.list, "nRegrouped.list", nRegrouped.list);
   const oldOrder = oRegrouped.list.reduce((acc, cur) => {
     if (cur.length && cur.length > 1)
       return [...acc, cur.sort((a, b) => a.oldPos - b.oldPos).slice()];
@@ -192,16 +192,16 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
       return [...acc, cur.sort((a, b) => a.newPos - b.newPos).slice()];
     return [...acc, cur];
   }, []); //slice() for variable shallow copy
-  //console.log("oldOrder", oldOrder)
 
   //write text for embed
   const oLen = oldOrder.length;
+  console.log("oldOrder", oldOrder)
   const oText = oldOrder.reduce((acc, cur, idx) => {
     //cur = [x*{name, id, parent, old, new}]
     //write text for futur concatenation
     const len = cur.length;
-    const lenNext = idx < oLen - 1 && idx !== 0 ? oldOrder[idx+1].length : null;
-    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? `\n\n` : null;
+    const lenNext = idx < oLen - 1 ? oldOrder[idx+1].length : null;
+    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? `\n` : null;
 
     const text = cur.reduce((acc, cur) => {
       //get text from list
@@ -209,40 +209,39 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
       const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
       return [...acc, `\n${indent}`];
     }, [])
-    if (sep !== null) return [...acc, sep, ...text];
+    if (sep !== null) return [...acc, ...text, sep ];
     return [...acc, ...text];
   }, []);
 
-  const nLen = newOrder.length;
   const nText = newOrder.reduce((acc, cur, idx) => {
     //write text for futur concatenation
     //check length for separation
     const len = cur.length;
-    const lenNext = idx < nLen - 1 && idx !== 0 ? newOrder[idx + 1].length : null;
-    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? `\n\n` : null;
+    const lenNext = idx < oLen - 1 ? oldOrder[idx + 1].length : null;
+    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? ` ` : null;
     const text = cur.reduce((acc, cur) => {
       //get text from list
       const name = removeEmote(cur.name); //remove the emote if any
       const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
       return [...acc, indent];
     }, []);
-
-    if (sep !== null) return [...acc, sep, ...text];
+    if (sep !== null) return [...acc, ...text, sep];
     return [...acc, ...text];
   }, []);
 
   const space = 15;
+  console.log("oText", [oText])
   const orderText = oText.reduce((acc, cur, idx) => {
     //console.log("acc", [acc], "cur", [cur]);
     //console.log("cur", [cur], "nCur", [nText[idx]]);
-    const spaced = space2Strings(cur, nText[idx], space, " | ");
+    const spaced = space2Strings(cur, nText[idx], space, " |");
     console.log("spaced", [spaced])
     if (idx === oText.length - 1) {
       //if last one
       return acc + spaced + "\n```"; //add end of code line code
     }
     return acc + spaced;
-  }, "```md\n" + space2Strings("avant", "apres", space, " | ") + "\n");
+  }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
 
   finishEmbed(chnUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
@@ -294,7 +293,6 @@ const regroup = (element, type) => {
     }
     //is a parent => sort with others
     const parents = list.reduce((acc, cur) => {
-      console.log(cur)
       if (cur.length === 1 && cur[0].parentId === null) {
         if (type === 'oldPos') return [...acc, cur[0].oldPos];
         return [...acc, cur[0].newPos];
