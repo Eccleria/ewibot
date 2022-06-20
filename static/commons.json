@@ -45,21 +45,21 @@
     "removeEmoji": "❌",
     "pronouns": {
       "pronouns": {
-        "all": "Tout pronom",
-        "ael": "Æl",
-        "askP": "Demandez",
+        "all": "988481558325395567",
+        "ael": "988481383817154610",
+        "askP": "988481491623370783",
         "cancelP": "Annuler",
-        "he": "Il",
-        "no": "Pas de pronom",
-        "she": "Elle",
-        "they": "Iel"
+        "he": "988480763299237988",
+        "no": "988485379550232648",
+        "she": "988481359255339100",
+        "they": "988481438510895225"
       },
       "agreements": {
-        "askA": "Demandez",
+        "askA": "988481851364622336",
         "cancelA": "Annuler",
-        "female": "Féminins",
-        "male": "Masculins",
-        "neutral": "Neutres"
+        "female": "988481769844117505",
+        "male": "988481664508391445",
+        "neutral": "988481811657142322"
       }
     }
   },
