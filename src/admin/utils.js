@@ -29,7 +29,7 @@ export const finishEmbed = async (
       await logChannel.send({ embeds: embed }); //send
       if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch (e) {
-      console.log("finishEmbed error\n", e, '\n\n', personalityEvent.title, embed, embed.map((obj) => obj.fields));
+      console.log("finishEmbed error\n", e, personalityEvent.title, embed);
     }
     return;
   }
@@ -42,7 +42,7 @@ export const finishEmbed = async (
     await logChannel.send({ embeds: [embed] }); //send
     if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
   } catch (e) {
-    console.log("finishEmbed error\n", e, '\n\n', personalityEvent.title, embed, embed.fields);
+    console.log("finishEmbed error\n", e, personalityEvent.title, embed );
   }
 };
 
