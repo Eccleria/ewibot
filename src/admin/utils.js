@@ -28,8 +28,8 @@ export const finishEmbed = async (
     try {
       await logChannel.send({ embeds: embed }); //send
       if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
-    } catch {
-      console.log("finishEmbed error\n", personalityEvent.title, embed, embed.map((obj) => obj.fields));
+    } catch (e) {
+      console.log("finishEmbed error\n", e, '\n\n', personalityEvent.title, embed, embed.map((obj) => obj.fields));
     }
     return;
   }
@@ -41,8 +41,8 @@ export const finishEmbed = async (
   try {
     await logChannel.send({ embeds: [embed] }); //send
     if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
-  } catch {
-    console.log("finishEmbed error\n", personalityEvent.title, embed, embed.fields);
+  } catch (e) {
+    console.log("finishEmbed error\n", e, '\n\n', personalityEvent.title, embed, embed.fields);
   }
 };
 
