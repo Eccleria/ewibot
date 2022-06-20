@@ -58,6 +58,7 @@ export const onPrivateMessage = async (message, client) => {
 
 export const onPublicMessage = (message, client, currentServer, self) => {
   const { author, content, channel } = message;
+
   if (
     author.id === self || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
@@ -380,6 +381,7 @@ export const onMessageDelete = async (message) => {
 export const onMessageUpdate = async (oldMessage, newMessage) => {
   //handle message update event
   if (!oldMessage.guild) return; //Ignore DM
+  console.log(oldMessage, newMessage)
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageU = personality.messageUpdate;
@@ -411,6 +413,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const newContent = newMessage.content;
   console.log("oldContent", [oldContent], "newContent", [newContent]);
 
+  if (Math.abs(oldContent.length - newContent.length) <= 2) return
   if (oldContent !== newContent)
     embed.addFields(
       { name: messageU.contentOld, value: oldContent },
@@ -422,9 +425,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     if (newMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
       return [...acc, cur.attachment];
   }, []);
+  console.log(attachments != [] ? `attachments : ${attachments}` : "")
   const embeds = oldMessage.embeds.reduce(
     (acc, cur, idx) => {
       if (cur.equals(newMessage.embeds[idx])) return [...acc, cur];
+      return acc;
     },
     [embed]
   );
