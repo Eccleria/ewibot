@@ -3,9 +3,7 @@ import { PERSONALITY } from "../personality.js";
 
 import { setupEmbed } from "../admin/utils.js";
 
-const action = async (message, client) => {
-  const { content } = message;
-  const args = content.toLowerCase().split(" ");
+const action = async (message) => {
 
   //personality
   const personality = PERSONALITY.getCommands();
@@ -13,7 +11,7 @@ const action = async (message, client) => {
   const agreements = personality.pronouns.agreements;
 
   //create all buttons
-  const style = "SECONDARY";
+  const style = "SECONDARY"; //grey background
   const row1 = new MessageActionRow().addComponents(
     createButton("he", pronounsP.he, style),
     createButton("she", pronounsP.she, style),
@@ -33,7 +31,7 @@ const action = async (message, client) => {
     createButton("neutral", agreements.neutral, style),
     createButton("female", agreements.female, style),
     createButton("askA", agreements.ask, style),
-    createButton("cancelA", agreements.cancel, "DANGER")
+    createButton("cancelA", agreements.cancel, "DANGER") //red background
   );
 
   //create embeds;

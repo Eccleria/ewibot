@@ -2,6 +2,8 @@
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
+import { PERSONALITY } from "../personality.js";
+
 export const buttonHandler = (interaction) => {
     //get commons pronouns data
   const currentServer = commons.find(
@@ -18,10 +20,8 @@ export const buttonHandler = (interaction) => {
   const roles = guildMember.roles; //get guildMember roles
 
   //handle roles
-  if (json[1].length === 18) {
-    if (!roles.cache.has(json[1])) guildMember.roles.add(json[1]); //if do not have, add role
-    return;
-  } else {
+  if (json[1].length === 18 && !roles.cache.has(json[1])) guildMember.roles.add(json[1]); //if do not have, add role
+  else {
     //is cancel
     //get all roles to removes
     const jsonToUse = pronounsJson.includes(json) ? pronounsJson : agreementsJson;
@@ -32,4 +32,10 @@ export const buttonHandler = (interaction) => {
 
     if (toRemove.length !== 0) roles.remove(toRemove);
   }
+
+  //reply to interaction
+  const personality = PERSONALITY.getCommands()
+  const pronounsP = personality.pronouns;
+  interaction.reply({ content: pronounsP.text.reply, ephemeral: true })
+  //console.log("defered")
 }

@@ -53,6 +53,15 @@
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
       "pronouns": {
+        "agreements": {
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "Féminins",
+          "male": "Masculins",
+          "neutral": "Neutres",
+          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+        },
         "pronouns": {
           "all": "Tout pronom",
           "ael": "Æl",
@@ -65,14 +74,9 @@
           "they": "Iel",
           "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
         },
-        "agreements": {
-          "ask": "Demandez",
-          "cancel": "Annuler",
-          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
-          "female": "Féminins",
-          "male": "Masculins",
-          "neutral": "Neutres",
-          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+        "text": {
+          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
+          "reply": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
         }
       },
       "reminder": {
