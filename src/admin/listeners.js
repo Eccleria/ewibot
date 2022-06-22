@@ -20,6 +20,8 @@ dayjs.extend(relativeTime);
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("./static/commons.json"));
 
+//LISTENERS 
+
 export const onChannelCreate = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
@@ -257,13 +259,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const messageU = personality.messageUpdate;
 
   const logChannel = await getLogChannel(commons, newMessage); //get logChannel
+  const date = oldMessage.createdAt.toString().slice(4, 24);
+
   if (oldMessage.partial || newMessage.partial) {
-    //if the message is partial and deleted, no possibility to fetch
-    //so only partial data
-    console.log(
-      "partial message modified",
-      oldMessage.createdAt.toString().slice(4, 24)
-    );
+    //if message partial and deleted, unfetchable, only partial data
+    console.log("partial message modified", date);
     return;
   }
 
@@ -271,11 +271,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //no auditLog when message update
 
   //add creation date + channel
-  embed.addField(
-    messageU.date,
-    `${oldMessage.createdAt.toString().slice(4, 24)}`,
-    true
-  ); //date of message creation
+  embed.addField(messageU.date, `${date}`, true); //date of message creation
   embed.addField(messageU.channel, `<#${oldMessage.channelId}>`, true); //message channel
 
   //check for content modif
@@ -283,6 +279,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const newContent = newMessage.content;
   console.log("oldContent", [oldContent], "newContent", [newContent]);
 
+  //filter changes, if < 2 length => return
   if (Math.abs(oldContent.length - newContent.length) <= 2) return
   if (oldContent !== newContent)
     embed.addFields(
@@ -294,15 +291,16 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const attachments = oldMessage.attachments.reduce((acc, cur) => {
     if (newMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
       return [...acc, cur.attachment];
-  }, []);
-  console.log(attachments != [] ? `attachments : ${attachments}` : "")
+  }, []); //check for attachments
+  console.log(attachments.length !== 0 ? `attachments : ${attachments}` : "")
   const embeds = oldMessage.embeds.reduce(
     (acc, cur, idx) => {
-      if (cur.equals(newMessage.embeds[idx])) return [...acc, cur];
+      if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
       return acc;
     },
     [embed]
-  );
+  ); //check for embeds. It includes link integration
+
   finishEmbed(messageU, null, embeds, logChannel, null, attachments);
 };
 
@@ -342,6 +340,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const newIsTimeout = newMember.isCommunicationDisabled();
   console.log(oldIsTimeout, newIsTimeout);
   if (!newIsTimeout) return; // if no timeout added => return
+  console.log("member timeout add");
 
   const user = newMember.user;
 
