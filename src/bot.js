@@ -19,6 +19,10 @@ import { generateSpotifyClient } from "./helpers/index.js";
 import {
   onPrivateMessage,
   onPublicMessage,
+  onReactionAdd,
+  onReactionRemove,
+} from "./listeners.js";
+import {
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
@@ -31,9 +35,7 @@ import {
   onGuildBanRemove,
   onGuildMemberRemove,
   onGuildMemberUpdate,
-  onReactionAdd,
-  onReactionRemove,
-} from "./listeners.js";
+} from "./admin/listeners.js"
 
 // jsons import
 import { readFileSync } from "fs";

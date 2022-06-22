@@ -32,7 +32,7 @@ export const finishEmbed = async (
 
     try {
       await logChannel.send({ embeds: embed }); //send
-      if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
+      if (attachments.length !== 0) await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch (e) {
       console.log("finishEmbed error\n", e, personalityEvent.title, embed);
     }
@@ -45,7 +45,7 @@ export const finishEmbed = async (
 
   try {
     await logChannel.send({ embeds: [embed] }); //send
-    if (attachments) await logChannel.send({ files: attachments }); //if attachments, send new message
+    if (attachments.length !== 0) await logChannel.send({ files: attachments }); //if attachments, send new message
   } catch (e) {
     console.log("finishEmbed error\n", e, personalityEvent.title, embed );
   }

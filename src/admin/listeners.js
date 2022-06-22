@@ -181,22 +181,16 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, message); //get logChannel
+  const date = message.createdAt.toString().slice(4, 24);
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
-    console.log(
-      "partial message deleted",
-      message.createdAt.toString().slice(4, 24)
-    );
+    console.log("partial message deleted", date);
     return;
   }
 
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
-  embed.addField(
-    messageDel.date,
-    `${message.createdAt.toString().slice(4, 24)}`,
-    true
-  ); //date of message creation
+  embed.addField(messageDel.date, `${date}`, true); //date of message creation
   embed.addField(messageDel.channel, `<#${message.channelId}>`, true); //message channel
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
 
@@ -339,9 +333,9 @@ export const onGuildBanRemove = async (userBan) => {
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {
   //check if timeout added or removed
-  const oldIsTimeout = oldMember.isCommunicationDisabled();
+  //const oldIsTimeout = oldMember.isCommunicationDisabled();
   const newIsTimeout = newMember.isCommunicationDisabled();
-  console.log(oldIsTimeout, newIsTimeout);
+
   if (!newIsTimeout) return; // if no timeout added => return
   console.log("member timeout add");
 
