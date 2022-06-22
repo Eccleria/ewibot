@@ -37,5 +37,4 @@ export const buttonHandler = (interaction) => {
   const personality = PERSONALITY.getCommands()
   const pronounsP = personality.pronouns;
   interaction.reply({ content: pronounsP.text.reply, ephemeral: true })
-  //console.log("defered")
 }

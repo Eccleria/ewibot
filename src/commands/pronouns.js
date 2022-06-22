@@ -3,7 +3,10 @@ import { PERSONALITY } from "../personality.js";
 
 import { setupEmbed } from "../admin/utils.js";
 
-const action = async (message) => {
+const action = async (message, client, currentServer) => {
+  const { roleHandle } = currentServer;
+  const guild = await client.guilds.fetch(message.guildId);
+  const roleChannel = await guild.channels.fetch(roleHandle.channelId);
 
   //personality
   const personality = PERSONALITY.getCommands();
@@ -39,8 +42,8 @@ const action = async (message) => {
   const embedAgreements = setupEmbed("ORANGE", agreements, null, "skip");
 
   //send messages
-  await message.channel.send({ embeds: [embedPronouns], components: rowsPronouns });
-  await message.channel.send({ embeds: [embedAgreements], components: [rowAgreement] });
+  await roleChannel.send({ embeds: [embedPronouns], components: rowsPronouns });
+  await roleChannel.send({ embeds: [embedAgreements], components: [rowAgreement] });
 };
 
 const createButton = (id, label, style) => {
