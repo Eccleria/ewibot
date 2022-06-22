@@ -43,15 +43,15 @@ const action = async (message, client, currentServer) => {
 
   //send messages
   await roleChannel.send({ embeds: [embedPronouns], components: rowsPronouns });
-  await roleChannel.send({ embeds: [embedAgreements], components: [rowAgreement] });
+  await roleChannel.send({
+    embeds: [embedAgreements],
+    components: [rowAgreement],
+  });
 };
 
 const createButton = (id, label, style) => {
-  return new MessageButton()
-    .setCustomId(id)
-    .setLabel(label)
-    .setStyle(style);
-}
+  return new MessageButton().setCustomId(id).setLabel(label).setStyle(style);
+};
 
 const pronouns = {
   name: "pronouns",

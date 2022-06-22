@@ -21,9 +21,7 @@ import {
   onReactionAdd,
   onReactionRemove,
 } from "./listeners.js";
-import {
-  onInteractionCreate,
-} from "./admin/listeners.js"
+import { onInteractionCreate } from "./admin/listeners.js";
 
 // jsons imports
 import { readFileSync } from "fs";
