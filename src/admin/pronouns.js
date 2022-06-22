@@ -4,7 +4,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 import { PERSONALITY } from "../personality.js";
 
-export const buttonHandler = (interaction) => {
+export const buttonHandler = async (interaction) => {
   //get commons pronouns data
   const currentServer = commons.find(
     ({ guildId }) => guildId === interaction.guildId
@@ -40,5 +40,6 @@ export const buttonHandler = (interaction) => {
   //reply to interaction
   const personality = PERSONALITY.getCommands();
   const pronounsP = personality.pronouns;
-  interaction.reply({ content: pronounsP.text.reply, ephemeral: true });
+  await interaction.reply({ content: pronounsP.text.reply, ephemeral: true });
+  console.log("pronouns", interaction.createdAt)
 };
