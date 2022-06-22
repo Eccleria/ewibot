@@ -57,6 +57,8 @@
       "contentNew": "Nouveau contenu",
       "contentOld": "Ancien contenu",
       "date": "Envoyé le :",
+      "linkMessage": "Clique pour retourner au message.",
+      "linkName": "Lien",
       "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
       "text": "Contenu du message :",
       "title": "Message modifié"

@@ -1,4 +1,4 @@
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "../personality.js";
 import {
   fetchAuditLog,
   finishEmbed,
@@ -301,6 +301,9 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     [embed]
   ); //check for embeds. It includes link integration
 
+  //add message link
+  const link = `[${messageU.linkMessage}](${newMessage.url})`
+  embed.addField(messageU.linkName, link);
   finishEmbed(messageU, null, embeds, logChannel, null, attachments);
 };
 
