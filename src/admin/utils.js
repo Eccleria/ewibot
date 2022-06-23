@@ -69,9 +69,9 @@ export const setupEmbed = (color, personality, object, type) => {
 
   if (type === "tag") {
     //add the user tag if required
-    embed.addField(personality.author, object.tag, true);
+    embed.addField(personality.author, object.toString(), true);
   } else if (type === "skip") return embed;
-  else embed.addField(personality.author, object.name, true); //otherwise, add the object name (for channels, roles, ...)
+  else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name (for channels, roles, ...)
   return embed;
 };
 

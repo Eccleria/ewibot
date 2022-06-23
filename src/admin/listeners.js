@@ -309,7 +309,7 @@ export const onGuildBanAdd = async (userBan) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
-  const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user); //setup embed
+  const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user, "tag"); //setup embed
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD"); //get auditLog
   const reason = userBan.reason; //get ban reason
 
@@ -324,7 +324,7 @@ export const onGuildBanRemove = async (userBan) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
-  const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user); //setup embed
+  const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user, "tag"); //setup embed
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE"); //get auditLog
   const reason = userBan.reason; //get ban reason
 
