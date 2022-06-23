@@ -286,7 +286,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     if (newMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
       return [...acc, cur.attachment];
   }, []); //check for attachments
-  console.log(attachments.length !== 0 ? `attachments : ${attachments}` : "")
+
   const embeds = oldMessage.embeds.reduce(
     (acc, cur, idx) => {
       if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
