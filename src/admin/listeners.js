@@ -9,12 +9,6 @@ import {
 } from "./utils.js";
 
 import dayjs from "dayjs";
-import "dayjs/locale/fr.js";
-import Duration from "dayjs/plugin/duration.js";
-import relativeTime from "dayjs/plugin/relativeTime.js";
-dayjs.locale("fr");
-dayjs.extend(Duration);
-dayjs.extend(relativeTime);
 
 // jsons imports
 import { readFileSync } from "fs";
