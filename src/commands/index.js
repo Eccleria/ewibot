@@ -17,6 +17,7 @@ import birthday from "./birthday.js";
 import concrete from "./concrete.js";
 import spotify from "./spotify.js";
 import leaderboardApology from "./leadApo.js";
+import test from "./test.js"
 import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
@@ -134,6 +135,7 @@ const commands =
         reminder,
         roll,
         spotify,
+        test,
       ]
     : [
         birthday,
@@ -144,6 +146,7 @@ const commands =
         leaderboardApology,
         reminder,
         roll,
+        test,
       ];
 
 const help = {

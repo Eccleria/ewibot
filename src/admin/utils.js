@@ -31,7 +31,7 @@ export const finishEmbed = async (
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
     try {
-      await logChannel.send({ embeds: embed }); //send
+      await logChannel.send({ embeds: embed, allowed_mentions: { "parse": [] } }); //send
       if (attachments.length !== 0) await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch (e) {
       console.log("finishEmbed error\n", e, personalityEvent.title, embed);
@@ -44,7 +44,7 @@ export const finishEmbed = async (
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
   try {
-    await logChannel.send({ embeds: [embed] }); //send
+    await logChannel.send({ embeds: [embed], allowed_mentions: { "parse": [] } }); //send
     if (attachments.length !== 0) await logChannel.send({ files: attachments }); //if attachments, send new message
   } catch (e) {
     console.log("finishEmbed error\n", e, personalityEvent.title, embed );
