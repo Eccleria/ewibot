@@ -282,13 +282,15 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       return [...acc, cur.attachment];
   }, []); //check for attachments
 
-  const embeds = oldMessage.embeds.reduce(
+  const oldEmbeds = oldMessage.embeds;
+
+  const embeds = oldEmbeds.length !== 0 ? oldEmbeds.reduce(
     (acc, cur, idx) => {
       if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
       return acc;
     },
     [embed]
-  ); //check for embeds. It includes link integration
+  ) : [embed]; //check for embeds. It includes link integration
 
   //add message link
   const link = `[${messageU.linkMessage}](${newMessage.url})`
