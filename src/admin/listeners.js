@@ -355,22 +355,37 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
 
 export const onGuildMemberRemove = async (memberKick) => {
   //handle guildMember kicked or leaving the server
-  console.log("member kicked from Discord Server");
+  console.log("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
 
   const personality = PERSONALITY.getAdmin(); //get personality
-  const guildKick = personality.guildKick;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
-  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog.reason; //get ban reason
 
   const logCreationDate = dayjs(kickLog.createdAt);
   const diff = dayjs().diff(logCreationDate, "s");
 
+  if (diff >= 5) {
+    //log too old => not kicked but left
+    const guildKick = personality.guildKick.leave;
+    const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
+    endAdmin(
+      userKick,
+      kickLog,
+      guildKick,
+      null,
+      embed,
+      logChannel,
+    );
+    return
+  }
+
+  const guildKick = personality.guildKick.kick;
+  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
   endAdmin(
     userKick,
     kickLog,

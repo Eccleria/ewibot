@@ -29,11 +29,17 @@
       "title": "Membre banni"
     },
     "guildKick": {
-      "author": "Membre :",
-      "duration": "Durée :",
-      "executor": "Kick par :",
-      "text": "Raison du kick :",
-      "title": "Membre expulsé"
+      "kick": {
+        "author": "Membre :",
+        "duration": "Durée :",
+        "executor": "Kick par :",
+        "text": "Raison du kick :",
+        "title": "Membre expulsé"
+      },
+      "leave": {
+        "author": "Membre :",
+        "title": "Membre ayant quitté le serveur"
+      }
     },
     "guildUnban": {
       "author": "Membre :",
