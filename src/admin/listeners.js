@@ -269,12 +269,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //filter changes, if < 2 length => return
   if (Math.abs(oldContent.length - newContent.length) <= 2) return
 
-  console.log("oldContent", [oldContent], "newContent", [newContent]);
-  if (oldContent !== newContent)
-    embed.addFields(
-      { name: messageU.contentOld, value: oldContent },
-      { name: messageU.contentNew, value: newContent }
-    );
+  if (oldContent !== newContent) {
+    console.log("oldContent", [oldContent], "newContent", [newContent]);
+    if (oldContent.length !== 0) embed.addField(messageU.contentOld, oldContent);
+    if (newContent.length !== 0) embed.addField(messageU.contentNew, newContent);
+  }
 
   //check for objects changes
   const attachments = oldMessage.attachments.reduce((acc, cur) => {
