@@ -265,10 +265,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //check for content modif
   const oldContent = oldMessage.content;
   const newContent = newMessage.content;
-  console.log("oldContent", [oldContent], "newContent", [newContent]);
 
   //filter changes, if < 2 length => return
   if (Math.abs(oldContent.length - newContent.length) <= 2) return
+
+  console.log("oldContent", [oldContent], "newContent", [newContent]);
   if (oldContent !== newContent)
     embed.addFields(
       { name: messageU.contentOld, value: oldContent },
