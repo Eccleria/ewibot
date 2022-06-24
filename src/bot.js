@@ -35,7 +35,7 @@ import {
   onGuildBanRemove,
   onGuildMemberRemove,
   onGuildMemberUpdate,
-} from "./admin/listeners.js"
+} from "./admin/listeners.js";
 
 // jsons import
 import { readFileSync } from "fs";

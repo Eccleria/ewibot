@@ -9,7 +9,7 @@ export const fetchAuditLog = async (guild, auditType) => {
     }); //fetch logs
     return fetchedLogs.entries.first(); //return the first
   } catch (e) {
-    console.log("AuditLog Fetch Error", e)
+    console.log("AuditLog Fetch Error", e);
     return null;
   }
 };
@@ -31,8 +31,9 @@ export const finishEmbed = async (
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
     try {
-      await logChannel.send({ embeds: embed, allowed_mentions: { "parse": [] } }); //send
-      if (attachments && attachments.length !== 0) await logChannel.send({ files: attachments }); //if attachments, send new message
+      await logChannel.send({ embeds: embed, allowed_mentions: { parse: [] } }); //send
+      if (attachments && attachments.length !== 0)
+        await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch (e) {
       console.log("finishEmbed list error\n", personalityEvent.title, e, embed);
     }
@@ -44,8 +45,9 @@ export const finishEmbed = async (
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
   try {
-    await logChannel.send({ embeds: [embed], allowed_mentions: { "parse": [] } }); //send
-    if (attachments && attachments.length !== 0) await logChannel.send({ files: attachments }); //if attachments, send new message
+    await logChannel.send({ embeds: [embed], allowed_mentions: { parse: [] } }); //send
+    if (attachments && attachments.length !== 0)
+      await logChannel.send({ files: attachments }); //if attachments, send new message
   } catch (e) {
     console.log("finishEmbed error\n", personalityEvent.title, e, embed);
   }
@@ -173,16 +175,16 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //Function called after channelUpdate timeout end
   //client == {channels: [data], timeout: timeout}
   //data == {id, name, parentId, oldPos, newPos}
-  
+
   const { channels } = client.channelUpdate;
-  
+
   //sort by parentId
   const parentIdOrder = channels
     .sort((a, b) => a.parentId - b.parentId)
     .slice(); //sort channels with parentId
 
   //regroup channels w/ same parent && sort parent channels
-  const oRegrouped = regroup(parentIdOrder, 'oldPos');
+  const oRegrouped = regroup(parentIdOrder, "oldPos");
   const nRegrouped = regroup(parentIdOrder);
 
   //create old/new channel order
@@ -205,7 +207,7 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
     //cur = [x*{name, id, parent, old, new}]
     //write text for futur concatenation
     const len = cur.length;
-    const lenNext = idx < oLen - 1 ? oldOrder[idx+1].length : null;
+    const lenNext = idx < oLen - 1 ? oldOrder[idx + 1].length : null;
     const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? `\n` : null;
 
     const text = cur.reduce((acc, cur) => {
@@ -213,8 +215,8 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
       const name = removeEmote(cur.name); //remove the emote if any
       const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
       return [...acc, `\n${indent}`];
-    }, [])
-    if (sep !== null) return [...acc, ...text, sep ];
+    }, []);
+    if (sep !== null) return [...acc, ...text, sep];
     return [...acc, ...text];
   }, []);
 
@@ -275,42 +277,59 @@ const removeEmote = (str) => {
 };
 
 const regroup = (element, type) => {
-  return element.reduce((acc, cur) => {
-    //regroup according to parentId
-    const list = acc.list; //get list
-    const len = list.length; //get list length
-    const lastParentId = acc.lastParentId; //get lastParentId
-    if (lastParentId === cur.parentId && cur.parentId !== null) {
-      //same parentId && not null : regroup
-      list[acc.lastAddIdx].push(cur);
-      return { list: list, lastParentId: lastParentId, lastAddIdx: acc.lastAddIdx }
-    } else if (lastParentId !== cur.parentId && cur.parentId !== null) {
-      //new to place correctly : 
-      const parentsIds = list.map((obj) => obj[0].id); //get all parent ids
-      const parentIdx = parentsIds.findIndex((id) => cur.parentId === id); //find parent index in list
-      if (parentIdx === -1) {
-        //no parent => new goup alone
-        return { list: [...list, [cur]], lastParentId: cur.parentId, lastAddIdx: len };
+  return element.reduce(
+    (acc, cur) => {
+      //regroup according to parentId
+      const list = acc.list; //get list
+      const len = list.length; //get list length
+      const lastParentId = acc.lastParentId; //get lastParentId
+      if (lastParentId === cur.parentId && cur.parentId !== null) {
+        //same parentId && not null : regroup
+        list[acc.lastAddIdx].push(cur);
+        return {
+          list: list,
+          lastParentId: lastParentId,
+          lastAddIdx: acc.lastAddIdx,
+        };
+      } else if (lastParentId !== cur.parentId && cur.parentId !== null) {
+        //new to place correctly :
+        const parentsIds = list.map((obj) => obj[0].id); //get all parent ids
+        const parentIdx = parentsIds.findIndex((id) => cur.parentId === id); //find parent index in list
+        if (parentIdx === -1) {
+          //no parent => new goup alone
+          return {
+            list: [...list, [cur]],
+            lastParentId: cur.parentId,
+            lastAddIdx: len,
+          };
+        }
+        //has parent
+        parentIdx === len - 1
+          ? list.push([cur])
+          : list.splice(parentIdx + 1, 0, [cur]); //insert [cur]
+        return {
+          list: list,
+          lastParentId: cur.parentId,
+          lastAddIdx: parentIdx + 1,
+        };
       }
-      //has parent
-      parentIdx === len - 1 ? list.push([cur]) : list.splice(parentIdx + 1, 0, [cur]); //insert [cur]
-      return { list: list, lastParentId: cur.parentId, lastAddIdx: parentIdx + 1 };
-    }
-    //is a parent => sort with others
-    const parents = list.reduce((acc, cur) => {
-      if (cur.length === 1 && cur[0].parentId === null) {
-        if (type === 'oldPos') return [...acc, cur[0].oldPos];
-        return [...acc, cur[0].newPos];
-      }
-      return [...acc, null] //return null for index preservation
-    }, []); //[id, [], id, id, [], id]...
-    const parentIdx = parents.reduce((saved, now, indx) => {
-      //if is number && id < idToAdd => save index
-      const toCheck = type === 'oldPos' ? cur.oldPos : cur.newPos;
-      if (typeof now === 'number' && toCheck > now) return indx + 1;
-      return saved;
-    }, 0); //find parent index in list
-    list.splice(parentIdx, 0, [cur]);
-    return { list: list, lastParentId: cur.parentId, lastAddIdx: len };
-  }, { list: [], lastParentId: null, lastAddIdx: 0 }); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
-}
+      //is a parent => sort with others
+      const parents = list.reduce((acc, cur) => {
+        if (cur.length === 1 && cur[0].parentId === null) {
+          if (type === "oldPos") return [...acc, cur[0].oldPos];
+          return [...acc, cur[0].newPos];
+        }
+        return [...acc, null]; //return null for index preservation
+      }, []); //[id, [], id, id, [], id]...
+      const parentIdx = parents.reduce((saved, now, indx) => {
+        //if is number && id < idToAdd => save index
+        const toCheck = type === "oldPos" ? cur.oldPos : cur.newPos;
+        if (typeof now === "number" && toCheck > now) return indx + 1;
+        return saved;
+      }, 0); //find parent index in list
+      list.splice(parentIdx, 0, [cur]);
+      return { list: list, lastParentId: cur.parentId, lastAddIdx: len };
+    },
+    { list: [], lastParentId: null, lastAddIdx: 0 }
+  ); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
+};

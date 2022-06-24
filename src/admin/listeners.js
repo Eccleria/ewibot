@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("./static/commons.json"));
 
-//LISTENERS 
+//LISTENERS
 
 export const onChannelCreate = async (channel) => {
   const type = channel.type;
@@ -95,8 +95,17 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     const logCreationDate = dayjs(chnLog.createdAt);
     const diff = dayjs().diff(logCreationDate, "s");
 
-    endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel, text, diff);
-    return
+    endAdmin(
+      newChannel,
+      chnLog,
+      chnUp,
+      auditLog,
+      embed,
+      logChannel,
+      text,
+      diff
+    );
+    return;
   }
   endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel);
 };
@@ -267,12 +276,14 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const newContent = newMessage.content;
 
   //filter changes, if < 2 length => return
-  if (Math.abs(oldContent.length - newContent.length) <= 2) return
+  if (Math.abs(oldContent.length - newContent.length) <= 2) return;
 
   if (oldContent !== newContent) {
     console.log("oldContent", [oldContent], "newContent", [newContent]);
-    if (oldContent.length !== 0) embed.addField(messageU.contentOld, oldContent);
-    if (newContent.length !== 0) embed.addField(messageU.contentNew, newContent);
+    if (oldContent.length !== 0)
+      embed.addField(messageU.contentOld, oldContent);
+    if (newContent.length !== 0)
+      embed.addField(messageU.contentNew, newContent);
   }
 
   //check for objects changes
@@ -283,16 +294,19 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   const oldEmbeds = oldMessage.embeds;
 
-  const embeds = oldEmbeds.length !== 0 ? oldEmbeds.reduce(
-    (acc, cur, idx) => {
-      if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
-      return acc;
-    },
-    [embed]
-  ) : [embed]; //check for embeds. It includes link integration
+  const embeds =
+    oldEmbeds.length !== 0
+      ? oldEmbeds.reduce(
+          (acc, cur, idx) => {
+            if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
+            return acc;
+          },
+          [embed]
+        )
+      : [embed]; //check for embeds. It includes link integration
 
   //add message link
-  const link = `[${messageU.linkMessage}](${newMessage.url})`
+  const link = `[${messageU.linkMessage}](${newMessage.url})`;
   embed.addField(messageU.linkName, link);
   finishEmbed(messageU, null, embeds, logChannel, null, attachments);
 };
@@ -373,15 +387,8 @@ export const onGuildMemberRemove = async (memberKick) => {
     //log too old => not kicked but left
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
-    endAdmin(
-      userKick,
-      kickLog,
-      guildKick,
-      null,
-      embed,
-      logChannel,
-    );
-    return
+    endAdmin(userKick, kickLog, guildKick, null, embed, logChannel);
+    return;
   }
 
   const guildKick = personality.guildKick.kick;
