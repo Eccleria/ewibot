@@ -378,7 +378,7 @@ export const onGuildMemberRemove = async (memberKick) => {
 
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK"); //get auditLog
-  const reason = kickLog.reason; //get ban reason
+  const reason = kickLog ? kickLog.reason : null; //get ban reason
 
   const logCreationDate = dayjs(kickLog.createdAt);
   const diff = dayjs().diff(logCreationDate, "s");
