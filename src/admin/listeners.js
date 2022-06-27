@@ -393,7 +393,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
-    endAdmin(userKick, kickLog, guildKick, null, embed, logChannel);
+    endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel);
     return;
   }
 
