@@ -33,11 +33,13 @@
         "author": "Membre :",
         "duration": "Durée :",
         "executor": "Kick par :",
+        "roles": "Roles",
         "text": "Raison du kick :",
         "title": "Membre expulsé"
       },
       "leave": {
         "author": "Membre :",
+        "roles": "Roles",
         "title": "Membre ayant quitté le serveur"
       }
     },
