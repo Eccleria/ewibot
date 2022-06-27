@@ -170,7 +170,11 @@ export const onRoleUpdate = async (oldRole, newRole) => {
       } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
     }, "");
 
-    endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel, text);
+    //get log creation date and compare to now
+    const logCreationDate = dayjs(roleLog.createdAt);
+    const diff = dayjs().diff(logCreationDate, "s");
+
+    endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel, text, diff);
   }
   endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel);
 };
