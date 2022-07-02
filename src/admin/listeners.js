@@ -110,6 +110,22 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel);
 };
 
+export const onThreadCreate = async (thread, newly) => {
+  if (!newly) return; // if not new return
+
+  if (thread.joinable && !thread.joined) await thread.join();
+
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const thrCr = personality.threadCreate;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, thread); //get logChannelId
+  const embed = setupEmbed("DARK_GREY", thrCr, thread); //setup embed
+  const chnLog = await fetchAuditLog(thread.guild, "THREAD_CREATE"); //get auditLog
+
+  endAdmin(thread, chnLog, thrCr, auditLog, embed, logChannel);
+}
+
 export const onRoleCreate = async (role) => {
   const personality = PERSONALITY.getAdmin(); //get personality
   const roleCr = personality.roleCreate;
