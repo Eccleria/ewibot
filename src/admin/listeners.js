@@ -125,7 +125,7 @@ export const onThreadCreate = async (thread, newly) => {
   const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE"); //get auditLog
 
   endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
-}
+};
 
 export const onThreadDelete = async (thread) => {
   //handle thread deletion
@@ -139,6 +139,19 @@ export const onThreadDelete = async (thread) => {
 
   endAdmin(thread, thrLog, thrDe, auditLog, embed, logChannel);
 }
+
+export const onThreadUpdate = async (oldThread, newThread) => {
+  //handle thread update
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const thrUp = personality.threadUpdate;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, newThread); //get logChannelId
+  const embed = setupEmbed("DARK_GREY", thrUp, newThread); //setup embed
+  const thrLog = await fetchAuditLog(newThread.guild, "THREAD_UPDATE"); //get auditLog
+
+  endAdmin(newThread, thrLog, thrUp, auditLog, embed, logChannel);
+};
 
 export const onRoleCreate = async (role) => {
   const personality = PERSONALITY.getAdmin(); //get personality
