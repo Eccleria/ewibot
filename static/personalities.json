@@ -93,6 +93,16 @@
       "permission": "- Permissions :",
       "title": "Role mis à jour"
     },
+    "threadCreate": {
+      "author": "Fil :",
+      "executor": "Créé par :",
+      "title": "Fil créé"
+    },
+    "threadDelete": {
+      "author": "Fil :",
+      "executor": "Supprimé par :",
+      "title": "Fil supprimé"
+    },
     "timeout": {
       "author": "Membre :",
       "duration": "Durée :",

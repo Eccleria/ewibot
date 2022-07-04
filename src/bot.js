@@ -27,6 +27,7 @@ import {
   onChannelDelete,
   onChannelUpdate,
   onThreadCreate,
+  onThreadDelete,
   onRoleCreate,
   onRoleDelete,
   onRoleUpdate,
@@ -160,6 +161,8 @@ client.on("channelDelete", onChannelDelete);
 client.on("channelUpdate", onChannelUpdate);
 
 client.on("threadCreate", onThreadCreate);
+client.on("threadDelete", onThreadDelete);
+//client.on("threadUpdate", onThreadUpdate);
 
 client.on("guildBanAdd", onGuildBanAdd);
 client.on("guildBanRemove", onGuildBanRemove);

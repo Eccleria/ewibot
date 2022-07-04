@@ -111,19 +111,33 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 };
 
 export const onThreadCreate = async (thread, newly) => {
+  //handle thread creation
   if (!newly) return; // if not new return
 
-  if (thread.joinable && !thread.joined) await thread.join();
+  if (thread.joinable && !thread.joined) await thread.join(); //join thread created
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const thrCr = personality.threadCreate;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, thread); //get logChannelId
-  const embed = setupEmbed("DARK_GREY", thrCr, thread); //setup embed
-  const chnLog = await fetchAuditLog(thread.guild, "THREAD_CREATE"); //get auditLog
+  const embed = setupEmbed("DARK_GREY", thrCr, thread, "tag"); //setup embed
+  const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE"); //get auditLog
 
-  endAdmin(thread, chnLog, thrCr, auditLog, embed, logChannel);
+  endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
+}
+
+export const onThreadDelete = async (thread) => {
+  //handle thread deletion
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const thrDe = personality.threadDelete;
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, thread); //get logChannelId
+  const embed = setupEmbed("DARK_GREY", thrDe, thread); //setup embed
+  const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE"); //get auditLog
+
+  endAdmin(thread, thrLog, thrDe, auditLog, embed, logChannel);
 }
 
 export const onRoleCreate = async (role) => {
@@ -270,7 +284,13 @@ export const onMessageDelete = async (message) => {
 export const onMessageUpdate = async (oldMessage, newMessage) => {
   //handle message update event
   if (!oldMessage.guild) return; //Ignore DM
-  //console.log(oldMessage, newMessage)
+
+  //check for thread creation from message
+  if (!oldMessage.hasThread && newMessage.hasThread) {
+    const message = await newMessage.fetch(); //fetch the message for thread data
+    onThreadCreate(message.thread, true); //use dedicated listener
+    return;
+  }
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageU = personality.messageUpdate;
