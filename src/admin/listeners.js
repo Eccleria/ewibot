@@ -58,6 +58,9 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
+  //console.log(chnLog);
+  console.log(chnLog.target.permissionOverwrites.cache);
+
   //get client
   const client = newChannel.client;
   const channelUpdate = client.channelUpdate;

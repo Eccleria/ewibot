@@ -14,6 +14,23 @@ export const fetchAuditLog = async (guild, auditType) => {
   }
 };
 
+export const setupEmbed = (color, personality, object, type) => {
+  //setup the embed object
+  const embed = new MessageEmbed()
+    .setColor(color)
+    .setTitle(personality.title)
+    .setTimestamp();
+
+  if (personality.description) embed.setDescription(personality.description);
+
+  if (type === "tag") {
+    //add the user tag if required
+    embed.addField(personality.author, object.toString(), true);
+  } else if (type === "skip") return embed;
+  else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name (for channels, roles, ...)
+  return embed;
+};
+
 export const finishEmbed = async (
   personalityEvent,
   executor,
@@ -53,30 +70,6 @@ export const finishEmbed = async (
   }
 };
 
-export const getLogChannel = async (commons, eventObject) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === eventObject.guild.id
-  ); //get server local data
-  return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return the log channel
-};
-
-export const setupEmbed = (color, personality, object, type) => {
-  //setup the embed object
-  const embed = new MessageEmbed()
-    .setColor(color)
-    .setTitle(personality.title)
-    .setTimestamp();
-
-  if (personality.description) embed.setDescription(personality.description);
-
-  if (type === "tag") {
-    //add the user tag if required
-    embed.addField(personality.author, object.toString(), true);
-  } else if (type === "skip") return embed;
-  else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name (for channels, roles, ...)
-  return embed;
-};
-
 export const endAdmin = (
   object,
   log,
@@ -108,6 +101,13 @@ export const endAdmin = (
     //if bot or author executed the kick
     finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, reason);
   }
+};
+
+export const getLogChannel = async (commons, eventObject) => {
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === eventObject.guild.id
+  ); //get server local data
+  return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return the log channel
 };
 
 export const clientChannelUpdateProcess = (
