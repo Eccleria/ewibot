@@ -5,8 +5,7 @@ import {
   getLogChannel,
   setupEmbed,
   endAdmin,
-  clientChannelUpdateProcess,
-  clientRoleUpdateProcess,
+  clientEventUpdateProcess,
 } from "./utils.js";
 
 import dayjs from "dayjs";
@@ -77,14 +76,15 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     const timeout = channelUpdate ? channelUpdate.timeout : null;
     if (timeout) clearTimeout(timeout);
 
-    clientChannelUpdateProcess(
+    clientEventUpdateProcess(
       client,
       oldChannel,
       newChannel,
       chnUp,
       auditLog,
       logChannel,
-      embed
+      embed,
+      "channel"
     ); //update client data
     return;
   }
@@ -206,14 +206,15 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     const timeout = roleUpdate ? roleUpdate.timeout : null;
     if (timeout) clearTimeout(timeout);
 
-    clientRoleUpdateProcess(
+    clientEventUpdateProcess(
       client,
       oldRole,
       newRole,
       roleUp,
       auditLog,
       logChannel,
-      embed
+      embed,
+      "role"
     ); //update client data
     return;
   }

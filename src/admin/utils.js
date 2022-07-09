@@ -154,37 +154,56 @@ export const clientEventUpdateProcess = (
   type,
 ) => {
   //create timeout, store channels & timeout
-  const timeout = setTimeout(
-    channelUpdateLog,
-    5000,
-    client,
-    personality,
-    logPerso,
-    logChannel,
-    embed
-  ); //create timeout
-
   //differentiate type
   let obj;
+  let newData;
+  let timeout;
   if (type === "channel") {
+    //get client data
     const channelUpdate = client.channelUpdate;
-    obj = channelUpdate ? channelUpdate.channels : null; //get data
+    obj = channelUpdate ? channelUpdate.channels : null; 
+
+    //create timeout
+    timeout = setTimeout(
+      channelUpdateLog,
+      5000,
+      client,
+      personality,
+      logPerso,
+      logChannel,
+      embed
+    ); 
+
+    //setup new data
+    newData = {
+      id: newObj.id,
+      name: oldObj.name,
+      parentId: newObj.parentId,
+    };
   } else if (type === "role") {
     const roleUpdate = client.roleUpdate;
     obj = roleUpdate ? roleUpdate.roles : null; //get data
+
+    //create timeout
+    timeout = setTimeout(
+      roleUpdateLog,
+      5000,
+      client,
+      personality,
+      logPerso,
+      logChannel,
+      embed
+    );
+
+    newData = { id: newObj.id, name: oldObj.name };
   }
 
   //initialise data to add to client
-  let newData = {
-    id: newObj.id,
-    name: oldObj.name,
-    parentId: newObj.parentId,
-  };
   let updateData;
 
   //check for identical obj
   if (obj !== null && obj !== undefined) {
-    const names = obj.map((obj) => obj.name); //get all channels names
+    const names = obj.map((obj) => obj.name); //get all obj names
     const index = names.findIndex((name) => name === oldObj.name); //find any doublon
     if (index !== -1) {
       //if any doublon
@@ -194,34 +213,32 @@ export const clientEventUpdateProcess = (
 
       //remove doublon
       const filtered = obj.filter((_obj, idx) => idx !== index);
-      updateData = { channels: [...filtered, newData], timeout: timeout };
+      if (type === "channel") updateData = { channels: [...filtered, newData], timeout: timeout };
+      else if (type === "role") updateData = { roles: [...filtered, newData], timeout: timeout };
     } else {
       //if no doublon
       newData.oldPos = oldObj.rawPosition;
       newData.newPos = newObj.rawPosition;
-      updateData = { channels: [...obj, newData], timeout: timeout };
+      if (type === "channel") updateData = { channels: [...obj, newData], timeout: timeout };
+      else if (type === "role") updateData = { roles: [...obj, newData], timeout: timeout };
     }
-    client.channelUpdate = updateData; //store in client
+    //store in client
+    if (type === "channel") client.channelUpdate = updateData;
+    else if (type === "role") client.roleUpdate = updateData;
   } else {
     //client not initialised or channels changes are too quick for client
     newData.oldPos = oldObj.rawPosition;
     newData.newPos = newObj.rawPosition;
-    updateData = { channels: [newData], timeout: timeout };
-    client.channelUpdate = updateData; //store in client
+    if (type === "channel") {
+      updateData = { channels: [newData], timeout: timeout };
+      client.channelUpdate = updateData;
+    }
+    else if (type === "role") {
+      updateData = { roles: [newData], timeout: timeout };
+      client.roleUpdate = updateData;
+    }
   }
 };
-
-export const clientRoleUpdateProcess = (
-  client,
-  oldRole,
-  newRole,
-  roleUp,
-  auditLog,
-  logChannel,
-  embed
-) => {
-
-}
 
 const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //Function called after channelUpdate timeout end
@@ -305,6 +322,31 @@ const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   finishEmbed(chnUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
   client.channelUpdate = {}; //remove from client
+};
+
+const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
+  //Function called after roleUpdate timeout end
+  //client == {roles: [data], timeout: timeout}
+  //data == {id, name, oldPos, newPos}
+  const { roles } = client.roleUpdate;
+
+  //create old/new channel order
+  const oldOrder = roles.sort((a, b) => b.oldPos - a.oldPos).slice(); //sort channels with oldPosition
+  const newOrder = roles.sort((a, b) => b.newPos - a.newPos).slice(); //slice() for variable shallow copy
+
+  const space = 15;
+  const orderText = oldOrder.reduce((acc, cur, idx) => {
+    const spaced = space2Strings(cur.name, newOrder[idx].name, space, " |");
+    if (idx === oldOrder.length - 1) {
+      //if last one
+      return acc + "\n" + spaced + "\n```"; //add end of code line code
+    }
+    return acc + "\n" + spaced;
+  }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
+
+  finishEmbed(roleUp, logPerso.noLog, embed, logChannel, orderText); //send embed
+
+  client.roleUpdate = {}; //remove from client
 };
 
 const space2Strings = (str1, str2, dist, sep) => {
