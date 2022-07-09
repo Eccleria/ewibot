@@ -6,6 +6,7 @@ import {
   setupEmbed,
   endAdmin,
   clientChannelUpdateProcess,
+  clientRoleUpdateProcess,
 } from "./utils.js";
 
 import dayjs from "dayjs";
@@ -189,6 +190,34 @@ export const onRoleUpdate = async (oldRole, newRole) => {
 
   const logChannel = await getLogChannel(commons, newRole); //get logChannelId
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
+
+  //get client
+  const client = newRole.client;
+  const roleUpdate = client.roleUpdate;
+
+  const changePos = [
+    "rawPosition",
+    oldRole.rawPosition,
+    newRole.rawPosition,
+  ];
+  if (changePos[1] !== changePos[2]) {
+    //if position change, no AuditLog
+    //if timeout, clear it
+    const timeout = roleUpdate ? roleUpdate.timeout : null;
+    if (timeout) clearTimeout(timeout);
+
+    clientRoleUpdateProcess(
+      client,
+      oldRole,
+      newRole,
+      roleUp,
+      auditLog,
+      logChannel,
+      embed
+    ); //update client data
+    return;
+  }
+
   const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE"); //get auditLog
 
   if (roleLog !== null) {

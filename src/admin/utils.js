@@ -143,66 +143,85 @@ export const getLogChannel = async (commons, eventObject) => {
   return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return the log channel
 };
 
-export const clientChannelUpdateProcess = (
+export const clientEventUpdateProcess = (
   client,
-  oldChannel,
-  newChannel,
-  chnUp,
+  oldObj,
+  newObj,
+  personality,
   logPerso,
   logChannel,
-  embed
+  embed,
+  type,
 ) => {
   //create timeout, store channels & timeout
   const timeout = setTimeout(
     channelUpdateLog,
     5000,
     client,
-    chnUp,
+    personality,
     logPerso,
     logChannel,
     embed
   ); //create timeout
 
-  //handle client
-  const channelUpdate = client.channelUpdate;
-  const channels = channelUpdate ? channelUpdate.channels : null; //get data
+  //differentiate type
+  let obj;
+  if (type === "channel") {
+    const channelUpdate = client.channelUpdate;
+    obj = channelUpdate ? channelUpdate.channels : null; //get data
+  } else if (type === "role") {
+    const roleUpdate = client.roleUpdate;
+    obj = roleUpdate ? roleUpdate.roles : null; //get data
+  }
 
   //initialise data to add to client
   let newData = {
-    id: newChannel.id,
-    name: oldChannel.name,
-    parentId: newChannel.parentId,
+    id: newObj.id,
+    name: oldObj.name,
+    parentId: newObj.parentId,
   };
   let updateData;
 
-  //check for identical channels
-  if (channels !== null && channels !== undefined) {
-    const names = channels.map((obj) => obj.name); //get all channels names
-    const index = names.findIndex((name) => name === oldChannel.name); //find any doublon
+  //check for identical obj
+  if (obj !== null && obj !== undefined) {
+    const names = obj.map((obj) => obj.name); //get all channels names
+    const index = names.findIndex((name) => name === oldObj.name); //find any doublon
     if (index !== -1) {
       //if any doublon
-      const precedent = channels[index]; //get precedent
+      const precedent = obj[index]; //get precedent
       newData.oldPos = precedent.oldPos; //keep precedent oldPosition
-      newData.newPos = newChannel.rawPosition; //update newPosition
+      newData.newPos = newObj.rawPosition; //update newPosition
 
       //remove doublon
-      const filtered = channels.filter((_obj, idx) => idx !== index);
+      const filtered = obj.filter((_obj, idx) => idx !== index);
       updateData = { channels: [...filtered, newData], timeout: timeout };
     } else {
       //if no doublon
-      newData.oldPos = oldChannel.rawPosition;
-      newData.newPos = newChannel.rawPosition;
-      updateData = { channels: [...channels, newData], timeout: timeout };
+      newData.oldPos = oldObj.rawPosition;
+      newData.newPos = newObj.rawPosition;
+      updateData = { channels: [...obj, newData], timeout: timeout };
     }
     client.channelUpdate = updateData; //store in client
   } else {
     //client not initialised or channels changes are too quick for client
-    newData.oldPos = oldChannel.rawPosition;
-    newData.newPos = newChannel.rawPosition;
+    newData.oldPos = oldObj.rawPosition;
+    newData.newPos = newObj.rawPosition;
     updateData = { channels: [newData], timeout: timeout };
     client.channelUpdate = updateData; //store in client
   }
 };
+
+export const clientRoleUpdateProcess = (
+  client,
+  oldRole,
+  newRole,
+  roleUp,
+  auditLog,
+  logChannel,
+  embed
+) => {
+
+}
 
 const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
   //Function called after channelUpdate timeout end
