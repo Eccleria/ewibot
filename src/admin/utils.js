@@ -14,8 +14,15 @@ export const fetchAuditLog = async (guild, auditType) => {
   }
 };
 
+/**
+ * Create and setup a MessageEmbed with common properties.
+ * @param {string} color The color of the embed.
+ * @param {object} personality The personality object of the embed.
+ * @param {object} [object] Object containing or not the author.
+ * @param {string} [type] Differentiate object use case.
+ * @returns {MessageEmbed}
+ */
 export const setupEmbed = (color, personality, object, type) => {
-  //setup the embed object
   const embed = new MessageEmbed()
     .setColor(color)
     .setTitle(personality.title)
@@ -31,6 +38,15 @@ export const setupEmbed = (color, personality, object, type) => {
   return embed;
 };
 
+/**
+ * Finish embeds and send them in the logChannel.
+ * @param {object} personalityEvent The personality related to the triggered event.
+ * @param {object} [executor] Object containing or not the executor, if any.
+ * @param {(MessageEmbed|MessageEmbed[])} embed Log embed, or array of embeds with log at index 0.
+ * @param {TextChannel} logChannel Log channel where to send embed.s.
+ * @param {string} [text] Additional text to add.
+ * @param {Attachment[]} [attachments] Message attachments.
+ */
 export const finishEmbed = async (
   personalityEvent,
   executor,
@@ -39,7 +55,6 @@ export const finishEmbed = async (
   text,
   attachments
 ) => {
-  //Finish the embed and send it
   if (embed.author !== null) {
     //embed.author is a embed property & not an array property
     //if contains multiple embeds, the 1st is the log
@@ -70,6 +85,18 @@ export const finishEmbed = async (
   }
 };
 
+/**
+ * Differentiate finishEmbed cases.
+ * @param {object} object Object related to listened event.
+ * @param {GuildAuditLogsEntry} log Audit log.
+ * @param {object} eventPerso Personality related to the listened event.
+ * @param {object} logPerso Audit log personality.
+ * @param {(MessageEmbed|MessageEmbed[])} embed Log embed, or array of embeds with log at index 0.
+ * @type {TextChannel} (logChannel)
+ * @param {TextChannel} logChannel Log channel where to send embed.s.
+ * @param {?string} text Text to add when finishing the embed.
+ * @param {?number} diff Timing difference between log and listener fire. If diff >= 5 log too old.
+ */
 export const endAdmin = (
   object,
   log,
@@ -77,7 +104,7 @@ export const endAdmin = (
   logPerso,
   embed,
   logChannel,
-  reason,
+  text,
   diff
 ) => {
   if (diff >= 5) {
@@ -88,7 +115,7 @@ export const endAdmin = (
 
   if (!log) {
     //if no AuditLog
-    finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, reason);
+    finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, text);
     return;
   }
 
@@ -96,13 +123,19 @@ export const endAdmin = (
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    finishEmbed(eventPerso, executor.tag, embed, logChannel, reason);
+    finishEmbed(eventPerso, executor.tag, embed, logChannel, text);
   } else {
     //if bot or author executed the kick
-    finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, reason);
+    finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
   }
 };
 
+/**
+ * Fetch Log Channel.
+ * @param {object} commons commons.json file value.
+ * @param {object} eventObject Object given by listener event.
+ * @returns {TextChannel}
+ */
 export const getLogChannel = async (commons, eventObject) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
