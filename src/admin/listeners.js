@@ -142,7 +142,7 @@ export const onThreadDelete = async (thread) => {
   const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE"); //get auditLog
 
   endAdmin(thread, thrLog, thrDe, auditLog, embed, logChannel);
-}
+};
 
 export const onThreadUpdate = async (oldThread, newThread) => {
   //handle thread update
@@ -195,11 +195,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const client = newRole.client;
   const roleUpdate = client.roleUpdate;
 
-  const changePos = [
-    "rawPosition",
-    oldRole.rawPosition,
-    newRole.rawPosition,
-  ];
+  const changePos = ["rawPosition", oldRole.rawPosition, newRole.rawPosition];
   if (changePos[1] !== changePos[2]) {
     //if position change, no AuditLog
     //if timeout, clear it
@@ -383,18 +379,18 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   let embeds;
   try {
-    embeds = oldEmbeds.length !== 0 && newEmbeds.length !== 0
-      ? oldEmbeds.reduce(
-        (acc, cur, idx) => {
-          if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
-          return acc;
-        },
-        [embed]
-      )
-      : [embed]; //check for embeds. It includes link integration
-  }
-  catch (e) {
-    console.log("onMessageUpdate", e)
+    embeds =
+      oldEmbeds.length !== 0 && newEmbeds.length !== 0
+        ? oldEmbeds.reduce(
+            (acc, cur, idx) => {
+              if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
+              return acc;
+            },
+            [embed]
+          )
+        : [embed]; //check for embeds. It includes link integration
+  } catch (e) {
+    console.log("onMessageUpdate", e);
     embeds = [embed];
   }
 
@@ -472,15 +468,19 @@ export const onGuildMemberRemove = async (memberKick) => {
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get ban reason
-  console.log("kickLog", kickLog)
+  console.log("kickLog", kickLog);
 
   //get log creation date and compare to now
   const logCreationDate = kickLog ? dayjs(kickLog.createdAt) : null;
-  const diff = logCreationDate !== null ? dayjs().diff(logCreationDate, "s") : null;
+  const diff =
+    logCreationDate !== null ? dayjs().diff(logCreationDate, "s") : null;
 
   //get user roles
   const roles = memberKick.roles.cache;
-  const textRoles = roles.size !== 0 ? roles.reduce((acc, cur) => `${acc}${cur.toString()}\n`, "") : null;
+  const textRoles =
+    roles.size !== 0
+      ? roles.reduce((acc, cur) => `${acc}${cur.toString()}\n`, "")
+      : null;
 
   if (diff >= 5) {
     //log too old => not kicked but left

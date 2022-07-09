@@ -151,7 +151,7 @@ export const clientEventUpdateProcess = (
   logPerso,
   logChannel,
   embed,
-  type,
+  type
 ) => {
   //create timeout, store channels & timeout
   //differentiate type
@@ -161,7 +161,7 @@ export const clientEventUpdateProcess = (
   if (type === "channel") {
     //get client data
     const channelUpdate = client.channelUpdate;
-    obj = channelUpdate ? channelUpdate.channels : null; 
+    obj = channelUpdate ? channelUpdate.channels : null;
 
     //create timeout
     timeout = setTimeout(
@@ -172,7 +172,7 @@ export const clientEventUpdateProcess = (
       logPerso,
       logChannel,
       embed
-    ); 
+    );
 
     //setup new data
     newData = {
@@ -213,14 +213,18 @@ export const clientEventUpdateProcess = (
 
       //remove doublon
       const filtered = obj.filter((_obj, idx) => idx !== index);
-      if (type === "channel") updateData = { channels: [...filtered, newData], timeout: timeout };
-      else if (type === "role") updateData = { roles: [...filtered, newData], timeout: timeout };
+      if (type === "channel")
+        updateData = { channels: [...filtered, newData], timeout: timeout };
+      else if (type === "role")
+        updateData = { roles: [...filtered, newData], timeout: timeout };
     } else {
       //if no doublon
       newData.oldPos = oldObj.rawPosition;
       newData.newPos = newObj.rawPosition;
-      if (type === "channel") updateData = { channels: [...obj, newData], timeout: timeout };
-      else if (type === "role") updateData = { roles: [...obj, newData], timeout: timeout };
+      if (type === "channel")
+        updateData = { channels: [...obj, newData], timeout: timeout };
+      else if (type === "role")
+        updateData = { roles: [...obj, newData], timeout: timeout };
     }
     //store in client
     if (type === "channel") client.channelUpdate = updateData;
@@ -232,8 +236,7 @@ export const clientEventUpdateProcess = (
     if (type === "channel") {
       updateData = { channels: [newData], timeout: timeout };
       client.channelUpdate = updateData;
-    }
-    else if (type === "role") {
+    } else if (type === "role") {
       updateData = { roles: [newData], timeout: timeout };
       client.roleUpdate = updateData;
     }
