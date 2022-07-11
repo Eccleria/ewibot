@@ -91,8 +91,7 @@ export const finishEmbed = async (
  * @param {GuildAuditLogsEntry} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
- * @param {(MessageEmbed|MessageEmbed[])} embed Log embed, or array of embeds with log at index 0.
- * @type {TextChannel} (logChannel)
+ * @param {(MessageEmbed|MessageEmbed[])} embed Embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {?string} text Text to add when finishing the embed.
  * @param {?number} diff Timing difference between log and listener fire. If diff >= 5 log too old.

@@ -59,7 +59,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
   //console.log(chnLog);
-  console.log(chnLog.target.permissionOverwrites.cache);
+  //console.log(chnLog.target.permissionOverwrites.cache);
 
   //get client
   const client = newChannel.client;
@@ -361,7 +361,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (Math.abs(oldContent.length - newContent.length) <= 2) return;
 
   if (oldContent !== newContent) {
-    console.log("oldContent", [oldContent], "newContent", [newContent]);
+    //console.log("oldContent", [oldContent], "newContent", [newContent]);
     if (oldContent.length !== 0)
       embed.addField(messageU.contentOld, oldContent);
     if (newContent.length !== 0)
