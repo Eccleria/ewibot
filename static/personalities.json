@@ -36,11 +36,6 @@
         "notIgnored": "Je n'ignorerai plus les messages de ",
         "help": "Ewibot ignore ou non le channel. Utilisation :\n- `$ignoreChannel channelId` dans n'importe quel channel.\n- `$ignoreChannel` dans le channel concerné."
       },
-      "leaderboardApology": {
-        "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
-        "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
-        "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
-      },
       "messageCount": {
         "addUser": "Je compterai le nombre de messages que vous envoyez.",
         "removeUser": "Je ne compterai plus le nombre de vos messages."
@@ -65,6 +60,15 @@
       },
       "spotify": {
         "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+      },
+      "stats": {
+        "help": "Allows to send stats. Use `$stats *stat_name*`",
+        "leaderboardApology": {
+          "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
+          "help": "Envoie le classement des utilisateurs en fonction du nombre de fois qu'iels se sont excusés",
+          "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
+          "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        }
       }
     },
     "spotify": {
@@ -113,11 +117,6 @@
         "notIgnored": "Je n'ignorerai plus les messages de ",
         "help": "Ewibot ignore ou non le channel. Utilisation :\n- `$ignoreChannel channelId` dans n'importe quel channel.\n- `$ignoreChannel` dans le channel concerné."
       },
-      "leaderboardApology": {
-        "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
-        "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
-        "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
-      },
       "personality": {
         "change": "Plus de fun. Maintenant je serai ",
         "currentName": "Actuellement, j'ai la personalité ",
@@ -135,6 +134,15 @@
         "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
         "numberError": "Les nombres donnés ne respectent pas les limites.",
         "parsingError": "Erreur de parsing."
+      },
+      "stats": {
+        "help": "Allows to send stats. Use `$stats *stat_name*`",
+        "leaderboardApology": {
+          "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
+          "help": "Envoie le classement des utilisateurs en fonction du nombre de fois qu'iels se sont excusés",
+          "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
+          "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        }
       }
     },
     "spotify": {

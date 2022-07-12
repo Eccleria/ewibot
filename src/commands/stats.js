@@ -3,7 +3,10 @@ import { PERSONALITY } from "../personality.js";
 import { removeAppologyCount } from "../helpers/index.js";
 
 const action = async (message, client) => {
-  
+  const content = message.content;
+  const words = content.split(" ");
+
+  if (words.length > 1 && words[1] === "leadApo") leadApo(message, client);
 };
 
 const leadApo = async (message, client) => {
@@ -12,15 +15,7 @@ const leadApo = async (message, client) => {
 
   message.channel.sendTyping();
 
-  const sorted = dbData.sort((a, b) => {
-    if (a.counter < b.counter) {
-      return -1;
-    }
-    if (a.counter > b.counter) {
-      return 1;
-    }
-    return 0;
-  }); // sort users by counters
+  const sorted = dbData.sort((a, b) => a.counter - b.counter); // sort users by counters
 
   const guildMembers = message.guild.members;
 
@@ -78,13 +73,13 @@ const leadApo = async (message, client) => {
   message.reply({ embeds: [embed] });
 };
 
-const leaderboardApology = {
-  name: "leadApo",
+const stats = {
+  name: "stats",
   action,
   help: () => {
-    return PERSONALITY.getCommands().leaderboardApology.help;
+    return PERSONALITY.getCommands().stats.help;
   },
   admin: true,
 };
 
-export default leaderboardApology;
+export default stats;
