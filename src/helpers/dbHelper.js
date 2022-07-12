@@ -111,3 +111,19 @@ const isIgnoredUser = (authorId, db) => {
 };
 
 export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
+
+  //STATS
+  // {userId, stats...}
+const addStatsUser = (authorId, db) => {
+  if (!isStatUser(authorId, db)) {
+    db.data.stats.push({ userId: authorId, apologies: 0 })
+  }
+};
+
+const isStatUser = (authorId, db) => {
+  return db.data.stats.map((obj) => {
+    return obj.userId;
+  }).includes(authorId)
+}
+
+export { addStatsUser };
