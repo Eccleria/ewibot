@@ -3,6 +3,10 @@ import { PERSONALITY } from "../personality.js";
 import { removeAppologyCount } from "../helpers/index.js";
 
 const action = async (message, client) => {
+  
+};
+
+const leadApo = async (message, client) => {
   const db = client.db;
   const dbData = db.data.apologiesCounting; //array of {userId, counter}
 
