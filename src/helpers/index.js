@@ -5,12 +5,12 @@ import {
   addBirthday,
   removeBirthday,
   isBirthdayDate,
-  isApologyUser,
-  addApologyCount,
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
-  removeAppologyCount,
+  removeStatsUser,
+  isStatsUser,
+  addApologyCount,
 } from "./dbHelper.js";
 
 import {
@@ -43,10 +43,11 @@ export {
   addBirthday,
   removeBirthday,
   isBirthdayDate,
-  isApologyUser,
-  addApologyCount,
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
-  removeAppologyCount,
+  removeStatsUser,
+  isStatsUser,
+  addApologyCount,
+
 };

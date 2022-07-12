@@ -11,11 +11,11 @@ const action = async (message, client) => {
 
 const leadApo = async (message, client) => {
   const db = client.db;
-  const dbData = db.data.apologiesCounting; //array of {userId, counter}
+  const dbData = db.data.stats; //array of {userId, counter}
 
   message.channel.sendTyping();
 
-  const sorted = dbData.sort((a, b) => a.counter - b.counter); // sort users by counters
+  const sorted = dbData.sort((a, b) => a.apologies - b.apologies); // sort users by counters
 
   const guildMembers = message.guild.members;
 
@@ -38,15 +38,15 @@ const leadApo = async (message, client) => {
       removeAppologyCount(cur.userId, db);
     }
 
-    if (guildMember && cur.counter >= 10) {
+    if (guildMember && cur.apologies >= 10) {
       //if found && enough apologies
       const userNickname = guildMember.nickname || guildMember.user.username; //get nickname
       const nickSliced = userNickname.slice(0, 25).padEnd(25, " ");
-      const line = `${nickSliced}: ${cur.counter}`; // add count to the line
+      const line = `${nickSliced}: ${cur.apologies}`; // add count to the line
 
       //separate data
-      if (cur.counter < 20) fields[0].value = `${fields[0].value}${line}\n`;
-      else if (cur.counter < 30)
+      if (cur.apologies < 20) fields[0].value = `${fields[0].value}${line}\n`;
+      else if (cur.apologies < 30)
         fields[1].value = `${fields[1].value}${line}\n`;
       else if (count >= sorted.length - 3) {
         //if top3
