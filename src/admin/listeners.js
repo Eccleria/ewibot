@@ -58,8 +58,35 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
-  //console.log(chnLog);
-  //console.log(chnLog.target.permissionOverwrites.cache);
+  //console.log(chnLog.createdAt);
+  //check for permission overwrite
+  const oldOverwrite = oldChannel.permissionOverwrites.cache;
+  const newOverwrite = newChannel.permissionOverwrites.cache;
+  const diffOverwrite = oldOverwrite.difference(newOverwrite);
+  //console.log(oldOverwrite);
+  //console.log(newOverwrite);
+  console.log("equals", oldOverwrite.equals(newOverwrite));
+  console.log("diffOverwrite", diffOverwrite);
+  if (diffOverwrite.size !== 0) {
+    const [oldDiff, newDiff] = diffOverwrite.partition(perm => oldOverwrite.has(perm.id))
+    console.log("oldDiff", oldDiff, "newDiff", newDiff)
+    if (oldDiff.size !== 0) {
+      const oldPerm = oldDiff.first().deny;
+      const oldBitfield = oldPerm.bitfield;
+      console.log([oldBitfield]);
+      const oldArray = oldPerm.toArray();
+      console.log("oldArray", oldArray);
+      console.log("oldArrayString", [oldArray.toString()]);
+    }
+    else if (newDiff.size !== 0) {
+      const newPerm = newDiff.first().allow;
+      const newBitfield = newPerm.bitfield;
+      console.log([newBitfield]);
+      const newArray = newPerm.toArray();
+      console.log("newArray", newArray);
+      console.log("newArrayString", [newArray.toString()]);
+    }
+  }
 
   //get client
   const client = newChannel.client;
