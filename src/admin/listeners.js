@@ -6,6 +6,7 @@ import {
   setupEmbed,
   endAdmin,
   clientEventUpdateProcess,
+  fetchMessage,
 } from "./utils.js";
 
 import dayjs from "dayjs";
@@ -352,37 +353,47 @@ export const onMessageDelete = async (message) => {
 
 export const onMessageUpdate = async (oldMessage, newMessage) => {
   //handle message update event
-  if (!oldMessage.guild) return; //Ignore DM
+
+  let oMessage = oldMessage;
+  let nMessage = newMessage;
+  if (oldMessage.partial) {
+    const message = await fetchMessage(oldMessage)
+    oMessage = message === null ? oldMessage : message;
+  }
+  if (newMessage.partial) {
+    const message = await fetchMessage(newMessage)
+    //console.log(message)
+    nMessage = message === null ? newMessage : message;
+  }
+  //console.log("oldMessage", oldMessage)
+  //console.log("oMessage", oMessage)
+  //console.log("newMessage", newMessage)
+  //console.log("nMessage", nMessage)
+
+  if (!oMessage.guild) return; //Ignore DM
 
   //check for thread creation from message
-  if (!oldMessage.hasThread && newMessage.hasThread) {
-    const message = await newMessage.fetch(); //fetch the message for thread data
-    onThreadCreate(message.thread, true); //use dedicated listener
+  if (!oMessage.hasThread && nMessage.hasThread) {
+    onThreadCreate(nMessage.thread, true); //use dedicated listener
     return;
   }
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageU = personality.messageUpdate;
 
-  const logChannel = await getLogChannel(commons, newMessage); //get logChannel
-  const date = oldMessage.createdAt.toString().slice(4, 24);
+  const logChannel = await getLogChannel(commons, nMessage); //get logChannel
+  const date = oMessage.createdAt.toString().slice(4, 24);
 
-  if (oldMessage.partial || newMessage.partial) {
-    //if message partial and deleted, unfetchable, only partial data
-    console.log("partial message modified", date);
-    return;
-  }
-
-  const embed = setupEmbed("DARK_GREEN", messageU, newMessage.author, "tag"); //setup embed
+  const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
 
   //add creation date + channel
   embed.addField(messageU.date, `${date}`, true); //date of message creation
-  embed.addField(messageU.channel, `<#${oldMessage.channelId}>`, true); //message channel
+  embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
   //check for content modif
-  const oldContent = oldMessage.content;
-  const newContent = newMessage.content;
+  const oldContent = oMessage.content;
+  const newContent = nMessage.content;
 
   //filter changes, if < 2 length => return
   if (Math.abs(oldContent.length - newContent.length) <= 2) return;
@@ -396,13 +407,13 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   //check for objects changes
-  const attachments = oldMessage.attachments.reduce((acc, cur) => {
-    if (newMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
+  const attachments = oMessage.attachments.reduce((acc, cur) => {
+    if (nMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
       return [...acc, cur.attachment];
   }, []); //check for attachments
 
-  const oldEmbeds = oldMessage.embeds;
-  const newEmbeds = newMessage.embeds;
+  const oldEmbeds = oMessage.embeds;
+  const newEmbeds = nMessage.embeds;
 
   let embeds;
   try {
@@ -410,7 +421,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       oldEmbeds.length !== 0 && newEmbeds.length !== 0
         ? oldEmbeds.reduce(
             (acc, cur, idx) => {
-              if (!cur.equals(newMessage.embeds[idx])) return [...acc, cur];
+              if (!cur.equals(nMessage.embeds[idx])) return [...acc, cur];
               return acc;
             },
             [embed]
@@ -422,7 +433,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   //add message link
-  const link = `[${messageU.linkMessage}](${newMessage.url})`;
+  const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addField(messageU.linkName, link);
   finishEmbed(messageU, null, embeds, logChannel, null, attachments);
 };

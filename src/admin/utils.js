@@ -433,3 +433,12 @@ const regroup = (element, type) => {
     { list: [], lastParentId: null, lastAddIdx: 0 }
   ); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
 };
+
+export const fetchMessage = async (message) => {
+  try {
+    return await message.fetch()
+  } catch (e) {
+    console.log(e)
+    return null
+  }
+}
