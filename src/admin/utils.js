@@ -55,6 +55,10 @@ export const finishEmbed = async (
   text,
   attachments
 ) => {
+  if (process.env.DEBUG === "no" && logChannel.id === "981478339439104090") {
+    console.log("Ewibot log in Test server", personalityEvent.title, embed)
+    return
+  }
   if (embed.author !== null) {
     //embed.author is a embed property & not an array property
     //if contains multiple embeds, the 1st is the log
