@@ -115,6 +115,16 @@ export const reactionHandler = async (message, currentServer, client) => {
     const random = Math.round(Math.random()); // 0 or 1
     await message.react(reaction[random]);
   }
+
+  if (authorId === "657498573222576148") {
+    const presqueRegex = new RegExp("/pres(qu|k)e *(15|quinze)/gim"); //regex for presque 15 detection
+    const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 15
+
+    presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
+
+    if (presqueResult !== null)
+      await message.react(currentServer.panDuomReactId); //add message reaction
+  }
 };
 
 export const checkIsOnThread = async (channel, threadId) => {
