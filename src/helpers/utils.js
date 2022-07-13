@@ -67,7 +67,7 @@ export const reactionHandler = async (message, currentServer, client) => {
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  console.log("apologyResult", apologyResult)
+
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
