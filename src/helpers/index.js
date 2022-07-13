@@ -11,6 +11,7 @@ import {
   removeStatsUser,
   isStatsUser,
   addApologyCount,
+  addHungryCount,
 } from "./dbHelper.js";
 
 import {
@@ -49,5 +50,5 @@ export {
   removeStatsUser,
   isStatsUser,
   addApologyCount,
-
+  addHungryCount,
 };

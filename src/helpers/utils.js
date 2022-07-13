@@ -1,4 +1,9 @@
-import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
+import {
+  isIgnoredUser,
+  isIgnoredChannel,
+  addApologyCount,
+  addHungryCount
+} from "./index.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
@@ -111,9 +116,11 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   // If users say they are hungry
   if (isHungry(loweredContent)) {
-    const reaction = Object.values(currentServer.hungryEmotes);
-    const random = Math.round(Math.random()); // 0 or 1
-    await message.react(reaction[random]);
+    const reaction = Object.values(currentServer.hungryEmotes); //get reaction
+    const random = Math.round(Math.random()); // 0 or 1 => choose reaction
+    message.react(reaction[random]); //add reaction
+
+    addHungryCount(authorId, db); //add to db
   }
 };
 
