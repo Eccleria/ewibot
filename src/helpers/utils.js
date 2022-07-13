@@ -85,9 +85,9 @@ export const reactionHandler = async (message, currentServer, client) => {
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
-  if (Math.random() < 0.8) return; // Limit Ewibot react frequency
+  const frequency = Math.random(); // Limit Ewibot react frequency
 
-  if (hello.some((helloMessage) => words[0] === helloMessage)) {
+  if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
     await message.react(currentServer.helloEmoji);
   }
 
@@ -97,7 +97,7 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    if (foundEmotes.length > 0) {
+    if (foundEmotes.length > 0 && frequency) {
       // PRIDE MONTH, RAIBOWSSSSS
       if (today.getMonth() == 5) {
         await message.react("🏳️‍🌈");
@@ -113,11 +113,12 @@ export const reactionHandler = async (message, currentServer, client) => {
   if (isHungry(loweredContent)) {
     const reaction = Object.values(currentServer.hungryEmotes);
     const random = Math.round(Math.random()); // 0 or 1
-    await message.react(reaction[random]);
+    if (frequency) message.react(reaction[random]);
   }
 
   if (authorId === "657498573222576148") {
-    const presqueRegex = new RegExp("/pres(qu|k)e *(15|quinze)/gim"); //regex for presque 15 detection
+    //if Lucifer
+    const presqueRegex = new RegExp(/pres(qu|k)e *(15|quinze)/gim); //regex for presque 15 detection
     const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 15
 
     presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
