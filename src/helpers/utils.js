@@ -85,8 +85,9 @@ export const reactionHandler = async (message, currentServer, client) => {
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
-  const frequency = Math.random(); // Limit Ewibot react frequency
+  const frequency = Math.random() > 0.8 ? true : false; // Limit Ewibot react frequency
 
+  //Ewibot wave to user
   if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
     await message.react(currentServer.helloEmoji);
   }
