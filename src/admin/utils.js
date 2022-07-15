@@ -71,7 +71,7 @@ export const finishEmbed = async (
       if (attachments && attachments.length !== 0)
         await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch (e) {
-      console.log("finishEmbed list error\n", personalityEvent.title, e, embed);
+      console.log("finishEmbed list error\n", personalityEvent.title, new Date(), e, embed);
     }
     return;
   }
