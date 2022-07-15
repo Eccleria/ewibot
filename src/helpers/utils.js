@@ -3,7 +3,7 @@ import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
 const apologyRegex = new RegExp( //regex for apology detection
-  /((d[é|e]*so?l?[e|é]*r?s?)|(dsl)|(so?r+y)|(pardon)|(navr[e|é]+))/gm
+  /((d[e|é]sol[e|é]r)|(d[é|e]*so*l*[e|é]*s?)|(dsl)|(so?r+y)|(pardo+n+)|(navr[e|é]+))/gm
 );
 
 const hello = [
