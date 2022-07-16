@@ -17,12 +17,16 @@
       "title": "Salon supprimé"
     },
     "channelUpdate": {
+      "permissionOverwrites": {
+        "roleAdded": "Droits ajoutés au rôle :",
+        "roleRemoved": "Droits retirés au rôle :",
+        "userAdded": "Droits personnalisés ajoutés au membre :",
+        "userRemoved": "Droits personnalisés retirés au membre :"
+      },
       "author": "Salon :",
       "executor": "Modifié par :",
-      "roleAdded": "Rôle ajouté :",
       "text": "Modifications :\n",
-      "title": "Salon modifié",
-      "userAdded": "Utilisateur ajouté :"
+      "title": "Salon modifié"
     },
     "guildBan": {
       "author": "Membre :",

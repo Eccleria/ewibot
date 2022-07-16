@@ -59,7 +59,6 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
-  //console.log(chnLog.createdAt);
   //check for permission overwrite
   const oldOverwrite = oldChannel.permissionOverwrites.cache;
   const newOverwrite = newChannel.permissionOverwrites.cache;
@@ -71,24 +70,26 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     //new/removed permission orverwrite
     const [oldDiffCol, newDiffCol] = diffOverwrite.partition(perm => oldOverwrite.has(perm.id)) //separate old & new permissions
     console.log("oldDiffCol", oldDiffCol, "newDiffCol", newDiffCol)
+    const perm = chnUp.permissionOverwrites;
     if (oldDiffCol.size !== 0) { //removed permission overwrite
       //get user removed
       const oldDiff = oldDiffCol.first();
       const id = oldDiff.id;
       const obj = oldDiff.type === "member" ? await oldChannel.guild.members.fetch(id) : await oldChannel.guild.roles.fetch(id);
-      console.log("obj", obj)
-      const name = oldDiff.type === "member" ? chnUp.userAdded : chnUp.roleAdded;
+      //console.log("obj", obj)
+      const name = oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
       embed.addField(name, obj.toString());
       finishEmbed(chnUp, null, embed, logChannel);
       return
     }
     else if (newDiffCol.size !== 0) { //added permission overwrite
-      const newPerm = newDiffCol.first().allow;
-      const newBitfield = newPerm.bitfield;
-      console.log([newBitfield]);
-      const newArray = newPerm.toArray();
-      console.log("newArray", newArray);
-      console.log("newArrayString", [newArray.toString()]);
+      const newDiff = newDiffCol.first();
+      const id = newDiff.id;
+      const obj = newDiff.type === "member" ? await newChannel.guild.members.fetch(id) : await newChannel.guild.roles.fetch(id);
+      //console.log("obj", obj)
+      const name = newDiff.type === "member" ? perm.userAdded : perm.roleAdded;
+      embed.addField(name, obj.toString());
+      finishEmbed(chnUp, null, embed, logChannel);
       return
     }
   }
