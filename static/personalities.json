@@ -19,8 +19,10 @@
     "channelUpdate": {
       "author": "Salon :",
       "executor": "Modifié par :",
+      "roleAdded": "Rôle ajouté :",
       "text": "Modifications :\n",
-      "title": "Salon modifié"
+      "title": "Salon modifié",
+      "userAdded": "Utilisateur ajouté :"
     },
     "guildBan": {
       "author": "Membre :",

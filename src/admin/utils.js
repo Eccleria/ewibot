@@ -62,7 +62,7 @@ export const finishEmbed = async (
   if (embed.author !== null) {
     //embed.author is a embed property & not an array property
     //if contains multiple embeds, the 1st is the log
-    if (personalityEvent.executor)
+    if (personalityEvent.executor && executor !== null)
       embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
@@ -76,7 +76,7 @@ export const finishEmbed = async (
     return;
   }
 
-  if (personalityEvent.executor)
+  if (personalityEvent.executor && executor !== null)
     embed.addField(personalityEvent.executor, executor.toString(), true);
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 

@@ -56,7 +56,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
-  const embed = setupEmbed("DARK_AQUA", chnUp, newChannel); //setup embed
+  const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
 
   //console.log(chnLog.createdAt);
@@ -64,28 +64,32 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const oldOverwrite = oldChannel.permissionOverwrites.cache;
   const newOverwrite = newChannel.permissionOverwrites.cache;
   const diffOverwrite = oldOverwrite.difference(newOverwrite);
-  //console.log(oldOverwrite);
-  //console.log(newOverwrite);
+  
   console.log("equals", oldOverwrite.equals(newOverwrite));
   console.log("diffOverwrite", diffOverwrite);
   if (diffOverwrite.size !== 0) {
-    const [oldDiff, newDiff] = diffOverwrite.partition(perm => oldOverwrite.has(perm.id))
-    console.log("oldDiff", oldDiff, "newDiff", newDiff)
-    if (oldDiff.size !== 0) {
-      const oldPerm = oldDiff.first().deny;
-      const oldBitfield = oldPerm.bitfield;
-      console.log([oldBitfield]);
-      const oldArray = oldPerm.toArray();
-      console.log("oldArray", oldArray);
-      console.log("oldArrayString", [oldArray.toString()]);
+    //new/removed permission orverwrite
+    const [oldDiffCol, newDiffCol] = diffOverwrite.partition(perm => oldOverwrite.has(perm.id)) //separate old & new permissions
+    console.log("oldDiffCol", oldDiffCol, "newDiffCol", newDiffCol)
+    if (oldDiffCol.size !== 0) { //removed permission overwrite
+      //get user removed
+      const oldDiff = oldDiffCol.first();
+      const id = oldDiff.id;
+      const obj = oldDiff.type === "member" ? await oldChannel.guild.members.fetch(id) : await oldChannel.guild.roles.fetch(id);
+      console.log("obj", obj)
+      const name = oldDiff.type === "member" ? chnUp.userAdded : chnUp.roleAdded;
+      embed.addField(name, obj.toString());
+      finishEmbed(chnUp, null, embed, logChannel);
+      return
     }
-    else if (newDiff.size !== 0) {
-      const newPerm = newDiff.first().allow;
+    else if (newDiffCol.size !== 0) { //added permission overwrite
+      const newPerm = newDiffCol.first().allow;
       const newBitfield = newPerm.bitfield;
       console.log([newBitfield]);
       const newArray = newPerm.toArray();
       console.log("newArray", newArray);
       console.log("newArrayString", [newArray.toString()]);
+      return
     }
   }
 
