@@ -85,7 +85,7 @@ export const reactionHandler = async (message, currentServer, client) => {
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
-  const frequency = Math.random() > 0.8 ? true : false; // Limit Ewibot react frequency
+  const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
   //Ewibot wave to user
   if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
@@ -117,7 +117,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     if (frequency) message.react(reaction[random]);
   }
 
-  if (authorId === "657498573222576148") {
+  if (authorId === currentServer.LuciferId) {
     //if Lucifer
     const presqueRegex = new RegExp(/pres(qu|k)e *(15|quinze)/gim); //regex for presque 15 detection
     const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 15
