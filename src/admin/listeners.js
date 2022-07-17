@@ -222,18 +222,22 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 export const onThreadCreate = async (thread, newly) => {
   //handle thread creation
   if (!newly) return; // if not new return
+  console.log("thread", thread);
 
-  if (thread.joinable && !thread.joined) await thread.join(); //join thread created
+  if (thread) {
+    //sometimes thread is null
+    if (thread.joinable && !thread.joined) await thread.join(); //join thread created
 
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const thrCr = personality.threadCreate;
-  const auditLog = personality.auditLog;
+    const personality = PERSONALITY.getAdmin(); //get personality
+    const thrCr = personality.threadCreate;
+    const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, thread); //get logChannelId
-  const embed = setupEmbed("DARK_GREY", thrCr, thread, "tag"); //setup embed
-  const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE"); //get auditLog
+    const logChannel = await getLogChannel(commons, thread); //get logChannelId
+    const embed = setupEmbed("DARK_GREY", thrCr, thread, "tag"); //setup embed
+    const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE"); //get auditLog
 
-  endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
+    endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
+  }
 };
 
 export const onThreadDelete = async (thread) => {
@@ -243,7 +247,7 @@ export const onThreadDelete = async (thread) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, thread); //get logChannelId
-  const embed = setupEmbed("DARK_GREY", thrDe, thread); //setup embed
+  const embed = setupEmbed("DARK_GREY", thrDe, thread, "tag"); //setup embed
   const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE"); //get auditLog
 
   endAdmin(thread, thrLog, thrDe, auditLog, embed, logChannel);
@@ -258,6 +262,8 @@ export const onThreadUpdate = async (oldThread, newThread) => {
   const logChannel = await getLogChannel(commons, newThread); //get logChannelId
   const embed = setupEmbed("DARK_GREY", thrUp, newThread); //setup embed
   const thrLog = await fetchAuditLog(newThread.guild, "THREAD_UPDATE"); //get auditLog
+
+  console.log("oldThread", oldThread, "newThread", newThread)
 
   endAdmin(newThread, thrLog, thrUp, auditLog, embed, logChannel);
 };
