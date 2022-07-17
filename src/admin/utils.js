@@ -56,8 +56,8 @@ export const finishEmbed = async (
   attachments
 ) => {
   if (process.env.DEBUG === "no" && logChannel.id === "981478339439104090") {
-    console.log("Ewibot log in Test server", personalityEvent.title)
-    return
+    console.log("Ewibot log in Test server", personalityEvent.title);
+    return;
   }
   if (embed.author !== null) {
     //embed.author is a embed property & not an array property
@@ -71,7 +71,13 @@ export const finishEmbed = async (
       if (attachments && attachments.length !== 0)
         await logChannel.send({ files: attachments }); //if attachments, send new message
     } catch (e) {
-      console.log("finishEmbed list error\n", personalityEvent.title, new Date(), e, embed);
+      console.log(
+        "finishEmbed list error\n",
+        personalityEvent.title,
+        new Date(),
+        e,
+        embed
+      );
     }
     return;
   }
@@ -436,9 +442,9 @@ const regroup = (element, type) => {
 
 export const fetchMessage = async (message) => {
   try {
-    return await message.fetch()
+    return await message.fetch();
   } catch (e) {
-    console.log(e)
-    return null
+    console.log(e);
+    return null;
   }
-}
+};

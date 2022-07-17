@@ -64,32 +64,40 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const oldOverwrite = oldChannel.permissionOverwrites.cache;
   const newOverwrite = newChannel.permissionOverwrites.cache;
   const diffOverwrite = oldOverwrite.difference(newOverwrite);
-  
+
   if (diffOverwrite.size !== 0) {
     //add/removed permission orverwrite
-    const [oldDiffCol, newDiffCol] = diffOverwrite.partition(perm => oldOverwrite.has(perm.id)) //separate old & new permissions
+    const [oldDiffCol, newDiffCol] = diffOverwrite.partition((perm) =>
+      oldOverwrite.has(perm.id)
+    ); //separate old & new permissions
 
     if (oldDiffCol.size !== 0) {
       //removed permission overwrite
       const oldDiff = oldDiffCol.first();
       const id = oldDiff.id; //get PO target id
-      const obj = oldDiff.type === "member" ? await oldChannel.guild.members.fetch(id) : await oldChannel.guild.roles.fetch(id);
-      const name = oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
+      const obj =
+        oldDiff.type === "member"
+          ? await oldChannel.guild.members.fetch(id)
+          : await oldChannel.guild.roles.fetch(id);
+      const name =
+        oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
 
       embed.addField(name, obj.toString());
       finishEmbed(chnUp, null, embed, logChannel);
-      return
-    }
-    else if (newDiffCol.size !== 0) {
+      return;
+    } else if (newDiffCol.size !== 0) {
       //added permission overwrite
       const newDiff = newDiffCol.first();
       const id = newDiff.id; //get PO target id
-      const obj = newDiff.type === "member" ? await newChannel.guild.members.fetch(id) : await newChannel.guild.roles.fetch(id);
+      const obj =
+        newDiff.type === "member"
+          ? await newChannel.guild.members.fetch(id)
+          : await newChannel.guild.roles.fetch(id);
       const name = newDiff.type === "member" ? perm.userAdded : perm.roleAdded;
 
       embed.addField(name, obj.toString());
       finishEmbed(chnUp, null, embed, logChannel);
-      return
+      return;
     }
   }
   if (!oldOverwrite.equals(newOverwrite)) {
@@ -101,9 +109,13 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     //find PO difference by couple
     const diff = oldOverwrite.reduce((acc, cur) => {
       const newPO = newOverwrite.get(cur.id);
-      if (cur.deny.bitfield !== newPO.deny.bitfield || cur.allow.bitfield !== newPO.allow.bitfield) return [...acc, [cur, newPO]];
+      if (
+        cur.deny.bitfield !== newPO.deny.bitfield ||
+        cur.allow.bitfield !== newPO.allow.bitfield
+      )
+        return [...acc, [cur, newPO]];
       else return acc;
-    }, []); 
+    }, []);
 
     //get bit diff, write it along channel.toString()
     const modifs = await diff.reduce(async (acc, cur) => {
@@ -115,26 +127,42 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
       //get permissions differences
       const allowRemoved = oldAllow.filter((perm) => !newAllow.includes(perm)); //if not in new => removed
-      const allowAdded = newAllow.filter((perm) => !oldAllow.includes(perm)) //if not in old => added
+      const allowAdded = newAllow.filter((perm) => !oldAllow.includes(perm)); //if not in old => added
       const denyRemoved = oldDeny.filter((perm) => !newDeny.includes(perm)); //if not in new => removed
-      const denyAdded = newDeny.filter((perm) => !oldDeny.includes(perm)) //if not in old => added
+      const denyAdded = newDeny.filter((perm) => !oldDeny.includes(perm)); //if not in old => added
 
       //get longer between combos
       //allowRemoved/denyAdded, allowAdded/denyRemoved
-      const added = allowAdded.length >= denyRemoved.length ? allowAdded : denyRemoved;
-      const removed = allowRemoved.length >= denyAdded.length ? allowRemoved : denyAdded;
+      const added =
+        allowAdded.length >= denyRemoved.length ? allowAdded : denyRemoved;
+      const removed =
+        allowRemoved.length >= denyAdded.length ? allowRemoved : denyAdded;
 
       //get role or member having that PO
-      const obj = cur[0].type === "member" ? await newChannel.guild.members.fetch(cur[0].id) : await newChannel.guild.roles.fetch(cur[0].id);
+      const obj =
+        cur[0].type === "member"
+          ? await newChannel.guild.members.fetch(cur[0].id)
+          : await newChannel.guild.roles.fetch(cur[0].id);
 
       //write text
       const textAdded = "\n" + added.join("\n");
       const textRemoved = "\n" + removed.join("\n");
-      return acc + "\n" + obj.toString() + "\n" + perm.permAdded + textAdded + "\n" + perm.permRemoved + textRemoved + "\n"
-    }, "")
+      return (
+        acc +
+        "\n" +
+        obj.toString() +
+        "\n" +
+        perm.permAdded +
+        textAdded +
+        "\n" +
+        perm.permRemoved +
+        textRemoved +
+        "\n"
+      );
+    }, "");
     embed.addField(chnUp.text, modifs); //add modifs in embed
     finishEmbed(chnUp, null, embed, logChannel);
-    return
+    return;
   }
 
   //get client
@@ -187,7 +215,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     );
     return;
   }
-  console.log("channelUpdate auditLog null")
+  console.log("channelUpdate auditLog null");
   endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel);
 };
 
@@ -406,11 +434,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   let oMessage = oldMessage;
   let nMessage = newMessage;
   if (oldMessage.partial) {
-    const message = await fetchMessage(oldMessage)
+    const message = await fetchMessage(oldMessage);
     oMessage = message === null ? oldMessage : message;
   }
   if (newMessage.partial) {
-    const message = await fetchMessage(newMessage)
+    const message = await fetchMessage(newMessage);
     //console.log(message)
     nMessage = message === null ? newMessage : message;
   }
