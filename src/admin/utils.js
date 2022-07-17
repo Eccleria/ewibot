@@ -56,7 +56,7 @@ export const finishEmbed = async (
   attachments
 ) => {
   if (process.env.DEBUG === "no" && logChannel.id === "981478339439104090") {
-    console.log("Ewibot log in Test server", personalityEvent.title, embed)
+    console.log("Ewibot log in Test server", personalityEvent.title)
     return
   }
   if (embed.author !== null) {
