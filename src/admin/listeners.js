@@ -445,13 +445,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
   if (newMessage.partial) {
     const message = await fetchMessage(newMessage);
-    //console.log(message)
     nMessage = message === null ? newMessage : message;
   }
-  //console.log("oldMessage", oldMessage)
-  //console.log("oMessage", oMessage)
-  //console.log("newMessage", newMessage)
-  //console.log("nMessage", nMessage)
 
   if (!oMessage.guild) return; //Ignore DM
 
@@ -482,7 +477,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (Math.abs(oldContent.length - newContent.length) <= 2) return;
 
   if (oldContent !== newContent) {
-    //console.log("oldContent", [oldContent], "newContent", [newContent]);
     if (oldContent.length !== 0)
       embed.addField(messageU.contentOld, oldContent);
     if (newContent.length !== 0)

@@ -165,7 +165,7 @@ client.on("channelUpdate", onChannelUpdate);
 //client.ws.on("THREAD_CREATE", console.log)
 client.on("threadCreate", onThreadCreate);
 client.on("threadDelete", onThreadDelete);
-client.on("threadUpdate", onThreadUpdate);
+//client.on("threadUpdate", onThreadUpdate);
 
 client.on("guildBanAdd", onGuildBanAdd);
 client.on("guildBanRemove", onGuildBanRemove);
