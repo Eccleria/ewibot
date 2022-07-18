@@ -143,13 +143,15 @@ export const endAdmin = (
  * Fetch Log Channel.
  * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
+ * @param {string} type String to ditinguish if returns channel or thread
  * @returns {TextChannel}
  */
-export const getLogChannel = async (commons, eventObject) => {
+export const getLogChannel = async (commons, eventObject, type) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data
-  return await eventObject.guild.channels.fetch(currentServer.logChannelId); //return the log channel
+  const id = type === "thread" ? currentServer.logThreadId : currentServer.logChannelId
+  return await eventObject.guild.channels.fetch(id); //return the log channel
 };
 
 export const clientEventUpdateProcess = (

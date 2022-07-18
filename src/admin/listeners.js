@@ -370,7 +370,7 @@ export const onMessageDelete = async (message) => {
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, message); //get logChannel
+  const logChannel = await getLogChannel(commons, message, "thread"); //get logChannel
   const date = message.createdAt.toString().slice(4, 24);
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
@@ -464,7 +464,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageU = personality.messageUpdate;
 
-  const logChannel = await getLogChannel(commons, nMessage); //get logChannel
+  const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
   const date = oMessage.createdAt.toString().slice(4, 24);
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
