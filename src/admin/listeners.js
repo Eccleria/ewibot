@@ -247,7 +247,7 @@ export const onThreadDelete = async (thread) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, thread); //get logChannelId
-  const embed = setupEmbed("DARK_GREY", thrDe, thread, "tag"); //setup embed
+  const embed = setupEmbed("DARK_GREY", thrDe, thread); //setup embed
   const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE"); //get auditLog
 
   endAdmin(thread, thrLog, thrDe, auditLog, embed, logChannel);
