@@ -161,6 +161,7 @@ client.on("channelCreate", onChannelCreate);
 client.on("channelDelete", onChannelDelete);
 client.on("channelUpdate", onChannelUpdate);
 
+//client.ws.on("THREAD_CREATE", console.log)
 client.on("threadCreate", onThreadCreate);
 client.on("threadDelete", onThreadDelete);
 client.on("threadUpdate", onThreadUpdate);
