@@ -222,7 +222,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 export const onThreadCreate = async (thread, newly) => {
   //handle thread creation
   if (!newly) return; // if not new return
-  console.log("thread", thread);
+  //console.log("thread", thread);
 
   if (thread) {
     //sometimes thread is null
