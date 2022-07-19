@@ -111,6 +111,11 @@
       "executor": "Supprimé par :",
       "title": "Fil supprimé"
     },
+    "threadUpdate": {
+      "author": "Fil :",
+      "executor": "Modifié par :",
+      "title": "Fil modifié"
+    },
     "timeout": {
       "author": "Membre :",
       "duration": "Durée :",

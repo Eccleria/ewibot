@@ -28,7 +28,7 @@ import {
   onChannelUpdate,
   onThreadCreate,
   onThreadDelete,
-  onThreadUpdate,
+  //onThreadUpdate,
   onRoleCreate,
   onRoleDelete,
   onRoleUpdate,
