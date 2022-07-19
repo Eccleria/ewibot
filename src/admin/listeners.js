@@ -7,6 +7,7 @@ import {
   endAdmin,
   clientEventUpdateProcess,
   fetchMessage,
+  gifRecovery,
 } from "./utils.js";
 
 import dayjs from "dayjs";
@@ -390,22 +391,15 @@ export const onMessageDelete = async (message) => {
   }, []);
   const embeds = message.embeds.reduce(
     (acc, cur) => {
-      return [...acc, cur];
+      if (cur.type !== "gifv") return [...acc, cur]; //remove gif embed
+      return acc;
     },
     [embed]
   );
-  console.log("embeds", embeds)
 
   //handle gifs
-  //const words = content.split(" ");
   let content = message.content ? message.content : messageDel.note;
-  if (message.content.includes("tenor.com/")) {
-    const words = message.content.split(" ");
-    const index = words.findIndex((word) => word.includes("tenor.com/")); //find index where to change
-    const gif = words[index] + ".gif";
-    words.splice(index, 1, gif); //add .gif to the link
-    content = words !== content ? words.toString() : content;
-  }
+  const gifs = gifRecovery(content);
 
   //if no AuditLog
   if (!deletionLog) {
@@ -417,6 +411,10 @@ export const onMessageDelete = async (message) => {
       content,
       attachments
     );
+    if (gifs !== null) {
+      const content = gifs.join("\n");
+      logChannel.send(content);
+    }
     return;
   }
 
@@ -432,6 +430,10 @@ export const onMessageDelete = async (message) => {
       content,
       attachments
     );
+    if (gifs !== null) {
+      const content = gifs.join("\n");
+      logChannel.send(content);
+    }
   } else {
     //if bot or author deleted the message
     await finishEmbed(
@@ -442,6 +444,10 @@ export const onMessageDelete = async (message) => {
       content,
       attachments
     );
+    if (gifs !== null) {
+      const content = gifs.join("\n");
+      logChannel.send(content);
+    }
   }
 };
 

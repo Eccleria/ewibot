@@ -464,3 +464,21 @@ export const fetchMessage = async (message) => {
     return null;
   }
 };
+
+/**
+ * Get strings corresponding to gif url.
+ * @param {string} content
+ * @returns {?string[]} If any, returns array of gif url strings.
+ */
+export const gifRecovery = (content) => {
+  const tenor = "tenor.com/";
+  if (content.includes(tenor)) {
+    const words = content.split(" ");
+    const results = words.reduce((acc, cur) => {
+      if (cur.includes(tenor)) return [...acc, cur]
+      return acc;
+    }, []);
+    return results;
+  }
+  return null;
+}
