@@ -132,7 +132,7 @@ export const endAdmin = (
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    finishEmbed(eventPerso, executor.tag, embed, logChannel, text);
+    finishEmbed(eventPerso, executor, embed, logChannel, text);
   } else {
     //if bot or author executed the kick
     finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
