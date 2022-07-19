@@ -1,5 +1,10 @@
 import { MessageEmbed } from "discord.js";
 
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
+
 /**
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
@@ -59,7 +64,12 @@ export const finishEmbed = async (
   text,
   attachments
 ) => {
-  if (process.env.DEBUG === "no" && logChannel.id === "981478339439104090") {
+  const currentServer = commons.find(
+    ({ name }) => name === "test"
+  ); //get test data
+
+  if (process.env.DEBUG === "no" && logChannel.guildId === currentServer.guildId) {
+    //Ewibot detects test in test server => return
     console.log("Ewibot log in Test server", personalityEvent.title);
     return;
   }

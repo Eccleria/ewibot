@@ -385,7 +385,6 @@ export const onMessageDelete = async (message) => {
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
 
   //get message data
-  const content = message.content ? message.content : messageDel.note;
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
@@ -395,6 +394,18 @@ export const onMessageDelete = async (message) => {
     },
     [embed]
   );
+  console.log("embeds", embeds)
+
+  //handle gifs
+  //const words = content.split(" ");
+  let content = message.content ? message.content : messageDel.note;
+  if (message.content.includes("tenor.com/")) {
+    const words = message.content.split(" ");
+    const index = words.findIndex((word) => word.includes("tenor.com/")); //find index where to change
+    const gif = words[index] + ".gif";
+    words.splice(index, 1, gif); //add .gif to the link
+    content = words !== content ? words.toString() : content;
+  }
 
   //if no AuditLog
   if (!deletionLog) {
