@@ -1,7 +1,12 @@
 import { MessageEmbed } from "discord.js";
 
+/**
+ * Fetch AuditLog from API.
+ * @param {Guild} guild Guild.
+ * @param {string} auditType String for audit type request.
+ * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
+ */
 export const fetchAuditLog = async (guild, auditType) => {
-  //fetch the first corresponding audit log
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
       limit: 1,
@@ -9,6 +14,7 @@ export const fetchAuditLog = async (guild, auditType) => {
     }); //fetch logs
     return fetchedLogs.entries.first(); //return the first
   } catch (e) {
+    //if no permission => crash
     console.log("AuditLog Fetch Error", e);
     return null;
   }
@@ -20,7 +26,7 @@ export const fetchAuditLog = async (guild, auditType) => {
  * @param {object} personality The personality object of the embed.
  * @param {object} [object] Object containing or not the author.
  * @param {string} [type] Differentiate object use case.
- * @returns {MessageEmbed}
+ * @returns {MessageEmbed} Embed with basic properties.
  */
 export const setupEmbed = (color, personality, object, type) => {
   const embed = new MessageEmbed()
@@ -30,11 +36,9 @@ export const setupEmbed = (color, personality, object, type) => {
 
   if (personality.description) embed.setDescription(personality.description);
 
-  if (type === "tag") {
-    //add the user tag if required
-    embed.addField(personality.author, object.toString(), true);
-  } else if (type === "skip") return embed;
-  else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name (for channels, roles, ...)
+  if (type === "tag") embed.addField(personality.author, object.toString(), true); //add user as embed if required
+  else if (type === "skip") return embed; //allows to skip the 3rd field
+  else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name as embed (for channels, roles, ...)
   return embed;
 };
 
