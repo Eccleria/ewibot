@@ -67,14 +67,14 @@ export const reactionHandler = async (message, currentServer, client) => {
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  console.log("apologyResult", apologyResult);
+
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
     const wordFound = apologyResult.input //get triggering word
       .slice(apologyResult.index) //remove everything before word detected
       .split(" ")[0]; //split words and get the first
-    console.log("wordFound", wordFound)
+
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) {
       addApologyCount(authorId, db); //add data to db
