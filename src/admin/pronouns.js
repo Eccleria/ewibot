@@ -41,5 +41,4 @@ export const buttonHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands();
   const pronounsP = personality.pronouns;
   await interaction.reply({ content: pronounsP.text.reply, ephemeral: true });
-  console.log("pronouns", interaction.createdAt)
 };
