@@ -162,7 +162,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       );
     }, "");
     console.log("Channel Update modifs", [modifs])
-    embed.addField(chnUp.text, modifs); //add modifs in embed
+    if (modifs.length !== 0) embed.addField(chnUp.text, modifs); //add modifs in embed
     finishEmbed(chnUp, null, embed, logChannel);
     return;
   }
