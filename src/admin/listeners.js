@@ -474,14 +474,42 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     return;
   }
 
-  const personality = PERSONALITY.getAdmin(); //get personality
+  //get personality
+  const personality = PERSONALITY.getAdmin(); 
   const messageU = personality.messageUpdate;
+  const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
   const date = oMessage.createdAt.toString().slice(4, 24);
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
+
+  //check for un/pinned
+  if (oMessage.pinned && !nMessage.pinned) {
+    const unpinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_UNPIN"); //get auditLog
+    const unpinned = messageU.unpinned;
+    embed.addField(unpinned.title, unpinned.text, true); //add unpinned text
+
+    //add message link
+    const link = `[${messageU.linkMessage}](${nMessage.url})`;
+    embed.addField(messageU.linkName, link);
+
+    endAdmin(nMessage, unpinLog, messageU, auditLog, embed, logChannel)
+    return
+  }
+  if (!oMessage.pinned && nMessage.pinned) {
+    const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN"); //get auditLog
+    const pinned = messageU.pinned;
+    embed.addField(pinned.title, pinned.text, true); //add unpinned text
+
+    //add message link
+    const link = `[${messageU.linkMessage}](${nMessage.url})`;
+    embed.addField(messageU.linkName, link);
+
+    endAdmin(nMessage, pinLog, messageU, auditLog, embed, logChannel);
+    return
+  }
 
   //add creation date + channel
   embed.addField(messageU.date, `${date}`, true); //date of message creation
