@@ -547,9 +547,9 @@ export const onGuildBanAdd = async (userBan) => {
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
   const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user, "tag"); //setup embed
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD"); //get auditLog
-  const reason = userBan.reason; //get ban reason
+  const reason = banLog.reason; //get ban reason
 
-  endAdmin(userBan, banLog, guildBan, auditLog, embed, logChannel, reason);
+  endAdmin(userBan.user, banLog, guildBan, auditLog, embed, logChannel, reason);
 };
 
 export const onGuildBanRemove = async (userBan) => {
@@ -562,9 +562,8 @@ export const onGuildBanRemove = async (userBan) => {
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
   const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user, "tag"); //setup embed
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE"); //get auditLog
-  const reason = userBan.reason; //get ban reason
 
-  endAdmin(userBan, banLog, guildUnban, auditLog, embed, logChannel, reason);
+  endAdmin(userBan.user, banLog, guildUnban, auditLog, embed, logChannel);
 };
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {

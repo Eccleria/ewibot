@@ -98,6 +98,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_TYPING,
     Intents.FLAGS.DIRECT_MESSAGES,
     Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_BANS,
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
@@ -162,7 +163,8 @@ client.on("channelCreate", onChannelCreate);
 client.on("channelDelete", onChannelDelete);
 client.on("channelUpdate", onChannelUpdate);
 
-//client.ws.on("THREAD_CREATE", console.log)
+//client.ws.on("THREAD_CREATE", console.log);
+//client.on('debug', console.log);
 client.on("threadCreate", onThreadCreate);
 client.on("threadDelete", onThreadDelete);
 //client.on("threadUpdate", onThreadUpdate);
