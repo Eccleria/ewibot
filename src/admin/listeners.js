@@ -520,7 +520,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const newContent = nMessage.content;
 
   //filter changes, if < 2 length => return
-  const isLengthy = Math.abs(oldContent.length - newContent.length) <= 2;
+  const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
   if (oldContent !== newContent && isLengthy) {
     if (oldContent.length !== 0) //to not add empty strings
       embed.addField(messageU.contentOld, oldContent); 
@@ -554,6 +554,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     console.log("onMessageUpdate embeds", e);
     embeds = [embed];
   }
+
+  if (!isLengthy && embeds.length === 1 && attachments.length === 0) return; //if no apparent modif, return
 
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
