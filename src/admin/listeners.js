@@ -161,6 +161,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         "\n"
       );
     }, "");
+    console.log("Channel Update modifs", [modifs])
     embed.addField(chnUp.text, modifs); //add modifs in embed
     finishEmbed(chnUp, null, embed, logChannel);
     return;
@@ -513,9 +514,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   try {
     embeds =
       oldEmbeds.length !== 0 && newEmbeds.length !== 0
-        ? oldEmbeds.reduce(
+        ? newEmbeds.reduce(
             (acc, cur, idx) => {
-              if (!cur.equals(nMessage.embeds[idx])) return [...acc, cur];
+            if (!cur.equals(nMessage.embeds[idx]) && cur.type !== "gifv")
+              return [...acc, cur];
               return acc;
             },
             [embed]
@@ -529,7 +531,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addField(messageU.linkName, link);
-  finishEmbed(messageU, null, embeds, logChannel, null, attachments);
+  await finishEmbed(messageU, null, embeds, logChannel, null, attachments);
+ /* if (gifs !== null) {
+    const content = gifs.join("\n");
+    logChannel.send(content);
+  }*/
 };
 
 export const onGuildBanAdd = async (userBan) => {
