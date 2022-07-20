@@ -504,6 +504,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const attachments = oMessage.attachments.reduce((acc, cur) => {
     if (nMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
       return [...acc, cur.attachment];
+    return acc;
   }, []); //check for attachments
 
   const oldEmbeds = oMessage.embeds;
