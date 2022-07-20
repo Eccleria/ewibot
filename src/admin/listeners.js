@@ -509,22 +509,21 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   const oldEmbeds = oMessage.embeds;
   const newEmbeds = nMessage.embeds;
-
   let embeds;
   try {
     embeds =
       oldEmbeds.length !== 0 && newEmbeds.length !== 0
         ? newEmbeds.reduce(
             (acc, cur, idx) => {
-            if (!cur.equals(nMessage.embeds[idx]) && cur.type !== "gifv")
+            if (!cur.equals(nMessage.embeds[idx]) && cur.type !== "gifv") //exclude gifs embed which cannot be sent by bot
               return [...acc, cur];
-              return acc;
+            return acc;
             },
             [embed]
           )
         : [embed]; //check for embeds. It includes link integration
   } catch (e) {
-    console.log("onMessageUpdate", e);
+    console.log("onMessageUpdate embeds", e);
     embeds = [embed];
   }
 
@@ -606,7 +605,6 @@ export const onGuildMemberRemove = async (memberKick) => {
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK"); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get ban reason
-  console.log("kickLog", kickLog);
 
   //get log creation date and compare to now
   const logCreationDate = kickLog ? dayjs(kickLog.createdAt) : null;
@@ -631,7 +629,7 @@ export const onGuildMemberRemove = async (memberKick) => {
 
   const guildKick = personality.guildKick.kick;
   const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
-  if (textRoles) embed.addField(guildKick.roles, textRoles); //add user roles if any
+  if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
   endAdmin(
     userKick,
     kickLog,
