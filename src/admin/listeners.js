@@ -492,11 +492,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const newContent = nMessage.content;
 
   //filter changes, if < 2 length => return
-  if (Math.abs(oldContent.length - newContent.length) <= 2) return;
-
-  if (oldContent !== newContent) {
-    if (oldContent.length !== 0)
-      embed.addField(messageU.contentOld, oldContent);
+  const isLengthy = Math.abs(oldContent.length - newContent.length) <= 2;
+  if (oldContent !== newContent && isLengthy) {
+    if (oldContent.length !== 0) //to not add empty strings
+      embed.addField(messageU.contentOld, oldContent); 
     if (newContent.length !== 0)
       embed.addField(messageU.contentNew, newContent);
   }
