@@ -136,4 +136,15 @@ const addHungryCount = (authorId, db) => {
   db.wasUpdated = true;
 }
 
-export { addApologyCount, addHungryCount };
+const addEmoteCount = (authorId, db, emoteId) => {
+  const stats = db.data.stats;
+  if (isStatsUser(authorId, db)) {
+    for (const obj of stats) {
+      if (obj.userId === authorId) {
+        
+      }
+    }
+  }
+};
+
+export { addApologyCount, addHungryCount, addEmoteCount };

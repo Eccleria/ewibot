@@ -2,7 +2,7 @@ import {
   isIgnoredUser,
   isIgnoredChannel,
   addApologyCount,
-  addHungryCount
+  addHungryCount,
 } from "./index.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
@@ -60,6 +60,14 @@ const isAbcd = (words) => {
 const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
+
+export const emojiStat = (emojiId, user) => {
+  const client = user.client;
+  const db = client.db;
+  const authorId = user.id;
+
+
+}
 
 export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;

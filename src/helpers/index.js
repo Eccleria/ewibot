@@ -9,7 +9,6 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeStatsUser,
-  isStatsUser,
   addApologyCount,
   addHungryCount,
 } from "./dbHelper.js";
@@ -48,7 +47,6 @@ export {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeStatsUser,
-  isStatsUser,
   addApologyCount,
   addHungryCount,
 };

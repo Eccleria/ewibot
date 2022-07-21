@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { removeAppologyCount } from "../helpers/index.js";
+import { removeStatsUser } from "../helpers/index.js";
 
 const action = async (message, client) => {
   const content = message.content;
@@ -35,7 +35,7 @@ const leadApo = async (message, client) => {
       guildMember = await guildMembers.fetch(cur.userId); //get guildMember
     } catch {
       //if not found, not in serveur anymore => remove from db
-      removeAppologyCount(cur.userId, db);
+      removeStatsUser(cur.userId, db);
     }
 
     if (guildMember && cur.apologies >= 10) {
