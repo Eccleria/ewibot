@@ -22,6 +22,7 @@ import {
 
 import {
   isAdmin,
+  emojiStat,
   isCommand,
   reactionHandler,
   checkIsOnThread,
@@ -30,6 +31,7 @@ import {
 export {
   // utils
   isAdmin,
+  emojiStat,
   isCommand,
   reactionHandler,
   checkIsOnThread,
