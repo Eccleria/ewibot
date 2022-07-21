@@ -76,7 +76,7 @@ export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
   // {userId, stats...}
 const addStatsUser = (authorId, db) => {
   if (!isStatsUser(authorId, db)) {
-    db.data.stats.push({ userId: authorId, apologies: 0, hungry: 0 })
+    db.data.stats.push({ userId: authorId, apologies: 0, emotes: [], hungry: 0 })
     db.wasUpdated = true;
   }
 };
@@ -138,9 +138,12 @@ const addHungryCount = (authorId, db) => {
 
 const addEmoteCount = (authorId, db, emoteId) => {
   const stats = db.data.stats;
+  console.log("stats", stats)
   if (isStatsUser(authorId, db)) {
+    console.log("isStatUser")
     //[{ userId, apologies, hungry, emotes }, ...]
     for (const obj of stats) {
+      console.log("statObj", obj)
       if (obj.userId === authorId) {
         //[{emoteId, count}]
         const emotes = obj.emotes;
@@ -152,7 +155,9 @@ const addEmoteCount = (authorId, db, emoteId) => {
             flag = true;
           }
         }
-        if (!flag) stats.emotes.push({ emoteId: emoteId, count: 1 });
+        if (!flag) {
+          obj.emotes.push({ emoteId: emoteId, count: 1 });
+        }
       }
     }
   }
@@ -160,6 +165,7 @@ const addEmoteCount = (authorId, db, emoteId) => {
     addStatsUser(authorId, db);
     addEmoteCount(authorId, db, emoteId);
   }
+  db.wasUpdated = true;
 };
 
 export { addApologyCount, addHungryCount, addEmoteCount };

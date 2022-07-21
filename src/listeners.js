@@ -143,7 +143,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
-  console.log("emoji", messageReaction.emoji)
+  //console.log("emoji", messageReaction.emoji)
   const emote = messageReaction.emoji; //get emote
   const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
   if (emoteGuild && currentServer.guildId === emoteGuild.id) //if is server emote &&
