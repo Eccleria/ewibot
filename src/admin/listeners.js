@@ -270,7 +270,7 @@ export const onThreadUpdate = async (oldThread, newThread) => {
   const embed = setupEmbed("DARK_GREY", thrUp, newThread); //setup embed
   const thrLog = await fetchAuditLog(newThread.guild, "THREAD_UPDATE"); //get auditLog
 
-  console.log("oldThread", oldThread, "newThread", newThread)
+  //console.log("oldThread", oldThread, "newThread", newThread)
 
   endAdmin(newThread, thrLog, thrUp, auditLog, embed, logChannel);
 };
