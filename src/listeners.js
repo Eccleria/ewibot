@@ -144,10 +144,10 @@ export const onReactionAdd = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
   console.log("emoji", messageReaction.emoji)
-  const emoji = messageReaction.emoji;
-  const emojiGuild = emoji.guild ? emoji.guild : null;
-  if (emojiGuild && currentServer.guildId === emojiGuild.id)
-    emojiStat(messageReaction, user);
+  const emote = messageReaction.emoji; //get emote
+  const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) //if is server emote &&
+    emojiStat(emote.id, user);
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
     await roleAdd(messageReaction, currentServer, user);
