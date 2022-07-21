@@ -20,6 +20,7 @@ import {
 } from "./spotifyHelper.js";
 
 import {
+  sanitizePunctuation,
   isAdmin,
   hasApology,
   isCommand,
@@ -29,6 +30,7 @@ import {
 
 export {
   // utils
+  sanitizePunctuation,
   isAdmin,
   hasApology,
   isCommand,
