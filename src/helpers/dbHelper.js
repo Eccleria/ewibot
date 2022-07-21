@@ -139,11 +139,26 @@ const addHungryCount = (authorId, db) => {
 const addEmoteCount = (authorId, db, emoteId) => {
   const stats = db.data.stats;
   if (isStatsUser(authorId, db)) {
+    //[{ userId, apologies, hungry, emotes }, ...]
     for (const obj of stats) {
       if (obj.userId === authorId) {
-        
+        //[{emoteId, count}]
+        const emotes = obj.emotes;
+
+        let flag = false; //check for emote presence in db
+        for (const emote of emotes) {
+          if (emote.emoteId === emoteId) {
+            emote.count++; //add count
+            flag = true;
+          }
+        }
+        if (!flag) stats.emotes.push({ emoteId: emoteId, count: 1 });
       }
     }
+  }
+  else {
+    addStatsUser(authorId, db);
+    addEmoteCount(authorId, db, emoteId);
   }
 };
 
