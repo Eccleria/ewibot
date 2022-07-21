@@ -21,6 +21,7 @@ import {
 
 import {
   isAdmin,
+  hasApology,
   isCommand,
   reactionHandler,
   checkIsOnThread,
@@ -29,6 +30,7 @@ import {
 export {
   // utils
   isAdmin,
+  hasApology,
   isCommand,
   reactionHandler,
   checkIsOnThread,
