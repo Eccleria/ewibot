@@ -22,10 +22,14 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   const userId = user.id;
   if (userId === process.env.CLIENTID) return; //if bot, return
 
+  //fetch user data
   const rolesJson = Object.values(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
   const guild = await messageReaction.client.guilds.fetch(
     currentServer.guildId
   ); //fetch the guild
+  const guildMember = await guild.members.fetch(userId); //get guildMember
+
+  //check for alavirien role
 
   const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
 
@@ -35,10 +39,6 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
     messageReaction.remove();
     return;
   }
-
-  //get all message reactions data
-
-  const guildMember = await guild.members.fetch(userId); //get guildMember
 
   //get role parameters in servers.json
   const roleParam = rolesJson.find((role) => role.name === reactionName); //get json data for triggering role
