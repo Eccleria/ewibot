@@ -30,8 +30,10 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   const guildMember = await guild.members.fetch(userId); //get guildMember
 
   //check for alavirien role
-  if (!guildMember.roles.cache.has(currentServer.alavirienRoleId))
+  if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
+    messageReaction.users.remove(userId); //remove wrong reaction
     return //if not having role, return
+  }
 
   //check for correct triggering reaction
   const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
