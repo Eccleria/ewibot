@@ -372,6 +372,10 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
 
+  //change embed
+  embed.setTitle(roleUp.titleRoles); //change title
+  embed.setFields(embed.fields.slice(1)); //remove author field
+
   finishEmbed(roleUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
   client.roleUpdate = {}; //remove from client

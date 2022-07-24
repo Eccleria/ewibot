@@ -107,7 +107,8 @@
       "old": "\n  Supprimée.s : ",
       "text": "Modifications :",
       "permission": "- Permissions :",
-      "title": "Rôle mis à jour"
+      "title": "Rôle mis à jour",
+      "titleRoles": "Rôles mis à jour"
     },
     "threadCreate": {
       "author": "Fil :",
