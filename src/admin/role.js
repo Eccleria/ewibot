@@ -39,7 +39,7 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
   const reactionName = messageReaction.emoji.name; //get triggering reaction name
   if (!reactionsNames.includes(reactionName)) {
-    messageReaction.remove(); //remove wrong reaction
+    messageReaction.users.remove(userId); //remove wrong reaction
     return;
   }
 
