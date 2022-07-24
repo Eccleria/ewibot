@@ -143,8 +143,10 @@ export const onReactionAdd = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    await roleAdd(messageReaction, currentServer, user);
+  if (currentServer.roleHandle.messageId === messageReaction.message.id) {
+    roleAdd(messageReaction, currentServer, user);
+    return;
+  }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
 
