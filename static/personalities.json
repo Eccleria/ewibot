@@ -27,6 +27,7 @@
       },
       "author": "Salon :",
       "executor": "Modifié par :",
+      "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
       "text": "Modifications :\n",
       "title": "Salon modifié"
     },
