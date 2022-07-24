@@ -19,10 +19,17 @@ export const buttonHandler = async (interaction) => {
   const guildMember = interaction.member; //get guildMember
   const roles = guildMember.roles; //get guildMember roles
 
+  //get personality
+  const personality = PERSONALITY.getCommands();
+  const pronounsP = personality.pronouns;
+
   //handle roles
-  if (json[1].length === 18 && !roles.cache.has(json[1]))
-    guildMember.roles.add(json[1]);
-  //if do not have, add role
+  if (json[1].length === 18 && !roles.cache.has(json[1])) {
+    guildMember.roles.add(json[1]); //if do not have, add role
+
+    const content = pronounsP.text.replyAdd; //get reply message content
+    interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+  }
   else {
     //is cancel
     //get all roles to removes
@@ -34,11 +41,9 @@ export const buttonHandler = async (interaction) => {
       return roles.cache.has(cur[1]) ? [...acc, cur[1]] : [...acc];
     }, []);
 
-    if (toRemove.length !== 0) roles.remove(toRemove);
-  }
+    if (toRemove.length !== 0) roles.remove(toRemove); //if have any, remove it/them
 
-  //reply to interaction
-  const personality = PERSONALITY.getCommands();
-  const pronounsP = personality.pronouns;
-  await interaction.reply({ content: pronounsP.text.reply, ephemeral: true });
+    const content = pronounsP.text.replyRemove; //get reply message content
+    await interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+  }
 };
