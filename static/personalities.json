@@ -104,6 +104,7 @@
       "executor": "Modifié par :",
       "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
       "new": "\n  Ajoutée.s : ",
+      "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
       "old": "\n  Supprimée.s : ",
       "text": "Modifications :",
       "permission": "- Permissions :",

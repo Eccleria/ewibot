@@ -358,9 +358,20 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   //data == {id, name, oldPos, newPos}
   const { roles } = client.roleUpdate;
 
+  //change embed
+  embed.setTitle(roleUp.titleRoles); //change title
+  embed.setFields(embed.fields.slice(1)); //remove author field
+
   //create old/new channel order
   const oldOrder = roles.sort((a, b) => b.oldPos - a.oldPos).slice(); //sort channels with oldPosition
   const newOrder = roles.sort((a, b) => b.newPos - a.newPos).slice(); //slice() for variable shallow copy
+
+  const oldSortedIds = oldOrder.map((obj) => obj.id);
+  const newSortedIds = newOrder.map((obj) => obj.id);
+  if (oldSortedIds.every((oldId, idx) => oldId === newSortedIds[idx])) {
+    finishEmbed(roleUp, logPerso.noLog, embed, logChannel, roleUp.noModifs); //send embed
+    return
+  }
 
   const space = 15;
   const orderText = oldOrder.reduce((acc, cur, idx) => {
@@ -372,9 +383,6 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
 
-  //change embed
-  embed.setTitle(roleUp.titleRoles); //change title
-  embed.setFields(embed.fields.slice(1)); //remove author field
 
   finishEmbed(roleUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
