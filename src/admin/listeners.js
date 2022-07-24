@@ -365,8 +365,9 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     const diff = dayjs().diff(logCreationDate, "s");
 
     endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel, text, diff);
+    return
   }
-  endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel);
+  endAdmin(newRole, null, roleUp, auditLog, embed, logChannel);
 };
 
 export const onMessageDelete = async (message) => {
