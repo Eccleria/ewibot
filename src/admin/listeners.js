@@ -228,7 +228,6 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
 export const onThreadCreate = async (thread, newly) => {
   //handle thread creation
-  //console.log("thread", thread);
   if (!newly) return; // if not new return
 
   if (thread) {
@@ -245,6 +244,7 @@ export const onThreadCreate = async (thread, newly) => {
 
     endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
   }
+  else console.log("threadCreateIsNull", thread, newly)
 };
 
 export const onThreadDelete = async (thread) => {
@@ -472,12 +472,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   if (!oMessage.guild) return; //Ignore DM
-
-  //check for thread creation from message
-  if (!oMessage.hasThread && nMessage.hasThread) {
-    onThreadCreate(nMessage.thread, true); //use dedicated listener
-    return;
-  }
 
   //get personality
   const personality = PERSONALITY.getAdmin(); 
