@@ -30,13 +30,14 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   const guildMember = await guild.members.fetch(userId); //get guildMember
 
   //check for alavirien role
-
-  const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
+  if (!guildMember.roles.cache.has(currentServer.alavirienRoleId))
+    return //if not having role, return
 
   //check for correct triggering reaction
+  const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
   const reactionName = messageReaction.emoji.name; //get triggering reaction name
   if (!reactionsNames.includes(reactionName)) {
-    messageReaction.remove();
+    messageReaction.remove(); //remove wrong reaction
     return;
   }
 
@@ -44,7 +45,7 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   const roleParam = rolesJson.find((role) => role.name === reactionName); //get json data for triggering role
   const roleIdtoChg = roleParam.roleId; //get the role id associated to the triggering reaction
 
-  await guildMember.roles.add(roleIdtoChg); //add requested role
+  guildMember.roles.add(roleIdtoChg); //add requested role
 };
 
 export const roleRemove = async (messageReaction, currentServer, user) => {
