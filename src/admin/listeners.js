@@ -594,7 +594,7 @@ export const onGuildBanAdd = async (userBan) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
-  const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user, "tag"); //setup embed
+  const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user); //setup embed
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD"); //get auditLog
   const reason = banLog.reason; //get ban reason
 
@@ -609,7 +609,7 @@ export const onGuildBanRemove = async (userBan) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
-  const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user, "tag"); //setup embed
+  const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user); //setup embed
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE"); //get auditLog
 
   endAdmin(userBan.user, banLog, guildUnban, auditLog, embed, logChannel);
@@ -669,14 +669,14 @@ export const onGuildMemberRemove = async (memberKick) => {
   if (diff >= 5) {
     //log too old => not kicked but left
     const guildKick = personality.guildKick.leave;
-    const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
+    const embed = setupEmbed("DARK_PURPLE", guildKick, userKick); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
     endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel);
     return;
   }
 
   const guildKick = personality.guildKick.kick;
-  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "tag"); //setup embed
+  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick); //setup embed
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
   endAdmin(
     userKick,
