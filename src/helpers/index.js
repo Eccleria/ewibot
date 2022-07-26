@@ -13,6 +13,7 @@ import {
   addHungryCount,
   addEmoteCount,
   addMessageUpdateCount,
+  addMessageCount,
 } from "./dbHelper.js";
 
 import {
@@ -55,4 +56,5 @@ export {
   addHungryCount,
   addEmoteCount,
   addMessageUpdateCount,
+  addMessageCount,
 };

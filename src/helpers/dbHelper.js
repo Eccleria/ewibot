@@ -187,4 +187,23 @@ const addMessageUpdateCount = (authorId, db) => {
   db.wasUpdated = true;
 }
 
-export { addApologyCount, addHungryCount, addEmoteCount, addMessageUpdateCount };
+const addMessageCount = (authorId, db) => {
+  //Message update count
+  const { stats } = db.data;
+
+  if (isStatsUser(authorId, db)) {
+    //If already in DB, add +1 to counter
+    for (const obj of stats) {
+      if (obj.userId === authorId) {
+        obj.message++;
+      }
+    }
+  } else {
+    //Else add user
+    addStatsUser(authorId, db); //add to db
+    addMessageCount(authorId, db); //add 1 to counter
+  }
+  db.wasUpdated = true;
+}
+
+export { addApologyCount, addHungryCount, addEmoteCount, addMessageUpdateCount, addMessageCount };

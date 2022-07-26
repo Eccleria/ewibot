@@ -9,6 +9,7 @@ import {
   checkIsOnThread,
   deleteSongFromPlaylist,
   emojiStat,
+  addMessageCount,
 } from "./helpers/index.js";
 
 import { roleAdd, roleRemove } from "./admin/role.js";
@@ -52,6 +53,8 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   const { playlistThreadId } = currentServer;
 
   reactionHandler(message, currentServer, client);
+
+  addMessageCount(author.id, client.db);
 
   // check for command
   const commandName = content.split(" ")[0];
