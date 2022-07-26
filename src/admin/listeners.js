@@ -166,9 +166,12 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         "\n"
       );
     }, "");
-    console.log("Channel Update modifs", [modifs])
-    if (modifs.length !== 0) embed.addField(chnUp.text, modifs); //add modifs in embed
-    finishEmbed(chnUp, null, embed, logChannel);
+
+    if (modifs.length !== 0) {
+      embed.addField(chnUp.text, modifs); //add modifs in embed
+      finishEmbed(chnUp, null, embed, logChannel);
+    }
+    else console.log("channelUpdate permOverwrite noModifs", new Date(), newChannel.name, diff, [modifs]);
     return;
   }
 
