@@ -98,42 +98,20 @@ const removeStatsUser = (authorId, db) => {
 
 export { addStatsUser, removeStatsUser };
 
-const addApologyCount = (authorId, db) => {
-  //Apology count
+const addStatData = (authorId, db, type) => {
   const { stats } = db.data;
 
   if (isStatsUser(authorId, db)) {
     //If already in DB, add +1 to counter
     for (const obj of stats) {
-      if (obj.userId === authorId) {
-        obj.apologies++;
-      }
+      if (obj.userId === authorId && obj[type]) obj[type]++
     }
   } else {
     //Else add user
     addStatsUser(authorId, db); //add to db
-    addApologyCount(authorId, db); //add 1 to counter
+    addStatData(authorId, db, type); //add 1 to counter
   }
-  db.wasUpdated = true;
-};
-
-const addHungryCount = (authorId, db) => {
-  //Hungry count
-  const { stats } = db.data;
-
-  if (isStatsUser(authorId, db)) {
-    //If already in DB, add +1 to counter
-    for (const obj of stats) {
-      if (obj.userId === authorId) {
-        obj.hungry++;
-      }
-    }
-  } else {
-    //Else add user
-    addStatsUser(authorId, db); //add to db
-    addHungryCount(authorId, db); //add 1 to counter
-  }
-  db.wasUpdated = true;
+db.wasUpdated = true;
 }
 
 const addEmoteCount = (authorId, db, emoteId) => {
@@ -168,42 +146,4 @@ const addEmoteCount = (authorId, db, emoteId) => {
   db.wasUpdated = true;
 };
 
-const addMessageUpdateCount = (authorId, db) => {
-  //Message update count
-  const { stats } = db.data;
-
-  if (isStatsUser(authorId, db)) {
-    //If already in DB, add +1 to counter
-    for (const obj of stats) {
-      if (obj.userId === authorId) {
-        obj.messageUpdate++;
-      }
-    }
-  } else {
-    //Else add user
-    addStatsUser(authorId, db); //add to db
-    addMessageUpdateCount(authorId, db); //add 1 to counter
-  }
-  db.wasUpdated = true;
-}
-
-const addMessageCount = (authorId, db) => {
-  //Message update count
-  const { stats } = db.data;
-
-  if (isStatsUser(authorId, db)) {
-    //If already in DB, add +1 to counter
-    for (const obj of stats) {
-      if (obj.userId === authorId) {
-        obj.message++;
-      }
-    }
-  } else {
-    //Else add user
-    addStatsUser(authorId, db); //add to db
-    addMessageCount(authorId, db); //add 1 to counter
-  }
-  db.wasUpdated = true;
-}
-
-export { addApologyCount, addHungryCount, addEmoteCount, addMessageUpdateCount, addMessageCount };
+export { addStatData, addEmoteCount };
