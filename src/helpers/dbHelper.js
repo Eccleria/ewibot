@@ -98,6 +98,12 @@ const removeStatsUser = (authorId, db) => {
 
 export { addStatsUser, removeStatsUser };
 
+/**
+* Recursive function adding +1 to one user in its database stats values.
+* @param {string} authorId User id.
+* @param {any} db Client database.
+* @param {string} type Type of the data to add eg. apology, hungry...
+*/
 const addStatData = (authorId, db, type) => {
   const { stats } = db.data;
 
