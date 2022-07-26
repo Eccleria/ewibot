@@ -13,6 +13,7 @@ import {
   hasApology,
   sanitizePunctuation,
   addApologyCount,
+  addMessageUpdateCount,
 } from "../helpers/index.js"
 
 //import dayjs from "dayjs";
@@ -84,28 +85,31 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
-  if (oldContent !== newContent && isLengthy) {
-    const oLen = oldContent.length !== 0;
-    const nLen = newContent.length !== 0;
+  if (oldContent !== newContent) {
+    addMessageUpdateCount(newMessage.author.id, newMessage.client.db);
+    if (isLengthy) {
+      const oLen = oldContent.length !== 0;
+      const nLen = newContent.length !== 0;
 
-    if (oLen)
-      embed.addField(messageU.contentOld, oldContent); //to not add empty strings
-    if (nLen)
-      embed.addField(messageU.contentNew, newContent);
+      if (oLen)
+        embed.addField(messageU.contentOld, oldContent); //to not add empty strings
+      if (nLen)
+        embed.addField(messageU.contentNew, newContent);
 
-    if (oLen && nLen) {
-      //check for apology
-      const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
-      const nSanitized = sanitizePunctuation(newContent.toLowerCase());
+      if (oLen && nLen) {
+        //check for apology
+        const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
+        const nSanitized = sanitizePunctuation(newContent.toLowerCase());
 
-      if (!hasApology(oSanitized) && hasApology(nSanitized)) {
-        //in new message && not in old message
-        const db = oMessage.client.db; //get db 
-        const currentServer = commons.find(
-          ({ guildId }) => guildId === nMessage.guildId
-        ); //get commons.json data
-        addApologyCount(nMessage.author.id, db); //add data to db
-        await nMessage.react(currentServer.panDuomReactId); //add message reaction
+        if (!hasApology(oSanitized) && hasApology(nSanitized)) {
+          //in new message && not in old message
+          const db = oMessage.client.db; //get db 
+          const currentServer = commons.find(
+            ({ guildId }) => guildId === nMessage.guildId
+          ); //get commons.json data
+          addApologyCount(nMessage.author.id, db); //add data to db
+          await nMessage.react(currentServer.panDuomReactId); //add message reaction
+        }
       }
     }
   }

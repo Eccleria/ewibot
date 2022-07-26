@@ -76,7 +76,7 @@ export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
   // {userId, stats...}
 const addStatsUser = (authorId, db) => {
   if (!isStatsUser(authorId, db)) {
-    db.data.stats.push({ userId: authorId, apologies: 0, emotes: [], hungry: 0 })
+    db.data.stats.push({ userId: authorId, apologies: 0, emotes: [], hungry: 0, messageUpdate: 0 })
     db.wasUpdated = true;
   }
 };
@@ -168,4 +168,23 @@ const addEmoteCount = (authorId, db, emoteId) => {
   db.wasUpdated = true;
 };
 
-export { addApologyCount, addHungryCount, addEmoteCount };
+const addMessageUpdateCount = (authorId, db) => {
+  //Message update count
+  const { stats } = db.data;
+
+  if (isStatsUser(authorId, db)) {
+    //If already in DB, add +1 to counter
+    for (const obj of stats) {
+      if (obj.userId === authorId) {
+        obj.messageUpdate++;
+      }
+    }
+  } else {
+    //Else add user
+    addStatsUser(authorId, db); //add to db
+    addMessageUpdateCount(authorId, db); //add 1 to counter
+  }
+  db.wasUpdated = true;
+}
+
+export { addApologyCount, addHungryCount, addEmoteCount, addMessageUpdateCount };
