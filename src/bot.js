@@ -147,7 +147,10 @@ client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
   const guild = await client.guilds.fetch("816961245743808582");
-  console.log(await fetchAuditLog(guild, "CHANNEL_UPDATE"));
+  const audits = await fetchAuditLog(guild, "CHANNEL_UPDATE");
+  const first = audits.first();
+  console.log("first", first);
+  console.log("modifs", first.changes);
 });
 
 client.on("messageCreate", onMessageHandler);
