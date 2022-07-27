@@ -13,7 +13,7 @@ import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
 // helpers imports
-import { generateSpotifyClient } from "./helpers/index.js";
+import { generateSpotifyClient, emojiInit } from "./helpers/index.js";
 
 import {
   onPrivateMessage,
@@ -129,6 +129,7 @@ client.on("messageReactionRemove", onReactionRemove);
 client.once("ready", () => {
   console.log("I am ready!");
   roleInit(client, commons);
+  emojiInit(client, commons);
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications

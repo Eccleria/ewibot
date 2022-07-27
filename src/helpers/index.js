@@ -9,11 +9,8 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeStatsUser,
-  addApologyCount,
-  addHungryCount,
   addEmoteCount,
-  addMessageUpdateCount,
-  addMessageCount,
+  addStatData,
 } from "./dbHelper.js";
 
 import {
@@ -28,6 +25,7 @@ import {
   isCommand,
   reactionHandler,
   checkIsOnThread,
+  emojiInit,
 } from "./utils.js";
 
 export {
@@ -37,6 +35,7 @@ export {
   isCommand,
   reactionHandler,
   checkIsOnThread,
+  emojiInit,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
@@ -52,9 +51,6 @@ export {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeStatsUser,
-  addApologyCount,
-  addHungryCount,
   addEmoteCount,
-  addMessageUpdateCount,
-  addMessageCount,
+  addStatData,
 };

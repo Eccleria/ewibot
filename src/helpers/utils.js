@@ -1,9 +1,8 @@
 import {
   isIgnoredUser,
   isIgnoredChannel,
-  addApologyCount,
-  addHungryCount,
   addEmoteCount,
+  addStatData,
 } from "./index.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
@@ -91,7 +90,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) {
-      addApologyCount(authorId, db); //add data to db
+      addStatData(authorId, db, "apology"); //add data to db
       await message.react(currentServer.panDuomReactId); //add message reaction
     }
   }
@@ -137,7 +136,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     const random = Math.round(Math.random()); // 0 or 1 => choose reaction
     message.react(reaction[random]); //add reaction
 
-    addHungryCount(authorId, db); //add to db
+    addStatData(authorId, db, "hungry"); //add to db
     if (frequency) message.react(reaction[random]);
   }
 
@@ -160,3 +159,24 @@ export const checkIsOnThread = async (channel, threadId) => {
     : channel.threads.cache.find((x) => x.id === threadId);
   if (thread && thread.joinable) await thread.join();
 };
+
+export const emojiInit = async (client, commons) => {
+  const server =
+    process.env.DEBUG === "yes"
+      ? commons.find(({ name }) => name === "test")
+      : commons.find(({ name }) => name === "prod");
+  const guildId = server.guildId;
+
+  const guild = await client.guilds.fetch(guildId); //get current guild
+  const emotes = await guild.emojis.fetch(); //get all emojis
+  console.log("emotes", emotes)
+
+  const toClient = emotes.reduce((acc, cur) => {
+    console.log([cur.id], [cur.name]);
+    acc[cur.id] = cur.name;
+    console.log(acc);
+    return acc
+  }, {}) //stored as {id: name};
+  console.log("toClient", toClient)
+  client.emotes = toClient;
+}
