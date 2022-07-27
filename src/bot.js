@@ -8,6 +8,7 @@ import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
+import { fetchAuditLog } from "./admin/utils.js"
 
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
@@ -145,6 +146,7 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
+  fetchAuditLog("816961245743808582", "CHANNEL_UPDATE");
 });
 
 client.on("messageCreate", onMessageHandler);

@@ -14,10 +14,10 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 export const fetchAuditLog = async (guild, auditType) => {
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
-      limit: 1,
+      limit: 2,
       type: auditType,
     }); //fetch logs
-    return fetchedLogs.entries.first(); //return the first
+    return fetchedLogs.entries; //return the first
   } catch (e) {
     //if no permission => crash
     console.log("AuditLog Fetch Error", e);
