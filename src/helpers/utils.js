@@ -99,6 +99,13 @@ export const reactionHandler = async (message, currentServer, client) => {
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
+  //get every emote occurence 
+  /*
+  const results = words.reduce((acc, cur) => {
+    const emote = messageReaction.emoji; //get emote
+    const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
+  }, {})*/
+
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
   //Ewibot wave to user
