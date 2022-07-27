@@ -168,3 +168,29 @@ export const onReactionRemove = async (messageReaction, user) => {
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
 };
+
+export const onEmojiCreate = (guildEmoji) => {
+  const client = guildEmoji.client; //get client
+  const { id, name } = guildEmoji; //get emote data
+
+  //if client.emotes, add data. Else init client.
+  client.emotes ? client.emotes[id] = name : client.emotes = { id: name }
+  console.log("onEmojiCreate client", client.emotes);
+};
+
+export const onEmojiDelete = (guildEmoji) => {
+  const client = guildEmoji.client; //get client
+  const { id, name } = guildEmoji; //get emote data
+
+  //if client.emotes, filter data. Else init client.
+  client.emotes
+    ? client.emotes = client.emotes.filter((obj) => obj[id] !== name)
+    : client.emotes = {};
+  console.log("onEmojiDelete client", client.emotes);
+};
+
+export const onEmojiUpdate = (oldEmoji, newEmoji) => {
+  console.log("old", oldEmoji.id, oldEmoji.name);
+  console.log("new", newEmoji.id, newEmoji.name);
+
+};

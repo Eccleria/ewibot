@@ -16,6 +16,9 @@ import { Low, JSONFile } from "lowdb";
 import { generateSpotifyClient, emojiInit } from "./helpers/index.js";
 
 import {
+    onEmojiCreate,
+  onEmojiDelete,
+  onEmojiUpdate,
   onPrivateMessage,
   onPublicMessage,
   onReactionAdd,
@@ -79,6 +82,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_MESSAGE_TYPING,
     Intents.FLAGS.DIRECT_MESSAGES,
+    Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
@@ -125,6 +129,10 @@ client.on("messageCreate", onMessageHandler);
 
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
+
+client.on("emojiCreate", onEmojiCreate);
+client.on("emojiDelete", onEmojiDelete);
+client.on("emojiUpdate", onEmojiUpdate);
 
 client.once("ready", () => {
   console.log("I am ready!");
