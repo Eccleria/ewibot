@@ -17,8 +17,8 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
       limit: limit,
       type: auditType,
     }); //fetch logs
-    if (type === "first") return fetchedLogs.entries.first();
-    return fetchedLogs.entries; //return the first
+    if (type === "list") return fetchedLogs.entries; //return the first
+    return fetchedLogs.entries.first();
   } catch (e) {
     //if no permission => crash
     console.log("AuditLog Fetch Error", e);

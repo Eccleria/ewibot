@@ -33,7 +33,7 @@ export const onChannelCreate = async (channel) => {
 
   const logChannel = await getLogChannel(commons, channel); //get logChannelId
   const embed = setupEmbed("DARK_AQUA", chnCr, channel); //setup embed
-  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_CREATE"); //get auditLog
+  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_CREATE", 1); //get auditLog
 
   endAdmin(channel, chnLog, chnCr, auditLog, embed, logChannel);
 };
@@ -48,7 +48,7 @@ export const onChannelDelete = async (channel) => {
 
   const logChannel = await getLogChannel(commons, channel); //get logChannelId
   const embed = setupEmbed("DARK_AQUA", chnDe, channel); //setup embed
-  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_DELETE"); //get auditLog
+  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_DELETE", 1); //get auditLog
 
   endAdmin(channel, chnLog, chnDe, auditLog, embed, logChannel);
 };
@@ -64,7 +64,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   //basic operations
   const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
-  const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE"); //get auditLog
+  const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
   //check for permission overwrite
   const oldOverwrite = oldChannel.permissionOverwrites.cache;
@@ -243,7 +243,7 @@ export const onThreadCreate = async (thread, newly) => {
 
     const logChannel = await getLogChannel(commons, thread); //get logChannelId
     const embed = setupEmbed("DARK_GREY", thrCr, thread, "tag"); //setup embed
-    const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE"); //get auditLog
+    const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
 
     endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
   }
@@ -258,7 +258,7 @@ export const onThreadDelete = async (thread) => {
 
   const logChannel = await getLogChannel(commons, thread); //get logChannelId
   const embed = setupEmbed("DARK_GREY", thrDe, thread); //setup embed
-  const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE"); //get auditLog
+  const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE", 1); //get auditLog
 
   endAdmin(thread, thrLog, thrDe, auditLog, embed, logChannel);
 };
@@ -271,7 +271,7 @@ export const onThreadUpdate = async (oldThread, newThread) => {
 
   const logChannel = await getLogChannel(commons, newThread); //get logChannelId
   const embed = setupEmbed("DARK_GREY", thrUp, newThread); //setup embed
-  const thrLog = await fetchAuditLog(newThread.guild, "THREAD_UPDATE"); //get auditLog
+  const thrLog = await fetchAuditLog(newThread.guild, "THREAD_UPDATE", 1); //get auditLog
 
   //console.log("oldThread", oldThread, "newThread", newThread)
 
@@ -285,7 +285,7 @@ export const onRoleCreate = async (role) => {
 
   const logChannel = await getLogChannel(commons, role); //get logChannelId
   const embed = setupEmbed("DARK_GOLD", roleCr, role); //setup embed
-  const roleLog = await fetchAuditLog(role.guild, "ROLE_CREATE"); //get auditLog
+  const roleLog = await fetchAuditLog(role.guild, "ROLE_CREATE", 1); //get auditLog
 
   endAdmin(role, roleLog, roleCr, auditLog, embed, logChannel);
 };
@@ -297,7 +297,7 @@ export const onRoleDelete = async (role) => {
 
   const logChannel = await getLogChannel(commons, role); //get logChannelId
   const embed = setupEmbed("DARK_GOLD", roleDe, role); //setup embed
-  const roleLog = await fetchAuditLog(role.guild, "ROLE_DELETE"); //get auditLog
+  const roleLog = await fetchAuditLog(role.guild, "ROLE_DELETE", 1); //get auditLog
 
   endAdmin(role, roleLog, roleDe, auditLog, embed, logChannel);
 };
@@ -336,7 +336,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     return;
   }
 
-  const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE"); //get auditLog
+  const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE", 1); //get auditLog
 
   if (roleLog !== null) {
     //get all data to compare
@@ -393,7 +393,7 @@ export const onMessageDelete = async (message) => {
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
   embed.addField(messageDel.date, `${date}`, true); //date of message creation
   embed.addField(messageDel.channel, `<#${message.channelId}>`, true); //message channel
-  const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE"); //get auditLog
+  const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
 
   //get message data
   const attachments = message.attachments.reduce((acc, cur) => {
@@ -490,7 +490,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //check for un/pinned
   if (oMessage.pinned && !nMessage.pinned) {
-    const unpinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_UNPIN"); //get auditLog
+    const unpinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_UNPIN", 1); //get auditLog
     const unpinned = messageU.unpinned;
     embed.addField(unpinned.title, unpinned.text, true); //add unpinned text
 
@@ -502,7 +502,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     return
   }
   if (!oMessage.pinned && nMessage.pinned) {
-    const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN"); //get auditLog
+    const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN", 1); //get auditLog
     const pinned = messageU.pinned;
     embed.addField(pinned.title, pinned.text, true); //add unpinned text
 
@@ -598,7 +598,7 @@ export const onGuildBanAdd = async (userBan) => {
 
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
   const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user); //setup embed
-  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD"); //get auditLog
+  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD", 1); //get auditLog
   const reason = banLog.reason; //get ban reason
 
   endAdmin(userBan.user, banLog, guildBan, auditLog, embed, logChannel, reason);
@@ -613,7 +613,7 @@ export const onGuildBanRemove = async (userBan) => {
 
   const logChannel = await getLogChannel(commons, userBan); //get logChannel
   const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user); //setup embed
-  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE"); //get auditLog
+  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE", 1); //get auditLog
 
   endAdmin(userBan.user, banLog, guildUnban, auditLog, embed, logChannel);
 };
@@ -634,7 +634,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
 
   const logChannel = await getLogChannel(commons, newMember); //get logChannel
   const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
-  const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE"); //get auditLog
+  const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
 
   const timeoutUntil = dayjs(newMember.communicationDisabledUntil);
@@ -654,7 +654,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
-  const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1, "first"); //get auditLog
+  const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get ban reason
 
   //get log creation date and compare to now
