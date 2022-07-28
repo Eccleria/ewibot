@@ -52,6 +52,7 @@ const ping = {
   releaseDate: dayjs("12-21-2022", "MM-DD-YYYY"),
   sentinelle: false,
 };
+*/
 
 const roll = {
   command: new SlashCommandBuilder()
@@ -162,7 +163,7 @@ const ignoreChannel = {
       addIgnoredChannel(db, ignoredChannelId);
       const content = iPerso.ignored + `<#${ignoredChannelId}>.`;
       interactionReply(interaction, content);
-    }
+  }
   },
   help: (interaction) => {
     const personality = PERSONALITY.getCommands();
