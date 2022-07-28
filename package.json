@@ -5,8 +5,10 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
+    "@discordjs/rest": "^1.0.1",
     "canvas": "^2.9.0",
     "dayjs": "^1.10.7",
+    "discord-api-types": "^0.36.3",
     "discord.js": "^13.5.1",
     "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.4.0",
