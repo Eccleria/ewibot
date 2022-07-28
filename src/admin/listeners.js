@@ -654,7 +654,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
-  const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK"); //get auditLog
+  const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1, "first"); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get ban reason
 
   //get log creation date and compare to now
@@ -672,15 +672,17 @@ export const onGuildMemberRemove = async (memberKick) => {
   if (diff >= 5) {
     //log too old => not kicked but left
     const guildKick = personality.guildKick.leave;
-    const embed = setupEmbed("DARK_PURPLE", guildKick, userKick); //setup embed
+    const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
     endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel);
     return;
   }
 
   const guildKick = personality.guildKick.kick;
-  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick); //setup embed
+  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
+  console.log("log", kickLog);
+
   endAdmin(
     userKick,
     kickLog,

@@ -11,12 +11,13 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
  * @param {string} auditType String for audit type request.
  * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
  */
-export const fetchAuditLog = async (guild, auditType) => {
+export const fetchAuditLog = async (guild, auditType, limit, type) => {
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
-      limit: 2,
+      limit: limit,
       type: auditType,
     }); //fetch logs
+    if (type === "first") return fetchedLogs.entries.first();
     return fetchedLogs.entries; //return the first
   } catch (e) {
     //if no permission => crash
@@ -43,6 +44,7 @@ export const setupEmbed = (color, personality, object, type) => {
 
   if (type === "tag") embed.addField(personality.author, object.toString(), true); //add user as embed if required
   else if (type === "skip") return embed; //allows to skip the 3rd field
+  else if (type === "user") embed.addField(personality.author, object.username, true); //add user if required
   else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name as embed (for channels, roles, ...)
   return embed;
 };
