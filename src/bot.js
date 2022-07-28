@@ -59,6 +59,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 import { wishBirthday } from "./commands/birthday.js";
 import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
+import { slashCommandsInit } from "./commands/index.js;"
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage

@@ -19,6 +19,25 @@ import spotify from "./spotify.js";
 import leaderboardApology from "./leadApo.js";
 import pronouns from "./pronouns.js";
 import { PERSONALITY } from "../personality.js";
+import { REST } from "@discordjs/rest";
+import { Routes } from "discord-api-types/v9";
+
+const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+
+export const slashCommandsInit = async (self, guildId) => {
+  try {
+    console.log('Started refreshing application (/) commands.');
+
+    await rest.put(
+      Routes.applicationGuildCommands(self, guildId),
+      { body: commands },
+    );
+
+    console.log('Successfully reloaded application (/) commands.');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const helloWorld = {
   // Is useful to verify is Ewibot is active or not.
