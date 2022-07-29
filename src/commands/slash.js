@@ -292,6 +292,7 @@ export const slashCommandsInit = async (self, guildId, client) => {
     await rest.put(Routes.applicationGuildCommands(self, guildId), {
       body: helpCommands.map((cmd) => cmd.command.toJSON()),
     }); //send commands jsons to API for command create/update
+    );
 
     console.log("Successfully reloaded application (/) commands.");
 
