@@ -166,7 +166,9 @@ export const onInteractionCreate = async (interaction) => {
   const client = interaction.client; //get client
   const slashCommands = client.slashCommands; //get commands
 
-  const foundCommand = slashCommands.find((cmd) => cmd.command.name === interaction.commandName);
+  const foundCommand = slashCommands.find(
+    (cmd) => cmd.command.name === interaction.commandName
+  );
 
   if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
 };

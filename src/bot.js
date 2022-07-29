@@ -136,7 +136,7 @@ client.once("ready", () => {
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
-  const guildId = server.guildId
+  const guildId = server.guildId;
   slashCommandsInit(self, guildId, client);
 });
 
