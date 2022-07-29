@@ -20,6 +20,7 @@ import {
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
+  onInteractionCreate,
 } from "./listeners.js";
 
 // jsons imports
@@ -127,6 +128,8 @@ client.on("messageCreate", onMessageHandler);
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
 
+client.on("interactionCreate", onInteractionCreate);
+
 client.once("ready", () => {
   console.log("I am ready!");
   roleInit(client, commons);
@@ -134,7 +137,7 @@ client.once("ready", () => {
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
   const guildId = server.guildId
-  slashCommandsInit(self, guildId);
+  slashCommandsInit(self, guildId, client);
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
