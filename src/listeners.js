@@ -146,11 +146,11 @@ export const onReactionAdd = async (messageReaction, user) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
-  //console.log("emoji", messageReaction.emoji)
+
   const emote = messageReaction.emoji; //get emote
   const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
   if (emoteGuild && currentServer.guildId === emoteGuild.id) //if is server emote
-    emojiStat(emote.id, user);
+    emojiStat(emote.id, user, "add");
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
     await roleAdd(messageReaction, currentServer, user);
@@ -167,6 +167,12 @@ export const onReactionRemove = async (messageReaction, user) => {
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
+
+  const emote = messageReaction.emoji; //get emote
+  const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) //if is server emote
+    emojiStat(emote.id, user);
+
 };
 
 export const onEmojiCreate = (guildEmoji) => {

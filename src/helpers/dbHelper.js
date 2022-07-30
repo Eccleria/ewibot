@@ -135,7 +135,7 @@ const addEmoteCount = (authorId, db, emoteId) => {
         let flag = false; //check for emote presence in db
         for (const emote of emotes) {
           if (emote.emoteId === emoteId) {
-            emote.count++; //add count
+            emote.count++; //if in db, add count
             flag = true;
           }
         }
@@ -152,4 +152,27 @@ const addEmoteCount = (authorId, db, emoteId) => {
   db.wasUpdated = true;
 };
 
-export { addStatData, addEmoteCount };
+const removeEmoteCount = (authorId, db, emoteId) => {
+  const stats = db.data.stats;
+  console.log("stats", stats)
+  if (isStatsUser(authorId, db)) {
+    console.log("isStatUser")
+    //[{ userId, apologies, hungry, emotes }, ...]
+    for (const obj of stats) {
+      if (obj.userId === authorId) {
+        //[{emoteId, count}]
+        const emotes = obj.emotes;
+
+        //check for emote presence in db
+        for (const emote of emotes) {
+          if (emote.emoteId === emoteId) {
+            emote.count--; //if in db, remove count
+            db.wasUpdated = true;
+          }
+        }
+      }
+    }
+  }
+};
+
+export { addStatData, addEmoteCount, removeEmoteCount };

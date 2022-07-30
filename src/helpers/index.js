@@ -10,6 +10,7 @@ import {
   removeIgnoredChannel,
   removeStatsUser,
   addEmoteCount,
+  removeEmoteCount,
   addStatData,
 } from "./dbHelper.js";
 
@@ -52,5 +53,6 @@ export {
   removeIgnoredChannel,
   removeStatsUser,
   addEmoteCount,
+  removeEmoteCount,
   addStatData,
 };

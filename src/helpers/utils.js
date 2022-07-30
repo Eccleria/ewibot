@@ -2,6 +2,7 @@ import {
   isIgnoredUser,
   isIgnoredChannel,
   addEmoteCount,
+  removeEmoteCount,
   addStatData,
 } from "./index.js";
 
@@ -61,12 +62,13 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
-export const emojiStat = (emoteId, user) => {
+export const emojiStat = (emoteId, user, type) => {
   const client = user.client;
   const db = client.db;
   const authorId = user.id;
 
-  addEmoteCount(authorId, db, emoteId);
+  if (type === "add") addEmoteCount(authorId, db, emoteId);
+  else removeEmoteCount(authorId, db, emoteId);
 }
 
 export const reactionHandler = async (message, currentServer, client) => {
