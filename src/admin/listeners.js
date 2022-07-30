@@ -13,7 +13,7 @@ import {
   hasApology,
   sanitizePunctuation,
   addApologyCount,
-} from "../helpers/index.js"
+} from "../helpers/index.js";
 
 import dayjs from "dayjs";
 
@@ -171,8 +171,14 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     if (modifs.length !== 0) {
       embed.addField(chnUp.text, modifs); //add modifs in embed
       finishEmbed(chnUp, null, embed, logChannel);
-    }
-    else console.log("channelUpdate permOverwrite noModifs", new Date(), newChannel.name, diff, [modifs]);
+    } else
+      console.log(
+        "channelUpdate permOverwrite noModifs",
+        new Date(),
+        newChannel.name,
+        diff,
+        [modifs]
+      );
     return;
   }
 
@@ -247,8 +253,7 @@ export const onThreadCreate = async (thread, newly) => {
     const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
 
     endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
-  }
-  else console.log("threadCreateIsNull", thread, newly)
+  } else console.log("threadCreateIsNull", thread, newly);
 };
 
 export const onThreadDelete = async (thread) => {
@@ -369,7 +374,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     const diff = dayjs().diff(logCreationDate, "s");
 
     endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel, text, diff);
-    return
+    return;
   }
   endAdmin(newRole, null, roleUp, auditLog, embed, logChannel);
 };
@@ -479,7 +484,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (!oMessage.guild) return; //Ignore DM
 
   //get personality
-  const personality = PERSONALITY.getAdmin(); 
+  const personality = PERSONALITY.getAdmin();
   const messageU = personality.messageUpdate;
   const auditLog = personality.auditLog;
 
@@ -499,8 +504,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    endAdmin(nMessage, unpinLog, messageU, auditLog, embed, logChannel)
-    return
+    endAdmin(nMessage, unpinLog, messageU, auditLog, embed, logChannel);
+    return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
     const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN", 1); //get auditLog
@@ -512,7 +517,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     embed.addField(messageU.linkName, link);
 
     endAdmin(nMessage, pinLog, messageU, auditLog, embed, logChannel);
-    return
+    return;
   }
 
   //add creation date + channel
@@ -529,10 +534,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const oLen = oldContent.length !== 0;
     const nLen = newContent.length !== 0;
 
-    if (oLen)      
-      embed.addField(messageU.contentOld, oldContent); //to not add empty strings
-    if (nLen)
-      embed.addField(messageU.contentNew, newContent);
+    if (oLen) embed.addField(messageU.contentOld, oldContent); //to not add empty strings
+    if (nLen) embed.addField(messageU.contentNew, newContent);
 
     if (oLen && nLen) {
       //check for apology
@@ -541,7 +544,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
       if (!hasApology(oSanitized) && hasApology(nSanitized)) {
         //in new message && not in old message
-        const db = oMessage.client.db; //get db 
+        const db = oMessage.client.db; //get db
         const currentServer = commons.find(
           ({ guildId }) => guildId === nMessage.guildId
         ); //get commons.json data
@@ -566,9 +569,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       oldEmbeds.length !== 0 && newEmbeds.length !== 0
         ? newEmbeds.reduce(
             (acc, cur, idx) => {
-            if (!cur.equals(nMessage.embeds[idx]) && cur.type !== "gifv") //exclude gifs embed which cannot be sent by bot
-              return [...acc, cur];
-            return acc;
+              if (!cur.equals(nMessage.embeds[idx]) && cur.type !== "gifv")
+                //exclude gifs embed which cannot be sent by bot
+                return [...acc, cur];
+              return acc;
             },
             [embed]
           )
@@ -584,7 +588,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addField(messageU.linkName, link);
   await finishEmbed(messageU, null, embeds, logChannel, null, attachments);
- /* if (gifs !== null) {
+  /* if (gifs !== null) {
     const content = gifs.join("\n");
     logChannel.send(content);
   }*/
@@ -650,7 +654,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   console.log("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
-  console.log("memberKick", memberKick)
+  console.log("memberKick", memberKick);
   const personality = PERSONALITY.getAdmin(); //get personality
   const auditLog = personality.auditLog;
 

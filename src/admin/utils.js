@@ -4,7 +4,6 @@ import { MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
-
 /**
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
@@ -42,9 +41,14 @@ export const setupEmbed = (color, personality, object, type) => {
 
   if (personality.description) embed.setDescription(personality.description);
 
-  if (type === "tag") embed.addField(personality.author, object.toString(), true); //add user as embed if required
-  else if (type === "skip") return embed; //allows to skip the 3rd field
-  else if (type === "user") embed.addField(personality.author, object.username, true); //add user if required
+  if (type === "tag")
+    embed.addField(personality.author, object.toString(), true);
+  //add user as embed if required
+  else if (type === "skip") return embed;
+  //allows to skip the 3rd field
+  else if (type === "user")
+    embed.addField(personality.author, object.username, true);
+  //add user if required
   else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name as embed (for channels, roles, ...)
   return embed;
 };
@@ -66,11 +70,12 @@ export const finishEmbed = async (
   text,
   attachments
 ) => {
-  const currentServer = commons.find(
-    ({ name }) => name === "test"
-  ); //get test data
+  const currentServer = commons.find(({ name }) => name === "test"); //get test data
 
-  if (process.env.DEBUG === "no" && logChannel.guildId === currentServer.guildId) {
+  if (
+    process.env.DEBUG === "no" &&
+    logChannel.guildId === currentServer.guildId
+  ) {
     //Ewibot detects test in test server => return
     console.log("Ewibot log in Test server", personalityEvent.title);
     return;
@@ -166,7 +171,8 @@ export const getLogChannel = async (commons, eventObject, type) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data
-  const id = type === "thread" ? currentServer.logThreadId : currentServer.logChannelId
+  const id =
+    type === "thread" ? currentServer.logThreadId : currentServer.logChannelId;
   return await eventObject.guild.channels.fetch(id); //return the log channel
 };
 
@@ -372,7 +378,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   const newSortedIds = newOrder.map((obj) => obj.id);
   if (oldSortedIds.every((oldId, idx) => oldId === newSortedIds[idx])) {
     finishEmbed(roleUp, logPerso.noLog, embed, logChannel, roleUp.noModifs); //send embed
-    return
+    return;
   }
 
   const space = 15;
@@ -384,7 +390,6 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
     }
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
-
 
   finishEmbed(roleUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
@@ -489,10 +494,10 @@ export const gifRecovery = (content) => {
   if (content.includes(tenor)) {
     const words = content.split(" ");
     const results = words.reduce((acc, cur) => {
-      if (cur.includes(tenor)) return [...acc, cur]
+      if (cur.includes(tenor)) return [...acc, cur];
       return acc;
     }, []);
     return results;
   }
   return null;
-}
+};
