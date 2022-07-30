@@ -171,21 +171,23 @@ export const onReactionRemove = async (messageReaction, user) => {
 
 export const onEmojiCreate = (guildEmoji) => {
   const client = guildEmoji.client; //get client
+  const emotes = client.emotes;
   const { id, name } = guildEmoji; //get emote data
 
   //if client.emotes, add data. Else init client.
-  client.emotes ? client.emotes[id] = name : client.emotes = { id: name }
+  if (emotes.length !== 0) client.emotes = [...emotes, { id: id, name: name }];
+  else client.emotes = { id: id, name: name };
   console.log("onEmojiCreate client", client.emotes);
 };
 
 export const onEmojiDelete = (guildEmoji) => {
   const client = guildEmoji.client; //get client
-  const { id, name } = guildEmoji; //get emote data
+  const id = guildEmoji.id; //get emote id
 
   //if client.emotes, filter data. Else init client.
   client.emotes
-    ? client.emotes = client.emotes.filter((obj) => obj[id] !== name)
-    : client.emotes = {};
+    ? client.emotes = client.emotes.filter((obj) => obj.id !== id)
+    : client.emotes = [];
   console.log("onEmojiDelete client", client.emotes);
 };
 

@@ -172,11 +172,8 @@ export const emojiInit = async (client, commons) => {
   console.log("emotes", emotes)
 
   const toClient = emotes.reduce((acc, cur) => {
-    console.log([cur.id], [cur.name]);
-    acc[cur.id] = cur.name;
-    console.log(acc);
-    return acc
-  }, {}) //stored as {id: name};
+    return [...acc, { id: cur.id, name: cur.name }];
+  }, []) //stored as [{id:, name:}];
   console.log("toClient", toClient)
   client.emotes = toClient;
 }
