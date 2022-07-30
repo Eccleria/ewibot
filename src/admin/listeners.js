@@ -106,23 +106,24 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       return;
     }
   }
-  if (!oldOverwrite.equals(newOverwrite)) {
+
+  //sort by id
+  oldOverwrite.sort((a, b) => a.id - b.id);
+  newOverwrite.sort((a, b) => a.id - b.id);
+
+  //find PO difference by couple
+  const diff = oldOverwrite.reduce((acc, cur) => {
+    const newPO = newOverwrite.get(cur.id);
+    if (
+      cur.deny.bitfield !== newPO.deny.bitfield ||
+      cur.allow.bitfield !== newPO.allow.bitfield
+    )
+      return [...acc, [cur, newPO]];
+    else return acc;
+  }, []);
+
+  if (diff.length !== 0) {
     //if permissionOverwrite changed without add/remove role/user
-    //sort by id
-    oldOverwrite.sort((a, b) => a.id - b.id);
-    newOverwrite.sort((a, b) => a.id - b.id);
-
-    //find PO difference by couple
-    const diff = oldOverwrite.reduce((acc, cur) => {
-      const newPO = newOverwrite.get(cur.id);
-      if (
-        cur.deny.bitfield !== newPO.deny.bitfield ||
-        cur.allow.bitfield !== newPO.allow.bitfield
-      )
-        return [...acc, [cur, newPO]];
-      else return acc;
-    }, []);
-
     //get bit diff, write it along channel.toString()
     const modifs = await diff.reduce(async (acc, cur) => {
       //data: [[old, new], ...]
