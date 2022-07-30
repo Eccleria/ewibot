@@ -8,7 +8,6 @@ import { Client, Intents } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
-import { fetchAuditLog } from "./admin/utils.js"
 
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
@@ -146,12 +145,6 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
-  
-  const guild = await client.guilds.fetch("816961245743808582");
-  const audits = await fetchAuditLog(guild, "CHANNEL_UPDATE", 1, "list");
-  const first = audits.first();
-  console.log("first", first);
-  console.log("modifs", first.changes);
 });
 
 client.on("messageCreate", onMessageHandler);
@@ -170,10 +163,7 @@ client.on("channelCreate", onChannelCreate);
 client.on("channelDelete", onChannelDelete);
 client.on("channelUpdate", onChannelUpdate);
 
-//client.ws.on("THREAD_CREATE", console.log);
-//client.on('debug', console.log);
 client.on("threadCreate", onThreadCreate);
-//client.on("threadCreate", console.log);
 client.on("threadDelete", onThreadDelete);
 //client.on("threadUpdate", onThreadUpdate);
 
