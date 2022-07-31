@@ -62,6 +62,12 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
+/**
+ * Dispatch data to add/removeEmoteCount.
+ * @param {string} emoteId The emoji id.
+ * @param {object} user The user object that used this emote.
+ * @param {string} [type] "add for adding data, nothing for remove.
+ */
 export const emojiStat = (emoteId, user, type) => {
   const client = user.client;
   const db = client.db;
@@ -162,6 +168,11 @@ export const checkIsOnThread = async (channel, threadId) => {
   if (thread && thread.joinable) await thread.join();
 };
 
+/**
+ * Get every emoji from currentServer & save it in client.
+ * @param {any} client
+ * @param {any} commons
+ */
 export const emojiInit = async (client, commons) => {
   const server =
     process.env.DEBUG === "yes"
