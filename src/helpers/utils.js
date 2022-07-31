@@ -171,7 +171,6 @@ export const emojiInit = async (client, commons) => {
 
   const guild = await client.guilds.fetch(guildId); //get current guild
   const emotes = await guild.emojis.fetch(); //get all emojis
-  console.log("emotes", emotes)
 
   const toClient = emotes.reduce((acc, cur) => {
     return [...acc, { id: cur.id, name: cur.name }];

@@ -200,5 +200,23 @@ export const onEmojiDelete = (guildEmoji) => {
 export const onEmojiUpdate = (oldEmoji, newEmoji) => {
   console.log("old", oldEmoji.id, oldEmoji.name);
   console.log("new", newEmoji.id, newEmoji.name);
+  const client = oldEmoji.client; //get client
 
+  //get emotes data
+  const oldId = oldEmoji.id;
+  const oldName = oldEmoji.name;
+  const newId = newEmoji.id;
+  const newName = newEmoji.name;
+
+  const hasIdChanged = oldId !== newId;
+  const hasNameChanged = oldName !== newName;
+
+  if (!hasIdChanged && !hasNameChanged) return //nothing to change
+  //same id, different name
+  if (!hasIdChanged && hasNameChanged) {
+    //update client
+    const foundIdx = client.emotes.findIndex((emoji) => emoji.id === oldId);
+    if (foundIdx !== -1) client.emotes[foundIdx].name = newName;
+  }
+  console.log("onEmojiUpdate", client.emotes)
 };
