@@ -106,13 +106,27 @@ export const reactionHandler = async (message, currentServer, client) => {
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
-  //get every emote occurence 
-  /*
-  const results = words.reduce((acc, cur) => {
-    const emote = messageReaction.emoji; //get emote
-    const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
-  }, {})*/
+  console.log("words", words)
 
+  //get every emote occurence 
+  //client: [{id:, name:}];
+  const clientEmotes = client.emotes; //get client emotes
+  const emoteIds = clientEmotes.map((obj) => obj.id); //regroup ids
+  console.log("emoteIds", emoteIds)
+  words.forEach(word => {
+    if (word.includes("<:")) {
+      //emote parsing
+      const halfParsed = word.slice(2, -1); //remove "<:" + ">"
+      const result = halfParsed.split(":"); //[name, id]
+      const id = result[1];
+      console.log("halfParsed", halfParsed, "result", result, "id", id)
+      if (emoteIds.includes(id)) {
+        console.log("yo");
+        emojiStat(id, message.author, "add");
+      }
+    }
+  });
+  
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
   //Ewibot wave to user

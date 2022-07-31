@@ -54,7 +54,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
   reactionHandler(message, currentServer, client);
 
-  addStatData(author.id, client.db, "message");
+  addStatData(author.id, client.db, "message"); //add message count to db;
 
   // check for command
   const commandName = content.split(" ")[0];
