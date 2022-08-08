@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import { PERSONALITY } from "../personality.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -118,7 +119,7 @@ export const finishEmbed = async (
 
 /**
  * Differentiate finishEmbed cases.
- * @param {object} object Object related to listened event.
+ * @param {object} obj Object related to listened event.
  * @param {GuildAuditLogsEntry} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
@@ -158,6 +159,33 @@ export const endCasesEmbed = (
     //if bot or author executed the kick
     finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
   }
+};
+
+/**
+ * Handle basic admin log cases.
+ * @param {string} persoType Personnality type used for personalities fetch.
+ * @param {any} object Listener argument.
+ * @param {string} color Embed color.
+ * @param {string} logType AuditType for fetchAuditLog.
+ * @param {number} nb Number of log fetched in fetchAuditLog.
+ * @param {string} [objType] If object concerns a user, "user", nullable otherwise.
+ * @param {string} [embedType] If "tag", add obj as embed in the log embed.
+ * @param {boolean} [needReason] If true, get reason to add to the embed.
+ * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
+ */
+export const generalEmbed = async (persoType, obj, color, logType, nb, objType, embedType, needReason, diff) => {
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const guildUnban = personality[persoType];
+  const auditLog = personality.auditLog;
+
+  const logChannel = await getLogChannel(commons, obj); //get logChannel
+
+  const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
+  const embed = setupEmbed(color, guildUnban, objToSend); //setup embed
+  const banLog = await fetchAuditLog(obj.guild, logType, nb, embedType); //get auditLog
+  const reason = needReason ? banLog.reason : null //if needed, get reason
+
+  endCasesEmbed(objToSend, banLog, guildUnban, auditLog, embed, logChannel, reason, diff);
 };
 
 /**

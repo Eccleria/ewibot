@@ -5,6 +5,7 @@ import {
   getLogChannel,
   setupEmbed,
   endCasesEmbed,
+  generalEmbed,
   clientEventUpdateProcess,
   fetchMessage,
   gifRecovery,
@@ -27,30 +28,18 @@ export const onChannelCreate = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
 
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const chnCr = personality.channelCreate;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, channel); //get logChannelId
-  const embed = setupEmbed("DARK_AQUA", chnCr, channel); //setup embed
-  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_CREATE", 1); //get auditLog
-
-  endCasesEmbed(channel, chnLog, chnCr, auditLog, embed, logChannel);
+  const logType = "CHANNEL_CREATE";
+  const perso = "channelCreate";
+  generalEmbed(perso, channel, "DARK_AQUA", logType, 1);
 };
 
 export const onChannelDelete = async (channel) => {
   const type = channel.type;
   if (type === "DM") return;
 
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const chnDe = personality.channelDelete;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, channel); //get logChannelId
-  const embed = setupEmbed("DARK_AQUA", chnDe, channel); //setup embed
-  const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_DELETE", 1); //get auditLog
-
-  endCasesEmbed(channel, chnLog, chnDe, auditLog, embed, logChannel);
+  const logType = "CHANNEL_DELETE";
+  const perso = "channelDelete";
+  generalEmbed(perso, channel, "DARK_AQUA", logType, 1);
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
@@ -244,29 +233,17 @@ export const onThreadCreate = async (thread, newly) => {
     //sometimes thread is null
     if (thread.joinable && !thread.joined) await thread.join(); //join thread created
 
-    const personality = PERSONALITY.getAdmin(); //get personality
-    const thrCr = personality.threadCreate;
-    const auditLog = personality.auditLog;
-
-    const logChannel = await getLogChannel(commons, thread); //get logChannelId
-    const embed = setupEmbed("DARK_GREY", thrCr, thread, "tag"); //setup embed
-    const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
-
-    endCasesEmbed(thread, thrLog, thrCr, auditLog, embed, logChannel);
+    const logType = "THREAD_CREATE";
+    const perso = "threadCreate";
+    generalEmbed(perso, thread, "DARK_GREY", logType, 1, null, "tag");
   } else console.log("threadCreateIsNull", thread, newly);
 };
 
 export const onThreadDelete = async (thread) => {
   //handle thread deletion
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const thrDe = personality.threadDelete;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, thread); //get logChannelId
-  const embed = setupEmbed("DARK_GREY", thrDe, thread); //setup embed
-  const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE", 1); //get auditLog
-
-  endCasesEmbed(thread, thrLog, thrDe, auditLog, embed, logChannel);
+  const logType = "THREAD_DELETE";
+  const perso = "threadDelete";
+  generalEmbed(perso, thread, "DARK_GREY", logType, 1);
 };
 
 export const onThreadUpdate = async (oldThread, newThread) => {
@@ -285,27 +262,15 @@ export const onThreadUpdate = async (oldThread, newThread) => {
 };
 
 export const onRoleCreate = async (role) => {
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const roleCr = personality.roleCreate;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, role); //get logChannelId
-  const embed = setupEmbed("DARK_GOLD", roleCr, role); //setup embed
-  const roleLog = await fetchAuditLog(role.guild, "ROLE_CREATE", 1); //get auditLog
-
-  endCasesEmbed(role, roleLog, roleCr, auditLog, embed, logChannel);
+  const logType = "ROLE_CREATE";
+  const perso = "roleCreate";
+  generalEmbed(perso, role, "DARK_GOLD", logType, 1);
 };
 
-export const onRoleDelete = async (role) => {
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const roleDe = personality.roleDelete;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, role); //get logChannelId
-  const embed = setupEmbed("DARK_GOLD", roleDe, role); //setup embed
-  const roleLog = await fetchAuditLog(role.guild, "ROLE_DELETE", 1); //get auditLog
-
-  endCasesEmbed(role, roleLog, roleDe, auditLog, embed, logChannel);
+export const onRoleDelete = (role) => {
+  const logType = "ROLE_DELETE";
+  const perso = "roleDelete";
+  generalEmbed(perso, role, "DARK_GOLD", logType, 1);
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
@@ -594,33 +559,20 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }*/
 };
 
-export const onGuildBanAdd = async (userBan) => {
+export const onGuildBanAdd = (userBan) => {
   console.log("member banned from Discord Server");
 
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const guildBan = personality.guildBan;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, userBan); //get logChannel
-  const embed = setupEmbed("DARK_NAVY", guildBan, userBan.user); //setup embed
-  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD", 1); //get auditLog
-  const reason = banLog.reason; //get ban reason
-
-  endCasesEmbed(userBan.user, banLog, guildBan, auditLog, embed, logChannel, reason);
+  const logType = "MEMBER_BAN_ADD";
+  const perso = "guildBan";
+  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user", null, true);
 };
 
-export const onGuildBanRemove = async (userBan) => {
+export const onGuildBanRemove = (userBan) => {
   console.log("member unbanned from Discord Server");
 
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const guildUnban = personality.guildUnban;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, userBan); //get logChannel
-  const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user); //setup embed
-  const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE", 1); //get auditLog
-
-  endCasesEmbed(userBan.user, banLog, guildUnban, auditLog, embed, logChannel);
+  const logType = "MEMBER_BAN_REMOVE";
+  const perso = "guildUnban";
+  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user")
 };
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {
