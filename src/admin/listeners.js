@@ -338,7 +338,16 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     const logCreationDate = dayjs(roleLog.createdAt);
     const diff = dayjs().diff(logCreationDate, "s");
 
-    endCasesEmbed(newRole, roleLog, roleUp, auditLog, embed, logChannel, text, diff);
+    endCasesEmbed(
+      newRole,
+      roleLog,
+      roleUp,
+      auditLog,
+      embed,
+      logChannel,
+      text,
+      diff
+    );
     return;
   }
   endCasesEmbed(newRole, null, roleUp, auditLog, embed, logChannel);
@@ -572,7 +581,7 @@ export const onGuildBanRemove = (userBan) => {
 
   const logType = "MEMBER_BAN_REMOVE";
   const perso = "guildUnban";
-  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user")
+  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user");
 };
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {

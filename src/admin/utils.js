@@ -175,19 +175,29 @@ export const endCasesEmbed = (
  * @param {boolean} [needReason] If true, get reason to add to the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
  */
-export const generalEmbed = async (persoType, obj, color, logType, nb, objType, embedType, needReason, diff) => {
+export const generalEmbed = async (
+  persoType,
+  obj,
+  color,
+  logType,
+  nb,
+  objType,
+  embedType,
+  needReason,
+  diff
+) => {
   const personality = PERSONALITY.getAdmin(); //get personality
-  const guildUnban = personality[persoType];
-  const auditLog = personality.auditLog;
+  const perso = personality[persoType];
+  const aLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, obj); //get logChannel
+  const channel = await getLogChannel(commons, obj); //get logChannel
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
-  const embed = setupEmbed(color, guildUnban, objToSend, embedType); //setup embed
-  const banLog = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
-  const reason = needReason ? banLog.reason : null //if needed, get reason
+  const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
+  const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
+  const text = needReason ? log.reason : null; //if needed, get reason
 
-  endCasesEmbed(objToSend, banLog, guildUnban, auditLog, embed, logChannel, reason, diff);
+  endCasesEmbed(objToSend, log, perso, aLog, embed, channel, text, diff);
 };
 
 /**
