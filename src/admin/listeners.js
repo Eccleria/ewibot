@@ -4,7 +4,7 @@ import {
   finishEmbed,
   getLogChannel,
   setupEmbed,
-  endAdmin,
+  endCasesEmbed,
   clientEventUpdateProcess,
   fetchMessage,
   gifRecovery,
@@ -35,7 +35,7 @@ export const onChannelCreate = async (channel) => {
   const embed = setupEmbed("DARK_AQUA", chnCr, channel); //setup embed
   const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_CREATE", 1); //get auditLog
 
-  endAdmin(channel, chnLog, chnCr, auditLog, embed, logChannel);
+  endCasesEmbed(channel, chnLog, chnCr, auditLog, embed, logChannel);
 };
 
 export const onChannelDelete = async (channel) => {
@@ -50,7 +50,7 @@ export const onChannelDelete = async (channel) => {
   const embed = setupEmbed("DARK_AQUA", chnDe, channel); //setup embed
   const chnLog = await fetchAuditLog(channel.guild, "CHANNEL_DELETE", 1); //get auditLog
 
-  endAdmin(channel, chnLog, chnDe, auditLog, embed, logChannel);
+  endCasesEmbed(channel, chnLog, chnDe, auditLog, embed, logChannel);
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
@@ -220,7 +220,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     const logCreationDate = dayjs(chnLog.createdAt);
     const diff = dayjs().diff(logCreationDate, "s");
 
-    endAdmin(
+    endCasesEmbed(
       newChannel,
       chnLog,
       chnUp,
@@ -233,7 +233,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     return;
   }
   console.log("channelUpdate auditLog null");
-  endAdmin(newChannel, chnLog, chnUp, auditLog, embed, logChannel);
+  endCasesEmbed(newChannel, chnLog, chnUp, auditLog, embed, logChannel);
 };
 
 export const onThreadCreate = async (thread, newly) => {
@@ -252,7 +252,7 @@ export const onThreadCreate = async (thread, newly) => {
     const embed = setupEmbed("DARK_GREY", thrCr, thread, "tag"); //setup embed
     const thrLog = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
 
-    endAdmin(thread, thrLog, thrCr, auditLog, embed, logChannel);
+    endCasesEmbed(thread, thrLog, thrCr, auditLog, embed, logChannel);
   } else console.log("threadCreateIsNull", thread, newly);
 };
 
@@ -266,7 +266,7 @@ export const onThreadDelete = async (thread) => {
   const embed = setupEmbed("DARK_GREY", thrDe, thread); //setup embed
   const thrLog = await fetchAuditLog(thread.guild, "THREAD_DELETE", 1); //get auditLog
 
-  endAdmin(thread, thrLog, thrDe, auditLog, embed, logChannel);
+  endCasesEmbed(thread, thrLog, thrDe, auditLog, embed, logChannel);
 };
 
 export const onThreadUpdate = async (oldThread, newThread) => {
@@ -281,7 +281,7 @@ export const onThreadUpdate = async (oldThread, newThread) => {
 
   //console.log("oldThread", oldThread, "newThread", newThread)
 
-  endAdmin(newThread, thrLog, thrUp, auditLog, embed, logChannel);
+  endCasesEmbed(newThread, thrLog, thrUp, auditLog, embed, logChannel);
 };
 
 export const onRoleCreate = async (role) => {
@@ -293,7 +293,7 @@ export const onRoleCreate = async (role) => {
   const embed = setupEmbed("DARK_GOLD", roleCr, role); //setup embed
   const roleLog = await fetchAuditLog(role.guild, "ROLE_CREATE", 1); //get auditLog
 
-  endAdmin(role, roleLog, roleCr, auditLog, embed, logChannel);
+  endCasesEmbed(role, roleLog, roleCr, auditLog, embed, logChannel);
 };
 
 export const onRoleDelete = async (role) => {
@@ -305,7 +305,7 @@ export const onRoleDelete = async (role) => {
   const embed = setupEmbed("DARK_GOLD", roleDe, role); //setup embed
   const roleLog = await fetchAuditLog(role.guild, "ROLE_DELETE", 1); //get auditLog
 
-  endAdmin(role, roleLog, roleDe, auditLog, embed, logChannel);
+  endCasesEmbed(role, roleLog, roleDe, auditLog, embed, logChannel);
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
@@ -373,10 +373,10 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     const logCreationDate = dayjs(roleLog.createdAt);
     const diff = dayjs().diff(logCreationDate, "s");
 
-    endAdmin(newRole, roleLog, roleUp, auditLog, embed, logChannel, text, diff);
+    endCasesEmbed(newRole, roleLog, roleUp, auditLog, embed, logChannel, text, diff);
     return;
   }
-  endAdmin(newRole, null, roleUp, auditLog, embed, logChannel);
+  endCasesEmbed(newRole, null, roleUp, auditLog, embed, logChannel);
 };
 
 export const onMessageDelete = async (message) => {
@@ -504,7 +504,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    endAdmin(nMessage, unpinLog, messageU, auditLog, embed, logChannel);
+    endCasesEmbed(nMessage, unpinLog, messageU, auditLog, embed, logChannel);
     return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
@@ -516,7 +516,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    endAdmin(nMessage, pinLog, messageU, auditLog, embed, logChannel);
+    endCasesEmbed(nMessage, pinLog, messageU, auditLog, embed, logChannel);
     return;
   }
 
@@ -606,7 +606,7 @@ export const onGuildBanAdd = async (userBan) => {
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD", 1); //get auditLog
   const reason = banLog.reason; //get ban reason
 
-  endAdmin(userBan.user, banLog, guildBan, auditLog, embed, logChannel, reason);
+  endCasesEmbed(userBan.user, banLog, guildBan, auditLog, embed, logChannel, reason);
 };
 
 export const onGuildBanRemove = async (userBan) => {
@@ -620,7 +620,7 @@ export const onGuildBanRemove = async (userBan) => {
   const embed = setupEmbed("DARK_NAVY", guildUnban, userBan.user); //setup embed
   const banLog = await fetchAuditLog(userBan.guild, "MEMBER_BAN_REMOVE", 1); //get auditLog
 
-  endAdmin(userBan.user, banLog, guildUnban, auditLog, embed, logChannel);
+  endCasesEmbed(userBan.user, banLog, guildUnban, auditLog, embed, logChannel);
 };
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {
@@ -646,7 +646,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const timeoutDuration = timeoutUntil.diff(dayjs(), "s");
   embed.addField(timeout.duration, timeoutDuration.toString(), true); //date of message creation
 
-  endAdmin(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
+  endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
 };
 
 export const onGuildMemberRemove = async (memberKick) => {
@@ -679,7 +679,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
-    endAdmin(userKick, kickLog, guildKick, auditLog, embed, logChannel);
+    endCasesEmbed(userKick, kickLog, guildKick, auditLog, embed, logChannel);
     return;
   }
 
@@ -688,7 +688,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
   console.log("log", kickLog);
 
-  endAdmin(
+  endCasesEmbed(
     userKick,
     kickLog,
     guildKick,

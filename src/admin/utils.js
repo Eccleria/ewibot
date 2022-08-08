@@ -127,7 +127,7 @@ export const finishEmbed = async (
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
  */
-export const endAdmin = (
+export const endCasesEmbed = (
   object,
   log,
   eventPerso,
