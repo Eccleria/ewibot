@@ -9,6 +9,8 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
  * @param {string} auditType String for audit type request.
+ * @param {number} limit Number of auditLogs fetched.
+ * @param {string} [type] String for audit type request.
  * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
@@ -17,8 +19,8 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
       limit: limit,
       type: auditType,
     }); //fetch logs
-    if (type === "list") return fetchedLogs.entries; //return the first
-    return fetchedLogs.entries.first();
+    if (type === "list") return fetchedLogs.entries; //return all entries
+    return fetchedLogs.entries.first(); //return the first
   } catch (e) {
     //if no permission => crash
     console.log("AuditLog Fetch Error", e);
