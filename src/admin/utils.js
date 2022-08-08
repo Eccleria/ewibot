@@ -183,8 +183,8 @@ export const generalEmbed = async (persoType, obj, color, logType, nb, objType, 
   const logChannel = await getLogChannel(commons, obj); //get logChannel
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
-  const embed = setupEmbed(color, guildUnban, objToSend); //setup embed
-  const banLog = await fetchAuditLog(obj.guild, logType, nb, embedType); //get auditLog
+  const embed = setupEmbed(color, guildUnban, objToSend, embedType); //setup embed
+  const banLog = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
   const reason = needReason ? banLog.reason : null //if needed, get reason
 
   endCasesEmbed(objToSend, banLog, guildUnban, auditLog, embed, logChannel, reason, diff);
