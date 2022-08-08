@@ -25,17 +25,15 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 //LISTENERS
 
 export const onChannelCreate = async (channel) => {
-  const type = channel.type;
-  if (type === "DM") return;
+  if (channel.type === "DM") return;
 
   const logType = "CHANNEL_CREATE";
   const perso = "channelCreate";
-  generalEmbed(perso, channel, "DARK_AQUA", logType, 1);
+  generalEmbed(perso, channel, "DARK_AQUA", logType, 1, null, "tag");
 };
 
 export const onChannelDelete = async (channel) => {
-  const type = channel.type;
-  if (type === "DM") return;
+  if (channel.type === "DM") return;
 
   const logType = "CHANNEL_DELETE";
   const perso = "channelDelete";
