@@ -86,7 +86,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
   if (oldContent !== newContent) {
-    addMessageUpdateCount(newMessage.author.id, newMessage.client.db);
+    addMessageUpdateCount(newMessage.author.id, newMessage.client.db); //add count to db
+    //check for emote change, for stats
     if (isLengthy) {
       const oLen = oldContent.length !== 0;
       const nLen = newContent.length !== 0;
