@@ -4,9 +4,9 @@ import { PERSONALITY } from "../personality.js";
 import { setupEmbed } from "../admin/utils.js";
 
 const action = async (message, client, currentServer) => {
-  const { roleHandle } = currentServer;
+  const { pronounsRoleHandleChannelId } = currentServer;
   const guild = await client.guilds.fetch(message.guildId);
-  const roleChannel = await guild.channels.fetch(roleHandle.channelId);
+  const roleChannel = await guild.channels.fetch(pronounsRoleHandleChannelId);
 
   //personality
   const personality = PERSONALITY.getCommands();

@@ -8,8 +8,12 @@
   const rolesJson = Object.values(server.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
 
   //check if the message has all Ewibot reactions
-  const channel = await client.channels.fetch(server.roleHandle.channelId); //get the channel
-  const message = await channel.messages.fetch(server.roleHandle.messageId); //get the message
+  const channel = await client.channels.fetch(
+    server.cosmeticRoleHandle.channelId
+  ); //get the channel
+  const message = await channel.messages.fetch(
+    server.cosmeticRoleHandle.messageId
+  ); //get the message
 
   //get emotes to add
   const reactionsNames = rolesJson.map((element) => element.name); //get the name of handled reactions
@@ -32,7 +36,7 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   //check for alavirien role
   if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
     messageReaction.users.remove(userId); //remove wrong reaction
-    return //if not having role, return
+    return; //if not having role, return
   }
 
   //check for correct triggering reaction
