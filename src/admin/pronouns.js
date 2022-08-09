@@ -24,11 +24,16 @@ export const buttonHandler = async (interaction) => {
   const pronounsP = personality.pronouns;
 
   //handle roles
-  if (json[1] !== "Annuler" && !roles.cache.has(json[1])) {
-    guildMember.roles.add(json[1]); //if do not have, add role
+  if (json[1] !== "Annuler") {
+    if (!roles.cache.has(json[1])) {
+      guildMember.roles.add(json[1]); //if do not have, add role
 
-    const content = pronounsP.text.replyAdd; //get reply message content
-    interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+      const content = pronounsP.text.replyAdd; //get reply message content
+      interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+    } else {
+      const content = pronounsP.text.replyAdd; //get reply message content
+      interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+    }
   }
   else {
     //is cancel
