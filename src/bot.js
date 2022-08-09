@@ -19,18 +19,23 @@ import { generateSpotifyClient } from "./helpers/index.js";
 import {
   onPrivateMessage,
   onPublicMessage,
+  onReactionAdd,
+  onReactionRemove,
 } from "./listeners.js"
 import {
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
-  onReactionAdd,
-  onReactionRemove,
+  onThreadCreate,
+  onThreadDelete,
+  //onThreadUpdate,
   onRoleCreate,
   onRoleDelete,
   onRoleUpdate,
   onMessageDelete,
+  onMessageUpdate,
   onGuildBanAdd,
+  onGuildBanRemove,
   onGuildMemberAdd,
   onGuildMemberRemove,
   onGuildMemberUpdate,
@@ -112,6 +117,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_TYPING,
     Intents.FLAGS.DIRECT_MESSAGES,
     Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_BANS,
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
@@ -124,6 +130,7 @@ client.playlistCachedMessages = []; // Spotify messages cache
 
 client.db = db; // db cache
 client.remindme = []; // reminders cache
+client.guildUpdate = {}; // guildUpdate event handling
 
 if (process.env.USE_SPOTIFY === "yes") {
   // Spotify API cache
@@ -160,10 +167,12 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", onMessageHandler);
-client.on("messageDelete", onMessageDelete);
-
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
+
+// LOGS
+client.on("messageDelete", onMessageDelete);
+client.on("messageUpdate", onMessageUpdate);
 
 client.on("roleCreate", onRoleCreate);
 client.on("roleDelete", onRoleDelete);
@@ -173,7 +182,12 @@ client.on("channelCreate", onChannelCreate);
 client.on("channelDelete", onChannelDelete);
 client.on("channelUpdate", onChannelUpdate);
 
+client.on("threadCreate", onThreadCreate);
+client.on("threadDelete", onThreadDelete);
+//client.on("threadUpdate", onThreadUpdate);
+
 client.on("guildBanAdd", onGuildBanAdd);
+client.on("guildBanRemove", onGuildBanRemove);
 
 client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("guildMemberRemove", onGuildMemberRemove);

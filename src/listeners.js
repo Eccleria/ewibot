@@ -10,7 +10,12 @@ import {
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
 
-import { presentationHandler } from "./admin/alavirien.js"
+import { presentationHandler } from "./admin/alavirien.js";
+import { roleAdd, roleRemove } from "./admin/role.js";
+
+// jsons imports
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
@@ -37,6 +42,7 @@ export const onPrivateMessage = async (message, client) => {
 
 export const onPublicMessage = (message, client, currentServer, self) => {
   const { author, content, channel } = message;
+
   if (
     author.id === self || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
@@ -136,4 +142,29 @@ export const onRemoveSpotifyReaction = async (
     );
     await message.reply(result);
   }
+};
+
+// Partial ADMIN
+
+export const onReactionAdd = async (messageReaction, user) => {
+  // Function triggered for each reaction added
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  );
+
+  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+    await roleAdd(messageReaction, currentServer, user);
+
+  onRemoveSpotifyReaction(messageReaction, currentServer);
+
+  onRemoveReminderReaction(messageReaction, currentServer);
+};
+
+export const onReactionRemove = async (messageReaction, user) => {
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  );
+
+  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+    await roleRemove(messageReaction, currentServer, user);
 };
