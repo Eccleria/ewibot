@@ -41,25 +41,3 @@ export const checkAlavirien = async (client, server, logChannel) => {
     //if doesn't respect requirements, nothing to do
   })
 }
-
-export const presentationHandler = async (client, currentServer, message) => {
-  const db = client.db;
-  const userId = message.author.id;
-
-  //get personality
-  const personality = PERSONALITY.getAdmin(); 
-  const alavirien = personality.alavirien;
-
-  //check message correctness
-  const words = message.content.split(" ");
-  if (words.length >= 3) {
-    //add role
-    const guildMember = await message.guild.members.fetch(userId); //fetch guildMember
-    guildMember.roles.add(currentServer.alavirienRoleId); //add role
-
-    removeAlavirien(db, userId); //remove from db
-  } else {
-    const text = `<@${userId}> : ${alavirien.tooShort}`;
-    message.reply({ content: text, ephemeral: true})
-  }
-}

@@ -612,7 +612,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   console.log("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
-  checkDB(userKick.id, userKick.client);
+  checkDB(userKick.id, userKick.client); //remove user from db
 
   //console.log("memberKick", memberKick);
   const personality = PERSONALITY.getAdmin(); //get personality
