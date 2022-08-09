@@ -36,7 +36,7 @@ export const buttonHandler = async (interaction) => {
     const jsonToUse = pronounsJson.includes(json)
       ? pronounsJson
       : agreementsJson;
-    const toCheck = jsonToUse.filter((element) => element[1] === "Annuler"); //remove cancels
+    const toCheck = jsonToUse.filter((element) => element[1] !== "Annuler"); //remove cancels
     const toRemove = toCheck.reduce((acc, cur) => {
       return roles.cache.has(cur[1]) ? [...acc, cur[1]] : [...acc];
     }, []);
