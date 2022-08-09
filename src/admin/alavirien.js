@@ -4,7 +4,7 @@ import { removeAlavirien } from "../helpers/index.js"
 import { setupEmbed, finishEmbed } from "./utils.js";
 import { PERSONALITY } from "../personality.js";
 
-export const checkAlavirien = async (client, server, logChannel) => {
+const checkAlavirien = async (client, server, logChannel) => {
   //function to check every alavirien in db if they meet the requirements
 
   const db = client.db;
@@ -40,4 +40,21 @@ export const checkAlavirien = async (client, server, logChannel) => {
     }
     //if doesn't respect requirements, nothing to do
   })
+}
+
+export const setupAlavirien = async (client, commons, tomorrow, frequency) => {
+  //init everyday Alavirien 
+  const timeToTomorrowAlavirien = tomorrow.minute(5).diff(dayjs());
+
+  setTimeout(async () => {
+    console.log("Alavirien check");
+
+    const server = commons.find(({ name }) =>
+      process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+    );
+    const logChannel = await client.channels.fetch(server.logChannelId);
+    checkAlavirien(client, server, logChannel);
+
+    setInterval(() => checkAlavirien, frequency, client, server, logChannel)
+  }, timeToTomorrowAlavirien);
 }

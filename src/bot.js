@@ -42,7 +42,7 @@ import {
 } from "./admin/listeners.js";
 
 //alavirien import
-import { checkAlavirien } from "./admin/alavirien.js";
+import { setupAlavirien } from "./admin/alavirien.js";
 
 // json import
 import { readFileSync } from "fs";
@@ -92,21 +92,6 @@ setTimeout(async () => {
 
   setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
 }, timeToTomorrowBD);
-
-//ALAVIRIEN
-const timeToTomorrowAlavirien = tomorrow.minute(5).diff(dayjs());
-
-setTimeout(async () => {
-  console.log("Alavirien check");
-
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
-  const logChannel = await client.channels.fetch(server.logChannelId);
-  checkAlavirien(client, server, logChannel);
-
-  setInterval(() => checkAlavirien, frequency, client, server, logChannel)
-}, timeToTomorrowAlavirien);
 
 // Discord CLIENT
 const client = new Client({
@@ -164,6 +149,7 @@ const onMessageHandler = async (message) => {
 client.once("ready", () => {
   console.log("I am ready!");
   roleInit(client, commons);
+  setupAlavirien(client, commons, tomorrow, frequency);
 });
 
 client.on("messageCreate", onMessageHandler);
