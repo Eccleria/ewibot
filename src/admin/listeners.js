@@ -17,19 +17,12 @@ import {
   gifRecovery,
   checkDB,
 } from "./utils.js";
-import { roleRemove, roleAdd } from "./role.js"
 import {
   addAlavirien,
   hasApology,
   sanitizePunctuation,
   addApologyCount,
 } from "../helpers/index.js";
-import {
-  onRemoveReminderReaction,
-  onRemoveSpotifyReaction,
-} from "../listeners.js"
-
-import dayjs from "dayjs";
 
 // jsons imports
 import { readFileSync } from "fs";
@@ -286,7 +279,6 @@ export const onRoleUpdate = async (oldRole, newRole) => {
 
   const logChannel = await getLogChannel(commons, newRole); //get logChannelId
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
-  const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE"); //get auditLog
 
   //get client
   const client = newRole.client;
@@ -381,7 +373,6 @@ export const onMessageDelete = async (message) => {
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
 
   //get message data
-  const content = message.content ? message.content : messageDel.note;
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
@@ -621,9 +612,10 @@ export const onGuildMemberRemove = async (memberKick) => {
   console.log("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
+  checkDB(userKick.id, userKick.client);
+
   //console.log("memberKick", memberKick);
   const personality = PERSONALITY.getAdmin(); //get personality
-  const guildKick = personality.guildKick;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
@@ -666,9 +658,6 @@ export const onGuildMemberRemove = async (memberKick) => {
     reason,
     diff
   );
-
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    await roleRemove(messageReaction, currentServer, user);
 };
 
 export const onGuildMemberAdd = async (guildMember) => {
