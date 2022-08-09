@@ -225,7 +225,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
 export const onThreadCreate = async (thread, newly) => {
   //handle thread creation
-  if (!newly) return; // if not new return
+  if (!newly) return; // if not new = joined, return
 
   if (thread) {
     //sometimes thread is null
@@ -246,17 +246,11 @@ export const onThreadDelete = async (thread) => {
 
 export const onThreadUpdate = async (oldThread, newThread) => {
   //handle thread update
-  const personality = PERSONALITY.getAdmin(); //get personality
-  const thrUp = personality.threadUpdate;
-  const auditLog = personality.auditLog;
-
-  const logChannel = await getLogChannel(commons, newThread); //get logChannelId
-  const embed = setupEmbed("DARK_GREY", thrUp, newThread); //setup embed
-  const thrLog = await fetchAuditLog(newThread.guild, "THREAD_UPDATE", 1); //get auditLog
 
   //console.log("oldThread", oldThread, "newThread", newThread)
-
-  endCasesEmbed(newThread, thrLog, thrUp, auditLog, embed, logChannel);
+  const logType = "THREAD_UPDATE";
+  const perso = "threadUpdate";
+  generalEmbed(perso, newThread, "DARK_GREY", logType, 1);
 };
 
 export const onRoleCreate = async (role) => {

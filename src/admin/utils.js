@@ -316,7 +316,7 @@ export const clientEventUpdateProcess = (
   }
 };
 
-const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
+const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
   //Function called after channelUpdate timeout end
   //client == {channels: [data], timeout: timeout}
   //data == {id, name, parentId, oldPos, newPos}
@@ -437,7 +437,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
 };
 
 const space2Strings = (str1, str2, dist, sep) => {
-  //slice 2 strings, pad the end + add a separator
+  //slice 2 strings, pad the end using dist + add a separator
   const sliced1 = str1.startsWith("\n")
     ? str1.slice(0, dist + 1).padEnd(dist + 1, " ")
     : str1.slice(0, dist).padEnd(dist, " ");
@@ -449,10 +449,11 @@ const space2Strings = (str1, str2, dist, sep) => {
 };
 
 const removeEmote = (str) => {
+  //remove emote from the begining of a string
   let n = 0;
   for (const char of str) {
     const ascii = char.charCodeAt(0);
-    if (ascii > 255) n += char.length;
+    if (ascii > 255) n += char.length; //if not a standard char => emote
   }
   return str.slice(n);
 };
