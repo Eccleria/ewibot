@@ -31,7 +31,7 @@ export const buttonHandler = async (interaction) => {
       const content = pronounsP.text.replyAdd; //get reply message content
       interaction.reply({ content: content, ephemeral: true }); //reply to interaction
     } else {
-      const content = pronounsP.text.replyAdd; //get reply message content
+      const content = pronounsP.text.replyAlreadyHave; //get reply message content
       interaction.reply({ content: content, ephemeral: true }); //reply to interaction
     }
   }
