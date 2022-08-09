@@ -3,7 +3,7 @@ import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
 const apologyRegex = new RegExp( //regex for apology detection
-  /((d[e|é]sol[e|é]r)|(d[é|e]*so*l*[e|é]*s?)|(dsl)|(so?r+y)|(pardo+n+)|(navr[e|é]+))/gm
+  /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
 );
 
 const hello = [
@@ -23,7 +23,7 @@ const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' I
 const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 
 export const sanitizePunctuation = (messageContent) => {
-  return messageContent.replaceAll(punctuation, " ");
+  return messageContent.replaceAll(punctuation, "");
 };
 
 export const isAdmin = (authorId) => {
@@ -56,6 +56,21 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
+export const hasApology = (sanitizedContent) => {
+  const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
+  apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
+  if (apologyResult !== null) {
+    //if found apology
+    const wordFound = apologyResult.input //get triggering word
+      .slice(apologyResult.index) //remove everything before word detected
+      .split(" ")[0]; //split words and get the first
+
+    //verify correspondance between trigerring & full word for error mitigation
+    if (apologyResult[0] === wordFound) return true
+  }
+  return false
+};
+
 export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
   const authorId = message.author.id;
@@ -66,20 +81,10 @@ export const reactionHandler = async (message, currentServer, client) => {
   // If message contains apology, Ewibot reacts
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
-  const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
 
-  apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
-  if (apologyResult !== null) {
-    //if found apology
-    const wordFound = apologyResult.input //get triggering word
-      .slice(apologyResult.index) //remove everything before word detected
-      .split(" ")[0]; //split words and get the first
-    
-    //verify correspondance between trigerring & full word for error mitigation
-    if (apologyResult[0] === wordFound) {
+  if (hasApology(sanitizedContent)) {
       addApologyCount(authorId, db); //add data to db
       await message.react(currentServer.panDuomReactId); //add message reaction
-    }
   }
 
   const words = loweredContent.split(" ");

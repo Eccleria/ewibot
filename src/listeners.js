@@ -14,7 +14,7 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 
 // jsons imports
 import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
@@ -41,6 +41,7 @@ export const onPrivateMessage = async (message, client) => {
 
 export const onPublicMessage = (message, client, currentServer, self) => {
   const { author, content, channel } = message;
+
   if (
     author.id === self || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
@@ -136,6 +137,8 @@ export const onRemoveSpotifyReaction = async (
     await message.reply(result);
   }
 };
+
+// Partial ADMIN
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added

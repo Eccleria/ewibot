@@ -15,15 +15,34 @@ import { Low, JSONFile } from "lowdb";
 // helpers imports
 import { generateSpotifyClient } from "./helpers/index.js";
 
+// listeners imports
 import {
   onPrivateMessage,
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
 } from "./listeners.js";
-import { onInteractionCreate } from "./admin/listeners.js";
 
-// jsons imports
+import {
+  onInteractionCreate,
+  onChannelCreate,
+  onChannelDelete,
+  onChannelUpdate,
+  onThreadCreate,
+  onThreadDelete,
+  //onThreadUpdate,
+  onRoleCreate,
+  onRoleDelete,
+  onRoleUpdate,
+  onMessageDelete,
+  onMessageUpdate,
+  onGuildBanAdd,
+  onGuildBanRemove,
+  onGuildMemberRemove,
+  onGuildMemberUpdate,
+} from "./admin/listeners.js";
+
+// jsons import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
@@ -80,6 +99,8 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_MESSAGE_TYPING,
     Intents.FLAGS.DIRECT_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_BANS,
   ],
   partials: [
     "CHANNEL", // Required to receive DMs
@@ -92,6 +113,7 @@ client.playlistCachedMessages = []; // Spotify messages cache
 
 client.db = db; // db cache
 client.remindme = []; // reminders cache
+client.guildUpdate = {}; // guildUpdate event handling
 
 if (process.env.USE_SPOTIFY === "yes") {
   // Spotify API cache
@@ -121,18 +143,41 @@ const onMessageHandler = async (message) => {
   }
 };
 
-// Create an event listener for messages
-client.on("messageCreate", onMessageHandler);
-
-client.on("messageReactionAdd", onReactionAdd);
-client.on("messageReactionRemove", onReactionRemove);
-
-client.on("interactionCreate", onInteractionCreate);
-
-client.once("ready", () => {
+// Create event LISTENERS
+client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
 });
+// Create an event listener for messages
+
+client.on("messageCreate", onMessageHandler);
+client.on("messageReactionAdd", onReactionAdd);
+client.on("messageReactionRemove", onReactionRemove);
+
+// buttons/modals in messages
+client.on("interactionCreate", onInteractionCreate);
+
+// LOGS
+client.on("messageDelete", onMessageDelete);
+client.on("messageUpdate", onMessageUpdate);
+
+client.on("roleCreate", onRoleCreate);
+client.on("roleDelete", onRoleDelete);
+client.on("roleUpdate", onRoleUpdate);
+
+client.on("channelCreate", onChannelCreate);
+client.on("channelDelete", onChannelDelete);
+client.on("channelUpdate", onChannelUpdate);
+
+client.on("threadCreate", onThreadCreate);
+client.on("threadDelete", onThreadDelete);
+//client.on("threadUpdate", onThreadUpdate);
+
+client.on("guildBanAdd", onGuildBanAdd);
+client.on("guildBanRemove", onGuildBanRemove);
+
+client.on("guildMemberRemove", onGuildMemberRemove);
+client.on("guildMemberUpdate", onGuildMemberUpdate);
 
 // Log our bot in using the token from https://discord.com/developers/applications
 client.login(process.env.TOKEN);
