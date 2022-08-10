@@ -35,8 +35,8 @@ const checkAlavirien = async (client, server, logChannel) => {
       removeAlavirien(db, userId); //remove from db
 
       //send log
-      const embed = setupEmbed("DARK_GREY", alavirien, guildMember.user, "tag");
-      await finishEmbed(alavirien, `<@${process.env.CLIENTID}>`, embed, logChannel);
+      const embed = setupEmbed("DARK_GREY", alavirien, guildMember.user, "tag"); //create log
+      await finishEmbed(alavirien, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
     }
     //if doesn't respect requirements, nothing to do
   })
@@ -44,17 +44,19 @@ const checkAlavirien = async (client, server, logChannel) => {
 
 export const setupAlavirien = async (client, commons, tomorrow, frequency) => {
   //init everyday Alavirien 
-  const timeToTomorrowAlavirien = tomorrow.minute(5).diff(dayjs());
+  const timeToTomorrow = tomorrow.minute(5).diff(dayjs()); //time to tommorow in ms
 
   setTimeout(async () => {
+    //timeout until tomorrow
     console.log("Alavirien check");
 
+    //get checkAlavirien args
     const server = commons.find(({ name }) =>
       process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-    );
-    const logChannel = await client.channels.fetch(server.logChannelId);
-    checkAlavirien(client, server, logChannel);
+    ); //get server data
+    const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
+    checkAlavirien(client, server, logChannel); //check for alavirien role attribution
 
     setInterval(() => checkAlavirien, frequency, client, server, logChannel)
-  }, timeToTomorrowAlavirien);
+  }, timeToTomorrow);
 }
