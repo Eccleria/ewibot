@@ -1,5 +1,11 @@
 {
   "admin": {
+    "alavirien": {
+      "author": "Membre :",
+      "description": "Un.e membre a reçu le rôle Alavirien·nes.",
+      "executor": "Ajouté par :",
+      "title": "Attribution du rôle Alavirien·nes"
+    },
     "auditLog": {
       "noExec": "Le propriétaire ou un bot.",
       "noLog": "Aucun log relatif n'a été trouvé.",
@@ -137,97 +143,6 @@
   },
   "normal": {
     "name": "normal",
-    "admin": {
-      "alavirien": {
-        "author": "Membre :",
-        "description": "Un.e membre a reçu le rôle Alavirien·nes.",
-        "executor": "Ajouté par :",
-        "title": "Attribution du rôle Alavirien·nes",
-        "tooShort": "Ce message est trop petit pour être considéré comme une présentation."
-      },
-      "auditLog": {
-        "noExec": "Le propriétaire ou un bot.",
-        "noLog": "Aucun log relatif n'a été trouvé.",
-        "partial": "Le message est inaccessible. Pas assez de données expoitables.",
-        "tooOld": "Aucun log récent correspondant. Le responsable est le propriétaire."
-      },
-      "channelCreate": {
-        "author": "Salon :",
-        "description": "Un salon a été créé.",
-        "executor": "Créé par :",
-        "title": "Salon créé"
-      },
-      "channelDelete": {
-        "author": "Salon :",
-        "description": "Un salon a été supprimé.",
-        "executor": "Supprimé par :",
-        "title": "Salon supprimé"
-      },
-      "channelUpdate": {
-        "author": "Salon :",
-        "description": "Un salon a été modifié.",
-        "executor": "Modifié par :",
-        "text": "Modifications :\n",
-        "title": "Salon modifié"
-      },
-      "guildBan": {
-        "author": "Membre :",
-        "description": "Un membre a été banni.",
-        "executor": "Banni par :",
-        "text": "Raison du ban :",
-        "title": "Utilisateur banni"
-      },
-      "guildKick": {
-        "author": "Membre :",
-        "description": "Un membre a été kick.",
-        "duration": "Durée :",
-        "executor": "Kick par :",
-        "text": "Raison du kick :",
-        "title": "Kick"
-      },
-      "messageDelete": {
-        "author": "Auteur :",
-        "date": "Envoyé le :",
-        "description": "Un message a été supprimé.",
-        "executor": "Supprimé par :",
-        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-        "text": "Contenu du message :",
-        "title": "Message supprimé"
-      },
-      "roleCreate": {
-        "author": "Rôle :",
-        "date": "Créé le :",
-        "description": "Un rôle a été créé.",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
-      },
-      "roleDelete": {
-        "author": "Rôle :",
-        "date": "Créé le :",
-        "description": "Un rôle a été créé.",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
-      },
-      "roleUpdate": {
-        "author": "Rôle :",
-        "description": "Un rôle a été modifié.",
-        "executor": "Modifié par :",
-        "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
-        "new": "\n  Ajoutée.s : ",
-        "old": "\n  Supprimée.s : ",
-        "text": "Modifications :",
-        "permission": "- Permissions :",
-        "title": "Role mis à jour"
-      },
-      "timeout": {
-        "author": "Membre :",
-        "description": "Un membre a été timeout.",
-        "duration": "Durée :",
-        "executor": "Timeout par :",
-        "text": "Raison du timeout :",
-        "title": "Timeout"
-      }
-    },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
@@ -305,96 +220,6 @@
   },
   "funny": {
     "name": "funny",
-    "admin": {
-      "alavirien": {
-        "author": "Membre :",
-        "description": "Un.e membre a reçu le rôle Alavirien·nes.",
-        "executor": "Ajouté par :",
-        "title": "Attribution du rôle Alavirien·nes",
-        "tooShort": "Ce message est trop petit pour être considéré comme une présentation."
-      },
-      "auditLog": {
-        "noExec": "Le propriétaire ou un bot.",
-        "noLog": "Aucun log relatif n'a été trouvé.",
-        "partial": "Le message est inaccessible. Pas assez de données expoitables.",
-        "tooOld": "Aucun log récent correspondant. Le responsable est le propriétaire."
-      },
-      "channelCreate": {
-        "author": "Salon :",
-        "description": "Un salon a été créé.",
-        "executor": "Créé par :",
-        "title": "Salon créé"
-      },
-      "channelDelete": {
-        "author": "Salon :",
-        "description": "Un salon a été supprimé.",
-        "executor": "Supprimé par :",
-        "title": "Salon supprimé"
-      },
-      "channelUpdate": {
-        "author": "Salon :",
-        "description": "Un salon a été modifié.",
-        "executor": "Modifié par :",
-        "text": "Modifications :\n",
-        "title": "Salon modifié"
-      },
-      "guildBan": {
-        "author": "Membre :",
-        "description": "Un membre a été banni.",
-        "executor": "Banni par :",
-        "text": "Raison du ban :",
-        "title": "Utilisateur banni"
-      },
-      "guildKick": {
-        "author": "Membre :",
-        "description": "Un membre a été kick.",
-        "duration": "Durée :",
-        "executor": "Kick par :",
-        "text": "Raison du kick :",
-        "title": "Kick"
-      },
-      "messageDelete": {
-        "author": "Auteur :",
-        "date": "Envoyé le :",
-        "description": "Un message a été supprimé.",
-        "executor": "Supprimé par :",
-        "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-        "text": "Contenu du message :",
-        "title": "Message supprimé"
-      },
-      "roleCreate": {
-        "author": "Rôle :",
-        "date": "Créé le :",
-        "description": "Un rôle a été créé.",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
-      },
-      "roleDelete": {
-        "author": "Rôle :",
-        "date": "Créé le :",
-        "description": "Un rôle a été créé.",
-        "executor": "Créé par :",
-        "title": "Rôle créé"
-      },
-      "roleUpdate": {
-        "author": "Role :",
-        "description": "Un role a été modifié.",
-        "executor": "Modifié par :",
-        "new": "\n  Ajoutée.s : ",
-        "old": "\n  Supprimée.s : ",
-        "text": "Modifications :",
-        "permission": "- Permissions :",
-        "title": "Role mis à jour"
-      },
-      "timeout": {
-        "author": "Membre :",
-        "description": "Un membre a été timeout.",
-        "duration": "Durée :",
-        "executor": "Timeout par :",
-        "text": "Raison du timeout :",
-        "title": "Timeout"
-      }
-    },
     "commands": {
       "birthday": {
         "addUser": "Je te souhaiterai ton anniversaire.",
