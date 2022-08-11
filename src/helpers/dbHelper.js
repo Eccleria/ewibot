@@ -102,3 +102,26 @@ const isIgnoredUser = (authorId, db) => {
 };
 
 export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
+
+//TWITTER
+const isTwitterUser = (authorId, db) => {
+  return db.data.twitter
+    .map((obj) => {
+      return obj.userId;
+    })
+    .includes(authorId);
+};
+
+const updateLastTweetId = (authorId, tweetId, db) => {
+  const twitter = db.data.twitter;
+  if (isTwitterUser(authorId, db)) {
+    for (const obj of twitter) {
+      if (obj.userId === authorId) {
+        obj.lastTweetId = tweetId;
+      }
+    }
+    db.wasUpdated = true;
+  }
+}
+
+export { updateLastTweetId };
