@@ -21,8 +21,10 @@ import {
 } from "./spotifyHelper.js";
 
 import {
+  sanitizePunctuation,
   isAdmin,
   emojiStat,
+  hasApology,
   isCommand,
   reactionHandler,
   checkIsOnThread,
@@ -31,8 +33,10 @@ import {
 
 export {
   // utils
+  sanitizePunctuation,
   isAdmin,
   emojiStat,
+  hasApology,
   isCommand,
   reactionHandler,
   checkIsOnThread,

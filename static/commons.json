@@ -4,6 +4,8 @@
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
     "randomfloodChannelId": "935180557770448956",
+    "logChannelId": "981478339439104090",
+    "logThreadId": "998526867533463572",
     "roleHandle": {
       "channelId": "967059786644488192",
       "messageId": "973889029969936406"
@@ -49,6 +51,8 @@
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
     "randomfloodChannelId": "822132004581408828",
+    "logChannelId": "959168176908804106",
+    "logThreadId": "998524941349691452",
     "roleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"

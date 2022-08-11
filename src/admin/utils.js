@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import { PERSONALITY } from "../personality.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -9,14 +10,17 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
  * @param {string} auditType String for audit type request.
+ * @param {number} limit Number of auditLogs fetched.
+ * @param {string} [type] String for audit type request.
  * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
  */
-export const fetchAuditLog = async (guild, auditType) => {
+export const fetchAuditLog = async (guild, auditType, limit, type) => {
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
-      limit: 1,
+      limit: limit,
       type: auditType,
     }); //fetch logs
+    if (type === "list") return fetchedLogs.entries; //return all entries
     return fetchedLogs.entries.first(); //return the first
   } catch (e) {
     //if no permission => crash
@@ -41,8 +45,14 @@ export const setupEmbed = (color, personality, object, type) => {
 
   if (personality.description) embed.setDescription(personality.description);
 
-  if (type === "tag") embed.addField(personality.author, object.toString(), true); //add user as embed if required
-  else if (type === "skip") return embed; //allows to skip the 3rd field
+  if (type === "tag")
+    embed.addField(personality.author, object.toString(), true);
+  //add user as embed if required
+  else if (type === "skip") return embed;
+  //allows to skip the 3rd field
+  else if (type === "user")
+    embed.addField(personality.author, object.username, true);
+  //add user if required
   else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name as embed (for channels, roles, ...)
   return embed;
 };
@@ -64,11 +74,12 @@ export const finishEmbed = async (
   text,
   attachments
 ) => {
-  const currentServer = commons.find(
-    ({ name }) => name === "test"
-  ); //get test data
+  const currentServer = commons.find(({ name }) => name === "test"); //get test data
 
-  if (process.env.DEBUG === "no" && logChannel.guildId === currentServer.guildId) {
+  if (
+    process.env.DEBUG === "no" &&
+    logChannel.guildId === currentServer.guildId
+  ) {
     //Ewibot detects test in test server => return
     console.log("Ewibot log in Test server", personalityEvent.title);
     return;
@@ -120,7 +131,7 @@ export const finishEmbed = async (
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
  */
-export const endAdmin = (
+export const endCasesEmbed = (
   object,
   log,
   eventPerso,
@@ -154,6 +165,43 @@ export const endAdmin = (
 };
 
 /**
+ * Handle basic admin log cases.
+ * @param {string} persoType Personnality type used for personalities fetch.
+ * @param {any} object Listener argument.
+ * @param {string} color Embed color.
+ * @param {string} logType AuditType for fetchAuditLog.
+ * @param {number} nb Number of log fetched in fetchAuditLog.
+ * @param {string} [objType] If object concerns a user, "user", nullable otherwise.
+ * @param {string} [embedType] If "tag", add obj as embed in the log embed.
+ * @param {boolean} [needReason] If true, get reason to add to the embed.
+ * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
+ */
+export const generalEmbed = async (
+  persoType,
+  obj,
+  color,
+  logType,
+  nb,
+  objType,
+  embedType,
+  needReason,
+  diff
+) => {
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const perso = personality[persoType];
+  const aLog = personality.auditLog;
+
+  const channel = await getLogChannel(commons, obj); //get logChannel
+
+  const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
+  const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
+  const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
+  const text = needReason ? log.reason : null; //if needed, get reason
+
+  endCasesEmbed(objToSend, log, perso, aLog, embed, channel, text, diff);
+};
+
+/**
  * Fetch Log Channel.
  * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
@@ -164,7 +212,8 @@ export const getLogChannel = async (commons, eventObject, type) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data
-  const id = type === "thread" ? currentServer.logThreadId : currentServer.logChannelId
+  const id =
+    type === "thread" ? currentServer.logThreadId : currentServer.logChannelId;
   return await eventObject.guild.channels.fetch(id); //return the log channel
 };
 
@@ -268,7 +317,7 @@ export const clientEventUpdateProcess = (
   }
 };
 
-const channelUpdateLog = async (client, chnUp, logPerso, logChannel, embed) => {
+const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
   //Function called after channelUpdate timeout end
   //client == {channels: [data], timeout: timeout}
   //data == {id, name, parentId, oldPos, newPos}
@@ -370,7 +419,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   const newSortedIds = newOrder.map((obj) => obj.id);
   if (oldSortedIds.every((oldId, idx) => oldId === newSortedIds[idx])) {
     finishEmbed(roleUp, logPerso.noLog, embed, logChannel, roleUp.noModifs); //send embed
-    return
+    return;
   }
 
   const space = 15;
@@ -390,7 +439,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
 };
 
 const space2Strings = (str1, str2, dist, sep) => {
-  //slice 2 strings, pad the end + add a separator
+  //slice 2 strings, pad the end using dist + add a separator
   const sliced1 = str1.startsWith("\n")
     ? str1.slice(0, dist + 1).padEnd(dist + 1, " ")
     : str1.slice(0, dist).padEnd(dist, " ");
@@ -402,10 +451,11 @@ const space2Strings = (str1, str2, dist, sep) => {
 };
 
 const removeEmote = (str) => {
+  //remove emote from the begining of a string
   let n = 0;
   for (const char of str) {
     const ascii = char.charCodeAt(0);
-    if (ascii > 255) n += char.length;
+    if (ascii > 255) n += char.length; //if not a standard char => emote
   }
   return str.slice(n);
 };
@@ -487,10 +537,10 @@ export const gifRecovery = (content) => {
   if (content.includes(tenor)) {
     const words = content.split(" ");
     const results = words.reduce((acc, cur) => {
-      if (cur.includes(tenor)) return [...acc, cur]
+      if (cur.includes(tenor)) return [...acc, cur];
       return acc;
     }, []);
     return results;
   }
   return null;
-}
+};
