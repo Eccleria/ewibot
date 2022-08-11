@@ -12,8 +12,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
 
-//import { getTwitterFeed } from "./admin/twitter.js"
-//import { getTwitterUser } from "./admin/twitter.js"
+import { TwitterApi } from 'twitter-api-v2';
 
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
@@ -139,7 +138,10 @@ client.once("ready", async () => {
   roleInit(client, commons);
 
   //TWITTER
- 
+  const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
+  const twitter = twitterClient.v2; //setup client to v2 api
+  client.twitter = twitter;
+
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
