@@ -91,6 +91,7 @@ const getPage = async (params, options, nextToken) => {
 }
 */
 
+/*
 import { TwitterApi } from 'twitter-api-v2';
 
 // Instanciate with desired auth type (here's Bearer v2 auth)
@@ -103,3 +104,5 @@ export const getTwitterUser = async () => {
   // Play with the built in methods
   return await roClient.v2.userByUsername('andartapictures');
 }
+*/
+

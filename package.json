@@ -15,7 +15,7 @@
     "lowdb": "^3.0.0",
     "nodemon": "^2.0.12",
     "spotify-web-api-node": "^5.0.2",
-    "twitter-api-v2": "^1.12.2",
+    "twitter-api-v2": "^1.12.3",
     "wait-for-user-input": "^1.0.0",
     "ytdl-core": "^4.11.0"
   },

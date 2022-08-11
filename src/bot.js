@@ -7,13 +7,13 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, Intents } from "discord.js";
+import { Client, Intents, MessageEmbed } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
 
 //import { getTwitterFeed } from "./admin/twitter.js"
-import { getTwitterUser } from "./admin/twitter.js"
+//import { getTwitterUser } from "./admin/twitter.js"
 
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
@@ -26,6 +26,7 @@ import {
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
+  onMessageUpdate,
 } from "./listeners.js";
 
 // jsons imports
@@ -128,17 +129,71 @@ const onMessageHandler = async (message) => {
 
 // Create an event listener for messages
 client.on("messageCreate", onMessageHandler);
+client.on("messageUpdate", onMessageUpdate);
 
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
 
-client.once("ready", () => {
+import { TwitterApi } from 'twitter-api-v2';
+
+client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
+
+  //TWITTER
+  const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN);
+
+  const twitter = twitterClient.v2;
+
+  let params = {
+    max_results: 5,
+    exclude: ["replies"]
+  };
+
+  const andartaTimeline = await twitter.userTimeline("1039418011260727296", params)
+
+  console.log("andartaTimeline", andartaTimeline);
+
+  console.log("data", andartaTimeline.data)
+
+  params = {
+    "user.fields": ["profile_image_url", "url", "username"]
+  }
+  const andartaId = "1039418011260727296";
+  const andartaObj = await twitter.user(andartaId, params);
+  const andarta = andartaObj.data;
+  const { url, name, profile_image_url, username } = andarta;
+
+  const twitterIcon = "https://abs.twimg.com/icons/apple-touch-icon-192x192.png";
+
+  const embed = new MessageEmbed()
+    .setAuthor({ name: name, iconURL: profile_image_url, url: url })
+    .addFields({ name: "Tweet", value: "insert tweet content here" })
+    .setColor("#00ACEE")
+    .setFooter({ text: "Twitter", iconURL: twitterIcon })
+    .setTimestamp();
+
+  const tweetLink = "https://twitter.com/" + username + "/status/" + andartaId;
+
+  embed.setDescription(`[Tweet link](${tweetLink})`);
+
+  /*
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  
+  const channel = await client.channels.fetch(server.randomfloodChannelId);
+
+  channel.send({ embeds: [embed] });*/
 });
 
 // Log our bot in using the token from https://discord.com/developers/applications
 client.login(process.env.TOKEN);
 
-//getTwitterFeed();
-getTwitterUser()
+/*const andartaTimeline = await twitter.userTimeline("1039418011260727296", params)
+
+console.log("andartaTimeline", andartaTimeline);
+
+console.log("data", andartaTimeline.data)*/
+
+
