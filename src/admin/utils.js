@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+
 import { PERSONALITY } from "../personality.js";
 
 // jsons import

@@ -188,6 +188,36 @@
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
+      "pronouns": {
+        "agreements": {
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "Féminins",
+          "male": "Masculins",
+          "neutral": "Neutres",
+          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+        },
+        "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
+        "pronouns": {
+          "all": "Tout pronom",
+          "ael": "Æl",
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "he": "Il",
+          "no": "Pas de pronom",
+          "she": "Elle",
+          "they": "Iel",
+          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
+        },
+        "text": {
+          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
+          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
+        }
+      },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
@@ -260,6 +290,36 @@
         "nameError": "Erreur d'argument.",
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
+      },
+      "pronouns": {
+        "agreements": {
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "Féminins",
+          "male": "Masculins",
+          "neutral": "Neutres",
+          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+        },
+        "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
+        "pronouns": {
+          "all": "Tout pronom",
+          "ael": "Æl",
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "he": "Il",
+          "no": "Pas de pronom",
+          "she": "Elle",
+          "they": "Iel",
+          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
+        },
+        "text": {
+          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
+          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
+        }
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé.",
