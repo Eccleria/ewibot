@@ -10,6 +10,7 @@ import {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
+  removeAppologyCount,
 } from "./dbHelper.js";
 
 import {
@@ -19,7 +20,9 @@ import {
 } from "./spotifyHelper.js";
 
 import {
+  sanitizePunctuation,
   isAdmin,
+  hasApology,
   isCommand,
   reactionHandler,
   checkIsOnThread,
@@ -27,7 +30,9 @@ import {
 
 export {
   // utils
+  sanitizePunctuation,
   isAdmin,
+  hasApology,
   isCommand,
   reactionHandler,
   checkIsOnThread,
@@ -47,4 +52,5 @@ export {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
+  removeAppologyCount,
 };
