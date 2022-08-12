@@ -25,7 +25,6 @@ import {
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
-  onMessageUpdate,
 } from "./listeners.js";
 
 // jsons imports
@@ -134,7 +133,6 @@ const onMessageHandler = async (message) => {
 
 // Create an event listener for messages
 client.on("messageCreate", onMessageHandler);
-client.on("messageUpdate", onMessageUpdate);
 
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);

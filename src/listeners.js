@@ -49,8 +49,6 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
   const { playlistThreadId } = currentServer;
 
-  console.log("message", message.embeds);
-
   reactionHandler(message, currentServer, client);
 
   // check for command
@@ -102,11 +100,6 @@ export const onRemoveReminderReaction = (messageReaction, currentServer) => {
     }
   }
 };
-
-export const onMessageUpdate = (oldMessage, newMessage) => {
-  console("newMessage", newMessage);
-  console(newMessage.embeds);
-}
 
 export const onRemoveSpotifyReaction = async (
   messageReaction,
