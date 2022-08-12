@@ -34,12 +34,12 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
-import {
+/*import {
   fetchUserProfile,
   fetchUserTimeline,
   setupTwitterEmbed,
   //tweetLink,
-} from "./admin/twitter.js";
+} from "./admin/twitter.js";*/
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -139,6 +139,9 @@ client.on("messageUpdate", onMessageUpdate);
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
 
+
+import { ETwitterStreamEvent } from 'twitter-api-v2';
+
 client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
@@ -148,9 +151,55 @@ client.once("ready", async () => {
   const twitter = twitterClient.v2; //setup client to v2 api
   client.twitter = twitter;
 
-  const yawasay = await twitter.userByUsername("Yawasay");
-  console.log("yawasay", yawasay);
+  const stream = await twitter.searchStream({ expansions: "author_id" });
+  /*
+  console.log(await twitter.updateStreamRules({
+    delete: {
+      ids: ['1557837241409572864', '1557837241409572865', "1557837764422418434", "1557837764422418435", "1557839400448450562"],
+    },
+  }));
 
+  console.log(await twitter.updateStreamRules({
+    add: [
+      { value: "from:953964541 OR from:1039418011260727296", tag: "from" }
+    ]
+  }));
+  */
+  const rules = await twitter.streamRules();
+  console.log("rules", rules);
+  //{expansions: "author_id"}
+  // Awaits for a tweet
+  stream.on(
+    // Emitted when Node.js {response} emits a 'error' event (contains its payload).
+    ETwitterStreamEvent.ConnectionError,
+    err => console.log('Connection error!', err),
+  );
+  //twitter.
+  stream.on(
+    // Emitted when Node.js {response} is closed by remote or using .close().
+    ETwitterStreamEvent.ConnectionClosed,
+    () => console.log('Connection has been closed.'),
+  );
+
+  stream.on(
+    // Emitted when a Twitter payload (a tweet or not, given the endpoint).
+    ETwitterStreamEvent.Data,
+    eventData => console.log('Twitter has sent something:', eventData),
+  );
+
+  stream.on(
+    // Emitted when a Twitter sent a signal to maintain connection active
+    ETwitterStreamEvent.DataKeepAlive,
+    () => console.log('Twitter has a keep-alive packet.'),
+  );
+
+  // Enable reconnect feature
+  stream.autoReconnect = true;
+
+  /*const yawasay = await twitter.userByUsername("Yawasay");
+  console.log("yawasay", yawasay);*/
+
+  /*
   const id = "953964541";
   const andartaId = "1039418011260727296";
   const twitterUser = await fetchUserProfile(client, andartaId);
@@ -166,6 +215,7 @@ client.once("ready", async () => {
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
+  */
 
   //embed.setDescription(`[Tweet link](${tLink})`); //add tweet url to embed
 
