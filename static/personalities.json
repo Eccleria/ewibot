@@ -1,4 +1,140 @@
 {
+  "admin": {
+    "auditLog": {
+      "noExec": "Le propriétaire ou un bot.",
+      "noLog": "Aucun log relatif n'a été trouvé.",
+      "partial": "Le message est inaccessible. Pas assez de données expoitables.",
+      "tooOld": "Aucun log récent correspondant."
+    },
+    "channelCreate": {
+      "author": "Salon :",
+      "executor": "Créé par :",
+      "title": "Salon créé"
+    },
+    "channelDelete": {
+      "author": "Salon :",
+      "executor": "Supprimé par :",
+      "title": "Salon supprimé"
+    },
+    "channelUpdate": {
+      "permissionOverwrites": {
+        "permAdded": "- Permissions ajoutées :",
+        "permRemoved": "- Permissions retirées :",
+        "roleAdded": "Droits ajoutés au rôle :",
+        "roleRemoved": "Droits retirés au rôle :",
+        "userAdded": "Droits personnalisés ajoutés au membre :",
+        "userRemoved": "Droits personnalisés retirés au membre :"
+      },
+      "author": "Salon :",
+      "executor": "Modifié par :",
+      "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
+      "text": "Modifications :\n",
+      "title": "Salon modifié"
+    },
+    "guildBan": {
+      "author": "Membre :",
+      "executor": "Banni par :",
+      "text": "Raison du ban :",
+      "title": "Membre banni"
+    },
+    "guildKick": {
+      "kick": {
+        "author": "Membre :",
+        "duration": "Durée :",
+        "executor": "Kick par :",
+        "roles": "Roles",
+        "text": "Raison du kick :",
+        "title": "Membre expulsé"
+      },
+      "leave": {
+        "author": "Membre :",
+        "roles": "Roles",
+        "title": "Membre ayant quitté le serveur"
+      }
+    },
+    "guildUnban": {
+      "author": "Membre :",
+      "executor": "Débanni par :",
+      "text": "Raison de la levée du ban :",
+      "title": "Membre débanni"
+    },
+    "messageDelete": {
+      "author": "Auteur :",
+      "channel": "Salon :",
+      "date": "Envoyé le :",
+      "executor": "Supprimé par :",
+      "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+      "text": "Contenu du message :",
+      "title": "Message supprimé"
+    },
+    "messageUpdate": {
+      "author": "Membre :",
+      "channel": "Salon :",
+      "contentDiff": "Mots différents",
+      "contentNew": "Nouveau contenu",
+      "contentOld": "Ancien contenu",
+      "date": "Envoyé le :",
+      "linkMessage": "Clique pour aller au message.",
+      "linkName": "Lien",
+      "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+      "pinned": {
+        "title": "Message épinglé",
+        "text": "Le message a été épinglé."
+      },
+      "text": "Contenu du message :",
+      "title": "Message modifié",
+      "unpinned": {
+        "title": "Message désépinglé",
+        "text": "Le message a été désépinglé."
+      }
+    },
+    "roleCreate": {
+      "author": "Rôle :",
+      "date": "Créé le :",
+      "executor": "Créé par :",
+      "title": "Rôle créé"
+    },
+    "roleDelete": {
+      "author": "Rôle :",
+      "date": "Supprimé le :",
+      "executor": "Supprimé par :",
+      "title": "Rôle supprimé"
+    },
+    "roleUpdate": {
+      "author": "Rôle :",
+      "executor": "Modifié par :",
+      "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
+      "new": "\n  Ajoutée.s : ",
+      "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
+      "old": "\n  Supprimée.s : ",
+      "text": "Modifications :",
+      "permission": "- Permissions :",
+      "title": "Rôle mis à jour",
+      "titleRoles": "Rôles mis à jour"
+    },
+    "threadCreate": {
+      "author": "Fil :",
+      "executor": "Créé par :",
+      "title": "Fil créé"
+    },
+    "threadDelete": {
+      "author": "Fil :",
+      "executor": "Supprimé par :",
+      "title": "Fil supprimé"
+    },
+    "threadUpdate": {
+      "author": "Fil :",
+      "executor": "Modifié par :",
+      "title": "Fil modifié"
+    },
+    "timeout": {
+      "author": "Membre :",
+      "duration": "Durée :",
+      "executor": "Timeout par :",
+      "text": "Raison du timeout :",
+      "title": "Timeout"
+    }
+  },
   "normal": {
     "name": "normal",
     "commands": {
@@ -52,6 +188,36 @@
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
+      "pronouns": {
+        "agreements": {
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "Féminins",
+          "male": "Masculins",
+          "neutral": "Neutres",
+          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+        },
+        "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
+        "pronouns": {
+          "all": "Tout pronom",
+          "ael": "Æl",
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "he": "Il",
+          "no": "Pas de pronom",
+          "she": "Elle",
+          "they": "Iel",
+          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
+        },
+        "text": {
+          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
+          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
+        }
+      },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
@@ -71,7 +237,7 @@
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
-      "react": [". Vous pouvez react avec ", " pour annuler cet ajout !"],
+      "react": [ ". Vous pouvez react avec ", " pour annuler cet ajout !" ],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }
@@ -125,6 +291,36 @@
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
+      "pronouns": {
+        "agreements": {
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "Féminins",
+          "male": "Masculins",
+          "neutral": "Neutres",
+          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+        },
+        "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
+        "pronouns": {
+          "all": "Tout pronom",
+          "ael": "Æl",
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "he": "Il",
+          "no": "Pas de pronom",
+          "she": "Elle",
+          "they": "Iel",
+          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
+        },
+        "text": {
+          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
+          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
+        }
+      },
       "reminder": {
         "delete": "Le remind a bien été supprimé.",
         "remind": "Je te rappelerai ça dans environ ",
@@ -141,7 +337,7 @@
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
-      "react": ["Vous pouvez react avec ", "pour annuler cet ajout !"],
+      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }

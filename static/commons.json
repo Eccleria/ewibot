@@ -3,11 +3,15 @@
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
+    "charteChannelId": "935180557770448956",
     "randomfloodChannelId": "935180557770448956",
-    "roleHandle": {
+    "logChannelId": "981478339439104090",
+    "logThreadId": "998526867533463572",
+    "cosmeticRoleHandle": {
       "channelId": "967059786644488192",
       "messageId": "973889029969936406"
     },
+    "pronounsRoleHandleChannelId": "967059786644488192",
     "roles": {
       "orange": {
         "roleId": "959360675451383828",
@@ -26,6 +30,7 @@
         "name": "🔵"
       }
     },
+    "alavirienRoleId": "981493533598961706",
     "autoEmotes": {
       "ewiyayReactId": "😄",
       "bjornLoveReactId": "😍",
@@ -42,17 +47,40 @@
     },
     "panDuomReactId": "😠",
     "removeEmoji": "❌",
+    "pronouns": {
+      "pronouns": {
+        "all": "988481558325395567",
+        "ael": "988481383817154610",
+        "askP": "988481491623370783",
+        "cancelP": "Annuler",
+        "he": "988480763299237988",
+        "no": "988485379550232648",
+        "she": "988481359255339100",
+        "they": "988481438510895225"
+      },
+      "agreements": {
+        "askA": "988481851364622336",
+        "cancelA": "Annuler",
+        "female": "988481769844117505",
+        "male": "988481664508391445",
+        "neutral": "988481811657142322"
+      }
+    },
     "LuciferId": "657498573222576148"
   },
   {
     "name": "prod",
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
+    "charteChannelId": "817066925976191037",
     "randomfloodChannelId": "822132004581408828",
-    "roleHandle": {
+    "logChannelId": "959168176908804106",
+    "logThreadId": "998524941349691452",
+    "cosmeticRoleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"
     },
+    "pronounsRoleHandleChannelId": "974735995872350208",
     "roles": {
       "reveurs": {
         "roleId": "816971306276880395",
@@ -71,6 +99,7 @@
         "name": "🟣"
       }
     },
+    "alavirienRoleId": "826743423612092436",
     "autoEmotes": {
       "ewiyayReactId": "918249094391144469",
       "bjornLoveReactId": "822437083003355146",
@@ -87,6 +116,25 @@
     },
     "panDuomReactId": "826036478672109588",
     "removeEmoji": "❌",
+    "pronouns": {
+      "pronouns": {
+        "all": "1000807331908567160",
+        "ael": "1000805873842659398",
+        "askP": "1000807113066553495",
+        "cancelP": "Annuler",
+        "he": "1000790537584005222",
+        "no": "1000807502599962716",
+        "she": "1000791244210974840",
+        "they": "1000806759532863558"
+      },
+      "agreements": {
+        "askA": "1000807897732759582",
+        "cancelA": "Annuler",
+        "female": "1000807692522229860",
+        "male": "1000807606287343616",
+        "neutral": "1000807784738213918"
+      }
+    },
     "LuciferId": "657498573222576148"
   }
 ]

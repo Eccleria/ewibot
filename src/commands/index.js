@@ -17,6 +17,7 @@ import birthday from "./birthday.js";
 import concrete from "./concrete.js";
 import spotify from "./spotify.js";
 import leaderboardApology from "./leadApo.js";
+import pronouns from "./pronouns.js";
 import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
@@ -131,6 +132,7 @@ const commands =
         ignore,
         ignoreChannel,
         leaderboardApology,
+        pronouns,
         reminder,
         roll,
         spotify,
@@ -142,6 +144,7 @@ const commands =
         ignore,
         ignoreChannel,
         leaderboardApology,
+        pronouns,
         reminder,
         roll,
       ];
