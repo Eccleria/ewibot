@@ -54,6 +54,7 @@ import {
   setupTwitterEmbed,*/
   //tweetLink,
   initTwitter,
+  fetchTweets,
 } from "./admin/twitter.js";
 
 // DB
@@ -161,6 +162,9 @@ client.once("ready", async () => {
   client.twitter = twitter; //save twitter into client
 
   initTwitter(client); //init Twitter comm with API
+  const tweet = await fetchTweets(client, "1371839010755207176");
+  console.log("tweet", tweet);
+  console.log("includes", tweet.includes);
 });
 
 client.on("messageCreate", onMessageHandler);

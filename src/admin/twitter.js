@@ -1,6 +1,10 @@
 import { MessageEmbed } from "discord.js";
 import { ETwitterStreamEvent } from 'twitter-api-v2';
 
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
 export const fetchUserTimeline = async (client, userId) => {
   const twitter = client.twitter;
 
@@ -20,7 +24,20 @@ export const fetchUserProfile = async (client, userId) => {
   }; //used for user fetch
 
   return await twitter.user(userId, params); //fetch Andarta Pictures's Twitter profile
+};
+
+export const fetchTweets = async (client, tweetIds) => {
+  const twitter = client.twitter;
+
+  const params = {
+    //"media.fields": ["duration_ms", "height", "media_key", "preview_image_url", "type", "url", "width", "public_metrics", "non_public_metrics", "organic_metrics", "promoted_metrics", "alt_text"," variants"]
+    "expansions": ["attachments.media_keys"]
+  }; //used for user fetch
+
+  return await twitter.tweets(tweetIds, params); //fetch Andarta Pictures's Twitter profile
 }
+
+//https://twitter.com/andartapictures/status/1371839010755207176
 
 const twitterIcon = "https://abs.twimg.com/icons/apple-touch-icon-192x192.png"; //link for twitter logo
 
@@ -39,6 +56,30 @@ export const tweetLink = (username, id) => {
 }
 
 //embed.setDescription(`[Tweet link](${tweetLink})`); //add tweet url to embed
+
+const tweetHandler = async (tweet, client) => {
+  console.log('Twitter has sent something:', tweet);
+  console.log('includes', tweet.includes);
+
+  const { data } = tweet;
+  const tweetId = data.id; //get tweet Id
+  const authorId = data.author_id; //get author id
+
+  //get author username
+  const userProfile = await fetchUserProfile(client, authorId);
+  const username = userProfile.data.username;
+  console.log("authorId", authorId);
+  console.log("username", username);
+  const tLink = tweetLink(username, tweetId);
+  console.log("tLink", tLink);
+
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const channel = await client.channels.fetch(server.randomfloodChannelId);
+
+  channel.send({ content: tLink });
+}
 
 export const initTwitter = async (client) => {
   const twitter = client.twitter;
@@ -75,7 +116,7 @@ export const initTwitter = async (client) => {
   stream.on(
     // Emitted when a Twitter payload (a tweet or not, given the endpoint).
     ETwitterStreamEvent.Data,
-    eventData => console.log('Twitter has sent something:', eventData),
+    (eventData) => tweetHandler(eventData, client),
   );
 
   stream.on(
