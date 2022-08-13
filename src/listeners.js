@@ -18,7 +18,7 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 
 // jsons imports
 import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
@@ -45,6 +45,7 @@ export const onPrivateMessage = async (message, client) => {
 
 export const onPublicMessage = (message, client, currentServer, self) => {
   const { author, content, channel } = message;
+
   if (
     author.id === self || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
@@ -110,6 +111,8 @@ export const onRemoveSpotifyReaction = async (
   }
 };
 
+// Partial ADMIN
+
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
   const { channel } = messageReaction.message;
@@ -123,10 +126,11 @@ export const onReactionAdd = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id) {
-    //if role reaction, handle it. No spotify or reminder.
-    await roleAdd(messageReaction, currentServer, user);
-    return
+  if (
+    currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
+  ) {
+    roleAdd(messageReaction, currentServer, user);
+    return;
   }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
@@ -139,7 +143,7 @@ export const onReactionRemove = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+  if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
   };
 
