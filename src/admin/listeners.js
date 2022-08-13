@@ -94,6 +94,7 @@ export const onInteractionCreate = (interaction) => {
   }
 };
 
+
 export const onChannelCreate = async (channel) => {
   if (channel.type === "DM") return;
 

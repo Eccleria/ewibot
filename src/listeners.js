@@ -180,16 +180,3 @@ export const onReactionRemove = async (messageReaction, user) => {
   if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
 };
-
-export const onInteractionCreate = async (interaction) => {
-  if (!interaction.isCommand()) return; //if not a command, return
-
-  const client = interaction.client; //get client
-  const slashCommands = client.slashCommands; //get commands
-
-  const foundCommand = slashCommands.find(
-    (cmd) => cmd.command.name === interaction.commandName
-  );
-
-  if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
-};
