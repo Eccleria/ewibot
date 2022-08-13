@@ -25,7 +25,6 @@ import {
 } from "./listeners.js";
 
 import {
-  onInteractionCreate,
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
