@@ -93,7 +93,7 @@ export const emojiStat = (emoteId, user, typeAR, typeReaction) => {
   else removeEmoteCount(authorId, db, emoteId, typeReaction);
 };
 
-export const wordEmoji = (message, client, type) => {
+export const wordEmojiDetection = (message, client) => {
   //get every emote occurence 
   //client: [{id:, name:}];
   const clientEmotes = client.emotes; //get client emotes
@@ -102,21 +102,20 @@ export const wordEmoji = (message, client, type) => {
 
   const words = message.content.split(" "); //get words
 
-  words.forEach(word => {
-    console.log("word", word)
-    if (word.includes("<:")) {
-      //emote parsing
-      const halfParsed = word.slice(2, -1); //remove "<:" + ">"
-      const result = halfParsed.split(":"); //[name, id]
-      const id = result[1];
-      console.log("halfParsed", halfParsed, "result", result, "id", id)
-      if (emoteIds.includes(id)) {
-        console.log("yo");
-        if (type === "add") emojiStat(id, message.author, "add");
-        else emojiStat(id, message.author);
-      }
+  const onlyEmotes = words.reduce((acc, cur) => {
+    //get only ids of emote from server
+    if (cur.includes("<:")) {
+      //if emote
+      const parsed = cur.slice(2, -1).split(":"); //[name, id]
+      const id = parsed[1]; //get id
+      if (emoteIds.includes(id)) return [...acc, id]; //if server emote, return id
     }
-  });
+    else return acc;
+  }, []);
+
+  const sortedEmotes = onlyEmotes.sort((a, b) => a - b); //sort by ids
+  console.log("wordEmojiDetection sortedEmotes", sortedEmotes);
+  return sortedEmotes;
 };
 
 export const reactionHandler = async (message, currentServer, client) => {
@@ -141,7 +140,9 @@ export const reactionHandler = async (message, currentServer, client) => {
   console.log("words", words)
 
   //handle emoji stats
-  wordEmoji(message, client, "add");
+  const foundEmotes = wordEmojiDetection(message, client);
+  if (foundEmotes.length !== 0)
+    foundEmotes.forEach((emoteId) => emojiStat(emoteId, message.author, "add"));
   
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
