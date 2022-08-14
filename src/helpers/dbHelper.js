@@ -81,6 +81,7 @@ const addStatsUser = (authorId, db) => {
       apologies: 0,
       emotes: { total: 0, react: 0, inMessage: 0, emotes: [] },
       hungry: 0,
+      message: 0,
       messageDelete: 0,
       messageUpdate: 0,
     });
