@@ -29,6 +29,7 @@ import {
   reactionHandler,
   checkIsOnThread,
   emojiInit,
+  wordEmojiDetection,
 } from "./utils.js";
 
 export {
@@ -41,6 +42,7 @@ export {
   reactionHandler,
   checkIsOnThread,
   emojiInit,
+  wordEmojiDetection,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
