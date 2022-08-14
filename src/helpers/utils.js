@@ -111,10 +111,13 @@ export const wordEmojiDetection = (message, client) => {
       if (emoteIds.includes(id)) return [...acc, id]; //if server emote, return id
     } else return acc;
   }, []);
-
-  const sortedEmotes = onlyEmotes.sort((a, b) => a - b); //sort by ids
-  console.log("wordEmojiDetection sortedEmotes", sortedEmotes);
-  return sortedEmotes;
+  console.log("onlyEmotes", onlyEmotes);
+  if (onlyEmotes.length > 1) {
+    const sortedEmotes = onlyEmotes.sort((a, b) => a - b); //sort by ids
+    console.log("wordEmojiDetection sortedEmotes", sortedEmotes);
+    return sortedEmotes;
+  }
+  return onlyEmotes
 };
 
 export const reactionHandler = async (message, currentServer, client) => {
