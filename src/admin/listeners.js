@@ -13,8 +13,7 @@ import {
 import {
   hasApology,
   sanitizePunctuation,
-  addApologyCount,
-  addMessageUpdateCount,
+  addStatData,
 } from "../helpers/index.js";
 
 import dayjs from "dayjs";
@@ -498,7 +497,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
   if (oldContent !== newContent) {
-    addMessageUpdateCount(newMessage.author.id, newMessage.client.db); //add count to db
+    addStatData(newMessage.author.id, newMessage.client.db, "messageUpdate"); //add count to db
     //check for emote change, for stats
     if (isLengthy) {
     const oLen = oldContent.length !== 0;
@@ -520,7 +519,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         const currentServer = commons.find(
           ({ guildId }) => guildId === nMessage.guildId
         ); //get commons.json data
-        addApologyCount(nMessage.author.id, db); //add data to db
+        addStatData(nMessage.author.id, db, "apologies"); //add data to db
         await nMessage.react(currentServer.panDuomReactId); //add message reaction
       }
     }
