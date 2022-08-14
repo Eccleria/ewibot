@@ -81,6 +81,7 @@ const addStatsUser = (authorId, db) => {
       apologies: 0,
       emotes: { total: 0, react: 0, inMessage: 0, emotes: [] },
       hungry: 0,
+      messageDelete: 0,
       messageUpdate: 0,
     });
     db.wasUpdated = true;
@@ -116,7 +117,7 @@ const addStatData = (authorId, db, type) => {
   if (isStatsUser(authorId, db)) {
     //If already in DB, add +1 to counter
     for (const obj of stats) {
-      if (obj.userId === authorId && obj[type]) obj[type]++;
+      if (obj.userId === authorId && obj[type] !== undefined) obj[type]++;
     }
   } else {
     //Else add user
