@@ -98,7 +98,6 @@ export const wordEmojiDetection = (message, client) => {
   //client: [{id:, name:}];
   const clientEmotes = client.emotes; //get client emotes
   const emoteIds = clientEmotes.map((obj) => obj.id); //regroup ids
-  console.log("emoteIds", emoteIds);
 
   const words = message.content.split(" "); //get words
 
@@ -111,10 +110,9 @@ export const wordEmojiDetection = (message, client) => {
       if (emoteIds.includes(id)) return [...acc, id]; //if server emote, return id
     } else return acc;
   }, []);
-  console.log("onlyEmotes", onlyEmotes);
+
   if (onlyEmotes.length > 1) {
     const sortedEmotes = onlyEmotes.sort((a, b) => a - b); //sort by ids
-    console.log("wordEmojiDetection sortedEmotes", sortedEmotes);
     return sortedEmotes;
   }
   return onlyEmotes
@@ -138,8 +136,6 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
-
-  console.log("words", words);
 
   //handle emoji stats
   const foundEmotes = wordEmojiDetection(message, client);
