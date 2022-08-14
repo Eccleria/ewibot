@@ -76,7 +76,7 @@ export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
   // {userId, stats...}
 const addStatsUser = (authorId, db) => {
   if (!isStatsUser(authorId, db)) {
-    db.data.stats.push({ userId: authorId, apologies: 0, emotes: [], hungry: 0, messageUpdate: 0 })
+    db.data.stats.push({ userId: authorId, apologies: 0, emotes: { total: 0, emotes: [] }, hungry: 0, messageUpdate: 0 })
     db.wasUpdated = true;
   }
 };
@@ -121,16 +121,19 @@ db.wasUpdated = true;
 }
 
 const addEmoteCount = (authorId, db, emoteId) => {
-  const stats = db.data.stats;
+  const stats = db.data.stats; //[{ userId, apologies, hungry, emotes }, ...]
   console.log("stats", stats)
   if (isStatsUser(authorId, db)) {
+    //if user is in db
     console.log("isStatUser")
-    //[{ userId, apologies, hungry, emotes }, ...]
     for (const obj of stats) {
       console.log("statObj", obj)
       if (obj.userId === authorId) {
-        //[{emoteId, count}]
-        const emotes = obj.emotes;
+        //find user data
+        const emotesObj = obj.emotes; //{total:, emotes: [{emoteId, count}]}
+        const emotes = emotesObj.emotes; //[{emoteId, count}]
+
+        emotesObj.total++; //add +1 to total emote count
 
         let flag = false; //check for emote presence in db
         for (const emote of emotes) {
@@ -140,12 +143,14 @@ const addEmoteCount = (authorId, db, emoteId) => {
           }
         }
         if (!flag) {
+          //if flag === true, already added
           obj.emotes.push({ emoteId: emoteId, count: 1 });
         }
       }
     }
   }
   else {
+    //not in db => add it
     addStatsUser(authorId, db);
     addEmoteCount(authorId, db, emoteId);
   }
@@ -160,15 +165,17 @@ const removeEmoteCount = (authorId, db, emoteId) => {
     //[{ userId, apologies, hungry, emotes }, ...]
     for (const obj of stats) {
       if (obj.userId === authorId) {
-        //[{emoteId, count}]
-        const emotes = obj.emotes;
+        const emotesObj = obj.emotes; //{total:, emotes: [{emoteId, count}]}
+        const emotes = emotesObj.emotes; //[{emoteId, count}]
 
+        emotesObj.total--; //remove 1 to total emote count
         //check for emote presence in db
         for (const emote of emotes) {
           if (emote.emoteId === emoteId) {
             emote.count--; //if in db, remove count
             db.wasUpdated = true;
           }
+          //if not in db, nothing to do
         }
       }
     }
