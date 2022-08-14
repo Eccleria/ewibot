@@ -146,7 +146,7 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
         }
         if (!flag) {
           //if flag === true, already added
-          obj.emotes.push({ emoteId: emoteId, count: 1 });
+          emotes.push({ emoteId: emoteId, count: 1 });
         }
         db.wasUpdated = true;
       }
