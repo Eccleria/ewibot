@@ -154,7 +154,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server
-    emojiStat(emote.id, user, "add");
+    emojiStat(emote.id, user, "add", "react");
     return
   }
 

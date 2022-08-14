@@ -81,15 +81,16 @@ export const hasApology = (sanitizedContent) => {
  * Dispatch data to add/removeEmoteCount.
  * @param {string} emoteId The emoji id.
  * @param {object} user The user object that used this emote.
- * @param {string} [type] "add for adding data, nothing for remove.
+ * @param {string} [typeAR] "add" for adding data, nothing for remove.
+ * @param {string} [typeReaction] "react" for reaction, null for inMessage emote.
  */
-export const emojiStat = (emoteId, user, type) => {
+export const emojiStat = (emoteId, user, typeAR, typeReaction) => {
   const client = user.client;
   const db = client.db;
   const authorId = user.id;
 
-  if (type === "add") addEmoteCount(authorId, db, emoteId);
-  else removeEmoteCount(authorId, db, emoteId);
+  if (typeAR === "add") addEmoteCount(authorId, db, emoteId, typeReaction);
+  else removeEmoteCount(authorId, db, emoteId, typeReaction);
 }
 
 export const reactionHandler = async (message, currentServer, client) => {
@@ -119,6 +120,7 @@ export const reactionHandler = async (message, currentServer, client) => {
   const emoteIds = clientEmotes.map((obj) => obj.id); //regroup ids
   console.log("emoteIds", emoteIds)
   words.forEach(word => {
+    console.log("word", word)
     if (word.includes("<:")) {
       //emote parsing
       const halfParsed = word.slice(2, -1); //remove "<:" + ">"
