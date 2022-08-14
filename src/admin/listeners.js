@@ -385,6 +385,24 @@ export const onMessageDelete = async (message) => {
   let content = message.content ? message.content : messageDel.note;
   const gifs = gifRecovery(content);
 
+  //handle emotes in message
+  const foundEmotes = wordEmojiDetection(message, message.client);
+  if (foundEmotes.length !== 0)
+    foundEmotes.forEach((emoteId) => emojiStat(emoteId, message.author));
+
+  //handle emotes in reactions
+  const messageReaction = message.reactions.cache;
+  console.log("messageReaction", messageReaction.cache);
+
+  messageReaction.forEach((msgR) => {
+    console.log("msgR", msgR);
+    const emoteId = msgR.emoji.id; //get emoji id
+    const users = msgR.users.cache; //get users
+    users.forEach((user) => {
+      emojiStat(emoteId, user, null, "react");
+    })
+  });
+
   //if no AuditLog
   if (!deletionLog) {
     await finishEmbed(
