@@ -152,15 +152,18 @@ export const onReactionAdd = async (messageReaction, user) => {
 
   const emote = messageReaction.emoji; //get emote
   const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
-  if (emoteGuild && currentServer.guildId === emoteGuild.id) //if is server emote
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) {
+    //if is a guildEmote and belongs to current server
     emojiStat(emote.id, user, "add");
+    return
+  }
 
   if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    await roleAdd(messageReaction, currentServer, user);
+    await roleAdd(messageReaction, currentServer, user); //handle cosmetic role attribution
 
-  onRemoveSpotifyReaction(messageReaction, currentServer);
+  onRemoveSpotifyReaction(messageReaction, currentServer); //handle spotify related emote
 
-  onRemoveReminderReaction(messageReaction, currentServer);
+  onRemoveReminderReaction(messageReaction, currentServer); //handle reminder related emote
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
@@ -173,9 +176,8 @@ export const onReactionRemove = async (messageReaction, user) => {
 
   const emote = messageReaction.emoji; //get emote
   const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
-  if (emoteGuild && currentServer.guildId === emoteGuild.id) //if is server emote
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) //if is a guildEmote and belongs to current server
     emojiStat(emote.id, user);
-
 };
 
 export const onEmojiCreate = (guildEmoji) => {
@@ -184,8 +186,8 @@ export const onEmojiCreate = (guildEmoji) => {
   const { id, name } = guildEmoji; //get emote data
 
   //if client.emotes, add data. Else init client.
-  if (emotes.length !== 0) client.emotes = [...emotes, { id: id, name: name }];
-  else client.emotes = { id: id, name: name };
+  if (emotes.length !== 0) client.emotes = [...emotes, { id: id, name: name }]; //add new emote
+  else client.emotes = [{ id: id, name: name }]; //init client with emote
   console.log("onEmojiCreate client", client.emotes);
 };
 
@@ -218,8 +220,8 @@ export const onEmojiUpdate = (oldEmoji, newEmoji) => {
   //same id, different name
   if (!hasIdChanged && hasNameChanged) {
     //update client
-    const foundIdx = client.emotes.findIndex((emoji) => emoji.id === oldId);
-    if (foundIdx !== -1) client.emotes[foundIdx].name = newName;
+    const foundIdx = client.emotes.findIndex((emoji) => emoji.id === oldId); //get oldEmoji index in client
+    if (foundIdx !== -1) client.emotes[foundIdx].name = newName; //if found, update data
   }
   console.log("onEmojiUpdate", client.emotes)
 };
