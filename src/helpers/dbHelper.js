@@ -148,6 +148,7 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
           //if flag === true, already added
           obj.emotes.push({ emoteId: emoteId, count: 1 });
         }
+        db.wasUpdated = true;
       }
     }
   }
@@ -156,7 +157,6 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
     addStatsUser(authorId, db);
     addEmoteCount(authorId, db, emoteId);
   }
-  db.wasUpdated = true;
 };
 
 const removeEmoteCount = (authorId, db, emoteId, type) => {
