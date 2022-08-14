@@ -91,7 +91,33 @@ export const emojiStat = (emoteId, user, typeAR, typeReaction) => {
 
   if (typeAR === "add") addEmoteCount(authorId, db, emoteId, typeReaction);
   else removeEmoteCount(authorId, db, emoteId, typeReaction);
-}
+};
+
+export const wordEmoji = (message, client, type) => {
+  //get every emote occurence 
+  //client: [{id:, name:}];
+  const clientEmotes = client.emotes; //get client emotes
+  const emoteIds = clientEmotes.map((obj) => obj.id); //regroup ids
+  console.log("emoteIds", emoteIds)
+
+  const words = message.content.split(" "); //get words
+
+  words.forEach(word => {
+    console.log("word", word)
+    if (word.includes("<:")) {
+      //emote parsing
+      const halfParsed = word.slice(2, -1); //remove "<:" + ">"
+      const result = halfParsed.split(":"); //[name, id]
+      const id = result[1];
+      console.log("halfParsed", halfParsed, "result", result, "id", id)
+      if (emoteIds.includes(id)) {
+        console.log("yo");
+        if (type === "add") emojiStat(id, message.author, "add");
+        else emojiStat(id, message.author);
+      }
+    }
+  });
+};
 
 export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
@@ -114,25 +140,8 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   console.log("words", words)
 
-  //get every emote occurence 
-  //client: [{id:, name:}];
-  const clientEmotes = client.emotes; //get client emotes
-  const emoteIds = clientEmotes.map((obj) => obj.id); //regroup ids
-  console.log("emoteIds", emoteIds)
-  words.forEach(word => {
-    console.log("word", word)
-    if (word.includes("<:")) {
-      //emote parsing
-      const halfParsed = word.slice(2, -1); //remove "<:" + ">"
-      const result = halfParsed.split(":"); //[name, id]
-      const id = result[1];
-      console.log("halfParsed", halfParsed, "result", result, "id", id)
-      if (emoteIds.includes(id)) {
-        console.log("yo");
-        emojiStat(id, message.author, "add");
-      }
-    }
-  });
+  //handle emoji stats
+  wordEmoji(message, client, "add");
   
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
