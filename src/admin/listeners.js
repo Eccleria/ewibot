@@ -500,21 +500,27 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
   if (oldContent !== newContent) {
     //add messageUpdate count to db
-    addStatData(newMessage.author.id, newMessage.client.db, "messageUpdate"); 
+    addStatData(newMessage.author.id, newMessage.client.db, "messageUpdate");
 
     //check for emote change, for stats
     const oFoundEmotes = wordEmojiDetection(oMessage, oMessage.client);
     const nFoundEmotes = wordEmojiDetection(nMessage, nMessage.client);
 
-    const isIdentical = oFoundEmotes.every((id, idx) => id === nFoundEmotes[idx]);
+    const isIdentical = oFoundEmotes.every(
+      (id, idx) => id === nFoundEmotes[idx]
+    );
     if (!isIdentical) {
       //if anything to change
 
-      const modifs = oFoundEmotes.reduce((acc, cur, idx) => {
-        const nEmote = nFoundEmotes[idx]
-        if (nEmote && cur !== nEmote) return { add: [...acc.add, nEmote], rem: [...acc.rem, cur] };
-        else return acc;
-      }, { add: [], rem: [] }); //compare both emotes lists, return differences
+      const modifs = oFoundEmotes.reduce(
+        (acc, cur, idx) => {
+          const nEmote = nFoundEmotes[idx];
+          if (nEmote && cur !== nEmote)
+            return { add: [...acc.add, nEmote], rem: [...acc.rem, cur] };
+          else return acc;
+        },
+        { add: [], rem: [] }
+      ); //compare both emotes lists, return differences
       console.log("modifs", modifs);
 
       const { add, rem } = modifs; //get add and rem emotes lists
@@ -533,13 +539,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       const oLen = oldContent.length !== 0;
       const nLen = newContent.length !== 0;
 
-      if (oLen)
-        embed.addField(messageU.contentOld, oldContent); //to not add empty strings
-      if (nLen)
-        embed.addField(messageU.contentNew, newContent);
+      if (oLen) embed.addField(messageU.contentOld, oldContent); //to not add empty strings
+      if (nLen) embed.addField(messageU.contentNew, newContent);
 
       if (oLen && nLen) {
-      //check for apology
+        //check for apology
         const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
         const nSanitized = sanitizePunctuation(newContent.toLowerCase());
 

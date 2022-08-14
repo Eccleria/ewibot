@@ -72,9 +72,9 @@ export const hasApology = (sanitizedContent) => {
       .split(" ")[0]; //split words and get the first
 
     //verify correspondance between trigerring & full word for error mitigation
-    if (apologyResult[0] === wordFound) return true
+    if (apologyResult[0] === wordFound) return true;
   }
-  return false
+  return false;
 };
 
 /**
@@ -94,11 +94,11 @@ export const emojiStat = (emoteId, user, typeAR, typeReaction) => {
 };
 
 export const wordEmojiDetection = (message, client) => {
-  //get every emote occurence 
+  //get every emote occurence
   //client: [{id:, name:}];
   const clientEmotes = client.emotes; //get client emotes
   const emoteIds = clientEmotes.map((obj) => obj.id); //regroup ids
-  console.log("emoteIds", emoteIds)
+  console.log("emoteIds", emoteIds);
 
   const words = message.content.split(" "); //get words
 
@@ -109,8 +109,7 @@ export const wordEmojiDetection = (message, client) => {
       const parsed = cur.slice(2, -1).split(":"); //[name, id]
       const id = parsed[1]; //get id
       if (emoteIds.includes(id)) return [...acc, id]; //if server emote, return id
-    }
-    else return acc;
+    } else return acc;
   }, []);
 
   const sortedEmotes = onlyEmotes.sort((a, b) => a - b); //sort by ids
@@ -130,20 +129,20 @@ export const reactionHandler = async (message, currentServer, client) => {
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
 
   if (hasApology(sanitizedContent)) {
-      addStatData(authorId, db, "apology"); //add data to db
-      await message.react(currentServer.panDuomReactId); //add message reaction
+    addStatData(authorId, db, "apology"); //add data to db
+    await message.react(currentServer.panDuomReactId); //add message reaction
   }
 
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
-  console.log("words", words)
+  console.log("words", words);
 
   //handle emoji stats
   const foundEmotes = wordEmojiDetection(message, client);
   if (foundEmotes.length !== 0)
     foundEmotes.forEach((emoteId) => emojiStat(emoteId, message.author, "add"));
-  
+
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
   //Ewibot wave to user
@@ -216,7 +215,7 @@ export const emojiInit = async (client, commons) => {
 
   const toClient = emotes.reduce((acc, cur) => {
     return [...acc, { id: cur.id, name: cur.name }];
-  }, []) //stored as [{id:, name:}];
-  console.log("toClient", toClient)
+  }, []); //stored as [{id:, name:}];
+  console.log("toClient", toClient);
   client.emotes = toClient;
-}
+};

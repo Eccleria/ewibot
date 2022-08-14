@@ -72,26 +72,32 @@ const isIgnoredUser = (authorId, db) => {
 
 export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
 
-  //STATS
-  // {userId, stats...}
+//STATS
+// {userId, stats...}
 const addStatsUser = (authorId, db) => {
   if (!isStatsUser(authorId, db)) {
-    db.data.stats.push({ userId: authorId, apologies: 0, emotes: { total: 0, react: 0, inMessage:0, emotes: [] }, hungry: 0, messageUpdate: 0 })
+    db.data.stats.push({
+      userId: authorId,
+      apologies: 0,
+      emotes: { total: 0, react: 0, inMessage: 0, emotes: [] },
+      hungry: 0,
+      messageUpdate: 0,
+    });
     db.wasUpdated = true;
   }
 };
 
 const isStatsUser = (authorId, db) => {
-  return db.data.stats.map((obj) => {
-    return obj.userId;
-  }).includes(authorId)
-}
+  return db.data.stats
+    .map((obj) => {
+      return obj.userId;
+    })
+    .includes(authorId);
+};
 
 const removeStatsUser = (authorId, db) => {
   if (isStatsUser(authorId, db)) {
-    db.data.stats = db.data.stats.filter(
-      (cur) => cur.userId !== authorId
-    );
+    db.data.stats = db.data.stats.filter((cur) => cur.userId !== authorId);
     db.wasUpdated = true;
   }
 };
@@ -99,35 +105,35 @@ const removeStatsUser = (authorId, db) => {
 export { addStatsUser, removeStatsUser };
 
 /**
-* Recursive function adding +1 to one user in its database stats values.
-* @param {string} authorId User id.
-* @param {any} db Client database.
-* @param {string} type Type of the data to add eg. apology, hungry...
-*/
+ * Recursive function adding +1 to one user in its database stats values.
+ * @param {string} authorId User id.
+ * @param {any} db Client database.
+ * @param {string} type Type of the data to add eg. apology, hungry...
+ */
 const addStatData = (authorId, db, type) => {
   const { stats } = db.data;
 
   if (isStatsUser(authorId, db)) {
     //If already in DB, add +1 to counter
     for (const obj of stats) {
-      if (obj.userId === authorId && obj[type]) obj[type]++
+      if (obj.userId === authorId && obj[type]) obj[type]++;
     }
   } else {
     //Else add user
     addStatsUser(authorId, db); //add to db
     addStatData(authorId, db, type); //add 1 to counter
   }
-db.wasUpdated = true;
-}
+  db.wasUpdated = true;
+};
 
 const addEmoteCount = (authorId, db, emoteId, type) => {
   const stats = db.data.stats; //[{ userId, apologies, hungry, emotes }, ...]
-  console.log("stats", stats)
+  console.log("stats", stats);
   if (isStatsUser(authorId, db)) {
     //if user is in db
-    console.log("isStatUser")
+    console.log("isStatUser");
     for (const obj of stats) {
-      console.log("statObj", obj)
+      console.log("statObj", obj);
       if (obj.userId === authorId) {
         //find user data
         const emotesObj = obj.emotes; //{total:, emotes: [{emoteId, count}]}
@@ -151,8 +157,7 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
         db.wasUpdated = true;
       }
     }
-  }
-  else {
+  } else {
     //not in db => add it
     addStatsUser(authorId, db);
     addEmoteCount(authorId, db, emoteId);
@@ -161,9 +166,9 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
 
 const removeEmoteCount = (authorId, db, emoteId, type) => {
   const stats = db.data.stats;
-  console.log("stats", stats)
+  console.log("stats", stats);
   if (isStatsUser(authorId, db)) {
-    console.log("isStatUser")
+    console.log("isStatUser");
     //[{ userId, apologies, hungry, emotes }, ...]
     for (const obj of stats) {
       if (obj.userId === authorId) {

@@ -5,7 +5,6 @@ import { PERSONALITY } from "../personality.js";
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
-
 /**
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
@@ -431,7 +430,6 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
     }
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
-
 
   finishEmbed(roleUp, logPerso.noLog, embed, logChannel, orderText); //send embed
 
