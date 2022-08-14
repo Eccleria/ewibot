@@ -351,6 +351,9 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
+  if (message.author && message.author.id)
+    addStatData(message.author.id, message.client.db, "messageDelete");
+
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
@@ -394,7 +397,7 @@ export const onMessageDelete = async (message) => {
   const messageReaction = message.reactions.cache;
   console.log("messageReaction", messageReaction.cache);
 
-  messageReaction.forEach((msgR) => {
+  if (messageReaction) messageReaction.forEach((msgR) => {
     console.log("msgR", msgR);
     const emoteId = msgR.emoji.id; //get emoji id
     const users = msgR.users.cache; //get users
