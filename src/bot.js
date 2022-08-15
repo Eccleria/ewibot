@@ -25,7 +25,9 @@ import {
   onReactionAdd,
   onReactionRemove,
 } from "./listeners.js";
+
 import {
+  onInteractionCreate,
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
@@ -151,10 +153,14 @@ client.once("ready", async () => {
   roleInit(client, commons);
   emojiInit(client, commons);
 });
+// Create an event listener for messages
 
 client.on("messageCreate", onMessageHandler);
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
+
+// buttons/modals in messages
+client.on("interactionCreate", onInteractionCreate);
 
 // LOGS
 client.on("messageDelete", onMessageDelete);

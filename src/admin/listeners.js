@@ -1,3 +1,5 @@
+import { buttonHandler } from "./pronouns.js";
+
 import { PERSONALITY } from "../personality.js";
 import {
   fetchAuditLog,
@@ -25,6 +27,11 @@ import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 //LISTENERS
+
+export const onInteractionCreate = (interaction) => {
+  //console.log(interaction);
+  if (interaction.isButton()) buttonHandler(interaction);
+};
 
 export const onChannelCreate = async (channel) => {
   if (channel.type === "DM") return;

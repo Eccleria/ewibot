@@ -17,6 +17,7 @@ import birthday from "./birthday.js";
 import concrete from "./concrete.js";
 import spotify from "./spotify.js";
 import stats from "./stats.js";
+import pronouns from "./pronouns.js";
 import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
@@ -130,6 +131,7 @@ const commands =
         helloWorld,
         ignore,
         ignoreChannel,
+        pronouns,
         reminder,
         roll,
         spotify,
@@ -141,6 +143,7 @@ const commands =
         helloWorld,
         ignore,
         ignoreChannel,
+        pronouns,
         reminder,
         roll,
         stats,

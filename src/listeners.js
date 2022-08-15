@@ -158,8 +158,13 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    await roleAdd(messageReaction, currentServer, user); //handle cosmetic role attribution
+  if (
+    currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
+  ) {
+    //handle cosmetic role attribution
+    roleAdd(messageReaction, currentServer, user); 
+    return;
+  }
 
   onRemoveSpotifyReaction(messageReaction, currentServer); //handle spotify related emote
 
@@ -171,7 +176,7 @@ export const onReactionRemove = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+  if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
 
   const emote = messageReaction.emoji; //get emote
