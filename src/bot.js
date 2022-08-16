@@ -49,12 +49,8 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 import {
-  /*fetchUserProfile,
-  fetchUserTimeline,
-  setupTwitterEmbed,*/
-  //tweetLink,
+  /*fetchUserProfile,*/
   initTwitter,
-  fetchTweets,
 } from "./admin/twitter.js";
 
 // DB
@@ -162,9 +158,13 @@ client.once("ready", async () => {
   client.twitter = twitter; //save twitter into client
 
   initTwitter(client); //init Twitter comm with API
+  /*
   const tweet = await fetchTweets(client, "1371839010755207176");
+  const user = await twitter.userByUsername("eccleria");
+
+  console.log("user", user);
   console.log("tweet", tweet);
-  console.log("includes", tweet.includes);
+  console.log("includes", tweet.includes);*/
 });
 
 client.on("messageCreate", onMessageHandler);
