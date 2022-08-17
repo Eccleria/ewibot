@@ -57,14 +57,13 @@ const tweetHandler = async (tweet, client) => {
   //get author username
   const userProfile = await fetchUserProfile(client, authorId);
   const username = userProfile.data.username;
-  console.log("authorId", authorId);
-  console.log("username", username);
-  const tLink = tweetLink(username, tweetId);
-  console.log("tLink", tLink);
+
+
+  const tLink = tweetLink(username, tweetId); //create tweet url
 
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  ); //get commons data
   const channel = await client.channels.fetch(server.randomfloodChannelId);
 
   channel.send({ content: tLink });
@@ -128,8 +127,8 @@ export const initTwitter = async (client) => {
 Twitter has sent something: {
   data: {
     author_id: '1511087619215609862',
-      id: '1559653598266523649',
-        text: 'On teste le code'
+    id: '1559653598266523649',
+    text: 'On teste le code'
   },
   includes: { users: [[Object]] },
   matching_rules: [{ id: '1559652578438402048', tag: 'test' }]
