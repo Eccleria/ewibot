@@ -89,7 +89,6 @@ export const initTwitter = async (client) => {
   })); //(laquetedewilan OR andarta) without retweets
   //rule id : prod "1559573815042129924", test "1559573815042129925"
   */
-
   const rules = await twitter.streamRules();
   console.log("rules", rules);
 
@@ -120,4 +119,24 @@ export const initTwitter = async (client) => {
 
   // Enable reconnect feature
   stream.autoReconnect = true;
+};
+
+/*
+Twitter has sent something: {
+  data: {
+    author_id: '1511087619215609862',
+      id: '1559653598266523649',
+        text: 'On teste le code'
+  },
+  includes: { users: [[Object]] },
+  matching_rules: [{ id: '1559652578438402048', tag: 'test' }]
 }
+includes {
+  users: [
+    {
+      id: '1511087619215609862',
+      name: 'Eccléria Alesta',
+      username: 'eccleria'
+    }
+  ]
+}*/
