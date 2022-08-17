@@ -146,8 +146,12 @@ export const onReactionAdd = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    await roleAdd(messageReaction, currentServer, user);
+  if (
+    currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
+  ) {
+    roleAdd(messageReaction, currentServer, user);
+    return;
+  }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
 
@@ -159,6 +163,6 @@ export const onReactionRemove = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+  if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
 };
