@@ -77,20 +77,23 @@ export const initTwitter = async (client) => {
   /*
   console.log("delete rules result", await twitter.updateStreamRules({
     delete: {
-      ids: ["1559573815042129925"],
+      ids: ["1559652578438402048"],
     },
   }));
-  
+  */
+  /*
   console.log("add rules", await twitter.updateStreamRules({
     add: [
-      { value: "(from:1032989926000939008 OR from:1039418011260727296) -is:retweet", tag: "prod" },
-      { value: "(from:1511087619215609862 OR from:1039418011260727296) -is:retweet", tag: "test" }
+      //{ value: "(from:1032989926000939008 OR from:1039418011260727296) -is:retweet", tag: "prod" },
+      { value: "from:1511087619215609862 -is:retweet", tag: "test" }
     ]
   })); //(laquetedewilan OR andarta) without retweets
-  //rule id : prod "1559573815042129924", test "1559573815042129925"
+  //rule id : prod "1559573815042129924", test "1559905656416747521"
   */
+  /*
   const rules = await twitter.streamRules();
   console.log("rules", rules);
+  */
 
   // Awaits for a tweet
   stream.on(
