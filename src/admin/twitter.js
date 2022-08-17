@@ -117,13 +117,13 @@ export const initTwitter = async (client) => {
     ETwitterStreamEvent.Data,
     (eventData) => tweetHandler(eventData, client),
   );
-
+  /*
   stream.on(
     // Emitted when a Twitter sent a signal to maintain connection active
     ETwitterStreamEvent.DataKeepAlive,
     () => console.log('Twitter has a keep-alive packet.'),
   );
-
+  */
   // Enable reconnect feature
   stream.autoReconnect = true;
 };
