@@ -58,13 +58,18 @@ const tweetHandler = async (tweet, client) => {
   const userProfile = await fetchUserProfile(client, authorId);
   const username = userProfile.data.username;
 
-
   const tLink = tweetLink(username, tweetId); //create tweet url
 
+  //get rules tag;
+  const tag = tweet.matching_rules[0].tag;
+
+  //get tag corresponding channel
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   ); //get commons data
-  const channel = await client.channels.fetch(server.randomfloodChannelId);
+  const channelId = tag === "test" ? server.twitter.testChannelId : server.twitter.prodChannelId;
+
+  const channel = await client.channels.fetch(channelId);
 
   channel.send({ content: tLink });
 }
