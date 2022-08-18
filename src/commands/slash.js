@@ -1,6 +1,15 @@
 import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v9";
+import { ChannelType, Routes } from "discord-api-types/v9";
 import { SlashCommandBuilder } from "@discordjs/builders";
+
+import {
+  //dbHelper
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredChannel,
+  //utils
+  //isAdmin,
+} from "../helpers/index.js";
 
 import { PERSONALITY } from "../personality.js";
 
@@ -72,7 +81,48 @@ const roll = {
   },
 };
 
-const helpCommands = [ping, roll];
+const ignoreChannel = {
+  command: new SlashCommandBuilder()
+    .setName("ignorechannel")
+    .setDescription("Ewibot ignore ou non le channel.")
+    .setDefaultMemberPermissions("0")
+    .addChannelOption((option) =>
+      option
+        .setName("salon")
+        .setDescription("Salon concerné")
+        .setRequired(false)
+        .addChannelTypes(ChannelType.GuildText)
+    ),
+  action: (interaction) => {
+    const db = interaction.client.db;
+    const ignoredChannel =
+      interaction.options.getChannel("salon") || interaction.channel;
+    const ignoredChannelId = ignoredChannel.id;
+    if (isIgnoredChannel(db, ignoredChannelId)) {
+      removeIgnoredChannel(db, ignoredChannelId);
+      interaction.reply({
+        content: personality.ignoreChannel.notIgnored +
+          `<#${ignoredChannelId}>.`,
+        ephemeral: true
+      });
+    } else {
+      addIgnoredChannel(db, ignoredChannelId);
+      interaction.reply({
+        content: personality.ignoreChannel.ignored +
+          `<#${ignoredChannelId}>.`,
+        ephemeral: true
+      });
+    }
+  },
+  help: (interaction) => {
+    interaction.reply({
+      content: personality.ignoreChannel.help,
+      ephemeral: true,
+    });
+  },
+};
+
+const helpCommands = [ignoreChannel, ping, roll];
 const helpOptions = helpCommands.reduce((acc, cur) => {
   const cmd = cur.command;
   return [...acc, { name: cmd.name, value: cmd.name }];
