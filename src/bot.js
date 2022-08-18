@@ -28,10 +28,10 @@ import {
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
-  onInteractionCreate,
 } from "./listeners.js";
 
 import {
+  onInteractionCreate,
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,
