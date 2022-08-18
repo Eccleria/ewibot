@@ -66,9 +66,9 @@ export const hasApology = (sanitizedContent) => {
       .split(" ")[0]; //split words and get the first
 
     //verify correspondance between trigerring & full word for error mitigation
-    if (apologyResult[0] === wordFound) return true
+    if (apologyResult[0] === wordFound) return true;
   }
-  return false
+  return false;
 };
 
 export const reactionHandler = async (message, currentServer, client) => {
@@ -83,8 +83,8 @@ export const reactionHandler = async (message, currentServer, client) => {
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
 
   if (hasApology(sanitizedContent)) {
-      addApologyCount(authorId, db); //add data to db
-      await message.react(currentServer.panDuomReactId); //add message reaction
+    addApologyCount(authorId, db); //add data to db
+    await message.react(currentServer.panDuomReactId); //add message reaction
   }
 
   const words = loweredContent.split(" ");

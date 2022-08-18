@@ -29,7 +29,7 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 export const onInteractionCreate = async (interaction) => {
   if (interaction.isButton()) {
     buttonHandler(interaction);
-    return
+    return;
   }
 
   if (!interaction.isCommand()) return; //if not a command, return
@@ -44,7 +44,6 @@ export const onInteractionCreate = async (interaction) => {
 
   if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
 };
-
 
 export const onChannelCreate = async (channel) => {
   if (channel.type === "DM") return;

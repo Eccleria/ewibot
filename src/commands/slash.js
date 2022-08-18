@@ -2,7 +2,6 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-
 import { PERSONALITY } from "../personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
@@ -48,25 +47,30 @@ const roll = {
     if (dice && faces) {
       //if enough args
       const dicesArray = Array.from(new Array(dice)); //create an array with enough dices
-      const { total, details } = dicesArray.reduce((acc) => {
-            const value = Math.round((faces - 1) * Math.random()) + 1;
-            return {
-                total: acc.total + value,
-                details: [...acc.details, value],
-              };
-          }, { total: 0, details: [] }
-        ); //compute total + each dices values
-      
-      await interaction.reply({ content: `${total} (${details.join(", ")})`, ephemeral: true });
-      }
-    },
+      const { total, details } = dicesArray.reduce(
+        (acc) => {
+          const value = Math.round((faces - 1) * Math.random()) + 1;
+          return {
+            total: acc.total + value,
+            details: [...acc.details, value],
+          };
+        },
+        { total: 0, details: [] }
+      ); //compute total + each dices values
+
+      await interaction.reply({
+        content: `${total} (${details.join(", ")})`,
+        ephemeral: true,
+      });
+    }
+  },
   help: (interaction) => {
     interaction.reply({
       content: personality.helloWorld.help,
       ephemeral: true,
     });
   },
-}
+};
 
 const helpCommands = [ping, roll];
 const helpOptions = helpCommands.reduce((acc, cur) => {
