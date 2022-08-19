@@ -86,8 +86,9 @@ const ignore = {
     const db = interaction.client.db;
     const authorId = interaction.member.id;
     const iPerso = personality.ignore;
+
     //check for command argument
-    if (isIgnoredUser(authorId)) {
+    if (isIgnoredUser(authorId, db)) {
       removeIgnoredUser(authorId, db);
       interactionReply(interaction, iPerso.notIgnored);
     } else {
