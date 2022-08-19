@@ -75,12 +75,12 @@ const command = new SlashCommandBuilder()
   .addSubcommand((subcommand) =>
     subcommand
       .setName("retirer")
-      .setDescription("Retirer votre date de naissance")
+      .setDescription("Retirer votre date de naissance.")
   )
   .addSubcommand((subcommand) =>
     subcommand
       .setName("voir")
-      .setDescription("Voir votre date d'anniverssaire enregistrée.")
+      .setDescription("Voir votre date d'anniversaire enregistrée.")
   );
 
 const action = async (interaction) => {
