@@ -98,13 +98,13 @@ const ignore = {
       interaction.reply({
         content: personality.ignore.notIgnored,
         ephemeral: true,
-      })
+      });
     } else {
       addIgnoredUser(authorId, db);
       interaction.reply({
         content: personality.ignore.ignored,
         ephemeral: true,
-      })
+      });
     }
   },
   help: (interaction) => {
@@ -136,16 +136,15 @@ const ignoreChannel = {
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
       interaction.reply({
-        content: personality.ignoreChannel.notIgnored +
-          `<#${ignoredChannelId}>.`,
-        ephemeral: true
+        content:
+          personality.ignoreChannel.notIgnored + `<#${ignoredChannelId}>.`,
+        ephemeral: true,
       });
     } else {
       addIgnoredChannel(db, ignoredChannelId);
       interaction.reply({
-        content: personality.ignoreChannel.ignored +
-          `<#${ignoredChannelId}>.`,
-        ephemeral: true
+        content: personality.ignoreChannel.ignored + `<#${ignoredChannelId}>.`,
+        ephemeral: true,
       });
     }
   },
