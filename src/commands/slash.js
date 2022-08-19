@@ -13,6 +13,9 @@ import {
   //utils
   //isAdmin,
 } from "../helpers/index.js";
+import {
+  interactionReply,
+} from "./utils.js"
 
 import { PERSONALITY } from "../personality.js";
 
@@ -26,10 +29,7 @@ const ping = {
     interaction.reply(personality.helloWorld.pong);
   },
   help: (interaction) => {
-    interaction.reply({
-      content: personality.helloWorld.help,
-      ephemeral: true,
-    });
+    interactionReply(interaction, personality.helloWorld.help);
   },
 };
 
@@ -70,48 +70,33 @@ const roll = {
         { total: 0, details: [] }
       ); //compute total + each dices values
 
-      await interaction.reply({
-        content: `${total} (${details.join(", ")})`,
-        ephemeral: true,
-      });
+      interactionReply(interaction, `${total} (${details.join(", ")})`);
     }
   },
   help: (interaction) => {
-    interaction.reply({
-      content: personality.helloWorld.help,
-      ephemeral: true,
-    });
+    interactionReply(interaction, personality.helloWorld.help);
   },
 };
 
 const ignore = {
   command: new SlashCommandBuilder()
     .setName("ignore")
-    .setDescription("Lancer de dés"),
+    .setDescription("Permet de choisir si Ewibot réagira à vos messages ou non."),
   action: (interaction) => {
     const db = interaction.client.db;
     const authorId = interaction.member.id;
-
+    const iPerso = personality.ignore;
     //check for command argument
     if (isIgnoredUser(authorId)) {
       removeIgnoredUser(authorId, db);
-      interaction.reply({
-        content: personality.ignore.notIgnored,
-        ephemeral: true,
-      });
+      interactionReply(interaction, iPerso.notIgnored);
     } else {
       addIgnoredUser(authorId, db);
-      interaction.reply({
-        content: personality.ignore.ignored,
-        ephemeral: true,
-      });
+      interactionReply(interaction, iPerso.ignored);
     }
   },
   help: (interaction) => {
-    interaction.reply({
-      content: personality.ignore.help,
-      ephemeral: true,
-    });
+    interactionReply(interaction, personality.ignore.help);
   },
   admin: false,
 };
@@ -135,24 +120,16 @@ const ignoreChannel = {
     const ignoredChannelId = ignoredChannel.id;
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
-      interaction.reply({
-        content:
-          personality.ignoreChannel.notIgnored + `<#${ignoredChannelId}>.`,
-        ephemeral: true,
-      });
+      const content = personality.ignoreChannel.notIgnored + `<#${ignoredChannelId}>.`;
+      interactionReply(interaction, content)
     } else {
       addIgnoredChannel(db, ignoredChannelId);
-      interaction.reply({
-        content: personality.ignoreChannel.ignored + `<#${ignoredChannelId}>.`,
-        ephemeral: true,
-      });
+      const content = personality.ignoreChannel.ignored + `<#${ignoredChannelId}>.`;
+      interactionReply(interaction, content)
     }
   },
   help: (interaction) => {
-    interaction.reply({
-      content: personality.ignoreChannel.help,
-      ephemeral: true,
-    });
+    interactionReply(interaction, personality.ignoreChannel.help);
   },
 };
 
