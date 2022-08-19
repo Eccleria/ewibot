@@ -20,17 +20,16 @@ const personality = PERSONALITY.getCommands().concrete;
 //COMMAND
 const command = new SlashCommandBuilder()
   .setName("concrete")
-  .setDescription("Choissisez qui vous souhaitez bétonner.")
+  .setDescription("Choissisez qui vous souhaitez bï¿½tonner.")
   .addUserOption((option) =>
-    option
-      .setName("cible")
-      .setDescription("Le membre visé.")
-      .setRequired(true))
-  .addBooleanOption((option) => 
+    option.setName("cible").setDescription("Le membre visï¿½.").setRequired(true)
+  )
+  .addBooleanOption((option) =>
     option
       .setName("force")
-      .setDescription("S'il faut actualiser la pp utilisée")
-      .setRequired(false));
+      .setDescription("S'il faut actualiser la pp utilisï¿½e")
+      .setRequired(false)
+  );
 
 const action = async (interaction) => {
   //action to execute when command is fired
@@ -38,11 +37,11 @@ const action = async (interaction) => {
   const force = interaction.options.getBoolean("force");
   let user;
   try {
-    user = interaction.options.getUser("cible")
+    user = interaction.options.getUser("cible");
   } catch (e) {
     interactionReply(interaction, personality.errorMention);
     console.log("concrete error", e);
-    return
+    return;
   }
 
   await interaction.deferReply();

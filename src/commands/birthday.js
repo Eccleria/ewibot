@@ -53,23 +53,15 @@ export const wishBirthday = async (db, channel) => {
 const command = new SlashCommandBuilder()
   .setName("birthday")
   .setDescription("Permet de modifier votre profil d'anniversaire.")
-  .addSubcommand((command) =>
-    command
+  .addSubcommand((subcommand) =>
+    subcommand
       .setName("ajouter")
       .setDescription("Ajouter/modifier votre date de naissance.")
       .addIntegerOption((option) =>
-        option
-          .setName("jour")
-          .setRequired(true)
-          .setMinValue(1)
-          .setMaxValue(31)
+        option.setName("jour").setRequired(true).setMinValue(1).setMaxValue(31)
       )
       .addIntegerOption((option) =>
-        option
-          .setName("mois")
-          .setRequired(true)
-          .setMinValue(1)
-          .setMaxValue(12)
+        option.setName("mois").setRequired(true).setMinValue(1).setMaxValue(12)
       )
       .addNumberOption((option) =>
         option
@@ -79,13 +71,13 @@ const command = new SlashCommandBuilder()
           .setMaxValue(dayjs().subtract(5, "year").year())
       )
   )
-  .addSubcommand((command) =>
-    command
+  .addSubcommand((subcommand) =>
+    subcommand
       .setName("retirer")
       .setDescription("Retirer votre date de naissance")
   )
-  .addSubcommand((command) =>
-    command
+  .addSubcommand((subcommand) =>
+    subcommand
       .setName("voir")
       .setDescription("Voir votre date d'anniverssaire enregistrée.")
   );
@@ -132,9 +124,9 @@ const action = async (interaction) => {
 
     if (user)
       await interaction.reply(
-        `${personality.getUser}${dayjs(
-          user.birthdayDate
-        ).format("DD/MM/YYYY")}.`
+        `${personality.getUser}${dayjs(user.birthdayDate).format(
+          "DD/MM/YYYY"
+        )}.`
       );
     else await interaction.reply(personality.userNotFound);
   }
