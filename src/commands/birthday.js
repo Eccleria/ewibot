@@ -4,12 +4,16 @@ import "dayjs/locale/fr.js";
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
 
+import { SlashCommandBuilder } from "@discordjs/builders";
+
 import {
   addBirthday,
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
+
+const personality = PERSONALITY.getCommands().birthday;
 
 export const wishBirthday = async (db, channel) => {
   // Wish birthdays if there are some
@@ -46,17 +50,60 @@ export const wishBirthday = async (db, channel) => {
   }
 };
 
-const action = async (message, client) => {
-  const content = message.content;
-  const authorId = message.author.id;
-  const db = client.db;
+const command = new SlashCommandBuilder()
+  .setName("birthday")
+  .setDescription("Permet de modifier votre profil d'anniversaire.")
+  .addSubcommand((command) =>
+    command
+      .setName("ajouter")
+      .setDescription("Ajouter/modifier votre date de naissance.")
+      .addIntegerOption((option) =>
+        option
+          .setName("jour")
+          .setRequired(true)
+          .setMinValue(1)
+          .setMaxValue(31)
+      )
+      .addIntegerOption((option) =>
+        option
+          .setName("mois")
+          .setRequired(true)
+          .setMinValue(1)
+          .setMaxValue(12)
+      )
+      .addNumberOption((option) =>
+        option
+          .setName("année")
+          .setRequired(false)
+          .setMinValue(dayjs().subtract(100, "year").year())
+          .setMaxValue(dayjs().subtract(5, "year").year())
+      )
+  )
+  .addSubcommand((command) =>
+    command
+      .setName("retirer")
+      .setDescription("Retirer votre date de naissance")
+  )
+  .addSubcommand((command) =>
+    command
+      .setName("voir")
+      .setDescription("Voir votre date d'anniverssaire enregistrée.")
+  );
+
+const action = async (interaction) => {
+  const authorId = interaction.member.id;
+  const db = interaction.client.db;
+
+  const whichCommand = interaction.options;
+  console.log("whichCommand", whichCommand);
+
   const words = content.toLowerCase().split(" ");
 
   if (words[1] && words[1] === "del") {
     // remove user
     if (isBirthdayDate(authorId, db)) {
       removeBirthday(authorId, db);
-      await message.reply(PERSONALITY.getCommands().birthday.removeUser);
+      await interaction.reply(personality.removeUser);
       return;
     }
   } else if (words[1] === "add" && words[2]) {
@@ -66,39 +113,40 @@ const action = async (message, client) => {
       // Checks date validity
       if (date.year() < 1950) {
         // If too old
-        await message.reply(PERSONALITY.getCommands().birthday.tooOld);
+        await interaction.reply(personality.tooOld);
       } else if (
         date.year() > dayjs().subtract(5, "year").year() &&
         date.year() !== dayjs().year()
       ) {
         // If year of birth > now year - 5 => too young
-        await message.reply(PERSONALITY.getCommands().birthday.tooYoung);
+        await interaction.reply(personality.tooYoung);
       } else {
         addBirthday(authorId, db, date.toISOString());
-        await message.reply(PERSONALITY.getCommands().birthday.addUser);
+        await interaction.reply(personality.addUser);
       }
-    } else await message.reply(PERSONALITY.getCommands().birthday.parsingError);
+    } else await interaction.reply(personality.parsingError);
   } else if (words.length === 1) {
     // checks if user is in DB and tells user
     const users = db.data.birthdaysUsers;
     const user = users.find(({ userId }) => userId === authorId);
 
     if (user)
-      await message.reply(
-        `${PERSONALITY.getCommands().birthday.getUser}${dayjs(
+      await interaction.reply(
+        `${personality.getUser}${dayjs(
           user.birthdayDate
         ).format("DD/MM/YYYY")}.`
       );
-    else await message.reply(PERSONALITY.getCommands().birthday.userNotFound);
+    else await interaction.reply(personality.userNotFound);
   }
 };
 
 const birthday = {
   // Allows Ewibot to wish happy birthday to users willing to
   name: "birthday",
+  command: command,
   action,
   help: () => {
-    return PERSONALITY.getCommands().birthday.help;
+    return personality.help;
   },
   admin: false,
 };
