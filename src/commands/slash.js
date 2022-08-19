@@ -4,9 +4,12 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 
 import {
   //dbHelper
+  addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
-  addIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
   //utils
   //isAdmin,
 } from "../helpers/index.js";
@@ -81,6 +84,38 @@ const roll = {
   },
 };
 
+const ignore = {
+  command: new SlashCommandBuilder()
+    .setName("ignore")
+    .setDescription("Lancer de dés"),
+  action: (interaction) => {
+    const db = interaction.client.db;
+    const authorId = interaction.member.id;
+
+    //check for command argument
+    if (isIgnoredUser(authorId)) {
+      removeIgnoredUser(authorId, db);
+      interaction.reply({
+        content: personality.ignore.notIgnored,
+        ephemeral: true,
+      })
+    } else {
+      addIgnoredUser(authorId, db);
+      interaction.reply({
+        content: personality.ignore.ignored,
+        ephemeral: true,
+      })
+    }
+  },
+  help: (interaction) => {
+    interaction.reply({
+      content: personality.ignore.help,
+      ephemeral: true,
+    });
+  },
+  admin: false,
+};
+
 const ignoreChannel = {
   command: new SlashCommandBuilder()
     .setName("ignorechannel")
@@ -122,7 +157,7 @@ const ignoreChannel = {
   },
 };
 
-const helpCommands = [ignoreChannel, ping, roll];
+const helpCommands = [ignore, ignoreChannel, ping, roll];
 const helpOptions = helpCommands.reduce((acc, cur) => {
   const cmd = cur.command;
   return [...acc, { name: cmd.name, value: cmd.name }];
