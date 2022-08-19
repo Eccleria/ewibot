@@ -14,6 +14,7 @@ import {
   //isAdmin,
 } from "../helpers/index.js";
 import { interactionReply } from "./utils.js";
+import concrete from "./concrete.js";
 
 import { PERSONALITY } from "../personality.js";
 
@@ -135,7 +136,7 @@ const ignoreChannel = {
   },
 };
 
-const helpCommands = [ignore, ignoreChannel, ping, roll];
+const helpCommands = [concrete, ignore, ignoreChannel, ping, roll];
 const helpOptions = helpCommands.reduce((acc, cur) => {
   const cmd = cur.command;
   return [...acc, { name: cmd.name, value: cmd.name }];
