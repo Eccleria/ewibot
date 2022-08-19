@@ -13,9 +13,7 @@ import {
   //utils
   //isAdmin,
 } from "../helpers/index.js";
-import {
-  interactionReply,
-} from "./utils.js"
+import { interactionReply } from "./utils.js";
 
 import { PERSONALITY } from "../personality.js";
 
@@ -81,7 +79,9 @@ const roll = {
 const ignore = {
   command: new SlashCommandBuilder()
     .setName("ignore")
-    .setDescription("Permet de choisir si Ewibot réagira à vos messages ou non."),
+    .setDescription(
+      "Permet de choisir si Ewibot réagira à vos messages ou non."
+    ),
   action: (interaction) => {
     const db = interaction.client.db;
     const authorId = interaction.member.id;
@@ -118,14 +118,15 @@ const ignoreChannel = {
     const ignoredChannel =
       interaction.options.getChannel("salon") || interaction.channel;
     const ignoredChannelId = ignoredChannel.id;
+    const iPerso = personality.ignoreChannel;
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
-      const content = personality.ignoreChannel.notIgnored + `<#${ignoredChannelId}>.`;
-      interactionReply(interaction, content)
+      const content = iPerso.notIgnored + `<#${ignoredChannelId}>.`;
+      interactionReply(interaction, content);
     } else {
       addIgnoredChannel(db, ignoredChannelId);
-      const content = personality.ignoreChannel.ignored + `<#${ignoredChannelId}>.`;
-      interactionReply(interaction, content)
+      const content = iPerso.ignored + `<#${ignoredChannelId}>.`;
+      interactionReply(interaction, content);
     }
   },
   help: (interaction) => {
