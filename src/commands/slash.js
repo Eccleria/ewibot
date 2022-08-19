@@ -140,7 +140,6 @@ const helpOptions = helpCommands.reduce((acc, cur) => {
   return [...acc, { name: cmd.name, value: cmd.name }];
 }, []);
 
-//console.log(helpOptions);
 const help = {
   command: new SlashCommandBuilder()
     .setName("help")

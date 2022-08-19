@@ -1,23 +1,57 @@
 import Canvas from "canvas";
 import GIFEncoder from "gif-encoder-2";
+
 import { MessageAttachment } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
+
 import path from "path";
 import fs from "fs";
 
 import { PERSONALITY } from "../personality.js";
+import { interactionReply } from "./utils.js";
 
-const action = async (message, client, currentServer, self) => {
-  const { channel, mentions, content } = message;
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 
-  if (mentions.users.size !== 1) {
-    //if no or too many mentions, or @here/everyone
-    message.reply(PERSONALITY.getCommands().concrete.errorMention);
-    return;
+//personality
+const personality = PERSONALITY.getCommands().concrete;
+
+//COMMAND
+const command = new SlashCommandBuilder()
+  .setName("concrete")
+  .setDescription("Choissisez qui vous souhaitez bétonner.")
+  .addUserOption((option) =>
+    option
+      .setName("cible")
+      .setDescription("Le membre visé.")
+      .setRequired(true))
+  .addBooleanOption((option) => 
+    option
+      .setName("force")
+      .setDescription("S'il faut actualiser la pp utilisée")
+      .setRequired(false));
+
+const action = async (interaction) => {
+  //action to execute when command is fired
+  const { channel, client } = interaction;
+  const force = interaction.options.getBoolean("force");
+  let user;
+  try {
+    user = interaction.options.getUser("cible")
+  } catch (e) {
+    interactionReply(interaction, personality.errorMention);
+    console.log("concrete error", e);
+    return
   }
 
   channel.sendTyping();
 
-  const recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
+  const recipient = await client.users.fetch(user.id); //get guildMember from user id
+  const self = process.env.CLIENTID;
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === channel.guild.id
+  );
 
   const gifsPath = path.join(
     path.resolve(path.dirname("")),
@@ -26,7 +60,6 @@ const action = async (message, client, currentServer, self) => {
   );
   const dir = fs.readdirSync(gifsPath);
 
-  const force = content.includes("--force");
   const gifExists = dir.includes(`${recipient.id}.gif`);
 
   if (!gifExists || force) {
@@ -88,9 +121,10 @@ const action = async (message, client, currentServer, self) => {
 
 const concrete = {
   name: "concrete",
+  command: command,
   action,
-  help: () => {
-    return PERSONALITY.getCommands().concrete.help;
+  help: (interaction) => {
+    interactionReply(interaction, personality.help);
   },
   admin: false,
 };
