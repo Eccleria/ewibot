@@ -161,7 +161,7 @@ const help = {
     if (foundCommand) foundCommand.help(interaction); //execute foundCommand help()
   },
   help: (interaction) => {
-    interaction.reply({ content: personality.help.help, ephemeral: true });
+    interactionReply(interaction, personality.help.help);
   },
 };
 
