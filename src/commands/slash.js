@@ -19,6 +19,7 @@ import { interactionReply } from "./utils.js";
 
 import birthday from "./birthday.js";
 import concrete from "./concrete.js";
+import reminder from "./reminder.js";
 
 import announce from "./announce.js";
 import birthday from "./birthday.js";
