@@ -6,7 +6,13 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
+import { SlashCommandBuilder } from "@discordjs/builders";
+
 import { PERSONALITY } from "../personality.js";
+
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const sendDelayed = async (
   // Function sending the reminder to the user
@@ -34,15 +40,20 @@ const formatMs = (nbr) => {
   return dayjs.duration(nbr, "milliseconds").humanize();
 };
 
-const extractDuration = (str) => {
+const extractDuration = (interaction) => {
   // returns the waiting time in ms
+  /*
   const lowerStr = str.toLowerCase();
 
-  // Date writing format: XXhYYmZZs
+  // Date writing format: WWdXXhYYmZZs global
+  const timeRegex = new RegExp(/([[:digit:]][[:digit:]]?d)?([[:digit:]][[:digit:]]?h)?([[:digit:]][[:digit:]]?m)?([[:digit:]][[:digit:]]?s)?/gmi);
+  const timeResult = timeRegex.exec(str); //duration recognition
 
-  const hours = Number(lowerStr.slice(0, 2));
-  const minutes = Number(lowerStr.slice(3, 5));
-  const seconds = Number(lowerStr.slice(6, 8));
+  console.log("timeResult", timeResult);
+  */
+  const hours = interaction.options.getNumber("heures");
+  const minutes = interaction.options.getNumber("minutes");
+  const seconds = interaction.options.getNumber("secondes");
 
   const durationMs =
     (isNaN(hours) ? 0 : hours * 3600) +
@@ -52,17 +63,18 @@ const extractDuration = (str) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (message, currentServer, timing) => {
+const answerBot = async (interaction, currentServer, timing) => {
   // Confirm or not the reminder to user
+  const personality = PERSONALITY.getCommands().reminder;
   /*
   try {
     // try to DM
     const answer = await message.author.send(
-      PERSONALITY.getCommands().reminder.remind.concat(
+      personality.remind.concat(
         `${formatMs(timing)}. `,
-        PERSONALITY.getCommands().reminder.react[0],
+        personality.react[0],
         `${currentServer.removeEmoji}`,
-        PERSONALITY.getCommands().reminder.react[1]
+        personality.react[1]
       )
     );
     await answer.react(currentServer.removeEmoji);
@@ -70,35 +82,39 @@ const answerBot = async (message, currentServer, timing) => {
   } catch {
     // reply to the request message
     console.log(`Utilisateur ayant bloqué les DMs`);*/
-  const answer = await message.reply(
-    PERSONALITY.getCommands().reminder.remind +
+  await interaction.reply({
+    content:
+      personality.remind +
       `${formatMs(timing)}` +
-      PERSONALITY.getCommands().reminder.react[0] +
+      personality.react[0] +
       `${currentServer.removeEmoji}` +
-      PERSONALITY.getCommands().reminder.react[1]
-  );
-  await answer.react(currentServer.removeEmoji);
+      personality.react[1], ephemeral: true
+  });
+
+  const answer = await interaction.fetchReply();
+  //await answer.react(currentServer.removeEmoji);
   return answer;
   //}
 };
 
-const action = async (message, client, currentServer) => {
-  const { channel, content, author } = message;
-  const args = content.split(" ");
+const action = async (interaction) => {
+  const { channel, member, client } = interaction;
 
-  const wordTiming = args[1];
+  const messageContent = interaction.options.getString("contenu");
 
-  const timing = extractDuration(wordTiming);
+  const timing = extractDuration(interaction);
 
   if (!timing) {
     //Checks for timing format
     console.log("erreur de parsing");
   } else {
-    console.log("timing: ", timing);
+    console.log("reminder timing: ", timing);
 
-    const messageContent = args.slice(2).join(" ");
+    const currentServer = commons.find(
+      ({ guildId }) => guildId === interaction.guildId
+    );
 
-    const answer = await answerBot(message, currentServer, timing);
+    const answer = await answerBot(interaction, currentServer, timing);
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user
@@ -106,22 +122,59 @@ const action = async (message, client, currentServer) => {
       timing,
       client,
       channel,
-      author,
+      member,
       messageContent,
       answer
     );
 
     client.remindme.push({
       // Add request to cache
-      authorId: author.id,
+      authorId: member.id,
       botMessage: answer,
       timeout: timeoutObj,
     });
   }
 };
 
+const command = new SlashCommandBuilder()
+  .setName("reminder")
+  .setDescription("Une commande alarme pense-bête.")
+  .addStringOption((option) =>
+    option
+      .setName("contenu")
+      .setDescription("Contenu du pense-bête.")
+      .setRequired(true)
+      .setMinLength(1)
+  )
+  .addNumberOption((option) =>
+    option
+      .setName("heures")
+      .setDescription("Le nombre d'heure d'attente.")
+      .setRequired(false)
+      .setMinValue(1)
+      .setMaxValue(99)
+  )
+  .addNumberOption((option) =>
+    option
+      .setName("minutes")
+      .setDescription("Le nombre de minutes d'attente.")
+      .setRequired(false)
+      .setMinValue(1)
+      .setMaxValue(60)
+  )
+  .addNumberOption((option) =>
+    option
+      .setName("secondes")
+      .setDescription("Le nombre de secondes d'attente.")
+      .setRequired(false)
+      .setMinValue(1)
+      .setMaxValue(60)
+  );
+
+
 const reminder = {
   name: "reminder",
+  command: command,
   action,
   help: () => {
     return PERSONALITY.getCommands().reminder.help;
