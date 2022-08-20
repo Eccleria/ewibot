@@ -88,7 +88,8 @@ const answerBot = async (interaction, currentServer, timing) => {
       `${formatMs(timing)}` +
       personality.react[0] +
       `${currentServer.removeEmoji}` +
-      personality.react[1], ephemeral: true
+      personality.react[1],
+    ephemeral: true,
   });
 
   const answer = await interaction.fetchReply();
@@ -170,7 +171,6 @@ const command = new SlashCommandBuilder()
       .setMinValue(1)
       .setMaxValue(60)
   );
-
 
 const reminder = {
   name: "reminder",

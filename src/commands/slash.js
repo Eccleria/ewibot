@@ -139,7 +139,15 @@ const ignoreChannel = {
   },
 };
 
-const helpCommands = [birthday, concrete, ignore, ignoreChannel, ping, reminder, roll];
+const helpCommands = [
+  birthday,
+  concrete,
+  ignore,
+  ignoreChannel,
+  ping,
+  reminder,
+  roll,
+];
 const helpOptions = helpCommands.reduce((acc, cur) => {
   const cmd = cur.command;
   return [...acc, { name: cmd.name, value: cmd.name }];
