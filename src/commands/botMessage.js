@@ -7,7 +7,7 @@ import { PERSONALITY } from "../personality.js";
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
   .setName("message")
-  .setDescription("Envoyer un message � la place d'Ewibot.")
+  .setDescription("Envoyer un message à la place d'Ewibot.")
   .addSubcommand((command) =>
     command
       .setName("send")
@@ -33,7 +33,7 @@ const command = new SlashCommandBuilder()
           .setRequired(false)
       )
   )
-  .addSubcommand((command) =>
+  .addSubcommand((command) => 
     command
       .setName("reply")
       .setDescription("R�ponse d'Ewibot � un message.")
