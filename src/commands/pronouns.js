@@ -49,7 +49,7 @@ const action = async (message, client, currentServer) => {
   await roleChannel.send({ embeds: [embedPronouns], components: rowsPronouns });
   await roleChannel.send({
     embeds: [embedAgreements],
-    components: [rowAgreement],
+    components: rowAgreement,
   });
 };
 
