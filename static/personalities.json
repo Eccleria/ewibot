@@ -197,7 +197,7 @@
           "female": "Féminins",
           "male": "Masculins",
           "neutral": "Neutres",
-          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+          "title": "Rôles accords"
         },
         "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
         "pronouns": {
@@ -210,7 +210,7 @@
           "no": "Pas de pronom",
           "she": "Elle",
           "they": "Iel",
-          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
+          "title": "Rôles pronoms"
         },
         "text": {
           "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
@@ -294,13 +294,14 @@
       },
       "pronouns": {
         "agreements": {
+          "all": "Tous accords",
           "ask": "Demandez",
           "cancel": "Annuler",
           "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
           "female": "Féminins",
           "male": "Masculins",
           "neutral": "Neutres",
-          "title": "🏳️‍🌈 Rôles accords 🏳️‍🌈"
+          "title": "Rôles accords"
         },
         "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
         "pronouns": {
@@ -313,7 +314,7 @@
           "no": "Pas de pronom",
           "she": "Elle",
           "they": "Iel",
-          "title": "🏳️‍🌈 Rôles pronoms 🏳️‍🌈"
+          "title": "Rôles pronoms"
         },
         "text": {
           "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
