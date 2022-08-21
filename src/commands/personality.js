@@ -4,12 +4,18 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { readFileSync } from "fs";
 const personalities = JSON.parse(readFileSync("static/personalities.json"));
 
+/** Get a list of personality names.
+ * @returns {string[]}
+ */
 const getPersonalityNames = () => {
   const nameList = Object.keys(personalities); // list of all personalities names
   const filtered = nameList.filter((str) => str !== "admin");
   return filtered;
 }
 
+/** Create the choices of the personality command.
+ * @returns {object[]}
+ */
 const commandChoices = () => {
   const nameList = getPersonalityNames();
   const result = nameList.reduce((acc, cur) => {
@@ -26,7 +32,8 @@ const command = new SlashCommandBuilder()
     option
       .setName("personality")
       .setDescription("Nom de la personnalité à utiliser.")
-.addChoices(...commandChoices())  )
+      .addChoices(...commandChoices())
+  );
 
  const action = (message) => {
    const args = message.content.tolowercase().split(" ");
