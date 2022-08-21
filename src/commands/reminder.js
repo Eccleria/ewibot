@@ -102,6 +102,7 @@ const action = async (interaction) => {
   const { channel, member, client } = interaction;
 
   const messageContent = interaction.options.getString("contenu");
+  const isEphemeral = interaction.options.getBoolean("privé")
 
   const timing = extractDuration(interaction);
 
@@ -170,6 +171,11 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(60)
+)
+  .addBooleanOption((option) => option
+    .setName("privé")
+    .setDescription("Est-ce que le message est caché ou non. Publique par défaut.")
+    .setRequired(false)
   );
 
 const reminder = {
