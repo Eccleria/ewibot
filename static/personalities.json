@@ -190,6 +190,7 @@
       },
       "pronouns": {
         "agreements": {
+          "all": "Tous accords",
           "ask": "Demandez",
           "cancel": "Annuler",
           "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
