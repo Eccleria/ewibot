@@ -72,7 +72,12 @@ const tweetHandler = async (tweet, client) => {
   const channel = await client.channels.fetch(channelId);
 
   channel.send({ content: tLink });
-}
+};
+
+const onConnectionClosed = () => {
+  //handle connection closed
+
+};
 
 export const initTwitter = async (client) => {
   const twitter = client.twitter;
