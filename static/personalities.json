@@ -201,7 +201,7 @@
         },
         "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
         "pronouns": {
-          "all": "Tout pronom",
+          "all": "Tous pronoms",
           "ael": "Æl",
           "ask": "Demandez",
           "cancel": "Annuler",
@@ -305,7 +305,7 @@
         },
         "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
         "pronouns": {
-          "all": "Tout pronom",
+          "all": "Tous pronoms",
           "ael": "Æl",
           "ask": "Demandez",
           "cancel": "Annuler",
