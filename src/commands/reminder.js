@@ -180,6 +180,11 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(60)
+)
+  .addBooleanOption((option) => option
+    .setName("privé")
+    .setDescription("Est-ce que le message est caché ou non. Publique par défaut.")
+    .setRequired(false)
   );
 
 const reminder = {
