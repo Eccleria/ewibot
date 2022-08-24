@@ -356,6 +356,12 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === message.guildId
+  );
+
+  if (message.channelId === currentServer.logThreadId) return;
+
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
@@ -455,6 +461,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   if (!oMessage.guild) return; //Ignore DM
+
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === newMessage.guildId
+  );
+  if (newMessage.channelId === currentServer.logThreadId) return;
 
   //get personality
   const personality = PERSONALITY.getAdmin();
