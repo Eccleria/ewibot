@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
-import { getAdminLogs } from "../helpers/index.js";
+import { getAdminLogs, removeAdminLogs } from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -557,31 +557,39 @@ export const gifRecovery = (content) => {
 
 export const logsRemover = async (client) => {
   const db = client.db;
-  console.log("logsRemover")
+  //console.log("db", db.data.adminLogs);
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
 
-  let data = getAdminLogs(db, "frequent");
-  if (data) {
-    console.log("logsRemover frequent")
-    const threadChannel = await getLogChannel(commons, client, "thread");
+  let type = "frequent";
+  const dbData = getAdminLogs(db);
+  let data = dbData[type][0];
+  if (data.length !== 0) {
+    const threadChannel = await client.channels.fetch(server.logThreadId);
     const result = await threadChannel.bulkDelete(data);
-    console.log("result1", result)
+    removeAdminLogs(db, type)
+    //console.log("result1", result)
   }
+  removeAdminLogs(db, type)
+  //console.log("db", db.data.adminLogs.frequent);
 
-  data = getAdminLogs(db, "userAD");
-  if (data) {
-    console.log("logsRemover userAD")
-    const logChannel = await getLogChannel(commons, client);
+  type = "userAD";
+  data = dbData[type][0];
+  if (data.length !== 0) {
+    const logChannel = await client.channels.fetch(server.logChannelId);
     const result = await logChannel.bulkDelete(data);
-    console.log("result2", result)
+    //console.log("result2", result)
   }
+  removeAdminLogs(db, type)
 };
 
 export const initAdminLogClearing = (client, waitingTime) => {
   setTimeout(() => {
-    console.log("here")
+    //console.log("here")
     setInterval(() => {
-      console.log("here2")
+      //console.log("here2")
       logsRemover(client)
-    }, 24*3600*1000, client)
+    }, 24*3600*1000, client) // 3000, client)
   }, waitingTime, client)
 }
