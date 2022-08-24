@@ -1,5 +1,6 @@
 import {
   addAdminLogs,
+  getAdminLogs,
   removeAdminLogs,
   addIgnoredUser,
   removeIgnoredUser,
@@ -44,6 +45,7 @@ export {
   deleteSongFromPlaylist,
   // dbHelper
   addAdminLogs,
+  getAdminLogs,
   removeAdminLogs,
   addIgnoredUser,
   removeIgnoredUser,
