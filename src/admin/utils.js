@@ -591,6 +591,6 @@ export const initAdminLogClearing = (client, waitingTime) => {
     setInterval(() => {
       //console.log("here2")
       logsRemover(client)
-    }, 24*3600*1000, client) // 3000, client)
+    }, 5*60*1000, client) // 3000, // 24*3600*1000client)
   }, waitingTime, client)
 }
