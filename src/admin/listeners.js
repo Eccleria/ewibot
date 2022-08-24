@@ -659,7 +659,8 @@ export const onGuildMemberRemove = async (memberKick) => {
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
-    endCasesEmbed(userKick, kickLog, guildKick, auditLog, embed, logChannel);
+    const messageList = await endCasesEmbed(userKick, kickLog, guildKick, auditLog, embed, logChannel);
+    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "userAD", 2))
     return;
   }
 
@@ -667,7 +668,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
 
-  const messageList = await endCasesEmbed(
+  endCasesEmbed(
     userKick,
     kickLog,
     guildKick,
@@ -677,5 +678,4 @@ export const onGuildMemberRemove = async (memberKick) => {
     reason,
     diff
   );
-  messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "userAD", 2))
 };
