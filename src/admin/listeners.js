@@ -668,7 +668,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
   console.log("log", kickLog);
 
-  endCasesEmbed(
+  const messageList = await endCasesEmbed(
     userKick,
     kickLog,
     guildKick,
@@ -678,4 +678,5 @@ export const onGuildMemberRemove = async (memberKick) => {
     reason,
     diff
   );
+  messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "userAD", 2))
 };
