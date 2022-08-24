@@ -36,6 +36,7 @@ and the [main code](https://github.com/Titch88/ewibot/edit/master/readme.md#main
 The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. 
 * _[listeners.js](./src/admin/listeners.js)_ is a file regrouping all functions associated to the events Ewibot is responding
 to. These events are affiliated to moderation stuff, like message update/delete, timeout, kick, ban and so on.
+* _[pronouns.js](./src/admin/pronouns.js)_ is used for roles of pronouns and agreements attribution.
 * _[role.js](./src/admin/role.js)_ is used to dispatch cosmetic roles among users.
 * _[utils](.src/admin/utils.js)_ is regrouping all the functions used in different files of the admin folder.  
 
