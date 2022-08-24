@@ -65,6 +65,7 @@ export const setupEmbed = (color, personality, object, type) => {
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Additional text to add.
  * @param {Attachment[]} [attachments] Message attachments.
+ * @returns {object[]}
  */
 export const finishEmbed = async (
   personalityEvent,
@@ -92,9 +93,12 @@ export const finishEmbed = async (
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
     try {
-      await logChannel.send({ embeds: embed, allowed_mentions: { parse: [] } }); //send
-      if (attachments && attachments.length !== 0)
-        await logChannel.send({ files: attachments }); //if attachments, send new message
+      const message = await logChannel.send({ embeds: embed, allowed_mentions: { parse: [] } }); //send
+      if (attachments && attachments.length !== 0) {
+        const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+        return [message, gifMessage];
+      }
+      return [message];
     } catch (e) {
       console.log(
         "finishEmbed list error\n",
@@ -112,9 +116,12 @@ export const finishEmbed = async (
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
   try {
-    await logChannel.send({ embeds: [embed], allowed_mentions: { parse: [] } }); //send
-    if (attachments && attachments.length !== 0)
-      await logChannel.send({ files: attachments }); //if attachments, send new message
+    const message = await logChannel.send({ embeds: [embed], allowed_mentions: { parse: [] } }); //send
+    if (attachments && attachments.length !== 0) {
+      const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+      return [message, gifMessage];
+    }
+    return [message];
   } catch (e) {
     console.log("finishEmbed error\n", personalityEvent.title, e, embed);
   }
@@ -130,8 +137,9 @@ export const finishEmbed = async (
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
+ * @returns {object[]}
  */
-export const endCasesEmbed = (
+export const endCasesEmbed = async (
   object,
   log,
   eventPerso,
@@ -143,24 +151,26 @@ export const endCasesEmbed = (
 ) => {
   if (diff >= 5) {
     //if log too old
-    finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
-    return;
+    const messageList = await finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
+    return messageList;
   }
 
   if (!log) {
     //if no AuditLog
-    finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, text);
-    return;
+    const messageList = await finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, text);
+    return messageList;
   }
 
   const { executor, target } = log;
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    finishEmbed(eventPerso, executor, embed, logChannel, text);
+    const messageList = await finishEmbed(eventPerso, executor, embed, logChannel, text);
+    return messageList;
   } else {
     //if bot or author executed the kick
-    finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
+    const messageList = await finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
+    return messageList;
   }
 };
 

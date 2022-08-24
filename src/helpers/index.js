@@ -1,4 +1,6 @@
 import {
+  addAdminLogs,
+  removeAdminLogs,
   addIgnoredUser,
   removeIgnoredUser,
   isIgnoredUser,
@@ -41,6 +43,8 @@ export {
   parseLink,
   deleteSongFromPlaylist,
   // dbHelper
+  addAdminLogs,
+  removeAdminLogs,
   addIgnoredUser,
   removeIgnoredUser,
   isIgnoredUser,

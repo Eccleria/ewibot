@@ -15,6 +15,7 @@ import {
 import {
   hasApology,
   sanitizePunctuation,
+  addAdminLogs,
   addApologyCount,
 } from "../helpers/index.js";
 
@@ -398,7 +399,7 @@ export const onMessageDelete = async (message) => {
 
   //if no AuditLog
   if (!deletionLog) {
-    await finishEmbed(
+    const messageList = await finishEmbed(
       messageDel,
       auditLog.noLog,
       embeds,
@@ -410,6 +411,7 @@ export const onMessageDelete = async (message) => {
       const content = gifs.join("\n");
       logChannel.send(content);
     }
+    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
     return;
   }
 
@@ -417,7 +419,7 @@ export const onMessageDelete = async (message) => {
 
   if (target.id === message.author.id) {
     //check if log report the correct user banned
-    await finishEmbed(
+    const messageList = await finishEmbed(
       messageDel,
       executor.tag,
       embeds,
@@ -427,11 +429,13 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      logChannel.send(content);
+      const msg = logChannel.send(content);
+      messageList.push(msg);
     }
+    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
   } else {
     //if bot or author deleted the message
-    await finishEmbed(
+    const messageList = await finishEmbed(
       messageDel,
       auditLog.noExec,
       embeds,
@@ -441,8 +445,10 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      logChannel.send(content);
+      const msg = logChannel.send(content);
+      messageList.push(msg);
     }
+    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
   }
 };
 
@@ -488,7 +494,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    endCasesEmbed(nMessage, unpinLog, messageU, auditLog, embed, logChannel);
+    const messageList = await endCasesEmbed(nMessage, unpinLog, messageU, auditLog, embed, logChannel);
+    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6));
     return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
@@ -500,7 +507,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    endCasesEmbed(nMessage, pinLog, messageU, auditLog, embed, logChannel);
+    const messageList = await endCasesEmbed(nMessage, pinLog, messageU, auditLog, embed, logChannel);
+    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6));
     return;
   }
 
@@ -571,7 +579,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addField(messageU.linkName, link);
-  await finishEmbed(messageU, null, embeds, logChannel, null, attachments);
+  const messageList = await finishEmbed(messageU, null, embeds, logChannel, null, attachments);
+  messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
   /* if (gifs !== null) {
     const content = gifs.join("\n");
     logChannel.send(content);
