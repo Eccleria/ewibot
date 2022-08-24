@@ -666,7 +666,6 @@ export const onGuildMemberRemove = async (memberKick) => {
   const guildKick = personality.guildKick.kick;
   const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
-  console.log("log", kickLog);
 
   const messageList = await endCasesEmbed(
     userKick,
