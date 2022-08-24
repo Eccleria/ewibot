@@ -159,7 +159,7 @@ client.once("ready", async () => {
     .second(0)
     .millisecond(0); //tomorrow @ 2am
 
-  const timeTo2Am = 30000; //tomorrow2Am.diff(dayjs()); //waiting time in ms
+  const timeTo2Am = 10000; //tomorrow2Am.diff(dayjs()); //waiting time in ms
   initAdminLogClearing(client, timeTo2Am);
 });
 // Create an event listener for messages
