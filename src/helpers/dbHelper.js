@@ -9,6 +9,10 @@ const addAdminLogs = (db, messageId, type, index) => {
   db.wasUpdated = true;
 };
 
+const getAdminLogs = (db, type) => {
+  return db.data.adminLogs[type][0];
+};
+
 const removeAdminLogs = (db, type) => {
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
@@ -18,7 +22,7 @@ const removeAdminLogs = (db, type) => {
   db.wasUpdated = true;
 }
 
-export { addAdminLogs, removeAdminLogs };
+export { addAdminLogs, getAdminLogs, removeAdminLogs };
 
 // APOLOGY COUNTING
 const isApologyUser = (authorId, db) => {
