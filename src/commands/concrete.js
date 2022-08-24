@@ -123,7 +123,11 @@ const concrete = {
   command: command,
   action,
   help: (interaction) => {
-    interactionReply(interaction, personality.help);
+    interaction.reply({
+      content: personality.help,
+      ephemeral: true,
+      allowed_mentions: { parse: [] },
+    });
   },
   admin: false,
 };
