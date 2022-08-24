@@ -1,6 +1,7 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
+import { getAdminLogs } from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -215,7 +216,7 @@ export const generalEmbed = async (
  * Fetch Log Channel.
  * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
- * @param {string} type String to ditinguish if returns channel or thread
+ * @param {string} [type] String to ditinguish if returns channel or thread
  * @returns {TextChannel}
  */
 export const getLogChannel = async (commons, eventObject, type) => {
@@ -553,3 +554,19 @@ export const gifRecovery = (content) => {
   }
   return null;
 };
+
+export const logsRemover = async (client) => {
+  const db = client.db;
+
+  let data = getAdminLogs(db, "frequent");
+  if (data) {
+    const threadChannel = await getLogChannel(commons, client, "thread");
+    threadChannel.bulkDelete(data);
+  }
+
+  data = getAdminLogs(db, "userAD");
+  if (data) {
+    const logChannel = await getLogChannel(commons, client);
+    logChannel.bulkDelete(data);
+  }
+}
