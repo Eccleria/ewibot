@@ -557,16 +557,31 @@ export const gifRecovery = (content) => {
 
 export const logsRemover = async (client) => {
   const db = client.db;
+  console.log("logsRemover")
 
   let data = getAdminLogs(db, "frequent");
   if (data) {
+    console.log("logsRemover frequent")
     const threadChannel = await getLogChannel(commons, client, "thread");
-    threadChannel.bulkDelete(data);
+    const result = await threadChannel.bulkDelete(data);
+    console.log("result1", result)
   }
 
   data = getAdminLogs(db, "userAD");
   if (data) {
+    console.log("logsRemover userAD")
     const logChannel = await getLogChannel(commons, client);
-    logChannel.bulkDelete(data);
+    const result = await logChannel.bulkDelete(data);
+    console.log("result2", result)
   }
+};
+
+export const initAdminLogClearing = (client, waitingTime) => {
+  setTimeout(() => {
+    console.log("here")
+    setInterval(() => {
+      console.log("here2")
+      logsRemover(client)
+    }, 24*3600*1000, client)
+  }, waitingTime, client)
 }
