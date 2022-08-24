@@ -567,13 +567,14 @@ export const logsRemover = async (client) => {
   let data = dbData[type][0];
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
-    const result = await threadChannel.bulkDelete(data);
+    await threadChannel.bulkDelete(data); //const result = 
     removeAdminLogs(db, type)
     //console.log("result1", result)
   }
   removeAdminLogs(db, type)
   //console.log("db", db.data.adminLogs.frequent);
 
+  /*
   type = "userAD";
   data = dbData[type][0];
   if (data.length !== 0) {
@@ -581,7 +582,7 @@ export const logsRemover = async (client) => {
     const result = await logChannel.bulkDelete(data);
     //console.log("result2", result)
   }
-  removeAdminLogs(db, type)
+  removeAdminLogs(db, type)*/
 };
 
 export const initAdminLogClearing = (client, waitingTime) => {
