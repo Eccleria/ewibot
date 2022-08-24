@@ -1,3 +1,25 @@
+// ADMIN
+
+const addAdminLogs = (db, messageId, type, index) => {
+  const adminLogs = db.data.adminLogs;
+  //{frequent: [[]...], userAD: [[]...]}
+  const data = adminLogs[type]; // [[]...]
+
+  data[index].push(messageId);
+  db.wasUpdated = true;
+};
+
+const removeAdminLogs = (db, type) => {
+  const adminLogs = db.data.adminLogs;
+  //{frequent: [[]...], userAD: [[]...]}
+  const data = adminLogs[type]; // [[]...]
+
+  adminLogs[type] = data.slice(1).push([]); //remove first + add [] last
+  db.wasUpdated = true;
+}
+
+export { addAdminLogs, removeAdminLogs };
+
 // APOLOGY COUNTING
 const isApologyUser = (authorId, db) => {
   return db.data.apologiesCounting
