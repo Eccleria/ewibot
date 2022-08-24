@@ -9,16 +9,18 @@ const addAdminLogs = (db, messageId, type, index) => {
   db.wasUpdated = true;
 };
 
-const getAdminLogs = (db, type) => {
-  return db.data.adminLogs[type][0];
+const getAdminLogs = (db) => {
+  return db.data.adminLogs;
 };
 
 const removeAdminLogs = (db, type) => {
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
   const data = adminLogs[type]; // [[]...]
+  const sliced = data.slice(1); //remove first
+  sliced.push([]); //add [] at the end
 
-  adminLogs[type] = data.slice(1).push([]); //remove first + add [] last
+  db.data.adminLogs[type] = sliced;  
   db.wasUpdated = true;
 }
 
