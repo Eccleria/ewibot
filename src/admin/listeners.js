@@ -59,7 +59,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   //basic operations
   const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
-  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (checkProdTestMode(logChannel) && process.env.debug === "no") return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
