@@ -361,7 +361,11 @@ export const onMessageDelete = async (message) => {
     ({ guildId }) => guildId === message.guildId
   );
 
-  if (message.channelId === currentServer.logThreadId || message.channelId === currentServer.logChannelId ) return;
+  if (
+    message.channelId === currentServer.logThreadId ||
+    message.channelId === currentServer.logChannelId
+  )
+    return;
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageDel = personality.messageDelete;
@@ -411,7 +415,9 @@ export const onMessageDelete = async (message) => {
       const content = gifs.join("\n");
       logChannel.send(content);
     }
-    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
     return;
   }
 
@@ -432,7 +438,9 @@ export const onMessageDelete = async (message) => {
       const msg = logChannel.send(content);
       messageList.push(msg);
     }
-    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
   } else {
     //if bot or author deleted the message
     const messageList = await finishEmbed(
@@ -448,7 +456,9 @@ export const onMessageDelete = async (message) => {
       const msg = logChannel.send(content);
       messageList.push(msg);
     }
-    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
   }
 };
 
@@ -494,8 +504,17 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    const messageList = await endCasesEmbed(nMessage, unpinLog, messageU, auditLog, embed, logChannel);
-    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6));
+    const messageList = await endCasesEmbed(
+      nMessage,
+      unpinLog,
+      messageU,
+      auditLog,
+      embed,
+      logChannel
+    );
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
     return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
@@ -507,8 +526,17 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    const messageList = await endCasesEmbed(nMessage, pinLog, messageU, auditLog, embed, logChannel);
-    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6));
+    const messageList = await endCasesEmbed(
+      nMessage,
+      pinLog,
+      messageU,
+      auditLog,
+      embed,
+      logChannel
+    );
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
     return;
   }
 
@@ -579,8 +607,17 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addField(messageU.linkName, link);
-  const messageList = await finishEmbed(messageU, null, embeds, logChannel, null, attachments);
-  messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "frequent", 6))
+  const messageList = await finishEmbed(
+    messageU,
+    null,
+    embeds,
+    logChannel,
+    null,
+    attachments
+  );
+  messageList.forEach((msg) =>
+    addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+  );
   /* if (gifs !== null) {
     const content = gifs.join("\n");
     logChannel.send(content);
@@ -659,8 +696,17 @@ export const onGuildMemberRemove = async (memberKick) => {
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
-    const messageList = await endCasesEmbed(userKick, kickLog, guildKick, auditLog, embed, logChannel);
-    messageList.forEach((msg) => addAdminLogs(msg.client.db, msg.id, "userAD", 2))
+    const messageList = await endCasesEmbed(
+      userKick,
+      kickLog,
+      guildKick,
+      auditLog,
+      embed,
+      logChannel
+    );
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "userAD", 2)
+    );
     return;
   }
 

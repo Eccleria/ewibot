@@ -94,7 +94,10 @@ export const finishEmbed = async (
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
     try {
-      const message = await logChannel.send({ embeds: embed, allowed_mentions: { parse: [] } }); //send
+      const message = await logChannel.send({
+        embeds: embed,
+        allowed_mentions: { parse: [] },
+      }); //send
       if (attachments && attachments.length !== 0) {
         const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
         return [message, gifMessage];
@@ -117,7 +120,10 @@ export const finishEmbed = async (
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
   try {
-    const message = await logChannel.send({ embeds: [embed], allowed_mentions: { parse: [] } }); //send
+    const message = await logChannel.send({
+      embeds: [embed],
+      allowed_mentions: { parse: [] },
+    }); //send
     if (attachments && attachments.length !== 0) {
       const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
       return [message, gifMessage];
@@ -152,13 +158,24 @@ export const endCasesEmbed = async (
 ) => {
   if (diff >= 5) {
     //if log too old
-    const messageList = await finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.tooOld,
+      embed,
+      logChannel
+    );
     return messageList;
   }
 
   if (!log) {
     //if no AuditLog
-    const messageList = await finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, text);
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.noLog,
+      embed,
+      logChannel,
+      text
+    );
     return messageList;
   }
 
@@ -166,11 +183,23 @@ export const endCasesEmbed = async (
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    const messageList = await finishEmbed(eventPerso, executor, embed, logChannel, text);
+    const messageList = await finishEmbed(
+      eventPerso,
+      executor,
+      embed,
+      logChannel,
+      text
+    );
     return messageList;
   } else {
     //if bot or author executed the kick
-    const messageList = await finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.noExec,
+      embed,
+      logChannel,
+      text
+    );
     return messageList;
   }
 };
@@ -567,11 +596,11 @@ export const logsRemover = async (client) => {
   let data = dbData[type][0];
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
-    await threadChannel.bulkDelete(data); //const result = 
-    removeAdminLogs(db, type)
+    await threadChannel.bulkDelete(data); //const result =
+    removeAdminLogs(db, type);
     //console.log("result1", result)
   }
-  removeAdminLogs(db, type)
+  removeAdminLogs(db, type);
   //console.log("db", db.data.adminLogs.frequent);
 
   /*
@@ -586,13 +615,21 @@ export const logsRemover = async (client) => {
 };
 
 export const initAdminLogClearing = (client, waitingTime) => {
-  setTimeout(() => {
-    //console.log("here")
-    setInterval(() => {
-      //console.log("here2")
-      logsRemover(client)
-    }, 5 * 60 * 1000, client) // 3000, // 24*3600*1000client)
-  }, waitingTime, client)
+  setTimeout(
+    () => {
+      //console.log("here")
+      setInterval(
+        () => {
+          //console.log("here2")
+          logsRemover(client);
+        },
+        5 * 60 * 1000,
+        client
+      ); // 3000, // 24*3600*1000client)
+    },
+    waitingTime,
+    client
+  );
 };
 
 export const octagonalLog = async (object, user) => {
@@ -605,18 +642,29 @@ export const octagonalLog = async (object, user) => {
 
   //basic operations
   const logChannel = await getLogChannel(commons, message); //get logChannelId
-  const embed = setupEmbed("LUMINOUS_VIVID_PINK", octaPerso, message.author, "tag"); //setup embed
+  const embed = setupEmbed(
+    "LUMINOUS_VIVID_PINK",
+    octaPerso,
+    message.author,
+    "tag"
+  ); //setup embed
 
   //add more info to embed
-  const executor = user ? await message.guild.members.fetch(user.id) : object.author; //get executor
+  const executor = user
+    ? await message.guild.members.fetch(user.id)
+    : object.author; //get executor
   const date = message.createdAt.toString().slice(4, 24);
   embed.addFields(
     { name: octaPerso.date, value: `${date}`, inline: true }, //date of message creation
     { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
     { name: octaPerso.text, value: message.content }, //message content
     { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
-    { name: octaPerso.linkName, value: `[${octaPerso.linkMessage}](${message.url})`, inline: true } //get message link
+    {
+      name: octaPerso.linkName,
+      value: `[${octaPerso.linkMessage}](${message.url})`,
+      inline: true,
+    } //get message link
   );
 
-  finishEmbed(octaPerso, null, embed, logChannel );
-}
+  finishEmbed(octaPerso, null, embed, logChannel);
+};

@@ -20,9 +20,9 @@ const removeAdminLogs = (db, type) => {
   const sliced = data.slice(1); //remove first
   sliced.push([]); //add [] at the end
 
-  db.data.adminLogs[type] = sliced;  
+  db.data.adminLogs[type] = sliced;
   db.wasUpdated = true;
-}
+};
 
 export { addAdminLogs, getAdminLogs, removeAdminLogs };
 

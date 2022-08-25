@@ -42,9 +42,7 @@ import {
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
 
-import {
-  initAdminLogClearing,
-} from "./admin/utils.js"
+import { initAdminLogClearing } from "./admin/utils.js";
 
 // jsons import
 import { readFileSync } from "fs";

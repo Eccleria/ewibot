@@ -156,7 +156,7 @@ export const onReactionAdd = async (messageReaction, user) => {
 
   if (currentServer.octagonalSign === messageReaction.emoji.name) {
     octagonalLog(messageReaction, user);
-    return
+    return;
   }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
