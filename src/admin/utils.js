@@ -617,15 +617,13 @@ export const logsRemover = async (client) => {
 export const initAdminLogClearing = (client, waitingTime) => {
   setTimeout(
     () => {
-      //console.log("here")
       setInterval(
         () => {
-          //console.log("here2")
           logsRemover(client);
         },
-        5 * 60 * 1000,
+        24 * 3600 *1000,
         client
-      ); // 3000, // 24*3600*1000client)
+      ); //5 * 60 * 1000 = 5min client)
     },
     waitingTime,
     client
