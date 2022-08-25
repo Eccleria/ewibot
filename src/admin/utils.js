@@ -600,7 +600,8 @@ export const octagonalLog = async (object, user) => {
   const personality = PERSONALITY.getAdmin();
   const octaPerso = personality.octagonalSign;
 
-  const message = user ? object.message : object;
+  let message = user ? object.message : object;
+  if (message.partial) await message.fetch();
 
   //basic operations
   const logChannel = await getLogChannel(commons, message); //get logChannelId
