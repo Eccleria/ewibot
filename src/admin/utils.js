@@ -604,10 +604,18 @@ export const octagonalLog = async (object, user) => {
 
   //basic operations
   const logChannel = await getLogChannel(commons, message); //get logChannelId
-  const embed = setupEmbed("LUMINOUS_VIVID_PINK", octaPerso, message, "tag"); //setup embed
+  const embed = setupEmbed("LUMINOUS_VIVID_PINK", octaPerso, message.author, "tag"); //setup embed
 
-  //get executor
-  const executor = user ? user : object.author;
+  //add more info to embed
+  const executor = user ? user : object.author;   //get executor
+  const date = message.createdAt.toString().slice(4, 24);
+  embed.addFields(
+    { name: octaPerso.date, value: `${date}`, inline: true }, //date of message creation
+    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
+    { name: octaPerso.text, value: message.content }, //message content
+    { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
+    { name: octaPerso.linkName, value: `[${octaPerso.linkMessage}](${message.url})`, inline: true } //get message link
+  );
 
-  finishEmbed(octaPerso, executor, embed, logChannel);
+  finishEmbed(octaPerso, null, embed, logChannel );
 }
