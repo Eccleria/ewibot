@@ -607,7 +607,7 @@ export const octagonalLog = async (object, user) => {
   const embed = setupEmbed("LUMINOUS_VIVID_PINK", octaPerso, message.author, "tag"); //setup embed
 
   //add more info to embed
-  const executor = user ? user : object.author;   //get executor
+  const executor = user ? await message.guild.members.fetch(user.id) : object.author; //get executor
   const date = message.createdAt.toString().slice(4, 24);
   embed.addFields(
     { name: octaPerso.date, value: `${date}`, inline: true }, //date of message creation
