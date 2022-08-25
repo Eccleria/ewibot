@@ -59,7 +59,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   //basic operations
   const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
-  if (checkProdTestMode(logChannel) && process.env.debug === "no") return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
@@ -283,7 +283,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newRole); //get logChannelId
-  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
 
   //get client
@@ -375,7 +375,7 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, message, "thread"); //get logChannel
-  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
   const date = message.createdAt.toString().slice(4, 24);
   if (message.partial) {
@@ -494,7 +494,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
-  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
   const date = oMessage.createdAt.toString().slice(4, 24);
 
@@ -662,6 +662,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newMember); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
@@ -683,6 +684,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get ban reason
 
