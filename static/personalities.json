@@ -88,6 +88,12 @@
         "text": "Le message a été désépinglé."
       }
     },
+    "octagonalSign": {
+      "author": "Message de :",
+      "date": "Envoyé le :",
+      "executor": "Emote envoyée par :",
+      "title": "Utilisation de 🛑"
+    },
     "roleCreate": {
       "author": "Rôle :",
       "date": "Créé le :",
