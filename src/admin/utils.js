@@ -216,7 +216,7 @@ export const generalEmbed = async (
  * Fetch Log Channel.
  * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish if returns channel or thread
+ * @param {string} [type] String to ditinguish if returns channel or thread. "thread" for thread.
  * @returns {TextChannel}
  */
 export const getLogChannel = async (commons, eventObject, type) => {
@@ -591,6 +591,23 @@ export const initAdminLogClearing = (client, waitingTime) => {
     setInterval(() => {
       //console.log("here2")
       logsRemover(client)
-    }, 5*60*1000, client) // 3000, // 24*3600*1000client)
+    }, 5 * 60 * 1000, client) // 3000, // 24*3600*1000client)
   }, waitingTime, client)
+};
+
+export const octagonalLog = async (object, user) => {
+  //get personality
+  const personality = PERSONALITY.getAdmin();
+  const octaPerso = personality.octagonalSign;
+
+  const message = user ? object.message : object;
+
+  //basic operations
+  const logChannel = await getLogChannel(commons, message); //get logChannelId
+  const embed = setupEmbed("LUMINOUS_VIVID_PINK", octaPerso, message, "tag"); //setup embed
+
+  //get executor
+  const executor = user ? user : object.author;
+
+  finishEmbed(octaPerso, executor, embed, logChannel);
 }
