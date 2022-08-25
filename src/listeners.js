@@ -14,6 +14,7 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 
 // jsons imports
 import { readFileSync } from "fs";
+import { octagonalLog } from "./admin/utils.js";
 const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 export const onPrivateMessage = async (message, client) => {
@@ -151,6 +152,11 @@ export const onReactionAdd = async (messageReaction, user) => {
   ) {
     roleAdd(messageReaction, currentServer, user);
     return;
+  }
+
+  if (currentServer.octagonalSign === messageReaction.emoji.name) {
+    octagonalLog(messageReaction, user);
+    return
   }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
