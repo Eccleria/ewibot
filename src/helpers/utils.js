@@ -1,4 +1,5 @@
 import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
+import { octagonalLog } from "../admin/utils.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
@@ -56,6 +57,10 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
+const hasOctagonalSign = (content, currentServer) => {
+  return content.includes(currentServer.octagonalSign);
+};
+
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
@@ -66,9 +71,9 @@ export const hasApology = (sanitizedContent) => {
       .split(" ")[0]; //split words and get the first
 
     //verify correspondance between trigerring & full word for error mitigation
-    if (apologyResult[0] === wordFound) return true
+    if (apologyResult[0] === wordFound) return true;
   }
-  return false
+  return false;
 };
 
 export const reactionHandler = async (message, currentServer, client) => {
@@ -83,9 +88,11 @@ export const reactionHandler = async (message, currentServer, client) => {
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
 
   if (hasApology(sanitizedContent)) {
-      addApologyCount(authorId, db); //add data to db
-      await message.react(currentServer.panDuomReactId); //add message reaction
+    addApologyCount(authorId, db); //add data to db
+    await message.react(currentServer.panDuomReactId); //add message reaction
   }
+
+  if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message);
 
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);

@@ -67,7 +67,8 @@
         "neutral": "988481811657142322"
       }
     },
-    "LuciferId": "657498573222576148"
+    "LuciferId": "657498573222576148",
+    "octagonalSign": "🛑"
   },
   {
     "name": "prod",
@@ -76,7 +77,7 @@
     "charteChannelId": "817066925976191037",
     "randomfloodChannelId": "822132004581408828",
     "logChannelId": "959168176908804106",
-    "logThreadId": "998524941349691452",
+    "logThreadId": "1012365101594058762",
     "cosmeticRoleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"
@@ -137,6 +138,7 @@
         "neutral": "1000807784738213918"
       }
     },
-    "LuciferId": "657498573222576148"
+    "LuciferId": "657498573222576148",
+    "octagonalSign": "🛑"
   }
 ]

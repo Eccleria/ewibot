@@ -42,6 +42,8 @@ import {
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
 
+import { initAdminLogClearing } from "./admin/utils.js";
+
 // jsons import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
@@ -147,6 +149,16 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
+  
+  const tomorrow2Am = dayjs()
+    .add(1, "day")
+    .hour(2)
+    .minute(0)
+    .second(0)
+    .millisecond(0); //tomorrow @ 2am
+    
+  const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
+  initAdminLogClearing(client, timeTo2Am);
 });
 // Create an event listener for messages
 
