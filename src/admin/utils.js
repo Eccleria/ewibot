@@ -671,6 +671,6 @@ export const octagonalLog = async (object, user) => {
 export const checkProdTestMode = (logChannel) => {
   const server = commons.find(({ name }) => name === "test");
   const channels = [server.logChannelId, server.logThreadId];
-  console.log(channels, logChannel.id,channels.includes(logChannel.id))
+
   return channels.includes(logChannel.id); //if test, return true
 };
