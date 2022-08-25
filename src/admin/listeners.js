@@ -361,10 +361,7 @@ export const onMessageDelete = async (message) => {
     ({ guildId }) => guildId === message.guildId
   );
 
-  if (message.channelId === currentServer.logThreadId) {
-    console.log("message deleted in logThread");
-    return;
-  }
+  if (message.channelId === currentServer.logThreadId || message.channelId === currentServer.logChannelId ) return;
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageDel = personality.messageDelete;
