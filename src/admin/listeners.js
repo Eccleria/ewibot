@@ -2,21 +2,22 @@ import { buttonHandler } from "./pronouns.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
-  fetchAuditLog,
-  finishEmbed,
-  getLogChannel,
-  setupEmbed,
-  endCasesEmbed,
-  generalEmbed,
+  checkProdTestMode,
   clientEventUpdateProcess,
+  endCasesEmbed,
+  fetchAuditLog,
   fetchMessage,
+  finishEmbed,
+  generalEmbed,
+  getLogChannel,
   gifRecovery,
+  setupEmbed,
 } from "./utils.js";
 import {
-  hasApology,
-  sanitizePunctuation,
   addAdminLogs,
   addApologyCount,
+  hasApology,
+  sanitizePunctuation,
 } from "../helpers/index.js";
 
 import dayjs from "dayjs";
@@ -58,6 +59,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   //basic operations
   const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
+  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
@@ -281,6 +283,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, newRole); //get logChannelId
+  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
 
   //get client
@@ -372,6 +375,8 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, message, "thread"); //get logChannel
+  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+
   const date = message.createdAt.toString().slice(4, 24);
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
@@ -489,6 +494,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
+  if (process.env.debug === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+
   const date = oMessage.createdAt.toString().slice(4, 24);
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
