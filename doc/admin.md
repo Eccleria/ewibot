@@ -2,12 +2,12 @@
 
 This folder contains all the files required for the administrative part of Ewibot. It can be divided in
 2 parts : the [listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners),  
-the [roles](https://github.com/Titch88/ewibot/master/blob/doc/admin.md#roles) and the 
-[utils](https://github.com/Titch88/ewibot/master/blob/doc/admin.md#utils)
+the [roles](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#roles) and the 
+[utils](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#utils)
 
 
 ## Listeners
-_[listeners.js](./src/admin/listeners.js)_ is a file regrouping all functions associated to the events 
+_[listeners.js](../src/admin/listeners.js)_ is a file regrouping all functions associated to the events 
 Ewibot is responding to. These events are affiliated to moderation stuff, like message update/delete, 
 timeout, kick, ban and so on.
 Those events are listened to, for sending logs of modification in a dedicated Discord channel. The aim 
@@ -122,8 +122,9 @@ import { buttonHandler } from "./pronouns.js";
 The roles part correspond to role attribution to users. It concerns cosmetic roles, but also 
 peonouns/agreements roles.
 
-* _[pronouns.js](./src/admin/pronouns.js)_ is used for attribution of roles of pronouns and agreements.
-* _[role.js](./src/admin/role.js)_ is used to dispatch cosmetic roles among users.
+* _[pronouns.js](../src/admin/pronouns.js)_ is used for attribution of roles of pronouns and 
+agreements.
+* _[role.js](../src/admin/role.js)_ is used to dispatch cosmetic roles among users.
 
 ### Pronouns
 
@@ -158,6 +159,6 @@ export const buttonHandler = async (interaction) => {
 
 ## Utils
 
-_[utils](.src/admin/utils.js)_ is regrouping all the functions used in many files of the admin 
+_[utils](..src/admin/utils.js)_ is regrouping all the functions used in many files of the admin 
 folder, but also of commands, helpers and src folders.
 
