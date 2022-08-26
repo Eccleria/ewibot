@@ -108,11 +108,10 @@ export const finishEmbed = async (
         "finishEmbed list error\n",
         personalityEvent.title,
         new Date(),
-        e,
-        embed
+        e
       );
     }
-    return;
+    return [];
   }
 
   if (personalityEvent.executor && executor !== null)
@@ -130,7 +129,8 @@ export const finishEmbed = async (
     }
     return [message];
   } catch (e) {
-    console.log("finishEmbed error\n", personalityEvent.title, e, embed);
+    console.log("finishEmbed error\n", personalityEvent.title, e);
+    return [];
   }
 };
 
