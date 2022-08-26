@@ -7,7 +7,7 @@ import { PERSONALITY } from "../personality.js";
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
   .setName("message")
-  .setDescription("Envoyer un message à la place d'Ewibot.")
+  .setDescription("Envoyer un message � la place d'Ewibot.")
   .addSubcommand((command) =>
     command
       .setName("send")
@@ -29,27 +29,25 @@ const command = new SlashCommandBuilder()
       .addAttachmentOption((option) =>
         option
           .setName("piece-jointe")
-          .setDescription("Pi�ce jointe � envoyer.")
+          .setDescription("Pièce jointe à envoyer.")
           .setRequired(false)
       )
   )
   .addSubcommand((command) => 
     command
       .setName("reply")
-      .setDescription("R�ponse d'Ewibot � un message.")
+      .setDescription("Réponse d'Ewibot à un message.")
       .addChannelOption((option) =>
         option
           .setName("salon")
-          .setDescription(
-            "L'id du channel dans lequel il y a le message auquel Ewibot r�pondra."
-          )
+          .setDescription("L'id du channel dans lequel il y a le message auquel Ewibot répondra.")
           .setRequired(true)
           .addChannelTypes(ChannelType.GuildText)
       )
       .addStringOption((option) =>
         option
           .setName("messageid")
-          .setDescription("L'id du message auquel Ewibot r�pondra.")
+          .setDescription("L'id du message auquel Ewibot répondra.")
           .setRequired(true)
       )
       .addStringOption((option) =>
@@ -62,7 +60,7 @@ const command = new SlashCommandBuilder()
       .addAttachmentOption((option) =>
         option
           .setName("piece-jointe")
-          .setDescription("Pi�ce jointe � envoyer.")
+          .setDescription("Pièce jointe à envoyer.")
           .setRequired(false)
       )
   );
