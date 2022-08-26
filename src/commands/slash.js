@@ -16,6 +16,7 @@ import {
 import { interactionReply } from "./utils.js";
 
 import birthday from "./birthday.js";
+import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import reminder from "./reminder.js";
 
@@ -140,6 +141,7 @@ const ignoreChannel = {
 };
 
 const helpCommands = [
+  botMessage,
   birthday,
   concrete,
   ignore,
