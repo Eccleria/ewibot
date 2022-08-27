@@ -72,6 +72,7 @@
       "prodChannelId": "935180557770448956",
       "testChannelId": "971866953859891220"
     }
+    "octagonalSign": "🛑"
   },
   {
     "name": "prod",
@@ -80,7 +81,7 @@
     "charteChannelId": "817066925976191037",
     "randomfloodChannelId": "822132004581408828",
     "logChannelId": "959168176908804106",
-    "logThreadId": "998524941349691452",
+    "logThreadId": "1012365101594058762",
     "cosmeticRoleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"
@@ -146,5 +147,6 @@
       "prodChannelId": "984369852229779496",
       "testChannelId": "984369852229779496"
     }
+    "octagonalSign": "🛑"
   }
 ]
