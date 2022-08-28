@@ -14,6 +14,8 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  getTwitterUser,
+  updateLastTweetId,
 } from "./dbHelper.js";
 
 import {
@@ -59,4 +61,6 @@ export {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  getTwitterUser,
+  updateLastTweetId,
 };

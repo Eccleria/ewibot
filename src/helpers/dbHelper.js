@@ -149,6 +149,17 @@ const isTwitterUser = (authorId, db) => {
     .includes(authorId);
 };
 
+const getTwitterUser = (authorId, db) => {
+  const twitter = db.data.twitter;
+  if (isTwitterUser(authorId, db)) {
+    for (const obj of twitter) {
+      if (obj.userId === authorId) {
+        return obj
+      }
+    }
+  }
+};
+
 const updateLastTweetId = (authorId, tweetId, db) => {
   const twitter = db.data.twitter;
   if (isTwitterUser(authorId, db)) {
@@ -161,4 +172,4 @@ const updateLastTweetId = (authorId, tweetId, db) => {
   }
 }
 
-export { updateLastTweetId };
+export { getTwitterUser, updateLastTweetId };
