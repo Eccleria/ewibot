@@ -41,7 +41,7 @@ const twitter = {
   action,
   command,
   help: (interaction) => {
-    //interaction.reply({ content: PERSONALITY.getCommands().twitter.help, ephemeral: true })
+    interaction.reply({ content: PERSONALITY.getCommands().twitter.help, ephemeral: true })
   },
   admin: true,
 };
