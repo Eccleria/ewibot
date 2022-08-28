@@ -83,7 +83,8 @@ const onConnectionClosed = async () => { //client) => {
 
 export const initTwitter = async (client) => {
   const twitter = client.twitter;
-  const stream = await twitter.searchStream({ expansions: "author_id" });
+  const stream = await twitter.searchStream({ expansions: "author_id" }); //create stream
+  client.twitter.stream = stream; //bind stream to client
 
   /*
   console.log("delete rules result", await twitter.updateStreamRules({
@@ -147,9 +148,9 @@ export const initTwitter = async (client) => {
     console.log('Twitter Event:ReconnectLimitExceeded');
   });
 
-  stream.on(ETwitterStreamEvent.DataKeepAlive, async () => {
+  /*stream.on(ETwitterStreamEvent.DataKeepAlive, async () => {
     console.log('Twitter Event:DataKeepAlive');
-  });
+  });*/
 
   // Enable reconnect feature
   stream.autoReconnect = true;

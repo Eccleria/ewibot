@@ -34,6 +34,18 @@ const command = new SlashCommandBuilder()
   ;
 
 const action = (interaction) => {
+  const twitter = interaction.client.twitter;
+  const stream = twitter.stream;
+
+  const options = interaction.options; //get interaction options
+  const subcommand = options.getSubcommand();
+  const subcommandGroup = options.getSubcommandGroup();
+
+  if (subcommandGroup) {
+    console.log("subcommandGroup", subcommandGroup);
+    console.log("subcommand", subcommand)
+
+  }
 
 };
 
