@@ -32,9 +32,10 @@ const command = new SlashCommandBuilder()
       )
   );
 
-const action = (interaction) => {
+const action = async (interaction) => {
   const twitter = interaction.client.twitter;
-  //const stream = twitter.stream;
+  const stream = twitter.stream;
+  const personality = PERSONALITY.getCommands().twitter;
 
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
@@ -43,9 +44,23 @@ const action = (interaction) => {
   console.log("subcommandGroup", subcommandGroup);
   console.log("subcommand", subcommand)
 
-  if (subcommandGroup) {
-
-
+  if (subcommandGroup === "stream") {
+    if (subcommand === "close") {
+      stream.destroy();
+      interaction.client.stream = null;
+      interaction.reply({ content: personality.streamClose, ephemeral: true });
+      return;
+    } else if (subcommand === "connect") {
+      if (!stream) {
+        const newStream = await twitter.searchStream({ expansions: "author_id" }); //create stream
+        interaction.client.twitter.stream = newStream;
+        interaction.reply({ content: personality.streamConnect, ephemeral: true });
+        return;
+      } else {
+        interaction.reply({ content: personality.streamExists, ephemeral: true });
+        return;
+      }
+    }
   }
 
 };
