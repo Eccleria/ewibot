@@ -159,6 +159,6 @@ export const buttonHandler = async (interaction) => {
 
 ## Utils
 
-_[utils](..src/admin/utils.js)_ is regrouping all the functions used in many files of the admin 
+_[utils](../src/admin/utils.js)_ is regrouping all the functions used in many files of the admin 
 folder, but also of commands, helpers and src folders.
 
