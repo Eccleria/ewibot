@@ -15,21 +15,6 @@ const command = new SlashCommandBuilder()
     command
       .setName("status")
       .setDescription("Indique le status de la connexion avec Twitter.")
-  )
-  .addSubcommandGroup((group) =>
-    group
-      .setName("stream")
-      .setDescription("Gère le stream sur Twitter.")
-      .addSubcommand((command) =>
-        command
-          .setName("connect")
-          .setDescription("Lance une connexion avec Twitter.")
-      )
-      .addSubcommand((command) =>
-        command
-          .setName("close")
-          .setDescription("Ferme une connexion avec Twitter.")
-      )
   );
 
 const action = async (interaction) => {
@@ -42,26 +27,7 @@ const action = async (interaction) => {
   const subcommandGroup = options.getSubcommandGroup();
 
   console.log("subcommandGroup", subcommandGroup);
-  console.log("subcommand", subcommand)
-
-  if (subcommandGroup === "stream") {
-    if (subcommand === "close") {
-      stream.destroy();
-      interaction.client.stream = null;
-      interaction.reply({ content: personality.streamClose, ephemeral: true });
-      return;
-    } else if (subcommand === "connect") {
-      if (!stream) {
-        const newStream = await twitter.searchStream({ expansions: "author_id" }); //create stream
-        interaction.client.twitter.stream = newStream;
-        interaction.reply({ content: personality.streamConnect, ephemeral: true });
-        return;
-      } else {
-        interaction.reply({ content: personality.streamExists, ephemeral: true });
-        return;
-      }
-    }
-  }
+  console.log("subcommand", subcommand);
 
 };
 

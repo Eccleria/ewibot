@@ -244,10 +244,7 @@
         "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       },
       "twitter": {
-        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
-        "streamClose": "Le stream Twitter a été coupé.",
-        "streamConnect": "Un stream Twitter a été créé.",
-        "streamExists": "Un stream existe déjà."
+        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot."
       }
     },
     "spotify": {
@@ -351,10 +348,7 @@
         "parsingError": "Erreur de parsing."
       },
       "twitter": {
-        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
-        "streamClose": "Le stream Twitter a été coupé.",
-        "streamConnect": "Un stream Twitter a été créé.",
-        "streamExists": "Un stream existe déjà."
+        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot."
       }
     },
     "spotify": {
