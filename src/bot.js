@@ -52,6 +52,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
+import { slashCommandsInit } from "./commands/slash.js";
 import {
   /*fetchUserProfile,*/
   initTwitter,
@@ -160,6 +161,12 @@ client.once("ready", async () => {
   const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
   const twitter = twitterClient.v2; //setup client to v2 api
   client.twitter = twitter; //save twitter into client
+
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const guildId = server.guildId;
+  slashCommandsInit(self, guildId, client);
 
   initTwitter(client); //init Twitter comm with API
   /*

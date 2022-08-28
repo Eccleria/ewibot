@@ -9,7 +9,7 @@ const command = new SlashCommandBuilder()
   .addSubcommand((command) => 
     command
       .setName("checktweets")
-      .setDescription("Compare les derniers tweets avec la base de donnée et envoie la différence dans un salon pour approbation.")
+      .setDescription("Compare les derniers tweets avec la base de donnée et envoie la différence.")
   )
   .addSubcommand((command) =>
     command
@@ -24,26 +24,27 @@ const command = new SlashCommandBuilder()
         command
           .setName("connect")
           .setDescription("Lance une connexion avec Twitter.")
-    )
+      )
       .addSubcommand((command) =>
         command
           .setName("close")
           .setDescription("Ferme une connexion avec Twitter.")
       )
-  )
-  ;
+  );
 
 const action = (interaction) => {
   const twitter = interaction.client.twitter;
-  const stream = twitter.stream;
+  //const stream = twitter.stream;
 
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
   const subcommandGroup = options.getSubcommandGroup();
 
+  console.log("subcommandGroup", subcommandGroup);
+  console.log("subcommand", subcommand)
+
   if (subcommandGroup) {
-    console.log("subcommandGroup", subcommandGroup);
-    console.log("subcommand", subcommand)
+
 
   }
 

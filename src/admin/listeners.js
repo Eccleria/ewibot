@@ -29,8 +29,22 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 //LISTENERS
 
 export const onInteractionCreate = (interaction) => {
-  //console.log(interaction);
-  if (interaction.isButton()) buttonHandler(interaction);
+  if (interaction.isButton()) {
+    buttonHandler(interaction);
+    return;
+  }
+
+  if (!interaction.isCommand()) return; //if not a command, return
+
+  //slash commands
+  const client = interaction.client; //get client
+  const slashCommands = client.slashCommands; //get commands
+
+  const foundCommand = slashCommands.find(
+    (cmd) => cmd.command.name === interaction.commandName
+  );
+
+  if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
 };
 
 export const onChannelCreate = async (channel) => {
