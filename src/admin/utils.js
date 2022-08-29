@@ -586,8 +586,8 @@ export const gifRecovery = (content) => {
 };
 
 export const logsRemover = async (client) => {
+  console.log("logsRemover")
   const db = client.db;
-  //console.log("db", db.data.adminLogs);
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
@@ -597,9 +597,9 @@ export const logsRemover = async (client) => {
   let data = dbData[type][0];
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
-    await threadChannel.bulkDelete(data); //const result =
+    const result = await threadChannel.bulkDelete(data); //const result =
     removeAdminLogs(db, type);
-    //console.log("result1", result)
+    console.log("result1", result.keys())
   }
   removeAdminLogs(db, type);
   //console.log("db", db.data.adminLogs.frequent);
@@ -618,6 +618,7 @@ export const logsRemover = async (client) => {
 export const initAdminLogClearing = (client, waitingTime) => {
   setTimeout(
     () => {
+      logsRemover(client);
       setInterval(
         () => {
           logsRemover(client);
