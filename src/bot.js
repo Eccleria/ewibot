@@ -161,6 +161,7 @@ client.once("ready", async () => {
   const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
   const twitter = twitterClient.v2; //setup client to v2 api
   client.twitter = twitter; //save twitter into client
+  client.twitter.isSending = false;
 
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
