@@ -74,19 +74,18 @@ const action = async (interaction) => {
     const channelId = server.twitter.prodChannelId;
     const channel = await client.channels.fetch(channelId);
 
-    const firstWaitingTime = waitingTimeRadomizer(5, 2) * 60 * 1000;
     const lenght = missingTweets.lenght;
 
     missingTweets.reduce((acc, cur, idx) => {
       //compute new waiting time
       const curWaitingTime = waitingTimeRadomizer(5, 2) * 60 * 1000; 
       const newAcc = acc + curWaitingTime; //sum waiting times
-
+      console.log("newAcc", newAcc);
       const isLast = idx === lenght - 1; //compute if is last Tweet
 
       timeoutTweets(cur, newAcc, channel, isLast, client); //set tweet Timeout before send
       return newAcc; //return sum of waiting times
-    }, firstWaitingTime);
+    }, 0);
     interaction.reply({
       content: personality.sendInProgress, ephemeral: true
     });
