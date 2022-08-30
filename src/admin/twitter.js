@@ -1,5 +1,9 @@
-import { ETwitterStreamEvent } from 'twitter-api-v2';
-import { getTwitterUser, updateLastTweetId, addMissingTweets } from "../helpers/index.js";
+import { ETwitterStreamEvent } from "twitter-api-v2";
+import {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+} from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -10,7 +14,7 @@ export const fetchUserTimeline = async (client, userId, pageToken) => {
 
   let params = {
     max_results: 5,
-    exclude: ["replies", "retweets"]
+    exclude: ["replies", "retweets"],
   }; //params for api requests - used for timeline fetch
   if (pageToken) params.pagination_token = pageToken;
 
@@ -33,7 +37,7 @@ export const fetchUserProfile = async (client, userId) => {
   const twitter = client.twitter;
 
   const params = {
-    "user.fields": ["profile_image_url", "url", "username"]
+    "user.fields": ["profile_image_url", "url", "username"],
   }; //used for user fetch
 
   return await twitter.user(userId, params); //fetch Andarta Pictures's Twitter profile
@@ -45,11 +49,11 @@ export const fetchUserProfile = async (client, userId) => {
 
 export const tweetLink = (username, id) => {
   return "https://twitter.com/" + username + "/status/" + id; //write tweet url
-}
+};
 
 const tweetHandler = async (tweet, client) => {
-  console.log('Twitter has sent something:', tweet);
-  console.log('includes', tweet.includes);
+  console.log("Twitter has sent something:", tweet);
+  console.log("includes", tweet.includes);
 
   const { data } = tweet;
   const tweetId = data.id; //get tweet Id
@@ -68,17 +72,20 @@ const tweetHandler = async (tweet, client) => {
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   ); //get commons data
-  const channelId = tag === "test" ? server.twitter.testChannelId : server.twitter.prodChannelId;
+  const channelId =
+    tag === "test"
+      ? server.twitter.testChannelId
+      : server.twitter.prodChannelId;
 
   const channel = await client.channels.fetch(channelId);
 
   channel.send({ content: tLink });
 };
 
-
-const onConnectionClosed = async () => { //client) => {
+const onConnectionClosed = async () => {
+  //client) => {
   //handle connection closed
-  console.log('Twitter Event:ConnectionClosed');
+  console.log("Twitter Event:ConnectionClosed");
   //await initTwitter(client);
 };
 
@@ -90,7 +97,9 @@ export const initTwitter = async (client) => {
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
 
-  const channel = await client.channels.fetch(currentServer.twitter.testChannelId);
+  const channel = await client.channels.fetch(
+    currentServer.twitter.testChannelId
+  );
 
   //compare tweets
   const users = Object.entries(currentServer.twitterUserIds);
@@ -110,7 +119,7 @@ export const initTwitter = async (client) => {
       }, []); //send tweets as messages;
 
       //update db
-      updateLastTweetId(userId, tweetIds[0], db);  //last Tweets
+      updateLastTweetId(userId, tweetIds[0], db); //last Tweets
       addMissingTweets(links, db); //tweets links
     }
   }
@@ -121,7 +130,11 @@ export const initTwitter = async (client) => {
   console.log("tweets", tweets);
   console.log("data", tweets.data);
 
-  fetchedTweets = await fetchUserTimeline(client, "1032989926000939008", "7140dibdnow9c7btw421dwur8597a561mnql6z9q5iddl")
+  fetchedTweets = await fetchUserTimeline(
+    client,
+    "1032989926000939008",
+    "7140dibdnow9c7btw421dwur8597a561mnql6z9q5iddl"
+  );
   const nextTweets = fetchedTweets.data;
   console.log("nextTweets", nextTweets);
 
@@ -149,17 +162,17 @@ export const initTwitter = async (client) => {
   const rules = await twitter.streamRules();
   console.log("rules", rules);
   */
- 
+
   // Awaits for a tweet
 
   stream.on(ETwitterStreamEvent.Connected, async () => {
-    console.log('Twitter Event:Connected');
+    console.log("Twitter Event:Connected");
   });
   stream.on(ETwitterStreamEvent.ConnectionLost, async () => {
-    console.log('Twitter Event:ConnectionLost');
+    console.log("Twitter Event:ConnectionLost");
   });
   stream.on(ETwitterStreamEvent.ConnectionError, async (data) => {
-    console.log('Twitter Event:ConnectionError', data);
+    console.log("Twitter Event:ConnectionError", data);
   });
   stream.on(ETwitterStreamEvent.ConnectionClosed, async () => {
     onConnectionClosed(client);
@@ -168,10 +181,10 @@ export const initTwitter = async (client) => {
   stream.on(
     // Emitted when a Twitter payload (a tweet or not, given the endpoint).
     ETwitterStreamEvent.Data,
-    (eventData) => tweetHandler(eventData, client),
+    (eventData) => tweetHandler(eventData, client)
   );
   stream.on(ETwitterStreamEvent.TweetParseError, async (data) => {
-    console.log('Twitter Event:TweetParseError', data);
+    console.log("Twitter Event:TweetParseError", data);
   });
 
   stream.on(ETwitterStreamEvent.Error, async (error) => {
@@ -179,16 +192,16 @@ export const initTwitter = async (client) => {
   });
 
   stream.on(ETwitterStreamEvent.ReconnectAttempt, async (data) => {
-    console.log('Twitter Event:ReconnectAttempt', data);
+    console.log("Twitter Event:ReconnectAttempt", data);
   });
   stream.on(ETwitterStreamEvent.Reconnected, async () => {
-    console.log('Twitter Event:Reconnected');
+    console.log("Twitter Event:Reconnected");
   });
   stream.on(ETwitterStreamEvent.ReconnectError, async (data) => {
-    console.log('Twitter Event:ReconnectError', data);
+    console.log("Twitter Event:ReconnectError", data);
   });
   stream.on(ETwitterStreamEvent.ReconnectLimitExceeded, async () => {
-    console.log('Twitter Event:ReconnectLimitExceeded');
+    console.log("Twitter Event:ReconnectLimitExceeded");
   });
 
   /*stream.on(ETwitterStreamEvent.DataKeepAlive, async () => {
@@ -214,7 +227,7 @@ includes {
   users: [
     {
       id: '1511087619215609862',
-      name: 'Eccléria Alesta',
+      name: 'Ecclï¿½ria Alesta',
       username: 'eccleria'
     }
   ]

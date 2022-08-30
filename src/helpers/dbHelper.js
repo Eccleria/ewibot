@@ -154,7 +154,7 @@ const getTwitterUser = (authorId, db) => {
   if (isTwitterUser(authorId, db)) {
     for (const obj of twitter) {
       if (obj.userId === authorId) {
-        return obj
+        return obj;
       }
     }
   }
@@ -182,9 +182,19 @@ const addMissingTweets = (tweetIds, db) => {
 const removeMissingTweets = (tweetIds, db) => {
   const missingTweets = db.data.twitter.missingTweets;
   if (typeof tweetIds === "string")
-    db.data.twitter.missingTweets = missingTweets.filter((id) => tweetIds !== id);
-  else db.data.twitter.missingTweets = missingTweets.filter((id) => !tweetIds.includes(id));
+    db.data.twitter.missingTweets = missingTweets.filter(
+      (id) => tweetIds !== id
+    );
+  else
+    db.data.twitter.missingTweets = missingTweets.filter(
+      (id) => !tweetIds.includes(id)
+    );
   db.wasUpdated = true;
 };
 
-export { getTwitterUser, updateLastTweetId, addMissingTweets, removeMissingTweets };
+export {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
+};

@@ -9,7 +9,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
 
-import { TwitterApi } from 'twitter-api-v2';
+import { TwitterApi } from "twitter-api-v2";
 
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
@@ -186,7 +186,7 @@ client.once("ready", async () => {
     .minute(0)
     .second(0)
     .millisecond(0); //tomorrow @ 2am
-    
+
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
   initAdminLogClearing(client, timeTo2Am);
 });

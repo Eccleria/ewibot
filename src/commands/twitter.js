@@ -9,11 +9,11 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 const command = new SlashCommandBuilder()
   .setName("twitter")
   .setDescription("Commandes de gestions du lien Twitter-Discord.")
-  .setDefaultMemberPermissions(0)/*
+  .setDefaultMemberPermissions(0) /*
   .addSubcommand((command) => 
     command
       .setName("checktweets")
-      .setDescription("Compare les derniers tweets avec la base de donnée et envoie la différence.")
+      .setDescription("Compare les derniers tweets avec la base de donnï¿½e et envoie la diffï¿½rence.")
   )
   .addSubcommand((command) =>
     command
@@ -24,7 +24,7 @@ const command = new SlashCommandBuilder()
     command
       .setName("confirm-init")
       .setDescription("Confirme l'envoi des derniers tweets manquants.")
-    );
+  );
 
 const waitingTimeRadomizer = (mean, variation) => {
   const waitingTime = mean + (Math.random() - 0.5) * variation; //mean +/- variation random
@@ -32,12 +32,17 @@ const waitingTimeRadomizer = (mean, variation) => {
 };
 
 const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
-  setTimeout(() => {
-    channel.send({ content: tweetLink });
-    removeMissingTweets(tweetLink, client.db);
-    if (isLast) client.twitter.isSending = false;
-  }, waitingTime, isLast, client);
-}
+  setTimeout(
+    () => {
+      channel.send({ content: tweetLink });
+      removeMissingTweets(tweetLink, client.db);
+      if (isLast) client.twitter.isSending = false;
+    },
+    waitingTime,
+    isLast,
+    client
+  );
+};
 
 const action = async (interaction) => {
   const client = interaction.client;
@@ -77,7 +82,7 @@ const action = async (interaction) => {
 
     missingTweets.reduce((acc, cur, idx) => {
       //compute new waiting time
-      const curWaitingTime = waitingTimeRadomizer(2, 1) * 60 * 1000; 
+      const curWaitingTime = waitingTimeRadomizer(2, 1) * 60 * 1000;
       const newAcc = acc + curWaitingTime; //sum waiting times
       console.log("newAcc", newAcc);
       const isLast = idx === lenght - 1; //compute if is last Tweet
@@ -86,7 +91,8 @@ const action = async (interaction) => {
       return newAcc; //return sum of waiting times
     }, 0);
     interaction.reply({
-      content: personality.sendInProgress, ephemeral: true
+      content: personality.sendInProgress,
+      ephemeral: true,
     });
     client.twitter.isSending = true;
   }
@@ -96,7 +102,10 @@ const twitter = {
   action,
   command,
   help: (interaction) => {
-    interaction.reply({ content: PERSONALITY.getCommands().twitter.help, ephemeral: true })
+    interaction.reply({
+      content: PERSONALITY.getCommands().twitter.help,
+      ephemeral: true,
+    });
   },
   admin: true,
 };

@@ -2,7 +2,7 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 //import { SlashCommandBuilder } from "@discordjs/builders";
 
-import twitter from "./twitter.js"
+import twitter from "./twitter.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
