@@ -31,17 +31,12 @@ const waitingTimeRadomizer = (mean, variation) => {
   return Math.floor(waitingTime); //floor
 };
 
-const timeoutTweets = (tweetLink, oldWaitingTime, channel, isLast, client) => {
-  const waitingTime = waitingTimeRadomizer(5, 2); //in minutes
-  const waitingTimeMs = oldWaitingTime + waitingTime * 60 * 1000; //in ms
+const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
   setTimeout(() => {
     channel.send({ content: tweetLink });
-    if (isLast) {
-      client.isSending = false;
-      removeMissingTweets()
-    }
-  }, waitingTimeMs, isLast, client);
-  return waitingTimeMs
+    removeMissingTweets(tweetLink, client.db);
+    if (isLast) client.twitter.isSending = false;
+  }, waitingTime, isLast, client);
 }
 
 const action = async (interaction) => {
@@ -75,10 +70,14 @@ const action = async (interaction) => {
     const channel = await client.channels.fetch(channelId);
 
     const lenght = missingTweets.lenght;
+    if (lenght === 0) {
+      interaction.reply({ content: personality.noTweets, ephemeral: true });
+      return;
+    }
 
     missingTweets.reduce((acc, cur, idx) => {
       //compute new waiting time
-      const curWaitingTime = waitingTimeRadomizer(5, 2) * 60 * 1000; 
+      const curWaitingTime = waitingTimeRadomizer(2, 1) * 60 * 1000; 
       const newAcc = acc + curWaitingTime; //sum waiting times
       console.log("newAcc", newAcc);
       const isLast = idx === lenght - 1; //compute if is last Tweet

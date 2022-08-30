@@ -246,6 +246,7 @@
       "twitter": {
         "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
+        "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter."
       }
     },
@@ -352,6 +353,7 @@
       "twitter": {
         "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
+        "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter."
       }
     },
