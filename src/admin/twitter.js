@@ -1,5 +1,5 @@
 import { ETwitterStreamEvent } from 'twitter-api-v2';
-import { getTwitterUser, updateLastTweetId } from "../helpers/index.js";
+import { getTwitterUser, updateLastTweetId, addMissingTweets } from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -103,13 +103,15 @@ export const initTwitter = async (client) => {
     if (idx > 0) {
       //some tweets are missing. Send them in #ewibot-secret for review + update db;
       const tweetsToSend = tweetIds.slice(0, idx);
-      tweetsToSend.reduce((acc, tweetId) => {
+      const links = tweetsToSend.reduce((acc, tweetId) => {
         const tLink = tweetLink(username, tweetId); //get tweet link
         channel.send({ content: tLink }); //send message to channel
         return [...acc, tLink]; //return link for future process
       }, []); //send tweets as messages;
 
-      updateLastTweetId(userId, tweetIds[0], db); //update db
+      //update db
+      updateLastTweetId(userId, tweetIds[0], db);  //last Tweets
+      addMissingTweets(links, db); //tweets links
     }
   }
 
