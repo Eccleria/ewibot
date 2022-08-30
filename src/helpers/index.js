@@ -16,6 +16,8 @@ import {
   removeAppologyCount,
   getTwitterUser,
   updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
 } from "./dbHelper.js";
 
 import {
@@ -63,4 +65,6 @@ export {
   removeAppologyCount,
   getTwitterUser,
   updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
 };
