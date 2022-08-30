@@ -103,7 +103,7 @@ export const initTwitter = async (client) => {
     if (idx > 0) {
       //some tweets are missing. Send them in #ewibot-secret for review + update db;
       const tweetsToSend = tweetIds.slice(0, idx);
-      const links = tweetsToSend.reduce((acc, tweetId) => {
+      const links = tweetsToSend.reduceRight((acc, tweetId) => {
         const tLink = tweetLink(username, tweetId); //get tweet link
         channel.send({ content: tLink }); //send message to channel
         return [...acc, tLink]; //return link for future process
