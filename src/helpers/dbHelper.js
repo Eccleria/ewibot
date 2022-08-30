@@ -173,7 +173,7 @@ const updateLastTweetId = (authorId, tweetId, db) => {
 };
 
 const addMissingTweets = (tweetIds, db) => {
-  if (typeof tweetIds === "number")
+  if (typeof tweetIds === "string")
     db.data.twitter.missingTweets.push(tweetIds);
   else db.data.twitter.missingTweets.push(...tweetIds);
   db.wasUpdated = true;
@@ -181,7 +181,7 @@ const addMissingTweets = (tweetIds, db) => {
 
 const removeMissingTweets = (tweetIds, db) => {
   const missingTweets = db.data.twitter.missingTweets;
-  if (typeof tweetIds === "number")
+  if (typeof tweetIds === "string")
     db.data.twitter.missingTweets = missingTweets.filter((id) => tweetIds !== id);
   else db.data.twitter.missingTweets = missingTweets.filter((id) => !tweetIds.includes(id));
   db.wasUpdated = true;
