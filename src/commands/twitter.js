@@ -89,7 +89,7 @@ const action = async (interaction) => {
     interaction.reply({
       content: personality.sendInProgress, ephemeral: true
     });
-    client.isSending = true;
+    client.twitter.isSending = true;
   }
 };
 
