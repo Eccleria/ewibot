@@ -32,8 +32,8 @@ const command = new SlashCommandBuilder()
 )*/
   .addSubcommand((command) =>
     command
-      .setName("confirm-init")
-      .setDescription("Confirme l'envoi des derniers tweets manquants.")
+      .setName("share")
+      .setDescription("Partage les derniers tweets manquants au publique.")
   );
 
 const waitingTimeRadomizer = (mean, variation) => {
@@ -67,7 +67,7 @@ const action = async (interaction) => {
   //console.log("subcommandGroup", subcommandGroup);
   console.log("subcommand", subcommand);
 
-  if (subcommand === "confirm-init") {
+  if (subcommand === "share") {
     const isSending = client.twitter.isSending;
     if (isSending) {
       //if already sending tweets, return
