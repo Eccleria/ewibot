@@ -1,9 +1,4 @@
 import { ETwitterStreamEvent } from "twitter-api-v2";
-import {
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-} from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -91,39 +86,7 @@ const onConnectionClosed = async () => {
 
 export const initTwitter = async (client) => {
   const twitter = client.twitter;
-  const db = client.db;
-
-  const currentServer = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
-
-  const channel = await client.channels.fetch(
-    currentServer.twitter.testChannelId
-  );
-
-  //compare tweets
-  const users = Object.entries(currentServer.twitterUserIds);
-  for (const [username, userId] of users) {
-    const dbData = getTwitterUser(userId, client.db);
-    let fetchedTweets = await fetchUserTimeline(client, userId); //timeline
-    const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
-    const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
-
-    if (idx > 0) {
-      //some tweets are missing. Send them in #ewibot-secret for review + update db;
-      const tweetsToSend = tweetIds.slice(0, idx);
-      const links = tweetsToSend.reduceRight((acc, tweetId) => {
-        const tLink = tweetLink(username, tweetId); //get tweet link
-        channel.send({ content: tLink }); //send message to channel
-        return [...acc, tLink]; //return link for future process
-      }, []); //send tweets as messages;
-
-      //update db
-      updateLastTweetId(userId, tweetIds[0], db); //last Tweets
-      addMissingTweets(links, db); //tweets links
-    }
-  }
-
+  /*
   let fetchedTweets = await fetchUserTimeline(client, "1032989926000939008"); //laquetedewilan
   console.log("fetchedTweets", fetchedTweets);
   const tweets = fetchedTweets.data;
@@ -137,7 +100,7 @@ export const initTwitter = async (client) => {
   );
   const nextTweets = fetchedTweets.data;
   console.log("nextTweets", nextTweets);
-
+  */
   //stream
   const stream = await twitter.searchStream({ expansions: "author_id" }); //create stream
   client.twitter.stream = stream; //bind stream to client
