@@ -33,7 +33,22 @@ const command = new SlashCommandBuilder()
   .addSubcommand((command) =>
     command
       .setName("share")
-      .setDescription("Partage les derniers tweets manquants au publique.")
+      .setDescription("Partage les derniers tweets manquants au publique.")  
+  )
+  .addSubcommandGroup((group) =>
+    group
+      .setName("stream")
+      .setDescription("Gère le stream sur Twitter.")
+      .addSubcommand((command) =>
+        command
+          .setName("connect")
+          .setDescription("Lance une connexion avec Twitter.")
+      )
+      .addSubcommand((command) =>
+        command
+          .setName("close")
+          .setDescription("Ferme une connexion avec Twitter.")
+      )
   );
 
 const waitingTimeRadomizer = (mean, variation) => {
@@ -55,16 +70,16 @@ const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
 };
 
 const action = async (interaction) => {
+  //get client data
   const client = interaction.client;
-  //const twitter = client.twitter;
-  //const stream = twitter.stream;
-  const personality = PERSONALITY.getCommands().twitter;
+  const twitter = client.twitter;
+  const stream = twitter.stream;
+
+  const personality = PERSONALITY.getCommands().twitter; //get personality
 
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
-  //const subcommandGroup = options.getSubcommandGroup();
 
-  //console.log("subcommandGroup", subcommandGroup);
   console.log("subcommand", subcommand);
 
   if (subcommand === "share") {
@@ -146,6 +161,36 @@ const action = async (interaction) => {
       interaction.reply({ content: content }); //, ephemeral: true });
     }
     else interaction.reply({ content: "La db est à jour.", ephemeral: true });
+    return;
+  }
+
+  //handle stream connexion
+  let subcommandGroup;
+  try {
+    subcommandGroup = interaction.options.getSubcommandGroup();
+  } catch {
+    subcommandGroup = null;
+  }
+
+  console.log("subcommandGroup", subcommandGroup);
+  if (subcommandGroup === "stream") {
+    if (subcommand === "close") {
+      stream.destroy(); //destroy stream
+      interaction.client.stream = null; //reset client
+      interaction.reply({ content: personality.streamClose, ephemeral: true }); //reply to user
+      return;
+    } else if (subcommand === "connect") {
+      if (!stream) {
+        //if no stream
+        const newStream = await twitter.searchStream({ expansions: "author_id" }); //create stream
+        interaction.client.twitter.stream = newStream; //update client
+        interaction.reply({ content: personality.streamConnect, ephemeral: true }); //reply to user
+        return;
+      } else {
+        interaction.reply({ content: personality.streamExists, ephemeral: true }); //reply to user
+        return;
+      }
+    }
   }
 };
 
