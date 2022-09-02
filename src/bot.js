@@ -165,7 +165,7 @@ client.once("ready", async () => {
 
   //TWITTER
   const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
-  const twitter = twitterClient.v2; //setup client to v2 api
+  const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
   client.twitter = twitter; //save twitter into client
   client.twitter.isSending = false;
 
