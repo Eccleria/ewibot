@@ -102,7 +102,9 @@ export const initTwitter = async (client) => {
   console.log("nextTweets", nextTweets);
   */
   //stream
-  const stream = await twitter.searchStream({ expansions: "author_id" }); //create stream
+  const stream = process.env.USE_TWITTER === "no"
+    ? twitter.searchStream({ expansions: "author_id", autoConnect: false })
+    : await twitter.searchStream({ expansions: "author_id" }); //create stream
   client.twitter.stream = stream; //bind stream to client
 
   /*

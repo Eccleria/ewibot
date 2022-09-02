@@ -175,6 +175,7 @@ const action = async (interaction) => {
   console.log("subcommandGroup", subcommandGroup);
   if (subcommandGroup === "stream") {
     if (subcommand === "close") {
+      stream.autoReconnect = false; //prevent stream reconnection after .destroy()
       stream.destroy(); //destroy stream
       interaction.client.stream = null; //reset client
       interaction.reply({ content: personality.streamClose, ephemeral: true }); //reply to user
@@ -182,7 +183,8 @@ const action = async (interaction) => {
     } else if (subcommand === "connect") {
       if (!stream) {
         //if no stream
-        const newStream = await twitter.searchStream({ expansions: "author_id" }); //create stream
+        const args = { expansions: "author_id", autoReconnect: true }
+        const newStream = await twitter.searchStream(args); //create stream
         interaction.client.twitter.stream = newStream; //update client
         interaction.reply({ content: personality.streamConnect, ephemeral: true }); //reply to user
         return;
