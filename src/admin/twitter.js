@@ -84,7 +84,7 @@ const onConnectionClosed = async () => {
   //await initTwitter(client);
 };
 
-export const initTwitter = async (client) => {
+export const initTwitterStream = async (client) => {
   const twitter = client.twitter;
   /*
   let fetchedTweets = await fetchUserTimeline(client, "1032989926000939008"); //laquetedewilan

@@ -55,7 +55,7 @@ import { wishBirthday } from "./commands/birthday.js";
 import { slashCommandsInit } from "./commands/slash.js";
 import {
   /*fetchUserProfile,*/
-  initTwitter,
+  initTwitterStream,
 } from "./admin/twitter.js";
 
 // DB
@@ -169,7 +169,7 @@ client.once("ready", async () => {
   client.twitter = twitter; //save twitter into client
   client.twitter.isSending = false;
 
-  initTwitter(client); //init Twitter comm with API
+  initTwitterStream(client); //init Twitter stream with API
 
   /*
   const tweet = await fetchTweets(client, "1371839010755207176");
