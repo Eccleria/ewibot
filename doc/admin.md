@@ -13,6 +13,7 @@ The folder contains all the files required for the administrative part of Ewibot
 * [Roles](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#roles)
     * [Pronouns](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#pronouns)
 * [Utils](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#utils)
+* [Logs](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#logs)
 
 ## Listeners
 _[listeners.js](../src/admin/listeners.js)_ is a file regrouping all functions associated to the events 
@@ -184,7 +185,6 @@ export const finishEmbed = async (
 ) => {
 //check for prod/test situation.
   const currentServer = commons.find(({ name }) => name === "test"); //get test data
-
   if (
     process.env.DEBUG === "no" &&
     logChannel.guildId === currentServer.guildId //If prod, shouln't care about test server.
@@ -194,7 +194,8 @@ export const finishEmbed = async (
     return;
   }
 
-  if () { //might be an error in the if condition
+  if (embed.author !== null) { 
+    //if is an array, embed.author is undefined !== null
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
       embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section

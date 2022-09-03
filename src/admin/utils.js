@@ -77,7 +77,6 @@ export const finishEmbed = async (
   attachments
 ) => {
   const currentServer = commons.find(({ name }) => name === "test"); //get test data
-
   if (
     process.env.DEBUG === "no" &&
     logChannel.guildId === currentServer.guildId
@@ -86,8 +85,9 @@ export const finishEmbed = async (
     console.log("Ewibot log in Test server", personalityEvent.title);
     return;
   }
+
   if (embed.author !== null) {
-    //embed.author is a embed property & not an array property
+    //if is an array, embed.author is undefined !== null
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
       embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
