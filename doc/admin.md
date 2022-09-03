@@ -1,10 +1,19 @@
 # Admin
 
-This folder contains all the files required for the administrative part of Ewibot. It can be divided in
-2 parts : the [listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners),  
-the [roles](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#roles) and the 
-[utils](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#utils)
+This documentation covers all the parts associated to the administrative part of Ewibot.
+The folder contains all the files required for the administrative part of Ewibot. It can be divided in
+3 parts : the `listeners`, the `roles` and the `utils`.
 
+
+* [Listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners)
+    * [File architecture](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#how-the-file-is-divided)
+    * [Listeners design](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners-design)
+        * [General Listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#general-listeners)
+        * [Unusual Listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#unusual-listeners)
+        * [Interactions](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#interactions)
+* [Roles](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#roles)
+    * [Pronouns](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#pronouns)
+* [Utils](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#utils)
 
 ## Listeners
 _[listeners.js](../src/admin/listeners.js)_ is a file regrouping all functions associated to the events 
