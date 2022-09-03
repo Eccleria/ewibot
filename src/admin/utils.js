@@ -592,16 +592,15 @@ export const logsRemover = async (client) => {
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
 
-  let type = "frequent";
+  let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
   const dbData = getAdminLogs(db);
-  let data = dbData[type][0];
+  let data = dbData[type][0]; //get corresponding data
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
-    const result = await threadChannel.bulkDelete(data); //const result =
-    removeAdminLogs(db, type);
-    console.log("result1", result.keys())
+    const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
+    console.log("result1", result.keys(), "data", data) //log for debug
   }
-  removeAdminLogs(db, type);
+  removeAdminLogs(db, type); //remove from db
   //console.log("db", db.data.adminLogs.frequent);
 
   /*
