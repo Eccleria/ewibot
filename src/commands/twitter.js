@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   tweetLink,
   fetchUserTimeline,
+  twitterListeners,
  } from "../admin/twitter.js";
 import {
   removeMissingTweets,
@@ -175,23 +176,23 @@ const action = async (interaction) => {
   console.log("subcommandGroup", subcommandGroup);
   if (subcommandGroup === "stream") {
     if (subcommand === "close") {
+      //handle stream destroy
       stream.autoReconnect = false; //prevent stream reconnection after .destroy()
       stream.destroy(); //destroy stream
-      interaction.client.stream = null; //reset client
+
+      //setup future stream
+      interaction.client.twitter.stream = twitter.searchStream({ expansions: "author_id", autoConnect: false }); //reset client
+      twitterListeners(client); //setup twitter stream listeners
+
       interaction.reply({ content: personality.streamClose, ephemeral: true }); //reply to user
       return;
     } else if (subcommand === "connect") {
-      if (!stream) {
-        //if no stream
-        const args = { expansions: "author_id", autoReconnect: true }
-        const newStream = await twitter.searchStream(args); //create stream
-        interaction.client.twitter.stream = newStream; //update client
-        interaction.reply({ content: personality.streamConnect, ephemeral: true }); //reply to user
-        return;
-      } else {
-        interaction.reply({ content: personality.streamExists, ephemeral: true }); //reply to user
-        return;
-      }
+      interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
+      console.log("here");
+      const args = { autoReconnect: true, autoReconnectRetries: Infinity };
+      stream.connect(args); //connect stream
+      console.log("here2");
+      client.twitter.interaction = interaction; //save for future interaction follow up
     }
   }
 };

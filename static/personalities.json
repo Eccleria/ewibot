@@ -249,7 +249,7 @@
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
         "streamClose": "Le stream Twitter a été coupé.",
-        "streamConnect": "Un stream Twitter a été créé.",
+        "streamConnect": "Le stream Twitter est connecté.",
         "streamExists": "Un stream existe déjà."
       }
     },
@@ -359,7 +359,7 @@
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
         "streamClose": "Le stream Twitter a été coupé.",
-        "streamConnect": "Un stream Twitter a été créé.",
+        "streamConnect": "Le stream Twitter est connecté.",
         "streamExists": "Un stream existe déjà."
       }
     },

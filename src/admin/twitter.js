@@ -1,5 +1,7 @@
 import { ETwitterStreamEvent } from "twitter-api-v2";
 
+import { PERSONALITY } from "../personality.js";
+
 // jsons import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
@@ -77,12 +79,66 @@ const tweetHandler = async (tweet, client) => {
   channel.send({ content: tLink });
 };
 
+const onConnection = (client) => {
+  const interaction = client.twitter.interaction;
+  const personality = PERSONALITY.getCommands().twitter; //get personality
+
+  if (interaction) interaction.followUp({ content: personality.streamConnect, ephemeral: true });
+  console.log("Twitter Event:Connected");
+}
 const onConnectionClosed = async () => {
   //client) => {
   //handle connection closed
   console.log("Twitter Event:ConnectionClosed");
   //await initTwitter(client);
 };
+
+export const twitterListeners = (client) => {
+  const stream = client.twitter.stream;
+
+  stream.on(ETwitterStreamEvent.Connected, async () => {
+    onConnection(client)
+  });
+  stream.on(ETwitterStreamEvent.ConnectionLost, async () => {
+    console.log("Twitter Event:ConnectionLost");
+  });
+  stream.on(ETwitterStreamEvent.ConnectionError, async (data) => {
+    console.log("Twitter Event:ConnectionError", data);
+  });
+  stream.on(ETwitterStreamEvent.ConnectionClosed, async () => {
+    onConnectionClosed(client);
+  });
+
+  stream.on(
+    // Emitted when a Twitter payload (a tweet or not, given the endpoint).
+    ETwitterStreamEvent.Data,
+    (eventData) => tweetHandler(eventData, client)
+  );
+  stream.on(ETwitterStreamEvent.TweetParseError, async (data) => {
+    console.log("Twitter Event:TweetParseError", data);
+  });
+
+  stream.on(ETwitterStreamEvent.Error, async (error) => {
+    console.log(`Twitter Event:Error: ${JSON.stringify(error)}`);
+  });
+
+  stream.on(ETwitterStreamEvent.ReconnectAttempt, async (data) => {
+    console.log("Twitter Event:ReconnectAttempt", data);
+  });
+  stream.on(ETwitterStreamEvent.Reconnected, async () => {
+    console.log("Twitter Event:Reconnected");
+  });
+  stream.on(ETwitterStreamEvent.ReconnectError, async (data) => {
+    console.log("Twitter Event:ReconnectError", data);
+  });
+  stream.on(ETwitterStreamEvent.ReconnectLimitExceeded, async () => {
+    console.log("Twitter Event:ReconnectLimitExceeded");
+  });
+
+  stream.on(ETwitterStreamEvent.DataKeepAlive, async () => {
+    console.log('Twitter Event:DataKeepAlive');
+  });
+}
 
 export const initTwitterStream = async (client) => {
   const twitter = client.twitter;
@@ -129,49 +185,6 @@ export const initTwitterStream = async (client) => {
   */
 
   // Awaits for a tweet
-
-  stream.on(ETwitterStreamEvent.Connected, async () => {
-    console.log("Twitter Event:Connected");
-  });
-  stream.on(ETwitterStreamEvent.ConnectionLost, async () => {
-    console.log("Twitter Event:ConnectionLost");
-  });
-  stream.on(ETwitterStreamEvent.ConnectionError, async (data) => {
-    console.log("Twitter Event:ConnectionError", data);
-  });
-  stream.on(ETwitterStreamEvent.ConnectionClosed, async () => {
-    onConnectionClosed(client);
-  });
-
-  stream.on(
-    // Emitted when a Twitter payload (a tweet or not, given the endpoint).
-    ETwitterStreamEvent.Data,
-    (eventData) => tweetHandler(eventData, client)
-  );
-  stream.on(ETwitterStreamEvent.TweetParseError, async (data) => {
-    console.log("Twitter Event:TweetParseError", data);
-  });
-
-  stream.on(ETwitterStreamEvent.Error, async (error) => {
-    console.log(`Twitter Event:Error: ${JSON.stringify(error)}`);
-  });
-
-  stream.on(ETwitterStreamEvent.ReconnectAttempt, async (data) => {
-    console.log("Twitter Event:ReconnectAttempt", data);
-  });
-  stream.on(ETwitterStreamEvent.Reconnected, async () => {
-    console.log("Twitter Event:Reconnected");
-  });
-  stream.on(ETwitterStreamEvent.ReconnectError, async (data) => {
-    console.log("Twitter Event:ReconnectError", data);
-  });
-  stream.on(ETwitterStreamEvent.ReconnectLimitExceeded, async () => {
-    console.log("Twitter Event:ReconnectLimitExceeded");
-  });
-
-  /*stream.on(ETwitterStreamEvent.DataKeepAlive, async () => {
-    console.log('Twitter Event:DataKeepAlive');
-  });*/
 
   // Enable reconnect feature
   stream.autoReconnect = true;
