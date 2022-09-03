@@ -4,7 +4,6 @@ This documentation covers all the parts associated to the administrative part of
 The folder contains all the files required for the administrative part of Ewibot. It can be divided in
 3 parts : the `listeners`, the `roles` and the `utils`.
 
-
 * [Listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners)
     * [File architecture](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#how-the-file-is-divided)
     * [Listeners design](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners-design)
@@ -83,7 +82,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const changePos = [ "position", oldChannel.position, newChannel.position ];
   //simplified for example
 
-  //finish embed
+  //finish embed - explained after
   //simplified for example
   if (chnLog) {
     const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
@@ -168,6 +167,68 @@ export const buttonHandler = async (interaction) => {
 
 ## Utils
 
-_[utils](../src/admin/utils.js)_ is regrouping all the functions used in many files of the admin 
+_[utils](../src/admin/utils.js)_ is regrouping all the functions used in one or many files of the admin 
 folder, but also of commands, helpers and src folders.
+
+As an example, here is `finishEmbed`. This common function is used to finish an admin embed with usual
+data and then send it in the correct log channel.
+
+```javascript
+export const finishEmbed = async (
+  personalityEvent,
+  executor,
+  embed,
+  logChannel,
+  text,
+  attachments
+) => {
+//check for prod/test situation.
+  const currentServer = commons.find(({ name }) => name === "test"); //get test data
+
+  if (
+    process.env.DEBUG === "no" &&
+    logChannel.guildId === currentServer.guildId //If prod, shouln't care about test server.
+  ) {
+    //Ewibot detects test in test server => return
+    console.log("Ewibot log in Test server", personalityEvent.title);
+    return;
+  }
+
+  if () { //might be an error in the if condition
+    //if contains multiple embeds, the 1st is the log
+    if (personalityEvent.executor && executor !== null)
+      embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
+    if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+
+    //now trying to send messages
+    try {
+      const message = await logChannel.send({
+        embeds: embed,
+        allowed_mentions: { parse: [] },
+      }); //send
+      if (attachments && attachments.length !== 0) {
+        const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+        return [message, gifMessage];
+      }
+      return [message];
+    } catch (e) {
+      console.log(
+        "finishEmbed list error\n",
+        personalityEvent.title,
+        new Date(),
+        e
+      );
+    }
+    return [];
+  }
+  //the rest of the function is the same, but using embed not as a list
+};
+```
+
+The argument `allowed_mentions: { parse: [] }` allows to send embed objects like when mentioning a member, but
+without actually pinging. It's really usefull to get quickly user profile or channels when there's a need for 
+moderation action.
+`console.log()` are used as debug, in order to see where the code went wrong.
+The `[message]` returned is used for the `logsRemover` and `initAdminLogClearing` process which will be seen
+later.
 
