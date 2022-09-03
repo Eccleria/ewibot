@@ -14,6 +14,8 @@ The folder contains all the files required for the administrative part of Ewibot
     * [Pronouns](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#pronouns)
 * [Utils](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#utils)
 * [Logs](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#logs)
+    * [Permanent Logs](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#permanent-logs)
+    * [Temporary Logs](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#temporary-logs)
 
 ## Listeners
 _[listeners.js](../src/admin/listeners.js)_ is a file regrouping all functions associated to the events 
@@ -233,3 +235,69 @@ moderation action.
 The `[message]` returned is used for the `logsRemover` and `initAdminLogClearing` process which will be seen
 later.
 
+## Logs
+
+The logs are separated into 2 parts: permanent and temporary logs. The permanent logs are logs from server
+modification or moderation action. Temporary ones come from messageUpdate/Delete and users arriving/leaving. 
+
+### Permanent Logs
+
+### Temporary Logs
+
+In order to delete all messageDelete/Update logs when they are no longer usefull for moderation, 2 main 
+functions are used for this: `logsRemover` and `initAdminLogClearing`.
+
+Temporary logs are stored in Ewibot `database` as their message ids. From these ids, when the time as come,
+logs are bulk deleted together, and the bot send a log in the console for debug purpose.
+
+```javascript
+export const logsRemover = async (client) => {
+  console.log("logsRemover")
+  const db = client.db;
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+
+  let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
+  const dbData = getAdminLogs(db);
+  let data = dbData[type][0]; //get corresponding data
+  if (data.length !== 0) {
+    const threadChannel = await client.channels.fetch(server.logThreadId);
+    const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
+    console.log("result1", result.keys(), "data", data) //log for debug
+  }
+  removeAdminLogs(db, type); //remove from db
+  //console.log("db", db.data.adminLogs.frequent);
+
+  //user arrival/remove part, which isn't functionnal for now.
+};
+```
+`logsRemover` is the function called to `bulkDelete` all the temporary logs using their ids. First all the
+ids are fetched from the `db`. Then the code handle differently `"frequent"` and `"userAD"` logs, because 
+of the duration of log conservation, but the process is similar.
+
+If there is data in the `db`, the bot fetch the corresponding `threadChannel` where the logs were sent. Then,
+the bot `bulkDelete` all the logs and get all the messages ids where the process went smooth. Then it 
+prints in the console the `result` of the process, and remove log message ids from `db`.
+
+```javascript
+export const initAdminLogClearing = (client, waitingTime) => {
+  setTimeout(
+    () => {
+      logsRemover(client);
+      setInterval(
+        () => {
+          logsRemover(client);
+        },
+        24 * 3600 * 1000,
+        client
+      ); //5 * 60 * 1000 = 5min client)
+    },
+    waitingTime,
+    client
+  );
+};
+```
+This function setup the timeouts used for logRemoval. `setTimeout` is used as a `waitingTime` before 
+creating the loop of `logsRemover`. This `waitingTime` is less than a full day.
+Then, the loop is created using `setInterval`, with a full day of waiting time in `ms`.
