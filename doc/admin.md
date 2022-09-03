@@ -254,13 +254,31 @@ modification or moderation action. Temporary ones come from messageUpdate/Delete
 
 ### Permanent Logs
 
+Permanent logs are logs that archive every server modification done by moderators. It includes 
+- roles
+- channels
+- threads
+
+But also users' modification because of moderation:
+- timeouts
+- bans
+- kicks
+
+These logs, when created, are sent by Ewibot in the #logs channel.
+
 ### Temporary Logs
+
+Temporary logs are logs that will be deleted after a short period, depending on log type. The process is 
+the same as permanent logs, but adding the deletion code part.
 
 In order to delete all messageDelete/Update logs when they are no longer usefull for moderation, 2 main
 functions are used for this: `logsRemover` and `initAdminLogClearing`.
+In the future, the bot will also delete logs associated to users leaving.
 
 Temporary logs are stored in Ewibot `database` as their message ids. From these ids, when the time as come,
 logs are bulk deleted together, and the bot send a log in the console for debug purpose.
+
+Those logs, when created, are sent by Ewibot in #frequent-log thread channel.
 
 #### logsRemover
 
@@ -297,7 +315,7 @@ export const initAdminLogClearing = (client, waitingTime) => {
   setTimeout(
     () => {
       logsRemover(client);
-      setInterval();
+      setInterval(); //see after for definition
     },
     waitingTime,
     client
