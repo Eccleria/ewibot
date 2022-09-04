@@ -17,18 +17,6 @@ export const fetchUserTimeline = async (client, userId, pageToken) => {
 
   return await twitter.userTimeline(userId, params);
 };
-/*
-export const fetchTweets = async (client, tweetIds) => {
-  const twitter = client.twitter;
-
-  const params = {
-    //"media.fields": ["duration_ms", "height", "media_key", "preview_image_url", "type", "url", "width", "public_metrics", "non_public_metrics", "organic_metrics", "promoted_metrics", "alt_text"," variants"]
-    "expansions": ["attachments.media_keys"]
-  }; //used for user fetch
-
-  return await twitter.tweets(tweetIds, params); //fetch Andarta Pictures's Twitter profile
-}
-*/
 
 export const fetchUserProfile = async (client, userId) => {
   const twitter = client.twitter;
@@ -85,12 +73,11 @@ const onConnection = (client) => {
 
   if (interaction) interaction.followUp({ content: personality.streamConnect, ephemeral: true });
   console.log("Twitter Event:Connected");
-}
+};
+
 const onConnectionClosed = async () => {
-  //client) => {
   //handle connection closed
   console.log("Twitter Event:ConnectionClosed");
-  //await initTwitter(client);
 };
 
 export const twitterListeners = (client) => {
@@ -142,21 +129,7 @@ export const twitterListeners = (client) => {
 
 export const initTwitterStream = async (client) => {
   const twitter = client.twitter;
-  /*
-  let fetchedTweets = await fetchUserTimeline(client, "1032989926000939008"); //laquetedewilan
-  console.log("fetchedTweets", fetchedTweets);
-  const tweets = fetchedTweets.data;
-  console.log("tweets", tweets);
-  console.log("data", tweets.data);
 
-  fetchedTweets = await fetchUserTimeline(
-    client,
-    "1032989926000939008",
-    "7140dibdnow9c7btw421dwur8597a561mnql6z9q5iddl"
-  );
-  const nextTweets = fetchedTweets.data;
-  console.log("nextTweets", nextTweets);
-  */
   //stream
   const stream = process.env.INIT_TWITTER === "no"
     ? twitter.searchStream({ expansions: "author_id", autoConnect: false })
@@ -184,29 +157,7 @@ export const initTwitterStream = async (client) => {
   console.log("rules", rules);
   */
 
-  // Awaits for a tweet
-
   // Enable reconnect feature
   stream.autoReconnect = true;
   stream.autoReconnectRetries = Infinity;
 };
-
-/*
-Twitter has sent something: {
-  data: {
-    author_id: '1511087619215609862',
-    id: '1559653598266523649',
-    text: 'On teste le code'
-  },
-  includes: { users: [[Object]] },
-  matching_rules: [{ id: '1559652578438402048', tag: 'test' }]
-}
-includes {
-  users: [
-    {
-      id: '1511087619215609862',
-      name: 'Eccl�ria Alesta',
-      username: 'eccleria'
-    }
-  ]
-}*/
