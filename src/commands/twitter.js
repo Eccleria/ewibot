@@ -182,7 +182,8 @@ const action = async (interaction) => {
   if (subcommandGroup === "stream") {
     if (subcommand === "close") {
       //handle stream destroy
-      if (stream.isConnected) {
+      if (twitter.streamConnected) {
+        twitter.interactions.close = interaction; //save for future interaction follow up
         interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
         stream.autoReconnect = false; //prevent stream reconnection after .destroy()
         stream.destroy(); //destroy stream
@@ -197,20 +198,19 @@ const action = async (interaction) => {
       interaction.reply({ content: personality.streamNotConnected, ephemeral: true });
       return;
     } else if (subcommand === "connect") {
-      if (stream.isConnected) {
+      if (twitter.streamConnected) {
         interaction.reply({ content: personality.streamExists, ephemeral: true });
         return;
       }
-
+      twitter.interactions.connect = interaction; //save for future interaction follow up
       interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
       console.log("connect");
       const args = { autoReconnect: true, autoReconnectRetries: Infinity };
       stream.connect(args); //connect stream
       console.log("stream.connect");
-      twitter.interactions.connect = interaction; //save for future interaction follow up
       return
     } else if (subcommand === "status") {
-      if (stream.isConnected)
+      if (twitter.streamConnected)
         interaction.reply({ content: personality.streamConnected, ephemeral: true });
       else
         interaction.reply({ content: personality.streamNotConnected, ephemeral: true });
