@@ -89,7 +89,6 @@ const onConnectionClosed = async (client) => {
 };
 
 export const twitterListeners = (stream, client) => {
-  console.log("twitter listeners")
   stream.on(ETwitterStreamEvent.Connected, async () => {
     onConnection(client)
   });
@@ -128,10 +127,10 @@ export const twitterListeners = (stream, client) => {
   stream.on(ETwitterStreamEvent.ReconnectLimitExceeded, async () => {
     console.log("Twitter Event:ReconnectLimitExceeded");
   });
-
+  /*
   stream.on(ETwitterStreamEvent.DataKeepAlive, async () => {
     console.log('Twitter Event:DataKeepAlive');
-  });
+  });*/
 }
 
 export const initTwitterStream = async (client) => {

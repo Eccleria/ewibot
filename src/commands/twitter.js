@@ -86,8 +86,6 @@ const action = async (interaction) => {
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
 
-  console.log("subcommand", subcommand);
-
   if (subcommand === "share") {
     const isSending = client.twitter.isSending;
     if (isSending) {
@@ -129,7 +127,6 @@ const action = async (interaction) => {
     return;
   }
   else if (subcommand === "compare") {
-    console.log("twitter compare")
     const db = client.db;
     const currentServer = commons.find(({ name }) =>
       process.env.DEBUG === "yes" ? name === "test" : name === "prod"
@@ -178,7 +175,6 @@ const action = async (interaction) => {
     subcommandGroup = null;
   }
 
-  console.log("subcommandGroup", subcommandGroup);
   if (subcommandGroup === "stream") {
     if (subcommand === "close") {
       //handle stream destroy
@@ -209,10 +205,9 @@ const action = async (interaction) => {
 
       twitter.interactions.connect = interaction; //save for future interaction follow up
       interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
-      console.log("connect");
+
       const args = { autoReconnect: true, autoReconnectRetries: Infinity };
       stream.connect(args); //connect stream
-      console.log("stream.connect");
       return
     } else if (subcommand === "status") {
       if (twitter.streamConnected)
