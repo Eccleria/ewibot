@@ -50,6 +50,11 @@ const command = new SlashCommandBuilder()
           .setName("close")
           .setDescription("Ferme une connexion avec Twitter.")
       )
+      .addSubcommand((command) =>
+        command
+          .setName("status")
+          .setDescription("Indique le status actuel de la connexion avec Twitter.")
+      )
   );
 
 const waitingTimeRadomizer = (mean, variation) => {
@@ -203,6 +208,12 @@ const action = async (interaction) => {
       stream.connect(args); //connect stream
       console.log("stream.connect");
       twitter.interactions.connect = interaction; //save for future interaction follow up
+      return
+    } else if (subcommand === "status") {
+      if (stream.isConnected)
+        interaction.reply({ content: personality.streamConnected, ephemeral: true });
+      else
+        interaction.reply({ content: personality.streamNotConnected, ephemeral: true });
       return
     }
   }

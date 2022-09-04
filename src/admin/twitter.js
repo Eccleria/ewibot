@@ -71,7 +71,7 @@ const onConnection = (client) => {
   const interaction = client.twitter.interaction;
   const personality = PERSONALITY.getCommands().twitter; //get personality
 
-  if (interaction) interaction.followUp({ content: personality.streamConnect, ephemeral: true });
+  if (interaction) interaction.followUp({ content: personality.streamConnected, ephemeral: true });
   client.twitter.streamConnected = true;
 
   console.log("Twitter Event:Connected");
