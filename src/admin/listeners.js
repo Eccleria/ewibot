@@ -441,9 +441,12 @@ export const onMessageDelete = async (message) => {
   }
 
   const { executor, target } = deletionLog;
+  const logCreationDate = deletionLog ? dayjs(deletionLog.createdAt) : null;
+  const diff =
+    logCreationDate !== null ? dayjs().diff(logCreationDate, "s") : null;
 
-  if (target.id === message.author.id) {
-    //check if log report the correct user banned
+  if (target.id === message.author.id && diff <= 5) {
+    //check if log report the correct user && log is recent
     const messageList = await finishEmbed(
       messageDel,
       executor.tag,
@@ -472,7 +475,7 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      const msg = logChannel.send(content);
+      const msg = await logChannel.send(content);
       messageList.push(msg);
     }
     messageList.forEach((msg) =>
