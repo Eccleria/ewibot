@@ -182,7 +182,7 @@ const action = async (interaction) => {
 
       //setup future stream
       interaction.client.twitter.stream = twitter.searchStream({ expansions: "author_id", autoConnect: false }); //reset client
-      twitterListeners(client); //setup twitter stream listeners
+      twitterListeners(stream, client); //setup twitter stream listeners
 
       interaction.reply({ content: personality.streamClose, ephemeral: true }); //reply to user
       return;

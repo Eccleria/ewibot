@@ -80,9 +80,7 @@ const onConnectionClosed = async () => {
   console.log("Twitter Event:ConnectionClosed");
 };
 
-export const twitterListeners = (client) => {
-  const stream = client.twitter.stream;
-
+export const twitterListeners = (stream, client) => {
   stream.on(ETwitterStreamEvent.Connected, async () => {
     onConnection(client)
   });
@@ -131,9 +129,13 @@ export const initTwitterStream = async (client) => {
   const twitter = client.twitter;
 
   //stream
-  const stream = process.env.INIT_TWITTER === "no"
-    ? twitter.searchStream({ expansions: "author_id", autoConnect: false })
-    : await twitter.searchStream({ expansions: "author_id" }); //create stream
+  let stream;
+  if (process.env.INIT_TWITTER === "no")
+    stream = twitter.searchStream({ expansions: "author_id", autoConnect: false });
+  else {
+    stream = await twitter.searchStream({ expansions: "author_id" }); //create stream
+    twitterListeners(stream, client); //add listeners to the stream
+  }
   client.twitter.stream = stream; //bind stream to client
 
   /*
