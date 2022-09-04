@@ -249,6 +249,7 @@
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
         "streamClosed": "Le stream Twitter a été coupé.",
+        "streamClosing": "La demande de déconnexion est en traitement",
         "streamConnected": "Le stream Twitter est connecté.",
         "streamExists": "Un stream existe déjà.",
         "streamNotConnected": "Aucun stream n'est connecté."
@@ -360,7 +361,8 @@
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
         "streamClosed": "Le stream Twitter a été coupé.",
-        "streamConnect": "Le stream Twitter est connecté.",
+        "streamClosing": "La demande de déconnexion est en traitement",
+        "streamConnected": "Le stream Twitter est connecté.",
         "streamExists": "Un stream existe déjà.",
         "streamNotConnected": "Aucun stream n'est connecté."
       }

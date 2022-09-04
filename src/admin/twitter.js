@@ -79,8 +79,7 @@ const onConnection = (client) => {
 
 const onConnectionClosed = async (client) => {
   //handle connection closed
-  const interactions = client.twitter.interactions
-  const interaction = interactions.close;
+  const interaction = client.twitter.interactions.close;
   const personality = PERSONALITY.getCommands().twitter; //get personality
 
   if (interaction) interaction.followUp({ content: personality.streamClosed, ephemeral: true });
