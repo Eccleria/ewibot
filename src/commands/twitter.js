@@ -124,7 +124,7 @@ const action = async (interaction) => {
     return;
   }
   else if (subcommand === "compare") {
-    console.log("here")
+    console.log("twitter compare")
     const db = client.db;
     const currentServer = commons.find(({ name }) =>
       process.env.DEBUG === "yes" ? name === "test" : name === "prod"
@@ -181,17 +181,18 @@ const action = async (interaction) => {
       stream.destroy(); //destroy stream
 
       //setup future stream
-      interaction.client.twitter.stream = twitter.searchStream({ expansions: "author_id", autoConnect: false }); //reset client
-      twitterListeners(stream, client); //setup twitter stream listeners
+      const newStream = twitter.searchStream({ expansions: "author_id", autoConnect: false }); 
+      interaction.client.twitter.stream = newStream; //reset client
+      twitterListeners(newStream, client); //setup twitter stream listeners
 
       interaction.reply({ content: personality.streamClose, ephemeral: true }); //reply to user
       return;
     } else if (subcommand === "connect") {
       interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
-      console.log("here");
+      console.log("connect");
       const args = { autoReconnect: true, autoReconnectRetries: Infinity };
       stream.connect(args); //connect stream
-      console.log("here2");
+      console.log("stream.connect");
       client.twitter.interaction = interaction; //save for future interaction follow up
     }
   }

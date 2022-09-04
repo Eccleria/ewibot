@@ -81,6 +81,7 @@ const onConnectionClosed = async () => {
 };
 
 export const twitterListeners = (stream, client) => {
+  console.log("twitter listeners")
   stream.on(ETwitterStreamEvent.Connected, async () => {
     onConnection(client)
   });
@@ -143,6 +144,7 @@ export const initTwitterStream = async (client) => {
     delete: {
       ids: ["1559573815042129924", "1559905656416747521"],
     },
+
   }));
   */
   /*
