@@ -248,9 +248,10 @@
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
-        "streamClose": "Le stream Twitter a été coupé.",
+        "streamClosed": "Le stream Twitter a été coupé.",
         "streamConnect": "Le stream Twitter est connecté.",
-        "streamExists": "Un stream existe déjà."
+        "streamExists": "Un stream existe déjà.",
+        "streamNotConnected": "Aucun stream n'est connecté."
       }
     },
     "spotify": {
@@ -358,9 +359,10 @@
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
-        "streamClose": "Le stream Twitter a été coupé.",
+        "streamClosed": "Le stream Twitter a été coupé.",
         "streamConnect": "Le stream Twitter est connecté.",
-        "streamExists": "Un stream existe déjà."
+        "streamExists": "Un stream existe déjà.",
+        "streamNotConnected": "Aucun stream n'est connecté."
       }
     },
     "spotify": {

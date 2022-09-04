@@ -72,11 +72,20 @@ const onConnection = (client) => {
   const personality = PERSONALITY.getCommands().twitter; //get personality
 
   if (interaction) interaction.followUp({ content: personality.streamConnect, ephemeral: true });
+  client.twitter.streamConnected = true;
+
   console.log("Twitter Event:Connected");
 };
 
-const onConnectionClosed = async () => {
+const onConnectionClosed = async (client) => {
   //handle connection closed
+  const interactions = client.twitter.interactions
+  const interaction = interactions.close;
+  const personality = PERSONALITY.getCommands().twitter; //get personality
+
+  if (interaction) interaction.followUp({ content: personality.streamClosed, ephemeral: true });
+  client.twitter.streamConnected = false;
+
   console.log("Twitter Event:ConnectionClosed");
 };
 

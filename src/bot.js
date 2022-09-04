@@ -168,6 +168,7 @@ client.once("ready", async () => {
   const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
   client.twitter = twitter; //save twitter into client
   client.twitter.isSending = false;
+  client.twitter.interactions = { close: false, connect: false };
 
   initTwitterStream(client); //init Twitter stream with API
 
