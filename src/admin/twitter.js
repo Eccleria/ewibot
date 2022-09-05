@@ -68,6 +68,7 @@ const tweetHandler = async (tweet, client) => {
 };
 
 const onConnection = (client) => {
+  //handle connection
   const interaction = client.twitter.interactions.connect;
   const personality = PERSONALITY.getCommands().twitter; //get personality
 

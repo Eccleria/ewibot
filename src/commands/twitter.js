@@ -25,12 +25,7 @@ const command = new SlashCommandBuilder()
     command
       .setName("compare")
       .setDescription("Compare les 5 derniers tweets avec la base de donnée et envoie la différence.")
-  )/*
-  .addSubcommand((command) =>
-    command
-      .setName("status")
-      .setDescription("Indique le status de la connexion avec Twitter.")
-)*/
+  )
   .addSubcommand((command) =>
     command
       .setName("share")
