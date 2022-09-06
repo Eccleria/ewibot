@@ -600,7 +600,7 @@ export const logsRemover = async (client) => {
     const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
 
     const diff = data.reduce((acc, cur) => {
-      if (result.includes(cur.id)) return acc; //if no diff
+      if (result.has(cur.id)) return acc; //if no diff
       else return [...acc, cur.id];
     }, []); //find diff for error check
     console.log("result", result.keys(), "diff", diff) //log for debug
