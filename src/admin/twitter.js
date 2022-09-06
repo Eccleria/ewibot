@@ -146,29 +146,9 @@ export const initTwitterStream = async (client) => {
   twitterListeners(stream, client); //add listeners to the stream
   client.twitter.stream = stream; //bind stream to client
 
-  /*
-  console.log("delete rules result", await twitter.updateStreamRules({
-    delete: {
-      ids: ["1559573815042129924", "1559905656416747521"],
-    },
-
-  }));
-  */
-  /*
-  console.log("add rules", await twitter.updateStreamRules({
-    add: [
-      { value: "(from:1032989926000939008 OR from:1039418011260727296) -is:retweet -is:reply", tag: "prod" },
-      { value: "from:1511087619215609862 -is:retweet -is:reply", tag: "test" }
-    ]
-  })); //(laquetedewilan OR andarta) without retweets
-  //rule id : prod "1561102350546247683", test "1561102350546247684"
-  */
-  /*
-  const rules = await twitter.streamRules();
-  console.log("rules", rules);
-  */
-
   // Enable reconnect feature
   stream.autoReconnect = true;
   stream.autoReconnectRetries = Infinity;
 };
+
+//rule id : prod "1561102350546247683", test "1561102350546247684"

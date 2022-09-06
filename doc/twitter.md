@@ -12,10 +12,17 @@ more endpoints, but those are not necessary for Ewibot Twitter-Discord link.
 > *Note:* In this doc, Discord App client is named as `client`. Twitter App client is named as 
 > `twitter`.
 
-- [Stream]()
-    - [Init]()
-    - [Listeners]()
-- [Commands]()
+- [Stream](#stream)
+    - [Init](#init)
+    - [Listeners](#listeners)
+        - [onConnection - onConnectionClosed](#onconnection---onconnectionclosed)
+        - [Tweet Handler](#tweet-handler)
+        - [Other Listeners](#other-listeners)
+    - [rules](#rules)
+- [Commands](#commands)
+    - [Compare](#compare)
+    - [Share](#share)
+    - [Stream](#stream-1)
 
 For this feature, 4 files are used: 
 - [admin twitter](../src/admin/twitter.js)
@@ -77,7 +84,14 @@ limit connection error issue.
 
 ### Listeners
 
+There are 2 types of listeners used for the `stream`:
+- having an external function
+- having only a `console.log()`
 
+#### onConnection - onConnectionClosed
+
+Listeners of `ETwitterStreamEvent.Connected` and `ETwitterStreamEvent.ConnectionClosed` are similar, 
+so only the declaration of the first one is shown here.
 
 ```javascripts
 export const twitterListeners = (stream, client) => {
@@ -87,16 +101,10 @@ export const twitterListeners = (stream, client) => {
 }
 ```
 
-```javascript
-export const twitterListeners = (stream, client) => {
-  stream.on(ETwitterStreamEvent.ConnectionClosed, async () => {
-    onConnectionClosed(client);
-  });
-}
-```
-
-`onConnection` and `onConnectionClose` are similar, so only `onConnection` is shown here. This 
-listener is used for both `interaction` reply and console.log
+`onConnection` is used for both `interaction` reply and `console.log`. An `interaction` exists
+when the associated command is called by a user, then it requires a reply. But it means that the
+stream status is only know when `/twitter stream connect` is used. That is why there is the 
+`console.log`.
 
 ```javascript
 const onConnection = (client) => {
@@ -111,6 +119,10 @@ const onConnection = (client) => {
 };
 ```
 
+#### Tweet Handler
+
+This listener is dedicated to the recept and process of tweet data. 
+
 ```javascript
 stream.on(
   // Emitted when a Twitter payload (a tweet or not, given the endpoint).
@@ -119,10 +131,12 @@ stream.on(
 );
 ```
 
+First we get tweet `data`, such as `tweetId` and `authorId`. With `authorId` it fetches the 
+`userProfile` in order to get the `username`. `tweetId` and `username` are used to construct 
+the tweet link `tLink` which will be send later.
+
 ```javascript
 const tweetHandler = async (tweet, client) => {
-  //console.logs
-
   const { data } = tweet;
   const tweetId = data.id; //get tweet Id
   const authorId = data.author_id; //get author id
@@ -132,7 +146,12 @@ const tweetHandler = async (tweet, client) => {
   const username = userProfile.data.username;
 
   const tLink = tweetLink(username, tweetId); //create tweet url
+  //...
+  ```
 
+Then, according to the `matching_rules`, it fetches the appropriate `channel` where to send `tLink`.
+
+```javascript
   //get rules tag;
   const tag = tweet.matching_rules[0].tag;
 
@@ -150,6 +169,14 @@ const tweetHandler = async (tweet, client) => {
 };
 ```
 
+#### Other listeners
+
+The 3 listeners under are the 3 types of listeners that exists in the code. The 3 of them use
+`console.log`, but with different arguments:
+- just the error code.
+- the error `data`.
+- a `JSON.stringify(error)` argument.
+
 ```javascript
 export const twitterListeners = (stream, client) => {
   stream.on(ETwitterStreamEvent.ConnectionLost, async () => {
@@ -164,6 +191,38 @@ export const twitterListeners = (stream, client) => {
     console.log(`Twitter Event:Error: ${JSON.stringify(error)}`);
   });
 }
+```
+
+### Rules
+
+Stream `rules` are required to filter all the tweets that the API will send. In this application, 
+`rules` are simple.
+> The aim is to get from Twitter and post on Discord the tweets from 2 different accounts. But we
+> want only tweets, no retweets or replies.
+
+There are 2 cases: `prod` and `test`. 
+```javascript
+"(from:1032989926000939008 OR from:1039418011260727296) -is:retweet -is:reply" //prod
+"from:1511087619215609862 -is:retweet -is:reply" //test
+```
+
+> These parts of code are not use directly in the code, but only when changes are required.
+
+For updating some rules, it needs the `.updateStreamRules` method. For deleting it requires the
+`delete` arg, and `add` for adding rules.
+
+```javascript
+await twitter.updateStreamRules({
+  delete: {
+    ids: ["1559573815042129924", "1559905656416747521"],
+  },
+});
+await twitter.updateStreamRules({
+  add: [
+    { value: "(from:1032989926000939008 OR from:1039418011260727296) -is:retweet -is:reply", tag: "prod" },
+    { value: "from:1511087619215609862 -is:retweet -is:reply", tag: "test" }
+  ]
+})); //(laquetedewilan OR andarta) without retweets
 ```
 
 ## Commands
@@ -192,7 +251,7 @@ The command is declared as a subcommand of `twitter command`.
 ) 
 ```
 
-Compare check Twitter user Timelines and compare the results to the one in the database. If there is
+Compare checks user's Twitter Timelines and compare the results to `database`. If there is
 any difference, the bot send it as a reply.
 First, it gets usefull data, and then execute a loop for each Twitter user.
 
@@ -207,8 +266,7 @@ const users = Object.entries(currentServer.twitterUserIds);
 let tLinks = [];
 
 for (const [username, userId] of users) {
-  //see further
-}
+  //...
 ```
 
  For each user, the code get the `db` data, and fetch user's last tweets ids. In this last array, 
@@ -225,7 +283,7 @@ Now we know if the tweet is the last or not:
 - `idx > 0` means some tweets are missing.
 - `idx === 0` means that the db is up to date.
 - `idx === -1` means that the tweet id in `db` is too old. The case should not happen thus
-the code isn't rellay worth to be implemented.
+the code isn't really worth to be implemented.
 
 ```javascript
   if (idx > 0) {
@@ -262,18 +320,8 @@ return;
 
 ### Share
 
-`share` declaration is similar to `compare` command.
-
-```javascript
-.addSubcommand((command) =>
-  command     
-    .setName("share")
-    .setDescription("Partage les derniers tweets manquants au publique.")  
-)
-```
-
-But the process is slightly different. First, we check if the bot is already sending tweets. If yes,
-then the command is canceled.
+`share` declaration is similar to `compare` command. But the process is slightly different. 
+First, we check if the bot is already sending tweets. If yes, then the command is canceled.
 
 ```javascript
 const isSending = client.twitter.isSending;
@@ -309,8 +357,7 @@ if (lenght === 0) {
 ```
 
 Now, for each tweet the bot will create a `timeout` with a random waiting time between 1 and 3
-minutes. After the `timeout`, the bot will send the tweet link in the desired channel. And lastly,
-it answers to the command and update `client.isSending`.
+minutes. After the `timeout`, the bot will send the tweet link in the desired channel.
 
 ```javascript
 missingTweets.reduce((acc, cur, idx) => {
@@ -323,6 +370,11 @@ missingTweets.reduce((acc, cur, idx) => {
   timeoutTweets(cur, newAcc, channel, isLast, client); //set tweet Timeout before send
   return newAcc; //return sum of waiting times
 }, 0);
+```
+
+And lastly, it answers to the command and update `client.isSending`.
+
+```javascript
 interaction.reply({
   content: personality.sendInProgress,
   ephemeral: true,
@@ -336,7 +388,7 @@ return;
 The stream requires 3 commands to control it: `connect`, `close` and `status`.
 
 ```javascript
-
+  //...
   .addSubcommandGroup((group) =>
     group
       .setName("stream")
