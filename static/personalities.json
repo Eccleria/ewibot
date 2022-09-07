@@ -230,6 +230,7 @@
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé",
+        "error": "Il faut une durée.",
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
         "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "remind": "Je te rappelerai ça dans environ "
@@ -339,6 +340,7 @@
       },
       "reminder": {
         "delete": "Le remind a bien été supprimé.",
+        "error": "Il faut une durée.",
         "remind": "Je te rappelerai ça dans environ ",
         "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."

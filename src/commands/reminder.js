@@ -12,6 +12,7 @@ import { PERSONALITY } from "../personality.js";
 
 // jsons import
 import { readFileSync } from "fs";
+import { interactionReply } from "./utils.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const sendDelayed = async (
@@ -101,14 +102,14 @@ const answerBot = async (interaction, currentServer, timing) => {
 const action = async (interaction) => {
   const { channel, member, client } = interaction;
 
+  //get interaction input
   const messageContent = interaction.options.getString("contenu");
-  const isEphemeral = interaction.options.getBoolean("privé")
-
-  const timing = extractDuration(interaction);
+  const timing = extractDuration(interaction); //waiting time in ms
 
   if (!timing) {
     //Checks for timing format
-    console.log("erreur de parsing");
+    const content = PERSONALITY.getCommands().reminder.error;
+    interactionReply(interaction, content);
   } else {
     console.log("reminder timing: ", timing);
 
@@ -171,21 +172,15 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(60)
-)
-  .addBooleanOption((option) => option
-    .setName("privé")
-    .setDescription("Est-ce que le message est caché ou non. Publique par défaut.")
-    .setRequired(false)
   );
 
 const reminder = {
-  name: "reminder",
   command: command,
   action,
-  help: () => {
-    return PERSONALITY.getCommands().reminder.help;
+  help: (interaction) => {
+    const content = PERSONALITY.getCommands().reminder.help;
+    interactionReply(interaction, content); 
   },
-  admin: false,
 };
 
 export default reminder;
