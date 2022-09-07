@@ -10,8 +10,6 @@ const command = new ContextMenuCommandBuilder()
   .setDefaultMemberPermissions(0x0000000000000020); //MANAGE_GUILD bitwise
 
 const action = async (interaction) => {
-  console.log("action");
-
   const message = interaction.targetMessage; //get message
   const embeds = message.embeds; //get embeds
 
