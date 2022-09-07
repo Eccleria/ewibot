@@ -191,7 +191,7 @@ export const generalEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  const channel = await getLogChannel(commons, obj); //get logChannel
+  const channel = await getLogChannel(obj); //get logChannel
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
@@ -203,12 +203,11 @@ export const generalEmbed = async (
 
 /**
  * Fetch Log Channel.
- * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
  * @param {string} type String to ditinguish if returns channel or thread
  * @returns {TextChannel}
  */
-export const getLogChannel = async (commons, eventObject, type) => {
+export const getLogChannel = async (eventObject, type) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data

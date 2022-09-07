@@ -82,7 +82,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const perm = chnUp.permissionOverwrites;
 
   //basic operations
-  const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
+  const logChannel = await getLogChannel(newChannel); //get logChannelId
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
@@ -305,7 +305,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const roleUp = personality.roleUpdate;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, newRole); //get logChannelId
+  const logChannel = await getLogChannel(newRole); //get logChannelId
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
 
   //get client
@@ -386,7 +386,7 @@ export const onMessageDelete = async (message) => {
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, message, "thread"); //get logChannel
+  const logChannel = await getLogChannel(message, "thread"); //get logChannel
   const date = message.createdAt.toString().slice(4, 24);
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
@@ -487,7 +487,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const messageU = personality.messageUpdate;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
+  const logChannel = await getLogChannel(nMessage, "thread"); //get logChannel
   const date = oMessage.createdAt.toString().slice(4, 24);
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
@@ -623,7 +623,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const timeout = personality.timeout;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, newMember); //get logChannel
+  const logChannel = await getLogChannel(newMember); //get logChannel
   const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
@@ -644,7 +644,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const personality = PERSONALITY.getAdmin(); //get personality
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, memberKick); //get logChannel
+  const logChannel = await getLogChannel(memberKick); //get logChannel
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get ban reason
 
