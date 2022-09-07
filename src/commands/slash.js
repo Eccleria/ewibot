@@ -21,6 +21,7 @@ import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import reminder from "./reminder.js";
+import { reverse, reverseTranslator } from "./reverse.js";
 
 import announce from "./announce.js";
 import birthday from "./birthday.js";

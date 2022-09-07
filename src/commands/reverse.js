@@ -93,4 +93,18 @@ const reverseTranslator = {
   sentinelle: false,
 };
 
+const contextCommand = new ContextMenuCommandBuilder()
+  .setName("reversed-translator")
+  .setType(3);
+
+const contextAction = (interaction) => {
+  const message = interaction.targetMessage; //get message
+  const string = message.content; //get message content
+
+  const reversed = reverseStr(string); //reverse message content
+  const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
+
+  interactionReply(interaction, content);
+};
+
 export { reverse, reverseTranslator };
