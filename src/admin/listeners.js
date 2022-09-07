@@ -32,6 +32,18 @@ export const onInteractionCreate = async (interaction) => {
     return;
   }
 
+  if (interaction.isContextMenu()) {
+    //contect commands
+    const client = interaction.client; //get client
+    const contextCommands = client.contextCommands; //get commands
+
+    const foundCommand = contextCommands.find(
+      (cmd) => cmd.command.name === interaction.commandName
+    );
+
+    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+  }
+
   if (!interaction.isCommand()) return; //if not a command, return
 
   //slash commands

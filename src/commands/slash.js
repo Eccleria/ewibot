@@ -19,6 +19,7 @@ import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import reminder from "./reminder.js";
+import { reverse, reverseTranslator } from "./reverse.js";
 
 import { PERSONALITY } from "../personality.js";
 
@@ -148,6 +149,8 @@ const helpCommands = [
   ignoreChannel,
   ping,
   reminder,
+  reverse,
+  reverseTranslator,
   roll,
 ];
 const helpOptions = helpCommands.reduce((acc, cur) => {
@@ -179,6 +182,7 @@ const help = {
   },
 };
 
+const contextCommands = [reverseTranslator];
 const slashCommands = [...helpCommands, help]; //command + action
 
 export const slashCommandsInit = async (self, guildId, client) => {
@@ -191,7 +195,9 @@ export const slashCommandsInit = async (self, guildId, client) => {
 
     console.log("Successfully reloaded application (/) commands.");
 
-    client.slashCommands = slashCommands; //save in client
+    //save commands in client
+    client.slashCommands = slashCommands; //save slashCommands
+    client.contextCommands = contextCommands; //save contextCommands
   } catch (error) {
     console.error(error);
   }
