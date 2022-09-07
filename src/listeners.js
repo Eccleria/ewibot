@@ -72,20 +72,19 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   }
 };
 
-export const onRemoveReminderReaction = (messageReaction, currentServer) => {
+export const onRemoveReminderReaction = (messageReaction, user, currentServer) => {
   const { removeEmoji } = currentServer;
-  const { message, emoji, users, client } = messageReaction;
+  const { message, emoji, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
     ({ botMessage }) => botMessage.id === message.id
   );
+
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
-    users.cache // if user reacting is the owner of reminder
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
+    user.id === message.interaction.user.id  // if user reacting is the owner of reminder
   ) {
     try {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
@@ -161,7 +160,7 @@ export const onReactionAdd = async (messageReaction, user) => {
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
 
-  onRemoveReminderReaction(messageReaction, currentServer);
+  onRemoveReminderReaction(messageReaction, user, currentServer);
 };
 
 export const onReactionRemove = async (messageReaction, user) => {

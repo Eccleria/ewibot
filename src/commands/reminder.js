@@ -43,15 +43,6 @@ const formatMs = (nbr) => {
 
 const extractDuration = (interaction) => {
   // returns the waiting time in ms
-  /*
-  const lowerStr = str.toLowerCase();
-
-  // Date writing format: WWdXXhYYmZZs global
-  const timeRegex = new RegExp(/([[:digit:]][[:digit:]]?d)?([[:digit:]][[:digit:]]?h)?([[:digit:]][[:digit:]]?m)?([[:digit:]][[:digit:]]?s)?/gmi);
-  const timeResult = timeRegex.exec(str); //duration recognition
-
-  console.log("timeResult", timeResult);
-  */
   const hours = interaction.options.getNumber("heures");
   const minutes = interaction.options.getNumber("minutes");
   const seconds = interaction.options.getNumber("secondes");
@@ -89,12 +80,13 @@ const answerBot = async (interaction, currentServer, timing) => {
       `${formatMs(timing)}` +
       personality.react[0] +
       `${currentServer.removeEmoji}` +
-      personality.react[1],
+      personality.react[1]
+  });/*,
     ephemeral: true,
-  });
+  });*/
 
   const answer = await interaction.fetchReply();
-  //await answer.react(currentServer.removeEmoji);
+  await answer.react(currentServer.removeEmoji);
   return answer;
   //}
 };
