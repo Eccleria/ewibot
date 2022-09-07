@@ -2,20 +2,22 @@ import { buttonHandler } from "./pronouns.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
-  fetchAuditLog,
-  finishEmbed,
-  getLogChannel,
-  setupEmbed,
-  endCasesEmbed,
-  generalEmbed,
+  checkProdTestMode,
   clientEventUpdateProcess,
+  endCasesEmbed,
+  fetchAuditLog,
   fetchMessage,
+  finishEmbed,
+  generalEmbed,
+  getLogChannel,
   gifRecovery,
+  setupEmbed,
 } from "./utils.js";
 import {
+  addAdminLogs,
+  addApologyCount,
   hasApology,
   sanitizePunctuation,
-  addApologyCount,
 } from "../helpers/index.js";
 
 import dayjs from "dayjs";
@@ -83,6 +85,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   //basic operations
   const logChannel = await getLogChannel(newChannel); //get logChannelId
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
@@ -306,6 +309,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(newRole); //get logChannelId
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
 
   //get client
@@ -382,11 +386,23 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === message.guildId
+  );
+
+  if (
+    message.channelId === currentServer.logThreadId ||
+    message.channelId === currentServer.logChannelId
+  )
+    return;
+
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(message, "thread"); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+
   const date = message.createdAt.toString().slice(4, 24);
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
@@ -418,7 +434,7 @@ export const onMessageDelete = async (message) => {
 
   //if no AuditLog
   if (!deletionLog) {
-    await finishEmbed(
+    const messageList = await finishEmbed(
       messageDel,
       auditLog.noLog,
       embeds,
@@ -430,6 +446,9 @@ export const onMessageDelete = async (message) => {
       const content = gifs.join("\n");
       logChannel.send(content);
     }
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
     return;
   }
 
@@ -437,7 +456,7 @@ export const onMessageDelete = async (message) => {
 
   if (target.id === message.author.id) {
     //check if log report the correct user banned
-    await finishEmbed(
+    const messageList = await finishEmbed(
       messageDel,
       executor.tag,
       embeds,
@@ -447,11 +466,15 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      logChannel.send(content);
+      const msg = logChannel.send(content);
+      messageList.push(msg);
     }
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
   } else {
     //if bot or author deleted the message
-    await finishEmbed(
+    const messageList = await finishEmbed(
       messageDel,
       auditLog.noExec,
       embeds,
@@ -461,8 +484,12 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      logChannel.send(content);
+      const msg = logChannel.send(content);
+      messageList.push(msg);
     }
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
   }
 };
 
@@ -482,12 +509,19 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   if (!oMessage.guild) return; //Ignore DM
 
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === newMessage.guildId
+  );
+  if (newMessage.channelId === currentServer.logThreadId) return;
+
   //get personality
   const personality = PERSONALITY.getAdmin();
   const messageU = personality.messageUpdate;
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(nMessage, "thread"); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+
   const date = oMessage.createdAt.toString().slice(4, 24);
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
@@ -503,7 +537,17 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
-    endCasesEmbed(nMessage, unpinLog, messageU, auditLog, embed, logChannel);
+    const messageList = await endCasesEmbed(
+      nMessage,
+      unpinLog,
+      messageU,
+      auditLog,
+      embed,
+      logChannel
+    );
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
     return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
@@ -515,7 +559,17 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link, true);
 
-    endCasesEmbed(nMessage, pinLog, messageU, auditLog, embed, logChannel);
+    const messageList = await endCasesEmbed(
+      nMessage,
+      pinLog,
+      messageU,
+      auditLog,
+      embed,
+      logChannel
+    );
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
     return;
   }
 
@@ -586,7 +640,18 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addField(messageU.linkName, link, true);
-  await finishEmbed(messageU, null, embeds, logChannel, null, attachments);
+
+  const messageList = await finishEmbed(
+    messageU,
+    null,
+    embeds,
+    logChannel,
+    null,
+    attachments
+  );
+  messageList.forEach((msg) =>
+    addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+  );
   /* if (gifs !== null) {
     const content = gifs.join("\n");
     logChannel.send(content);
@@ -624,6 +689,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(newMember); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
@@ -645,6 +711,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(memberKick); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get ban reason
 
@@ -665,14 +732,23 @@ export const onGuildMemberRemove = async (memberKick) => {
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
-    endCasesEmbed(userKick, kickLog, guildKick, auditLog, embed, logChannel);
+    const messageList = await endCasesEmbed(
+      userKick,
+      kickLog,
+      guildKick,
+      auditLog,
+      embed,
+      logChannel
+    );
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "userAD", 2)
+    );
     return;
   }
 
   const guildKick = personality.guildKick.kick;
   const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
-  console.log("log", kickLog);
 
   endCasesEmbed(
     userKick,
