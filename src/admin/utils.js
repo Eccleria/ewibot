@@ -598,12 +598,12 @@ export const logsRemover = async (client) => {
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
     const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
-
+    
     const diff = data.reduce((acc, cur) => {
-      if (result.has(cur.id)) return acc; //if no diff
-      else return [...acc, cur.id];
+      if (result.has(cur)) return acc; //if no diff
+      else return [...acc, cur];
     }, []); //find diff for error check
-    console.log("result", result.keys(), "diff", diff) //log for debug
+    console.log("diff", diff) //log for debug
   }
   removeAdminLogs(db, type); //remove from db
   //console.log("db", db.data.adminLogs.frequent);
@@ -629,7 +629,7 @@ export const initAdminLogClearing = (client, waitingTime) => {
         },
         24 * 3600 * 1000,
         client
-      ); //5 * 60 * 1000 = 5min client)
+      );
     },
     waitingTime,
     client
