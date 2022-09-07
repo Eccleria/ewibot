@@ -78,7 +78,7 @@ export const onRemoveReminderReaction = (
   currentServer
 ) => {
   const { removeEmoji } = currentServer;
-  const { message, emoji, users, client } = messageReaction;
+  const { message, emoji, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
