@@ -12,6 +12,8 @@ const reverseStr = (string) => {
   return reversed;
 }
 
+// SLASH COMMAND
+
 const command = new SlashCommandBuilder()
   .setName("reverse")
   .setDescription("Permet de vous inverser le message que vous souhaitez.")
@@ -46,6 +48,8 @@ const reverse = {
     interactionReply(interaction, personality.reverse.help)
   }
 };
+
+// CONTEXT COMMAND
 
 const contextCommand = new ContextMenuCommandBuilder()
   .setName("reversed-translator")

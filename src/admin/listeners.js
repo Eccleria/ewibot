@@ -513,7 +513,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
-    embed.addField(messageU.linkName, link);
+    embed.addField(messageU.linkName, link, true);
 
     endCasesEmbed(nMessage, pinLog, messageU, auditLog, embed, logChannel);
     return;
@@ -585,7 +585,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
-  embed.addField(messageU.linkName, link);
+  embed.addField(messageU.linkName, link, true);
   await finishEmbed(messageU, null, embeds, logChannel, null, attachments);
   /* if (gifs !== null) {
     const content = gifs.join("\n");
