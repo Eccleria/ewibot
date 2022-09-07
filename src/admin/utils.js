@@ -77,7 +77,6 @@ export const finishEmbed = async (
   attachments
 ) => {
   const currentServer = commons.find(({ name }) => name === "test"); //get test data
-
   if (
     process.env.DEBUG === "no" &&
     logChannel.guildId === currentServer.guildId
@@ -86,8 +85,9 @@ export const finishEmbed = async (
     console.log("Ewibot log in Test server", personalityEvent.title);
     return;
   }
+
   if (embed.author !== null) {
-    //embed.author is a embed property & not an array property
+    //if is an array, embed.author is undefined !== null
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
       embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
@@ -590,16 +590,20 @@ export const logsRemover = async (client) => {
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
 
-  let type = "frequent";
+  let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
   const dbData = getAdminLogs(db);
-  let data = dbData[type][0];
+  let data = dbData[type][0]; //get corresponding data
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
-    const result = await threadChannel.bulkDelete(data); //const result =
-    removeAdminLogs(db, type);
-    console.log("result1", result.keys())
+    const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
+    
+    const diff = data.reduce((acc, cur) => {
+      if (result.has(cur)) return acc; //if no diff
+      else return [...acc, cur];
+    }, []); //find diff for error check
+    console.log("diff", diff) //log for debug
   }
-  removeAdminLogs(db, type);
+  removeAdminLogs(db, type); //remove from db
   //console.log("db", db.data.adminLogs.frequent);
 
   /*
@@ -623,7 +627,7 @@ export const initAdminLogClearing = (client, waitingTime) => {
         },
         24 * 3600 * 1000,
         client
-      ); //5 * 60 * 1000 = 5min client)
+      );
     },
     waitingTime,
     client
