@@ -21,6 +21,8 @@ const reverseStr = (string) => {
 
 // SLASH COMMAND
 
+// SLASH COMMAND
+
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().reverse.name)
   .setDescription(PERSONALITY.getCommands().reverse.description)
