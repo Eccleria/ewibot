@@ -23,9 +23,8 @@ const action = async (interaction) => {
   if (embeds) {
     //add executor of saveLog
     const member = interaction.member;
-    console.log(embeds[0].fields)
     embeds[0].addFields(
-      { name: personality.author, value: member.toString(), inline: true }
+      { name: saveLogP.author, value: member.toString(), inline: true }
     );
 
     logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
