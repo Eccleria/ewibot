@@ -12,10 +12,10 @@ import {
   getLogChannel,
   gifRecovery,
   setupEmbed,
+  sliceAddString,
 } from "./utils.js";
 import {
   addAdminLogs,
-  addApologyCount,
   hasApology,
   sanitizePunctuation,
   addStatData,
@@ -408,9 +408,22 @@ export const onMessageDelete = async (message) => {
     [embed]
   );
 
-  //handle gifs
+  //handle content
   let content = message.content ? message.content : messageDel.note;
-  const gifs = gifRecovery(content);
+  const len = content.length; //get content length
+  const slice = Math.ceil(len / 1024); //get number of time to slice content by 1024;
+
+  if (slice > 1) {
+    const sliced = sliceAddString(slice, content); //slice and add to embed
+
+    sliced.forEach((str, idx) => {
+      if (idx === 0)
+        embed.addFields({ name: messageDel.text, value: str }); //name's different from others
+      else embed.addFields({ name: messageDel.textAgain, value: str });
+    });
+  } else embed.addFields({ name: messageDel.text, value: content });
+
+  const gifs = gifRecovery(content); //handle gifs
 
   //handle emotes in message
   const foundEmotes = wordEmojiDetection(message, message.client);
@@ -437,7 +450,7 @@ export const onMessageDelete = async (message) => {
       auditLog.noLog,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
@@ -451,15 +464,18 @@ export const onMessageDelete = async (message) => {
   }
 
   const { executor, target } = deletionLog;
+  const logCreationDate = deletionLog ? dayjs(deletionLog.createdAt) : null;
+  const diff =
+    logCreationDate !== null ? dayjs().diff(logCreationDate, "s") : null;
 
-  if (target.id === message.author.id) {
-    //check if log report the correct user banned
+  if (target.id === message.author.id && diff <= 5) {
+    //check if log report the correct user && log is recent
     const messageList = await finishEmbed(
       messageDel,
       executor.tag,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
@@ -477,12 +493,12 @@ export const onMessageDelete = async (message) => {
       auditLog.noExec,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      const msg = logChannel.send(content);
+      const msg = await logChannel.send(content);
       messageList.push(msg);
     }
     messageList.forEach((msg) =>
@@ -619,16 +635,42 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     //build embed from message content modifications
     if (isLengthy) {
       //if has a length difference > 2
-      const oLen = oldContent.length !== 0;
-      const nLen = newContent.length !== 0;
+    const oLen = oldContent.length;
+    const nLen = newContent.length;
 
-      if (oLen) embed.addField(messageU.contentOld, oldContent); //to not add empty strings
-      if (nLen) embed.addField(messageU.contentNew, newContent);
+    if (oLen !== 0) {
+      const oSlice = Math.ceil(oLen / 1024); //get number of time to slice oldContent by 1024;
 
-      if (oLen && nLen) {
-        //check for apology
-        const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
-        const nSanitized = sanitizePunctuation(newContent.toLowerCase());
+      if (oSlice > 1) {
+        const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
+
+        oSliced.forEach((str, idx) => {
+          console.log(idx, str)
+          console.log(messageU.contentOld)
+          if (idx === 0)
+            embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
+          else embed.addFields({ name: messageU.contentOldAgain, value: str });
+        });
+      } else embed.addFields({ name: messageU.contentOld, value: oldContent });
+
+    }
+    if (nLen !== 0) {
+      const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
+      if (nSlice > 1) {
+        const nSliced = sliceAddString(nSlice, newContent); //slice and add to embed
+
+        nSliced.forEach((str, idx) => {
+          if (idx === 0)
+            embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
+          else embed.addFields({ name: messageU.contentNewAgain, value: str });
+        });
+      }
+    } else embed.addFields({ name: messageU.contentNew, value: newContent });
+
+    if (oLen !== 0 && nLen !== 0) {
+      //check for apology
+      const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
+      const nSanitized = sanitizePunctuation(newContent.toLowerCase());
 
         if (!hasApology(oSanitized) && hasApology(nSanitized)) {
           //in new message && not in old message
