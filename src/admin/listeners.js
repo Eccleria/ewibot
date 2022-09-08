@@ -513,6 +513,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   if (!oMessage.guild) return; //Ignore DM
+  if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
   const currentServer = commons.find(
     ({ guildId }) => guildId === newMessage.guildId
