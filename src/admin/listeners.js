@@ -403,9 +403,22 @@ export const onMessageDelete = async (message) => {
     [embed]
   );
 
-  //handle gifs
+  //handle content
   let content = message.content ? message.content : messageDel.note;
-  const gifs = gifRecovery(content);
+  const len = content.length; //get content length
+  const slice = Math.ceil(len / 1024); //get number of time to slice content by 1024;
+
+  if (slice > 1) {
+    const sliced = sliceAddString(slice, content); //slice and add to embed
+
+    sliced.forEach((str, idx) => {
+      if (idx === 0)
+        embed.addFields({ name: messageDel.text, value: str }); //name's different from others
+      else embed.addFields({ name: messageDel.textAgain, value: str });
+    });
+  }
+
+  const gifs = gifRecovery(content); //handle gifs
 
   //if no AuditLog
   if (!deletionLog) {
@@ -414,7 +427,7 @@ export const onMessageDelete = async (message) => {
       auditLog.noLog,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
@@ -439,7 +452,7 @@ export const onMessageDelete = async (message) => {
       executor.tag,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
@@ -457,7 +470,7 @@ export const onMessageDelete = async (message) => {
       auditLog.noExec,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
