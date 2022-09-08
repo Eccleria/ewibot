@@ -585,8 +585,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
 
         oSliced.forEach((str, idx) => {
-          console.log(idx, str)
-          console.log(messageU.contentOld)
           if (idx === 0)
             embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
