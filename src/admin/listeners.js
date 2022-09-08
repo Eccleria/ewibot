@@ -416,7 +416,7 @@ export const onMessageDelete = async (message) => {
         embed.addFields({ name: messageDel.text, value: str }); //name's different from others
       else embed.addFields({ name: messageDel.textAgain, value: str });
     });
-  }
+  } else embed.addFields({ name: messageDel.text, value: content });
 
   const gifs = gifRecovery(content); //handle gifs
 
