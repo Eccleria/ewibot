@@ -591,7 +591,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
             embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
         });
-      }
+      } else embed.addFields({ name: messageU.contentOld, value: oldContent });
+
     }
     if (nLen !== 0) {
       const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
@@ -604,7 +605,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
           else embed.addFields({ name: messageU.contentNewAgain, value: str });
         });
       }
-    }
+    } else embed.addFields({ name: messageU.contentNew, value: newContent });
 
     if (oLen !== 0 && nLen !== 0) {
       //check for apology
