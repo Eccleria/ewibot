@@ -12,6 +12,7 @@ import {
   getLogChannel,
   gifRecovery,
   setupEmbed,
+  sliceAddString,
 } from "./utils.js";
 import {
   addAdminLogs,
@@ -561,13 +562,38 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
   if (oldContent !== newContent && isLengthy) {
-    const oLen = oldContent.length !== 0;
-    const nLen = newContent.length !== 0;
+    const oLen = oldContent.length;
+    const nLen = newContent.length;
 
-    if (oLen) embed.addField(messageU.contentOld, oldContent); //to not add empty strings
-    if (nLen) embed.addField(messageU.contentNew, newContent);
+    if (oLen !== 0) {
+      const oSlice = Math.ceil(oLen / 1024); //get number of time to slice oldContent by 1024;
 
-    if (oLen && nLen) {
+      if (oSlice > 1) {
+        const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
+
+        oSliced.forEach((str, idx) => {
+          console.log(idx, str)
+          console.log(messageU.contentOld)
+          if (idx === 0)
+            embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
+          else embed.addFields({ name: messageU.contentOldAgain, value: str });
+        });
+      }
+    }
+    if (nLen !== 0) {
+      const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
+      if (nSlice > 1) {
+        const nSliced = sliceAddString(nSlice, newContent); //slice and add to embed
+
+        nSliced.forEach((str, idx) => {
+          if (idx === 0)
+            embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
+          else embed.addFields({ name: messageU.contentNewAgain, value: str });
+        });
+      }
+    }
+
+    if (oLen !== 0 && nLen !== 0) {
       //check for apology
       const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
       const nSanitized = sanitizePunctuation(newContent.toLowerCase());
