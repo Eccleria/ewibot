@@ -1,4 +1,19 @@
 {
+  "adminLogs": {
+    "frequent": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "userAD": [
+      [],
+      []
+    ]
+  },
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "ignoredChannelIds": [],

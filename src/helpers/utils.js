@@ -5,6 +5,7 @@ import {
   removeEmoteCount,
   addStatData,
 } from "./index.js";
+import { octagonalLog } from "../admin/utils.js";
 
 export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
 
@@ -60,6 +61,10 @@ const isAbcd = (words) => {
 
 const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
+};
+
+const hasOctagonalSign = (content, currentServer) => {
+  return content.includes(currentServer.octagonalSign);
 };
 
 export const hasApology = (sanitizedContent) => {
@@ -134,6 +139,8 @@ export const reactionHandler = async (message, currentServer, client) => {
     await message.react(currentServer.panDuomReactId); //add message reaction
   }
 
+  if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message);
+
   const words = loweredContent.split(" ");
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
@@ -179,8 +186,8 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   if (authorId === currentServer.LuciferId) {
     //if Lucifer
-    const presqueRegex = new RegExp(/pres(qu|k)e *(15|quinze)/gim); //regex for presque 15 detection
-    const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 15
+    const presqueRegex = new RegExp(/pres(qu|k)e *(16|seize)/gim); //regex for presque 16 detection
+    const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 16
 
     presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
 

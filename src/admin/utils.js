@@ -1,6 +1,7 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
+import { getAdminLogs, removeAdminLogs } from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -65,6 +66,7 @@ export const setupEmbed = (color, personality, object, type) => {
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Additional text to add.
  * @param {Attachment[]} [attachments] Message attachments.
+ * @returns {object[]}
  */
 export const finishEmbed = async (
   personalityEvent,
@@ -92,19 +94,24 @@ export const finishEmbed = async (
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
     try {
-      await logChannel.send({ embeds: embed, allowed_mentions: { parse: [] } }); //send
-      if (attachments && attachments.length !== 0)
-        await logChannel.send({ files: attachments }); //if attachments, send new message
+      const message = await logChannel.send({
+        embeds: embed,
+        allowed_mentions: { parse: [] },
+      }); //send
+      if (attachments && attachments.length !== 0) {
+        const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+        return [message, gifMessage];
+      }
+      return [message];
     } catch (e) {
       console.log(
         "finishEmbed list error\n",
         personalityEvent.title,
         new Date(),
-        e,
-        embed
+        e
       );
     }
-    return;
+    return [];
   }
 
   if (personalityEvent.executor && executor !== null)
@@ -112,11 +119,18 @@ export const finishEmbed = async (
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
   try {
-    await logChannel.send({ embeds: [embed], allowed_mentions: { parse: [] } }); //send
-    if (attachments && attachments.length !== 0)
-      await logChannel.send({ files: attachments }); //if attachments, send new message
+    const message = await logChannel.send({
+      embeds: [embed],
+      allowed_mentions: { parse: [] },
+    }); //send
+    if (attachments && attachments.length !== 0) {
+      const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+      return [message, gifMessage];
+    }
+    return [message];
   } catch (e) {
-    console.log("finishEmbed error\n", personalityEvent.title, e, embed);
+    console.log("finishEmbed error\n", personalityEvent.title, e);
+    return [];
   }
 };
 
@@ -130,8 +144,9 @@ export const finishEmbed = async (
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
+ * @returns {object[]}
  */
-export const endCasesEmbed = (
+export const endCasesEmbed = async (
   object,
   log,
   eventPerso,
@@ -143,24 +158,49 @@ export const endCasesEmbed = (
 ) => {
   if (diff >= 5) {
     //if log too old
-    finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
-    return;
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.tooOld,
+      embed,
+      logChannel
+    );
+    return messageList;
   }
 
   if (!log) {
     //if no AuditLog
-    finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, text);
-    return;
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.noLog,
+      embed,
+      logChannel,
+      text
+    );
+    return messageList;
   }
 
   const { executor, target } = log;
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    finishEmbed(eventPerso, executor, embed, logChannel, text);
+    const messageList = await finishEmbed(
+      eventPerso,
+      executor,
+      embed,
+      logChannel,
+      text
+    );
+    return messageList;
   } else {
     //if bot or author executed the kick
-    finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.noExec,
+      embed,
+      logChannel,
+      text
+    );
+    return messageList;
   }
 };
 
@@ -192,7 +232,8 @@ export const generalEmbed = async (
   const aLog = personality.auditLog;
 
   const channel = await getLogChannel(commons, obj); //get logChannel
-
+  if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
+  console.log("here");
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
@@ -205,7 +246,7 @@ export const generalEmbed = async (
  * Fetch Log Channel.
  * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
- * @param {string} type String to ditinguish if returns channel or thread
+ * @param {string} [type] String to ditinguish if returns channel or thread. "thread" for thread.
  * @returns {TextChannel}
  */
 export const getLogChannel = async (commons, eventObject, type) => {
@@ -542,4 +583,95 @@ export const gifRecovery = (content) => {
     return results;
   }
   return null;
+};
+
+export const logsRemover = async (client) => {
+  console.log("logsRemover")
+  const db = client.db;
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+
+  let type = "frequent";
+  const dbData = getAdminLogs(db);
+  let data = dbData[type][0];
+  if (data.length !== 0) {
+    const threadChannel = await client.channels.fetch(server.logThreadId);
+    const result = await threadChannel.bulkDelete(data); //const result =
+    removeAdminLogs(db, type);
+    console.log("result1", result.keys())
+  }
+  removeAdminLogs(db, type);
+  //console.log("db", db.data.adminLogs.frequent);
+
+  /*
+  type = "userAD";
+  data = dbData[type][0];
+  if (data.length !== 0) {
+    const logChannel = await client.channels.fetch(server.logChannelId);
+    const result = await logChannel.bulkDelete(data);
+    //console.log("result2", result)
+  }
+  removeAdminLogs(db, type)*/
+};
+
+export const initAdminLogClearing = (client, waitingTime) => {
+  setTimeout(
+    () => {
+      logsRemover(client);
+      setInterval(
+        () => {
+          logsRemover(client);
+        },
+        24 * 3600 * 1000,
+        client
+      ); //5 * 60 * 1000 = 5min client)
+    },
+    waitingTime,
+    client
+  );
+};
+
+export const octagonalLog = async (object, user) => {
+  //get personality
+  const personality = PERSONALITY.getAdmin();
+  const octaPerso = personality.octagonalSign;
+
+  let message = user ? object.message : object;
+  if (message.partial) await message.fetch();
+
+  //basic operations
+  const logChannel = await getLogChannel(commons, message); //get logChannelId
+  const embed = setupEmbed(
+    "LUMINOUS_VIVID_PINK",
+    octaPerso,
+    message.author,
+    "tag"
+  ); //setup embed
+
+  //add more info to embed
+  const executor = user
+    ? await message.guild.members.fetch(user.id)
+    : object.author; //get executor
+  const date = message.createdAt.toString().slice(4, 24);
+  embed.addFields(
+    { name: octaPerso.date, value: `${date}`, inline: true }, //date of message creation
+    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
+    { name: octaPerso.text, value: message.content }, //message content
+    { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
+    {
+      name: octaPerso.linkName,
+      value: `[${octaPerso.linkMessage}](${message.url})`,
+      inline: true,
+    } //get message link
+  );
+
+  finishEmbed(octaPerso, null, embed, logChannel);
+};
+
+export const checkProdTestMode = (logChannel) => {
+  const server = commons.find(({ name }) => name === "test");
+  const channels = [server.logChannelId, server.logThreadId];
+
+  return channels.includes(logChannel.id); //if test, return true
 };
