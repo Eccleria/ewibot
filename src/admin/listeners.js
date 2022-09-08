@@ -599,8 +599,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
 
         oSliced.forEach((str, idx) => {
-          console.log(idx, str)
-          console.log(messageU.contentOld)
           if (idx === 0)
             embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
@@ -618,8 +616,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
             embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
           else embed.addFields({ name: messageU.contentNewAgain, value: str });
         });
-      }
-    } else embed.addFields({ name: messageU.contentNew, value: newContent });
+      } else embed.addFields({ name: messageU.contentNew, value: newContent });
+    } 
 
     if (oLen !== 0 && nLen !== 0) {
       //check for apology
