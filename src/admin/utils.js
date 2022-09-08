@@ -586,7 +586,7 @@ export const gifRecovery = (content) => {
 };
 
 export const logsRemover = async (client) => {
-  console.log("logsRemover")
+  console.log("logsRemover");
   const db = client.db;
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"

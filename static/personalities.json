@@ -241,6 +241,17 @@
       "spotify": {
         "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       },
+      "twitter": {
+        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
+        "isSending": "Les Tweets sont en déjà en cours d'envoi.",
+        "noTweets": "Il n'y a aucun tweet de manqué.",
+        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
+        "streamClosed": "Le stream Twitter a été coupé.",
+        "streamClosing": "La demande de déconnexion est en traitement",
+        "streamConnected": "Le stream Twitter est connecté.",
+        "streamExists": "Un stream existe déjà.",
+        "streamNotConnected": "Aucun stream n'est connecté."
+      },
       "stats": {
         "help": "Allows to send stats. Use `$stats *stat_name*`",
         "leaderboardApology": {
@@ -345,6 +356,17 @@
         "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
         "numberError": "Les nombres donnés ne respectent pas les limites.",
         "parsingError": "Erreur de parsing."
+      },
+      "twitter": {
+        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
+        "isSending": "Les Tweets sont en déjà en cours d'envoi.",
+        "noTweets": "Il n'y a aucun tweet de manqué.",
+        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
+        "streamClosed": "Le stream Twitter a été coupé.",
+        "streamClosing": "La demande de déconnexion est en traitement",
+        "streamConnected": "Le stream Twitter est connecté.",
+        "streamExists": "Un stream existe déjà.",
+        "streamNotConnected": "Aucun stream n'est connecté."
       },
       "stats": {
         "help": "Allows to send stats. Use `$stats *stat_name*`",

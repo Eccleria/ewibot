@@ -32,8 +32,22 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 //LISTENERS
 
 export const onInteractionCreate = (interaction) => {
-  //console.log(interaction);
-  if (interaction.isButton()) buttonHandler(interaction);
+  if (interaction.isButton()) {
+    buttonHandler(interaction);
+    return;
+  }
+
+  if (!interaction.isCommand()) return; //if not a command, return
+
+  //slash commands
+  const client = interaction.client; //get client
+  const slashCommands = client.slashCommands; //get commands
+
+  const foundCommand = slashCommands.find(
+    (cmd) => cmd.command.name === interaction.commandName
+  );
+
+  if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
 };
 
 export const onChannelCreate = async (channel) => {
@@ -522,6 +536,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   if (!oMessage.guild) return; //Ignore DM
+  if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
   const currentServer = commons.find(
     ({ guildId }) => guildId === newMessage.guildId
@@ -645,8 +660,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
 
         oSliced.forEach((str, idx) => {
-          console.log(idx, str)
-          console.log(messageU.contentOld)
           if (idx === 0)
             embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
@@ -664,8 +677,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
             embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
           else embed.addFields({ name: messageU.contentNewAgain, value: str });
         });
-      }
-    } else embed.addFields({ name: messageU.contentNew, value: newContent });
+      } else embed.addFields({ name: messageU.contentNew, value: newContent });
+    } 
 
     if (oLen !== 0 && nLen !== 0) {
       //check for apology
