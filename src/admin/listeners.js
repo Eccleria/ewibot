@@ -630,28 +630,35 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     );
     if (!isIdentical) {
       //if anything to change
-
       const modifs = oFoundEmotes.reduce(
         (acc, cur, idx) => {
-          const nEmote = nFoundEmotes[idx];
-          if (nEmote && cur !== nEmote)
+          const nEmote = nFoundEmotes[idx]; //get associated newEmote
+          if (nEmote && cur !== nEmote) //if new emote exists && is different
             return { add: [...acc.add, nEmote], rem: [...acc.rem, cur] };
-          else return acc;
+          else return { add: acc.add, rem: [...acc.rem, cur] }; //if no new emote => remove
         },
         { add: [], rem: [] }
       ); //compare both emotes lists, return differences
       console.log("modifs", modifs);
 
-      const { add, rem } = modifs; //get add and rem emotes lists
-      if (add.length !== 0) {
-        //if any modif
-        add.forEach((emoteId, idx) => {
-          if (isUseStatsUser(db, authorId)) {
-            emojiStat(emoteId, nMessage.author, "add"); //add emotes counts
-            emojiStat(rem[idx], nMessage.author); //remove
-          }
-        });
+      //now handle nFoundEmote longer
+      const nLen = nFoundEmotes.length;
+      const oLen = oFoundEmotes.length;
+      if (nLen > oLen ) {
+        const eDiff = nFoundEmotes.slice(oLen);
+        modifs.add = [...modifs.add, ...eDiff];
       }
+      console.log("modifs", modifs);
+
+      const { add, rem } = modifs; //get add and rem emotes lists
+      add.forEach((emoteId) => {
+        if (isUseStatsUser(db, authorId))
+          emojiStat(emoteId, nMessage.author, "add"); //add emotes counts
+      });
+      rem.forEach((emoteId) => {
+        if (isUseStatsUser(db, authorId))
+          emojiStat(emoteId, nMessage.author); //remove emotes counts
+      });
     }
 
     //build embed from message content modifications
