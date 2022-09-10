@@ -199,6 +199,29 @@ export {
   removeMissingTweets,
 };
 
+//USE STATS
+
+const isUseStatsUser = (db, userId) => {
+  return db.data.useStatsUser.includes(userId);
+};
+
+const addUseStatsUser = (db, userId) => {
+  if (isUseStatsUser(db, userId)) return;
+  else {
+    db.data.useStatsUser.push(userId);
+    db.wasUpdated = true;
+  }
+};
+
+const removeUseStatsUser = (db, userId) => {
+  if (isStatsUser(db, userId)) {
+    db.data.useStatsUser = db.data.useStatsUser.filter((id) => id !== userId);
+    db.wasUpdated = true;
+  }
+};
+
+export { isUseStatsUser, addUseStatsUser, removeUseStatsUser };
+
 //STATS USER
 // {userId, stats...}
 const addStatsUser = (authorId, db) => {
