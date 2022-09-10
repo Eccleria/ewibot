@@ -11,6 +11,7 @@ import {
   emojiStat,
   addStatData,
   catAndDogsCount,
+  isUseStatsUser,
 } from "./helpers/index.js";
 
 import { roleAdd, roleRemove } from "./admin/role.js";
@@ -45,9 +46,11 @@ export const onPrivateMessage = async (message, client) => {
 
 export const onPublicMessage = (message, client, currentServer, self) => {
   const { author, content, channel, attachments } = message;
+  const authorId = author.id;
+  const db = client.db;
 
   if (
-    author.id === self || // ignoring message from himself
+    authorId === self || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
     (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
   )
@@ -65,12 +68,12 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
   reactionHandler(message, currentServer, client);
 
-  addStatData(author.id, client.db, "message"); //add message count to db;
+  if (isUseStatsUser(db, authorId)) addStatData(authorId, db, "message"); //add message count to db;
 
   // check for command
   const commandName = content.split(" ")[0];
   const command = commands
-    .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin) //filter appropriate commands if user has or not admin rigths
+    .filter(({ admin }) => (admin && isAdmin(authorId)) || !admin) //filter appropriate commands if user has or not admin rigths
     .find(({ name }) => commandName.slice(1) === name);
   if (command && isCommand(commandName)) {
     if (
@@ -164,7 +167,8 @@ export const onReactionAdd = async (messageReaction, user) => {
   const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server
-    emojiStat(emote.id, user, "add", "react");
+    const db = messageReaction.client.db;
+    if (isUseStatsUser(db, user.id)) emojiStat(emote.id, user, "add", "react");
     return;
   }
 
@@ -196,9 +200,11 @@ export const onReactionRemove = async (messageReaction, user) => {
 
   const emote = messageReaction.emoji; //get emote
   const emoteGuild = emote.guild ? emote.guild : null; //get emote guild
-  if (emoteGuild && currentServer.guildId === emoteGuild.id)
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server
-    emojiStat(emote.id, user);
+    const db = messageReaction.client.db;
+    if (isUseStatsUser(db, user.id)) emojiStat(emote.id, user);
+  }
 };
 
 export const onEmojiCreate = (guildEmoji) => {
