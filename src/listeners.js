@@ -10,6 +10,7 @@ import {
   deleteSongFromPlaylist,
   emojiStat,
   addStatData,
+  catAndDogsCount,
 } from "./helpers/index.js";
 
 import { roleAdd, roleRemove } from "./admin/role.js";
@@ -43,7 +44,7 @@ export const onPrivateMessage = async (message, client) => {
 };
 
 export const onPublicMessage = (message, client, currentServer, self) => {
-  const { author, content, channel } = message;
+  const { author, content, channel, attachments } = message;
 
   if (
     author.id === self || // ignoring message from himself
@@ -52,7 +53,15 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   )
     return;
 
-  const { playlistThreadId } = currentServer;
+  console.log(message);
+
+  const { playlistThreadId, catThreadId, dogThreadId } = currentServer;
+
+  if (attachments) {
+    if (channel.id === catThreadId) catAndDogsCount(client, attachments, "cats", "add");
+    else if (channel.id === dogThreadId)
+      catAndDogsCount(client, attachments, "dogs", "add");
+  }
 
   reactionHandler(message, currentServer, client);
 

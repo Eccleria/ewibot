@@ -76,7 +76,9 @@
       "laquetedewilan": "1032989926000939008",
       "andartapictures": "1039418011260727296"
     },
-    "octagonalSign": "🛑"
+    "octagonalSign": "🛑",
+    "catThreadId": "1017823854984450118",
+    "dogThreadId": "1017823898672316486"
   },
   {
     "name": "prod",
@@ -155,6 +157,8 @@
       "laquetedewilan": "1032989926000939008",
       "andartapictures": "1039418011260727296"
     },
-    "octagonalSign": "🛑"
+    "octagonalSign": "🛑",
+    "catThreadId": "933456973591097415",
+    "dogThreadId": "945001266650689586"
   }
 ]

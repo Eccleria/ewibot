@@ -4,6 +4,8 @@ import {
   addEmoteCount,
   removeEmoteCount,
   addStatData,
+  addStatsServer,
+  removeStatsServer,
 } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 
@@ -224,4 +226,20 @@ export const emojiInit = async (client, commons) => {
   }, []); //stored as [{id:, name:}];
   console.log("toClient", toClient);
   client.emotes = toClient;
+};
+
+export const catAndDogsCount = (client, attachments, typeCD, typeAR) => {
+  const db = client.db;
+  attachments.forEach((cur) => {
+    const attType = cur.contentType;
+    if (attType.startsWith("video")) {
+      const typePV = "video";
+      if (typeAR === "add") addStatsServer(db, typeCD, typePV);
+      else if (typeAR === "remove") removeStatsServer(db, typeCD, typePV);
+    } else if (attType.startsWith("image")) {
+      const typePV = "image";
+      if (typeAR === "add") addStatsServer(db, typeCD, typePV);
+      else if (typeAR === "remove") removeStatsServer(db, typeCD, typePV);
+    }
+  })
 };

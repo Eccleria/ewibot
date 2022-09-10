@@ -199,11 +199,11 @@ export {
   removeMissingTweets,
 };
 
-//STATS
+//STATS USER
 // {userId, stats...}
 const addStatsUser = (authorId, db) => {
   if (!isStatsUser(authorId, db)) {
-    db.data.stats.push({
+    db.data.statsUsers.push({
       userId: authorId,
       apologies: 0,
       emotes: { total: 0, react: 0, inMessage: 0, emotes: [] },
@@ -217,7 +217,7 @@ const addStatsUser = (authorId, db) => {
 };
 
 const isStatsUser = (authorId, db) => {
-  return db.data.stats
+  return db.data.statsUsers
     .map((obj) => {
       return obj.userId;
     })
@@ -226,7 +226,7 @@ const isStatsUser = (authorId, db) => {
 
 const removeStatsUser = (authorId, db) => {
   if (isStatsUser(authorId, db)) {
-    db.data.stats = db.data.stats.filter((cur) => cur.userId !== authorId);
+    db.data.statsUsers = db.data.statsUsers.filter((cur) => cur.userId !== authorId);
     db.wasUpdated = true;
   }
 };
@@ -240,7 +240,7 @@ export { addStatsUser, removeStatsUser };
  * @param {string} type Type of the data to add eg. apology, hungry...
  */
 const addStatData = (authorId, db, type) => {
-  const { stats } = db.data;
+  const stats = db.data.statsUsers;
 
   if (isStatsUser(authorId, db)) {
     //If already in DB, add +1 to counter
@@ -256,7 +256,7 @@ const addStatData = (authorId, db, type) => {
 };
 
 const addEmoteCount = (authorId, db, emoteId, type) => {
-  const stats = db.data.stats; //[{ userId, apologies, hungry, emotes }, ...]
+  const stats = db.data.statsUsers; //[{ userId, apologies, hungry, emotes }, ...]
   console.log("stats", stats);
   if (isStatsUser(authorId, db)) {
     //if user is in db
@@ -294,7 +294,7 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
 };
 
 const removeEmoteCount = (authorId, db, emoteId, type) => {
-  const stats = db.data.stats;
+  const stats = db.data.statsUsers;
   console.log("stats", stats);
   if (isStatsUser(authorId, db)) {
     console.log("isStatUser");
@@ -322,3 +322,27 @@ const removeEmoteCount = (authorId, db, emoteId, type) => {
 };
 
 export { addStatData, addEmoteCount, removeEmoteCount };
+
+//STATS SERVER
+
+const addStatsServer = (db, typeCD, typePV, number = 1) => {
+  const stats = db.data.statsServer;
+  const toModify = stats[typeCD]; //cats or dogs
+  console.log("toModify", toModify);
+  db.data.statsServer[typeCD][typePV] = toModify[typePV] + number; //modify picture/video count
+  db.data.statsServer[typeCD].total = toModify.total + number; //modify total count
+
+  db.wasUpdated = true;
+};
+
+const removeStatsServer = (db, typeCD, typePV, number = 1) => {
+  const stats = db.data.statsServer;
+  const toModify = stats[typeCD]; //cats or dogs
+
+  db.data.statsServer[typeCD][typePV] = toModify[typePV] - number; //modify picture/video count
+  db.data.statsServer[typeCD].total = toModify.total - number; //modify total count
+
+  db.wasUpdated = true;
+};
+
+export { addStatsServer, removeStatsServer };

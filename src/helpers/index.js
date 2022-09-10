@@ -19,6 +19,8 @@ import {
   addEmoteCount,
   removeEmoteCount,
   addStatData,
+  addStatsServer,
+  removeStatsServer,
 } from "./dbHelper.js";
 
 import {
@@ -37,6 +39,7 @@ import {
   checkIsOnThread,
   emojiInit,
   wordEmojiDetection,
+  catAndDogsCount,
 } from "./utils.js";
 
 export {
@@ -50,6 +53,7 @@ export {
   checkIsOnThread,
   emojiInit,
   wordEmojiDetection,
+  catAndDogsCount,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
@@ -75,4 +79,6 @@ export {
   addEmoteCount,
   removeEmoteCount,
   addStatData,
+  addStatsServer,
+  removeStatsServer,
 };

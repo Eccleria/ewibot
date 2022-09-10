@@ -18,8 +18,20 @@
   "birthdaysUsers": [],
   "ignoredChannelIds": [],
   "ignoredUsersIds": [ "816960467335512114", "816979516916105220" ], // Maeva / Andarta Picture
-  "messageCount": [],
   "reminder": [],
+  "statsUsers": [],
+  "statsServer": {
+    "cats": {
+      "image": 0,
+      "video": 0,
+      "total": 0
+    },
+    "dogs": {
+      "image": 0,
+      "video": 0,
+      "total": 0
+    }
+  },
   "twitter": {
     "users": [
       {
@@ -33,6 +45,4 @@
     ],
     "missingTweets": []
   }
-  "reminder": [],
-  "stats": []
 }
