@@ -388,11 +388,6 @@ export const onMessageDelete = async (message) => {
   )
     return;
 
-  const authorId = message.author.id;
-  const db = message.client.db;
-  if (message.author && authorId && isUseStatsUser(db, authorId))
-    addStatData(message.author.id, message.client.db, "messageDelete");
-
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
@@ -407,6 +402,11 @@ export const onMessageDelete = async (message) => {
     console.log("partial message deleted", date);
     return;
   }
+
+  const authorId = message.author.id;
+  const db = message.client.db;
+  if (message.author && authorId && isUseStatsUser(db, authorId))
+    addStatData(message.author.id, message.client.db, "messageDelete");
 
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
   embed.addField(messageDel.date, `${date}`, true); //date of message creation
