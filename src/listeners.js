@@ -56,7 +56,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   )
     return;
 
-  console.log(message);
+  //console.log(message);
 
   const { playlistThreadId, catThreadId, dogThreadId } = currentServer;
 

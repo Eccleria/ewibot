@@ -113,12 +113,15 @@ export const wordEmojiDetection = (message, client) => {
     //get only ids of emote from server
     if (cur.includes("<:")) {
       //if emote
+      console.log("cur", cur)
       const parsed = cur.slice(2, -1).split(":"); //[name, id]
+      console.log("parsed", parsed)
       const id = parsed[1]; //get id
       if (emoteIds.includes(id)) return [...acc, id]; //if server emote, return id
-    } else return acc;
+      else return acc; //not server emote
+    } else return acc; //not emote
   }, []);
-
+  console.log("onlyEmotes", onlyEmotes);
   if (onlyEmotes.length > 1) {
     const sortedEmotes = onlyEmotes.sort((a, b) => a - b); //sort by ids
     return sortedEmotes;
