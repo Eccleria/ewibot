@@ -411,7 +411,7 @@ export const onMessageDelete = async (message) => {
   }, []);
   const embeds = message.embeds.reduce(
     (acc, cur) => {
-      if (cur.type !== "gifv") return [...acc, cur]; //remove gif embed
+      if (cur.type !== "gifv" && cur.type !== "image") return [...acc, cur]; //remove gif embeds
       return acc;
     },
     [embed]
@@ -420,9 +420,10 @@ export const onMessageDelete = async (message) => {
   //handle content
   let content = message.content ? message.content : messageDel.note;
   const len = content.length; //get content length
-  const slice = Math.ceil(len / 1024); //get number of time to slice content by 1024;
+  const slice = Math.ceil(len / 1024); //get number of time to slice content by 1024
 
   if (slice > 1) {
+    //slice too long string to fit 1024 length restriction in field
     const sliced = sliceAddString(slice, content); //slice and add to embed
 
     sliced.forEach((str, idx) => {
@@ -446,7 +447,8 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      logChannel.send(content);
+      const msg = logChannel.send(content);
+      messageList.push(msg);
     }
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6)
@@ -594,9 +596,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const nLen = newContent.length;
 
     if (oLen !== 0) {
+      //slice too long string to fit 1024 length restriction in field
       const oSlice = Math.ceil(oLen / 1024); //get number of time to slice oldContent by 1024;
 
       if (oSlice > 1) {
+        //if need to slice
         const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
 
         oSliced.forEach((str, idx) => {
@@ -670,6 +674,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addField(messageU.linkName, link);
+
+  //send log
   const messageList = await finishEmbed(
     messageU,
     null,
@@ -681,10 +687,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   messageList.forEach((msg) =>
     addAdminLogs(msg.client.db, msg.id, "frequent", 6)
   );
-  /* if (gifs !== null) {
-    const content = gifs.join("\n");
-    logChannel.send(content);
-  }*/
 };
 
 export const onGuildBanAdd = (userBan) => {

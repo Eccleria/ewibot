@@ -574,10 +574,13 @@ export const fetchMessage = async (message) => {
  */
 export const gifRecovery = (content) => {
   const tenor = "tenor.com/";
-  if (content.includes(tenor)) {
-    const words = content.split(" ");
+  const end = ".gif";
+
+  if (content.includes(tenor) || content.includes(end)) {
+    const words = content.split(" "); //split content into words
     const results = words.reduce((acc, cur) => {
-      if (cur.includes(tenor)) return [...acc, cur];
+      //look for gif position in content
+      if (cur.includes(tenor) || cur.endsWith(end)) return [...acc, cur]; //if found, return link
       return acc;
     }, []);
     return results;
