@@ -42,7 +42,7 @@ export const onInteractionCreate = (interaction) => {
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+    if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
   }
 };
 

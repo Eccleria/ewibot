@@ -9,14 +9,14 @@ const command = new ContextMenuCommandBuilder()
   .setType(3)
   .setDefaultMemberPermissions(0x0000000000000020); //MANAGE_GUILD bitwise
 
-const action = async (interaction) => {
+const action = async (interaction, commons) => {
   const message = interaction.targetMessage; //get message
   const embeds = message.embeds; //get embeds
 
   const personality = PERSONALITY.getCommands(); //get personality
   const admin = PERSONALITY.getAdmin();
   const saveLogP = personality.saveLog;
-  const logChannel = await getLogChannel(interaction); //get logChannel
+  const logChannel = await getLogChannel(commons, interaction); //get logChannel
 
   interactionReply(interaction, saveLogP.sending);  //reply to interaction
 
