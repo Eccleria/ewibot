@@ -443,11 +443,12 @@ export const onMessageDelete = async (message) => {
       null,
       attachments
     );
-    if (gifs !== null) {
-      const content = gifs.join("\n");
-      const msg = logChannel.send(content);
-      messageList.push(msg);
-    }
+    if (gifs !== null)
+      gifs.forEach((gif) => {
+        const msg = logChannel.send(gif);
+        messageList.push(msg);
+      })
+
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6)
     );

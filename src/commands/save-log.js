@@ -64,10 +64,7 @@ const action = async (interaction, commons) => {
     }, [])
   }
 
-  if (gifs !== null) {
-    const content = gifs.join("\n");
-    logChannel.send(content);
-  }
+  if (gifs !== null) gifs.forEach((gif) => logChannel.send(gif));
 };
 
 const saveLog = {
