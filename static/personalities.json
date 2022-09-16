@@ -65,6 +65,7 @@
       "executor": "Supprimé par :",
       "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
       "text": "Contenu du message :",
+      "textAgain": "Contenu - suite",
       "title": "Message supprimé"
     },
     "messageUpdate": {
@@ -72,7 +73,9 @@
       "channel": "Salon :",
       "contentDiff": "Mots différents",
       "contentNew": "Nouveau contenu",
+      "contentNewAgain": "Nouveau contenu - suite",
       "contentOld": "Ancien contenu",
+      "contentOldAgain": "Ancien contenu - suite",
       "date": "Envoyé le :",
       "linkMessage": "Clique pour aller au message.",
       "linkName": "Lien",
