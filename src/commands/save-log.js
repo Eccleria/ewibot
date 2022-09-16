@@ -14,7 +14,8 @@ const action = async (interaction, commons) => {
   const embeds = message.embeds; //get embeds
 
   const personality = PERSONALITY.getCommands(); //get personality
-  const messageDe = PERSONALITY.getAdmin().messageDelete;
+  const admin = PERSONALITY.getAdmin();
+  const messageDe = admin.messageDelete;
   const saveLogP = personality.saveLog;
 
   const isLogThread = commons.some(
@@ -27,36 +28,46 @@ const action = async (interaction, commons) => {
 
   const logChannel = await getLogChannel(commons, interaction); //get logChannel
 
-  interactionReply(interaction, saveLogP.sending);  //reply to interaction
+  if (embeds.length === 0) {
+    interactionReply(interaction, saveLogP.noEmbed);
+    return;
+  }
 
-  if (embeds) {
-    //add executor of saveLog
-    const member = interaction.member;
-    embeds[0].addFields(
-      { name: saveLogP.author, value: member.toString(), inline: true }
-    );
+  const titleTest = [messageDe.title, admin.messageUpdate.title];
+  const isCorrectEmbed = titleTest.includes(embeds[0].title);
+  if (!isCorrectEmbed) {
+    interactionReply(interaction, saveLogP.wrongMessage);
+    return;
+  }
 
-    logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
+  //add executor of saveLog
+  const member = interaction.member;
+  embeds[0].addFields(
+    { name: saveLogP.author, value: member.toString(), inline: true }
+  );
 
-    const test = [messageDe.text, messageDe.textAgain]; //get messageDelete text field name
-    const fields = embeds[0].fields; //get embed fields
-    const foundFields = fields.filter((obj) => test.includes(obj.name)); //get corresponding fields
+  await logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
+  interactionReply(interaction, saveLogP.sent);  //reply to interaction
 
-    let gifs = null;
-    if (foundFields.length !== 0) {
-      //if any foundFields, find gifs
-      gifs = foundFields.reduce((acc, field) => {
-        const gif = gifRecovery(field.value);
-        if (gif !== null) return [...acc, ...gif];
-        return acc;
-      }, [])
-    }
+  //handle gifs
+  const contentTest = [messageDe.text, messageDe.textAgain]; //get text field names
+  const fields = embeds[0].fields; //get embed fields
+  const foundFields = fields.filter((obj) => contentTest.includes(obj.name)); //get corresponding fields
 
-    if (gifs !== null) {
-      const content = gifs.join("\n");
-      logChannel.send(content);
-    }
-  } else logChannel.send(message.content);
+  let gifs = null;
+  if (foundFields.length !== 0) {
+    //if any foundFields, find gifs
+    gifs = foundFields.reduce((acc, field) => {
+      const gif = gifRecovery(field.value);
+      if (gif !== null) return [...acc, ...gif];
+      return acc;
+    }, [])
+  }
+
+  if (gifs !== null) {
+    const content = gifs.join("\n");
+    logChannel.send(content);
+  }
 };
 
 const saveLog = {
