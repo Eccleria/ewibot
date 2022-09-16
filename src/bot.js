@@ -50,6 +50,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
+import { slashCommandsInit } from "./commands/slash.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -149,6 +150,12 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
+
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const guildId = server.guildId;
+  slashCommandsInit(self, guildId, client);
   
   const tomorrow2Am = dayjs()
     .add(1, "day")
