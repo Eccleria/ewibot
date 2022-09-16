@@ -14,7 +14,7 @@ const action = async (interaction, commons) => {
   const embeds = message.embeds; //get embeds
 
   const personality = PERSONALITY.getCommands(); //get personality
-  const admin = PERSONALITY.getAdmin();
+  const messageDe = PERSONALITY.getAdmin().messageDelete;
   const saveLogP = personality.saveLog;
   const logChannel = await getLogChannel(commons, interaction); //get logChannel
 
@@ -29,11 +29,20 @@ const action = async (interaction, commons) => {
 
     logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
 
-    const test = admin.messageDelete.text; //get messageDelete text field name
+    const test = [messageDe.text, messageDe.textAgain]; //get messageDelete text field name
     const fields = embeds[0].fields; //get embed fields
-    const field = fields.filter((obj) => obj.name === test); //get corresponding field
+    const foundFields = fields.filter((obj) => test.includes(obj.name)); //get corresponding fields
 
-    const gifs = field.length !== 0 ? gifRecovery(field.value) : null; //if any field, find gifs
+    let gifs = null;
+    if (foundFields.length !== 0) {
+      //if any foundFields, find gifs
+      gifs = foundFields.reduce((acc, field) => {
+        const gif = gifRecovery(field.value);
+        if (gif !== null) return [...acc, ...gif];
+        return acc;
+      }, [])
+    }
+
     if (gifs !== null) {
       const content = gifs.join("\n");
       logChannel.send(content);
