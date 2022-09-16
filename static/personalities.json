@@ -246,7 +246,8 @@
       "saveLog": {
         "author": "Logué par:",
         "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
-        "sending": "Le log est en cours d'archivage."
+        "sending": "Le log est en cours d'archivage.",
+        "wrongChannel": "A n'utiliser que sur les logs fréquents."
       },
       "spotify": {
         "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
@@ -356,7 +357,8 @@
     "saveLog": {
       "author": "Logué par:",
       "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
-      "sending": "Le log est en cours d'archivage."
+      "sending": "Le log est en cours d'archivage.",
+      "wrongChannel": "A n'utiliser que sur les logs fréquents."
     },
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",

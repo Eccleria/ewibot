@@ -16,6 +16,15 @@ const action = async (interaction, commons) => {
   const personality = PERSONALITY.getCommands(); //get personality
   const messageDe = PERSONALITY.getAdmin().messageDelete;
   const saveLogP = personality.saveLog;
+
+  const isLogThread = commons.some(
+    ({ logThreadId }) => logThreadId === message.channelId
+  ); //get server local data
+  if (!isLogThread) {
+    interactionReply(interaction, saveLogP.wrongChannel);
+    return
+  }
+
   const logChannel = await getLogChannel(commons, interaction); //get logChannel
 
   interactionReply(interaction, saveLogP.sending);  //reply to interaction
