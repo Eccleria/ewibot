@@ -2,6 +2,7 @@
 - Feat: add imported gif log detection
 - Feat: add 1024> content length in `messageDelete`/`Update` logs
 - Feat: add logRemover difference between db data and bulkDelete result
+- Feat: twitter 
 - Feat: `save-log` moderation context command
 - Fix: `finishEmbed` missing catch return case
 - Fix: missing `logsRemover` when the day of restarting bot
