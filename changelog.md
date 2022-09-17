@@ -1,3 +1,14 @@
+## 4.2.0
+- Feat: add imported gif log detection
+- Feat: add 1024> content length in `messageDelete`/`Update` logs
+- Feat: add logRemover difference between db data and bulkDelete result
+- Feat: `save-log` moderation context command
+- Fix: `finishEmbed` missing catch return case
+- Fix: missing `logsRemover` when the day of restarting bot
+- Fix: wrong `messageDelete` `AuditLog` date usage
+- Fix: test logThreadId
+- Update: `admin.md` with more recent code
+
 ## 4.1.0
 - Doc: `admin.md`
 - Fix: wrong prod bot triggered by test server changes
@@ -10,11 +21,11 @@
 
 ## 4.0.0
 - Feat: admin logs
-- Update: readme
 - Feat: `pronouns` role attribution
+- Feat: add admin property to `Personality` class
 - Fix: `apology` regex
 - Fix: `commons` access in listeners file
-- Feat: add admin property to `Personality` class
+- Update: readme
 
 ## 3.6.0
 - Fix: `apology` regex
@@ -27,12 +38,12 @@
 - Fix: `sanitizePunctuation` with `replaceAll` typo
 
 ## 3.4.0
-- Update: `readme`
 - Feat: cosmetic `roles` attribution
-- Fix: `apology` regex
 - Feat: add pride month emote reaction
+- Fix: `apology` regex
 - Fix: json file access error from package update
 - Fix: `onRemoveReminderReaction` useless client arg
+- Update: `readme`
 
 ## 3.3.1
 - Fix: missing spotify command in index.js
@@ -64,8 +75,8 @@
 
 ## 2.1.0
 - Feat: add `roll` command
-- Update: adapt `birthday` to new command format 
 - Fix: `personality` typos
+- Update: adapt `birthday` to new command format 
 
 ## 2.0.2
 - Fix: `personality` missing args
@@ -97,9 +108,9 @@
 - Fix: Fix missing change of spotify remove emoji, modified in 1.1.0
 
 ## 1.1.0
-- Fix: `isAbcd` behaviour with unicode
 - Feat: handle private messages from admins for sharing it in desired channel
 - Feat: add `reminder` command
+- Fix: `isAbcd` behaviour with unicode
 
 ## 1.0.1
 - Fix: rename `tslicheyeReactId` into `eyeReactId`
