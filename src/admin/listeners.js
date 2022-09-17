@@ -30,22 +30,36 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 //LISTENERS
 
 export const onInteractionCreate = (interaction) => {
+  //console.log(interaction);
+  if (interaction.isButton()) buttonHandler(interaction);
+
+  if (interaction.isContextMenu()) {
+    //contect commands
+    const client = interaction.client; //get client
+    const contextCommands = client.contextCommands; //get commands
+
+    const foundCommand = contextCommands.find(
+      (cmd) => cmd.command.name === interaction.commandName
+    );
+
+    if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
+  }
   if (interaction.isButton()) {
     buttonHandler(interaction);
     return;
   }
 
-  if (!interaction.isCommand()) return; //if not a command, return
+  if (interaction.isCommand()) {
+    //slash commands
+    const client = interaction.client; //get client
+    const slashCommands = client.slashCommands; //get commands
 
-  //slash commands
-  const client = interaction.client; //get client
-  const slashCommands = client.slashCommands; //get commands
+    const foundCommand = slashCommands.find(
+      (cmd) => cmd.command.name === interaction.commandName
+    );
 
-  const foundCommand = slashCommands.find(
-    (cmd) => cmd.command.name === interaction.commandName
-  );
-
-  if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+  }
 };
 
 export const onChannelCreate = async (channel) => {
@@ -445,11 +459,12 @@ export const onMessageDelete = async (message) => {
       null,
       attachments
     );
-    if (gifs !== null) {
-      const content = gifs.join("\n");
-      const msg = logChannel.send(content);
-      messageList.push(msg);
-    }
+    if (gifs !== null)
+      gifs.forEach((gif) => {
+        const msg = logChannel.send(gif);
+        messageList.push(msg);
+      })
+
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6)
     );
