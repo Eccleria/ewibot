@@ -1,3 +1,8 @@
+## 4.3.0
+- Feat: add user dedicated stats such as apologies, emotes, messageCreate.
+- Feat: add server-wide stats such as cats/dogs pictures
+- Feat: add `useStats` command
+
 ## 4.2.0
 - Feat: add imported gif log detection
 - Feat: add 1024> content length in `messageDelete`/`Update` logs
