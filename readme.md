@@ -41,15 +41,7 @@ See [Admin documentation](./doc/admin.md) for more details.
 
 #### Commands
 There are different commands available for the users. All are inside the files of the [commands folder](./src/commands). 
-If the commands are not complex, they are written in the [index file](./src/commands/index.js). Otherwise, they are 
-separated from the rest in a dedicated file, like the [reminder command](./src/commands/reminder.js). Then they are 
-imported in the [index file](./src/commands/index.js) and regrouped for the main bot file usage.  
-A command is a object divided in 4 arguments:
-* _name_ is for the recognition of the command in an user message. 
-* _action_ is the associated function to use when the command is called by a user. 
-* _help_ is the message the bot should send when calling `$help function`. 
-* _admin_ is the argument distinguishing if the command may only be used by bot admins or by all users. An admin is a bot 
-developer.
+See [Commands documentation](./doc/commands.md) for more details.
 
 #### Helpers
 The [folder](./src/helpers) is dedicated to regroup every file having smaller functions or methods used in more important
