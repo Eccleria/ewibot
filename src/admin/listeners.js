@@ -61,7 +61,8 @@ export const onInteractionCreate = (interaction) => {
 
     if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
     //console.log(interaction);
-    if (interaction.isButton()) buttonHandler(interaction);  
+    if (interaction.isButton()) buttonHandler(interaction);
+  }
 };
 
 export const onChannelCreate = async (channel) => {
