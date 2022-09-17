@@ -1,7 +1,7 @@
 {
-  "name": "blindtest-bot",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "ewibot",
+  "version": "4.1.0",
+  "main": "bot.js",
   "type": "module",
   "license": "MIT",
   "dependencies": {
