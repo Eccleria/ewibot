@@ -16,8 +16,8 @@ const slashCommands = [
   ignoreChannel,
   ping,
   reminder,
-  roll,
-  twitter,*/
+  roll,*/
+  twitter,
 ]; //command + action
 
 const helpCommands = [...contextCommands, ...slashCommands];
@@ -25,8 +25,6 @@ const helpCommands = [...contextCommands, ...slashCommands];
   const cmd = cur.command;
   return [...acc, { name: cmd.name, value: cmd.name }];
 }, []);*/
-
-const slashCommands = [...helpCommands];
 
 export const slashCommandsInit = async (self, guildId, client) => {
   try {

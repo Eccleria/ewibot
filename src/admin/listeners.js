@@ -31,10 +31,14 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 export const onInteractionCreate = (interaction) => {
   //console.log(interaction);
-  if (interaction.isButton()) buttonHandler(interaction);
+
+  if (interaction.isButton()) {
+    buttonHandler(interaction);
+    return;
+  }
 
   if (interaction.isContextMenu()) {
-    //contect commands
+    //context commands
     const client = interaction.client; //get client
     const contextCommands = client.contextCommands; //get commands
 
@@ -43,9 +47,6 @@ export const onInteractionCreate = (interaction) => {
     );
 
     if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
-  }
-  if (interaction.isButton()) {
-    buttonHandler(interaction);
     return;
   }
 
