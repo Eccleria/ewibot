@@ -148,7 +148,10 @@ export const reactionHandler = async (message, currentServer, client) => {
   if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message);
 
   const words = loweredContent.split(" ");
-  if (isAbcd(words)) await message.react(currentServer.eyeReactId);
+  if (isAbcd(words)) {
+    if (isUseStatsUser(db, authorId)) addStatData(authorId, db, "abcd"); //add data to db
+    await message.react(currentServer.eyeReactId);
+  }
 
   //handle emoji stats
   const foundEmotes = wordEmojiDetection(message, client);

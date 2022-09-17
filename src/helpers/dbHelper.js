@@ -228,6 +228,7 @@ const addStatsUser = (authorId, db) => {
   if (!isStatsUser(authorId, db)) {
     db.data.statsUsers.push({
       userId: authorId,
+      abcd: 0,
       apologies: 0,
       emotes: { total: 0, react: 0, inMessage: 0, emotes: [] },
       hungry: 0,
