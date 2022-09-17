@@ -26,7 +26,7 @@ const helpCommands = [...contextCommands, ...slashCommands];
   return [...acc, { name: cmd.name, value: cmd.name }];
 }, []);*/
 
-slashCommands.push(help);
+//slashCommands.push(help);
 
 export const slashCommandsInit = async (self, guildId, client) => {
   try {
