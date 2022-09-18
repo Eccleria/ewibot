@@ -2,8 +2,9 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 //import { SlashCommandBuilder } from "@discordjs/builders";
 
-import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
+import stats from "./stats.js";
+import twitter from "./twitter.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -17,6 +18,7 @@ const slashCommands = [
   ping,
   reminder,
   roll,*/
+  stats,
   twitter,
 ]; //command + action
 

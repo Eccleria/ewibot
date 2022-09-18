@@ -267,6 +267,10 @@
           "help": "Envoie le classement des utilisateurs en fonction du nombre de fois qu'iels se sont excusés",
           "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
           "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        },
+        "use": {
+          "isNotUser": "Ewibot ne recueillera plus vos stats.",
+          "isUser": "Ewibot recueillera vos stats."
         }
       }
     },
@@ -383,6 +387,10 @@
           "help": "Envoie le classement des utilisateurs en fonction du nombre de fois qu'iels se sont excusés",
           "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
           "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        },
+        "use": {
+          "isNotUser": "Ewibot ne recueillera plus vos stats.",
+          "isUser": "Ewibot recueillera vos stats."
         }
       }
     },

@@ -1,14 +1,36 @@
-import { MessageEmbed } from "discord.js";
+//import { MessageEmbed } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders"
+
+import { interactionReply } from "./utils.js";
+import { addStatsUser, isStatsUser, removeStatsUser } from "../helpers/index.js";
+
 import { PERSONALITY } from "../personality.js";
-import { removeStatsUser } from "../helpers/index.js";
 
-const action = async (message, client) => {
-  const content = message.content;
-  const words = content.split(" ");
+const action = async (interaction) => { //, client) => {
+  const options = interaction.options; //get interaction options
+  const subcommand = options.getSubcommand();
+  const db = interaction.client.db;
 
-  if (words.length > 1 && words[1] === "leadApo") leadApo(message, client);
+  const perso = PERSONALITY.getCommands(); //get personality
+  const useP = perso.stats.use;
+
+  if (subcommand === "use") {
+    const userId = interaction.member.id;
+    if (isStatsUser(userId, db)) {
+      //if already user, remove
+      removeStatsUser(userId, db);
+      interactionReply(interaction, useP.isNotUser);
+    } else {
+      //if not user, add
+      addStatsUser(userId, db);
+      interactionReply(interaction, useP.isUser);
+    }
+    return;
+  }
+  //if (words.length > 1 && words[1] === "leadApo") leadApo(message, client);
 };
 
+/*
 const leadApo = async (message, client) => {
   const db = client.db;
   const dbData = db.data.stats; //array of {userId, counter}
@@ -80,6 +102,25 @@ const stats = {
     return PERSONALITY.getCommands().stats.help;
   },
   admin: true,
+};
+*/
+
+const command = new SlashCommandBuilder()
+  .setName("stats")
+  .setDescription("regroups all commands associated to stats")
+  .addSubcommand((command) =>
+    command
+      .setName("use")
+      .setDescription("Si vous voulez avoir des stats sur vous.")
+  );
+
+const stats = {
+  command,
+  action,
+  help: (interaction) => {
+    const personality = PERSONALITY.getCommands().stats;
+    interactionReply(interaction, personality.help);
+  }
 };
 
 export default stats;
