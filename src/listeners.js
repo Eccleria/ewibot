@@ -11,7 +11,7 @@ import {
   emojiStat,
   addStatData,
   catAndDogsCount,
-  isUseStatsUser,
+  isStatsUser,
 } from "./helpers/index.js";
 
 import { roleAdd, roleRemove } from "./admin/role.js";
@@ -68,7 +68,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
   reactionHandler(message, currentServer, client);
 
-  if (isUseStatsUser(db, authorId)) addStatData(authorId, db, "message"); //add message count to db;
+  if (isStatsUser(db, authorId)) addStatData(authorId, db, "message"); //add message count to db;
 
   // check for command
   const commandName = content.split(" ")[0];
@@ -168,7 +168,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server
     const db = messageReaction.client.db;
-    if (isUseStatsUser(db, user.id)) emojiStat(emote.id, user, "add", "react");
+    if (isStatsUser(db, user.id)) emojiStat(emote.id, user, "add", "react");
     return;
   }
 
@@ -203,7 +203,7 @@ export const onReactionRemove = async (messageReaction, user) => {
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server
     const db = messageReaction.client.db;
-    if (isUseStatsUser(db, user.id)) emojiStat(emote.id, user);
+    if (isStatsUser(db, user.id)) emojiStat(emote.id, user);
   }
 };
 

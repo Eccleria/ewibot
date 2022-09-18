@@ -21,7 +21,7 @@ import {
   addStatData,
   emojiStat,
   wordEmojiDetection,
-  isUseStatsUser,
+  isStatsUser,
 } from "../helpers/index.js";
 
 import dayjs from "dayjs";
@@ -419,7 +419,7 @@ export const onMessageDelete = async (message) => {
 
   const authorId = message.author.id;
   const db = message.client.db;
-  if (message.author && authorId && isUseStatsUser(db, authorId))
+  if (message.author && authorId && isStatsUser(db, authorId))
     addStatData(message.author.id, message.client.db, "messageDelete");
 
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
@@ -459,7 +459,7 @@ export const onMessageDelete = async (message) => {
 
   //handle emotes in message
   const foundEmotes = wordEmojiDetection(message, message.client);
-  if (foundEmotes.length !== 0 && isUseStatsUser(db, authorId))
+  if (foundEmotes.length !== 0 && isStatsUser(db, authorId))
     foundEmotes.forEach((emoteId) => emojiStat(emoteId, message.author));
 
   //handle emotes in reactions
@@ -471,7 +471,7 @@ export const onMessageDelete = async (message) => {
     const emoteId = msgR.emoji.id; //get emoji id
     const users = msgR.users.cache; //get users
     users.forEach((user) => {
-      if(isUseStatsUser(db, user.id)) emojiStat(emoteId, user, null, "react");
+      if (isStatsUser(db, user.id)) emojiStat(emoteId, user, null, "react");
     })
   });
 
@@ -636,7 +636,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     //add messageUpdate count to db
     const authorId = newMessage.author.id;
     const db = newMessage.client.db;
-    if (isUseStatsUser(db, authorId)) addStatData(authorId, db, "messageUpdate");
+    if (isStatsUser(db, authorId)) addStatData(authorId, db, "messageUpdate");
 
     //check for emote change, for stats
     const oFoundEmotes = wordEmojiDetection(oMessage, oMessage.client);
@@ -669,11 +669,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
       const { add, rem } = modifs; //get add and rem emotes lists
       add.forEach((emoteId) => {
-        if (isUseStatsUser(db, authorId))
+        if (isStatsUser(db, authorId))
           emojiStat(emoteId, nMessage.author, "add"); //add emotes counts
       });
       rem.forEach((emoteId) => {
-        if (isUseStatsUser(db, authorId))
+        if (isStatsUser(db, authorId))
           emojiStat(emoteId, nMessage.author); //remove emotes counts
       });
     }
@@ -725,7 +725,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
             ({ guildId }) => guildId === nMessage.guildId
           ); //get commons.json data
           const authorId = nMessage.author.id;
-          if(isUseStatsUser(db, authorId)) addStatData(authorId, db, "apologies"); //add data to db
+          if (isStatsUser(db, authorId)) addStatData(authorId, db, "apologies"); //add data to db
           await nMessage.react(currentServer.panDuomReactId); //add message reaction
         }
       }

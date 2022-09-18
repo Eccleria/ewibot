@@ -6,7 +6,7 @@ import {
   addStatData,
   addStatsServer,
   removeStatsServer,
-  isUseStatsUser,
+  isStatsUser,
 } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 
@@ -141,7 +141,7 @@ export const reactionHandler = async (message, currentServer, client) => {
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
 
   if (hasApology(sanitizedContent)) {
-    if (isUseStatsUser(db, authorId)) addStatData(authorId, db, "apology"); //add data to db
+    if (isStatsUser(db, authorId)) addStatData(authorId, db, "apology"); //add data to db
     await message.react(currentServer.panDuomReactId); //add message reaction
   }
 
@@ -149,13 +149,13 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   const words = loweredContent.split(" ");
   if (isAbcd(words)) {
-    if (isUseStatsUser(db, authorId)) addStatData(authorId, db, "abcd"); //add data to db
+    if (isStatsUser(db, authorId)) addStatData(authorId, db, "abcd"); //add data to db
     await message.react(currentServer.eyeReactId);
   }
 
   //handle emoji stats
   const foundEmotes = wordEmojiDetection(message, client);
-  if (foundEmotes.length !== 0 && isUseStatsUser(db, authorId))
+  if (foundEmotes.length !== 0 && isStatsUser(db, authorId))
     foundEmotes.forEach((emoteId) => emojiStat(emoteId, message.author, "add"));
 
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
@@ -189,7 +189,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     const random = Math.round(Math.random()); // 0 or 1 => choose reaction
     message.react(reaction[random]); //add reaction
 
-    if (isUseStatsUser(db, authorId)) addStatData(authorId, db, "hungry"); //add to db
+    if (isStatsUser(db, authorId)) addStatData(authorId, db, "hungry"); //add to db
     if (frequency) message.react(reaction[random]);
   }
 
