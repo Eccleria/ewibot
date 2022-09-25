@@ -172,7 +172,8 @@
         "pong": "pong !"
       },
       "help": {
-        "help": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n"
+        "help": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n",
+        "notFound": "L'aide de la commande n'a pas été trouvé. Veuillez contacter la modération du problème."
       },
       "ignore": {
         "help": "Cette commande m'empêche ou non de réagir à vos messages.",
@@ -289,7 +290,7 @@
       },
       "help": {
         "init": "Tapez `/help pouet` pour des infos sur la commande `pouet`. \nCommandes disponibles :",
-        "help": "Utilisez seulement `$help`."
+        "notFound": "L'aide de la commande n'a pas été trouvé. Veuillez contacter la modération du problème."
       },
       "ignore": {
         "ignored": "Dorénavant tu n'auras plus de cookies sur tes messages.",

@@ -187,8 +187,10 @@ const help = {
     const foundCommand = helpCommands.find(
       (cmd) => cmd.command.name === userOption
     ); //find associated command
+    const perso = PERSONALITY.getCommands();
 
     if (foundCommand) foundCommand.help(interaction); //execute foundCommand help()
+    else interactionReply(interaction, perso.help.notFound);
   },
   help: (interaction) => {
     const perso = PERSONALITY.getCommands();
