@@ -17,13 +17,6 @@ import {
 } from "../helpers/index.js";
 import { interactionReply } from "./utils.js";
 
-import saveLog from "./admin.js";
-import birthday from "./birthday.js";
-import botMessage from "./botMessage.js";
-import concrete from "./concrete.js";
-import reminder from "./reminder.js";
-import { reverse, reverseTranslator } from "./reverse.js";
-
 import announce from "./announce.js";
 import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
@@ -31,10 +24,11 @@ import concrete from "./concrete.js";
 import gift from "./gift.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
-import twitter from "./twitter.js";
+
 import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
+import twitter from "./twitter.js";
 
 import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
 
@@ -198,7 +192,7 @@ const slashCommands = [
   roll,
   shuffle,
   spotify,
-  twitter,
+  //twitter,
 ]; //slash commands
 
 // HELP
@@ -287,10 +281,9 @@ const help = {
   sentinelle: false,
 };
 
-helpCommands.push(help);
+//add help as a Slash command
 slashCommands.push(help);
-
-// API
+helpCommands.push(help); 
 
 // COMMANDS SENDING TO API
 export const slashCommandsInit = async (self, guildId, client) => {
