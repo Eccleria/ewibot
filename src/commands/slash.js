@@ -28,14 +28,14 @@ import { PERSONALITY } from "../personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
-const personality = PERSONALITY.getCommands();
-
 const ping = {
   command: new SlashCommandBuilder().setName("ping").setDescription("Ping !"),
   action: (interaction) => {
+    const personality = PERSONALITY.getCommands();
     interaction.reply(personality.helloWorld.pong);
   },
   help: (interaction) => {
+    const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.helloWorld.help);
   },
 };
@@ -81,6 +81,7 @@ const roll = {
     }
   },
   help: (interaction) => {
+    const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.helloWorld.help);
   },
 };
@@ -94,7 +95,7 @@ const ignore = {
   action: (interaction) => {
     const db = interaction.client.db;
     const authorId = interaction.member.id;
-    const iPerso = personality.ignore;
+    const iPerso = PERSONALITY.getCommands().ignore;
 
     //check for command argument
     if (isIgnoredUser(authorId, db)) {
@@ -106,6 +107,7 @@ const ignore = {
     }
   },
   help: (interaction) => {
+    const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.ignore.help);
   },
   admin: false,
@@ -128,7 +130,8 @@ const ignoreChannel = {
     const ignoredChannel =
       interaction.options.getChannel("salon") || interaction.channel;
     const ignoredChannelId = ignoredChannel.id;
-    const iPerso = personality.ignoreChannel;
+    const iPerso = PERSONALITY.getCommands().ignoreChannel;
+
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
       const content = iPerso.notIgnored + `<#${ignoredChannelId}>.`;
@@ -140,6 +143,7 @@ const ignoreChannel = {
     }
   },
   help: (interaction) => {
+    const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.ignoreChannel.help);
   },
 };
@@ -187,7 +191,8 @@ const help = {
     if (foundCommand) foundCommand.help(interaction); //execute foundCommand help()
   },
   help: (interaction) => {
-    interactionReply(interaction, personality.help.help);
+    const perso = PERSONALITY.getCommands();
+    interactionReply(interaction, perso.help.help);
   },
 };
 
