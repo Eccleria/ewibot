@@ -273,8 +273,8 @@ const help = {
         .setAutocomplete(true)
     ),
   help: (interaction) => {
-    const personality = PERSONALITY.getCommands().help.help;
-    interactionReply(interaction, personality);
+    const perso = PERSONALITY.getCommands();
+    interactionReply(interaction, perso.help.help);
   },
   admin: false,
   releaseDate: null,
