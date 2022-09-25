@@ -20,7 +20,7 @@ import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
-import twitter from "./twitter.js";
+//import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import spotify from "./spotify.js";
 
@@ -155,10 +155,9 @@ const slashCommands = [
   ping,
   reminder,
   reverse,
-  reverseTranslator,
   roll,
   spotify,
-  twitter,
+  //twitter,
 ]; //slash commands
 
 // HELP
@@ -181,7 +180,7 @@ const help = {
     ),
   action: (interaction) => {
     const userOption = interaction.options.getString("command"); //get option given by user
-    const foundCommand = slashCommands.find(
+    const foundCommand = helpCommands.find(
       (cmd) => cmd.command.name === userOption
     ); //find associated command
 
@@ -192,7 +191,9 @@ const help = {
   },
 };
 
-slashCommands.push(help); //add help as a Slash command
+//add help as a Slash command
+slashCommands.push(help)
+helpCommands.push(help); 
 
 // COMMANDS SENDING TO API
 export const slashCommandsInit = async (self, guildId, client) => {
