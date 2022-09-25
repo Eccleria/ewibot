@@ -15,7 +15,7 @@ The folder contains all the files required for the administrative part of Ewibot
 - [Utils](#utils)
 - [Logs](#logs)
   - [Permanent Logs](#permanent-logs)
-    -[Octagonal logs](#octagonal-logs)
+    - [Octagonal logs](#octagonal-logs)
   - [Temporary Logs](#temporary-logs)
     - [logsRemover](#logsremover)
     - [initAdminLogClearing](#initadminlogclearing)
@@ -259,12 +259,14 @@ Permanent logs are logs that archive every server modification done by moderator
 - roles
 - channels
 - threads
-- octagnonal logs
 
 But also users' modification because of moderation:
 - timeouts
 - bans
 - kicks
+
+The bot also look for this emote 🛑, because of it moderation purpose. Its usage creates `octagonal logs`.
+
 
 These logs, when created, are sent by Ewibot in the #logs channel.
 
@@ -275,7 +277,9 @@ at the slightest inconvenience/discomfort about a content.
 To facilitate and make quicker reaction from moderators, Ewibot is designed to report any 🛑 usage, as in message
 content or reaction.
 
-First, we need to detect the emote. Inside a message detection is presented below:
+First, we need to detect the emote, the presented code is about in-message detection.
+Once a public message is sent, the bot fires `reactionHandler` function, that analyse message `content`, looking
+for emotes.
 
 ```javascript
 export const onPublicMessage = (message, client, currentServer, self) => {
@@ -289,9 +293,6 @@ export const reactionHandler = async (message, currentServer, client) => {
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message); //if contains octagonal_sign, log it
 ```
-
-Once a public message is sent, the bot fires `reactionHandler` function, that analyse message `content`, looking
-for emotes. If the 🛑 is found, `octagonalLog` is fired.
 
 The other way is to look for a reaction:
 
@@ -309,7 +310,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   }
 ```
 
-If the 🛑 is the emote used as a reaction, `octagonalLog` is fired.
+For both ways, if the 🛑 is the emote used as a reaction, `octagonalLog` is fired.
 
 Now, we can log the emote usage. First, the bot get the personality required for log text.
 
@@ -348,11 +349,11 @@ Now the bot can do the basic stuff of logs: fetch the `logChannel` and setup the
 ```
 
 Once this is done, the bot the target message properties, such as: 
-- message sending date
-- channel where the message was sent
-- message content
-- executor, ie the person who sent the target message
-- message link, for moderation easier intervention
+- message sending `date`
+- `channel` where the message was sent
+- message `content`
+- `executor`, ie the person who sent the target message
+- message `link`, for moderation easier intervention
 
 ```javascript
   //add more info to embed
@@ -370,6 +371,7 @@ Once this is done, the bot the target message properties, such as:
       value: `[${octaPerso.linkMessage}](${message.url})`,
       inline: true,
     } //get message link
+    //...
   );
 ```
 
