@@ -29,6 +29,7 @@ import {
   isCommand,
   reactionHandler,
   checkIsOnThread,
+  hasOctagonalSign,
 } from "./utils.js";
 
 export {
@@ -39,6 +40,7 @@ export {
   isCommand,
   reactionHandler,
   checkIsOnThread,
+  hasOctagonalSign,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
