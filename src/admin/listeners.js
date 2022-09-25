@@ -11,6 +11,7 @@ import {
   generalEmbed,
   getLogChannel,
   gifRecovery,
+  octagonalLog,
   setupEmbed,
   sliceAddString,
 } from "./utils.js";
@@ -19,6 +20,7 @@ import {
   addApologyCount,
   hasApology,
   sanitizePunctuation,
+  hasOctagonalSign,
 } from "../helpers/index.js";
 
 import dayjs from "dayjs";
@@ -586,6 +588,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //check for content modif
   const oldContent = oMessage.content;
   const newContent = nMessage.content;
+
+  //check for octagonal_sign
+  const oHasOct = hasOctagonalSign(oldContent, currentServer);
+  const nHasOct = hasOctagonalSign(newContent, currentServer);
+  if (!oHasOct && nHasOct) octagonalLog(nMessage);
 
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
