@@ -174,6 +174,8 @@ const action = async (interaction) => {
     if (subcommand === "close") {
       //handle stream destroy
       if (twitter.streamConnected) {
+        client.twitter.streamConnected = false;
+
         //handle interaction
         twitter.interactions.close = interaction; //save for future interaction follow up
         await interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
@@ -197,6 +199,7 @@ const action = async (interaction) => {
         interaction.reply({ content: personality.streamExists, ephemeral: true });
         return;
       }
+      client.twitter.streamConnected = true;
 
       twitter.interactions.connect = interaction; //save for future interaction follow up
       interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
