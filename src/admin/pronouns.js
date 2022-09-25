@@ -34,8 +34,7 @@ export const buttonHandler = async (interaction) => {
       const content = pronounsP.text.replyAlreadyHave; //get reply message content
       interaction.reply({ content: content, ephemeral: true }); //reply to interaction
     }
-  }
-  else {
+  } else {
     //is cancel
     //get all roles to removes
     const jsonToUse = pronounsJson.includes(json)
