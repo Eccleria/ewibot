@@ -15,12 +15,13 @@ import {
 } from "../helpers/index.js";
 import { interactionReply } from "./utils.js";
 
-import saveLog from "./admin.js";
 import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
+import twitter from "./twitter.js";
+import saveLog from "./save-log.js";
 
 import { PERSONALITY } from "../personality.js";
 
@@ -142,9 +143,10 @@ const ignoreChannel = {
   },
 };
 
-const helpCommands = [
-  botMessage,
+const contextCommands = [reverseTranslator, saveLog];
+const slashCommands = [
   birthday,
+  botMessage,
   concrete,
   ignore,
   ignoreChannel,
@@ -153,12 +155,14 @@ const helpCommands = [
   reverse,
   reverseTranslator,
   roll,
-  saveLog,
-];
+  twitter,
+]; //command + action
+
+const helpCommands = [...contextCommands, ...slashCommands]; //get all commands for help command
 const helpOptions = helpCommands.reduce((acc, cur) => {
   const cmd = cur.command;
-  return [...acc, { name: cmd.name, value: cmd.name }];
-}, []);
+  return [...acc, { name: cmd.name, value: cmd.name }]; //command option
+}, []); //regroup help commands as command options
 
 const help = {
   command: new SlashCommandBuilder()
@@ -184,8 +188,7 @@ const help = {
   },
 };
 
-const contextCommands = [reverseTranslator, saveLog];
-const slashCommands = [...helpCommands, help]; //command + action
+slashCommands.push(help);
 
 export const slashCommandsInit = async (self, guildId, client) => {
   try {

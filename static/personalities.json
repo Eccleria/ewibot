@@ -65,6 +65,7 @@
       "executor": "Supprimé par :",
       "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
       "text": "Contenu du message :",
+      "textAgain": "Contenu - suite",
       "title": "Message supprimé"
     },
     "messageUpdate": {
@@ -72,7 +73,9 @@
       "channel": "Salon :",
       "contentDiff": "Mots différents",
       "contentNew": "Nouveau contenu",
+      "contentNewAgain": "Nouveau contenu - suite",
       "contentOld": "Ancien contenu",
+      "contentOldAgain": "Ancien contenu - suite",
       "date": "Envoyé le :",
       "linkMessage": "Clique pour aller au message.",
       "linkName": "Lien",
@@ -241,9 +244,12 @@
         "parsingError": "Erreur de parsing."
       },
       "saveLog": {
-        "author": "Logué par:",
+        "author": "Logué par :",
         "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
-        "sending": "Le log est en cours d'archivage."
+        "noEmbed": "Le message ne contient pas d'embed.",
+        "sent": "Le log est archivé.",
+        "wrongChannel": "A n'utiliser que sur les logs fréquents.",
+        "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
       },
       "spotify": {
         "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
@@ -355,6 +361,14 @@
         "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.", 
         "sending": "Le log est en cours d'archivage."
       }
+    },
+    "saveLog": {
+      "author": "Logué par :",
+      "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
+      "noEmbed": "Le message ne contient pas d'embed.",
+      "sent": "Le log est archivé.",
+      "wrongChannel": "A n'utiliser que sur les logs fréquents.",
+      "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
     },
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",

@@ -572,10 +572,19 @@ export const fetchMessage = async (message) => {
  */
 export const gifRecovery = (content) => {
   const tenor = "tenor.com/";
-  if (content.includes(tenor)) {
-    const words = content.split(" ");
+  const end = ".gif";
+
+  if (content.includes(tenor) || content.includes(end)) {
+    //if any gif inside content
+    const words = content.split(" "); //split content into words
     const results = words.reduce((acc, cur) => {
-      if (cur.includes(tenor)) return [...acc, cur];
+      //look for gif position in content
+      if (cur.includes(tenor) || cur.endsWith(end)) {
+        //if has link
+        const start = cur.indexOf("https://"); //look for link position
+        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
+        return [...acc, sliced]; //return link
+      }
       return acc;
     }, []);
     return results;
@@ -676,4 +685,14 @@ export const checkProdTestMode = (logChannel) => {
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true
+};
+
+export const sliceAddString = (len, string) => {
+  const lenArray = Array.from(new Array(len));
+  const sliced = lenArray.reduce((acc, _cur, idx) => {
+    if (idx === len - 1) return [...acc, string.slice(idx * 1024)];
+    const sliced = string.slice(idx * 1024, (idx + 1) * 1024);
+    return [...acc, sliced];
+  }, []); //slice content in less than 1024 characters
+  return sliced
 };

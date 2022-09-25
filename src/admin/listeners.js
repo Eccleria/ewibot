@@ -12,6 +12,7 @@ import {
   getLogChannel,
   gifRecovery,
   setupEmbed,
+  sliceAddString,
 } from "./utils.js";
 import {
   addAdminLogs,
@@ -56,7 +57,7 @@ export const onInteractionCreate = async (interaction) => {
     (cmd) => cmd.command.name === interaction.commandName
   );
 
-  if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+  if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
 };
 
 export const onChannelCreate = async (channel) => {
@@ -422,15 +423,29 @@ export const onMessageDelete = async (message) => {
   }, []);
   const embeds = message.embeds.reduce(
     (acc, cur) => {
-      if (cur.type !== "gifv") return [...acc, cur]; //remove gif embed
+      if (cur.type !== "gifv" && cur.type !== "image") return [...acc, cur]; //remove gif embeds
       return acc;
     },
     [embed]
   );
 
-  //handle gifs
+  //handle content
   let content = message.content ? message.content : messageDel.note;
-  const gifs = gifRecovery(content);
+  const len = content.length; //get content length
+  const slice = Math.ceil(len / 1024); //get number of time to slice content by 1024
+
+  if (slice > 1) {
+    //slice too long string to fit 1024 length restriction in field
+    const sliced = sliceAddString(slice, content); //slice and add to embed
+
+    sliced.forEach((str, idx) => {
+      if (idx === 0)
+        embed.addFields({ name: messageDel.text, value: str }); //name's different from others
+      else embed.addFields({ name: messageDel.textAgain, value: str });
+    });
+  } else embed.addFields({ name: messageDel.text, value: content });
+
+  const gifs = gifRecovery(content); //handle gifs
 
   //if no AuditLog
   if (!deletionLog) {
@@ -439,13 +454,15 @@ export const onMessageDelete = async (message) => {
       auditLog.noLog,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
-    if (gifs !== null) {
-      const content = gifs.join("\n");
-      logChannel.send(content);
-    }
+    if (gifs !== null)
+      gifs.forEach((gif) => {
+        const msg = logChannel.send(gif);
+        messageList.push(msg);
+      })
+
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6)
     );
@@ -464,7 +481,7 @@ export const onMessageDelete = async (message) => {
       executor.tag,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
@@ -482,7 +499,7 @@ export const onMessageDelete = async (message) => {
       auditLog.noExec,
       embeds,
       logChannel,
-      content,
+      null,
       attachments
     );
     if (gifs !== null) {
@@ -587,13 +604,39 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
   if (oldContent !== newContent && isLengthy) {
-    const oLen = oldContent.length !== 0;
-    const nLen = newContent.length !== 0;
+    const oLen = oldContent.length;
+    const nLen = newContent.length;
 
-    if (oLen) embed.addField(messageU.contentOld, oldContent); //to not add empty strings
-    if (nLen) embed.addField(messageU.contentNew, newContent);
+    if (oLen !== 0) {
+      //slice too long string to fit 1024 length restriction in field
+      const oSlice = Math.ceil(oLen / 1024); //get number of time to slice oldContent by 1024;
 
-    if (oLen && nLen) {
+      if (oSlice > 1) {
+        //if need to slice
+        const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
+
+        oSliced.forEach((str, idx) => {
+          if (idx === 0)
+            embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
+          else embed.addFields({ name: messageU.contentOldAgain, value: str });
+        });
+      } else embed.addFields({ name: messageU.contentOld, value: oldContent });
+
+    }
+    if (nLen !== 0) {
+      const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
+      if (nSlice > 1) {
+        const nSliced = sliceAddString(nSlice, newContent); //slice and add to embed
+
+        nSliced.forEach((str, idx) => {
+          if (idx === 0)
+            embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
+          else embed.addFields({ name: messageU.contentNewAgain, value: str });
+        });
+      } else embed.addFields({ name: messageU.contentNew, value: newContent });
+    } 
+
+    if (oLen !== 0 && nLen !== 0) {
       //check for apology
       const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
       const nSanitized = sanitizePunctuation(newContent.toLowerCase());
@@ -642,8 +685,9 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
-  embed.addField(messageU.linkName, link, true);
+  embed.addField(messageU.linkName, link);
 
+  //send log
   const messageList = await finishEmbed(
     messageU,
     null,
@@ -655,10 +699,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   messageList.forEach((msg) =>
     addAdminLogs(msg.client.db, msg.id, "frequent", 6)
   );
-  /* if (gifs !== null) {
-    const content = gifs.join("\n");
-    logChannel.send(content);
-  }*/
 };
 
 export const onGuildBanAdd = (userBan) => {

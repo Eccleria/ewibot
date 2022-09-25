@@ -4,20 +4,20 @@ This documentation covers all the parts associated to the administrative part of
 The folder contains all the files required for the administrative part of Ewibot. It can be divided in
 3 parts : the `listeners`, the `roles` and the `utils`.
 
-- [Listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners)
-  - [File architecture](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#how-the-file-is-divided)
-  - [Listeners design](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#listeners-design)
-    - [General Listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#general-listeners)
-    - [Unusual Listeners](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#unusual-listeners)
-    - [Interactions](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#interactions)
-- [Roles](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#roles)
-  - [Pronouns](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#pronouns)
-- [Utils](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#utils)
-- [Logs](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#logs)
-  - [Permanent Logs](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#permanent-logs)
-  - [Temporary Logs](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#temporary-logs)
-    - [logsRemover](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#logsremover)
-    - [initAdminLogClearing](https://github.com/Titch88/ewibot/blob/master/doc/admin.md#initadminlogclearing)
+- [Listeners](#listeners)
+  - [File architecture](#how-the-file-is-divided)
+  - [Listeners design](#listeners-design)
+    - [General Listeners](#general-listeners)
+    - [Unusual Listeners](#unusual-listeners)
+    - [Interactions](#interactions)
+- [Roles](#roles)
+  - [Pronouns](#pronouns)
+- [Utils](#utils)
+- [Logs](#logs)
+  - [Permanent Logs](#permanent-logs)
+  - [Temporary Logs](#temporary-logs)
+    - [logsRemover](#logsremover)
+    - [initAdminLogClearing](#initadminlogclearing)
 
 ## Listeners
 
