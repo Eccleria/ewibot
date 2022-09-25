@@ -199,7 +199,7 @@ const slashCommands = [
   shuffle,
   spotify,
   twitter,
-]; //command + action
+]; //slash commands
 
 // HELP
 
