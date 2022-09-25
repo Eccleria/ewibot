@@ -1,11 +1,14 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
+
 import { PERSONALITY } from "../personality.js";
 import { parseLink } from "../helpers/index.js";
+import { interactionReply } from "./utils.js";
 
-const spotifyReply = async (foundLink, message, client, currentServer) => {
+const spotifyReply = async (link, interaction, client, currentServer) => {
   // Ewibot reply for command query
-  if (foundLink) {
-    const { answer, songId } = foundLink;
-    const newMessage = await message.reply(answer);
+  if (link) {
+    const { answer, songId } = link;
+    const newMessage = await interactionReply(interaction, answer);
 
     if (songId) await newMessage.react(currentServer.removeEmoji);
 
@@ -16,28 +19,52 @@ const spotifyReply = async (foundLink, message, client, currentServer) => {
   }
 };
 
-const action = async (message, client, currentServer) => {
-  const lnk = message.content.split(" ").slice(1).join(" ");
+const action = async (interaction, commons) => {
+  const options = interaction.options;
+  const subcommand = options.getSubcommand();
 
-  const foundLink = await parseLink(
-    lnk,
-    client,
-    PERSONALITY.getSpotify(),
-    currentServer
-  );
+  if (subcommand === "ajouter") {
+    const link = interaction.options.getString("lien");
+    const client = interaction.client
 
-  console.log(foundLink);
+    const currentServer = commons.some(
+      ({ guildId }) => guildId === interaction.guildId
+    ); //get server local data
 
-  await spotifyReply(foundLink, message, client, currentServer);
+    const foundLink = await parseLink(
+      link,
+      client,
+      PERSONALITY.getSpotify(),
+      currentServer
+    );
+
+    console.log("spotify", foundLink);
+
+    await spotifyReply(foundLink, interaction, client, currentServer);
+  }
 };
 
+const command = new SlashCommandBuilder()
+  .setName("spotify")
+  .setDescription("Permet d'interagir avec Spotify.")
+  .addSubcommand((command) => 
+    command
+      .setName("ajouter")
+      .setDescription("Ajout d'une musique dans la playlist du server.")
+      .addStringOption((option) => 
+        option
+          .setName("lien")
+          .setDescription("lien spotify de la musique à ajouter")
+      )
+  )
+
 const spotify = {
-  name: "spotify",
   action,
-  help: () => {
-    return PERSONALITY.getCommands().spotify.help;
+  command,
+  help: (interaction) => {
+    const perso = PERSONALITY.getCommands().spotify.help;
+    interactionReply(interaction, perso);
   },
-  admin: false,
 };
 
 export default spotify;

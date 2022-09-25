@@ -22,6 +22,7 @@ import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
 import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
+import spotify from "./spotify.js";
 
 import { PERSONALITY } from "../personality.js";
 
@@ -156,6 +157,7 @@ const slashCommands = [
   reverse,
   reverseTranslator,
   roll,
+  spotify,
   twitter,
 ]; //slash commands
 
