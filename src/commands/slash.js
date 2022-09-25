@@ -143,7 +143,8 @@ const ignoreChannel = {
   },
 };
 
-const contextCommands = [reverseTranslator, saveLog];
+//regroup all commands
+const contextCommands = [reverseTranslator, saveLog]; //context commands (message, channel, user)
 const slashCommands = [
   birthday,
   botMessage,
@@ -156,8 +157,9 @@ const slashCommands = [
   reverseTranslator,
   roll,
   twitter,
-]; //command + action
+]; //slash commands
 
+// HELP
 const helpCommands = [...contextCommands, ...slashCommands]; //get all commands for help command
 const helpOptions = helpCommands.reduce((acc, cur) => {
   const cmd = cur.command;
@@ -188,15 +190,16 @@ const help = {
   },
 };
 
-slashCommands.push(help);
+slashCommands.push(help); //add help as a Slash command
 
+// COMMANDS SENDING TO API
 export const slashCommandsInit = async (self, guildId, client) => {
   try {
     console.log("Started refreshing application (/) commands.");
 
     await rest.put(Routes.applicationGuildCommands(self, guildId), {
-      body: slashCommands.map((cmd) => cmd.command.toJSON()),
-    });
+      body: helpCommands.map((cmd) => cmd.command.toJSON()),
+    }); //send commands jsons to API for command create/update
 
     console.log("Successfully reloaded application (/) commands.");
 
