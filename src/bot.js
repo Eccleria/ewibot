@@ -53,10 +53,6 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
 import { slashCommandsInit } from "./commands/slash.js";
-import {
-  /*fetchUserProfile,*/
-  initTwitterStream,
-} from "./admin/twitter.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -168,9 +164,6 @@ client.once("ready", async () => {
   const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
   client.twitter = twitter; //save twitter into client
   client.twitter.isSending = false;
-  client.twitter.interactions = { close: false, connect: false };
-
-  initTwitterStream(client); //init Twitter stream with API
 
   /*
   const tweet = await fetchTweets(client, "1371839010755207176");

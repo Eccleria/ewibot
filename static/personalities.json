@@ -258,12 +258,7 @@
         "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
         "noTweets": "Il n'y a aucun tweet de manqué.",
-        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
-        "streamClosed": "Le stream Twitter a été coupé.",
-        "streamClosing": "La demande de déconnexion est en traitement",
-        "streamConnected": "Le stream Twitter est connecté.",
-        "streamExists": "Un stream existe déjà.",
-        "streamNotConnected": "Aucun stream n'est connecté."
+        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter."
       }
     },
     "spotify": {
@@ -370,12 +365,7 @@
         "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
         "noTweets": "Il n'y a aucun tweet de manqué.",
-        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
-        "streamClosed": "Le stream Twitter a été coupé.",
-        "streamClosing": "La demande de déconnexion est en traitement",
-        "streamConnected": "Le stream Twitter est connecté.",
-        "streamExists": "Un stream existe déjà.",
-        "streamNotConnected": "Aucun stream n'est connecté."
+        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter."
       }
     },
     "saveLog": {

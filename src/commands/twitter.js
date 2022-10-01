@@ -3,7 +3,6 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   tweetLink,
   fetchUserTimeline,
-  twitterListeners,
  } from "../admin/twitter.js";
 import {
   removeMissingTweets,
@@ -30,26 +29,6 @@ const command = new SlashCommandBuilder()
     command
       .setName("share")
       .setDescription("Partage les derniers tweets manquants au publique.")  
-  )
-  .addSubcommandGroup((group) =>
-    group
-      .setName("stream")
-      .setDescription("Gère le stream sur Twitter.")
-      .addSubcommand((command) =>
-        command
-          .setName("connect")
-          .setDescription("Lance une connexion avec Twitter.")
-      )
-      .addSubcommand((command) =>
-        command
-          .setName("close")
-          .setDescription("Ferme une connexion avec Twitter.")
-      )
-      .addSubcommand((command) =>
-        command
-          .setName("status")
-          .setDescription("Indique le status actuel de la connexion avec Twitter.")
-      )
   );
 
 const waitingTimeRadomizer = (mean, variation) => {
@@ -71,11 +50,8 @@ const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
 };
 
 const action = async (interaction) => {
-  //get client data
-  const client = interaction.client;
-  const twitter = client.twitter;
-  const stream = twitter.stream;
 
+  const client = interaction.client;  //get client data
   const personality = PERSONALITY.getCommands().twitter; //get personality
 
   const options = interaction.options; //get interaction options
@@ -160,60 +136,6 @@ const action = async (interaction) => {
     }
     else interaction.reply({ content: "La db est à jour.", ephemeral: true });
     return;
-  }
-
-  //handle stream connexion
-  let subcommandGroup;
-  try {
-    subcommandGroup = interaction.options.getSubcommandGroup();
-  } catch {
-    subcommandGroup = null;
-  }
-
-  if (subcommandGroup === "stream") {
-    if (subcommand === "close") {
-      //handle stream destroy
-      if (twitter.streamConnected) {
-        client.twitter.streamConnected = false;
-
-        //handle interaction
-        twitter.interactions.close = interaction; //save for future interaction follow up
-        await interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
-        interaction.followUp({ content: personality.streamClosing, ephemeral: true });
-
-        //destroy stream
-        stream.autoReconnect = false; //prevent stream reconnection after .destroy()
-        stream.destroy(); //destroy stream
-
-        //setup future stream
-        const newStream = twitter.searchStream({ expansions: "author_id", autoConnect: false });
-        twitter.stream = newStream; //reset client
-        twitterListeners(newStream, client); //setup twitter stream listeners
-        return;
-      }
-
-      interaction.reply({ content: personality.streamNotConnected, ephemeral: true });
-      return;
-    } else if (subcommand === "connect") {
-      if (twitter.streamConnected) {
-        interaction.reply({ content: personality.streamExists, ephemeral: true });
-        return;
-      }
-      client.twitter.streamConnected = true;
-
-      twitter.interactions.connect = interaction; //save for future interaction follow up
-      interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
-
-      const args = { autoReconnect: true, autoReconnectRetries: Infinity };
-      stream.connect(args); //connect stream
-      return
-    } else if (subcommand === "status") {
-      if (twitter.streamConnected)
-        interaction.reply({ content: personality.streamConnected, ephemeral: true });
-      else
-        interaction.reply({ content: personality.streamNotConnected, ephemeral: true });
-      return
-    }
   }
 };
 
