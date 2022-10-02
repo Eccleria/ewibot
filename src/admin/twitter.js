@@ -1,3 +1,13 @@
+import {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+} from "../helpers/index.js";
+
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
 export const fetchUserTimeline = async (client, userId, pageToken) => {
   const twitter = client.twitter;
 
@@ -28,9 +38,11 @@ export const tweetLink = (username, id) => {
   return "https://twitter.com/" + username + "/status/" + id; //write tweet url
 };
 
-export const initTwitterStream = async (client) => {
+export const initTwitterLoop = async (client) => {
   const twitter = client.twitter;
+  setInterval(() => {
 
+  }, 10 * 60 * 1000);
 };
 
 //rule id : prod "1561102350546247683", test "1561102350546247684"
