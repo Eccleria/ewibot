@@ -742,7 +742,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const logChannel = await getLogChannel(commons, memberKick); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
-  const reason = kickLog ? kickLog.reason : null; //get ban reason
+  const reason = kickLog ? kickLog.reason : null; //get kick reason
 
   //get log creation date and compare to now
   const logCreationDate = kickLog ? dayjs(kickLog.createdAt) : null;
@@ -756,8 +756,8 @@ export const onGuildMemberRemove = async (memberKick) => {
       ? roles.reduce((acc, cur) => `${acc}${cur.toString()}\n`, "")
       : null;
 
-  if (diff >= 5) {
-    //log too old => not kicked but left
+  if (!diff || diff >= 5) {
+    //log too old or no log => not kicked but left
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
