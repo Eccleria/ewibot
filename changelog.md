@@ -7,6 +7,7 @@
 - Fix: missing `logsRemover` when the day of restarting bot
 - Fix: wrong `messageDelete` `AuditLog` date usage
 - Fix: test logThreadId
+- Fix: wrong `kicklog` fire when user left
 - Update: `admin.md` with more recent code
 
 ## 4.1.0
