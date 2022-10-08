@@ -24,7 +24,7 @@ const action = async (interaction, commons) => {
   ); //get server local data
   if (!isLogThread) {
     interactionReply(interaction, saveLogP.wrongChannel);
-    return
+    return;
   }
 
   //check for containing embeds
@@ -45,12 +45,14 @@ const action = async (interaction, commons) => {
 
   //add executor of saveLog
   const member = interaction.member;
-  embeds[0].addFields(
-    { name: saveLogP.author, value: member.toString(), inline: true }
-  );
+  embeds[0].addFields({
+    name: saveLogP.author,
+    value: member.toString(),
+    inline: true,
+  });
 
   await logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
-  interactionReply(interaction, saveLogP.sent);  //reply to interaction
+  interactionReply(interaction, saveLogP.sent); //reply to interaction
 
   //handle gifs
   const contentTest = [messageDe.text, messageDe.textAgain]; //get text field names
@@ -64,7 +66,7 @@ const action = async (interaction, commons) => {
       const gif = gifRecovery(field.value);
       if (gif !== null) return [...acc, ...gif];
       return acc;
-    }, [])
+    }, []);
   }
 
   if (gifs.length !== 0) gifs.forEach((gif) => logChannel.send(gif));
@@ -76,7 +78,7 @@ const saveLog = {
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().saveLog;
     interactionReply(interaction, personality.help);
-  }
+  },
 };
 
 export default saveLog;

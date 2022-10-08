@@ -1,8 +1,9 @@
-## 4.2.0
+﻿## 4.2.0
 - Feat: add imported gif log detection
 - Feat: add 1024> content length in `messageDelete`/`Update` logs
 - Feat: add logRemover difference between db data and bulkDelete result
 - Feat: `save-log` moderation context command
+- Feat: messageUpdate 🛑 `log`
 - Fix: `finishEmbed` missing catch return case
 - Fix: missing `logsRemover` when the day of restarting bot
 - Fix: wrong `messageDelete` `AuditLog` date usage

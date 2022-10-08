@@ -11,6 +11,7 @@ import {
   generalEmbed,
   getLogChannel,
   gifRecovery,
+  octagonalLog,
   setupEmbed,
   sliceAddString,
 } from "./utils.js";
@@ -19,6 +20,7 @@ import {
   addApologyCount,
   hasApology,
   sanitizePunctuation,
+  hasOctagonalSign,
 } from "../helpers/index.js";
 
 import dayjs from "dayjs";
@@ -426,7 +428,10 @@ export const onMessageDelete = async (message) => {
 
     sliced.forEach((str, idx) => {
       if (idx === 0)
-        embed.addFields({ name: messageDel.text, value: str }); //name's different from others
+        embed.addFields({
+          name: messageDel.text,
+          value: str,
+        }); //name's different from others
       else embed.addFields({ name: messageDel.textAgain, value: str });
     });
   } else embed.addFields({ name: messageDel.text, value: content });
@@ -447,7 +452,7 @@ export const onMessageDelete = async (message) => {
       gifs.forEach((gif) => {
         const msg = logChannel.send(gif);
         messageList.push(msg);
-      })
+      });
 
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6)
@@ -587,6 +592,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const oldContent = oMessage.content;
   const newContent = nMessage.content;
 
+  //check for octagonal_sign
+  const oHasOct = hasOctagonalSign(oldContent, currentServer);
+  const nHasOct = hasOctagonalSign(newContent, currentServer);
+  if (!oHasOct && nHasOct) octagonalLog(nMessage);
+
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
   if (oldContent !== newContent && isLengthy) {
@@ -603,11 +613,13 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
         oSliced.forEach((str, idx) => {
           if (idx === 0)
-            embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
+            embed.addFields({
+              name: messageU.contentOld,
+              value: str,
+            }); //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentOld, value: oldContent });
-
     }
     if (nLen !== 0) {
       const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
@@ -616,11 +628,14 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
         nSliced.forEach((str, idx) => {
           if (idx === 0)
-            embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
+            embed.addFields({
+              name: messageU.contentNew,
+              value: str,
+            }); //name's different from others
           else embed.addFields({ name: messageU.contentNewAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentNew, value: newContent });
-    } 
+    }
 
     if (oLen !== 0 && nLen !== 0) {
       //check for apology
