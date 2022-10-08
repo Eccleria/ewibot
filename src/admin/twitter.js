@@ -38,7 +38,7 @@ export const tweetLink = (username, id) => {
   return "https://twitter.com/" + username + "/status/" + id; //write tweet url
 };
 
-export const tweetCompare = async (client) => {
+export const tweetCompare = async (client, interaction) => {
   const db = client.db;
   const currentServer = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
@@ -68,15 +68,23 @@ export const tweetCompare = async (client) => {
       addMissingTweets(newTLinks, db); //tweets links
     }
     //if idx === 0 => db up to date
-    //if idx === -1 => issue
+    //if idx === -1 => too many tweets or issue
   }
+
   //send tweets
   if (tLinks.length !== 0) {
-    const content = tLinks.join("\n");
-    interaction.reply({ content: content }); //, ephemeral: true });
+    //if tweets to send
+    if (interaction) {
+      //if is command
+      const content = tLinks.join("\n");
+      interaction.reply({ content: content }); //, ephemeral: true });
+    } else {
+      const channelId = currentServer.twitter.testChannelId;
+      const channel = client.channels.fetch(channelId);
+      tLinks.forEach(async (link) => await channel.send(link));
+    }
   }
   else interaction.reply({ content: "La db est à jour.", ephemeral: true });
-  return;
 };
 
 export const initTwitterLoop = async (client) => {

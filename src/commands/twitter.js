@@ -1,14 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 import {
-  tweetLink,
-  fetchUserTimeline,
+  tweetCompare
  } from "../admin/twitter.js";
 import {
   removeMissingTweets,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
@@ -98,43 +94,7 @@ const action = async (interaction) => {
     return;
   }
   else if (subcommand === "compare") {
-    const db = client.db;
-    const currentServer = commons.find(({ name }) =>
-      process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-    );
-
-    //compare tweets
-    const users = Object.entries(currentServer.twitterUserIds);
-    let tLinks = [];
-
-    for (const [username, userId] of users) {
-      const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
-      const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
-      const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
-      const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
-
-      if (idx > 0) {
-        //some tweets are missing => get links + update db;
-        const tweetsToSend = tweetIds.slice(0, idx);
-        const newTLinks = tweetsToSend.reduceRight((acc, tweetId) => {
-          const tLink = tweetLink(username, tweetId); //get tweet link
-          return [...acc, tLink]; //return link for future process
-        }, []); 
-        tLinks = [...tLinks, newTLinks]; //regroup links
-
-        //update db
-        updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
-        addMissingTweets(newTLinks, db); //tweets links
-      }
-      //if idx === 0 => db up to date
-      //if idx === -1 => issue
-    }
-    //send tweets
-    if (tLinks.length !== 0) {
-      const content = tLinks.join("\n");
-      interaction.reply({ content: content }); //, ephemeral: true });
-    }
-    else interaction.reply({ content: "La db est à jour.", ephemeral: true });
+    tweetCompare(client, interaction);
     return;
   }
 };
