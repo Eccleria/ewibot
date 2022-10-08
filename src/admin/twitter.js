@@ -47,7 +47,7 @@ export const tweetCompare = async (client, interaction) => {
   //compare tweets
   const users = Object.entries(currentServer.twitterUserIds);
   let tLinks = [];
-
+  console.log(users)
   for (const [username, userId] of users) {
     const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
@@ -61,7 +61,7 @@ export const tweetCompare = async (client, interaction) => {
         const tLink = tweetLink(username, tweetId); //get tweet link
         return [...acc, tLink]; //return link for future process
       }, []);
-      tLinks = [...tLinks, newTLinks]; //regroup links
+      tLinks = newTLinks; //regroup links
 
       //update db
       updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
@@ -70,7 +70,7 @@ export const tweetCompare = async (client, interaction) => {
     //if idx === 0 => db up to date
     //if idx === -1 => too many tweets or issue
   }
-
+  console.log("tLinks", tLinks)
   //send tweets
   if (tLinks.length !== 0) {
     //if tweets to send
@@ -80,14 +80,16 @@ export const tweetCompare = async (client, interaction) => {
       interaction.reply({ content: content }); //, ephemeral: true });
     } else {
       const channelId = currentServer.twitter.testChannelId;
-      const channel = client.channels.fetch(channelId);
+      const channel = await client.channels.fetch(channelId);
       tLinks.forEach(async (link) => await channel.send(link));
     }
   }
-  else interaction.reply({ content: "La db est à jour.", ephemeral: true });
+  else if (interaction) interaction.reply({ content: "La db est à jour.", ephemeral: true });
 };
 
 export const initTwitterLoop = async (client) => {
+  console.log("initTwitterLoop")
+
   setInterval((client) => {
     tweetCompare(client);
   }, 10 * 60 * 1000, client);

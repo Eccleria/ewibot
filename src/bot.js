@@ -10,6 +10,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { roleInit } from "./admin/role.js";
 
 import { TwitterApi } from "twitter-api-v2";
+import { initTwitterLoop } from "./admin/twitter.js"
 
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
@@ -164,6 +165,7 @@ client.once("ready", async () => {
   const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
   client.twitter = twitter; //save twitter into client
   client.twitter.isSending = false;
+  initTwitterLoop(client);
 
   /*
   const tweet = await fetchTweets(client, "1371839010755207176");
