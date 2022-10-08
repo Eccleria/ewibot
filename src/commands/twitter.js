@@ -1,11 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-import {
-  tweetCompare
- } from "../admin/twitter.js";
-import {
-  removeMissingTweets,
-} from "../helpers/index.js";
+import { tweetCompare } from "../admin/twitter.js";
+import { removeMissingTweets } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 // jsons import
@@ -16,15 +12,17 @@ const command = new SlashCommandBuilder()
   .setName("twitter")
   .setDescription("Commandes de gestions du lien Twitter-Discord.")
   .setDefaultMemberPermissions(0x0000010000000000) //MODERATE_MEMBERS bitwise
-  .addSubcommand((command) => 
+  .addSubcommand((command) =>
     command
       .setName("compare")
-      .setDescription("Compare les 5 derniers tweets avec la base de donnée et envoie la différence.")
+      .setDescription(
+        "Compare les 5 derniers tweets avec la base de donnée et envoie la différence."
+      )
   )
   .addSubcommand((command) =>
     command
       .setName("share")
-      .setDescription("Partage les derniers tweets manquants au publique.")  
+      .setDescription("Partage les derniers tweets manquants au publique.")
   );
 
 const waitingTimeRadomizer = (mean, variation) => {
@@ -46,8 +44,7 @@ const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
 };
 
 const action = async (interaction) => {
-
-  const client = interaction.client;  //get client data
+  const client = interaction.client; //get client data
   const personality = PERSONALITY.getCommands().twitter; //get personality
 
   const options = interaction.options; //get interaction options
@@ -92,8 +89,7 @@ const action = async (interaction) => {
     });
     client.twitter.isSending = true;
     return;
-  }
-  else if (subcommand === "compare") {
+  } else if (subcommand === "compare") {
     tweetCompare(client, interaction);
     return;
   }

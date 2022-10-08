@@ -10,7 +10,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { roleInit } from "./admin/role.js";
 
 import { TwitterApi } from "twitter-api-v2";
-import { initTwitterLoop } from "./admin/twitter.js"
+import { initTwitterLoop } from "./admin/twitter.js";
 
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";

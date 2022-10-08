@@ -47,7 +47,7 @@ export const tweetCompare = async (client, interaction) => {
   //compare tweets
   const users = Object.entries(currentServer.twitterUserIds);
   let tLinks = [];
-  console.log(users)
+  console.log(users);
   for (const [username, userId] of users) {
     const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
@@ -70,7 +70,7 @@ export const tweetCompare = async (client, interaction) => {
     //if idx === 0 => db up to date
     //if idx === -1 => too many tweets or issue
   }
-  console.log("tLinks", tLinks)
+  console.log("tLinks", tLinks);
   //send tweets
   if (tLinks.length !== 0) {
     //if tweets to send
@@ -83,16 +83,20 @@ export const tweetCompare = async (client, interaction) => {
       const channel = await client.channels.fetch(channelId);
       tLinks.forEach(async (link) => await channel.send(link));
     }
-  }
-  else if (interaction) interaction.reply({ content: "La db est à jour.", ephemeral: true });
+  } else if (interaction)
+    interaction.reply({ content: "La db est ï¿½ jour.", ephemeral: true });
 };
 
 export const initTwitterLoop = async (client) => {
-  console.log("initTwitterLoop")
+  console.log("initTwitterLoop");
 
-  setInterval((client) => {
-    tweetCompare(client);
-  }, 10 * 60 * 1000, client);
+  setInterval(
+    (client) => {
+      tweetCompare(client);
+    },
+    10 * 60 * 1000,
+    client
+  );
 };
 
 //rule id : prod "1561102350546247683", test "1561102350546247684"

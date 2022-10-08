@@ -443,7 +443,10 @@ export const onMessageDelete = async (message) => {
 
     sliced.forEach((str, idx) => {
       if (idx === 0)
-        embed.addFields({ name: messageDel.text, value: str }); //name's different from others
+        embed.addFields({
+          name: messageDel.text,
+          value: str,
+        }); //name's different from others
       else embed.addFields({ name: messageDel.textAgain, value: str });
     });
   } else embed.addFields({ name: messageDel.text, value: content });
@@ -464,7 +467,7 @@ export const onMessageDelete = async (message) => {
       gifs.forEach((gif) => {
         const msg = logChannel.send(gif);
         messageList.push(msg);
-      })
+      });
 
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6)
@@ -621,11 +624,13 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
         oSliced.forEach((str, idx) => {
           if (idx === 0)
-            embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
+            embed.addFields({
+              name: messageU.contentOld,
+              value: str,
+            }); //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentOld, value: oldContent });
-
     }
     if (nLen !== 0) {
       const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
@@ -634,11 +639,14 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
         nSliced.forEach((str, idx) => {
           if (idx === 0)
-            embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
+            embed.addFields({
+              name: messageU.contentNew,
+              value: str,
+            }); //name's different from others
           else embed.addFields({ name: messageU.contentNewAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentNew, value: newContent });
-    } 
+    }
 
     if (oLen !== 0 && nLen !== 0) {
       //check for apology
