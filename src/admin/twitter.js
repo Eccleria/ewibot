@@ -88,10 +88,9 @@ export const tweetCompare = async (client, interaction) => {
 };
 
 export const initTwitterLoop = async (client) => {
-  const twitter = client.twitter;
-  setInterval(() => {
-
-  }, 10 * 60 * 1000);
+  setInterval((client) => {
+    tweetCompare(client);
+  }, 10 * 60 * 1000, client);
 };
 
 //rule id : prod "1561102350546247683", test "1561102350546247684"
