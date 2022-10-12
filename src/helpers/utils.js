@@ -57,7 +57,7 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
-const hasOctagonalSign = (content, currentServer) => {
+export const hasOctagonalSign = (content, currentServer) => {
   return content.includes(currentServer.octagonalSign);
 };
 
