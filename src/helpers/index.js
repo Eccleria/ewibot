@@ -42,6 +42,7 @@ import {
   emojiInit,
   wordEmojiDetection,
   catAndDogsCount,
+  hasOctagonalSign,
 } from "./utils.js";
 
 export {
@@ -56,6 +57,7 @@ export {
   emojiInit,
   wordEmojiDetection,
   catAndDogsCount,
+  hasOctagonalSign,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,

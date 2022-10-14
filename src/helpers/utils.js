@@ -66,7 +66,7 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
-const hasOctagonalSign = (content, currentServer) => {
+export const hasOctagonalSign = (content, currentServer) => {
   return content.includes(currentServer.octagonalSign);
 };
 
@@ -133,13 +133,14 @@ export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
   const authorId = message.author.id;
 
+  const loweredContent = message.content.toLowerCase(); //get text in Lower Case
+  if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message); //if contains octagonal_sign, log it
+
   if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
-  const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
-
   if (hasApology(sanitizedContent)) {
     if (isStatsUser(db, authorId)) addStatData(authorId, db, "apology"); //add data to db
     await message.react(currentServer.panDuomReactId); //add message reaction

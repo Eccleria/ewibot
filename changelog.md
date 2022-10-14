@@ -1,4 +1,4 @@
-## 4.3.0
+﻿## 4.3.0
 - Feat: add user dedicated stats such as apologies, emotes, messageCreate.
 - Feat: add server-wide stats such as cats/dogs pictures
 - Feat: add `useStats` command
@@ -8,10 +8,12 @@
 - Feat: add 1024> content length in `messageDelete`/`Update` logs
 - Feat: add logRemover difference between db data and bulkDelete result
 - Feat: `save-log` moderation context command
+- Feat: messageUpdate 🛑 `log`
 - Fix: `finishEmbed` missing catch return case
 - Fix: missing `logsRemover` when the day of restarting bot
 - Fix: wrong `messageDelete` `AuditLog` date usage
 - Fix: test logThreadId
+- Fix: wrong `kicklog` fire when user left
 - Update: `admin.md` with more recent code
 
 ## 4.1.0

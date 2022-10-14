@@ -1,4 +1,4 @@
-# Admin
+﻿# Admin
 
 This documentation covers all the parts associated to the administrative part of Ewibot.
 The folder contains all the files required for the administrative part of Ewibot. It can be divided in
@@ -15,6 +15,7 @@ The folder contains all the files required for the administrative part of Ewibot
 - [Utils](#utils)
 - [Logs](#logs)
   - [Permanent Logs](#permanent-logs)
+    - [Octagonal logs](#octagonal-logs)
   - [Temporary Logs](#temporary-logs)
     - [logsRemover](#logsremover)
     - [initAdminLogClearing](#initadminlogclearing)
@@ -264,7 +265,123 @@ But also users' modification because of moderation:
 - bans
 - kicks
 
+The bot also look for this emote 🛑, because of it moderation purpose. Its usage creates `octagonal logs`.
+
+
 These logs, when created, are sent by Ewibot in the #logs channel.
+
+#### Octagonal logs
+
+The octagonal sign 🛑 is used as a moderation tool. This is an emote that can be sent by any user when they are
+at the slightest inconvenience/discomfort about a content. 
+To facilitate and make quicker reaction from moderators, Ewibot is designed to report any 🛑 usage, as in message
+content or reaction.
+
+First, we need to detect the emote, the presented code is about in-message detection.
+Once a public message is sent, the bot fires `reactionHandler` function, that analyse message `content`, looking
+for emotes.
+
+```javascript
+export const onPublicMessage = (message, client, currentServer, self) => {
+  //not used constants
+  reactionHandler(message, currentServer, client);
+  //...
+
+export const reactionHandler = async (message, currentServer, client) => {
+  //not used constants
+
+  const loweredContent = message.content.toLowerCase(); //get text in Lower Case
+  if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message); //if contains octagonal_sign, log it
+```
+
+The other way is to look for a reaction:
+
+```javascript
+export const onReactionAdd = async (messageReaction, user) => {
+  // Function triggered for each reaction added
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  );
+  //useless if for this purpose
+
+  if (currentServer.octagonalSign === messageReaction.emoji.name) {
+    octagonalLog(messageReaction, user);
+    return;
+  }
+```
+
+For both ways, if the 🛑 is the emote used as a reaction, `octagonalLog` is fired.
+
+Now, we can log the emote usage. First, the bot get the personality required for log text.
+
+```javascript
+export const octagonalLog = async (object, user) => {
+  //get personality
+  const personality = PERSONALITY.getAdmin();
+  const octaPerso = personality.octagonalSign;
+  //...
+```
+
+Then, it needs to verify if the target message is a partial one. If `.partial`, the bot fetch
+it to get all message data. 
+As `object` can be a `message` or a `messageReaction`, the `message` property is not at the same 
+place. Because the `user` object is sent only for a `messageReaction`, the bot can deduce where 
+`message` property is.
+
+```javascript
+  let message = user ? object.message : object;
+  if (message.partial) await message.fetch();
+  //...
+```
+
+Now the bot can do the basic stuff of logs: fetch the `logChannel` and setup the `embed`.
+
+```javascript
+  //basic operations
+  const logChannel = await getLogChannel(commons, message); //get logChannelId
+  const embed = setupEmbed(
+    "LUMINOUS_VIVID_PINK",
+    octaPerso,
+    message.author,
+    "tag"
+  ); //setup embed
+  //...
+```
+
+Once this is done, the bot the target message properties, such as: 
+- message sending `date`
+- `channel` where the message was sent
+- message `content`
+- `executor`, ie the person who sent the target message
+- message `link`, for moderation easier intervention
+
+```javascript
+  //add more info to embed
+  const executor = user
+    ? await message.guild.members.fetch(user.id)
+    : object.author; //get executor
+  const date = message.createdAt.toString().slice(4, 24);
+  embed.addFields(
+    { name: octaPerso.date, value: `${date}`, inline: true }, //date of message creation
+    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
+    { name: octaPerso.text, value: message.content }, //message content
+    { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
+    {
+      name: octaPerso.linkName,
+      value: `[${octaPerso.linkMessage}](${message.url})`,
+      inline: true,
+    } //get message link
+    //...
+  );
+```
+
+Eventualy, the log can be sent to the proper channel. For `finishEmbed` explanation, please see
+[finishEmbed](#utils)
+
+```javascript
+  finishEmbed(octaPerso, null, embed, logChannel);
+};
+```
 
 ### Temporary Logs
 
