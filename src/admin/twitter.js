@@ -47,7 +47,7 @@ export const tweetCompare = async (client, interaction) => {
   //compare tweets
   const users = Object.entries(currentServer.twitterUserIds);
   let tLinks = [];
-  console.log(users);
+
   for (const [username, userId] of users) {
     const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
@@ -70,9 +70,10 @@ export const tweetCompare = async (client, interaction) => {
     //if idx === 0 => db up to date
     //if idx === -1 => too many tweets or issue
   }
-  console.log("tLinks", tLinks);
+
   //send tweets
   if (tLinks.length !== 0) {
+    console.log("tLinks", tLinks);
     //if tweets to send
     if (interaction) {
       //if is command
