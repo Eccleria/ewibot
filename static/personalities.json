@@ -255,10 +255,20 @@
         "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       },
       "twitter": {
+        "compare": {
+          "name": "compare",
+          "description": "Compare les 5 derniers tweets avec la base de donnée et envoie la différence."
+        },
+        "description": "Commandes de gestions du lien Twitter-Discord.",
+        "name": "twitter",
         "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
         "noTweets": "Il n'y a aucun tweet de manqué.",
-        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter."
+        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
+        "share": {
+          "name": "share",
+          "description": "Partage les derniers tweets manquants au publique."
+        }
       }
     },
     "spotify": {

@@ -8,21 +8,21 @@ import { PERSONALITY } from "../personality.js";
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
+const personality = PERSONALITY.getCommands(); //get const name & description for commands init
+
 const command = new SlashCommandBuilder()
-  .setName("twitter")
-  .setDescription("Commandes de gestions du lien Twitter-Discord.")
+  .setName(personality.twitter.name)
+  .setDescription(personality.twitter.description)
   .setDefaultMemberPermissions(0x0000010000000000) //MODERATE_MEMBERS bitwise
   .addSubcommand((command) =>
     command
-      .setName("compare")
-      .setDescription(
-        "Compare les 5 derniers tweets avec la base de donnée et envoie la différence."
-      )
+      .setName(personality.twitter.compare.name)
+      .setDescription(personality.twitter.compare.description)
   )
   .addSubcommand((command) =>
     command
-      .setName("share")
-      .setDescription("Partage les derniers tweets manquants au publique.")
+      .setName(personality.twitter.share.name)
+      .setDescription(personality.twitter.share.description)
   );
 
 const waitingTimeRadomizer = (mean, variation) => {
@@ -50,7 +50,7 @@ const action = async (interaction) => {
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
 
-  if (subcommand === "share") {
+  if (subcommand === personality.twitter.share.name) {
     const isSending = client.twitter.isSending;
     if (isSending) {
       //if already sending tweets, return
@@ -89,7 +89,7 @@ const action = async (interaction) => {
     });
     client.twitter.isSending = true;
     return;
-  } else if (subcommand === "compare") {
+  } else if (subcommand === personality.twitter.compare.name) {
     tweetCompare(client, interaction);
     return;
   }
