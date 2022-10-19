@@ -1,8 +1,13 @@
-﻿## 4.2.0
+﻿## 4.3.0
+- Feat: twitter
+	- commands
+	- loop for tweets auto fetch
+- Doc : `twitter.md`
+
+## 4.2.0
 - Feat: add imported gif log detection
 - Feat: add 1024> content length in `messageDelete`/`Update` logs
 - Feat: add logRemover difference between db data and bulkDelete result
-- Feat: twitter 
 - Feat: `save-log` moderation context command
 - Feat: messageUpdate 🛑 `log`
 - Fix: `finishEmbed` missing catch return case
