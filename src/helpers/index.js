@@ -23,6 +23,8 @@ import {
   addStatData,
   addStatsServer,
   removeStatsServer,
+  addUseStatUser,
+  removeUseStatUser,
 } from "./dbHelper.js";
 
 import {
@@ -87,4 +89,6 @@ export {
   addStatData,
   addStatsServer,
   removeStatsServer,
+  addUseStatUser,
+  removeUseStatUser,
 };

@@ -160,6 +160,23 @@ export {
 };
 
 //STATS USER
+
+const isUseStatUser = (authorId, db) => {
+  return db.data.useStatUsers.includes(authorId)
+};
+
+const addUseStatUser = (authorId, db) => {
+  if (!isUseStatUser(authorId, db))
+    db.data.useStatUsers = [...db.data.useStatUsers, authorId];
+};
+
+const removeUseStatUser = (authorId, db) => {
+  if (isUseStatUser(authorId, db))
+    db.data.useStatUsers = db.data.useStatUsers.filter((id) => id !== authorId);
+}
+
+export { addUseStatUser, removeUseStatUser };
+
 // {userId, stats...}
 const addStatsUser = (authorId, db) => {
   if (!isStatsUser(authorId, db)) {
