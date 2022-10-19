@@ -50,7 +50,7 @@ const action = async (interaction) => {
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
 
-  if (subcommand === personality.twitter.share.name) {
+  if (subcommand === personality.share.name) {
     const isSending = client.twitter.isSending;
     if (isSending) {
       //if already sending tweets, return
@@ -89,7 +89,7 @@ const action = async (interaction) => {
     });
     client.twitter.isSending = true;
     return;
-  } else if (subcommand === personality.twitter.compare.name) {
+  } else if (subcommand === personality.compare.name) {
     tweetCompare(client, interaction);
     return;
   }
