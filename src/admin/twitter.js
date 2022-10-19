@@ -4,6 +4,8 @@ import {
   addMissingTweets,
 } from "../helpers/index.js";
 
+import { PERSONALITY } from "../personality.js";
+
 // jsons import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
@@ -85,7 +87,7 @@ export const tweetCompare = async (client, interaction) => {
       tLinks.forEach(async (link) => await channel.send(link));
     }
   } else if (interaction)
-    interaction.reply({ content: "La db est � jour.", ephemeral: true });
+    interaction.reply({ content: PERSONALITY.getCommands().twitter.dbUpToDate, ephemeral: true });
 };
 
 export const initTwitterLoop = async (client) => {

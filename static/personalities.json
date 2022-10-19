@@ -268,7 +268,8 @@
         "share": {
           "name": "share",
           "description": "Partage les derniers tweets manquants au publique."
-        }
+        },
+        "dbUpToDate": "La db est à jour"
       }
     },
     "spotify": {
