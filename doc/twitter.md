@@ -1,9 +1,10 @@
 # Twitter
 
 This doc covers all the part about Twitter-Discord links. This link was asked by Andarta Pictures for
-a communication purpose. It aims to send in almost real-time all tweets sent by 
+a communication purpose. It aims to send all tweets sent by 
 [Andarta Pictures](https://twitter.com/andartapictures) and
-[La Quête d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts. 
+[La Quête d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts on the appropriate Discord
+channel. 
 
 This functionality uses the [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) library, 
 with v2 endpoints that are free to use. The old v1.1 is reserved for verified application and has 
@@ -12,22 +13,24 @@ more endpoints, but those are not necessary for Ewibot Twitter-Discord link.
 > *Note:* In this doc, Discord App client is named as `client`. Twitter App client is named as 
 > `twitter`.
 
-- [Stream](#stream)
+- [Connection](#connection)
 - [Commands](#commands)
     - [Compare](#compare)
     - [Share](#share)
 
-For this feature, 4 files are used: 
+For this feature, 6 files are used: 
 - [admin twitter](../src/admin/twitter.js)
 - [commands twitter](../src/commands/twitter.js)
 - [dbHelper](../src/helpers/dbHelper.js) - *database helper*
 - [bot](../src/bot.js)
+- [personality](../src/personality.js)
+- [personalities](../static/personalities.json)
 
-## Stream
+## Connection
 
 First the app connects to Twitter API, creating `twitter`. Then, we setup `twitter` to 
 be only `v2`, using `readOnly` mode. Then we save the Twitter client into the `client`.
-The `.isSending` is used for `db` verification.
+The `.isSending` is used for `db` verification in `twitter share` command.
 
 ```javascript
 const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
@@ -52,11 +55,11 @@ the offline time. No user input is required.
 The command is declared as a subcommand of `twitter command`.
 
 ```javascript
-.addSubcommand((command) => 
-  command
-    .setName("compare")
-    .setDescription("Compare les 5 derniers tweets avec la base de donnée et envoie la différence.")
-) 
+  .addSubcommand((command) =>
+    command
+      .setName(personality.twitter.compare.name)
+      .setDescription(personality.twitter.compare.description)
+  ) 
 ```
 
 Compare checks user's Twitter Timelines and compare the results to `database`. If there is
@@ -121,7 +124,7 @@ if (tLinks.length !== 0) {
   const content = tLinks.join("\n");
   interaction.reply({ content: content }); //, ephemeral: true });
 }
-else interaction.reply({ content: "La db est à jour.", ephemeral: true });
+interaction.reply({ content: PERSONALITY.getCommands().twitter.dbUpToDate, ephemeral: true });
 return;
 }
 ```
