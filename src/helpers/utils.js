@@ -162,8 +162,9 @@ export const reactionHandler = async (message, currentServer, client) => {
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
   //Ewibot wave to user
-  if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
-    await message.react(currentServer.helloEmoji);
+  if (hello.some((helloMessage) => words[0] === helloMessage)) {
+    if (isStatsUser(db, authorId)) addStatData(authorId, db, "hello"); //add data to db
+    if (frequency) await message.react(currentServer.helloEmoji);
   }
 
   // Ewibot reacts with the same emojis that are inside the message
