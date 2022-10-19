@@ -82,7 +82,7 @@ export const tweetCompare = async (client, interaction) => {
       const content = tLinks.join("\n");
       interaction.reply({ content: content }); //, ephemeral: true });
     } else {
-      const channelId = currentServer.twitter.testChannelId;
+      const channelId = currentServer.twitter.prodChannelId;
       const channel = await client.channels.fetch(channelId);
       tLinks.forEach(async (link) => await channel.send(link));
     }
