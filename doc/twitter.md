@@ -62,21 +62,26 @@ The command is declared as a subcommand of `twitter command`.
   ) 
 ```
 
-Compare checks user's Twitter Timelines and compare the results to `database`. If there is
+`compare` checks each user's Twitter Timeline and compare the results to `database`. If there is
 any difference, the bot send it as a reply.
+
+> As the following code is mostly the same for the setInterval fetch, the command action code 
+> is regrouped in [admin twitter](../src/admin/twitter.js) file.
+
 First, it gets usefull data, and then execute a loop for each Twitter user.
 
 ```javascript
-const db = client.db;
-const currentServer = commons.find(({ name }) =>
-  process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-); //get data associated to current server
+export const tweetCompare = async (client, interaction) => {
+  const db = client.db;
+  const currentServer = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
 
-//compare tweets
-const users = Object.entries(currentServer.twitterUserIds);
-let tLinks = [];
+  //compare tweets
+  const users = Object.entries(currentServer.twitterUserIds);
+  let tLinks = [];
 
-for (const [username, userId] of users) {
+  for (const [username, userId] of users) {
   //...
 ```
 
@@ -84,10 +89,10 @@ for (const [username, userId] of users) {
  it looks for the tweet id stored in the `db`.
 
 ```javascript
-  const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
-  const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
-  const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
-  const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
+    const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
+    const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
+    const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
+    const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
 ```
 
 Now we know if the tweet is the last or not: 
@@ -97,36 +102,49 @@ Now we know if the tweet is the last or not:
 the code isn't really worth to be implemented.
 
 ```javascript
-  if (idx > 0) {
-    //some tweets are missing => get links + update db;
-    const tweetsToSend = tweetIds.slice(0, idx);
-    const newTLinks = tweetsToSend.reduceRight((acc, tweetId) => {
-      const tLink = tweetLink(username, tweetId); //get tweet link
-      return [...acc, tLink]; //return link for future process
-    }, []); 
-    tLinks = [...tLinks, newTLinks]; //regroup links
+    if (idx > 0) {
+      //some tweets are missing => get links + update db;
+      const tweetsToSend = tweetIds.slice(0, idx);
+      const newTLinks = tweetsToSend.reduceRight((acc, tweetId) => {
+        const tLink = tweetLink(username, tweetId); //get tweet link
+        return [...acc, tLink]; //return link for future process
+      }, []);
+      tLinks = newTLinks; //regroup links
 
-    //update db
-    updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
-    addMissingTweets(newTLinks, db); //tweets links
+      //update db
+      updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
+      addMissingTweets(newTLinks, db); //tweets links
+    }
+    //if idx === 0 => db up to date
+    //if idx === -1 => too many tweets or issue
   }
-  //if idx === 0 => db up to date
-  //if idx === -1 => issue
-}
 ```
 
-If there are tweets to send, the bot will join all the links together in one message and 
-then will reply to the command. If no tweets, the bot answers that the db is up to date.
+Now, we have to define if the bot is replying to a command or just the setInterval loop.
+If there are tweets to send: 
+- if its a command (then it has an interaction), the bot will join all links together and reply to the command. 
+- else, Ewibot send it in the appropriate channel defined in `commons`.
+If no tweets:
+- command: the bot answers that the db is up to date.
+- setInterval: nothing to do
 
 ```javascript
-//send tweets
-if (tLinks.length !== 0) {
-  const content = tLinks.join("\n");
-  interaction.reply({ content: content }); //, ephemeral: true });
-}
-interaction.reply({ content: PERSONALITY.getCommands().twitter.dbUpToDate, ephemeral: true });
-return;
-}
+  //send tweets
+  if (tLinks.length !== 0) {
+    console.log("tLinks", tLinks);
+    //if tweets to send
+    if (interaction) {
+      //if is command
+      const content = tLinks.join("\n");
+      interaction.reply({ content: content }); //, ephemeral: true });
+    } else {
+      const channelId = currentServer.twitter.prodChannelId;
+      const channel = await client.channels.fetch(channelId);
+      tLinks.forEach(async (link) => await channel.send(link));
+    }
+  } else if (interaction)
+    interaction.reply({ content: PERSONALITY.getCommands().twitter.dbUpToDate, ephemeral: true });
+};
 ```
 
 ### Share
