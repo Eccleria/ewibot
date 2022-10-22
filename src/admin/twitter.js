@@ -87,7 +87,10 @@ export const tweetCompare = async (client, interaction) => {
       tLinks.forEach(async (link) => await channel.send(link));
     }
   } else if (interaction)
-    interaction.reply({ content: PERSONALITY.getCommands().twitter.dbUpToDate, ephemeral: true });
+    interaction.reply({
+      content: PERSONALITY.getCommands().twitter.dbUpToDate,
+      ephemeral: true,
+    });
 };
 
 export const initTwitterLoop = async (client) => {
