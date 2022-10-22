@@ -226,11 +226,11 @@ const addStatData = (authorId, db, type) => {
     for (const obj of stats) {
       if (obj.userId === authorId && obj[type] !== undefined) obj[type]++;
     }
-  } else {
+  } else if (isUseStatUser(authorId, db)) {
     //Else add user
     addStatsUser(authorId, db); //add to db
     addStatData(authorId, db, type); //add 1 to counter
-  }
+  } else return
   db.wasUpdated = true;
 };
 
@@ -262,14 +262,14 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
           //if flag === true, already added
           emotes.push({ emoteId: emoteId, count: 1 });
         }
-        db.wasUpdated = true;
       }
     }
-  } else {
-    //not in db => add it
-    addStatsUser(authorId, db);
-    addEmoteCount(authorId, db, emoteId);
-  }
+  } else if (isUseStatUser(authorId, db)) {
+    //Else if is useStatUser, add user
+    addStatsUser(authorId, db); //add to db
+    addStatData(authorId, db, emoteId); //add 1 to counter
+  } else return
+  db.wasUpdated = true;
 };
 
 const removeEmoteCount = (authorId, db, emoteId, type) => {
