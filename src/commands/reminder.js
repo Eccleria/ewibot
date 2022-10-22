@@ -6,6 +6,7 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
+import { isStatsUser, addCommandCount } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const sendDelayed = async (
@@ -117,6 +118,8 @@ const action = async (message, client, currentServer) => {
       botMessage: answer,
       timeout: timeoutObj,
     });
+
+    if (isStatsUser(client.db, author.id)) addCommandCount(author.id, client.db, "concrete"); //add data to db
   }
 };
 

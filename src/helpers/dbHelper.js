@@ -184,6 +184,12 @@ const addStatsUser = (authorId, db) => {
       userId: authorId,
       abcd: 0,
       apologies: 0,
+      commands: {
+        concrete: 0,
+        ping: 0,
+        reminder: 0,
+        roll: 0
+      },
       emotes: { total: 0, react: 0, inMessage: 0, emotes: [] },
       hello: 0,
       hungry: 0,
@@ -225,6 +231,22 @@ const addStatData = (authorId, db, type) => {
     //If already in DB, add +1 to counter
     for (const obj of stats) {
       if (obj.userId === authorId && obj[type] !== undefined) obj[type]++;
+    }
+  } else if (isUseStatUser(authorId, db)) {
+    //Else add user
+    addStatsUser(authorId, db); //add to db
+    addStatData(authorId, db, type); //add 1 to counter
+  } else return
+  db.wasUpdated = true;
+};
+
+const addCommandCount = (authorId, db, type) => {
+  const stats = db.data.statsUsers;
+
+  if (isStatsUser(authorId, db)) {
+    //If already in DB, add +1 to counter
+    for (const obj of stats) {
+      if (obj.userId === authorId && obj[type] !== undefined) obj.commands[type]++;
     }
   } else if (isUseStatUser(authorId, db)) {
     //Else add user
@@ -300,7 +322,7 @@ const removeEmoteCount = (authorId, db, emoteId, type) => {
   }
 };
 
-export { addStatData, addEmoteCount, removeEmoteCount };
+export { addStatData, addCommandCount, addEmoteCount, removeEmoteCount };
 
 //STATS SERVER
 

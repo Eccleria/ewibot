@@ -4,10 +4,11 @@ import { MessageAttachment } from "discord.js";
 import path from "path";
 import fs from "fs";
 
+import { isStatsUser, addCommandCount } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const action = async (message, client, currentServer, self) => {
-  const { channel, mentions, content } = message;
+  const { author, channel, mentions, content } = message;
 
   if (mentions.users.size !== 1) {
     //if no or too many mentions, or @here/everyone
@@ -17,6 +18,7 @@ const action = async (message, client, currentServer, self) => {
 
   channel.sendTyping();
 
+  if (isStatsUser(client.db, author.id)) addCommandCount(author.id, client.db, "concrete"); //add data to db
   const recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
 
   const gifsPath = path.join(
