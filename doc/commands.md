@@ -7,6 +7,7 @@ Commands are interactions that users can have with the bot or other users.
   - [Text commands](#textcommands)
   - [Slash commands](#slashcommands)
   - [Context commands](#contextcommands)
+    - [save-log](#save-log)
 
 ## Organisation
 
