@@ -90,6 +90,7 @@ const command = new ContextMenuCommandBuilder()
 
 Now we can setup the `action` the command will do once fired. 
 
+```javascript
 const action = async (interaction, commons) => {
   const message = interaction.targetMessage; //get message
   const embeds = message.embeds; //get embeds
