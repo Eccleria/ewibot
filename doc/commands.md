@@ -5,11 +5,8 @@ Commands are interactions that users can have with the bot or other users.
 - [Organisation](#organisation)
 - [Command types](#commandtypes)
   - [Text commands](#textcommands)
-  - [Slash commands]()
-  - [Context commands]()
-- [Commands]()
-  - [Small commands]()
-  - [Complex commands]()
+  - [Slash commands](#slashcommands)
+  - [Context commands](#contextcommands)
 
 ## Organisation
 
