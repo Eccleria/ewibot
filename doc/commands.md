@@ -150,7 +150,7 @@ the person that have fired the command to the embed fields and then send the log
 
 After this, the bot need to send any gif that was in the log content. For now, it only 
 handles gifs that are in `messageDelete` logs. 
-We get the filed containing the message content.
+We get the field containing the message content.
 
 ```javascript
   //handle gifs
@@ -161,7 +161,8 @@ We get the filed containing the message content.
 ```
 
 Once found, we get each gif link and send them in different messages, if they are separated
-by `" "`.
+by `" "`. 
+> For more details, please see `gifRecovery` help section (TBAdded)
 
 ```javascript
   let gifs = [];
