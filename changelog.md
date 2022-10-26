@@ -2,6 +2,8 @@
 - Feat: twitter
 	- commands
 	- loop for tweets auto fetch
+- Fix: `commands.md` with wrong links and typos
+- Fix: `messageDelete` deleter not as embed
 - Doc : `twitter.md`
 
 ## 4.2.0

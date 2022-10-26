@@ -486,7 +486,7 @@ export const onMessageDelete = async (message) => {
     //check if log report the correct user && log is recent
     const messageList = await finishEmbed(
       messageDel,
-      executor.tag,
+      executor,
       embeds,
       logChannel,
       null,
