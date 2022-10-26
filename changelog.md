@@ -1,5 +1,6 @@
 ﻿## 4.3.0
 - Fix: `commands.md` with wrong links and typos
+- Fix: `messageDelete` deleter not as embed
 
 ## 4.2.0
 - Feat: add imported gif log detection
