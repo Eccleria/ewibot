@@ -1,4 +1,7 @@
-﻿## 4.2.0
+﻿## 4.3.0
+- Fix: `commands.md` with wrong links and typos
+
+## 4.2.0
 - Feat: add imported gif log detection
 - Feat: add 1024> content length in `messageDelete`/`Update` logs
 - Feat: add logRemover difference between db data and bulkDelete result
