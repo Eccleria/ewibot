@@ -1,5 +1,4 @@
 // ADMIN
-
 const addAdminLogs = (db, messageId, type, index) => {
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
@@ -94,11 +93,10 @@ const removeBirthday = (authorId, db) => {
 
 export { addBirthday, removeBirthday, isBirthdayDate };
 
-  //GIFT
-
+//GIFT
 const isGiftUser = (db, userId) => {
   return db.data.gift.users.includes(userId);
-}
+};
 
 const addGiftUser = (db, userId) => {
   if (!isGiftUser(db, userId)) {
@@ -116,8 +114,6 @@ const removeGiftUser = (db, userId) => {
 };
 
 export { isGiftUser, addGiftUser, removeGiftUser };
-
-
 
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
