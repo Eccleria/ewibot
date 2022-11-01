@@ -16,6 +16,7 @@ import {
   removeAppologyCount,
   addGiftUser,
   removeGiftUser,
+  isGiftUser,
 } from "./dbHelper.js";
 
 import {
@@ -65,4 +66,5 @@ export {
   removeAppologyCount,
   addGiftUser,
   removeGiftUser,
+  isGiftUser,
 };

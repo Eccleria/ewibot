@@ -115,7 +115,7 @@ const removeGiftUser = (db, userId) => {
   }
 };
 
-export { addGiftUser, removeGiftUser };
+export { isGiftUser, addGiftUser, removeGiftUser };
 
 
 
