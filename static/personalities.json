@@ -167,6 +167,19 @@
         "help": "Cette commande permet de bétonner une personne. Utilisation :\n- `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
         "errorMention": "Il faut une seule mention."
       },
+      "gift": {
+        "description": "Pour envoyer un message anonyme de Noël.",
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinateir n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n *Note : pour éviter les dérives, les messages seront approuvés par quelques membres de la modération.*",
+        "name": "gift",
+        "textOption": {
+          "description": "Le message à envoyer.",
+          "name": "message"
+        },
+        "userOption": {
+          "description": "La personne qui recevra le message.",
+          "name": "destinateurice"
+        }
+      },
       "helloWorld": {
         "help": "Cette commande n'a pas besoin de description.",
         "pong": "pong !"
@@ -282,6 +295,19 @@
       "concrete": {
         "help": "Parfait pour bétonner des gens. Utilisation \nIl suffit de taper `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
         "errorMention": "Il faut une seule mention."
+      },
+      "gift": {
+        "description": "Pour envoyer un message anonyme de Noël.",
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinateir n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n *Note : pour éviter les dérives, les messages seront approuvés par quelques membres de la modération.*",
+        "name": "gift",
+        "textOption": {
+          "description": "Le message à envoyer.",
+          "name": "message"
+        },
+        "userOption": {
+          "description": "La personne qui recevra le message.",
+          "name": "destinateurice"
+        }
       },
       "helloWorld": {
         "help": "Cette commande me permet de proposer un cookie.",
