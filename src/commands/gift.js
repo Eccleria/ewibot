@@ -222,6 +222,8 @@ const command = new SlashCommandBuilder()
     )
   );
 
+
+
 const action = async (interaction) => {
   //get interaction data
   const options = interaction.options;
