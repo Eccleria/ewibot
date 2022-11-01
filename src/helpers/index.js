@@ -14,6 +14,8 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  addGiftUser,
+  removeGiftUser,
 } from "./dbHelper.js";
 
 import {
@@ -61,4 +63,6 @@ export {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  addGiftUser,
+  removeGiftUser,
 };

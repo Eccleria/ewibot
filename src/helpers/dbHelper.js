@@ -94,6 +94,31 @@ const removeBirthday = (authorId, db) => {
 
 export { addBirthday, removeBirthday, isBirthdayDate };
 
+  //GIFT
+
+const isGiftUser = (db, userId) => {
+  return db.data.gift.users.includes(userId);
+}
+
+const addGiftUser = (db, userId) => {
+  if (!isGiftUser(db, userId)) {
+    db.data.gift.users.push(userId);
+    db.wasUpdated = true;
+  }
+};
+
+const removeGiftUser = (db, userId) => {
+  const data = db.data.gift.users;
+  if (isGiftUser(db, userId)) {
+    db.data.gift.users = data.filter((id) => id !== userId);
+    db.wasUpdated = true;
+  }
+};
+
+export { addGiftUser, removeGiftUser };
+
+
+
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
   return db.data.ignoredChannelIds.includes(channelId);
