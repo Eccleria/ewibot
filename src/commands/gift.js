@@ -148,8 +148,8 @@ export const setGiftTimeoutLoop = (client) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().gift.name)
-  .setDescription(PERSONALITY.getCommands().gift.description)
+    .setName(PERSONALITY.getCommands().gift.name)
+    .setDescription(PERSONALITY.getCommands().gift.description)
   .addSubcommand(
     (
       subcommand //user authorisation command
@@ -165,16 +165,16 @@ const command = new SlashCommandBuilder()
       subcommand
         .setName(PERSONALITY.getCommands().gift.send.name)
         .setDescription(PERSONALITY.getCommands().gift.send.description)
-        .addUserOption((option) =>
-          option
+    .addUserOption((option) => 
+        option
             .setName(PERSONALITY.getCommands().gift.send.userOption.name)
             .setDescription(
               PERSONALITY.getCommands().gift.send.userOption.description
             )
             .setRequired(true)
-        )
-        .addStringOption((option) =>
-          option
+    )
+    .addStringOption((option) =>
+        option
             .setName(PERSONALITY.getCommands().gift.send.textOption.name)
             .setDescription(
               PERSONALITY.getCommands().gift.send.textOption.description
@@ -218,8 +218,8 @@ const command = new SlashCommandBuilder()
           .setDescription(
             PERSONALITY.getCommands().gift.accepting.userOption.description
           )
-          .setRequired(true)
-      )
+            .setRequired(true)
+    )
   );
 
 const action = async (interaction) => {
@@ -332,15 +332,15 @@ const action = async (interaction) => {
 };
 
 const gift = {
-  action,
-  command,
+    action,
+    command,
   help: (interaction, userOption) => {
-    const personality = PERSONALITY.getCommands().gift;
+        const personality = PERSONALITY.getCommands().gift;
     const helpToUse = userOption.includes(" ")
       ? personality[userOption.split(" ")[1]]
       : personality;
     interactionReply(interaction, helpToUse.help);
-  },
+    },
   admin: false,
   releaseDate: dayjs("12-01-2022", "MM-DD-YYYY"),
   sentinelle: false,
