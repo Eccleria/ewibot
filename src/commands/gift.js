@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { interactionReply } from "./utils.js";
+import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
@@ -32,7 +33,21 @@ const command = new SlashCommandBuilder()
 
 
 const action = async (interaction) => {
+  const subcommand = interaction.options.subcommand;
+  const author = interaction.member;
 
+  const personality = PERSONALITY.getCommands().gift;
+  if (subcommand === personality.use.name) {
+    const db = interaction.client.db;
+
+    if (isGiftUser(db, author.id)) {
+      removeGiftUser(db, author.id);
+      interactionReply(interaction, personality.use.isNotAccepting);
+    } else {
+      addGiftUser(db, author.id);
+      interactionReply(interaction, personality.use.isAccepting);
+    }
+  }
 };
 
 const gift = {
