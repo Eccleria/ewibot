@@ -585,9 +585,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   //add creation date + channel
-  console.log("date", oMessage.createdAt.toString())
-  console.log("test", oMessage.createdAt.toString().toLocaleString()) //getTimezoneOffset
-  console.log("test2", oMessage.createdAt.getTimezoneOffset()) //
+  console.log("date", date)
+  const uDate = new Date(oMessage.createdAt);
+  uDate.setHours(uDate.getHours() + 1)
+  console.log("date+1", uDate.toString().slice(4, 24)) //getTimezoneOffset
 
   embed.addField(messageU.date, `${date}`, true); //date of message creation
   embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
