@@ -533,8 +533,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
-  const date = oMessage.createdAt.toString().slice(4, 24);
-
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
 
@@ -585,12 +583,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   //add creation date + channel
-  console.log("date", date)
-  const uDate = new Date(oMessage.createdAt);
-  uDate.setHours(uDate.getHours() + 1)
-  console.log("date+1", uDate.toString().slice(4, 24)) //getTimezoneOffset
-
-  embed.addField(messageU.date, `${date}`, true); //date of message creation
+  const uDate = new Date(oMessage.createdAt); //set date as Date object
+  uDate.setHours(uDate.getHours() + 1); //add 1h to date
+  const dateStr = uDate.toString().slice(4, 24); //slice date string
+  embed.addField(messageU.date, `${dateStr}`, true); //date of message creation
   embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
   //check for content modif
