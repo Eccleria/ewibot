@@ -115,6 +115,42 @@ const removeGiftUser = (db, userId) => {
 
 export { isGiftUser, addGiftUser, removeGiftUser };
 
+const isMessageRecipient = (db, recipientId) => {
+  return db.data.gift.messages.map((obj) => obj.userId).includes(recipientId);
+};
+
+const addGiftMessage = (db, recipientId, content, senderId) => {
+  const data = db.data.gift.messages;
+
+  if (!isMessageRecipient(db, recipientId)) //ad user to db + message
+    data.push({ userId: recipientId, messages: [{ senderId: senderId, message: content }] });
+  else {
+    const user = data.find((obj) => obj.userId = recipientId);
+    user.messages.push(content); //add message 
+  }
+  db.wasUpdated = true;
+};
+
+const removeGiftMessage = (db, recipientId, senderId) => {
+  const data = db.data.gift.messages;
+
+  if (isMessageRecipient(db, recipientId)) { //if is in appriopriate db
+    const results = data.reduce((acc, cur) => {
+      if (cur.senderId === senderId)
+        return { new: acc.new, removed: [...acc.removed, cur.message] }
+      else return { new: [...acc.new, cur], removed: acc.removed };
+    }, { new: [], removed: [] });
+
+    //update db
+    db.data.gift.messages = results.new; 
+    db.wasUpdated = true;
+
+    return results.removed; //return messages for feedback
+  } else return null
+};
+
+export { addGiftMessage, removeGiftMessage };
+
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
   return db.data.ignoredChannelIds.includes(channelId);
