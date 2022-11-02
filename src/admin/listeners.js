@@ -584,7 +584,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //add creation date + channel
   const uDate = new Date(oMessage.createdAt); //set date as Date object
-  uDate.setHours(uDate.getHours() + 1); //add 1h to date
+  if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
   const dateStr = uDate.toString().slice(4, 24); //slice date string
   embed.addField(messageU.date, `${dateStr}`, true); //date of message creation
   embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
