@@ -121,12 +121,12 @@ const isMessageRecipient = (db, recipientId) => {
 
 const addGiftMessage = (db, recipientId, content, senderId) => {
   const data = db.data.gift.messages;
-
+  const toPush = { senderId: senderId, message: content };
   if (!isMessageRecipient(db, recipientId)) //ad user to db + message
-    data.push({ userId: recipientId, messages: [{ senderId: senderId, message: content }] });
+    data.push({ userId: recipientId, messages: [toPush] });
   else {
     const user = data.find((obj) => obj.userId = recipientId);
-    user.messages.push(content); //add message 
+    user.messages.push(toPush); //add message
   }
   db.wasUpdated = true;
 };
