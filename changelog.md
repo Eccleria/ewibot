@@ -1,6 +1,7 @@
 ﻿## 4.3.0
 - Fix: `commands.md` with wrong links and typos
 - Fix: `messageDelete` deleter not as embed
+- Fix: `date` log field now adapt between prod and test mode
 
 ## 4.2.0
 - Feat: add imported gif log detection

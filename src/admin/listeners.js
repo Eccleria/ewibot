@@ -392,16 +392,19 @@ export const onMessageDelete = async (message) => {
   const logChannel = await getLogChannel(commons, message, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
-  const date = message.createdAt.toString().slice(4, 24);
+  const uDate = new Date(message.createdAt); //set date as Date object
+  if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
+  const dateStr = uDate.toString().slice(4, 24); //slice date string
+
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
-    console.log("partial message deleted", date);
+    console.log("partial message deleted", dateStr);
     return;
   }
 
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
-  embed.addField(messageDel.date, `${date}`, true); //date of message creation
+  embed.addField(messageDel.date, `${dateStr}`, true); //date of message creation
   embed.addField(messageDel.channel, `<#${message.channelId}>`, true); //message channel
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
 
@@ -533,8 +536,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
-  const date = oMessage.createdAt.toString().slice(4, 24);
-
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
 
@@ -585,7 +586,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   //add creation date + channel
-  embed.addField(messageU.date, `${date}`, true); //date of message creation
+  const uDate = new Date(oMessage.createdAt); //set date as Date object
+  if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
+  const dateStr = uDate.toString().slice(4, 24); //slice date string
+  embed.addField(messageU.date, `${dateStr}`, true); //date of message creation
   embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
   //check for content modif
