@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "./utils.js";
 import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
+import { addGiftMessage } from "../helpers/dbHelper.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().gift.name)
@@ -41,12 +42,18 @@ const command = new SlashCommandBuilder()
   );
 
 const action = async (interaction) => {
-  const subcommand = interaction.options.subcommand;
+  //get interaction data
+  const options = interaction.options;
+  const subcommand = options.subcommand;
   const author = interaction.member;
+  const db = interaction.client.db;
 
+  //get personality
   const personality = PERSONALITY.getCommands().gift;
-  if (subcommand === personality.use.name) {
-    const db = interaction.client.db;
+  const send = personality.send;
+
+  //handle each subcommand
+  if (subcommand === personality.use.name) { //use subcommand
 
     if (isGiftUser(db, author.id)) {
       removeGiftUser(db, author.id);
@@ -54,6 +61,21 @@ const action = async (interaction) => {
     } else {
       addGiftUser(db, author.id);
       interactionReply(interaction, personality.use.isAccepting);
+    }
+  } else if (subcommand === send.name) { //send subcommand
+    const giftData = db.data.gift;
+    const acceptingUsers = giftData.users;
+    const targetUser = options.getUser(send.userOption.name);
+    const targetId = targetUser.id;
+
+    //check for appropriate user selection
+    if (acceptingUsers.includes(targetId))
+      interactionReply(interaction, send.isNotAccepting);
+    else {
+      //correct user
+      const content = options.getString(send.textOption); //get gift content
+      addGiftMessage(db, targetId, content, author.id); //add to db
+      interactionReply(interaction, send.saved);
     }
   }
 };

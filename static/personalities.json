@@ -314,7 +314,9 @@
         "send": {
           "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël :DuomFetard:",
           "description": "Pour envoyer un message de Noël.",
+          "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
           "name": "send",
+          "saved": "Le message a été sauvegardé.",
           "textOption": {
             "description": "Le message à envoyer.",
             "name": "message"
