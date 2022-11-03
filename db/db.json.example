@@ -18,7 +18,8 @@
   "birthdaysUsers": [],
   "concreteRecipients": [],
   "gift": {
-    "users": []
+    "users": [],
+    "messages": []
   },
   "ignoredChannelIds": [],
   "ignoredUsersIds": [ "816960467335512114", "816979516916105220" ], // Maeva / Andarta Picture
