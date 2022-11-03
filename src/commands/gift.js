@@ -13,8 +13,8 @@ const command = new SlashCommandBuilder()
       subcommand //user authorisation command
     ) =>
       subcommand
-        .setName(PERSONALITY.getCommands().gift.user.name)
-        .setDescription(PERSONALITY.getCommands().gift.user.description)
+        .setName(PERSONALITY.getCommands().gift.use.name)
+        .setDescription(PERSONALITY.getCommands().gift.use.description)
   )
   .addSubcommand(
     (
@@ -25,7 +25,7 @@ const command = new SlashCommandBuilder()
         .setDescription(PERSONALITY.getCommands().gift.send.description)
         .addUserOption((option) =>
           option
-            .setName(PERSONALITY.getCommands().gift.userOption.name)
+            .setName(PERSONALITY.getCommands().gift.send.userOption.name)
             .setDescription(
               PERSONALITY.getCommands().gift.send.userOption.description
             )
@@ -33,7 +33,7 @@ const command = new SlashCommandBuilder()
         )
         .addStringOption((option) =>
           option
-            .setName(PERSONALITY.getCommands().gift.textOption.name)
+            .setName(PERSONALITY.getCommands().gift.send.textOption.name)
             .setDescription(
               PERSONALITY.getCommands().gift.send.textOption.description
             )
@@ -44,17 +44,15 @@ const command = new SlashCommandBuilder()
 const action = async (interaction) => {
   //get interaction data
   const options = interaction.options;
-  const subcommand = options.subcommand;
+  const subcommand = options.getSubcommand();
   const author = interaction.member;
   const db = interaction.client.db;
 
   //get personality
   const personality = PERSONALITY.getCommands().gift;
   const send = personality.send;
-
   //handle each subcommand
   if (subcommand === personality.use.name) { //use subcommand
-
     if (isGiftUser(db, author.id)) {
       removeGiftUser(db, author.id);
       interactionReply(interaction, personality.use.isNotAccepting);
@@ -69,11 +67,11 @@ const action = async (interaction) => {
     const targetId = targetUser.id;
 
     //check for appropriate user selection
-    if (acceptingUsers.includes(targetId))
+    if (!acceptingUsers.includes(targetId))
       interactionReply(interaction, send.isNotAccepting);
     else {
       //correct user
-      const content = options.getString(send.textOption); //get gift content
+      const content = options.getString(send.textOption.name); //get gift content
       addGiftMessage(db, targetId, content, author.id); //add to db
       interactionReply(interaction, send.saved);
     }
