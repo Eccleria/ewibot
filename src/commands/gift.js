@@ -8,6 +8,7 @@ import { addGiftMessage } from "../helpers/dbHelper.js";
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().gift.name)
   .setDescription(PERSONALITY.getCommands().gift.description)
+  .setDefaultMemberPermissions(0x0000010000000000) //MODERATE_MEMBERS bitwise
   .addSubcommand(
     (
       subcommand //user authorisation command
