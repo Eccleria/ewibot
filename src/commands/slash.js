@@ -10,7 +10,7 @@ const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const contextCommands = [saveLog];
 const slashCommands = [
-    /*botMessage,
+  /*botMessage,
   birthday,
   concrete,
   ignore,
@@ -19,7 +19,7 @@ const slashCommands = [
   reminder,
   roll,
   twitter,*/
-  gift
+  gift,
 ]; //command + action
 
 const helpCommands = [...contextCommands, ...slashCommands];

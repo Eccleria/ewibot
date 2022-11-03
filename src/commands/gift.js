@@ -53,7 +53,8 @@ const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().gift;
   const send = personality.send;
   //handle each subcommand
-  if (subcommand === personality.use.name) { //use subcommand
+  if (subcommand === personality.use.name) {
+    //use subcommand
     if (isGiftUser(db, author.id)) {
       removeGiftUser(db, author.id);
       interactionReply(interaction, personality.use.isNotAccepting);
@@ -61,7 +62,8 @@ const action = async (interaction) => {
       addGiftUser(db, author.id);
       interactionReply(interaction, personality.use.isAccepting);
     }
-  } else if (subcommand === send.name) { //send subcommand
+  } else if (subcommand === send.name) {
+    //send subcommand
     const giftData = db.data.gift;
     const acceptingUsers = giftData.users;
     const targetUser = options.getUser(send.userOption.name);
