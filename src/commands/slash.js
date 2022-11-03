@@ -2,6 +2,7 @@
 import { Routes } from "discord-api-types/v9";
 //import { SlashCommandBuilder } from "@discordjs/builders";
 
+import gift from "./gift.js";
 //import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 
@@ -18,6 +19,7 @@ const slashCommands = [
   reminder,
   roll,
   twitter,*/
+  gift
 ]; //command + action
 
 const helpCommands = [...contextCommands, ...slashCommands];
@@ -39,7 +41,7 @@ export const slashCommandsInit = async (self, guildId, client) => {
     console.log("Successfully reloaded application (/) commands.");
 
     //save commands in client
-    //client.slashCommands = slashCommands; //save slashCommands
+    client.slashCommands = slashCommands; //save slashCommands
     client.contextCommands = contextCommands; //save contextCommands
   } catch (error) {
     console.error(error);
