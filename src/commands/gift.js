@@ -4,6 +4,31 @@ import { interactionReply } from "./utils.js";
 import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { addGiftMessage } from "../helpers/dbHelper.js";
+import * as dayjs from "dayjs";
+
+const sendGifts = (client) => {
+  const db = client.db;
+  const dbData = db.data.gift;
+
+  //loop over accepting users
+  dbData.users.forEach(async (userId) => {
+    //get corresponding messages
+    const data = dbData.messages.find((obj) => obj.userId === userId);
+    const user = await client.users.fetch(userId);
+
+    data.messages.forEach((message) => {
+      setTimeout((message) => user.send(message), 2000, message);
+    })
+  })
+};
+
+export const nTimeOut = (client) => {
+  const dDate = new Date(2022, 12, 25, 8); //date when to send
+  const sendDate = new dayjs(dDate); //dayjs object
+  const waitingTime = sendDate.difference(dayjs());
+
+  setTimeout(sendGifts, waitingTime, client);
+};
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().gift.name)
