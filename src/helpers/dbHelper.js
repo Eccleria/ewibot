@@ -137,8 +137,13 @@ const removeGiftMessage = (db, recipientId, senderId) => {
 
   if (isMessageRecipient(db, recipientId)) {
     //if is in appriopriate db
-    const results = data.reduce(
+    const userData = data.find((obj) => obj.userId === recipientId);
+    console.log("userData", userData)
+
+    const results = userData.messages.reduce(
       (acc, cur) => {
+        //{ userId: , messages: [{ senderId:, message: }] }
+        console.log("cur", cur)
         if (cur.senderId === senderId)
           return { new: acc.new, removed: [...acc.removed, cur.message] };
         else return { new: [...acc.new, cur], removed: acc.removed };
