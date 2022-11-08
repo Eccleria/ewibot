@@ -154,7 +154,7 @@ const removeGiftMessage = (db, recipientId, senderId) => {
   } else return null;
 };
 
-export { addGiftMessage, removeGiftMessage };
+export { addGiftMessage, removeGiftMessage, isMessageRecipient };
 
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {

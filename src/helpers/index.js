@@ -17,6 +17,9 @@ import {
   addGiftUser,
   removeGiftUser,
   isGiftUser,
+  isMessageRecipient,
+  addGiftMessage,
+  removeGiftMessage,
 } from "./dbHelper.js";
 
 import {
@@ -67,4 +70,7 @@ export {
   addGiftUser,
   removeGiftUser,
   isGiftUser,
+  isMessageRecipient,
+  addGiftMessage,
+  removeGiftMessage,
 };

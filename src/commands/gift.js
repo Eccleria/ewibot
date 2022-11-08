@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "./utils.js";
 import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import { addGiftMessage, isMessageRecipient, removeGiftMessage } from "../helpers/dbHelper.js";
+import { addGiftMessage, isMessageRecipient, removeGiftMessage } from "../helpers/index.js";
 import * as dayjs from "dayjs";
 
 const sendGifts = (client) => {
@@ -129,6 +129,8 @@ const action = async (interaction) => {
     else {
       //correct user
       const content = removeGiftMessage(db, targetId, author.id); //remove from db
+      console.log("content", content);
+
       await interactionReply(interaction, remove.removed);
       await interaction.followUp(content);
     }
