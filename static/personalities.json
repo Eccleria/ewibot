@@ -171,6 +171,16 @@
         "description": "Pour envoyer un message anonyme de Noël.",
         "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinateir n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n *Note : pour éviter les dérives, les messages seront approuvés par quelques membres de la modération.*\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.",
         "name": "gift",
+        "remove": {
+          "description": "Permet de supprimer un message de Noël.",
+          "hasNoMessage": "Aucun message n'était sauvegardé concernant cette personne.",
+          "name": "remove",
+          "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
+          "userOption": {
+            "description": "La personne qui recevra le message.",
+            "name": "destinateurice"
+          }
+        },
         "send": {
           "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël :DuomFetard:",
           "description": "Pour envoyer un message de Noël.",
@@ -313,6 +323,16 @@
         "description": "Pour envoyer un message anonyme de Noël.",
         "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinateir n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n *Note : pour éviter les dérives, les messages seront approuvés par quelques membres de la modération.*\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.",
         "name": "gift",
+        "remove": {
+          "description": "Permet de supprimer un message de Noël.",
+          "hasNoMessage": "Aucun message n'était sauvegardé concernant cette personne.",
+          "name": "remove",
+          "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
+          "userOption": {
+            "description": "La personne qui recevra le message.",
+            "name": "destinateurice"
+          }
+        },
         "send": {
           "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël :DuomFetard:",
           "description": "Pour envoyer un message de Noël.",
