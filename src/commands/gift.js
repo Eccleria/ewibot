@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "./utils.js";
 import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import { addGiftMessage } from "../helpers/dbHelper.js";
+import { addGiftMessage, isMessageRecipient, removeGiftMessage } from "../helpers/dbHelper.js";
 import * as dayjs from "dayjs";
 
 const sendGifts = (client) => {
@@ -18,8 +18,8 @@ const sendGifts = (client) => {
 
     data.messages.forEach((message) => {
       setTimeout((message) => user.send(message), 2000, message);
-    })
-  })
+    });
+  });
 };
 
 export const nTimeOut = (client) => {
@@ -65,6 +65,19 @@ const command = new SlashCommandBuilder()
             )
             .setRequired(true)
         )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand //remove
+      .setName(PERSONALITY.getCommands().gift.remove.name)
+      .setDescription(PERSONALITY.getCommands().gift.remove.description)
+      .addUserOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.remove.userOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().gift.remove.userOption.description
+          )
+          .setRequired(true)
+      )
   );
 
 const action = async (interaction) => {
@@ -77,6 +90,8 @@ const action = async (interaction) => {
   //get personality
   const personality = PERSONALITY.getCommands().gift;
   const send = personality.send;
+  const remove = personality.remove;
+
   //handle each subcommand
   if (subcommand === personality.use.name) {
     //use subcommand
@@ -102,6 +117,20 @@ const action = async (interaction) => {
       const content = options.getString(send.textOption.name); //get gift content
       addGiftMessage(db, targetId, content, author.id); //add to db
       interactionReply(interaction, send.saved);
+    }
+  } else if (subcommand === personality.remove.name) {
+    //remove subcommand
+    const targetUser = options.getUser(remove.userOption.name);
+    const targetId = targetUser.id;
+
+    //check for appropriate user selection
+    if (!isMessageRecipient(db, targetId))
+      interactionReply(interaction, remove.hasNoMessage);
+    else {
+      //correct user
+      const content = removeGiftMessage(db, targetId, author.id); //remove from db
+      await interactionReply(interaction, remove.removed);
+      await interaction.followUp(content);
     }
   }
 };
