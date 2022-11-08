@@ -176,6 +176,7 @@
           "hasNoMessage": "Aucun message n'était sauvegardé concernant cette personne.",
           "name": "remove",
           "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
+          "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
           "userOption": {
             "description": "La personne qui recevra le message.",
             "name": "destinateurice"
@@ -328,6 +329,7 @@
           "hasNoMessage": "Aucun message n'était sauvegardé concernant cette personne.",
           "name": "remove",
           "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
+          "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
           "userOption": {
             "description": "La personne qui recevra le message.",
             "name": "destinateurice"

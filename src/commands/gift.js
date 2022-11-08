@@ -130,9 +130,15 @@ const action = async (interaction) => {
       //correct user
       const content = removeGiftMessage(db, targetId, author.id); //remove from db
       console.log("content", content);
-
-      await interactionReply(interaction, remove.removed);
-      await interaction.followUp(content);
+      if (content) {
+        // is list
+        if (content.length !== 0) {
+          // if has messages
+          await interactionReply(interaction, remove.removed);
+          content.forEach(async (text) => await interaction.followUp({ content: text, ephemeral: true }));
+          interaction.followUp({ content: remove.sendAgain, ephemeral: true });
+        } else interactionReply(interaction, remove.hasNoMessage);
+      }
     }
   }
 };
