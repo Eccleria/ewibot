@@ -169,7 +169,7 @@
       },
       "gift": {
         "description": "Pour envoyer un message anonyme de Noël.",
-        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinateir n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n *Note : pour éviter les dérives, les messages seront approuvés par quelques membres de la modération.*\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.",
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinataire n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n **Note : Aucune personne de la modération ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.\n- `gift remove` pour supprimer les messages destinés à une personne.",
         "name": "gift",
         "remove": {
           "description": "Permet de supprimer un message de Noël.",
@@ -322,7 +322,7 @@
       },
       "gift": {
         "description": "Pour envoyer un message anonyme de Noël.",
-        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinateir n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n *Note : pour éviter les dérives, les messages seront approuvés par quelques membres de la modération.*\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.",
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinataire n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n **Note : Aucune personne de la modération ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.\n- `gift remove` pour supprimer les messages destinés à une personne.",
         "name": "gift",
         "remove": {
           "description": "Permet de supprimer un message de Noël.",
