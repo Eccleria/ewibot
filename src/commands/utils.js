@@ -1,4 +1,6 @@
 import { MessageButton } from "discord.js";
+import { pronounsButtonHandler } from "../admin/pronouns.js";
+import { giftButtonHandler } from "./gift.js";
 
 /**
  * Reply to interaction function
@@ -23,4 +25,13 @@ export const interactionReply = async (
  */
 export const createButton = (id, label, style) => {
   return new MessageButton().setCustomId(id).setLabel(label).setStyle(style);
+};
+
+/**
+ * Dispatch button interaction between action functions (here gift and pronuns)
+ * @param {object} interaction
+ */
+export const buttonHandler = (interaction) => {
+  if (interaction.customId === "gift") giftButtonHandler(interaction);
+  else pronounsButtonHandler(interaction);
 };

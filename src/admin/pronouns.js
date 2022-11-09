@@ -4,7 +4,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 import { PERSONALITY } from "../personality.js";
 
-export const buttonHandler = async (interaction) => {
+export const pronounsButtonHandler = async (interaction) => {
   //get commons pronouns data
   const currentServer = commons.find(
     ({ guildId }) => guildId === interaction.guildId
