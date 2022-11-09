@@ -68,7 +68,8 @@
       }
     },
     "LuciferId": "657498573222576148",
-    "octagonalSign": "🛑"
+    "octagonalSign": "🛑",
+    "giftChannelId": "971866953859891220"
   },
   {
     "name": "prod",
@@ -139,6 +140,7 @@
       }
     },
     "LuciferId": "657498573222576148",
-    "octagonalSign": "🛑"
+    "octagonalSign": "🛑",
+    "giftChannelId": "822132004581408828"
   }
 ]
