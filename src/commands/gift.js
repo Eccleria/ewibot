@@ -17,17 +17,24 @@ export const giftButtonHandler = async (interaction) => {
   const db = client.db;
   const dbData = db.data.gift;
 
-  //loop over accepting users
-  dbData.users.forEach(async (userId) => {
-    //get corresponding messages 
-    const data = dbData.messages;
-    const user = await client.users.fetch(userId);
+  const personality = PERSONALITY.getCommands().gift;
+  const authorId = interaction.user.id;
 
-    await user.send(PERSONALITY.getCommands().gift.delivery);
-    data.messages.forEach((message) => {
-      setTimeout(async (message) => await user.send(message), 2000, message);
-    });
-  });
+  //if is accepting user
+  if (isGiftUser(db, authorId)) {
+    const userData = dbData.messages.find((obj) => obj.userId === authorId);
+    const messages = userData.messages;
+    if (messages.length !== 0) {
+      await interactionReply(interaction, personality.delivery);
+      messages.forEach(async (obj) => {
+        //get corresponding messages 
+        setTimeout(async (text) =>
+          await interaction.followUp({ content: text, ephemeral: true }), 2000, obj.message);
+      });
+      return;
+    }
+  }
+  interactionReply(interaction, personality.compensation)
 };
 
 const giftInteractionCreation = async (client, commons) => {
