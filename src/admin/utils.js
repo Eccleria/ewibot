@@ -233,7 +233,7 @@ export const generalEmbed = async (
 
   const channel = await getLogChannel(commons, obj); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
-  console.log("here");
+
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
