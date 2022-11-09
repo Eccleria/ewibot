@@ -1,12 +1,19 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { MessageActionRow } from "discord.js";
 
-import { interactionReply } from "./utils.js";
+import { interactionReply, createButton } from "./utils.js";
 import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { addGiftMessage, isMessageRecipient, removeGiftMessage } from "../helpers/index.js";
 import * as dayjs from "dayjs";
 
-const sendGifts = (client) => {
+//jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
+export const giftButtonHandler = async (interaction) => {
+  //get db data
+  const client = interaction.client;
   const db = client.db;
   const dbData = db.data.gift;
 
@@ -23,12 +30,31 @@ const sendGifts = (client) => {
   });
 };
 
-export const nTimeOut = (client) => {
+const giftInteractionCreation = async (client, commons) => {
+  // handle the interaction creation once nTimeout is finished
+
+  //get commons data
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const guild = await client.guilds.fetch(server.guildId);
+  const channel = await guild.channels.fetch(server.giftChannelId);
+
+  const actionRow = new MessageActionRow().addComponents(
+    createButton("gift", PERSONALITY.getCommands().gift.buttonLabel, "PRIMARY")
+  );
+
+  channel.send({ content: "Yo", components: [actionRow] });
+}
+
+export const nTimeOut = (client, commons) => {
+  // setup Timeout before n-Surprise day
   const dDate = new Date(2022, 12, 25, 8); //date when to send
   const sendDate = new dayjs(dDate); //dayjs object
   const waitingTime = sendDate.difference(dayjs());
+  console.log("waitingTime", waitingTime);
 
-  setTimeout(sendGifts, waitingTime, client);
+  setTimeout(giftInteractionCreation, waitingTime, client, commons);
 };
 
 const command = new SlashCommandBuilder()
@@ -96,6 +122,7 @@ const action = async (interaction) => {
   //handle each subcommand
   if (subcommand === personality.use.name) {
     //use subcommand
+    giftInteractionCreation(interaction.client, commons);
     if (isGiftUser(db, author.id)) {
       removeGiftUser(db, author.id);
       interactionReply(interaction, personality.use.isNotAccepting);
