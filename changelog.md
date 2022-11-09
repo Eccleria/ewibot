@@ -1,8 +1,9 @@
 ﻿## 4.3.0
-- Feat: `gift` command
+- Feat: `gift` commands such as `use`, `add`, `remove`
 - Fix: `commands.md` with wrong links and typos
 - Fix: `messageDelete` deleter not as embed
 - Fix: `date` log field now adapt between prod and test mode
+- Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
 
 ## 4.2.0
 - Feat: add imported gif log detection
