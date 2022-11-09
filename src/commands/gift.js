@@ -12,12 +12,13 @@ const sendGifts = (client) => {
 
   //loop over accepting users
   dbData.users.forEach(async (userId) => {
-    //get corresponding messages
-    const data = dbData.messages.find((obj) => obj.userId === userId);
+    //get corresponding messages 
+    const data = dbData.messages;
     const user = await client.users.fetch(userId);
 
+    await user.send(PERSONALITY.getCommands().gift.delivery);
     data.messages.forEach((message) => {
-      setTimeout((message) => user.send(message), 2000, message);
+      setTimeout(async (message) => await user.send(message), 2000, message);
     });
   });
 };
