@@ -4,8 +4,12 @@ import { MessageActionRow } from "discord.js";
 import { interactionReply, createButton } from "./utils.js";
 import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import { addGiftMessage, isMessageRecipient, removeGiftMessage } from "../helpers/index.js";
-import * as dayjs from "dayjs";
+import {
+  addGiftMessage,
+  isMessageRecipient,
+  removeGiftMessage,
+} from "../helpers/index.js";
+import dayjs from "dayjs";
 
 //jsons import
 import { readFileSync } from "fs";
@@ -27,14 +31,18 @@ export const giftButtonHandler = async (interaction) => {
     if (messages.length !== 0) {
       await interactionReply(interaction, personality.delivery);
       messages.forEach(async (obj) => {
-        //get corresponding messages 
-        setTimeout(async (text) =>
-          await interaction.followUp({ content: text, ephemeral: true }), 2000, obj.message);
+        //get corresponding messages
+        setTimeout(
+          async (text) =>
+            await interaction.followUp({ content: text, ephemeral: true }),
+          2000,
+          obj.message
+        );
       });
       return;
     }
   }
-  interactionReply(interaction, personality.compensation)
+  interactionReply(interaction, personality.compensation);
 };
 
 const giftInteractionCreation = async (client, commons) => {
@@ -52,16 +60,40 @@ const giftInteractionCreation = async (client, commons) => {
   );
 
   channel.send({ content: "Yo", components: [actionRow] });
-}
+};
 
-export const nTimeOut = (client, commons) => {
+const giftRecursiveTimeout = (client, commons, waitingTime) => {
+  // Handle too long timeout waiting time before dispatching
+  const maxBitValue = 2147483647; //max value for 32-bit signed int
+  const loopValue = Math.floor(waitingTime / maxBitValue);
+
+  if (loopValue > 0)
+    //if too long for a 32-bit
+    setTimeout(
+      giftRecursiveTimeout,
+      10000, //maxBitValue, //wait max waiting time possible
+      client,
+      commons,
+      waitingTime - maxBitValue //loop with the difference
+    );
+  else
+    setTimeout(
+      giftInteractionCreation,
+      15000, //Math.max(1000, waitingTime),
+      client,
+      commons
+    );
+};
+
+export const setGiftTimeoutLoop = (client, commons) => {
   // setup Timeout before n-Surprise day
-  const dDate = new Date(2022, 12, 25, 8); //date when to send
-  const sendDate = new dayjs(dDate); //dayjs object
-  const waitingTime = sendDate.difference(dayjs());
-  console.log("waitingTime", waitingTime);
+  const dDate = new Date(2022, 11, 25, 1); //date when to send
 
-  setTimeout(giftInteractionCreation, waitingTime, client, commons);
+  const sendDate = dayjs(dDate); //dayjs object
+  const waitingTime = sendDate.diff(dayjs());
+  console.log("giftWaitingTime", waitingTime);
+
+  giftRecursiveTimeout(client, commons, waitingTime);
 };
 
 const command = new SlashCommandBuilder()
@@ -170,7 +202,10 @@ const action = async (interaction) => {
         if (content.length !== 0) {
           // if has messages
           await interactionReply(interaction, remove.removed);
-          content.forEach(async (text) => await interaction.followUp({ content: text, ephemeral: true }));
+          content.forEach(
+            async (text) =>
+              await interaction.followUp({ content: text, ephemeral: true })
+          );
           interaction.followUp({ content: remove.sendAgain, ephemeral: true });
         } else interactionReply(interaction, remove.hasNoMessage);
       }

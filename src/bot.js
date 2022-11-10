@@ -50,6 +50,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
+import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // DB
@@ -148,14 +149,15 @@ const onMessageHandler = async (message) => {
 
 // Create event LISTENERS
 client.once("ready", async () => {
+  // Bot init
   console.log("I am ready!");
-  roleInit(client, commons);
+  roleInit(client, commons); //role handler init
 
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
   const guildId = server.guildId;
-  slashCommandsInit(self, guildId, client);
+  slashCommandsInit(self, guildId, client); //commands submit to API
   
   const tomorrow2Am = dayjs()
     .add(1, "day")
@@ -165,7 +167,9 @@ client.once("ready", async () => {
     .millisecond(0); //tomorrow @ 2am
     
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
-  initAdminLogClearing(client, timeTo2Am);
+  initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
+
+  setGiftTimeoutLoop(client, commons); //gift timeout loop init
 });
 // Create an event listener for messages
 
