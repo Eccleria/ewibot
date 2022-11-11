@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow } from "discord.js";
+import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { interactionReply, createButton } from "./utils.js";
 import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
@@ -16,6 +16,7 @@ import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 export const giftButtonHandler = async (interaction) => {
+  // handle user clicking on gift button
   //get db data
   const client = interaction.client;
   const db = client.db;
@@ -24,10 +25,11 @@ export const giftButtonHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().gift;
   const authorId = interaction.user.id;
 
-  //if is accepting user
   if (isGiftUser(db, authorId)) {
+    //if is accepting user
     const userData = dbData.messages.find((obj) => obj.userId === authorId);
     const messages = userData.messages;
+
     if (messages.length !== 0) {
       await interactionReply(interaction, personality.delivery);
       messages.forEach(async (obj) => {
@@ -37,7 +39,7 @@ export const giftButtonHandler = async (interaction) => {
             await interaction.followUp({ content: text, ephemeral: true }),
           2000,
           obj.message
-        );
+        ); //send messages every 2s
       });
       return;
     }
@@ -46,8 +48,7 @@ export const giftButtonHandler = async (interaction) => {
 };
 
 const giftInteractionCreation = async (client, commons) => {
-  // handle the interaction creation once nTimeout is finished
-
+  // handle the interaction creation once giftRecursiveTimeout is finished
   //get commons data
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
@@ -55,11 +56,24 @@ const giftInteractionCreation = async (client, commons) => {
   const guild = await client.guilds.fetch(server.guildId);
   const channel = await guild.channels.fetch(server.giftChannelId);
 
+  const personality = PERSONALITY.getCommands().gift;
+
+  //create button
   const actionRow = new MessageActionRow().addComponents(
-    createButton("gift", PERSONALITY.getCommands().gift.buttonLabel, "PRIMARY")
+    createButton("gift", personality.buttonLabel, "PRIMARY")
   );
 
-  channel.send({ content: "Yo", components: [actionRow] });
+  const nDayEmbed = personality.nDayEmbed;
+  const embed = new MessageEmbed() //create embed
+    .setColor("ORANGE")
+    .setTimestamp()
+    .setTitle(personality.nDayEmbed.title)
+    .setDescription(nDayEmbed.description)
+    .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText })
+    .setImage("https://media.discordapp.net/attachments/959815577575256124/1040652879364636702/PP_Astronaute_Noel.jpg?width=670&height=670");
+
+  //create message and send it
+  channel.send({ embeds: [embed], components: [actionRow] });
 };
 
 const giftRecursiveTimeout = (client, commons, waitingTime) => {
