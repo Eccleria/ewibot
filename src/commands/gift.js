@@ -65,7 +65,7 @@ const giftInteractionCreation = async (client, commons) => {
 
   const nDayEmbed = personality.nDayEmbed;
   const embed = new MessageEmbed() //create embed
-    .setColor("ORANGE")
+    .setColor("DARK_GREEN")
     .setTimestamp()
     .setTitle(personality.nDayEmbed.title)
     .setDescription(nDayEmbed.description)
