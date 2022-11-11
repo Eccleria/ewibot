@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow } from "discord.js";
 
-import { createButton, interactionReply } from "./utils";
-import { isAdmin } from "../helpers";
-import { PERSONALITY } from "../personality";
+import { createButton, interactionReply } from "./utils.js";
+import { isAdmin } from "../helpers/index.js";
+import { PERSONALITY } from "../personality.js";
 
 
 const giftAnnounce = {
@@ -14,7 +14,7 @@ const giftAnnounce = {
 const action = (interaction) => {
   // handle announce command interaction
 
-  if (!isAdmin(interaction.author.id)) {
+  if (!isAdmin(interaction.user.id)) {
     //check for bot admin
     interactionReply(interaction, PERSONALITY.getCommands().announce.notAdmin);
     return
