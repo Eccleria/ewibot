@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { MessageActionRow } from "discord.js";
 
-import { interactionReply } from "./utils";
+import { createButton, interactionReply } from "./utils";
 import { isAdmin } from "../helpers";
 import { PERSONALITY } from "../personality";
 
@@ -19,6 +20,7 @@ const action = (interaction) => {
     return
   }
 
+  //get personality
   const personality = PERSONALITY.getCommands().announce;
 
   //get interaction data
@@ -26,7 +28,13 @@ const action = (interaction) => {
   const options = interaction.options;
   const whichAnnounce = options.getString(personality.stringOption.name);
 
-  interaction.reply(personality[whichAnnounce].confirm)
+  //create confirm button
+  const actionRow = new MessageActionRow()
+    .addComponents(
+      createButton(personality.button.id, personality.button.label, "DANGER")
+  );
+
+  interaction.reply({ content: personality[whichAnnounce].confirm, components: [actionRow], ephemeral: true });
 };
 
 const announceOptions = [giftAnnounce];
