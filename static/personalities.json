@@ -155,6 +155,10 @@
         "announce_gift": {
           "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?"
         },
+        "button": {
+          "id": "announceComfirm",
+          "label": "Confirmer"
+        },
         "description": "Permet d'envoyer des annonces enregistrées.",
         "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
         "name": "annouce",
@@ -329,6 +333,10 @@
       "announce": {
         "announce_gift": {
           "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?"
+        },
+        "button": {
+          "id": "announceComfirm",
+          "label": "Confirmer"
         },
         "description": "Permet d'envoyer des annonces enregistrées.",
         "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
