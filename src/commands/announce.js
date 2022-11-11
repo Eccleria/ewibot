@@ -1,8 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { isAdmin } from "../helpers";
 
-import { PERSONALITY } from "../personality";
 import { interactionReply } from "./utils";
+import { isAdmin } from "../helpers";
+import { PERSONALITY } from "../personality";
+
 
 const giftAnnounce = {
   name: "gift",
