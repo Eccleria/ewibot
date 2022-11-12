@@ -16,6 +16,7 @@ const giftAction = async (interaction) => {
   interactionReply(interaction, personality.sending);
 
   //create announce
+  const fields = personality.fields;
   const embed = new MessageEmbed()
     .setColor("DARK_GREEN")
     .setTimestamp()
@@ -27,7 +28,9 @@ const giftAction = async (interaction) => {
         iconURL: "https://cdn.discordapp.com/avatars/691336942117453876/6d73900209e4d3bc35039f68f4aa9789.webp"
       }
     )
-    .setAuthor({ name: personality.author });
+    .setAuthor({ name: personality.author })
+    .addFields(Object.values(fields))
+    .setThumbnail("https://media.discordapp.net/attachments/959815577575256124/1041070360461852724/Ewilan_writing_cut.png?width=670&height=670");
 
   //get channel
   const server = commons.find(({ guildId }) => guildId === interaction.guildId);
