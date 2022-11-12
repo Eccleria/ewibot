@@ -5,8 +5,12 @@ import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
 // GIFT Announce
-const giftAction = async (interaction, commons) => {
+const giftAction = async (interaction) => {
   //action to fire once correct button is clicked
   const personality = PERSONALITY.getCommands().announce.announce_gift;
   interactionReply(interaction, personality.sending);
@@ -23,7 +27,7 @@ const giftAction = async (interaction, commons) => {
         iconURL: "https://cdn.discordapp.com/avatars/691336942117453876/6d73900209e4d3bc35039f68f4aa9789.webp"
       }
     )
-    .setAuthor({ name: personality.author.name });
+    .setAuthor({ name: personality.author });
 
   //get channel
   const server = commons.find(({ guildId }) => guildId === interaction.guildId);
@@ -64,7 +68,7 @@ const action = (interaction) => {
 
   //create confirm button
   const actionRow = new MessageActionRow().addComponents(
-    createButton(personality.button.id, personality.button.label, "DANGER")
+    createButton(personality[whichAnnounce].id, personality.buttonLabel, "DANGER")
   );
 
   interaction.reply({
@@ -74,10 +78,17 @@ const action = (interaction) => {
   });
 };
 
-//usefull lists of announces
+//list of announces
 const announces = [giftAnnounce]; //list of all announces
-const announceChoices = announces.map((obj) => obj.button); //list of choices for announce command
-console.log(announceChoices);
+
+//button action dispatcher
+export const announceButtonHandler = (interaction) => {
+  const whichButton = interaction.customId;
+  const foundAnnounce = announces.find((obj) => obj.button.value === whichButton);
+
+  if (foundAnnounce) foundAnnounce.action(interaction);
+  else interactionReply(interaction, PERSONALITY.getCommands().announce.notFound);
+};
 
 //announce command
 const command = new SlashCommandBuilder() 
@@ -90,7 +101,7 @@ const command = new SlashCommandBuilder()
       .setDescription(
         PERSONALITY.getCommands().announce.stringOption.description
       )
-      .addChoices(...announceChoices)
+      .addChoices(...announces.map((obj) => obj.button))
   );
 
 const announce = {

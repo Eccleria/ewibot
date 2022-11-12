@@ -157,18 +157,18 @@
           "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
           "description": "",
           "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
+          "id": "announce_gift",
+          "notFound": "Désolé, l'annonce n'a pas été trouvée.",
+          "sending": "L'annonce est en cours d'envoi.",
           "title": "Cadeaux de Noël"
         },
-        "button": {
-          "id": "announceComfirm",
-          "label": "Confirmer"
-        },
+        "buttonLabel": "Confirmer",
         "description": "Permet d'envoyer des annonces enregistrées.",
         "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
         "name": "annouce",
         "notAdmin": "Cette commande est réservée à mes développeurs.",
         "stringOption": {
-          "description": "Choisit quelle annonce à envoyer",
+          "description": "Quelle annonce à envoyer",
           "name": "which"
         }
       },
