@@ -1,14 +1,37 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow } from "discord.js";
+import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 // GIFT Announce
-const giftAction = (interaction) => {
-  const personality = PERSONALITY.getCommands().announce.gift;
+const giftAction = async (interaction, commons) => {
+  //action to fire once correct button is clicked
+  const personality = PERSONALITY.getCommands().announce.announce_gift;
   interactionReply(interaction, personality.sending);
+
+  //create announce
+  const embed = new MessageEmbed()
+    .setColor("DARK_GREEN")
+    .setTimestamp()
+    .setTitle(personality.title)
+    .setDescription(personality.description)
+    .setFooter(
+      {
+        text: personality.footer,
+        iconURL: "https://cdn.discordapp.com/avatars/691336942117453876/6d73900209e4d3bc35039f68f4aa9789.webp"
+      }
+    )
+    .setAuthor({ name: personality.author.name });
+
+  //get channel
+  const server = commons.find(({ guildId }) => guildId === interaction.guildId);
+  const channelId = server.announce.giftChannelId;
+  const channel = await interaction.client.channels.fetch(channelId);
+
+  //send gift announce
+  channel.send({ embeds: [embed] });
 };
 
 const giftAnnounce = {
@@ -53,7 +76,8 @@ const action = (interaction) => {
 
 //usefull lists of announces
 const announces = [giftAnnounce]; //list of all announces
-const announceChoices = [announces.map((obj) => obj.button)]; //list of choices for announce command
+const announceChoices = announces.map((obj) => obj.button); //list of choices for announce command
+console.log(announceChoices);
 
 //announce command
 const command = new SlashCommandBuilder() 

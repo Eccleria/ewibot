@@ -153,7 +153,11 @@
     "commands": {
       "announce": {
         "announce_gift": {
-          "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?"
+          "author": "Eccléria et les Sentinelles",
+          "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
+          "description": "",
+          "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
+          "title": "Cadeaux de Noël"
         },
         "button": {
           "id": "announceComfirm",
