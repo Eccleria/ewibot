@@ -4,6 +4,7 @@
 	- loop for tweets auto fetch
 - Fix: `commands.md` with wrong links and typos
 - Fix: `messageDelete` deleter not as embed
+- Fix: `date` log field now adapt between prod and test mode
 - Doc : `twitter.md`
 
 ## 4.2.0
