@@ -5,11 +5,23 @@ import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
-const giftAnnounce = {
-  name: "gift",
-  value: "announce_gift",
+// GIFT Announce
+const giftAction = (interaction) => {
+  const personality = PERSONALITY.getCommands().announce.gift;
+  interactionReply(interaction, personality.sending);
 };
 
+const giftAnnounce = {
+  action: giftAction,
+  button: {
+    name: "gift",
+    value: "announce_gift",
+  }
+};
+
+// ANNOUNCE
+
+//announce action
 const action = (interaction) => {
   // handle announce command interaction
 
@@ -39,9 +51,12 @@ const action = (interaction) => {
   });
 };
 
-const announceOptions = [giftAnnounce];
+//usefull lists of announces
+const announces = [giftAnnounce]; //list of all announces
+const announceChoices = [announces.map((obj) => obj.button)]; //list of choices for announce command
 
-const command = new SlashCommandBuilder()
+//announce command
+const command = new SlashCommandBuilder() 
   .setName(PERSONALITY.getCommands().announce.name)
   .setDescription(PERSONALITY.getCommands().announce.description)
   .setDefaultMemberPermissions(0x0000010000000000)
@@ -51,7 +66,7 @@ const command = new SlashCommandBuilder()
       .setDescription(
         PERSONALITY.getCommands().announce.stringOption.description
       )
-      .addChoices(...announceOptions)
+      .addChoices(...announceChoices)
   );
 
 const announce = {
