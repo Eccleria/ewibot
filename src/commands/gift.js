@@ -85,7 +85,7 @@ const giftRecursiveTimeout = (client, commons, waitingTime) => {
     //if too long for a 32-bit
     setTimeout(
       giftRecursiveTimeout,
-      10000, //maxBitValue, //wait max waiting time possible
+      maxBitValue, //wait max waiting time possible
       client,
       commons,
       waitingTime - maxBitValue //loop with the difference
@@ -93,7 +93,7 @@ const giftRecursiveTimeout = (client, commons, waitingTime) => {
   else
     setTimeout(
       giftInteractionCreation,
-      15000, //Math.max(1000, waitingTime),
+      Math.max(1000, waitingTime),
       client,
       commons
     );
@@ -158,7 +158,7 @@ const command = new SlashCommandBuilder()
           )
           .setRequired(true)
       )
-  );
+);
 
 const action = async (interaction) => {
   //get interaction data
@@ -224,6 +224,9 @@ const action = async (interaction) => {
         } else interactionReply(interaction, remove.hasNoMessage);
       }
     }
+  } else if (subcommand === personality.get.name) {
+    const recipient = options.getUser(personality.userOption.name, false);
+
   }
 };
 
