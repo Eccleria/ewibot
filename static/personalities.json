@@ -153,7 +153,6 @@
     "commands": {
       "announce": {
         "announce_gift": {
-          "author": "Eccléria et les Sentinelles",
           "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
           "description": "Salut les Ewinautes ! Une fois n'est pas coutume, c'est moi qui vous fais l'annonce :Ewiyay:.\n\n Après quelques semaines de développement, et sur une idée de la modération, voici venir votre **cadeau de Noël** ! :DuomFetard:. Enfin, **vos** cadeaux :Ewinklan:",
           "fields": {
@@ -208,7 +207,7 @@
             },
             "field12": {
               "name": "Joyeux mois de l'Avent",
-              "value": "Toute l'équipe des Sentinelles vous souhaite un joyeux mois de l'avant, en espérant vous apprécierez cette idée :Ewiyay: !"
+              "value": "Toute l'équipe des Sentinelles vous souhaite un joyeux mois de l'Avent, en espérant vous apprécierez cette idée :Ewiyay: !"
             }
           },
           "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
