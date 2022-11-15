@@ -12,7 +12,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 // GIFT Announce
 const giftAction = async (interaction) => {
   //action to fire once correct button is clicked
-  const personality = PERSONALITY.getCommands().announce.announce_gift;
+  const personality = PERSONALITY.getAnnounces().announce_gift;
   interactionReply(interaction, personality.sending);
 
   //create announce
@@ -54,27 +54,26 @@ const giftAnnounce = {
 const action = (interaction) => {
   // handle announce command interaction
 
+  const announceP = PERSONALITY.getCommands().announce;  //get personality
+  
   if (!isAdmin(interaction.user.id)) {
     //check for bot admin
-    interactionReply(interaction, PERSONALITY.getCommands().announce.notAdmin);
+    interactionReply(interaction, announceP.notAdmin);
     return;
   }
-
-  //get personality
-  const personality = PERSONALITY.getCommands().announce;
 
   //get interaction data
   //const client = interaction.client;
   const options = interaction.options;
-  const whichAnnounce = options.getString(personality.stringOption.name);
-
+  const whichAnnounce = options.getString(announceP.stringOption.name);
+  const whichAnnounceP = PERSONALITY.getAnnounces()[whichAnnounce];
   //create confirm button
   const actionRow = new MessageActionRow().addComponents(
-    createButton(personality[whichAnnounce].id, personality.buttonLabel, "DANGER")
+    createButton(whichAnnounceP.id, announceP.buttonLabel, "DANGER")
   );
 
   interaction.reply({
-    content: personality[whichAnnounce].confirm,
+    content: whichAnnounceP.confirm,
     components: [actionRow],
     ephemeral: true,
   });
