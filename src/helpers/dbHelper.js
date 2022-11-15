@@ -161,6 +161,19 @@ const removeGiftMessage = (db, recipientId, senderId) => {
   } else return null;
 };
 
+const getGiftMessage = (db, senderId, recipientId = null) => {
+  const data = db.data.gift.messages;
+  if (recipientId) {
+    const userData = data.find((obj) => obj.userId === recipientId);
+    return userData.reduce((acc, cur) => {
+      if (cur.senderId === senderId) return [...acc, cur.message];
+      else return acc;
+    }, []);
+  } else {
+    const foundUsers = data.
+  }
+};
+
 export { addGiftMessage, removeGiftMessage, isMessageRecipient };
 
 //IGNORE CHANNEL
