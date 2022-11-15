@@ -71,8 +71,7 @@
     "octagonalSign": "🛑",
     "announce": {
       "giftChannelId": "935180557770448956"
-    },
-    "giftChannelId": "935180557770448956"
+    }
   },
   {
     "name": "prod",
@@ -144,6 +143,8 @@
     },
     "LuciferId": "657498573222576148",
     "octagonalSign": "🛑",
-    "giftChannelId": "822132004581408828"
+    "announce": {
+      "giftChannelId": "1012365513676050462"
+    }
   }
 ]
