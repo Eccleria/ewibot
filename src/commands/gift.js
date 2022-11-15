@@ -2,7 +2,12 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { interactionReply, createButton } from "./utils.js";
-import { isGiftUser, addGiftUser, removeGiftUser, getGiftMessage } from "../helpers/index.js";
+import {
+  isGiftUser,
+  addGiftUser,
+  removeGiftUser,
+  getGiftMessage,
+} from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import {
   addGiftMessage,
@@ -70,7 +75,9 @@ const giftInteractionCreation = async (client, commons) => {
     .setTitle(personality.nDayEmbed.title)
     .setDescription(nDayEmbed.description)
     .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText })
-    .setImage("https://media.discordapp.net/attachments/959815577575256124/1040652879364636702/PP_Astronaute_Noel.jpg?width=670&height=670");
+    .setImage(
+      "https://media.discordapp.net/attachments/959815577575256124/1040652879364636702/PP_Astronaute_Noel.jpg?width=670&height=670"
+    );
 
   //create message and send it
   channel.send({ embeds: [embed], components: [actionRow] });
@@ -166,7 +173,9 @@ const command = new SlashCommandBuilder()
       .addUserOption((option) =>
         option
           .setName(PERSONALITY.getCommands().gift.get.userOption.name)
-          .setDescription(PERSONALITY.getCommands().gift.get.userOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().gift.get.userOption.description
+          )
           .setRequired(false)
       )
   );
@@ -247,9 +256,15 @@ const action = async (interaction) => {
       await interactionReply(interaction, get.hasMessages);
       dbResult.forEach(async (obj) => {
         const name = get.for + `<@${obj.recipientId}>`;
-        const messages = obj.messages.reduce((acc, cur) => acc + get.separator + cur, "");
-        await interaction.followUp({ content: name + messages, ephemeral: true });
-      })
+        const messages = obj.messages.reduce(
+          (acc, cur) => acc + get.separator + cur,
+          ""
+        );
+        await interaction.followUp({
+          content: name + messages,
+          ephemeral: true,
+        });
+      });
     } else interactionReply(interaction, get.noMessage);
   }
 };
