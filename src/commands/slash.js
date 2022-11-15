@@ -1,9 +1,9 @@
-﻿import { REST } from "@discordjs/rest";
+import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 //import { SlashCommandBuilder } from "@discordjs/builders";
 
 import gift from "./gift.js";
-//import twitter from "./twitter.js";
+import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
@@ -17,9 +17,9 @@ const slashCommands = [
   ignoreChannel,
   ping,
   reminder,
-  roll,
-  twitter,*/
+  roll,*/
   gift,
+  twitter,
 ]; //command + action
 
 const helpCommands = [...contextCommands, ...slashCommands];
@@ -27,8 +27,6 @@ const helpCommands = [...contextCommands, ...slashCommands];
   const cmd = cur.command;
   return [...acc, { name: cmd.name, value: cmd.name }];
 }, []);*/
-
-//slashCommands.push(help);
 
 export const slashCommandsInit = async (self, guildId, client) => {
   try {

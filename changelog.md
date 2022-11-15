@@ -1,9 +1,15 @@
-﻿## 4.3.0
+﻿## 4.4.0
 - Feat: `gift` commands such as `use`, `add`, `remove`
+- Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
+
+## 4.3.0
+- Feat: twitter
+	- commands
+	- loop for tweets auto fetch
 - Fix: `commands.md` with wrong links and typos
 - Fix: `messageDelete` deleter not as embed
 - Fix: `date` log field now adapt between prod and test mode
-- Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
+- Doc : `twitter.md`
 
 ## 4.2.0
 - Feat: add imported gif log detection
