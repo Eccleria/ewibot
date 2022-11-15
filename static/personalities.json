@@ -174,7 +174,11 @@
         "description": "Pour envoyer un message anonyme de Noël.",
         "get": {
           "description": "Permet d'obtenir vos messages déjà programmés.",
+          "for": "Destiné.s à ",
+          "hasMessages": "Vous avez envoyé des messages de Noël, les voici :",
           "name": "get",
+          "noMessage": "Vous n'avez aucun message d'enregistré.",
+          "separator": "\n-----\n",
           "userOption": {
             "description": "La personne devant reçevoir les messages.",
             "name": "destinateurice"

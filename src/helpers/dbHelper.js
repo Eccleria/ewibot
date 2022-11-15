@@ -162,21 +162,28 @@ const removeGiftMessage = (db, recipientId, senderId) => {
 };
 
 const getGiftMessage = (db, senderId, recipientId = null) => {
-  const data = db.data.gift;
+  const data = db.data.gift.messages;
+
   if (recipientId) {
-    const userData = data.messages.find((obj) => obj.userId === recipientId);
-    const messages =  userData.reduce((acc, cur) => {
-      if (cur.senderId === senderId) return [...acc, cur.message];
-      else return acc;
-    }, []);
-    return [{ recipientId: recipientId, messages: messages }];
-  } else {
-    return data.reduce((senderAcc, recipientObj) => {
-      const foundMessages = recipientObj.reduce((acc, cur) => {
-        if (cur.senderId == senderId) return acc.push(cur.message);
+    const userData = data.find((obj) => obj.userId === recipientId);
+
+    if (userData) {
+      const messages = userData.messages.reduce((acc, cur) => {
+        if (cur.senderId === senderId) return [...acc, cur.message];
         else return acc;
       }, []);
-      if (foundMessages.length !== 0) return senderAcc.push({ recipiendId: recipientObj.recipientId, messages: foundMessages });
+      if (messages.length !== 0) return [{ recipientId: recipientId, messages: messages }];
+    }
+    return [];
+  } else {
+    return data.reduce((senderAcc, recipientObj) => {
+      //{userId, messages}
+      const foundMessages = recipientObj.messages.reduce((acc, cur) => {
+        //{senderId, message}
+        if (cur.senderId == senderId) return [...acc, cur.message];
+        else return acc;
+      }, []);
+      if (foundMessages.length !== 0) return [...senderAcc, { recipientId: recipientObj.userId, messages: foundMessages }];
       else return senderAcc;
     }, []);
   }
