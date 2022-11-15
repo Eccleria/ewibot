@@ -20,6 +20,7 @@ import {
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
+  getGiftMessage,
 } from "./dbHelper.js";
 
 import {
@@ -73,4 +74,5 @@ export {
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
+  getGiftMessage,
 };

@@ -162,19 +162,27 @@ const removeGiftMessage = (db, recipientId, senderId) => {
 };
 
 const getGiftMessage = (db, senderId, recipientId = null) => {
-  const data = db.data.gift.messages;
+  const data = db.data.gift;
   if (recipientId) {
-    const userData = data.find((obj) => obj.userId === recipientId);
-    return userData.reduce((acc, cur) => {
+    const userData = data.messages.find((obj) => obj.userId === recipientId);
+    const messages =  userData.reduce((acc, cur) => {
       if (cur.senderId === senderId) return [...acc, cur.message];
       else return acc;
     }, []);
+    return [{ recipientId: recipientId, messages: messages }];
   } else {
-    const foundUsers = data.
+    return data.reduce((senderAcc, recipientObj) => {
+      const foundMessages = recipientObj.reduce((acc, cur) => {
+        if (cur.senderId == senderId) return acc.push(cur.message);
+        else return acc;
+      }, []);
+      if (foundMessages.length !== 0) return senderAcc.push({ recipiendId: recipientObj.recipientId, messages: foundMessages });
+      else return senderAcc;
+    }, []);
   }
 };
 
-export { addGiftMessage, removeGiftMessage, isMessageRecipient };
+export { addGiftMessage, removeGiftMessage, isMessageRecipient, getGiftMessage };
 
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
