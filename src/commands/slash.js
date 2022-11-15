@@ -1,8 +1,8 @@
-﻿import { REST } from "@discordjs/rest";
+import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 //import { SlashCommandBuilder } from "@discordjs/builders";
 
-//import twitter from "./twitter.js";
+import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
@@ -16,8 +16,8 @@ const slashCommands = [
   ignoreChannel,
   ping,
   reminder,
-  roll,
-  twitter,*/
+  roll,*/
+  twitter,
 ]; //command + action
 
 const helpCommands = [...contextCommands, ...slashCommands];
@@ -25,8 +25,6 @@ const helpCommands = [...contextCommands, ...slashCommands];
   const cmd = cur.command;
   return [...acc, { name: cmd.name, value: cmd.name }];
 }, []);*/
-
-//slashCommands.push(help);
 
 export const slashCommandsInit = async (self, guildId, client) => {
   try {
@@ -39,7 +37,7 @@ export const slashCommandsInit = async (self, guildId, client) => {
     console.log("Successfully reloaded application (/) commands.");
 
     //save commands in client
-    //client.slashCommands = slashCommands; //save slashCommands
+    client.slashCommands = slashCommands; //save slashCommands
     client.contextCommands = contextCommands; //save contextCommands
   } catch (error) {
     console.error(error);

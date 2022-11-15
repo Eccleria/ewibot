@@ -9,6 +9,9 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
 
+import { TwitterApi } from "twitter-api-v2";
+import { initTwitterLoop } from "./admin/twitter.js";
+
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
@@ -156,14 +159,31 @@ client.once("ready", async () => {
   );
   const guildId = server.guildId;
   slashCommandsInit(self, guildId, client);
-  
+
+  //TWITTER
+  const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
+  const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
+  client.twitter = twitter; //save twitter into client
+  client.twitter.isSending = false;
+  initTwitterLoop(client);
+
+  /*
+  const tweet = await fetchTweets(client, "1371839010755207176");
+  const user = await twitter.userByUsername("eccleria");
+
+  console.log("user", user);
+  console.log("tweet", tweet);
+  console.log("includes", tweet.includes);*/
+
+  // LOGS
+
   const tomorrow2Am = dayjs()
     .add(1, "day")
     .hour(2)
     .minute(0)
     .second(0)
     .millisecond(0); //tomorrow @ 2am
-    
+
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
   initAdminLogClearing(client, timeTo2Am);
 });

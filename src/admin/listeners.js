@@ -33,10 +33,14 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 export const onInteractionCreate = (interaction) => {
   //console.log(interaction);
-  if (interaction.isButton()) buttonHandler(interaction);
+
+  if (interaction.isButton()) {
+    buttonHandler(interaction);
+    return;
+  }
 
   if (interaction.isContextMenu()) {
-    //contect commands
+    //context commands
     const client = interaction.client; //get client
     const contextCommands = client.contextCommands; //get commands
 
@@ -45,6 +49,19 @@ export const onInteractionCreate = (interaction) => {
     );
 
     if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
+    return;
+  }
+
+  if (interaction.isCommand()) {
+    //slash commands
+    const client = interaction.client; //get client
+    const slashCommands = client.slashCommands; //get commands
+
+    const foundCommand = slashCommands.find(
+      (cmd) => cmd.command.name === interaction.commandName
+    );
+
+    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
   }
 };
 
@@ -522,6 +539,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   if (!oMessage.guild) return; //Ignore DM
+  if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
   const currentServer = commons.find(
     ({ guildId }) => guildId === newMessage.guildId

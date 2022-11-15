@@ -5,12 +5,16 @@
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
 This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
 
-## How it works
+## Documentation
 Ewibot is written in Javascript. The tree is devided into 4 parts: 
-[concrete](https://github.com/Titch88/ewibot/blob/master/readme.md#concrete), 
-[database](https://github.com/Titch88/ewibot/blob/master/readme.md#database), 
-[source code](https://github.com/Titch88/ewibot/blob/master/readme.md#source-code) 
-and [static code](https://github.com/Titch88/ewibot/blob/master/readme.md#static-code).
+
+- [concrete](#concrete)
+- [database](#database)
+- [source code](#source-code)
+	- [admin](./doc/admin.md)
+	- [twitter](./doc/twitter.md)
+	- [slash commands](./doc/slashCommands.md)
+- [static code](#static-code)
 
 ### Concrete
 The [concrete folder](./concrete) contains all the concrete related files. Concrete is a command used by Ewibot users to
@@ -29,10 +33,7 @@ sharing all users' information online.
 
 ### Source Code
 The [folder src](./src) is the folder containing all the source code for Ewibot. It is divided into 4 parts: 
-[admin](https://github.com/Titch88/ewibot/blob/master/readme.md#admin), 
-[commands](https://github.com/Titch88/ewibot/blob/master/readme.md#commands), 
-[helpers](https://github.com/Titch88/ewibot/blob/master/readme.md#helpers)
-and the [main code](https://github.com/Titch88/ewibot/blob/master/readme.md#main-code).
+[admin](#admin), [commands](#commands), [helpers](#helpers) and the [main code](#main-code).
 
 #### Admin
 The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. 
@@ -46,8 +47,7 @@ See [Commands documentation](./doc/commands.md) for more details.
 The [folder](./src/helpers) is dedicated to regroup every file having smaller functions or methods used in more important
 files. It contains 4 files:  
 * _[dbHelper.js](./src/helpers/dbHelper.js)_ is regrouping every function used for accessing and modifying the 
-[database](https://github.com/Titch88/ewibot/blob/master/readme.md#database). It usually has the _Is_, _Add_ and _Remove_ 
-functions for basic DB access and modification.  
+[database](#database). It usually has the _Is_, _Add_ and _Remove_ functions for basic DB access and modification.  
 * _[index.js](.src/helpers/index.js)_ regroups all the exported functions from _dbHelper.js_, _spotifyHelper.js_ and 
 _utils.js_.  
 * _[spotifyHelper](.src/helpers/spotifyHelper.js)_ is regrouping all the functions used in the spotify application.  

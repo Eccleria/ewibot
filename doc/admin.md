@@ -4,6 +4,8 @@ This documentation covers all the parts associated to the administrative part of
 The folder contains all the files required for the administrative part of Ewibot. It can be divided in
 3 parts : the `listeners`, the `roles` and the `utils`.
 
+> For `Twitter` part, please see [twitter documentation](./twitter.md)
+
 - [Listeners](#listeners)
   - [File architecture](#how-the-file-is-divided)
   - [Listeners design](#listeners-design)
