@@ -63,18 +63,6 @@ export const onInteractionCreate = (interaction) => {
 
     if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
   }
-  if (interaction.isApplicationCommand()) {
-    //slash commands
-    const client = interaction.client; //get client
-    const slashCommands = client.slashCommands; //get commands
-    //console.log("slashCommands", slashCommands)
-
-    const foundCommand = slashCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
-    );
-
-    if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
-  }
 };
 
 export const onChannelCreate = async (channel) => {
