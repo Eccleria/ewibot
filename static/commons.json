@@ -79,7 +79,8 @@
     "octagonalSign": "🛑",
     "announce": {
       "giftChannelId": "935180557770448956"
-    }
+    },
+    "giftChannelId": "935180557770448956"
   },
   {
     "name": "prod",
@@ -161,6 +162,7 @@
     "octagonalSign": "🛑",
     "announce": {
       "giftChannelId": "1012365513676050462"
-    }
+    },
+    "giftChannelId": "1012365513676050462"
   }
 ]
