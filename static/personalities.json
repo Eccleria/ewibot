@@ -151,7 +151,7 @@
   "announces": {
     "announce_gift": {
       "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
-      "description": "Salut les Ewinautes ! Une fois n'est pas coutume, c'est moi qui vous fais l'annonce :Ewiyay:.\n\n Après quelques semaines de développement, et sur une idée de la modération, voici venir votre **cadeau de Noël** ! :DuomFetard:. Enfin, **vos** cadeaux :Ewinklan:",
+      "description": "Salut les Ewinautes ! Une fois n'est pas coutume, c'est moi qui vous fais l'annonce <:Ewiyay:918249094391144469>.\n\n Après quelques semaines de développement, et sur une idée de la modération, voici venir votre **cadeau de Noël** ! <:DuomFetard:822479563077976065>. Enfin, **vos** cadeaux <:Ewinklan:841675143596212267>",
       "fields": {
         "field1": {
           "name": "Principe",
@@ -204,7 +204,7 @@
         },
         "field12": {
           "name": "Joyeux mois de l'Avent",
-          "value": "Toute l'équipe des Sentinelles vous souhaite un joyeux mois de l'Avent, en espérant vous apprécierez cette idée :Ewiyay: !"
+          "value": "Toute l'équipe des Sentinelles vous souhaite un joyeux mois de l'Avent, en espérant vous apprécierez cette idée <:Ewiyay:918249094391144469> !"
         }
       },
       "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
@@ -257,8 +257,8 @@
           }
         },
         "buttonLabel": "Recevoir",
-        "compensation": "Je te souhaites un merveilleux Noël ! 🎁 :DuomFetard:",
-        "delivery": "Joyeux Noël ! :DuomFetard:\n Voici venir vos messages de Noël 🎁",
+        "compensation": "Je te souhaite un merveilleux Noël ! 🎁 <:DuomFetard:822479563077976065>",
+        "delivery": "Joyeux Noël ! <:DuomFetard:822479563077976065>\n Voici venir vos messages de Noël 🎁",
         "description": "Pour envoyer un message anonyme de Noël.",
         "get": {
           "description": "Permet d'obtenir vos messages déjà programmés.",
@@ -272,10 +272,10 @@
             "name": "destinateurice"
           }
         },
-        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinataire n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n **Note : Aucune personne de la modération ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.\n- `gift remove` pour supprimer les messages destinés à une personne.",
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinataire n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune personne de la modération ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.\n- `gift remove` pour supprimer les messages destinés à une personne.",
         "name": "gift",
         "nDayEmbed": {
-          "description": "Bonjour tout le monde ! :Ewiyay: Joyeux Noël :DuomFetard: !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyé quand vous cliquerez sur le bouton ci-dessous.",
+          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469> Joyeux Noël <:DuomFetard:822479563077976065> !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyé quand vous cliquerez sur le bouton ci-dessous.",
           "noteName": "Rappel",
           "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publiques.",
           "title": "Surprise de Noël"
@@ -292,7 +292,7 @@
           }
         },
         "send": {
-          "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël :DuomFetard:",
+          "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël <:DuomFetard:822479563077976065>",
           "description": "Pour envoyer un message de Noël.",
           "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
           "name": "send",
