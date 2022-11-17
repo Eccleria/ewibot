@@ -2,7 +2,12 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { interactionReply, createButton } from "./utils.js";
-import { isGiftUser, addGiftUser, removeGiftUser } from "../helpers/index.js";
+import {
+  isGiftUser,
+  addGiftUser,
+  removeGiftUser,
+  getGiftMessage,
+} from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import {
   addGiftMessage,
@@ -70,7 +75,9 @@ const giftInteractionCreation = async (client, commons) => {
     .setTitle(personality.nDayEmbed.title)
     .setDescription(nDayEmbed.description)
     .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText })
-    .setImage("https://media.discordapp.net/attachments/959815577575256124/1040652879364636702/PP_Astronaute_Noel.jpg?width=670&height=670");
+    .setImage(
+      "https://media.discordapp.net/attachments/959815577575256124/1040652879364636702/PP_Astronaute_Noel.jpg?width=670&height=670"
+    );
 
   //create message and send it
   channel.send({ embeds: [embed], components: [actionRow] });
@@ -158,7 +165,31 @@ const command = new SlashCommandBuilder()
           )
           .setRequired(true)
       )
-);
+  )
+  .addSubcommand((subcommand) =>
+    subcommand //get
+      .setName(PERSONALITY.getCommands().gift.get.name)
+      .setDescription(PERSONALITY.getCommands().gift.get.description)
+      .addUserOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.get.userOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().gift.get.userOption.description
+          )
+          .setRequired(false)
+      )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand //accepting
+      .setName(PERSONALITY.getCommands().gift.accepting.name)
+      .setDescription(PERSONALITY.getCommands().gift.accepting.description)
+      .addUserOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.accepting.userOption.name)
+          .setDescription(PERSONALITY.getCommands().gift.accepting.userOption.description)
+          .setRequired(true)
+      )
+  );
 
 const action = async (interaction) => {
   //get interaction data
@@ -171,6 +202,7 @@ const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().gift;
   const send = personality.send;
   const remove = personality.remove;
+  const get = personality.get;
 
   //handle each subcommand
   if (subcommand === personality.use.name) {
@@ -225,8 +257,36 @@ const action = async (interaction) => {
       }
     }
   } else if (subcommand === personality.get.name) {
-    const recipient = options.getUser(personality.userOption.name, false);
+    //get subcommand
+    const recipient = options.getUser(get.userOption.name, false);
+    const dbResult = recipient
+      ? getGiftMessage(db, author.id, recipient.id)
+      : getGiftMessage(db, author.id); // [{recipient, messages}, ...]
 
+    if (dbResult.length !== 0) {
+      await interactionReply(interaction, get.hasMessages);
+      dbResult.forEach(async (obj) => {
+        const name = get.for + `<@${obj.recipientId}>`;
+        const messages = obj.messages.reduce(
+          (acc, cur) => acc + get.separator + cur,
+          ""
+        );
+        await interaction.followUp({
+          content: name + messages,
+          ephemeral: true,
+        });
+      });
+    } else interactionReply(interaction, get.noMessage);
+  } else if (subcommand === personality.accepting.name) {
+    //accepting subcommand
+    const recipient = options.getUser(get.userOption.name, false);
+    const accepting = personality.accepting;
+    const content = accepting.user + `<@${recipient.id}>`;
+
+    if (isGiftUser(db, recipient.id))
+      interactionReply(interaction, content + accepting.accept);
+    else 
+      interactionReply(interaction, content + accepting.notAccept);
   }
 };
 

@@ -14,12 +14,17 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
   addGiftUser,
   removeGiftUser,
   isGiftUser,
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
+  getGiftMessage,
 } from "./dbHelper.js";
 
 import {
@@ -67,10 +72,15 @@ export {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
   addGiftUser,
   removeGiftUser,
   isGiftUser,
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
+  getGiftMessage,
 };

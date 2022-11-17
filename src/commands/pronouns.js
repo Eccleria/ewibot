@@ -35,7 +35,7 @@ const action = async (message, client, currentServer) => {
     createButton("neutral", agreements.neutral, style),
     createButton("female", agreements.female, style),
     createButton("askA", agreements.ask, style),
-    createButton("allA", agreements.all, style) 
+    createButton("allA", agreements.all, style)
   );
   const rowA2 = new MessageActionRow().addComponents(
     createButton("cancelA", agreements.cancel, "DANGER") //red background

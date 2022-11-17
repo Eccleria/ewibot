@@ -140,12 +140,12 @@ const removeGiftMessage = (db, recipientId, senderId) => {
   if (isMessageRecipient(db, recipientId)) {
     //if is in appriopriate db
     const userData = data.find((obj) => obj.userId === recipientId);
-    console.log("userData", userData)
+    console.log("userData", userData);
 
     const results = userData.messages.reduce(
       (acc, cur) => {
         //{ userId: , messages: [{ senderId:, message: }] }
-        console.log("cur", cur)
+        console.log("cur", cur);
         if (cur.senderId === senderId)
           return { new: acc.new, removed: [...acc.removed, cur.message] };
         else return { new: [...acc.new, cur], removed: acc.removed };
@@ -163,18 +163,43 @@ const removeGiftMessage = (db, recipientId, senderId) => {
 
 const getGiftMessage = (db, senderId, recipientId = null) => {
   const data = db.data.gift.messages;
+
   if (recipientId) {
     const userData = data.find((obj) => obj.userId === recipientId);
-    return userData.reduce((acc, cur) => {
-      if (cur.senderId === senderId) return [...acc, cur.message];
-      else return acc;
-    }, []);
+
+    if (userData) {
+      const messages = userData.messages.reduce((acc, cur) => {
+        if (cur.senderId === senderId) return [...acc, cur.message];
+        else return acc;
+      }, []);
+      if (messages.length !== 0)
+        return [{ recipientId: recipientId, messages: messages }];
+    }
+    return [];
   } else {
-    const foundUsers = data.
+    return data.reduce((senderAcc, recipientObj) => {
+      //{userId, messages}
+      const foundMessages = recipientObj.messages.reduce((acc, cur) => {
+        //{senderId, message}
+        if (cur.senderId == senderId) return [...acc, cur.message];
+        else return acc;
+      }, []);
+      if (foundMessages.length !== 0)
+        return [
+          ...senderAcc,
+          { recipientId: recipientObj.userId, messages: foundMessages },
+        ];
+      else return senderAcc;
+    }, []);
   }
 };
 
-export { addGiftMessage, removeGiftMessage, isMessageRecipient };
+export {
+  addGiftMessage,
+  removeGiftMessage,
+  isMessageRecipient,
+  getGiftMessage,
+};
 
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
@@ -221,3 +246,62 @@ const isIgnoredUser = (authorId, db) => {
 };
 
 export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
+
+//TWITTER
+const isTwitterUser = (authorId, db) => {
+  return db.data.twitter.users
+    .map((obj) => {
+      return obj.userId;
+    })
+    .includes(authorId);
+};
+
+const getTwitterUser = (authorId, db) => {
+  const twitter = db.data.twitter.users;
+  if (isTwitterUser(authorId, db)) {
+    for (const obj of twitter) {
+      if (obj.userId === authorId) {
+        return obj;
+      }
+    }
+  }
+};
+
+const updateLastTweetId = (authorId, tweetId, db) => {
+  const twitter = db.data.twitter.users;
+  if (isTwitterUser(authorId, db)) {
+    for (const obj of twitter) {
+      if (obj.userId === authorId) {
+        obj.lastTweetId = tweetId;
+      }
+    }
+    db.wasUpdated = true;
+  }
+};
+
+const addMissingTweets = (tweetIds, db) => {
+  if (typeof tweetIds === "string")
+    db.data.twitter.missingTweets.push(tweetIds);
+  else db.data.twitter.missingTweets.push(...tweetIds);
+  db.wasUpdated = true;
+};
+
+const removeMissingTweets = (tweetIds, db) => {
+  const missingTweets = db.data.twitter.missingTweets;
+  if (typeof tweetIds === "string")
+    db.data.twitter.missingTweets = missingTweets.filter(
+      (id) => tweetIds !== id
+    );
+  else
+    db.data.twitter.missingTweets = missingTweets.filter(
+      (id) => !tweetIds.includes(id)
+    );
+  db.wasUpdated = true;
+};
+
+export {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
+};
