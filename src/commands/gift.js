@@ -167,7 +167,7 @@ const command = new SlashCommandBuilder()
       )
   )
   .addSubcommand((subcommand) =>
-    subcommand
+    subcommand //get
       .setName(PERSONALITY.getCommands().gift.get.name)
       .setDescription(PERSONALITY.getCommands().gift.get.description)
       .addUserOption((option) =>
@@ -177,6 +177,17 @@ const command = new SlashCommandBuilder()
             PERSONALITY.getCommands().gift.get.userOption.description
           )
           .setRequired(false)
+      )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand //accepting
+      .setName(PERSONALITY.getCommands().gift.accepting.name)
+      .setDescription(PERSONALITY.getCommands().gift.accepting.description)
+      .addUserOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.accepting.userOption.name)
+          .setDescription(PERSONALITY.getCommands().gift.accepting.userOption.description)
+          .setRequired(true)
       )
   );
 
