@@ -277,6 +277,16 @@ const action = async (interaction) => {
         });
       });
     } else interactionReply(interaction, get.noMessage);
+  } else if (subcommand === personality.accepting.name) {
+    //accepting subcommand
+    const recipient = options.getUser(get.userOption.name, false);
+    const accepting = personality.accepting;
+    const content = accepting.user + `<@${recipient.id}>`;
+
+    if (isGiftUser(db, recipient.id))
+      interactionReply(interaction, content + accepting.accept);
+    else 
+      interactionReply(interaction, content + accepting.notAccept);
   }
 };
 

@@ -168,6 +168,17 @@
         "errorMention": "Il faut une seule mention."
       },
       "gift": {
+        "accepting": {
+          "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
+          "description": "Pour savoir si un.e utilisateurice accepte les messages de Noël",
+          "name": "accepting",
+          "notAccept": " n'accepte pas de recevoir les messages de Noël.",
+          "user": "L'utilisateurice ",
+          "userOption": {
+            "description": "La personne acceptant ou non de reçevoir les messages.",
+            "name": "destinateurice"
+          }
+        },
         "buttonLabel": "Recevoir",
         "compensation": "Je te souhaites un merveilleux Noël ! 🎁 :DuomFetard:",
         "delivery": "Joyeux Noël ! :DuomFetard:\n Voici venir vos messages de Noël 🎁",
