@@ -1,5 +1,5 @@
 ﻿## 4.4.0
-- Feat: `gift` commands such as `use`, `add`, `remove`
+- Feat: `gift` commands: `use`, `add`, `remove`, `get`, `accepting`
 - Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
 
 ## 4.3.0
