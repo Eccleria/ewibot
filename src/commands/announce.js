@@ -23,7 +23,7 @@ const giftAction = async (interaction) => {
     .setTitle(personality.title)
     .setDescription(personality.description)
     .setFooter({
-      text: personality.footer,
+        text: personality.footer,
       iconURL:
         "https://cdn.discordapp.com/avatars/691336942117453876/6d73900209e4d3bc35039f68f4aa9789.webp",
     })
@@ -56,7 +56,7 @@ const action = (interaction) => {
   // handle announce command interaction
 
   const announceP = PERSONALITY.getCommands().announce; //get personality
-
+  
   if (!isAdmin(interaction.user.id)) {
     //check for bot admin
     interactionReply(interaction, announceP.notAdmin);
@@ -96,7 +96,7 @@ export const announceButtonHandler = (interaction) => {
 };
 
 //announce command
-const command = new SlashCommandBuilder()
+const command = new SlashCommandBuilder() 
   .setName(PERSONALITY.getCommands().announce.name)
   .setDescription(PERSONALITY.getCommands().announce.description)
   .setDefaultMemberPermissions(0x0000010000000000)
