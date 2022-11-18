@@ -1,4 +1,7 @@
-﻿## 4.3.0
+﻿## 4.4.0
+- Feat: `/help` command with autocomplete feature
+
+## 4.3.0
 - Feat: twitter
 	- commands
 	- loop for tweets auto fetch
