@@ -52,7 +52,7 @@ export const giftButtonHandler = async (interaction) => {
   interactionReply(interaction, personality.compensation);
 };
 
-const giftInteractionCreation = async (client, commons) => {
+const giftInteractionCreation = async (client) => {
   // handle the interaction creation once giftRecursiveTimeout is finished
   //get commons data
   const server = commons.find(({ name }) =>
@@ -207,7 +207,6 @@ const action = async (interaction) => {
   //handle each subcommand
   if (subcommand === personality.use.name) {
     //use subcommand
-    giftInteractionCreation(interaction.client, commons);
     if (isGiftUser(db, author.id)) {
       removeGiftUser(db, author.id);
       interactionReply(interaction, personality.use.isNotAccepting);
