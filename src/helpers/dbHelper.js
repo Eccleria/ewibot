@@ -136,16 +136,13 @@ const addGiftMessage = (db, recipientId, content, senderId) => {
 
 const removeGiftMessage = (db, recipientId, senderId) => {
   const data = db.data.gift.messages;
-
   if (isMessageRecipient(db, recipientId)) {
     //if is in appriopriate db
     const userData = data.find((obj) => obj.userId === recipientId);
-    console.log("userData", userData);
 
     const results = userData.messages.reduce(
       (acc, cur) => {
         //{ userId: , messages: [{ senderId:, message: }] }
-        console.log("cur", cur);
         if (cur.senderId === senderId)
           return { new: acc.new, removed: [...acc.removed, cur.message] };
         else return { new: [...acc.new, cur], removed: acc.removed };
@@ -154,7 +151,7 @@ const removeGiftMessage = (db, recipientId, senderId) => {
     );
 
     //update db
-    db.data.gift.messages = results.new;
+    userData.messages = results.new;
     db.wasUpdated = true;
 
     return results.removed; //return messages for feedback
