@@ -1,4 +1,5 @@
 ﻿## 4.4.0
+- Feat: `help` command with autocomplete feature
 - Feat: `gift` commands: `use`, `add`, `remove`, `get`, `accepting`
 - Feat: `anounce` command
 	- announce confirmation button
