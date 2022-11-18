@@ -32,15 +32,23 @@ const helpCommands = [...contextCommands, ...slashCommands];
 
 const help = {
   action: (interaction) => {
-    const perso = PERSONALITY.getCommands();
+    const perso = PERSONALITY.getCommands().help;
 
-    const userOption = interaction.options.getString(perso.help.stringOption.name); //get option given by user
+    const userOption = interaction.options.getString(perso.stringOption.name); //get option given by user
     const foundCommand = helpCommands.find(
       (cmd) => cmd.command.name === userOption
     ); //find associated command
 
     if (foundCommand) foundCommand.help(interaction); //execute foundCommand help()
-    else interactionReply(interaction, perso.help.notFound);
+    else interactionReply(interaction, perso.notFound);
+  },
+  autocomplete: (interaction) => {
+    const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
+    const choices = helpCommands.map((cmd) => cmd.command.name); //get all commands names
+    const filtered = choices.filter(choice => choice.startsWith(focusedValue)); //filter to corresponding commands names
+    interaction.respond(
+      filtered.map(choice => ({ name: choice, value: choice })),
+    );
   },
   command: new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().help.name)
