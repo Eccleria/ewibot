@@ -29,10 +29,11 @@ const slashCommands = [
 // HELP
 
 const helpCommands = [...contextCommands, ...slashCommands];
-/*const helpOptions = helpCommands.reduce((acc, cur) => {
-  const cmd = cur.command;
-  return [...acc, { name: cmd.name, value: cmd.name }];
-}, []);*/
+const helpOptions = helpCommands.reduce((acc, cur) => {
+  const name = cur.subcommands ? cur.subcommands : [cur.command.name];
+  return [...acc, ...name];
+}, []);
+console.log("helpOptions", helpOptions);
 
 const help = {
   action: (interaction) => {
