@@ -299,6 +299,7 @@ const gift = {
     const personality = PERSONALITY.getCommands().gift;
     interactionReply(interaction, personality.help);
   },
+  subcommands: ["gift", "gift use", "gift send", "gift remove", "gift get", "gift accepting"]
 };
 
 export default gift;
