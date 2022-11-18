@@ -172,8 +172,14 @@
         "pong": "pong !"
       },
       "help": {
-        "help": "Utilisez seulement `$help`.",
-        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n"
+        "description": "Cette commande permet d'afficher l'aide d'une commande.",
+        "help": "Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.",
+        "name": "help",
+        "notFound": "La commande dont vous cherchez l'aide n'existe pas.",
+        "stringOption": {
+          "description": "Nom de la commande",
+          "name": "which_command"
+        }
       },
       "ignore": {
         "help": "Cette commande m'empêche ou non de réagir à vos messages.",
