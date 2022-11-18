@@ -1,0 +1,116 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { MessageActionRow, MessageEmbed } from "discord.js";
+
+import { createButton, interactionReply } from "./utils.js";
+import { isAdmin } from "../helpers/index.js";
+import { PERSONALITY } from "../personality.js";
+
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
+// GIFT Announce
+const giftAction = async (interaction) => {
+  //action to fire once correct button is clicked
+  const personality = PERSONALITY.getAnnounces().announce_gift;
+  interactionReply(interaction, personality.sending);
+
+  //create announce
+  const fields = personality.fields;
+  const embed = new MessageEmbed()
+    .setColor("DARK_GREEN")
+    .setTimestamp()
+    .setTitle(personality.title)
+    .setDescription(personality.description)
+    .setFooter(
+      {
+        text: personality.footer,
+        iconURL: "https://cdn.discordapp.com/avatars/691336942117453876/6d73900209e4d3bc35039f68f4aa9789.webp"
+      }
+    )
+    .addFields(Object.values(fields))
+    .setThumbnail("https://media.discordapp.net/attachments/959815577575256124/1041070360461852724/Ewilan_writing_cut.png?width=670&height=670");
+
+  //get channel
+  const server = commons.find(({ guildId }) => guildId === interaction.guildId);
+  const channelId = server.announce.giftChannelId;
+  const channel = await interaction.client.channels.fetch(channelId);
+
+  //send gift announce
+  channel.send({ embeds: [embed] });
+};
+
+const giftAnnounce = {
+  action: giftAction,
+  button: {
+    name: "gift",
+    value: "announce_gift",
+  }
+};
+
+// ANNOUNCE
+
+//announce action
+const action = (interaction) => {
+  // handle announce command interaction
+
+  const announceP = PERSONALITY.getCommands().announce;  //get personality
+  
+  if (!isAdmin(interaction.user.id)) {
+    //check for bot admin
+    interactionReply(interaction, announceP.notAdmin);
+    return;
+  }
+
+  //get interaction data
+  //const client = interaction.client;
+  const options = interaction.options;
+  const whichAnnounce = options.getString(announceP.stringOption.name);
+  const whichAnnounceP = PERSONALITY.getAnnounces()[whichAnnounce];
+  //create confirm button
+  const actionRow = new MessageActionRow().addComponents(
+    createButton(whichAnnounceP.id, announceP.buttonLabel, "DANGER")
+  );
+
+  interaction.reply({
+    content: whichAnnounceP.confirm,
+    components: [actionRow],
+    ephemeral: true,
+  });
+};
+
+//list of announces
+const announces = [giftAnnounce]; //list of all announces
+
+//button action dispatcher
+export const announceButtonHandler = (interaction) => {
+  const whichButton = interaction.customId;
+  const foundAnnounce = announces.find((obj) => obj.button.value === whichButton);
+
+  if (foundAnnounce) foundAnnounce.action(interaction);
+  else interactionReply(interaction, PERSONALITY.getCommands().announce.notFound);
+};
+
+//announce command
+const command = new SlashCommandBuilder() 
+  .setName(PERSONALITY.getCommands().announce.name)
+  .setDescription(PERSONALITY.getCommands().announce.description)
+  .setDefaultMemberPermissions(0x0000010000000000)
+  .addStringOption((option) =>
+    option
+      .setName(PERSONALITY.getCommands().announce.stringOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().announce.stringOption.description
+      )
+      .addChoices(...announces.map((obj) => obj.button))
+  );
+
+const announce = {
+  action,
+  command,
+  help: (interaction) => {
+    interactionReply(interaction, PERSONALITY.getCommands().announce.help);
+  },
+};
+
+export default announce;

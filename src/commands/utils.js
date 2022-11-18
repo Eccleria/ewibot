@@ -1,5 +1,6 @@
 import { MessageButton } from "discord.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
+import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
 
 /**
@@ -33,5 +34,6 @@ export const createButton = (id, label, style) => {
  */
 export const buttonHandler = (interaction) => {
   if (interaction.customId === "gift") giftButtonHandler(interaction);
+  else if (interaction.customId.startsWith("announce")) announceButtonHandler(interaction)
   else pronounsButtonHandler(interaction);
 };

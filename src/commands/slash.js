@@ -2,6 +2,7 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 //import { SlashCommandBuilder } from "@discordjs/builders";
 
+import announce from "./announce.js";
 import gift from "./gift.js";
 import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
@@ -10,6 +11,7 @@ const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const contextCommands = [saveLog];
 const slashCommands = [
+  announce,
   /*botMessage,
   birthday,
   concrete,
