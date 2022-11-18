@@ -1,6 +1,10 @@
 ﻿## 4.4.0
 - Feat: `gift` commands: `use`, `add`, `remove`, `get`, `accepting`
+- Feat: `anounce` command
+	- announce confirmation button
+	- `announce_gift` as first annouce
 - Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
+- Update: add announce personality part where announce_... content is stored
 
 ## 4.3.0
 - Feat: twitter
