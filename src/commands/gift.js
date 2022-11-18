@@ -295,9 +295,10 @@ const action = async (interaction) => {
 const gift = {
   action,
   command,
-  help: (interaction) => {
+  help: (interaction, userOption) => {
     const personality = PERSONALITY.getCommands().gift;
-    interactionReply(interaction, personality.help);
+    const helpToUse = userOption.includes(" ") ? personality[userOption.split(" ")[1]] : personality;
+    interactionReply(interaction, helpToUse.help);
   },
   subcommands: ["gift", "gift use", "gift send", "gift remove", "gift get", "gift accepting"]
 };
