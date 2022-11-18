@@ -11,7 +11,7 @@ const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const contextCommands = [saveLog];
 const slashCommands = [
-    /*botMessage,
+  /*botMessage,
   birthday,
   concrete,
   ignore,
@@ -39,15 +39,18 @@ const help = {
       (cmd) => cmd.command.name === userOption
     ); //find associated command
 
-    if (foundCommand) foundCommand.help(interaction); //execute foundCommand help()
+    if (foundCommand)
+      foundCommand.help(interaction); //execute foundCommand help()
     else interactionReply(interaction, perso.notFound);
   },
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const choices = helpCommands.map((cmd) => cmd.command.name); //get all commands names
-    const filtered = choices.filter(choice => choice.startsWith(focusedValue)); //filter to corresponding commands names
+    const filtered = choices.filter((choice) =>
+      choice.startsWith(focusedValue)
+    ); //filter to corresponding commands names
     interaction.respond(
-      filtered.map(choice => ({ name: choice, value: choice })),
+      filtered.map((choice) => ({ name: choice, value: choice }))
     );
   },
   command: new SlashCommandBuilder()
@@ -59,12 +62,12 @@ const help = {
         .setDescription(PERSONALITY.getCommands().help.stringOption.description)
         .setRequired(true)
         .setAutocomplete(true)
-  ),
+    ),
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().help.help;
     interactionReply(interaction, personality);
-  }
-}
+  },
+};
 
 helpCommands.push(help);
 slashCommands.push(help);

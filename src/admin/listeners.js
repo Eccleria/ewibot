@@ -57,9 +57,13 @@ export const onInteractionCreate = (interaction) => {
 
   if (interaction.isAutocomplete()) {
     //interaction with autocomplete activated
-    const autoCompleteCommands = slashCommands.filter((cmd) => cmd.autocomplete); //get commands with autocomplete action
+    const autoCompleteCommands = slashCommands.filter(
+      (cmd) => cmd.autocomplete
+    ); //get commands with autocomplete action
     const foundCommand = autoCompleteCommands
-      ? autoCompleteCommands.find((cmd) => cmd.command.name === interaction.commandName)
+      ? autoCompleteCommands.find(
+          (cmd) => cmd.command.name === interaction.commandName
+        )
       : null; //find command that fired onInteractionCreate
     if (foundCommand) foundCommand.autocomplete(interaction);
     else interaction.respond([]); //if not found, return no choices
@@ -462,7 +466,8 @@ export const onMessageDelete = async (message) => {
         embed.addFields({
           name: messageDel.text,
           value: str,
-        }); //name's different from others
+        });
+      //name's different from others
       else embed.addFields({ name: messageDel.textAgain, value: str });
     });
   } else embed.addFields({ name: messageDel.text, value: content });
@@ -649,7 +654,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
             embed.addFields({
               name: messageU.contentOld,
               value: str,
-            }); //name's different from others
+            });
+          //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentOld, value: oldContent });
@@ -664,7 +670,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
             embed.addFields({
               name: messageU.contentNew,
               value: str,
-            }); //name's different from others
+            });
+          //name's different from others
           else embed.addFields({ name: messageU.contentNewAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentNew, value: newContent });
@@ -796,7 +803,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const logCreationDate = kickLog ? dayjs(kickLog.createdAt) : null;
   const diff =
     logCreationDate !== null ? dayjs().diff(logCreationDate, "s") : null;
-  console.log("memberKick diff", diff)
+  console.log("memberKick diff", diff);
 
   //get user roles
   const roles = memberKick.roles.cache;
