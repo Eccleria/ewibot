@@ -33,7 +33,7 @@ export const giftButtonHandler = async (interaction) => {
   if (isGiftUser(db, authorId)) {
     //if is accepting user
     const userData = dbData.messages.find((obj) => obj.userId === authorId);
-    const messages = userData.messages;
+    const messages = userData ? userData.messages : [];
 
     if (messages.length !== 0) {
       await interactionReply(interaction, personality.delivery);
