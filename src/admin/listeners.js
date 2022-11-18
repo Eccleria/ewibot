@@ -52,6 +52,19 @@ export const onInteractionCreate = (interaction) => {
     return;
   }
 
+  if (interaction.isAutocomplete()) {
+    const client = interaction.client;
+    const slashCommands = client.slashCommands;
+
+    const autoCompleteCommands = slashCommands.filter((cmd) => cmd.autocomplete);
+    const foundCommand = autoCompleteCommands
+      ? autoCompleteCommands.find((cmd) => cmd.command.name === interaction.commandName)
+      : null;
+    if (foundCommand) foundCommand.autocomplete(interaction);
+    else interaction.respond([]);
+    return
+  }
+
   if (interaction.isCommand()) {
     //slash commands
     const client = interaction.client; //get client
