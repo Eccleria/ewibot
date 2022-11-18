@@ -261,11 +261,13 @@
         "delivery": "Joyeux Noël ! <:DuomFetard:822479563077976065>\n Voici venir vos messages de Noël 🎁",
         "description": "Pour envoyer un message anonyme de Noël.",
         "get": {
+          "accept": " (qui accepte les messages de Noël)",
           "description": "Permet d'obtenir vos messages déjà programmés.",
           "for": "Destiné.s à ",
           "hasMessages": "Vous avez envoyé des messages de Noël, les voici :",
           "name": "get",
           "noMessage": "Vous n'avez aucun message d'enregistré.",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
           "separator": "\n-----\n",
           "userOption": {
             "description": "La personne devant reçevoir les messages.",

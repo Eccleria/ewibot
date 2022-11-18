@@ -265,13 +265,16 @@ const action = async (interaction) => {
     if (dbResult.length !== 0) {
       await interactionReply(interaction, get.hasMessages);
       dbResult.forEach(async (obj) => {
-        const name = get.for + `<@${obj.recipientId}>`;
+        const userId = obj.recipientId
+        const name = get.for + `<@${userId}>`;
+        const userState = isGiftUser(db, userId) ? get.accept : get.notAccept;
+
         const messages = obj.messages.reduce(
           (acc, cur) => acc + get.separator + cur,
           ""
-        );
+        ); //concat messages 
         await interaction.followUp({
-          content: name + messages,
+          content: name + userState + messages,
           ephemeral: true,
         });
       });
