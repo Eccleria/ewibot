@@ -39,9 +39,10 @@ export const onInteractionCreate = (interaction) => {
     return;
   }
 
+  const client = interaction.client; //get client
+
   if (interaction.isContextMenu()) {
     //context commands
-    const client = interaction.client; //get client
     const contextCommands = client.contextCommands; //get commands
 
     const foundCommand = contextCommands.find(
@@ -52,20 +53,17 @@ export const onInteractionCreate = (interaction) => {
     return;
   }
 
-  if (interaction.isAutocomplete()) {
-    const client = interaction.client;
-    const slashCommands = client.slashCommands;
+  const slashCommands = client.slashCommands;
 
-    const autoCompleteCommands = slashCommands.filter((cmd) => cmd.autocomplete);
+  if (interaction.isAutocomplete()) {
+    //interaction with autocomplete activated
+    const autoCompleteCommands = slashCommands.filter((cmd) => cmd.autocomplete); //get commands with autocomplete action
     const foundCommand = autoCompleteCommands
       ? autoCompleteCommands.find((cmd) => cmd.command.name === interaction.commandName)
-      : null;
+      : null; //find command that fired onInteractionCreate
     if (foundCommand) foundCommand.autocomplete(interaction);
-    else interaction.respond([]);
-    return
-  }
-
-  if (interaction.isCommand()) {
+    else interaction.respond([]); //if not found, return no choices
+  } else if (interaction.isCommand()) {
     //slash commands
     const client = interaction.client; //get client
     const slashCommands = client.slashCommands; //get commands
