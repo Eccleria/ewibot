@@ -33,7 +33,6 @@ const helpOptions = helpCommands.reduce((acc, cur) => {
   const name = cur.subcommands ? cur.subcommands : [cur.command.name];
   return [...acc, ...name];
 }, []);
-console.log("helpOptions", helpOptions);
 
 const help = {
   action: (interaction) => {
