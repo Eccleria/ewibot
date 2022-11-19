@@ -134,28 +134,52 @@ const addGiftMessage = (db, recipientId, content, senderId) => {
   db.wasUpdated = true;
 };
 
-const removeGiftMessage = (db, recipientId, senderId) => {
+const removeGiftMessage = (db, senderId, recipientId = null ) => {
   const data = db.data.gift.messages;
-  if (isMessageRecipient(db, recipientId)) {
-    //if is in appriopriate db
-    const userData = data.find((obj) => obj.userId === recipientId);
+  if (recipientId) {
+    if (isMessageRecipient(db, recipientId)) {
+      //if is in appriopriate db
+      const userData = data.find((obj) => obj.userId === recipientId);
 
-    const results = userData.messages.reduce(
-      (acc, cur) => {
-        //{ userId: , messages: [{ senderId:, message: }] }
+      const results = userData.messages.reduce(
+        (acc, cur) => {
+          //{ userId: , messages: [{ senderId:, message: }] }
+          if (cur.senderId === senderId)
+            return { new: acc.new, removed: [...acc.removed, cur.message] };
+          else return { new: [...acc.new, cur], removed: acc.removed };
+        },
+        { new: [], removed: [] }
+      );
+
+      //update db
+      userData.messages = results.new;
+      db.wasUpdated = true;
+
+      return results.removed; //return messages for feedback
+    } else return null;
+  } else {
+    return data.reduce((senderAcc, recipientObj) => {
+      //recipientObj = {userId, messages}
+      const foundMessages = recipientObj.messages.reduce((acc, cur) => {
+        //[{ senderId:, message: }, ...]
         if (cur.senderId === senderId)
           return { new: acc.new, removed: [...acc.removed, cur.message] };
         else return { new: [...acc.new, cur], removed: acc.removed };
-      },
-      { new: [], removed: [] }
-    );
+      }, { new: [], removed: [] });
 
-    //update db
-    userData.messages = results.new;
-    db.wasUpdated = true;
+      //add foundMessages to overall found messages
+      if (foundMessages.removed.length !== 0) {
+        //update db
+        recipientObj.messages = foundMessages.new;
+        db.wasUpdated = true;
+        return [
+          ...senderAcc,
+          { recipientId: recipientObj.userId, messages: foundMessages.removed },
+        ]; 
+      } else return senderAcc;
+    }, []);
+  }
 
-    return results.removed; //return messages for feedback
-  } else return null;
 };
 
 const getGiftMessage = (db, senderId, recipientId = null) => {
