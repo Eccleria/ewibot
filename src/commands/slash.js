@@ -20,11 +20,12 @@ import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
-//import twitter from "./twitter.js";
+import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import spotify from "./spotify.js";
 
 import { PERSONALITY } from "../personality.js";
+import { interactionReply } from "./utils.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -151,6 +152,7 @@ const ignoreChannel = {
 //regroup all commands
 const contextCommands = [reverseTranslator, saveLog]; //context commands (message, channel, user)
 const slashCommands = [
+  //botMessage,
   birthday,
   botMessage,
   concrete,
@@ -161,46 +163,60 @@ const slashCommands = [
   reverse,
   roll,
   spotify,
-  //twitter,
-]; //slash commands
+  twitter,
+]; //command + action
 
 // HELP
-const helpCommands = [...contextCommands, ...slashCommands]; //get all commands for help command
-const helpOptions = helpCommands.reduce((acc, cur) => {
+
+const helpCommands = [...contextCommands, ...slashCommands];
+/*const helpOptions = helpCommands.reduce((acc, cur) => {
   const cmd = cur.command;
-  return [...acc, { name: cmd.name, value: cmd.name }]; //command option
-}, []); //regroup help commands as command options
+  return [...acc, { name: cmd.name, value: cmd.name }];
+}, []);*/
 
 const help = {
-  command: new SlashCommandBuilder()
-    .setName("help")
-    .setDescription("Cette commande permet d'afficher l'aide d'une commande.")
-    .addStringOption((option) =>
-      option
-        .setName("command")
-        .setDescription("Choix de la commande dont l'aide sera affich�.")
-        .addChoices(...helpOptions, { name: "help", value: "help" })
-        .setRequired(true)
-    ),
   action: (interaction) => {
-    const userOption = interaction.options.getString("command"); //get option given by user
+    const perso = PERSONALITY.getCommands().help;
+
+    const userOption = interaction.options.getString(perso.stringOption.name); //get option given by user
     const foundCommand = helpCommands.find(
       (cmd) => cmd.command.name === userOption
     ); //find associated command
-    const perso = PERSONALITY.getCommands();
 
-    if (foundCommand) foundCommand.help(interaction); //execute foundCommand help()
-    else interactionReply(interaction, perso.help.notFound);
+    if (foundCommand)
+      foundCommand.help(interaction); //execute foundCommand help()
+    else interactionReply(interaction, perso.notFound);
   },
+  autocomplete: (interaction) => {
+    const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
+    const choices = helpCommands.map((cmd) => cmd.command.name); //get all commands names
+    const filtered = choices.filter((choice) =>
+      choice.startsWith(focusedValue)
+    ); //filter to corresponding commands names
+    interaction.respond(
+      filtered.map((choice) => ({ name: choice, value: choice }))
+    );
+  },
+  command: new SlashCommandBuilder()
+    .setName(PERSONALITY.getCommands().help.name)
+    .setDescription(PERSONALITY.getCommands().help.description)
+    .addStringOption((option) =>
+      option
+        .setName(PERSONALITY.getCommands().help.stringOption.name)
+        .setDescription(PERSONALITY.getCommands().help.stringOption.description)
+        .setRequired(true)
+        .setAutocomplete(true)
+    ),
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands();
-    interactionReply(interaction, perso.help.help);
+    const personality = PERSONALITY.getCommands().help.help;
+    interactionReply(interaction, personality);
   },
 };
 
-//add help as a Slash command
-slashCommands.push(help)
-helpCommands.push(help); 
+helpCommands.push(help);
+slashCommands.push(help);
+
+// API
 
 // COMMANDS SENDING TO API
 export const slashCommandsInit = async (self, guildId, client) => {

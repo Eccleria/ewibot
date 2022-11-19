@@ -5,11 +5,9 @@ Commands are interactions that users can have with the bot or other users.
 - [Organisation](#organisation)
 - [Command types](#commandtypes)
   - [Text commands](#textcommands)
-  - [Slash commands]()
-  - [Context commands]()
-- [Commands]()
-  - [Small commands]()
-  - [Complex commands]()
+  - [Slash commands](#slashcommands)
+  - [Context commands](#contextcommands)
+    - [save-log](#save-log)
 
 ## Organisation
 
@@ -92,6 +90,7 @@ const command = new ContextMenuCommandBuilder()
 
 Now we can setup the `action` the command will do once fired. 
 
+```javascript
 const action = async (interaction, commons) => {
   const message = interaction.targetMessage; //get message
   const embeds = message.embeds; //get embeds
@@ -151,7 +150,7 @@ the person that have fired the command to the embed fields and then send the log
 
 After this, the bot need to send any gif that was in the log content. For now, it only 
 handles gifs that are in `messageDelete` logs. 
-We get the filed containing the message content.
+We get the field containing the message content.
 
 ```javascript
   //handle gifs
@@ -162,7 +161,8 @@ We get the filed containing the message content.
 ```
 
 Once found, we get each gif link and send them in different messages, if they are separated
-by `" "`.
+by `" "`. 
+> For more details, please see `gifRecovery` help section (TBAdded)
 
 ```javascript
   let gifs = [];

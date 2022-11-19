@@ -11,6 +11,7 @@ import {
   generalEmbed,
   getLogChannel,
   gifRecovery,
+  octagonalLog,
   setupEmbed,
   sliceAddString,
 } from "./utils.js";
@@ -19,6 +20,7 @@ import {
   addApologyCount,
   hasApology,
   sanitizePunctuation,
+  hasOctagonalSign,
 } from "../helpers/index.js";
 
 import dayjs from "dayjs";
@@ -29,35 +31,53 @@ const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 //LISTENERS
 
-export const onInteractionCreate = async (interaction) => {
+export const onInteractionCreate = (interaction) => {
+  //console.log(interaction);
+
   if (interaction.isButton()) {
     buttonHandler(interaction);
     return;
   }
 
+  const client = interaction.client; //get client
+
   if (interaction.isContextMenu()) {
-    //contect commands
-    const client = interaction.client; //get client
+    //context commands
     const contextCommands = client.contextCommands; //get commands
 
     const foundCommand = contextCommands.find(
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+    if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
+    return;
   }
 
-  if (!interaction.isCommand()) return; //if not a command, return
+  const slashCommands = client.slashCommands;
 
-  //slash commands
-  const client = interaction.client; //get client
-  const slashCommands = client.slashCommands; //get commands
+  if (interaction.isAutocomplete()) {
+    //interaction with autocomplete activated
+    const autoCompleteCommands = slashCommands.filter(
+      (cmd) => cmd.autocomplete
+    ); //get commands with autocomplete action
+    const foundCommand = autoCompleteCommands
+      ? autoCompleteCommands.find(
+          (cmd) => cmd.command.name === interaction.commandName
+        )
+      : null; //find command that fired onInteractionCreate
+    if (foundCommand) foundCommand.autocomplete(interaction);
+    else interaction.respond([]); //if not found, return no choices
+  } else if (interaction.isCommand()) {
+    //slash commands
+    const client = interaction.client; //get client
+    const slashCommands = client.slashCommands; //get commands
 
-  const foundCommand = slashCommands.find(
-    (cmd) => cmd.command.name === interaction.commandName
-  );
+    const foundCommand = slashCommands.find(
+      (cmd) => cmd.command.name === interaction.commandName
+    );
 
-  if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
+    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+  }
 };
 
 export const onChannelCreate = async (channel) => {
@@ -404,16 +424,19 @@ export const onMessageDelete = async (message) => {
   const logChannel = await getLogChannel(message, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
-  const date = message.createdAt.toString().slice(4, 24);
+  const uDate = new Date(message.createdAt); //set date as Date object
+  if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
+  const dateStr = uDate.toString().slice(4, 24); //slice date string
+
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
-    console.log("partial message deleted", date);
+    console.log("partial message deleted", dateStr);
     return;
   }
 
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
-  embed.addField(messageDel.date, `${date}`, true); //date of message creation
+  embed.addField(messageDel.date, `${dateStr}`, true); //date of message creation
   embed.addField(messageDel.channel, `<#${message.channelId}>`, true); //message channel
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
 
@@ -440,7 +463,11 @@ export const onMessageDelete = async (message) => {
 
     sliced.forEach((str, idx) => {
       if (idx === 0)
-        embed.addFields({ name: messageDel.text, value: str }); //name's different from others
+        embed.addFields({
+          name: messageDel.text,
+          value: str,
+        });
+      //name's different from others
       else embed.addFields({ name: messageDel.textAgain, value: str });
     });
   } else embed.addFields({ name: messageDel.text, value: content });
@@ -461,7 +488,7 @@ export const onMessageDelete = async (message) => {
       gifs.forEach((gif) => {
         const msg = logChannel.send(gif);
         messageList.push(msg);
-      })
+      });
 
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6)
@@ -478,7 +505,7 @@ export const onMessageDelete = async (message) => {
     //check if log report the correct user && log is recent
     const messageList = await finishEmbed(
       messageDel,
-      executor.tag,
+      executor,
       embeds,
       logChannel,
       null,
@@ -528,6 +555,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   if (!oMessage.guild) return; //Ignore DM
+  if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
   const currentServer = commons.find(
     ({ guildId }) => guildId === newMessage.guildId
@@ -541,8 +569,6 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   const logChannel = await getLogChannel(nMessage, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
-
-  const date = oMessage.createdAt.toString().slice(4, 24);
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
@@ -594,12 +620,20 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }
 
   //add creation date + channel
-  embed.addField(messageU.date, `${date}`, true); //date of message creation
+  const uDate = new Date(oMessage.createdAt); //set date as Date object
+  if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
+  const dateStr = uDate.toString().slice(4, 24); //slice date string
+  embed.addField(messageU.date, `${dateStr}`, true); //date of message creation
   embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
   //check for content modif
   const oldContent = oMessage.content;
   const newContent = nMessage.content;
+
+  //check for octagonal_sign
+  const oHasOct = hasOctagonalSign(oldContent, currentServer);
+  const nHasOct = hasOctagonalSign(newContent, currentServer);
+  if (!oHasOct && nHasOct) octagonalLog(nMessage);
 
   //filter changes, if < 2 length => return
   const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
@@ -617,11 +651,14 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
         oSliced.forEach((str, idx) => {
           if (idx === 0)
-            embed.addFields({ name: messageU.contentOld, value: str }); //name's different from others
+            embed.addFields({
+              name: messageU.contentOld,
+              value: str,
+            });
+          //name's different from others
           else embed.addFields({ name: messageU.contentOldAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentOld, value: oldContent });
-
     }
     if (nLen !== 0) {
       const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
@@ -630,11 +667,15 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
         nSliced.forEach((str, idx) => {
           if (idx === 0)
-            embed.addFields({ name: messageU.contentNew, value: str }); //name's different from others
+            embed.addFields({
+              name: messageU.contentNew,
+              value: str,
+            });
+          //name's different from others
           else embed.addFields({ name: messageU.contentNewAgain, value: str });
         });
       } else embed.addFields({ name: messageU.contentNew, value: newContent });
-    } 
+    }
 
     if (oLen !== 0 && nLen !== 0) {
       //check for apology
@@ -749,19 +790,20 @@ export const onGuildMemberRemove = async (memberKick) => {
   console.log("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
-  console.log("memberKick", memberKick);
+  console.log("memberKick", userKick);
   const personality = PERSONALITY.getAdmin(); //get personality
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(memberKick); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
-  const reason = kickLog ? kickLog.reason : null; //get ban reason
+  const reason = kickLog ? kickLog.reason : null; //get kick reason
 
   //get log creation date and compare to now
   const logCreationDate = kickLog ? dayjs(kickLog.createdAt) : null;
   const diff =
     logCreationDate !== null ? dayjs().diff(logCreationDate, "s") : null;
+  console.log("memberKick diff", diff);
 
   //get user roles
   const roles = memberKick.roles.cache;
@@ -770,8 +812,9 @@ export const onGuildMemberRemove = async (memberKick) => {
       ? roles.reduce((acc, cur) => `${acc}${cur.toString()}\n`, "")
       : null;
 
-  if (diff >= 5) {
-    //log too old => not kicked but left
+  if (!diff || diff >= 5) {
+    // diff can be null or float
+    //no log or too old => not kicked but left
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any

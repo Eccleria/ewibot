@@ -14,6 +14,10 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
 } from "./dbHelper.js";
 
 import {
@@ -29,6 +33,7 @@ import {
   isCommand,
   reactionHandler,
   checkIsOnThread,
+  hasOctagonalSign,
 } from "./utils.js";
 
 export {
@@ -39,6 +44,7 @@ export {
   isCommand,
   reactionHandler,
   checkIsOnThread,
+  hasOctagonalSign,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
@@ -59,4 +65,8 @@ export {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
 };

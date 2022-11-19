@@ -1,12 +1,26 @@
+﻿## 4.4.0
+- Feat: `/help` command with autocomplete feature
+
+## 4.3.0
+- Feat: twitter
+	- commands
+	- loop for tweets auto fetch
+- Fix: `commands.md` with wrong links and typos
+- Fix: `messageDelete` deleter not as embed
+- Fix: `date` log field now adapt between prod and test mode
+- Doc : `twitter.md`
+
 ## 4.2.0
 - Feat: add imported gif log detection
 - Feat: add 1024> content length in `messageDelete`/`Update` logs
 - Feat: add logRemover difference between db data and bulkDelete result
 - Feat: `save-log` moderation context command
+- Feat: messageUpdate 🛑 `log`
 - Fix: `finishEmbed` missing catch return case
 - Fix: missing `logsRemover` when the day of restarting bot
 - Fix: wrong `messageDelete` `AuditLog` date usage
 - Fix: test logThreadId
+- Fix: wrong `kicklog` fire when user left
 - Update: `admin.md` with more recent code
 
 ## 4.1.0

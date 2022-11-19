@@ -593,7 +593,7 @@ export const gifRecovery = (content) => {
 };
 
 export const logsRemover = async (client) => {
-  console.log("logsRemover")
+  console.log("logsRemover");
   const db = client.db;
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
@@ -605,12 +605,12 @@ export const logsRemover = async (client) => {
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
     const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
-    
+
     const diff = data.reduce((acc, cur) => {
       if (result.has(cur)) return acc; //if no diff
       else return [...acc, cur];
     }, []); //find diff for error check
-    console.log("diff", diff) //log for debug
+    console.log("diff", diff); //log for debug
   }
   removeAdminLogs(db, type); //remove from db
   //console.log("db", db.data.adminLogs.frequent);
@@ -694,5 +694,5 @@ export const sliceAddString = (len, string) => {
     const sliced = string.slice(idx * 1024, (idx + 1) * 1024);
     return [...acc, sliced];
   }, []); //slice content in less than 1024 characters
-  return sliced
+  return sliced;
 };
