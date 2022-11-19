@@ -276,7 +276,7 @@
             "name": "destinateurice"
           }
         },
-        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `gift remove` pour supprimer les messages destinés à une personne.\n- `gift send` pour envoyer un message à une personne.\n- `gift use` pour accepter ou non les messages.",
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `gift remove` pour supprimer les messages destinés à une personne.\n- `gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `gift use` pour accepter ou non les messages.",
         "name": "gift",
         "nDayEmbed": {
           "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469> Joyeux Noël <:DuomFetard:822479563077976065> !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyé quand vous cliquerez sur le bouton ci-dessous.",
@@ -285,10 +285,14 @@
           "title": "Surprise de Noël"
         },
         "remove": {
+          "accept": " (qui accepte les messages de Noël)",
           "description": "Permet de supprimer un message de Noël.",
-          "hasNoMessage": "Aucun message n'était sauvegardé concernant cette personne.",
+          "for": "Destiné.s à ",
           "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime tous les messages prévus.",
           "name": "remove",
+          "noMessage": "Vous n'avez aucun message d'enregistré.",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
+          "separator": "\n-----\n",
           "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
           "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
           "userOption": {
@@ -299,7 +303,7 @@
         "send": {
           "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël <:DuomFetard:822479563077976065>",
           "description": "Pour envoyer un message de Noël.",
-          "help": "Cette commande vous permet d'envoyer un message de Noël.\n`gift send @utilisateurice 'message'` envoie le contenu `message` à l'utilisateurice mentionné.",
+          "help": "Cette commande vous permet d'envoyer un message de Noël. \n*Attention, le message à envoyer ne peut pas contenir de pièces jointes. Seulement du texte et des liens.*\n`gift send @utilisateurice 'message'` envoie le contenu `message` à l'utilisateurice mentionné.",
           "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
           "name": "send",
           "saved": "Le message a été sauvegardé.",
