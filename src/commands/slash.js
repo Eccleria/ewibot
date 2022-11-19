@@ -13,7 +13,6 @@ import {
   //utils
   //isAdmin,
 } from "../helpers/index.js";
-import { interactionReply } from "./utils.js";
 
 import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
@@ -24,8 +23,9 @@ import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import spotify from "./spotify.js";
 
-import { PERSONALITY } from "../personality.js";
 import { interactionReply } from "./utils.js";
+
+import { PERSONALITY } from "../personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
