@@ -11,7 +11,6 @@ import {
 import { PERSONALITY } from "../personality.js";
 import {
   addGiftMessage,
-  isMessageRecipient,
   removeGiftMessage,
 } from "../helpers/index.js";
 import dayjs from "dayjs";
@@ -163,7 +162,7 @@ const command = new SlashCommandBuilder()
           .setDescription(
             PERSONALITY.getCommands().gift.remove.userOption.description
           )
-          .setRequired(true)
+          .setRequired(false)
       )
   )
   .addSubcommand((subcommand) =>
@@ -232,29 +231,31 @@ const action = async (interaction) => {
     }
   } else if (subcommand === personality.remove.name) {
     //remove subcommand
-    const targetUser = options.getUser(remove.userOption.name);
-    const targetId = targetUser.id;
+    const targetUser = options.getUser(remove.userOption.name, false);
+    const dbResults = targetUser
+      ? removeGiftMessage(db, author.id, targetUser.id)
+      : removeGiftMessage(db, author.id);
 
-    //check for appropriate user selection
-    if (!isMessageRecipient(db, targetId))
-      interactionReply(interaction, remove.hasNoMessage);
-    else {
-      //correct user
-      const content = removeGiftMessage(db, targetId, author.id); //remove from db
-      console.log("content", content);
-      if (content) {
-        // is list
-        if (content.length !== 0) {
-          // if has messages
-          await interactionReply(interaction, remove.removed);
-          content.forEach(
-            async (text) =>
-              await interaction.followUp({ content: text, ephemeral: true })
-          );
-          interaction.followUp({ content: remove.sendAgain, ephemeral: true });
-        } else interactionReply(interaction, remove.hasNoMessage);
-      }
-    }
+    console.log("dbResults", dbResults);
+    if (dbResults.length !== 0) {
+      //is list
+
+      await interactionReply(interaction, remove.removed);
+      dbResults.forEach(async (obj) => {
+        const userId = obj.recipientId
+        const name = remove.for + `<@${userId}>`;
+        const userState = isGiftUser(db, userId) ? remove.accept : remove.notAccept;
+
+        const messages = obj.messages.reduce(
+          (acc, cur) => acc + remove.separator + cur,
+          ""
+        ); //concat messages 
+        await interaction.followUp({
+          content: name + userState + messages,
+          ephemeral: true,
+        });
+      });
+    } else interactionReply(interaction, remove.noMessage);
   } else if (subcommand === personality.get.name) {
     //get subcommand
     const recipient = options.getUser(get.userOption.name, false);
