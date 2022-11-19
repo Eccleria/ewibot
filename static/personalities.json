@@ -241,7 +241,7 @@
       "reminder": {
         "delete": "Le remind a bien été supprimé",
         "error": "Il faut une durée.",
-        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
+        "help": "Tapez `/reminder 'contenu'` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, indiquez `10` dans l'option `secondes`.",
         "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "remind": "Je te rappelerai ça dans environ "
       },
@@ -284,133 +284,6 @@
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
       "react": [ ". Vous pouvez react avec ", " pour annuler cet ajout !" ],
-      "songAdded": "Chanson ajoutée : ",
-      "songSupressed": "Chanson supprimée de la playlist."
-    }
-  },
-  "funny": {
-    "name": "funny",
-    "commands": {
-      "birthday": {
-        "addUser": "Je te souhaiterai ton anniversaire.",
-        "birthday": "OWH ! Aujourd'hui on fête l'anniversaire de : \n",
-        "birthdays": "OWH ! Aujourd'hui on fête les anniversaires de : \n",
-        "getUser": "Ton anniversaire est le ",
-        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
-        "parsingError": "Erreur de parsing dans la date.",
-        "removeUser": "Bon bah plus de gateau alors.",
-        "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
-        "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
-        "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
-      },
-      "concrete": {
-        "help": "Parfait pour bétonner des gens, ~~volé à <@693830441660317726> mais faut pas le dire~~. Utilisation \nIl suffit de taper `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
-        "errorMention": "Il faut une seule mention."
-      },
-      "helloWorld": {
-        "help": "Cette commande me permet de proposer un cookie.",
-        "pong": "Coucou, un cookie ?"
-      },
-      "help": {
-        "init": "Tapez `/help pouet` pour des infos sur la commande `pouet`. \nCommandes disponibles :",
-        "notFound": "L'aide de la commande n'a pas été trouvé. Veuillez contacter la modération du problème."
-      },
-      "ignore": {
-        "ignored": "Dorénavant tu n'auras plus de cookies sur tes messages.",
-        "notignored": "Ca y est, tu as faim ? Tiens, un cookie !",
-        "help": "Cette commande m'empêche ou non de m'amuser avec vos messages."
-      },
-      "ignoreChannel": {
-        "ignored": "Je vais ignorer les messages de ",
-        "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help": "Ewibot ignore ou non le channel. Utilisation :\n- `$ignoreChannel channelId` dans n'importe quel channel.\n- `$ignoreChannel` dans le channel concerné."
-      },
-      "leaderboardApology": {
-        "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
-        "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
-        "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
-      },
-      "personality": {
-        "change": "Plus de fun. Maintenant je serai ",
-        "currentName": "Actuellement, j'ai la personalité ",
-        "nameError": "Erreur d'argument.",
-        "nameList": "La liste des personalités est : ",
-        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
-      },
-      "pronouns": {
-        "agreements": {
-          "all": "Tous accords",
-          "ask": "Demandez",
-          "cancel": "Annuler",
-          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
-          "female": "Féminins",
-          "male": "Masculins",
-          "neutral": "Neutres",
-          "title": "Rôles accords"
-        },
-        "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
-        "pronouns": {
-          "all": "Tous pronoms",
-          "ael": "Æl",
-          "ask": "Demandez",
-          "cancel": "Annuler",
-          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
-          "he": "Il",
-          "no": "Pas de pronom",
-          "she": "Elle",
-          "they": "Iel",
-          "title": "Rôles pronoms"
-        },
-        "text": {
-          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
-          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
-        }
-      },
-      "reminder": {
-        "delete": "Le remind a bien été supprimé.",
-        "error": "Il faut une durée.",
-        "remind": "Je te rappelerai ça dans environ ",
-        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
-        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."
-      },
-      "roll": {
-        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
-        "numberError": "Les nombres donnés ne respectent pas les limites.",
-        "parsingError": "Erreur de parsing."
-      },
-      "twitter": {
-        "compare": {
-          "name": "compare",
-          "description": "Compare les 5 derniers tweets avec la base de donnée et envoie la différence."
-        },
-        "description": "Commandes de gestions du lien Twitter-Discord.",
-        "name": "twitter",
-        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
-        "isSending": "Les Tweets sont en déjà en cours d'envoi.",
-        "noTweets": "Il n'y a aucun tweet de manqué.",
-        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
-        "share": {
-          "name": "share",
-          "description": "Partage les derniers tweets manquants au publique."
-        },
-        "dbUpToDate": "La db est à jour"
-      }
-    },
-    "saveLog": {
-      "author": "Logué par :",
-      "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
-      "noEmbed": "Le message ne contient pas d'embed.",
-      "sent": "Le log est archivé.",
-      "wrongChannel": "A n'utiliser que sur les logs fréquents.",
-      "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
-    },
-    "spotify": {
-      "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
-      "errorAdding": "Erreur lors de l'ajout.",
-      "errorSupressing": "Erreur lors de la suppression.",
-      "react": [ "Vous pouvez react avec ", "pour annuler cet ajout !" ],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }
