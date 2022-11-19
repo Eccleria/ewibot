@@ -196,10 +196,6 @@
         "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
         "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
       },
-      "messageCount": {
-        "addUser": "Je compterai le nombre de messages que vous envoyez.",
-        "removeUser": "Je ne compterai plus le nombre de vos messages."
-      },
       "personality": {
         "change": "Dorénavant, j'aurai la personalité ",
         "currentName": "Actuellement, j'ai la personalité ",
@@ -246,7 +242,7 @@
         "remind": "Je te rappelerai ça dans environ "
       },
       "roll": {
-        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
+        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `/roll 'dés' 'faces'` avec dés = nombre de dés, faces = nombre de faces des dés.\nExemple pour 2 dés à 6 faces : `/roll dés:2 faces:6`. Le maximum est 20d100.",
         "numberError": "Les nombres donnés ne respectent pas les limites.",
         "parsingError": "Erreur de parsing."
       },
@@ -259,7 +255,7 @@
         "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
       },
       "spotify": {
-        "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+        "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       },
       "twitter": {
         "compare": {
@@ -268,7 +264,7 @@
         },
         "description": "Commandes de gestions du lien Twitter-Discord.",
         "name": "twitter",
-        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
+        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.\n`- /twitter compare` pour forcer une comparaison entre la base de donnée et Twitter.\n- `/twitter share` envoie la différence de tweet dans le salon enregistré, avec un délai variable entre les tweets.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
