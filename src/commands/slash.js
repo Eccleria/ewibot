@@ -82,8 +82,8 @@ const roll = {
     }
   },
   help: (interaction) => {
-    const personality = PERSONALITY.getCommands();
-    interactionReply(interaction, personality.helloWorld.help);
+    const personality = PERSONALITY.getCommands().roll;
+    interactionReply(interaction, personality.help);
   },
 };
 
