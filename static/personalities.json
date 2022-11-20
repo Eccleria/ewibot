@@ -164,7 +164,18 @@
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
       "concrete": {
-        "help": "Cette commande permet de bétonner une personne, grâce au don du gif réalisé par <@693830441660317726>. Utilisation :\n- `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "booleanOption": {
+          "description": "S'il faut actualiser la pp utilisée",
+          "name": "actualisation"
+        },
+        "description": "Choisissez qui vous souhaitez bétonner.",
+        "fileName": "concrete.gif",
+        "help": "Cette commande permet de bétonner une personne, grâce au don du gif réalisé par <@693830441660317726>. Utilisation :\n- `/concrete @cible` pour bétonner la cible.\n- `/concrete @cible true` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "name": "concrete",
+        "userOption": {
+          "description": "La personne que vous souhaitez bétonner.",
+          "name": "cible"
+        },
         "errorMention": "Il faut une seule mention."
       },
       "helloWorld": {

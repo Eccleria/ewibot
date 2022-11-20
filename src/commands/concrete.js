@@ -19,25 +19,31 @@ const personality = PERSONALITY.getCommands().concrete;
 
 //COMMAND
 const command = new SlashCommandBuilder()
-  .setName("concrete")
-  .setDescription("Choissisez qui vous souhaitez b�tonner.")
+  .setName(PERSONALITY.getCommands().concrete.name)
+  .setDescription(PERSONALITY.getCommands().concrete.description)
   .addUserOption((option) =>
-    option.setName("cible").setDescription("Le membre vis�.").setRequired(true)
+    option
+      .setName(PERSONALITY.getCommands().concrete.userOption.name)
+      .setDescription(PERSONALITY.getCommands().concrete.userOption.description)
+      .setRequired(true)
   )
   .addBooleanOption((option) =>
     option
-      .setName("force")
-      .setDescription("S'il faut actualiser la pp utilis�e")
+      .setName(PERSONALITY.getCommands().concrete.booleanOption.name)
+      .setDescription(PERSONALITY.getCommands().concrete.booleanOption.description)
       .setRequired(false)
   );
 
 const action = async (interaction) => {
   //action to execute when command is fired
-  const { channel, client } = interaction;
-  const force = interaction.options.getBoolean("force");
+  const { channel, client, options } = interaction;
+  const cPerso = PERSONALITY.getCommands().concrete;
+
+  //get options
+  const force = options.getBoolean(cPerso.booleanOption.name);
   let user;
   try {
-    user = interaction.options.getUser("cible");
+    user = options.getUser(cPerso.userOption.name);
   } catch (e) {
     interactionReply(interaction, personality.errorMention);
     console.log("concrete error", e);
@@ -105,14 +111,14 @@ const action = async (interaction) => {
 
     const buffer = encoder.out.getData(); //Recover the gif
     fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
-    const attachment = new MessageAttachment(buffer, "concrete.gif");
+    const attachment = new MessageAttachment(buffer, cPerso.fileName);
 
     const sentMessage = await interaction.editReply({ files: [attachment] });
     if (recipient.id === self) await sentMessage.react(currentServer.edouin);
   } else {
     const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
-    const attachment = new MessageAttachment(buffer, "concrete.gif");
+    const attachment = new MessageAttachment(buffer, cPerso.fileName);
     const sentMessage = await interaction.editReply({ files: [attachment] });
     if (recipient.id === self) await sentMessage.react(currentServer.edouin);
   }
