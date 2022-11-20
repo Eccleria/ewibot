@@ -115,22 +115,24 @@ const ignore = {
 
 const ignoreChannel = {
   command: new SlashCommandBuilder()
-    .setName("ignorechannel")
-    .setDescription("Ewibot ignore ou non le channel.")
+    .setName(PERSONALITY.getCommands().ignoreChannel.name)
+    .setDescription(PERSONALITY.getCommands().ignoreChannel.description)
     .setDefaultMemberPermissions("0")
     .addChannelOption((option) =>
       option
-        .setName("salon")
-        .setDescription("Salon concerné")
+        .setName(PERSONALITY.getCommands().ignoreChannel.channelOption.name)
+        .setDescription(PERSONALITY.getCommands().ignoreChannel.channelOption.description)
         .setRequired(false)
         .addChannelTypes(ChannelType.GuildText)
     ),
   action: (interaction) => {
-    const db = interaction.client.db;
+    const db = interaction.client.db; // get db
+    const iPerso = PERSONALITY.getCommands().ignoreChannel; //get personality
+
+    //get corresponding channel data
     const ignoredChannel =
-      interaction.options.getChannel("salon") || interaction.channel;
+      interaction.options.getChannel(iPerso.channelOption.name) || interaction.channel;
     const ignoredChannelId = ignoredChannel.id;
-    const iPerso = PERSONALITY.getCommands().ignoreChannel;
 
     if (isIgnoredChannel(db, ignoredChannelId)) {
       removeIgnoredChannel(db, ignoredChannelId);
