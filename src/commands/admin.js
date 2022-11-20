@@ -47,7 +47,9 @@ const saveLog = {
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().saveLog;
     interactionReply(interaction, personality.help);
-  }
+  },
+  admin: true,
+  sentinelle: true
 };
 
 export default saveLog;
