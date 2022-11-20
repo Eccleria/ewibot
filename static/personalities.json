@@ -152,12 +152,38 @@
     "name": "normal",
     "commands": {
       "birthday": {
+        "add": {
+          "dayOption": {
+            "description": "Votre jour de naissance.",
+            "name": "jour"
+          },
+          "description": "Ajouter/modifier votre date de naissance.",
+          "name": "ajouter",
+          "monthOption": {
+            "description": "Votre mois de naissance.",
+            "name": "mois"
+          },
+          "yearOption": {
+            "description": "Votre année de naissance.",
+            "name": "année"
+          }
+        },
         "addUser": "Je te souhaiterai ton anniversaire.",
         "birthday": "OWH ! Aujourd'hui on fête l'anniversaire de : \n",
         "birthdays": "OWH ! Aujourd'hui on fête les anniversaires de : \n",
+        "description": "Permet de modifier votre profil d'anniversaire.",
+        "get": {
+          "description": "Pour voir votre date d'anniversaire enregistrée.",
+          "name": "get"
+        },
         "getUser": "Ton anniversaire est le ",
         "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
+        "name": "birthday",
         "parsingError": "Erreur de parsing dans la date.",
+        "remove": {
+          "description": "Pour retirer votre date de naissance.",
+          "name": "remove"
+        },
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",

@@ -51,36 +51,46 @@ export const wishBirthday = async (db, channel) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName("birthday")
-  .setDescription("Permet de modifier votre profil d'anniversaire.")
+  .setName(PERSONALITY.getCommands().birthday.name)
+  .setDescription(PERSONALITY.getCommands().birthday.description)
   .addSubcommand((subcommand) =>
-    subcommand
-      .setName("ajouter")
-      .setDescription("Ajouter/modifier votre date de naissance.")
+    subcommand //add subcommand
+      .setName(PERSONALITY.getCommands().birthday.add.name)
+      .setDescription(PERSONALITY.getCommands().birthday.add.description)
       .addIntegerOption((option) =>
-        option.setName("jour").setDescription("Votre jour de naissance.").setRequired(true).setMinValue(1).setMaxValue(31)
-      )
-      .addNumberOption((option) =>
-        option.setName("mois").setDescription("Votre mois de naissance.").setRequired(true).setMinValue(1).setMaxValue(12)
+        option
+          .setName(PERSONALITY.getCommands().birthday.add.dayOption.name)
+          .setDescription(PERSONALITY.getCommands().birthday.add.dayOption.description)
+          .setRequired(true)
+          .setMinValue(1)
+          .setMaxValue(31)
       )
       .addNumberOption((option) =>
         option
-          .setName("année")
-          .setDescription("Votre année de naissance.")
+          .setName(PERSONALITY.getCommands().birthday.add.monthOption.name)
+          .setDescription(PERSONALITY.getCommands().birthday.add.monthOption.description)
+          .setRequired(true)
+          .setMinValue(1)
+          .setMaxValue(12)
+      )
+      .addNumberOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().birthday.add.yearOption.name)
+          .setDescription(PERSONALITY.getCommands().birthday.add.yearOption.description)
           .setRequired(false)
           .setMinValue(dayjs().subtract(100, "year").year())
           .setMaxValue(dayjs().subtract(5, "year").year())
       )
   )
   .addSubcommand((subcommand) =>
-    subcommand
-      .setName("retirer")
-      .setDescription("Retirer votre date de naissance.")
+    subcommand //remove subcommand
+      .setName(PERSONALITY.getCommands().birthday.remove.name)
+      .setDescription(PERSONALITY.getCommands().birthday.remove.description)
   )
   .addSubcommand((subcommand) =>
-    subcommand
-      .setName("voir")
-      .setDescription("Voir votre date d'anniversaire enregistrée.")
+    subcommand //get subcommand
+      .setName(PERSONALITY.getCommands().birthday.get.name)
+      .setDescription(PERSONALITY.getCommands().birthday.get.description)
   );
 
 const action = async (interaction) => {
@@ -88,8 +98,9 @@ const action = async (interaction) => {
   const db = interaction.client.db;
 
   const whichCommand = interaction.options.getSubcommand();
+  const bPerso = PERSONALITY.getCommands().birthday;
 
-  if (whichCommand === "retirer") {
+  if (whichCommand === bPerso.remove.name) {
     // remove user
     if (isBirthdayDate(authorId, db)) {
       //if in db
@@ -97,11 +108,11 @@ const action = async (interaction) => {
       await interaction.reply(personality.removeUser);
     } else await interaction.reply(personality.userNotFound);
     return;
-  } else if (whichCommand === "ajouter") {
+  } else if (whichCommand === bPerso.add.name) {
     // add user
-    const day = interaction.options.getInteger("jour").toString();
-    const month = interaction.options.getNumber("mois").toString();
-    const year = interaction.options.getNumber("année");
+    const day = interaction.options.getInteger(bPerso.add.dayOption.name).toString();
+    const month = interaction.options.getNumber(bPerso.add.monthOption.name).toString();
+    const year = interaction.options.getNumber(bPerso.add.yearOption.name);
 
     const dayToAdd = day.length === 1 ? "0" + day : day;
     const monthToAdd = month.length === 1 ? "0" + month : month;
@@ -113,7 +124,7 @@ const action = async (interaction) => {
       addBirthday(authorId, db, date.toISOString()); //add to db
       await interaction.reply(personality.addUser);
     } else await interaction.reply(personality.parsingError);
-  } else if (whichCommand === "voir") {
+  } else if (whichCommand === bPerso.get.name) {
     // checks if user is in DB and tells user
     const users = db.data.birthdaysUsers;
     const user = users.find(({ userId }) => userId === authorId);
