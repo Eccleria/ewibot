@@ -132,35 +132,35 @@ const action = async (interaction) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName("reminder")
-  .setDescription("Une commande alarme pense-bête.")
+  .setName(PERSONALITY.getCommands().reminder.name)
+  .setDescription(PERSONALITY.getCommands().reminder.description)
   .addStringOption((option) =>
     option
-      .setName("contenu")
-      .setDescription("Contenu du pense-bête.")
+      .setName(PERSONALITY.getCommands().reminder.stringOption.name)
+      .setDescription(PERSONALITY.getCommands().reminder.stringOption.description)
       .setRequired(true)
       .setMinLength(1)
   )
   .addNumberOption((option) =>
-    option
-      .setName("heures")
-      .setDescription("Le nombre d'heure d'attente.")
+    option //hour
+      .setName(PERSONALITY.getCommands().reminder.hourOption.name)
+      .setDescription(PERSONALITY.getCommands().reminder.hourOption.name)
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(99)
   )
   .addNumberOption((option) =>
-    option
-      .setName("minutes")
-      .setDescription("Le nombre de minutes d'attente.")
+    option //minutes
+      .setName(PERSONALITY.getCommands().reminder.minuteOption.name)
+      .setDescription(PERSONALITY.getCommands().reminder.minuteOption.description)
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(60)
   )
   .addNumberOption((option) =>
-    option
-      .setName("secondes")
-      .setDescription("Le nombre de secondes d'attente.")
+    option //seconds
+      .setName(PERSONALITY.getCommands().reminder.secondOption.name)
+      .setDescription(PERSONALITY.getCommands().reminder.secondOption.description)
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(60)
