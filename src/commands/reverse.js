@@ -46,7 +46,8 @@ const reverse = {
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().reverse;
     interactionReply(interaction, personality.help)
-  }
+  },
+  admin: false
 };
 
 // CONTEXT COMMAND
@@ -71,7 +72,8 @@ const reverseTranslator = {
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().reverseTranslator;
     interactionReply(interaction, personality.help)
-  }
+  },
+  admin: false
 }
 
 export { reverse, reverseTranslator };

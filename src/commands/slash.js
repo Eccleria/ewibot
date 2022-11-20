@@ -10,6 +10,7 @@ import {
   addIgnoredUser,
   isIgnoredUser,
   removeIgnoredUser,
+  isAdmin,
   //utils
   //isAdmin,
 } from "../helpers/index.js";
@@ -39,6 +40,7 @@ const ping = {
     const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.helloWorld.help);
   },
+  admin: false
 };
 
 const roll = {
@@ -86,6 +88,7 @@ const roll = {
     const personality = PERSONALITY.getCommands().roll;
     interactionReply(interaction, personality.help);
   },
+  admin: false
 };
 
 const ignore = {
@@ -148,6 +151,7 @@ const ignoreChannel = {
     const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.ignoreChannel.help);
   },
+  asmin: true
 };
 
 //regroup all commands
@@ -184,8 +188,11 @@ const help = {
       (cmd) => cmd.command.name === userOption
     ); //find associated command
 
-    if (foundCommand)
-      foundCommand.help(interaction); //execute foundCommand help()
+    if (foundCommand) {
+      const member = interaction.member;
+      if (foundCommand.admin && isAdmin(member.id)) foundCommand.help(interaction); //execute foundCommand help()
+      else interactionReply(interaction, perso.notFound);
+    }
     else interactionReply(interaction, perso.notFound);
   },
   autocomplete: (interaction) => {
