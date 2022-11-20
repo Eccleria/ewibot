@@ -4,8 +4,6 @@ import { PERSONALITY } from "../personality.js";
 
 import { interactionReply } from "./utils.js"
 
-const personality = PERSONALITY.getCommands();
-
 const reverseStr = (string) => {
   let reversed = "";
   for (const char of string) reversed = char + reversed;
@@ -32,8 +30,9 @@ const command = new SlashCommandBuilder()
 
 const action = (interaction) => {
   const options = interaction.options;
-  const string = options.getString(PERSONALITY.getCommands().reverse.stringOption.name);
-  const toCrossOut = options.getBoolean(PERSONALITY.getCommands().reverse.booleanOption.name);
+  const personality = PERSONALITY.getCommands().reverse;
+  const string = options.getString(personality.stringOption.name);
+  const toCrossOut = options.getBoolean(personality.booleanOption.name);
 
   const reversed = reverseStr(string);
   const content = toCrossOut ? "`~~" + reversed + "~~`" : reversed;
@@ -45,7 +44,8 @@ const reverse = {
   action,
   command,
   help: (interaction) => {
-    interactionReply(interaction, personality.reverse.help)
+    const personality = PERSONALITY.getCommands().reverse;
+    interactionReply(interaction, personality.help)
   }
 };
 
@@ -69,7 +69,8 @@ const reverseTranslator = {
   action: contextAction,
   command: contextCommand,
   help: (interaction) => {
-    interactionReply(interaction, personality.reverseTranslator.help)
+    const personality = PERSONALITY.getCommands().reverseTranslator;
+    interactionReply(interaction, personality.help)
   }
 }
 
