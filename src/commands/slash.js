@@ -43,27 +43,28 @@ const ping = {
 
 const roll = {
   command: new SlashCommandBuilder()
-    .setName("roll")
-    .setDescription("Lancer de dés")
+    .setName(PERSONALITY.getCommands().roll.name)
+    .setDescription(PERSONALITY.getCommands().roll.description)
     .addIntegerOption((option) =>
       option
-        .setName("dés")
-        .setDescription("Nombre de dés à lancer")
+        .setName(PERSONALITY.getCommands().roll.diceOption.name)
+        .setDescription(PERSONALITY.getCommands().roll.diceOption.description)
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(20)
     )
     .addIntegerOption((option) =>
       option
-        .setName("faces")
-        .setDescription("Nombre de faces à chaque dé")
+        .setName(PERSONALITY.getCommands().roll.facesOption.name)
+        .setDescription(PERSONALITY.getCommands().roll.facesOption.description)
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(100)
     ),
   action: async (interaction) => {
-    const dice = interaction.options.getInteger("dés");
-    const faces = interaction.options.getInteger("faces");
+    const personality = PERSONALITY.getCommands().roll
+    const dice = interaction.options.getInteger(personality.diceOption.name);
+    const faces = interaction.options.getInteger(personality.facesOption.name);
     if (dice && faces) {
       //if enough args
       const dicesArray = Array.from(new Array(dice)); //create an array with enough dices
