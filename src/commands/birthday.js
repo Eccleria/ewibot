@@ -6,14 +6,13 @@ dayjs.extend(CustomParseFormat);
 
 import { SlashCommandBuilder } from "@discordjs/builders";
 
+import { interactionReply } from "./utils.js";
 import {
   addBirthday,
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-
-const personality = PERSONALITY.getCommands().birthday;
 
 export const wishBirthday = async (db, channel) => {
   // Wish birthdays if there are some
@@ -105,8 +104,8 @@ const action = async (interaction) => {
     if (isBirthdayDate(authorId, db)) {
       //if in db
       removeBirthday(authorId, db);
-      await interaction.reply(personality.removeUser);
-    } else await interaction.reply(personality.userNotFound);
+      await interactionReply(interaction, bPerso.removeUser);
+    } else await interactionReply(interaction, bPerso.userNotFound);
     return;
   } else if (whichCommand === bPerso.add.name) {
     // add user
@@ -122,20 +121,21 @@ const action = async (interaction) => {
     if (date.isValid()) {
       //if date respect dayjs form
       addBirthday(authorId, db, date.toISOString()); //add to db
-      await interaction.reply(personality.addUser);
-    } else await interaction.reply(personality.parsingError);
+      await interactionReply(interaction, bPerso.addUser);
+    } else await interactionReply(interaction, bPerso.parsingError);
   } else if (whichCommand === bPerso.get.name) {
     // checks if user is in DB and tells user
     const users = db.data.birthdaysUsers;
     const user = users.find(({ userId }) => userId === authorId);
 
     if (user)
-      await interaction.reply(
-        `${personality.getUser}${dayjs(user.birthdayDate).format(
+      await interactionReply(
+        interaction, 
+        `${bPerso.getUser}${dayjs(user.birthdayDate).format(
           "DD/MM/YYYY"
         )}.`
       );
-    else await interaction.reply(personality.userNotFound);
+    else await interactionReply(interaction, bPerso.userNotFound);
   }
 };
 
@@ -144,8 +144,9 @@ const birthday = {
   name: "birthday",
   command: command,
   action,
-  help: () => {
-    return personality.help;
+  help: (interaction) => {
+    const personality = PERSONALITY.getCommands().birthday.help;
+    interactionReply(interaction, personality);
   },
   admin: false,
 };
