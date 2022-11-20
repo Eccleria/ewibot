@@ -182,7 +182,9 @@
         }
       },
       "ignore": {
+        "description": "Permet de choisir si je réagirai à vos messages ou non.",
         "help": "Cette commande m'empêche ou non de réagir à vos messages.",
+        "name": "ignore",
         "ignored": "Dorénavant je ne réagirai plus à vos messages.",
         "notIgnored": "Je vais de nouveau réagir à vos messages."
       },

@@ -90,10 +90,8 @@ const roll = {
 
 const ignore = {
   command: new SlashCommandBuilder()
-    .setName("ignore")
-    .setDescription(
-      "Permet de choisir si Ewibot réagira à vos messages ou non."
-    ),
+    .setName(PERSONALITY.getCommands().ignore.name)
+    .setDescription(PERSONALITY.getCommands().ignore.description),
   action: (interaction) => {
     const db = interaction.client.db;
     const authorId = interaction.member.id;
