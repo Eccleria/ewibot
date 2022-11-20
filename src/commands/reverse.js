@@ -15,25 +15,25 @@ const reverseStr = (string) => {
 // SLASH COMMAND
 
 const command = new SlashCommandBuilder()
-  .setName("reverse")
-  .setDescription("Permet de vous inverser le message que vous souhaitez.")
+  .setName(PERSONALITY.getCommands().reverse.name)
+  .setDescription(PERSONALITY.getCommands().reverse.description)
   .addStringOption((option) =>
     option
-      .setName("contenu")
-      .setDescription("Contenu du message à inverser.")
+      .setName(PERSONALITY.getCommands().reverse.stringOption.name)
+      .setDescription(PERSONALITY.getCommands().reverse.stringOption.description)
       .setRequired(true)
   )
   .addBooleanOption((option) =>
     option
-      .setName("barrer")
-      .setDescription("true si vous voulez barrer le message complet")
+      .setName(PERSONALITY.getCommands().reverse.booleanOption.name)
+      .setDescription(PERSONALITY.getCommands().reverse.booleanOption.description)
       .setRequired(false)
   );
 
 const action = (interaction) => {
   const options = interaction.options;
-  const string = options.getString("contenu");
-  const toCrossOut = options.getBoolean("barrer");
+  const string = options.getString(PERSONALITY.getCommands().reverse.stringOption.name);
+  const toCrossOut = options.getBoolean(PERSONALITY.getCommands().reverse.booleanOption.name);
 
   const reversed = reverseStr(string);
   const content = toCrossOut ? "`~~" + reversed + "~~`" : reversed;
@@ -52,7 +52,7 @@ const reverse = {
 // CONTEXT COMMAND
 
 const contextCommand = new ContextMenuCommandBuilder()
-  .setName("reversed-translator")
+  .setName(PERSONALITY.getCommands().reverseTranslator.name)
   .setType(3);
 
 const contextAction = (interaction) => {

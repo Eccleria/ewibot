@@ -286,6 +286,23 @@
         "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
         "remind": "Je te rappelerai ça dans environ "
       },
+      "reverse": {
+        "booleanOption": {
+          "description": "True si vous voulez barrer le message complet",
+          "name": "barrer"
+        },
+        "description": "Permet d'inverser le texte du message que vous souhaitez.",
+        "help": "Cette commande permet d'inverser le texte que vous donnez en entrée.",
+        "name": "reverse",
+        "stringOption": {
+          "description": "Contenu du message à inverser.",
+          "name": "contenu"
+        }
+      },
+      "reverseTranslator": {
+        "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
+        "name": "reverse-translator"
+      },
       "roll": {
         "description": "Lancer de dés",
         "diceOption": {
