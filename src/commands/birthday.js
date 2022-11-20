@@ -14,8 +14,6 @@ import {
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
-const personality = PERSONALITY.getCommands().birthday;
-
 export const wishBirthday = async (db, channel) => {
   // Wish birthdays if there are some
   const today = dayjs().hour(8).minute(0).second(0).millisecond(0); // 8AM, local hour
