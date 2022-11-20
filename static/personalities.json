@@ -293,7 +293,7 @@
           "name": "minutes"
         },
         "name": "reminder",
-        "react": [ "Tu peux react avec ", " pour annuler ce reminder !" ],
+        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
         "remind": "Je te rappelerai ça dans environ ",
         "secondOption": {
           "description": "Le nombre de secondes d'attente.",
