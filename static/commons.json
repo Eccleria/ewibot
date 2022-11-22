@@ -76,7 +76,8 @@
       "laquetedewilan": "1032989926000939008",
       "andartapictures": "1039418011260727296"
     },
-    "octagonalSign": "🛑"
+    "octagonalSign": "🛑",
+    "sentinelleRoleId": "1043971181461651506"
   },
   {
     "name": "prod",
@@ -155,6 +156,7 @@
       "laquetedewilan": "1032989926000939008",
       "andartapictures": "1039418011260727296"
     },
-    "octagonalSign": "🛑"
+    "octagonalSign": "🛑",
+    "sentinelleRoleId": "816975096518279188"
   }
 ]

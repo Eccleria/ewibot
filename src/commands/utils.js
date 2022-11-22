@@ -11,3 +11,15 @@ export const interactionReply = async (
 ) => {
   await interaction.reply({ content: content, ephemeral: isEphemeral });
 };
+
+/**
+ * Return if guildMember has Sentinelle role or not
+ * @param {any} member guildMember to verify role
+ * @param {any} currentServer current server data from commons.json
+ * @returns {boolean}
+ */
+export const isSentinelle = async (member, currentServer) => {
+  const roles = member.roles.cache;
+  return roles.has(currentServer.sentinelleRoleId)
+}
+

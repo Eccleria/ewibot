@@ -24,9 +24,13 @@ import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import spotify from "./spotify.js";
 
-import { interactionReply } from "./utils.js";
+import { interactionReply, isSentinelle } from "./utils.js";
 
 import { PERSONALITY } from "../personality.js";
+
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -190,7 +194,11 @@ const help = {
 
     if (foundCommand) {
       const member = interaction.member;
-      if (foundCommand.admin && isAdmin(member.id)) foundCommand.help(interaction); //execute foundCommand help()
+
+      const currentServer = commons.find((server) => server.guildId === interaction.guildId);
+      const isSentinelle = isSentinelle(interaction, currentServer);
+      if (isSentinelle && foundCommand.sentinelle) foundCommand.help(interaction); //execute sentinelle commands help
+      else if (isAdmin(member.id) && foundCommand.admin) foundCommand.help(interaction); //execute admin foundCommand help
       else interactionReply(interaction, perso.notFound);
     }
     else interactionReply(interaction, perso.notFound);
