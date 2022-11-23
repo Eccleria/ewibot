@@ -109,11 +109,15 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    if (foundEmotes.length > 0 && frequency) {
+    if (foundEmotes.length > 0) { //&& frequency) {
       // PRIDE MONTH, RAIBOWSSSSS
       if (today.getMonth() == 5) {
         await message.react("🏳️‍🌈");
-      } else {
+      } else if (today.getMonth() == 11) {
+
+        await message.react(currentServer.duomFetardId);
+      }
+      else {
         for (const e of foundEmotes) {
           await message.react(e);
         }
