@@ -16,7 +16,7 @@ import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
 // helpers imports
-import { generateSpotifyClient } from "./helpers/index.js";
+import { generateSpotifyClient, setActivity } from "./helpers/index.js";
 
 // listeners imports
 import {
@@ -153,7 +153,7 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
-
+  setActivity(client);
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );

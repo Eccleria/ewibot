@@ -151,3 +151,22 @@ export const checkIsOnThread = async (channel, threadId) => {
     : channel.threads.cache.find((x) => x.id === threadId);
   if (thread && thread.joinable) await thread.join();
 };
+
+// activity list
+const activityList = [
+  { name: "La Quête d'Ewilan", type: "WATCHING" },
+  { name: "Adrien Sépulchre", type: "LISTENING" },
+  { name: "JDR Ewilan par Charlie", type: "PLAYING" },
+  { name: "Ewilan EP1", type: "WATCHING"}
+];
+
+
+export const setActivity = (client) => {
+  // randomise Ewibot activity
+  const statusLen = activityList.length - 1;
+  const rdmIdx = Math.round(statusLen * Math.random()); 
+  const whichStatus = activityList[rdmIdx];
+
+  //set client activity
+  client.user.setActivity(whichStatus);
+};
