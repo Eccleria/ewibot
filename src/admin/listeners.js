@@ -834,7 +834,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     );
 
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "userAD", 2)
+      addAdminLogs(msg.client.db, msg.id, "userAD", 1)
     );
     return;
   }
