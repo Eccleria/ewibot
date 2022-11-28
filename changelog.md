@@ -8,6 +8,8 @@
 - Fix: `commands.md` with wrong links and typos
 - Fix: `messageDelete` deleter not as embed
 - Fix: `date` log field now adapt between prod and test mode
+- Fix: `memberKick` wrong db index access 
+- Fix: rare crash case with `updateChannel` after `memberKick`
 - Doc : `twitter.md`
 
 ## 4.2.0
