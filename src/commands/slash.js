@@ -24,7 +24,7 @@ import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import spotify from "./spotify.js";
 
-import { interactionReply, isSentinelle } from "./utils.js";
+import { interactionReply } from "./utils.js";
 
 import { PERSONALITY } from "../personality.js";
 
