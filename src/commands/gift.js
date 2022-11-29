@@ -58,7 +58,7 @@ const giftInteractionCreation = async (client) => {
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
   const guild = await client.guilds.fetch(server.guildId);
-  const channel = await guild.channels.fetch(server.giftChannelId);
+  const channel = await guild.channels.fetch(server.giftButtonChannelId);
 
   const personality = PERSONALITY.getCommands().gift;
 
