@@ -118,6 +118,7 @@ const ignore = {
     interactionReply(interaction, personality.ignore.help);
   },
   admin: false,
+  releaseDate: null
 };
 
 const ignoreChannel = {
@@ -155,7 +156,8 @@ const ignoreChannel = {
     const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.ignoreChannel.help);
   },
-  asmin: true
+  admin: true,
+  releaseDate: null
 };
 
 //regroup all commands
@@ -226,7 +228,7 @@ const help = {
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().help.help;
     interactionReply(interaction, personality);
-  },
+  }
 };
 
 helpCommands.push(help);
