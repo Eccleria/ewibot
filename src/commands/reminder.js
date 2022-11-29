@@ -173,7 +173,8 @@ const reminder = {
     const content = PERSONALITY.getCommands().reminder.help;
     interactionReply(interaction, content); 
   },
-  admin: false
+  admin: false,
+  sentinelle: false
 };
 
 export default reminder;

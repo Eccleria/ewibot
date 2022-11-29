@@ -49,7 +49,8 @@ const reverse = {
     interactionReply(interaction, personality.help)
   },
   admin: false,
-  releaseDate: dayjs("12-08-2022", "MM-DD-YYYY")
+  releaseDate: dayjs("12-08-2022", "MM-DD-YYYY"),
+  sentinelle: false
 };
 
 // CONTEXT COMMAND
@@ -76,7 +77,8 @@ const reverseTranslator = {
     interactionReply(interaction, personality.help)
   },
   admin: false,
-  releaseDate: dayjs("12-16-2022", "MM-DD-YYYY")
+  releaseDate: dayjs("12-16-2022", "MM-DD-YYYY"),
+  sentinelle: false
 }
 
 export { reverse, reverseTranslator };

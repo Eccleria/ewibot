@@ -33,5 +33,5 @@ export const isSentinelle = async (member, currentServer) => {
 export const isReleasedCommand = (command) => {
   const day = dayjs();
   if (command.releaseDate) return command.releaseDate.diff(day) <= 0;
-  else return null;
+  else return true;
 };

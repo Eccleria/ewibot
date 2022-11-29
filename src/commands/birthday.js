@@ -149,6 +149,7 @@ const birthday = {
     interactionReply(interaction, personality);
   },
   admin: false,
+  sentinelle: false
 };
 
 export default birthday;

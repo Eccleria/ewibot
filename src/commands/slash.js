@@ -24,7 +24,7 @@ import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import spotify from "./spotify.js";
 
-import { interactionReply } from "./utils.js";
+import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
 
 import { PERSONALITY } from "../personality.js";
 
@@ -44,7 +44,8 @@ const ping = {
     const personality = PERSONALITY.getCommands();
     interactionReply(interaction, personality.helloWorld.help);
   },
-  admin: false
+  admin: false,
+  sentinelle: false
 };
 
 const roll = {
@@ -92,7 +93,8 @@ const roll = {
     const personality = PERSONALITY.getCommands().roll;
     interactionReply(interaction, personality.help);
   },
-  admin: false
+  admin: false,
+  sentinelle: false
 };
 
 const ignore = {
@@ -118,7 +120,8 @@ const ignore = {
     interactionReply(interaction, personality.ignore.help);
   },
   admin: false,
-  releaseDate: null
+  releaseDate: null,
+  sentinelle: false
 };
 
 const ignoreChannel = {
@@ -157,7 +160,8 @@ const ignoreChannel = {
     interactionReply(interaction, personality.ignoreChannel.help);
   },
   admin: true,
-  releaseDate: null
+  releaseDate: null,
+  sentinelle: true
 };
 
 //regroup all commands
@@ -198,16 +202,18 @@ const help = {
       const member = interaction.member;
 
       const currentServer = commons.find((server) => server.guildId === interaction.guildId);
-      const isSentinelle = isSentinelle(interaction, currentServer);
-      if (isSentinelle && foundCommand.sentinelle) foundCommand.help(interaction); //execute sentinelle commands help
+      const isModo = isSentinelle(interaction.member, currentServer);
+      if (isModo && foundCommand.sentinelle) foundCommand.help(interaction); //execute sentinelle commands help
       else if (isAdmin(member.id) && foundCommand.admin) foundCommand.help(interaction); //execute admin foundCommand help
+      else if (isReleasedCommand(foundCommand)) foundCommand.help(interaction); //execute released foundCommand help
       else interactionReply(interaction, perso.notFound);
     }
     else interactionReply(interaction, perso.notFound);
   },
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
-    const choices = helpCommands.map((cmd) => cmd.command.name); //get all commands names
+    const releasedCommands = helpCommands.filter((cmd) => isReleasedCommand(cmd)); //filter with only released commands
+    const choices = releasedCommands.map((cmd) => cmd.command.name); //get all commands names
     const filtered = choices.filter((choice) =>
       choice.startsWith(focusedValue)
     ); //filter to corresponding commands names
@@ -228,7 +234,8 @@ const help = {
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().help.help;
     interactionReply(interaction, personality);
-  }
+  },
+  sentinelle: false
 };
 
 helpCommands.push(help);

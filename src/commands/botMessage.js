@@ -87,7 +87,8 @@ const botMessage = {
   help: () => {
     return PERSONALITY.getCommands().botMessage.help;
   },
-  admin: true
+  admin: true,
+  sentinelle: false
 };
 
 export default botMessage;

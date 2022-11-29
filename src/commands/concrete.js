@@ -136,6 +136,7 @@ const concrete = {
     });
   },
   admin: false,
+  sentinelle: false
 };
 
 export default concrete;
