@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 /**
  * Reply to interaction function
  * @param {any} interaction Interaction the function is replying to.
@@ -21,5 +23,14 @@ export const interactionReply = async (
 export const isSentinelle = async (member, currentServer) => {
   const roles = member.roles.cache;
   return roles.has(currentServer.sentinelleRoleId)
-}
+};
 
+/**
+ * Return if command has been released or not
+ * @param {object} command
+ * @returns {boolean}
+ */
+export const isReleasedCommand = (command) => {
+  const day = dayjs();
+  return command.releaseDate.diff(day) <= 0;
+};
