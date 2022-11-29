@@ -1,4 +1,5 @@
 import Canvas from "canvas";
+import dayjs from "dayjs";
 import GIFEncoder from "gif-encoder-2";
 
 import { MessageAttachment } from "discord.js";
@@ -136,6 +137,7 @@ const concrete = {
     });
   },
   admin: false,
+  releaseDate: dayjs("12-15-2022", "MM-DD-YYYY"),
   sentinelle: false
 };
 
