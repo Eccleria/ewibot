@@ -174,6 +174,7 @@ const reminder = {
     interactionReply(interaction, content); 
   },
   admin: false,
+  releaseDate: dayjs("12-09-2022", "MM-DD-YYYY"),
   sentinelle: false
 };
 

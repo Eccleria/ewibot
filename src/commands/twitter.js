@@ -105,6 +105,8 @@ const twitter = {
     });
   },
   admin: true,
+  releaseDate: null,
+  sentinelle: true
 };
 
 export default twitter;

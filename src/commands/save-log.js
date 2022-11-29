@@ -79,6 +79,7 @@ const saveLog = {
     const personality = PERSONALITY.getCommands().saveLog;
     interactionReply(interaction, personality.help);
   },
+  releaseDate: null,
   sentinelle: true
 };
 

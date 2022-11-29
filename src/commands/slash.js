@@ -1,6 +1,7 @@
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
 import { SlashCommandBuilder } from "@discordjs/builders";
+import dayjs from "dayjs";
 
 import {
   //dbHelper
@@ -45,6 +46,7 @@ const ping = {
     interactionReply(interaction, personality.helloWorld.help);
   },
   admin: false,
+  releaseDate: dayjs("12-21-2022", "MM-DD-YYYY"),
   sentinelle: false
 };
 
@@ -94,6 +96,7 @@ const roll = {
     interactionReply(interaction, personality.help);
   },
   admin: false,
+  releaseDate: dayjs("12-13-2022", "MM-DD-YYYY"),
   sentinelle: false
 };
 
@@ -235,6 +238,8 @@ const help = {
     const personality = PERSONALITY.getCommands().help.help;
     interactionReply(interaction, personality);
   },
+  admin: false,
+  releaseDate: null,
   sentinelle: false
 };
 

@@ -81,6 +81,7 @@ const leaderboardApology = {
     return PERSONALITY.getCommands().leaderboardApology.help;
   },
   admin: true,
+  releaseDate: null,
   sentinelle: true
 };
 
