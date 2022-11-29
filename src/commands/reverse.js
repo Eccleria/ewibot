@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { SlashCommandBuilder, ContextMenuCommandBuilder } from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
@@ -47,7 +48,8 @@ const reverse = {
     const personality = PERSONALITY.getCommands().reverse;
     interactionReply(interaction, personality.help)
   },
-  admin: false
+  admin: false,
+  releaseDate: dayjs("12-08-2022", "MM-DD-YYYY")
 };
 
 // CONTEXT COMMAND
@@ -73,7 +75,8 @@ const reverseTranslator = {
     const personality = PERSONALITY.getCommands().reverseTranslator;
     interactionReply(interaction, personality.help)
   },
-  admin: false
+  admin: false,
+  releaseDate: dayjs("12-16-2022", "MM-DD-YYYY")
 }
 
 export { reverse, reverseTranslator };
