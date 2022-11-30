@@ -23,14 +23,7 @@ const sendDelayed = async (
   messageContent,
   botMessage
 ) => {
-  /*
-  try {
-    // try to DM
-    await author.send(`${author.toString()} : ${messageContent}`);
-  } catch {*/
-  // send in the original channel
   await channel.send(`${author.toString()} : ${messageContent}`);
-  //}
   client.remindme = client.remindme.filter(
     // removes from cache
     ({ botMessage: answer }) => answer.id !== botMessage.id
@@ -58,37 +51,19 @@ const extractDuration = (interaction) => {
 const answerBot = async (interaction, currentServer, timing) => {
   // Confirm or not the reminder to user
   const personality = PERSONALITY.getCommands().reminder;
-  /*
-  try {
-    // try to DM
-    const answer = await message.author.send(
-      personality.remind.concat(
-        `${formatMs(timing)}. `,
-        personality.react[0],
-        `${currentServer.removeEmoji}`,
-        personality.react[1]
-      )
-    );
-    await answer.react(currentServer.removeEmoji);
-    return answer;
-  } catch {
-    // reply to the request message
-    console.log(`Utilisateur ayant bloqué les DMs`);*/
-  await interaction.reply({
-    content:
+
+  await interactionReply(interaction,
       personality.remind +
       `${formatMs(timing)}` +
       personality.react[0] +
       `${currentServer.removeEmoji}` +
-      personality.react[1]
-  });/*,
-    ephemeral: true,
-  });*/
+    personality.react[1],
+    false
+  );
 
   const answer = await interaction.fetchReply();
   await answer.react(currentServer.removeEmoji);
   return answer;
-  //}
 };
 
 const action = async (interaction) => {
