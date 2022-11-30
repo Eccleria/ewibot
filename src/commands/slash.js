@@ -206,9 +206,9 @@ const help = {
 
       const currentServer = commons.find((server) => server.guildId === interaction.guildId);
       const isModo = isSentinelle(interaction.member, currentServer);
-      if (isModo && foundCommand.sentinelle) foundCommand.help(interaction); //execute sentinelle commands help
-      else if (isAdmin(member.id) && foundCommand.admin) foundCommand.help(interaction); //execute admin foundCommand help
-      else if (isReleasedCommand(foundCommand)) foundCommand.help(interaction); //execute released foundCommand help
+      if (isModo && foundCommand.sentinelle) foundCommand.help(interaction, userOption); //execute sentinelle commands help
+      else if (isAdmin(member.id) && foundCommand.admin) foundCommand.help(interaction, userOption); //execute admin foundCommand help
+      else if (isReleasedCommand(foundCommand)) foundCommand.help(interaction, userOption); //execute released foundCommand help
       else interactionReply(interaction, perso.notFound);
     }
     else interactionReply(interaction, perso.notFound);
@@ -220,9 +220,12 @@ const help = {
     const currentServer = commons.find((server) => server.guildId === interaction.guildId);
     const commands = !isSentinelle(interaction.member, currentServer) ? releasedCommands.filter((cmd) => !cmd.sentinelle) : releasedCommands;
 
-    const choices = commands.map((cmd) => cmd.command.name); //get all commands names
+    const helpOptions = commands.reduce((acc, cur) => {
+      const name = cur.subcommands ? cur.subcommands : [cur.command.name];
+      return [...acc, ...name];
+    }, []);
 
-    const filtered = choices.filter((choice) =>
+    const filtered = helpOptions.filter((choice) =>
       choice.startsWith(focusedValue)
     ); //filter to corresponding commands names
     interaction.respond(
