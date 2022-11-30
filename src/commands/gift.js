@@ -301,6 +301,9 @@ const gift = {
     const helpToUse = userOption.includes(" ") ? personality[userOption.split(" ")[1]] : personality;
     interactionReply(interaction, helpToUse.help);
   },
+  admin: false,
+  releaseDate: dayjs("12-01-2022", "MM-DD-YYYY"),
+  sentinelle: false,
   subcommands: ["gift", "gift use", "gift send", "gift remove", "gift get", "gift accepting"]
 };
 

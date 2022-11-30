@@ -149,7 +149,9 @@ const birthday = {
     interactionReply(interaction, personality);
   },
   admin: false,
-  sentinelle: false
+  releaseDate: null,
+  sentinelle: false,
+  subcommands: ["birthday", "birthday add", "birthday get", "birthday remove"]
 };
 
 export default birthday;

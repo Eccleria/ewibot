@@ -111,6 +111,9 @@ const announce = {
   help: (interaction) => {
     interactionReply(interaction, PERSONALITY.getCommands().announce.help);
   },
+  admin: true,
+  releaseDate: null,
+  sentinelle: true
 };
 
 export default announce;
