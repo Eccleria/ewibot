@@ -52,12 +52,13 @@ const answerBot = async (interaction, currentServer, timing) => {
   // Confirm or not the reminder to user
   const personality = PERSONALITY.getCommands().reminder;
 
-  await interactionReply(interaction,
-      personality.remind +
+  await interactionReply(
+    interaction,
+    personality.remind +
       `${formatMs(timing)}` +
       personality.react[0] +
       `${currentServer.removeEmoji}` +
-    personality.react[1],
+      personality.react[1],
     false
   );
 
@@ -112,7 +113,9 @@ const command = new SlashCommandBuilder()
   .addStringOption((option) =>
     option
       .setName(PERSONALITY.getCommands().reminder.stringOption.name)
-      .setDescription(PERSONALITY.getCommands().reminder.stringOption.description)
+      .setDescription(
+        PERSONALITY.getCommands().reminder.stringOption.description
+      )
       .setRequired(true)
       .setMinLength(1)
   )
@@ -127,7 +130,9 @@ const command = new SlashCommandBuilder()
   .addNumberOption((option) =>
     option //minutes
       .setName(PERSONALITY.getCommands().reminder.minuteOption.name)
-      .setDescription(PERSONALITY.getCommands().reminder.minuteOption.description)
+      .setDescription(
+        PERSONALITY.getCommands().reminder.minuteOption.description
+      )
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(60)
@@ -135,7 +140,9 @@ const command = new SlashCommandBuilder()
   .addNumberOption((option) =>
     option //seconds
       .setName(PERSONALITY.getCommands().reminder.secondOption.name)
-      .setDescription(PERSONALITY.getCommands().reminder.secondOption.description)
+      .setDescription(
+        PERSONALITY.getCommands().reminder.secondOption.description
+      )
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(60)
@@ -146,11 +153,11 @@ const reminder = {
   action,
   help: (interaction) => {
     const content = PERSONALITY.getCommands().reminder.help;
-    interactionReply(interaction, content); 
+    interactionReply(interaction, content);
   },
   admin: false,
   releaseDate: dayjs("12-09-2022", "MM-DD-YYYY"),
-  sentinelle: false
+  sentinelle: false,
 };
 
 export default reminder;

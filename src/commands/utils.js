@@ -36,7 +36,8 @@ export const createButton = (id, label, style) => {
  */
 export const buttonHandler = (interaction) => {
   if (interaction.customId === "gift") giftButtonHandler(interaction);
-  else if (interaction.customId.startsWith("announce")) announceButtonHandler(interaction)
+  else if (interaction.customId.startsWith("announce"))
+    announceButtonHandler(interaction);
   else pronounsButtonHandler(interaction);
 };
 
@@ -48,7 +49,7 @@ export const buttonHandler = (interaction) => {
  */
 export const isSentinelle = (member, currentServer) => {
   const roles = member.roles.cache;
-  return roles.has(currentServer.sentinelleRoleId)
+  return roles.has(currentServer.sentinelleRoleId);
 };
 
 /**

@@ -62,7 +62,7 @@ const pronouns = {
   },
   admin: true,
   releaseDate: null,
-  sentinelle: true
+  sentinelle: true,
 };
 
 export default pronouns;

@@ -7,7 +7,7 @@ import { PERSONALITY } from "../personality.js";
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
   .setName("message")
-  .setDescription("Envoyer un message à la place d'Ewibot.")
+  .setDescription("Envoyer un message ï¿½ la place d'Ewibot.")
   .addSubcommand((command) =>
     command
       .setName("send")
@@ -29,25 +29,27 @@ const command = new SlashCommandBuilder()
       .addAttachmentOption((option) =>
         option
           .setName("piece-jointe")
-          .setDescription("Pièce jointe à envoyer.")
+          .setDescription("Piï¿½ce jointe ï¿½ envoyer.")
           .setRequired(false)
       )
   )
-  .addSubcommand((command) => 
+  .addSubcommand((command) =>
     command
       .setName("reply")
-      .setDescription("Réponse d'Ewibot à un message.")
+      .setDescription("Rï¿½ponse d'Ewibot ï¿½ un message.")
       .addChannelOption((option) =>
         option
           .setName("salon")
-          .setDescription("L'id du channel dans lequel il y a le message auquel Ewibot répondra.")
+          .setDescription(
+            "L'id du channel dans lequel il y a le message auquel Ewibot rï¿½pondra."
+          )
           .setRequired(true)
           .addChannelTypes(ChannelType.GuildText)
       )
       .addStringOption((option) =>
         option
           .setName("messageid")
-          .setDescription("L'id du message auquel Ewibot répondra.")
+          .setDescription("L'id du message auquel Ewibot rï¿½pondra.")
           .setRequired(true)
       )
       .addStringOption((option) =>
@@ -60,7 +62,7 @@ const command = new SlashCommandBuilder()
       .addAttachmentOption((option) =>
         option
           .setName("piece-jointe")
-          .setDescription("Pièce jointe à envoyer.")
+          .setDescription("Piï¿½ce jointe ï¿½ envoyer.")
           .setRequired(false)
       )
   );
@@ -69,10 +71,13 @@ const action = (interaction) => {
   console.log(interaction);
   const options = interaction.options;
   const subcommand = options.getSubcommand();
-  const messageId = subcommand === "reply" ? options.getNumber("messageid") : null; //
+  const messageId =
+    subcommand === "reply" ? options.getNumber("messageid") : null; //
   const text = options.getString("texte"); //content to send
   const attachment = options.getAttachment("piece-jointe"); //attachment to send
-  const channel = options.getChannel("salon") ? options.getChannel("salon") : interaction.channel; //channel where to send message
+  const channel = options.getChannel("salon")
+    ? options.getChannel("salon")
+    : interaction.channel; //channel where to send message
 
   console.log("subcommand", subcommand);
   console.log("messageId", messageId);
@@ -88,7 +93,7 @@ const botMessage = {
     return PERSONALITY.getCommands().botMessage.help;
   },
   admin: true,
-  sentinelle: false
+  sentinelle: false,
 };
 
 export default botMessage;

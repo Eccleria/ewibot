@@ -49,7 +49,7 @@ const ping = {
   },
   admin: false,
   releaseDate: dayjs("12-21-2022", "MM-DD-YYYY"),
-  sentinelle: false
+  sentinelle: false,
 };
 
 const roll = {
@@ -73,7 +73,7 @@ const roll = {
         .setMaxValue(100)
     ),
   action: async (interaction) => {
-    const personality = PERSONALITY.getCommands().roll
+    const personality = PERSONALITY.getCommands().roll;
     const dice = interaction.options.getInteger(personality.diceOption.name);
     const faces = interaction.options.getInteger(personality.facesOption.name);
     if (dice && faces) {
@@ -99,7 +99,7 @@ const roll = {
   },
   admin: false,
   releaseDate: dayjs("12-13-2022", "MM-DD-YYYY"),
-  sentinelle: false
+  sentinelle: false,
 };
 
 const ignore = {
@@ -126,7 +126,7 @@ const ignore = {
   },
   admin: false,
   releaseDate: null,
-  sentinelle: false
+  sentinelle: false,
 };
 
 const ignoreChannel = {
@@ -137,7 +137,9 @@ const ignoreChannel = {
     .addChannelOption((option) =>
       option
         .setName(PERSONALITY.getCommands().ignoreChannel.channelOption.name)
-        .setDescription(PERSONALITY.getCommands().ignoreChannel.channelOption.description)
+        .setDescription(
+          PERSONALITY.getCommands().ignoreChannel.channelOption.description
+        )
         .setRequired(false)
         .addChannelTypes(ChannelType.GuildText)
     ),
@@ -147,7 +149,8 @@ const ignoreChannel = {
 
     //get corresponding channel data
     const ignoredChannel =
-      interaction.options.getChannel(iPerso.channelOption.name) || interaction.channel;
+      interaction.options.getChannel(iPerso.channelOption.name) ||
+      interaction.channel;
     const ignoredChannelId = ignoredChannel.id;
 
     if (isIgnoredChannel(db, ignoredChannelId)) {
@@ -166,7 +169,7 @@ const ignoreChannel = {
   },
   admin: true,
   releaseDate: null,
-  sentinelle: true
+  sentinelle: true,
 };
 
 //regroup all commands
@@ -197,30 +200,51 @@ const help = {
     const perso = PERSONALITY.getCommands().help;
 
     const userOption = interaction.options.getString(perso.stringOption.name); //get option given by user
-    const foundCommand = helpCommands.find(
-      (cmd) => userOption.startsWith(cmd.command.name)
+    const foundCommand = helpCommands.find((cmd) =>
+      userOption.startsWith(cmd.command.name)
     ); //find associated command
 
     if (foundCommand) {
       const member = interaction.member;
 
-      const currentServer = commons.find((server) => server.guildId === interaction.guildId);
+      const currentServer = commons.find(
+        (server) => server.guildId === interaction.guildId
+      );
       const isModo = isSentinelle(interaction.member, currentServer);
-      if (isModo && foundCommand.sentinelle) foundCommand.help(interaction, userOption); //execute sentinelle commands help
-      else if (isAdmin(member.id) && foundCommand.admin) foundCommand.help(interaction, userOption); //execute admin foundCommand help
-      else if (isReleasedCommand(foundCommand)) foundCommand.help(interaction, userOption); //execute released foundCommand help
+      if (isModo && foundCommand.sentinelle)
+        foundCommand.help(
+          interaction,
+          userOption
+        ); //execute sentinelle commands help
+      else if (isAdmin(member.id) && foundCommand.admin)
+        foundCommand.help(
+          interaction,
+          userOption
+        ); //execute admin foundCommand help
+      else if (isReleasedCommand(foundCommand))
+        foundCommand.help(
+          interaction,
+          userOption
+        ); //execute released foundCommand help
       else interactionReply(interaction, perso.notFound);
-    }
-    else interactionReply(interaction, perso.notFound);
+    } else interactionReply(interaction, perso.notFound);
   },
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const member = interaction.member;
-    const currentServer = commons.find((server) => server.guildId === interaction.guildId);
+    const currentServer = commons.find(
+      (server) => server.guildId === interaction.guildId
+    );
 
-    const releasedCommands = helpCommands.filter((cmd) => isReleasedCommand(cmd)); //filter with only released commands
-    const sentinelledCommands = !isSentinelle(interaction.member, currentServer) ? releasedCommands.filter((cmd) => !cmd.sentinelle) : releasedCommands;
-    const commands = !isAdmin(member.id) ? sentinelledCommands.filter((cmd) => !cmd.admin) : sentinelledCommands;
+    const releasedCommands = helpCommands.filter((cmd) =>
+      isReleasedCommand(cmd)
+    ); //filter with only released commands
+    const sentinelledCommands = !isSentinelle(interaction.member, currentServer)
+      ? releasedCommands.filter((cmd) => !cmd.sentinelle)
+      : releasedCommands;
+    const commands = !isAdmin(member.id)
+      ? sentinelledCommands.filter((cmd) => !cmd.admin)
+      : sentinelledCommands;
     const helpOptions = commands.reduce((acc, cur) => {
       const name = cur.subcommands ? cur.subcommands : [cur.command.name];
       return [...acc, ...name];
@@ -249,7 +273,7 @@ const help = {
   },
   admin: false,
   releaseDate: null,
-  sentinelle: false
+  sentinelle: false,
 };
 
 helpCommands.push(help);

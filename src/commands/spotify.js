@@ -25,7 +25,7 @@ const action = async (interaction, commons) => {
 
   if (subcommand === "ajouter") {
     const link = interaction.options.getString("lien");
-    const client = interaction.client
+    const client = interaction.client;
 
     const currentServer = commons.some(
       ({ guildId }) => guildId === interaction.guildId
@@ -47,16 +47,16 @@ const action = async (interaction, commons) => {
 const command = new SlashCommandBuilder()
   .setName("spotify")
   .setDescription("Permet d'interagir avec Spotify.")
-  .addSubcommand((command) => 
+  .addSubcommand((command) =>
     command
       .setName("ajouter")
       .setDescription("Ajout d'une musique dans la playlist du server.")
-      .addStringOption((option) => 
+      .addStringOption((option) =>
         option
           .setName("lien")
-          .setDescription("lien spotify de la musique à ajouter")
+          .setDescription("lien spotify de la musique ï¿½ ajouter")
       )
-  )
+  );
 
 const spotify = {
   action,

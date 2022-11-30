@@ -107,7 +107,7 @@ const twitter = {
   admin: true,
   releaseDate: null,
   sentinelle: true,
-  subcommands: ["twitter", "twitter compare", "twitter share"]
+  subcommands: ["twitter", "twitter compare", "twitter share"],
 };
 
 export default twitter;

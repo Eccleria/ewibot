@@ -80,7 +80,7 @@ const saveLog = {
     interactionReply(interaction, personality.help);
   },
   releaseDate: null,
-  sentinelle: true
+  sentinelle: true,
 };
 
 export default saveLog;

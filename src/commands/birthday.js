@@ -59,7 +59,9 @@ const command = new SlashCommandBuilder()
       .addIntegerOption((option) =>
         option
           .setName(PERSONALITY.getCommands().birthday.add.dayOption.name)
-          .setDescription(PERSONALITY.getCommands().birthday.add.dayOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().birthday.add.dayOption.description
+          )
           .setRequired(true)
           .setMinValue(1)
           .setMaxValue(31)
@@ -67,7 +69,9 @@ const command = new SlashCommandBuilder()
       .addNumberOption((option) =>
         option
           .setName(PERSONALITY.getCommands().birthday.add.monthOption.name)
-          .setDescription(PERSONALITY.getCommands().birthday.add.monthOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().birthday.add.monthOption.description
+          )
           .setRequired(true)
           .setMinValue(1)
           .setMaxValue(12)
@@ -75,7 +79,9 @@ const command = new SlashCommandBuilder()
       .addNumberOption((option) =>
         option
           .setName(PERSONALITY.getCommands().birthday.add.yearOption.name)
-          .setDescription(PERSONALITY.getCommands().birthday.add.yearOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().birthday.add.yearOption.description
+          )
           .setRequired(false)
           .setMinValue(dayjs().subtract(100, "year").year())
           .setMaxValue(dayjs().subtract(5, "year").year())
@@ -109,13 +115,19 @@ const action = async (interaction) => {
     return;
   } else if (whichCommand === bPerso.add.name) {
     // add user
-    const day = interaction.options.getInteger(bPerso.add.dayOption.name).toString();
-    const month = interaction.options.getNumber(bPerso.add.monthOption.name).toString();
+    const day = interaction.options
+      .getInteger(bPerso.add.dayOption.name)
+      .toString();
+    const month = interaction.options
+      .getNumber(bPerso.add.monthOption.name)
+      .toString();
     const year = interaction.options.getNumber(bPerso.add.yearOption.name);
 
     const dayToAdd = day.length === 1 ? "0" + day : day;
     const monthToAdd = month.length === 1 ? "0" + month : month;
-    const dateToAdd = year ? `${dayToAdd}-${monthToAdd}-${year}` : `${dayToAdd}-${monthToAdd}`;
+    const dateToAdd = year
+      ? `${dayToAdd}-${monthToAdd}-${year}`
+      : `${dayToAdd}-${monthToAdd}`;
 
     const date = dayjs(dateToAdd, ["DD-MM-YYYY", "DD-MM"]);
     if (date.isValid()) {
@@ -130,10 +142,8 @@ const action = async (interaction) => {
 
     if (user)
       await interactionReply(
-        interaction, 
-        `${bPerso.getUser}${dayjs(user.birthdayDate).format(
-          "DD/MM/YYYY"
-        )}.`
+        interaction,
+        `${bPerso.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`
       );
     else await interactionReply(interaction, bPerso.userNotFound);
   }
@@ -151,7 +161,7 @@ const birthday = {
   admin: false,
   releaseDate: null,
   sentinelle: false,
-  subcommands: ["birthday", "birthday add", "birthday get", "birthday remove"]
+  subcommands: ["birthday", "birthday add", "birthday get", "birthday remove"],
 };
 
 export default birthday;

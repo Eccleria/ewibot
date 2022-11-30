@@ -82,7 +82,7 @@ const leaderboardApology = {
   },
   admin: true,
   releaseDate: null,
-  sentinelle: true
+  sentinelle: true,
 };
 
 export default leaderboardApology;

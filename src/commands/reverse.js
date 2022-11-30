@@ -1,15 +1,18 @@
 import dayjs from "dayjs";
-import { SlashCommandBuilder, ContextMenuCommandBuilder } from "@discordjs/builders";
+import {
+  SlashCommandBuilder,
+  ContextMenuCommandBuilder,
+} from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
 
-import { interactionReply } from "./utils.js"
+import { interactionReply } from "./utils.js";
 
 const reverseStr = (string) => {
   let reversed = "";
   for (const char of string) reversed = char + reversed;
   return reversed;
-}
+};
 
 // SLASH COMMAND
 
@@ -19,13 +22,17 @@ const command = new SlashCommandBuilder()
   .addStringOption((option) =>
     option
       .setName(PERSONALITY.getCommands().reverse.stringOption.name)
-      .setDescription(PERSONALITY.getCommands().reverse.stringOption.description)
+      .setDescription(
+        PERSONALITY.getCommands().reverse.stringOption.description
+      )
       .setRequired(true)
   )
   .addBooleanOption((option) =>
     option
       .setName(PERSONALITY.getCommands().reverse.booleanOption.name)
-      .setDescription(PERSONALITY.getCommands().reverse.booleanOption.description)
+      .setDescription(
+        PERSONALITY.getCommands().reverse.booleanOption.description
+      )
       .setRequired(false)
   );
 
@@ -46,11 +53,11 @@ const reverse = {
   command,
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().reverse;
-    interactionReply(interaction, personality.help)
+    interactionReply(interaction, personality.help);
   },
   admin: false,
   releaseDate: dayjs("12-08-2022", "MM-DD-YYYY"),
-  sentinelle: false
+  sentinelle: false,
 };
 
 // CONTEXT COMMAND
@@ -74,11 +81,11 @@ const reverseTranslator = {
   command: contextCommand,
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().reverseTranslator;
-    interactionReply(interaction, personality.help)
+    interactionReply(interaction, personality.help);
   },
   admin: false,
   releaseDate: dayjs("12-16-2022", "MM-DD-YYYY"),
-  sentinelle: false
-}
+  sentinelle: false,
+};
 
 export { reverse, reverseTranslator };
