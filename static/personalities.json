@@ -189,6 +189,9 @@
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
+      "botMessage": {
+        "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot."
+      },
       "concrete": {
         "booleanOption": {
           "description": "S'il faut actualiser la pp utilisée",
