@@ -31,7 +31,9 @@ const command = new SlashCommandBuilder()
   .addBooleanOption((option) =>
     option
       .setName(PERSONALITY.getCommands().concrete.booleanOption.name)
-      .setDescription(PERSONALITY.getCommands().concrete.booleanOption.description)
+      .setDescription(
+        PERSONALITY.getCommands().concrete.booleanOption.description
+      )
       .setRequired(false)
   );
 
@@ -138,7 +140,7 @@ const concrete = {
   },
   admin: false,
   releaseDate: dayjs("12-15-2022", "MM-DD-YYYY"),
-  sentinelle: false
+  sentinelle: false,
 };
 
 export default concrete;

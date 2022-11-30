@@ -247,9 +247,15 @@ const help = {
       else return acc;
     }, []);
 
-    const releasedCommands = helpCommands.filter((cmd) => isReleasedCommand(cmd)); //filter with only released commands
-    const sentinelledCommands = !isSentinelle(interaction.member, currentServer) ? releasedCommands.filter((cmd) => !cmd.sentinelle) : releasedCommands;
-    const commands = !isAdmin(member.id) ? sentinelledCommands.filter((cmd) => !cmd.admin) : sentinelledCommands;
+    const releasedCommands = helpCommands.filter((cmd) =>
+      isReleasedCommand(cmd)
+    ); //filter with only released commands
+    const sentinelledCommands = !isSentinelle(interaction.member, currentServer)
+      ? releasedCommands.filter((cmd) => !cmd.sentinelle)
+      : releasedCommands;
+    const commands = !isAdmin(member.id)
+      ? sentinelledCommands.filter((cmd) => !cmd.admin)
+      : sentinelledCommands;
     const helpOptions = commands.reduce((acc, cur) => {
       const name = cur.subcommands ? cur.subcommands : [cur.command.name];
       return [...acc, ...name];

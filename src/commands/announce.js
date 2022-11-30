@@ -96,7 +96,7 @@ export const announceButtonHandler = (interaction) => {
 };
 
 //announce command
-const command = new SlashCommandBuilder() 
+const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().announce.name)
   .setDescription(PERSONALITY.getCommands().announce.description)
   .setDefaultMemberPermissions(0x0000010000000000)
