@@ -16,9 +16,11 @@ import {
   //isAdmin,
 } from "../helpers/index.js";
 
+import announce from "./announce.js";
 import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
+import gift from "./gift.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
 import twitter from "./twitter.js";
@@ -170,10 +172,12 @@ const ignoreChannel = {
 //regroup all commands
 const contextCommands = [reverseTranslator, saveLog]; //context commands (message, channel, user)
 const slashCommands = [
+  announce,
   //botMessage,
   birthday,
   botMessage,
   concrete,
+  gift,
   ignore,
   ignoreChannel,
   ping,
@@ -187,10 +191,10 @@ const slashCommands = [
 // HELP
 
 const helpCommands = [...contextCommands, ...slashCommands];
-/*const helpOptions = helpCommands.reduce((acc, cur) => {
-  const cmd = cur.command;
-  return [...acc, { name: cmd.name, value: cmd.name }];
-}, []);*/
+const helpOptions = helpCommands.reduce((acc, cur) => {
+  const name = cur.subcommands ? cur.subcommands : [cur.command.name];
+  return [...acc, ...name];
+}, []);
 
 const help = {
   action: (interaction) => {
@@ -198,7 +202,7 @@ const help = {
 
     const userOption = interaction.options.getString(perso.stringOption.name); //get option given by user
     const foundCommand = helpCommands.find(
-      (cmd) => cmd.command.name === userOption
+      (cmd) => userOption.startsWith(cmd.command.name)
     ); //find associated command
 
     if (foundCommand) {

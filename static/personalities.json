@@ -148,9 +148,86 @@
       "title": "Timeout"
     }
   },
+  "announces": {
+    "announce_gift": {
+      "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
+      "description": "Salut les Ewinautes ! Une fois n'est pas coutume, c'est moi qui vous fais l'annonce <:Ewiyay:918249094391144469>.\n\n Après quelques semaines de développement, et sur une idée de la modération, voici venir votre **cadeau de Noël** ! <:DuomFetard:822479563077976065>. Enfin, **vos** cadeaux <:Ewinklan:841675143596212267>",
+      "fields": {
+        "field1": {
+          "name": "Principe",
+          "value": "A partir de maintenant, vous pouvez vous envoyer des messages de Noël entre vous. Je les conserverai, et les transmettrai au matin de Noël, comme cadeaux :gift:.\n\nNotes :\n*- Vous ne pourrez envoyer de messages **qu'aux personnes l'acceptant.***\n*- Après Noël, vous ne pourrez plus utiliser cette fonctionnalité.*"
+        },
+        "field2": {
+          "name": "\u200b",
+          "value": "\u200b"
+        },
+        "field3": {
+          "name": "Utilisation",
+          "value": "Il existe 5 commandes, ayant toutes le préfix *gift* :`use`, `accepting`, `send`, `remove`, `get`.\nPour chaque commande, une description s'affiche lorsque vous les utilisez."
+        },
+        "field4": {
+          "name": "gift use",
+          "value": "La commande `gift use` permet de m'indiquer que vous souhaitez ou non recevoir des messages de Noël.\n**Par défaut, je considère que vous REFUSEZ.**",
+          "inline": true
+        },
+        "field5": {
+          "name": "gift accepting",
+          "value": "Comment savoir qui accepte ou non ? Avec `gift accepting` ! Vous indiquez une personne et je me charge de vous dire s'iel accepte les messages de Noël ou non.",
+          "inline": true
+        },
+        "field6": {
+          "name": "gift send",
+          "value": "Avec `gift send`, vous pouvez envoyer des messages de Noël à un.e utilisateurice **qui l'accepte**. Si la personne n'accepte pas, vous aurez un message d'erreur.",
+          "inline": true
+        },
+        "field7": {
+          "name": "gift remove",
+          "value": "Si vous souhaitez supprimer des messages de Noël, utilisez `gift remove`. Il suffit d'indiquer la personne voulue et j'effacerai le.s message.s. Je vous rappelerai le contenu supprimé, au cas où.",
+          "inline": true
+        },
+        "field8": {
+          "name": "gift get",
+          "value": "Un oubli ? Vous pouvez utiliser `gift get` pour que je vous rappelle quel.s message.s vous vouliez envoyer.",
+          "inline": true
+        },
+        "field9": {
+          "name": "\u200b",
+          "value": "\u200b"
+        },
+        "field10": {
+          "name": "Gestion des données",
+          "value": "Maintenant, parlons un peu de la gestion des données.\n\n*Qu'est-ce que je stocke ?*\n- Côté reception : Je garde en mémoire qui souhaite recevoir des messages.\n- Côté envoie : Je garde en mémoire qui souhaite envoyer un message, le contenu du message, lea destinateurice.\n\n*Combien de temps est-ce stocké ?*\nJe garde ces informations en mémoire **jusqu'à 2 semaines après Noël**.\n\n*Qui a accès à ces données ?*\n- Mes 2 développeurs : **Tiitch et Eccléria**.\n\n*Quelles sont les conditions d'accès ?*\n - **Avant Noël**, les seuls accès qui seront réalisé auront pour **objet exclusif de vérifier le fonctionnement** du système.\n- **Après Noël**, si jamais une personne fait remonter un **message inaproprié, la modération se réserve le droit d'accéder aux données pour enquête et éventuelles actions**.\n- Après les 2 semaines : les données seront **intégralement supprimées.**"
+        },
+        "field11": {
+          "name": "\u200b",
+          "value": "\u200b"
+        },
+        "field12": {
+          "name": "Joyeux mois de l'Avent",
+          "value": "Toute l'équipe des Sentinelles vous souhaite un joyeux mois de l'Avent, en espérant vous apprécierez cette idée <:Ewiyay:918249094391144469> !"
+        }
+      },
+      "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
+      "id": "announce_gift",
+      "notFound": "Désolé, l'annonce n'a pas été trouvée.",
+      "sending": "L'annonce est en cours d'envoi.",
+      "title": "Cadeaux de Noël"
+    }
+  },
   "normal": {
     "name": "normal",
     "commands": {
+      "announce": {
+        "buttonLabel": "Confirmer",
+        "description": "Permet d'envoyer des annonces enregistrées.",
+        "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
+        "name": "annouce",
+        "notAdmin": "Cette commande est réservée à mes développeurs.",
+        "stringOption": {
+          "description": "Quelle annonce à envoyer",
+          "name": "which"
+        }
+      },
       "birthday": {
         "add": {
           "dayOption": {
@@ -206,6 +283,86 @@
           "name": "cible"
         },
         "errorMention": "Il faut une seule mention."
+      },
+      "gift": {
+        "accepting": {
+          "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
+          "description": "Pour savoir si un.e utilisateurice accepte les messages de Noël",
+          "help": "Cette commande permet de vérifier si lea utilisateurice que vous mentionnez accepte ou non les messages de Noël.\nPour l'utiliser, tapez `gift accepting @utilisateurice`.",
+          "name": "accepting",
+          "notAccept": " n'accepte pas de recevoir les messages de Noël.",
+          "user": "L'utilisateurice ",
+          "userOption": {
+            "description": "La personne acceptant ou non de reçevoir les messages.",
+            "name": "destinateurice"
+          }
+        },
+        "buttonLabel": "Recevoir",
+        "compensation": "Je te souhaite un merveilleux Noël ! 🎁 <:DuomFetard:822479563077976065>",
+        "delivery": "Joyeux Noël ! <:DuomFetard:822479563077976065>\n Voici venir vos messages de Noël 🎁",
+        "description": "Pour envoyer un message anonyme de Noël.",
+        "get": {
+          "accept": " (qui accepte les messages de Noël)",
+          "description": "Permet d'obtenir vos messages déjà programmés.",
+          "for": "Destiné.s à ",
+          "hasMessages": "Vous avez envoyé des messages de Noël, les voici :",
+          "help": "Cette commande vous permet de voir les messages que vous avez déjà prévu d'envoyer. Vous avez 2 possibilités d'utilisation :\n- `gift get` récupère tous vos messages prévus et vous les transmet.\n- `gift get @utilisateurice` vous permet de voir les messages destinés à une personne que vous choisissez.",
+          "name": "get",
+          "noMessage": "Vous n'avez aucun message d'enregistré.",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
+          "separator": "\n-----\n",
+          "userOption": {
+            "description": "La personne devant reçevoir les messages.",
+            "name": "destinateurice"
+          }
+        },
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `gift remove` pour supprimer les messages destinés à une personne.\n- `gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `gift use` pour accepter ou non les messages.",
+        "name": "gift",
+        "nDayEmbed": {
+          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469> Joyeux Noël <:DuomFetard:822479563077976065> !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyé quand vous cliquerez sur le bouton ci-dessous.",
+          "noteName": "Rappel",
+          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publiques.",
+          "title": "Surprise de Noël"
+        },
+        "remove": {
+          "accept": " (qui accepte les messages de Noël)",
+          "description": "Permet de supprimer un message de Noël.",
+          "for": "Destiné.s à ",
+          "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime tous les messages prévus.",
+          "name": "remove",
+          "noMessage": "Vous n'avez aucun message d'enregistré.",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
+          "separator": "\n-----\n",
+          "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
+          "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
+          "userOption": {
+            "description": "La personne qui recevra le message.",
+            "name": "destinateurice"
+          }
+        },
+        "send": {
+          "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël <:DuomFetard:822479563077976065>",
+          "description": "Pour envoyer un message de Noël.",
+          "help": "Cette commande vous permet d'envoyer un message de Noël. \n*Attention, le message à envoyer ne peut pas contenir de pièces jointes. Seulement du texte et des liens.*\n`gift send @utilisateurice 'message'` envoie le contenu `message` à l'utilisateurice mentionné.",
+          "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
+          "name": "send",
+          "saved": "Le message a été sauvegardé.",
+          "textOption": {
+            "description": "Le message à envoyer.",
+            "name": "message"
+          },
+          "userOption": {
+            "description": "La personne qui recevra le message.",
+            "name": "destinateurice"
+          }
+        },
+        "use": {
+          "description": "Pour accepter ou non de recevoir les messages de Noël.",
+          "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `gift use`",
+          "isAccepting": "Vous acceptez maintenant les messages de Noël.",
+          "isNotAccepting": "Dorénavant, vous refusez de recevoir les messages de Noël",
+          "name": "use"
+        }
       },
       "helloWorld": {
         "help": "Cette commande n'a pas besoin de description.",

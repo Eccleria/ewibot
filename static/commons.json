@@ -77,6 +77,10 @@
       "andartapictures": "1039418011260727296"
     },
     "octagonalSign": "🛑",
+    "announce": {
+      "giftChannelId": "935180557770448956"
+    },
+    "giftChannelId": "935180557770448956"
     "sentinelleRoleId": "1043971181461651506"
   },
   {
@@ -157,6 +161,10 @@
       "andartapictures": "1039418011260727296"
     },
     "octagonalSign": "🛑",
+    "announce": {
+      "giftChannelId": "973206750771687434"
+    },
+    "giftButtonChannelId": "973206750771687434"
     "sentinelleRoleId": "816975096518279188"
   }
 ]

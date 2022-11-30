@@ -1,5 +1,11 @@
 ﻿## 4.4.0
 - Feat: `/help` command with autocomplete feature
+- Feat: `/gift` commands: `use`, `add`, `remove`, `get`, `accepting`
+- Feat: `/anounce` command
+	- announce confirmation `button`
+	- `announce_gift` as first annouce
+- Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
+- Update: add announce personality part where announce_... content is stored
 
 ## 4.3.0
 - Feat: twitter
@@ -8,6 +14,8 @@
 - Fix: `commands.md` with wrong links and typos
 - Fix: `messageDelete` deleter not as embed
 - Fix: `date` log field now adapt between prod and test mode
+- Fix: `memberKick` wrong db index access 
+- Fix: rare crash case with `updateChannel` after `memberKick`
 - Doc : `twitter.md`
 
 ## 4.2.0

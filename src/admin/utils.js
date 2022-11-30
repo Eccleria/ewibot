@@ -231,7 +231,8 @@ export const generalEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  const channel = await getLogChannel(obj); //get logChannel
+  const channel = await getLogChannel(commons, obj); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed

@@ -1,4 +1,4 @@
-import { buttonHandler } from "./pronouns.js";
+import { buttonHandler } from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
@@ -125,14 +125,20 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       //removed permission overwrite
       const oldDiff = oldDiffCol.first();
       const id = oldDiff.id; //get PO target id
-      const obj =
-        oldDiff.type === "member"
-          ? await oldChannel.guild.members.fetch(id)
-          : await oldChannel.guild.roles.fetch(id);
+      let obj;
+      try {
+        obj =
+          oldDiff.type === "member"
+            ? await oldChannel.guild.members.fetch(id)
+            : await oldChannel.guild.roles.fetch(id);
+      } catch (e) {
+        console.log(e)
+        obj = null
+      }
       const name =
         oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
 
-      embed.addField(name, obj.toString());
+      if (obj) embed.addField(name, obj.toString());
       finishEmbed(chnUp, null, embed, logChannel);
       return;
     } else if (newDiffCol.size !== 0) {
@@ -826,8 +832,9 @@ export const onGuildMemberRemove = async (memberKick) => {
       embed,
       logChannel
     );
+
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "userAD", 2)
+      addAdminLogs(msg.client.db, msg.id, "userAD", 1)
     );
     return;
   }

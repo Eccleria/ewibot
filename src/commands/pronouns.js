@@ -1,7 +1,8 @@
-import { MessageActionRow, MessageButton } from "discord.js";
+import { MessageActionRow } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 
 import { setupEmbed } from "../admin/utils.js";
+import { createButton } from "./utils.js";
 
 const action = async (message, client, currentServer) => {
   const { pronounsRoleHandleChannelId } = currentServer;
@@ -51,10 +52,6 @@ const action = async (message, client, currentServer) => {
     embeds: [embedAgreements],
     components: rowAgreement,
   });
-};
-
-const createButton = (id, label, style) => {
-  return new MessageButton().setCustomId(id).setLabel(label).setStyle(style);
 };
 
 const pronouns = {
