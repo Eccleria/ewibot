@@ -46,7 +46,7 @@ export const buttonHandler = (interaction) => {
  * @param {any} currentServer current server data from commons.json
  * @returns {boolean}
  */
-export const isSentinelle = async (member, currentServer) => {
+export const isSentinelle = (member, currentServer) => {
   const roles = member.roles.cache;
   return roles.has(currentServer.sentinelleRoleId)
 };
