@@ -191,10 +191,6 @@ const slashCommands = [
 // HELP
 
 const helpCommands = [...contextCommands, ...slashCommands];
-const helpOptions = helpCommands.reduce((acc, cur) => {
-  const name = cur.subcommands ? cur.subcommands : [cur.command.name];
-  return [...acc, ...name];
-}, []);
 
 const help = {
   action: (interaction) => {
@@ -220,7 +216,12 @@ const help = {
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const releasedCommands = helpCommands.filter((cmd) => isReleasedCommand(cmd)); //filter with only released commands
-    const choices = releasedCommands.map((cmd) => cmd.command.name); //get all commands names
+
+    const currentServer = commons.find((server) => server.guildId === interaction.guildId);
+    const commands = !isSentinelle(interaction.member, currentServer) ? releasedCommands.filter((cmd) => !cmd.sentinelle) : releasedCommands;
+
+    const choices = commands.map((cmd) => cmd.command.name); //get all commands names
+
     const filtered = choices.filter((choice) =>
       choice.startsWith(focusedValue)
     ); //filter to corresponding commands names
