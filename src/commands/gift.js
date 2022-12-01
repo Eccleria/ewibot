@@ -9,10 +9,7 @@ import {
   getGiftMessage,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import {
-  addGiftMessage,
-  removeGiftMessage,
-} from "../helpers/index.js";
+import { addGiftMessage, removeGiftMessage } from "../helpers/index.js";
 import dayjs from "dayjs";
 
 //jsons import
@@ -82,38 +79,29 @@ const giftInteractionCreation = async (client) => {
   channel.send({ embeds: [embed], components: [actionRow] });
 };
 
-const giftRecursiveTimeout = (client, commons, waitingTime) => {
-  // Handle too long timeout waiting time before dispatching
-  const maxBitValue = 2147483647; //max value for 32-bit signed int
-  const loopValue = Math.floor(waitingTime / maxBitValue);
-
-  if (loopValue > 0)
-    //if too long for a 32-bit
-    setTimeout(
-      giftRecursiveTimeout,
-      maxBitValue, //wait max waiting time possible
-      client,
-      commons,
-      waitingTime - maxBitValue //loop with the difference
-    );
-  else
-    setTimeout(
-      giftInteractionCreation,
-      Math.max(1000, waitingTime),
-      client,
-      commons
-    );
-};
-
-export const setGiftTimeoutLoop = (client, commons) => {
+export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
   const dDate = new Date(2022, 11, 25, 1); //date when to send
 
-  const sendDate = dayjs(dDate); //dayjs object
-  const waitingTime = sendDate.diff(dayjs());
-  console.log("giftWaitingTime", waitingTime);
+  const tomorrow2Am = dayjs()
+    .add(1, "day")
+    .hour(0)
+    .minute(0)
+    .second(0)
+    .millisecond(0); //tomorrow @ midnight
 
-  giftRecursiveTimeout(client, commons, waitingTime);
+  const timeToMidnight = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
+  const dayMs = 86400000;
+
+  setTimeout(() => {
+    setInterval(() => {
+      const today = dayjs();
+      if (dDate.month() === today.month() && dDate.date() === today.date()) {
+        // send the gifts
+        giftInteractionCreation(client);
+      }
+    }, dayMs);
+  }, timeToMidnight);
 };
 
 const command = new SlashCommandBuilder()
@@ -185,7 +173,9 @@ const command = new SlashCommandBuilder()
       .addUserOption((option) =>
         option
           .setName(PERSONALITY.getCommands().gift.accepting.userOption.name)
-          .setDescription(PERSONALITY.getCommands().gift.accepting.userOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().gift.accepting.userOption.description
+          )
           .setRequired(true)
       )
   );
@@ -241,14 +231,16 @@ const action = async (interaction) => {
 
       await interactionReply(interaction, remove.removed);
       dbResults.forEach(async (obj) => {
-        const userId = obj.recipientId
+        const userId = obj.recipientId;
         const name = remove.for + `<@${userId}>`;
-        const userState = isGiftUser(db, userId) ? remove.accept : remove.notAccept;
+        const userState = isGiftUser(db, userId)
+          ? remove.accept
+          : remove.notAccept;
 
         const messages = obj.messages.reduce(
           (acc, cur) => acc + remove.separator + cur,
           ""
-        ); //concat messages 
+        ); //concat messages
         await interaction.followUp({
           content: name + userState + messages,
           ephemeral: true,
@@ -265,14 +257,14 @@ const action = async (interaction) => {
     if (dbResult.length !== 0) {
       await interactionReply(interaction, get.hasMessages);
       dbResult.forEach(async (obj) => {
-        const userId = obj.recipientId
+        const userId = obj.recipientId;
         const name = get.for + `<@${userId}>`;
         const userState = isGiftUser(db, userId) ? get.accept : get.notAccept;
 
         const messages = obj.messages.reduce(
           (acc, cur) => acc + get.separator + cur,
           ""
-        ); //concat messages 
+        ); //concat messages
         await interaction.followUp({
           content: name + userState + messages,
           ephemeral: true,
@@ -287,8 +279,7 @@ const action = async (interaction) => {
 
     if (isGiftUser(db, recipient.id))
       interactionReply(interaction, content + accepting.accept);
-    else 
-      interactionReply(interaction, content + accepting.notAccept);
+    else interactionReply(interaction, content + accepting.notAccept);
   }
 };
 
@@ -297,10 +288,19 @@ const gift = {
   command,
   help: (interaction, userOption) => {
     const personality = PERSONALITY.getCommands().gift;
-    const helpToUse = userOption.includes(" ") ? personality[userOption.split(" ")[1]] : personality;
+    const helpToUse = userOption.includes(" ")
+      ? personality[userOption.split(" ")[1]]
+      : personality;
     interactionReply(interaction, helpToUse.help);
   },
-  subcommands: ["gift", "gift use", "gift send", "gift remove", "gift get", "gift accepting"]
+  subcommands: [
+    "gift",
+    "gift use",
+    "gift send",
+    "gift remove",
+    "gift get",
+    "gift accepting",
+  ],
 };
 
 export default gift;
