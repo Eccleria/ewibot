@@ -228,7 +228,7 @@
         "buttonLabel": "Confirmer",
         "description": "Permet d'envoyer des annonces enregistrées.",
         "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
-        "name": "annouce",
+        "name": "announce",
         "notAdmin": "Cette commande est réservée à mes développeurs.",
         "stringOption": {
           "description": "Quelle annonce à envoyer",
@@ -464,7 +464,7 @@
         },
         "description": "Permet d'envoyer des annonces enregistrées.",
         "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
-        "name": "annouce",
+        "name": "announce",
         "notAdmin": "Cette commande est réservée à mes développeurs.",
         "stringOption": {
           "description": "Choisit quelle annonce à envoyer",
