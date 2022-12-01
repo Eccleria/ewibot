@@ -1,4 +1,11 @@
-﻿## 4.4.0
+﻿## 4.5.0
+- Feat: All non unique $ commands as `/commands`
+- Feat: new `/commands`:
+	- `/reverse` for reversing text
+	- `reverse-translator` for traducing reversed text
+- Update: `/help` now with adapatative autocomplete and action according to user rigths
+
+## 4.4.0
 - Feat: `/help` command with autocomplete feature
 - Feat: `/gift` commands: `use`, `add`, `remove`, `get`, `accepting`
 - Feat: `/announce` command
