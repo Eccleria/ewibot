@@ -1,7 +1,7 @@
 ﻿## 4.4.0
-- Feat: `help` command with autocomplete feature
-- Feat: `gift` commands: `use`, `add`, `remove`, `get`, `accepting`
-- Feat: `anounce` command
+- Feat: `/help` command with autocomplete feature
+- Feat: `/gift` commands: `use`, `add`, `remove`, `get`, `accepting`
+- Feat: `/announce` command
 	- announce confirmation button
 	- `announce_gift` as first annouce
 - Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
