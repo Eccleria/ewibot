@@ -236,7 +236,6 @@ const action = async (interaction) => {
       ? removeGiftMessage(db, author.id, targetUser.id)
       : removeGiftMessage(db, author.id);
 
-    console.log("dbResults", dbResults);
     if (dbResults.length !== 0) {
       //is list
 
