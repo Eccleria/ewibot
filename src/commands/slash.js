@@ -2,6 +2,8 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
+import announce from "./announce.js";
+import gift from "./gift.js";
 import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import { PERSONALITY } from "../personality.js";
@@ -11,6 +13,7 @@ const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const contextCommands = [saveLog];
 const slashCommands = [
+  announce,
   /*botMessage,
   birthday,
   concrete,
@@ -19,16 +22,17 @@ const slashCommands = [
   ping,
   reminder,
   roll,*/
+  gift,
   twitter,
 ]; //command + action
 
 // HELP
 
 const helpCommands = [...contextCommands, ...slashCommands];
-/*const helpOptions = helpCommands.reduce((acc, cur) => {
-  const cmd = cur.command;
-  return [...acc, { name: cmd.name, value: cmd.name }];
-}, []);*/
+const helpOptions = helpCommands.reduce((acc, cur) => {
+  const name = cur.subcommands ? cur.subcommands : [cur.command.name];
+  return [...acc, ...name];
+}, []);
 
 const help = {
   action: (interaction) => {
@@ -36,17 +40,16 @@ const help = {
 
     const userOption = interaction.options.getString(perso.stringOption.name); //get option given by user
     const foundCommand = helpCommands.find(
-      (cmd) => cmd.command.name === userOption
+      (cmd) => userOption.startsWith(cmd.command.name)
     ); //find associated command
 
     if (foundCommand)
-      foundCommand.help(interaction); //execute foundCommand help()
+      foundCommand.help(interaction, userOption); //execute foundCommand help()
     else interactionReply(interaction, perso.notFound);
   },
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
-    const choices = helpCommands.map((cmd) => cmd.command.name); //get all commands names
-    const filtered = choices.filter((choice) =>
+    const filtered = helpOptions.filter((choice) =>
       choice.startsWith(focusedValue)
     ); //filter to corresponding commands names
     interaction.respond(

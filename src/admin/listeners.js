@@ -1,4 +1,4 @@
-import { buttonHandler } from "./pronouns.js";
+import { buttonHandler } from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
