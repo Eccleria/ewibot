@@ -116,7 +116,14 @@
     "roleUpdate": {
       "author": "Rôle :",
       "executor": "Modifié par :",
-      "features": [ "- Couleur : ", "- Séparé : ", "- Icone : ", "- Emote : ", "- Nom : ", "- Permissions : " ],
+      "features": [
+        "- Couleur : ",
+        "- Séparé : ",
+        "- Icone : ",
+        "- Emote : ",
+        "- Nom : ",
+        "- Permissions : "
+      ],
       "new": "\n  Ajoutée.s : ",
       "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
       "old": "\n  Supprimée.s : ",
@@ -221,7 +228,7 @@
         "buttonLabel": "Confirmer",
         "description": "Permet d'envoyer des annonces enregistrées.",
         "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
-        "name": "annouce",
+        "name": "announce",
         "notAdmin": "Cette commande est réservée à mes développeurs.",
         "stringOption": {
           "description": "Quelle annonce à envoyer",
@@ -319,9 +326,9 @@
         "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `gift remove` pour supprimer les messages destinés à une personne.\n- `gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `gift use` pour accepter ou non les messages.",
         "name": "gift",
         "nDayEmbed": {
-          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469> Joyeux Noël <:DuomFetard:822479563077976065> !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyé quand vous cliquerez sur le bouton ci-dessous.",
+          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469> Joyeux Noël <:DuomFetard:822479563077976065> !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
           "noteName": "Rappel",
-          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publiques.",
+          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.",
           "title": "Surprise de Noël"
         },
         "remove": {
@@ -529,7 +536,7 @@
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
-      "react": [ ". Vous pouvez react avec ", " pour annuler cet ajout !" ],
+      "react": [". Vous pouvez react avec ", " pour annuler cet ajout !"],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }

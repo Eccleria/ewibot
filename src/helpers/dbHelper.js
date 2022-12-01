@@ -122,7 +122,6 @@ const isMessageRecipient = (db, recipientId) => {
 const addGiftMessage = (db, recipientId, content, senderId) => {
   const data = db.data.gift.messages;
   const toPush = { senderId: senderId, message: content };
-  console.log("toPush", toPush, recipientId);
 
   if (!isMessageRecipient(db, recipientId)) {
     //ad user to db + message

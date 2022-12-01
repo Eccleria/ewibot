@@ -72,45 +72,41 @@ const giftInteractionCreation = async (client) => {
     .setDescription(nDayEmbed.description)
     .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText })
     .setImage(
-      "https://media.discordapp.net/attachments/959815577575256124/1040652879364636702/PP_Astronaute_Noel.jpg?width=670&height=670"
+      "https://cdn.discordapp.com/attachments/1040335601330831420/1047879588220514394/image.png"
     );
 
   //create message and send it
   channel.send({ embeds: [embed], components: [actionRow] });
 };
 
-const giftRecursiveTimeout = (client, commons, waitingTime) => {
-  // Handle too long timeout waiting time before dispatching
-  const maxBitValue = 2147483647; //max value for 32-bit signed int
-  const loopValue = Math.floor(waitingTime / maxBitValue);
-
-  if (loopValue > 0)
-    //if too long for a 32-bit
-    setTimeout(
-      giftRecursiveTimeout,
-      maxBitValue, //wait max waiting time possible
-      client,
-      commons,
-      waitingTime - maxBitValue //loop with the difference
-    );
-  else
-    setTimeout(
-      giftInteractionCreation,
-      Math.max(1000, waitingTime),
-      client,
-      commons
-    );
-};
-
-export const setGiftTimeoutLoop = (client, commons) => {
+export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
-  const dDate = new Date(2022, 11, 25, 1); //date when to send
+  const dDate = dayjs(new Date(2022, 11, 25, 1)); //date when to send
 
-  const sendDate = dayjs(dDate); //dayjs object
-  const waitingTime = sendDate.diff(dayjs());
-  console.log("giftWaitingTime", waitingTime);
+  const tomorrowMidnight = dayjs()
+    .add(1, "day")
+    .hour(0)
+    .minute(0)
+    .second(0)
+    .millisecond(0); //tomorrow @ midnight
 
-  giftRecursiveTimeout(client, commons, waitingTime);
+  const timeToMidnight = tomorrowMidnight.diff(dayjs());
+  const dayMs = 86400000;
+
+  const sendMessage = () => {
+    const today = dayjs();
+    if (dDate.month() === today.month() && dDate.date() === today.date()) {
+      // send the gifts
+      giftInteractionCreation(client);
+    }
+  };
+
+  setTimeout(() => {
+    sendMessage();
+    setInterval(() => {
+      sendMessage();
+    }, dayMs);
+  }, timeToMidnight);
 };
 
 const command = new SlashCommandBuilder()
