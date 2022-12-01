@@ -81,25 +81,30 @@ const giftInteractionCreation = async (client) => {
 
 export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
-  const dDate = new Date(2022, 11, 25, 1); //date when to send
+  const dDate = dayjs(new Date(2022, 11, 25, 1)); //date when to send
 
-  const tomorrow2Am = dayjs()
+  const tomorrowMidnight = dayjs()
     .add(1, "day")
     .hour(0)
     .minute(0)
     .second(0)
     .millisecond(0); //tomorrow @ midnight
 
-  const timeToMidnight = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
+  const timeToMidnight = tomorrowMidnight.diff(dayjs());
   const dayMs = 86400000;
 
+  const sendMessage = () => {
+    const today = dayjs();
+    if (dDate.month() === today.month() && dDate.date() === today.date()) {
+      // send the gifts
+      giftInteractionCreation(client);
+    }
+  };
+
   setTimeout(() => {
+    sendMessage();
     setInterval(() => {
-      const today = dayjs();
-      if (dDate.month() === today.month() && dDate.date() === today.date()) {
-        // send the gifts
-        giftInteractionCreation(client);
-      }
+      sendMessage();
     }, dayMs);
   }, timeToMidnight);
 };
