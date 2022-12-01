@@ -75,7 +75,7 @@ const giftInteractionCreation = async (client) => {
     .setDescription(nDayEmbed.description)
     .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText })
     .setImage(
-      "https://media.discordapp.net/attachments/959815577575256124/1040652879364636702/PP_Astronaute_Noel.jpg?width=670&height=670"
+      "https://cdn.discordapp.com/attachments/1040335601330831420/1047879588220514394/image.png"
     );
 
   //create message and send it
