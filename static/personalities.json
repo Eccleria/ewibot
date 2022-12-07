@@ -242,6 +242,7 @@
             "name": "jour"
           },
           "description": "Ajouter/modifier votre date de naissance.",
+          "help": "Via cette commande, vous pouvez enregistrer votre date de naissance pour qu'Ewibot vous souhaite votre anniversaire. Il existe 2 versions :\n- Si vous utilisez la commande `$birthday add`, vous devez écrire votre date de naissance sous la forme **DD/MM** ou **DD/MM/AAAA**.\n- Si vous utilisez la commande `/birthday add`, vous devez remplir les champs `jour` et `mois`. Le champ `année` est optionnel.\n\nLe jour J, Ewibot vous enverra une notification d'anniversaire.",
           "name": "ajouter",
           "monthOption": {
             "description": "Votre mois de naissance.",
@@ -258,14 +259,16 @@
         "description": "Permet de modifier votre profil d'anniversaire.",
         "get": {
           "description": "Pour voir votre date d'anniversaire enregistrée.",
+          "help": "Cette commande vous permet de vérifier si vous avez enregistré une date de naissance et sa valeur si elle existe.",
           "name": "get"
         },
         "getUser": "Ton anniversaire est le ",
-        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday get` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
         "name": "birthday",
         "parsingError": "Erreur de parsing dans la date.",
         "remove": {
           "description": "Pour retirer votre date de naissance.",
+          "help": "Via cette commande, vous pouvez supprimer votre date de naissance, si elle est enregistrée.",
           "name": "remove"
         },
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",

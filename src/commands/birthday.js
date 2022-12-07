@@ -154,9 +154,12 @@ const birthday = {
   name: "birthday",
   command: command,
   action,
-  help: (interaction) => {
-    const personality = PERSONALITY.getCommands().birthday.help;
-    interactionReply(interaction, personality);
+  help: (interaction, userOption) => {
+    const personality = PERSONALITY.getCommands().birthday;
+    const helpToUse = userOption.includes(" ")
+      ? personality[userOption.split(" ")[1]]
+      : personality;
+    interactionReply(interaction, helpToUse.help);
   },
   admin: false,
   releaseDate: null,
