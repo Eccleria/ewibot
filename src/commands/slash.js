@@ -211,17 +211,19 @@ const help = {
         (server) => server.guildId === interaction.guildId
       );
       const isModo = isSentinelle(interaction.member, currentServer);
+      const isAdminUser = isAdmin(member.id)
+
       if (isModo && foundCommand.sentinelle)
         foundCommand.help(
           interaction,
           userOption
         ); //execute sentinelle commands help
-      else if (isAdmin(member.id) && foundCommand.admin)
+      else if (isAdminUser && foundCommand.admin)
         foundCommand.help(
           interaction,
           userOption
         ); //execute admin foundCommand help
-      else if (isReleasedCommand(foundCommand))
+      else if (isReleasedCommand(foundCommand) && (!foundCommand.sentinelle || !foundCommand.admin))
         foundCommand.help(
           interaction,
           userOption
@@ -236,15 +238,15 @@ const help = {
       (server) => server.guildId === interaction.guildId
     );
 
-    const releasedCommands = helpCommands.filter((cmd) =>
-      isReleasedCommand(cmd)
-    ); //filter with only released commands
-    const sentinelledCommands = !isSentinelle(interaction.member, currentServer)
-      ? releasedCommands.filter((cmd) => !cmd.sentinelle)
-      : releasedCommands;
-    const commands = !isAdmin(member.id)
-      ? sentinelledCommands.filter((cmd) => !cmd.admin)
-      : sentinelledCommands;
+    const isModo = isSentinelle(interaction.member, currentServer);
+    const isDev = isAdmin(interaction.member.id);
+    const commands = helpCommands.reduce((acc, cmd) => {
+      if (isModo && cmd.sentinelle) return [...acc, cmd];
+      else if (isDev) return [...acc, cmd];
+      else if (isReleasedCommand(cmd) && (!cmd.sentinelle && !cmd.admin)) return [...acc, cmd];
+      else return acc
+    }, []);
+
     const helpOptions = commands.reduce((acc, cur) => {
       const name = cur.subcommands ? cur.subcommands : [cur.command.name];
       return [...acc, ...name];
@@ -253,8 +255,10 @@ const help = {
     const filtered = helpOptions.filter((choice) =>
       choice.startsWith(focusedValue)
     ); //filter to corresponding commands names
+
+    const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
     interaction.respond(
-      filtered.map((choice) => ({ name: choice, value: choice }))
+      sliced.map((choice) => ({ name: choice, value: choice }))
     );
   },
   command: new SlashCommandBuilder()
