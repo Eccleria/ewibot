@@ -102,14 +102,14 @@ const roll = {
   sentinelle: false,
 };
 
-const ignore = {
+const ignoreUser = {
   command: new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().ignore.name)
-    .setDescription(PERSONALITY.getCommands().ignore.description),
+    .setName(PERSONALITY.getCommands().ignoreUser.name)
+    .setDescription(PERSONALITY.getCommands().ignoreUser.description),
   action: (interaction) => {
     const db = interaction.client.db;
     const authorId = interaction.member.id;
-    const iPerso = PERSONALITY.getCommands().ignore;
+    const iPerso = PERSONALITY.getCommands().ignoreUser;
 
     //check for command argument
     if (isIgnoredUser(authorId, db)) {
@@ -122,7 +122,7 @@ const ignore = {
   },
   help: (interaction) => {
     const personality = PERSONALITY.getCommands();
-    interactionReply(interaction, personality.ignore.help);
+    interactionReply(interaction, personality.ignoreUser.help);
   },
   admin: false,
   releaseDate: null,
@@ -181,8 +181,8 @@ const slashCommands = [
   botMessage,
   concrete,
   gift,
-  ignore,
   ignoreChannel,
+  ignoreUser,
   ping,
   reminder,
   reverse,

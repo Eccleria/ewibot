@@ -392,13 +392,6 @@
           "name": "which_command"
         }
       },
-      "ignore": {
-        "description": "Permet de choisir si je réagirai à vos messages ou non.",
-        "help": "Cette commande m'empêche ou non de réagir à vos messages.",
-        "name": "ignore",
-        "ignored": "Dorénavant je ne réagirai plus à vos messages.",
-        "notIgnored": "Je vais de nouveau réagir à vos messages."
-      },
       "ignoreChannel": {
         "channelOption": {
           "description": "Salon concerné",
@@ -406,9 +399,16 @@
         },
         "description": "Ewibot ignore ou non le channel.",
         "ignored": "Je vais ignorer les messages de ",
-        "name": "ignorechannel",
+        "name": "ignore_channel",
         "notIgnored": "Je n'ignorerai plus les messages de ",
         "help": "Ewibot ignore ou non le channel. Utilisation :\n- `/ignoreChannel #channel` dans n'importe quel channel.\n- `/ignoreChannel` dans le channel concerné."
+      },
+      "ignoreUser": {
+        "description": "Permet de choisir si je réagirai à vos messages ou non.",
+        "help": "Cette commande m'empêche ou non de réagir à vos messages.",
+        "name": "ignore_user",
+        "ignored": "Dorénavant je ne réagirai plus à vos messages.",
+        "notIgnored": "Je vais de nouveau réagir à vos messages."
       },
       "leaderboardApology": {
         "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
