@@ -31,6 +31,9 @@
       "text": "Modifications :\n",
       "title": "Salon modifié"
     },
+    "commands": {
+      "notReleased": "La commande n'est pas disponible."
+    },
     "guildBan": {
       "author": "Membre :",
       "executor": "Banni par :",

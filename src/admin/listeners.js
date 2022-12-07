@@ -1,4 +1,4 @@
-import { buttonHandler } from "../commands/utils.js";
+import { buttonHandler, interactionReply, isReleasedCommand } from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
@@ -65,7 +65,7 @@ export const onInteractionCreate = (interaction) => {
           (cmd) => cmd.command.name === interaction.commandName
         )
       : null; //find command that fired onInteractionCreate
-    if (foundCommand) foundCommand.autocomplete(interaction);
+    if (foundCommand && isReleasedCommand(foundCommand)) foundCommand.autocomplete(interaction);
     else interaction.respond([]); //if not found, return no choices
   } else if (interaction.isCommand()) {
     //slash commands
@@ -76,7 +76,8 @@ export const onInteractionCreate = (interaction) => {
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+    if (foundCommand && isReleasedCommand(foundCommand)) foundCommand.action(interaction); //if found command, execute its action
+    else interactionReply(interaction, PERSONALITY.getAdmin().commands.notReleased)
   }
 };
 
