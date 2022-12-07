@@ -218,7 +218,7 @@ const help = {
           interaction,
           userOption
         ); //execute sentinelle commands help
-      else if (isAdminUser && foundCommand.admin)
+      else if (isAdminUser)
         foundCommand.help(
           interaction,
           userOption
