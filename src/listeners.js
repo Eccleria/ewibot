@@ -74,17 +74,17 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 
 export const onRemoveReminderReaction = (messageReaction, user, currentServer) => {
   const { removeEmoji } = currentServer;
-  const { message, emoji, client } = messageReaction;
+  const { message, emoji, users, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
     ({ botMessage }) => botMessage.id === message.id
   );
-
+  const test = message.interaction ? user.id === message.interaction.user.id : users.cache.map((user) => user.id).includes(message.mentions.users.first().id)
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
-    user.id === message.interaction.user.id  // if user reacting is the owner of reminder
+    test  // if user reacting is the owner of reminder
   ) {
     try {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
