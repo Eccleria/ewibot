@@ -37,25 +37,47 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-const action = async (interaction) => {
+const action = async (object, type) => {
   //action to execute when command is fired
-  const { channel, client, options } = interaction;
   const cPerso = PERSONALITY.getCommands().concrete;
+  const { channel, client } = object;
 
-  //get options
-  const force = options.getBoolean(cPerso.booleanOption.name);
-  let user;
-  try {
-    user = options.getUser(cPerso.userOption.name);
-  } catch (e) {
-    interactionReply(interaction, personality.errorMention);
-    console.log("concrete error", e);
-    return;
+  let force;
+  let recipient;
+  let buffer;
+
+  if (type === "$") {
+    const message = object;
+    const { mentions, content } = message;
+    if (mentions.users.size !== 1) {
+      //if no or too many mentions, or @here/everyone
+      message.reply(PERSONALITY.getCommands().concrete.errorMention);
+      return;
+    }
+
+    channel.sendTyping();
+    recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
+    force = content.includes("--force");
+  }
+  else if (type === "/") {
+    const interaction = object
+    const options = interaction.options;
+
+    //get options
+    force = options.getBoolean(cPerso.booleanOption.name);
+    let user;
+    try {
+      user = options.getUser(cPerso.userOption.name);
+    } catch (e) {
+      interactionReply(interaction, personality.errorMention);
+      console.log("concrete error", e);
+      return;
+    }
+
+    await interaction.deferReply();
+    recipient = await client.users.fetch(user.id); //get guildMember from user id
   }
 
-  await interaction.deferReply();
-
-  const recipient = await client.users.fetch(user.id); //get guildMember from user id
   const self = process.env.CLIENTID;
   const currentServer = commons.find(
     ({ guildId }) => guildId === channel.guild.id
@@ -112,19 +134,16 @@ const action = async (interaction) => {
     }
     encoder.finish();
 
-    const buffer = encoder.out.getData(); //Recover the gif
+    buffer = encoder.out.getData(); //Recover the gif
     fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
-    const attachment = new MessageAttachment(buffer, cPerso.fileName);
+  } else buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
-    const sentMessage = await interaction.editReply({ files: [attachment] });
-    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
-  } else {
-    const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
+  const attachment = new MessageAttachment(buffer, cPerso.fileName);
+  let sentMessage;
+  if (type === "$") sentMessage = await channel.send({ files: [attachment] });
+  else if (type === "/") sentMessage = await interaction.editReply({ files: [attachment] });
 
-    const attachment = new MessageAttachment(buffer, cPerso.fileName);
-    const sentMessage = await interaction.editReply({ files: [attachment] });
-    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
-  }
+  if (recipient.id === self) await sentMessage.react(currentServer.edouin);
 };
 
 const concrete = {
