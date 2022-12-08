@@ -238,8 +238,8 @@ const help = {
       (server) => server.guildId === interaction.guildId
     );
 
-    const isModo = isSentinelle(interaction.member, currentServer);
-    const isDev = isAdmin(interaction.member.id);
+    const isModo = isSentinelle(member, currentServer);
+    const isDev = isAdmin(member.id);
     const commands = helpCommands.reduce((acc, cmd) => {
       if (isModo && cmd.sentinelle) return [...acc, cmd];
       else if (isDev) return [...acc, cmd];
