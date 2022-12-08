@@ -454,7 +454,7 @@
         }
       },
       "reminder": {
-        "delete": "Le remind a bien été supprimé",
+        "delete": "Le reminder a bien été supprimé.",
         "description": "Une commande alarme pense-bête.",
         "error": "Il faut une durée.",
         "help": "Tapez `/reminder 'contenu'` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, indiquez `10` dans l'option `secondes`.",
