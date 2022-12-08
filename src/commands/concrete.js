@@ -141,7 +141,7 @@ const action = async (object, type) => {
   const attachment = new MessageAttachment(buffer, cPerso.fileName);
   let sentMessage;
   if (type === "$") sentMessage = await channel.send({ files: [attachment] });
-  else if (type === "/") sentMessage = await interaction.editReply({ files: [attachment] });
+  else if (type === "/") sentMessage = await object.editReply({ files: [attachment] });
 
   if (recipient.id === self) await sentMessage.react(currentServer.edouin);
 };
