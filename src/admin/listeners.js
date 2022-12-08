@@ -76,7 +76,7 @@ export const onInteractionCreate = (interaction) => {
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand && isReleasedCommand(foundCommand)) foundCommand.action(interaction); //if found command, execute its action
+    if (foundCommand && isReleasedCommand(foundCommand)) foundCommand.action(interaction, "/"); //if found command, execute its action
     else interactionReply(interaction, PERSONALITY.getAdmin().commands.notReleased)
   }
 };
