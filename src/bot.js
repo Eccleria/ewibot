@@ -16,7 +16,11 @@ import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
 // helpers imports
-import { generateSpotifyClient, setActivity } from "./helpers/index.js";
+import {
+  generateSpotifyClient,
+  setActivity,
+  updateActivity,
+} from "./helpers/index.js";
 
 // listeners imports
 import {
@@ -153,7 +157,11 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client, commons);
+
+  //Ewibot activity
   setActivity(client);
+  updateActivity(client);
+
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );

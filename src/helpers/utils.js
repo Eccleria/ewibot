@@ -161,6 +161,15 @@ const activityList = [
   { name: "l'affrontement contre Azan", type: "COMPETING"}
 ];
 
+export const updateActivity = (client) => {
+  // set random waiting time for updating Ewibot activity
+
+  const waitingTime = (20 * Math.random() + 4) * 3600 * 1000;
+  setInterval(() => {
+    setActivity(client);
+    updateActivity(client);
+  }, waitingTime);
+};
 
 export const setActivity = (client) => {
   // randomise Ewibot activity

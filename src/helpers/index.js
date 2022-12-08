@@ -35,6 +35,7 @@ import {
   checkIsOnThread,
   hasOctagonalSign,
   setActivity,
+  updateActivity,
 } from "./utils.js";
 
 export {
@@ -47,6 +48,7 @@ export {
   checkIsOnThread,
   hasOctagonalSign,
   setActivity,
+  updateActivity,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
