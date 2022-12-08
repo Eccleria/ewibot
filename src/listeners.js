@@ -92,6 +92,7 @@ export const onRemoveReminderReaction = (messageReaction, user, currentServer) =
           // if it is the right message
           clearTimeout(timeout); //cancel timeout
           botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+          console.log("reminder deleted")
           return false;
         }
         return true;
