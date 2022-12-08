@@ -183,6 +183,7 @@ const command = new SlashCommandBuilder()
   );
 
 const reminder = {
+  name: "reminder",
   command: command,
   action,
   help: (interaction) => {
