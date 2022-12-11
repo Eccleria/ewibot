@@ -172,7 +172,9 @@ const help = {
         //if user doesn't have the rigths
         return;
       }
-      await message.channel.send(command.help());
+      const commandName = command.command ? command.command.name : command.name;
+      const personality = PERSONALITY.getCommands()[commandName];
+      await message.channel.send({ content: personality.help, allowed_mentions: { parse: [] } });
     }
   },
   help: () => {
