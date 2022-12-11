@@ -35,8 +35,8 @@ const helloWorld = {
 const ignore = {
   // Allows users to choose if they want Ewibot reacting or not to their messages.
   name: "ignoreUser",
-  action: async (message, client) => {
-    const db = client.db;
+  action: async (message) => {
+        const db = message.client.db;
     const authorId = message.author.id;
     if (db.data.ignoredUsersIds.includes(authorId)) {
       removeIgnoredUser(authorId, db);
@@ -55,8 +55,8 @@ const ignore = {
 const ignoreChannel = {
   // ADMIN Allows to add or remove channels where Ewibot will (or not) react.
   name: "ignoreChannel",
-  action: async (message, client) => {
-    const db = client.db;
+  action: async (message) => {
+    const db = message.client.db;
     const ignoredChannelId =
       message.content.toLowerCase().split(" ")[1] || message.channel.id;
     if (isIgnoredChannel(db, ignoredChannelId)) {
