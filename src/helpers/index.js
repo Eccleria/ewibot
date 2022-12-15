@@ -41,6 +41,8 @@ import {
   reactionHandler,
   checkIsOnThread,
   hasOctagonalSign,
+  setActivity,
+  updateActivity,
 } from "./utils.js";
 
 export {
@@ -52,6 +54,8 @@ export {
   reactionHandler,
   checkIsOnThread,
   hasOctagonalSign,
+  setActivity,
+  updateActivity,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
