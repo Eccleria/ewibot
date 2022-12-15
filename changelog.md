@@ -1,4 +1,11 @@
-﻿## 4.4.0
+﻿# 4.5.0
+- Feat: december month emote
+- Feat: Ewibot `Activities`
+
+# 4.4.1
+- Hotfix: removing defaultMemberPermission for `/gift` preventing every user from using it
+
+## 4.4.0
 - Feat: `/help` command with autocomplete feature
 - Feat: `/gift` commands: `use`, `add`, `remove`, `get`, `accepting`
 - Feat: `/announce` command
