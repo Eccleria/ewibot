@@ -10,7 +10,13 @@ import { interactionReply } from "./utils.js";
 
 const reverseStr = (string) => {
   let reversed = "";
-  for (const char of string) reversed = char + reversed;
+  let isInMentionable = false;
+  for (const char of string) {
+    if (char === "<") isInMentionable = true
+    if (!isInMentionable) reversed = char + reversed;
+    if (char === ">") isInMentionable = false
+
+  }
   return reversed;
 };
 
