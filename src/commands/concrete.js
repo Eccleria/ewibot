@@ -42,40 +42,24 @@ const action = async (object, type) => {
   const cPerso = PERSONALITY.getCommands().concrete;
   const { channel, client } = object;
 
-  let force;
-  let recipient;
   let buffer;
 
-  if (type === "$") {
-    const message = object;
-    const { mentions, content } = message;
-    if (mentions.users.size !== 1) {
-      //if no or too many mentions, or @here/everyone
-      message.reply(PERSONALITY.getCommands().concrete.errorMention);
-      return;
-    }
+  const interaction = object;
+  const options = interaction.options;
 
-    channel.sendTyping();
-    recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
-    force = content.includes("--force");
-  } else if (type === "/") {
-    const interaction = object;
-    const options = interaction.options;
-
-    //get options
-    force = options.getBoolean(cPerso.booleanOption.name);
-    let user;
-    try {
-      user = options.getUser(cPerso.userOption.name);
-    } catch (e) {
-      interactionReply(interaction, personality.errorMention);
-      console.log("concrete error", e);
-      return;
-    }
-
-    await interaction.deferReply();
-    recipient = await client.users.fetch(user.id); //get guildMember from user id
+  //get options
+  const force = options.getBoolean(cPerso.booleanOption.name);
+  let user;
+  try {
+    user = options.getUser(cPerso.userOption.name);
+  } catch (e) {
+    interactionReply(interaction, personality.errorMention);
+    console.log("concrete error", e);
+    return;
   }
+
+  await interaction.deferReply();
+  const recipient = await client.users.fetch(user.id); //get guildMember from user id
 
   const self = process.env.CLIENTID;
   const currentServer = commons.find(
@@ -138,10 +122,7 @@ const action = async (object, type) => {
   } else buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
   const attachment = new MessageAttachment(buffer, cPerso.fileName);
-  let sentMessage;
-  if (type === "$") sentMessage = await channel.send({ files: [attachment] });
-  else if (type === "/")
-    sentMessage = await object.editReply({ files: [attachment] });
+  const sentMessage = await object.editReply({ files: [attachment] });
 
   if (recipient.id === self) await sentMessage.react(currentServer.edouin);
 };

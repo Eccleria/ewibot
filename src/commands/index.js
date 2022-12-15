@@ -13,7 +13,6 @@ import {
 } from "../helpers/index.js";
 
 import reminder from "./reminder.js";
-import birthday from "./birthday.js";
 import concrete from "./concrete.js";
 import spotify from "./spotify.js";
 import leaderboardApology from "./leadApo.js";
@@ -128,8 +127,6 @@ const roll = {
 const commands =
   process.env.USE_SPOTIFY === "yes"
     ? [
-        birthday,
-        concrete,
         helloWorld,
         ignore,
         ignoreChannel,
@@ -140,8 +137,6 @@ const commands =
         spotify,
       ]
     : [
-        birthday,
-        concrete,
         helloWorld,
         ignore,
         ignoreChannel,
