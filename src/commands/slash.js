@@ -133,7 +133,7 @@ const ignoreChannel = {
   command: new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().ignoreChannel.name)
     .setDescription(PERSONALITY.getCommands().ignoreChannel.description)
-    .setDefaultMemberPermissions("0")
+    .setDefaultMemberPermissions(0x0000010000000000)
     .addChannelOption((option) =>
       option
         .setName(PERSONALITY.getCommands().ignoreChannel.channelOption.name)
