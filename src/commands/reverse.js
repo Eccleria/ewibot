@@ -13,7 +13,7 @@ const reverseStr = (string) => {
   let isInMentionable = false;
   for (const char of string) {
     if (char === "<") isInMentionable = true
-    if (!isInEmote) reversed = char + reversed;
+    if (!isInMentionable) reversed = char + reversed;
     if (char === ">") isInMentionable = false
 
   }
