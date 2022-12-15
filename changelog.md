@@ -3,7 +3,12 @@
 - Feat: new `/commands`:
 	- `/reverse` for reversing text
 	- `reverse-translator` for traducing reversed text
+- Feat: december month emote
+- Feat: Ewibot `Activities`
 - Update: `/help` now with adapatative autocomplete and action according to user rigths
+
+# 4.4.1
+- Hotfix: removing defaultMemberPermission for `/gift` preventing every user from using it
 
 ## 4.4.0
 - Feat: `/help` command with autocomplete feature

@@ -16,7 +16,11 @@ import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
 // helpers imports
-import { generateSpotifyClient } from "./helpers/index.js";
+import {
+  generateSpotifyClient,
+  setActivity,
+  updateActivity,
+} from "./helpers/index.js";
 
 // listeners imports
 import {
@@ -155,6 +159,10 @@ client.once("ready", async () => {
   // Bot init
   console.log("I am ready!");
   roleInit(client, commons); //role handler init
+
+  //Ewibot activity
+  setActivity(client);
+  updateActivity(client);
 
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
