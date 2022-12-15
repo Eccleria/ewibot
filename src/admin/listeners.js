@@ -1,4 +1,8 @@
-import { buttonHandler, interactionReply, isReleasedCommand } from "../commands/utils.js";
+import {
+  buttonHandler,
+  interactionReply,
+  isReleasedCommand,
+} from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
@@ -65,7 +69,8 @@ export const onInteractionCreate = (interaction) => {
           (cmd) => cmd.command.name === interaction.commandName
         )
       : null; //find command that fired onInteractionCreate
-    if (foundCommand && isReleasedCommand(foundCommand)) foundCommand.autocomplete(interaction);
+    if (foundCommand && isReleasedCommand(foundCommand))
+      foundCommand.autocomplete(interaction);
     else interaction.respond([]); //if not found, return no choices
   } else if (interaction.isCommand()) {
     //slash commands
@@ -76,8 +81,16 @@ export const onInteractionCreate = (interaction) => {
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand && isReleasedCommand(foundCommand)) foundCommand.action(interaction, "/"); //if found command, execute its action
-    else interactionReply(interaction, PERSONALITY.getAdmin().commands.notReleased)
+    if (foundCommand && isReleasedCommand(foundCommand))
+      foundCommand.action(
+        interaction,
+        "/"
+      ); //if found command, execute its action
+    else
+      interactionReply(
+        interaction,
+        PERSONALITY.getAdmin().commands.notReleased
+      );
   }
 };
 
@@ -133,8 +146,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
             ? await oldChannel.guild.members.fetch(id)
             : await oldChannel.guild.roles.fetch(id);
       } catch (e) {
-        console.log(e)
-        obj = null
+        console.log(e);
+        obj = null;
       }
       const name =
         oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;

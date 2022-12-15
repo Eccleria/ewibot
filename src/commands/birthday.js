@@ -109,7 +109,7 @@ const action = async (interaction, type) => {
     words = interaction.content.split(" ");
     whichCommand = words.length > 1 ? words[1] : null;
   }
-  
+
   const bPerso = PERSONALITY.getCommands().birthday;
 
   if (whichCommand === bPerso.remove.name) {
@@ -144,7 +144,7 @@ const action = async (interaction, type) => {
       //if date respect dayjs form
       if (type === "$") {
         // Checks date validity
-        const message = interaction
+        const message = interaction;
         if (date.year() < 1950) {
           // If too old
           await message.reply(bPerso.tooOld);

@@ -133,7 +133,7 @@ const addGiftMessage = (db, recipientId, content, senderId) => {
   db.wasUpdated = true;
 };
 
-const removeGiftMessage = (db, senderId, recipientId = null ) => {
+const removeGiftMessage = (db, senderId, recipientId = null) => {
   const data = db.data.gift.messages;
   if (recipientId) {
     if (isMessageRecipient(db, recipientId)) {
@@ -159,12 +159,15 @@ const removeGiftMessage = (db, senderId, recipientId = null ) => {
   } else {
     return data.reduce((senderAcc, recipientObj) => {
       //recipientObj = {userId, messages}
-      const foundMessages = recipientObj.messages.reduce((acc, cur) => {
-        //[{ senderId:, message: }, ...]
-        if (cur.senderId === senderId)
-          return { new: acc.new, removed: [...acc.removed, cur.message] };
-        else return { new: [...acc.new, cur], removed: acc.removed };
-      }, { new: [], removed: [] });
+      const foundMessages = recipientObj.messages.reduce(
+        (acc, cur) => {
+          //[{ senderId:, message: }, ...]
+          if (cur.senderId === senderId)
+            return { new: acc.new, removed: [...acc.removed, cur.message] };
+          else return { new: [...acc.new, cur], removed: acc.removed };
+        },
+        { new: [], removed: [] }
+      );
 
       //add foundMessages to overall found messages
       if (foundMessages.removed.length !== 0) {
@@ -174,11 +177,10 @@ const removeGiftMessage = (db, senderId, recipientId = null ) => {
         return [
           ...senderAcc,
           { recipientId: recipientObj.userId, messages: foundMessages.removed },
-        ]; 
+        ];
       } else return senderAcc;
     }, []);
   }
-
 };
 
 const getGiftMessage = (db, senderId, recipientId = null) => {

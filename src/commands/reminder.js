@@ -66,20 +66,21 @@ const answerBot = async (interaction, currentServer, timing, type) => {
     await interactionReply(
       interaction,
       personality.remind +
-      `${formatMs(timing)}` +
-      personality.react[0] +
-      `${currentServer.removeEmoji}` +
-      personality.react[1],
+        `${formatMs(timing)}` +
+        personality.react[0] +
+        `${currentServer.removeEmoji}` +
+        personality.react[1],
       false
     );
     answer = await interaction.fetchReply();
-  } else answer = await interaction.reply(
-    PERSONALITY.getCommands().reminder.remind +
-    `${formatMs(timing)}` +
-    PERSONALITY.getCommands().reminder.react[0] +
-    `${currentServer.removeEmoji}` +
-    PERSONALITY.getCommands().reminder.react[1]
-  );
+  } else
+    answer = await interaction.reply(
+      PERSONALITY.getCommands().reminder.remind +
+        `${formatMs(timing)}` +
+        PERSONALITY.getCommands().reminder.react[0] +
+        `${currentServer.removeEmoji}` +
+        PERSONALITY.getCommands().reminder.react[1]
+    );
 
   await answer.react(currentServer.removeEmoji);
   return answer;
@@ -98,7 +99,6 @@ const action = async (interaction, type) => {
     messageContent = args.slice(2).join(" ");
     timing = extractDuration(wordTiming, type);
   } else if (type === "/") {
-
     member = interaction.member;
 
     //get interaction input
@@ -109,7 +109,9 @@ const action = async (interaction, type) => {
   if (!timing) {
     //Checks for timing format
     const content = PERSONALITY.getCommands().reminder.error;
-    type === "/" ? interactionReply(interaction, content) : interaction.reply(content);
+    type === "/"
+      ? interactionReply(interaction, content)
+      : interaction.reply(content);
   } else {
     console.log("reminder timing: ", timing);
 

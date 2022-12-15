@@ -36,11 +36,13 @@ const ignore = {
   // Allows users to choose if they want Ewibot reacting or not to their messages.
   name: "ignoreUser",
   action: async (message) => {
-        const db = message.client.db;
+    const db = message.client.db;
     const authorId = message.author.id;
     if (db.data.ignoredUsersIds.includes(authorId)) {
       removeIgnoredUser(authorId, db);
-      await message.channel.send(PERSONALITY.getCommands().ignoreUser.notIgnored);
+      await message.channel.send(
+        PERSONALITY.getCommands().ignoreUser.notIgnored
+      );
     } else {
       addIgnoredUser(authorId, db);
       await message.channel.send(PERSONALITY.getCommands().ignoreUser.ignored);
@@ -174,7 +176,10 @@ const help = {
       }
       const commandName = command.command ? command.command.name : command.name;
       const personality = PERSONALITY.getCommands()[commandName];
-      await message.channel.send({ content: personality.help, allowed_mentions: { parse: [] } });
+      await message.channel.send({
+        content: personality.help,
+        allowed_mentions: { parse: [] },
+      });
     }
   },
   help: () => {

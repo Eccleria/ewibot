@@ -58,9 +58,8 @@ const action = async (object, type) => {
     channel.sendTyping();
     recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
     force = content.includes("--force");
-  }
-  else if (type === "/") {
-    const interaction = object
+  } else if (type === "/") {
+    const interaction = object;
     const options = interaction.options;
 
     //get options
@@ -141,7 +140,8 @@ const action = async (object, type) => {
   const attachment = new MessageAttachment(buffer, cPerso.fileName);
   let sentMessage;
   if (type === "$") sentMessage = await channel.send({ files: [attachment] });
-  else if (type === "/") sentMessage = await object.editReply({ files: [attachment] });
+  else if (type === "/")
+    sentMessage = await object.editReply({ files: [attachment] });
 
   if (recipient.id === self) await sentMessage.react(currentServer.edouin);
 };

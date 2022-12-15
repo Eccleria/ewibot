@@ -109,15 +109,14 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    if (foundEmotes.length > 0) { //&& frequency) {
+    if (foundEmotes.length > 0) {
+      //&& frequency) {
       // PRIDE MONTH, RAIBOWSSSSS
       if (today.getMonth() == 5) {
         await message.react("🏳️‍🌈");
       } else if (today.getMonth() == 11) {
-
         await message.react(currentServer.rudolphslichId);
-      }
-      else {
+      } else {
         for (const e of foundEmotes) {
           await message.react(e);
         }
@@ -158,7 +157,7 @@ const activityList = [
   { name: "Adrien Sépulchre", type: "LISTENING" },
   { name: "JDR Ewilan par Charlie", type: "PLAYING" },
   { name: "Ewilan EP1", type: "WATCHING" },
-  { name: "l'affrontement contre Azan", type: "COMPETING"}
+  { name: "l'affrontement contre Azan", type: "COMPETING" },
 ];
 
 export const updateActivity = (client) => {
@@ -174,7 +173,7 @@ export const updateActivity = (client) => {
 export const setActivity = (client) => {
   // randomise Ewibot activity
   const statusLen = activityList.length - 1;
-  const rdmIdx = Math.round(statusLen * Math.random()); 
+  const rdmIdx = Math.round(statusLen * Math.random());
   const whichStatus = activityList[rdmIdx];
 
   //set client activity
