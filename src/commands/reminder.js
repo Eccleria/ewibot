@@ -49,7 +49,7 @@ const extractDuration = (interaction) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (interaction, currentServer, timing, type) => {
+const answerBot = async (interaction, currentServer, timing) => {
   // Confirm or not the reminder to user
   const personality = PERSONALITY.getCommands().reminder;
 
@@ -69,11 +69,11 @@ const answerBot = async (interaction, currentServer, timing, type) => {
 };
 
 const action = async (interaction) => {
-    const member = interaction.member;
+  const { client, member, channel } = interaction;
 
     //get interaction input
-    messageContent = interaction.options.getString("contenu");
-    timing = extractDuration(interaction, type); //waiting time in ms
+    const messageContent = interaction.options.getString("contenu");
+    const timing = extractDuration(interaction); //waiting time in ms
 
   if (!timing) {
     //Checks for timing format
@@ -86,7 +86,7 @@ const action = async (interaction) => {
       ({ guildId }) => guildId === interaction.guildId
     );
 
-    const answer = await answerBot(interaction, currentServer, timing, type);
+    const answer = await answerBot(interaction, currentServer, timing);
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user
