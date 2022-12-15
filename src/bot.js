@@ -57,6 +57,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 // commands imports
 import { wishBirthday } from "./commands/birthday.js";
+import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // DB
@@ -155,8 +156,9 @@ const onMessageHandler = async (message) => {
 
 // Create event LISTENERS
 client.once("ready", async () => {
+  // Bot init
   console.log("I am ready!");
-  roleInit(client, commons);
+  roleInit(client, commons); //role handler init
 
   //Ewibot activity
   setActivity(client);
@@ -166,7 +168,7 @@ client.once("ready", async () => {
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
   const guildId = server.guildId;
-  slashCommandsInit(self, guildId, client);
+  slashCommandsInit(self, guildId, client); //commands submit to API
 
   //TWITTER
   const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
@@ -174,14 +176,6 @@ client.once("ready", async () => {
   client.twitter = twitter; //save twitter into client
   client.twitter.isSending = false;
   initTwitterLoop(client);
-
-  /*
-  const tweet = await fetchTweets(client, "1371839010755207176");
-  const user = await twitter.userByUsername("eccleria");
-
-  console.log("user", user);
-  console.log("tweet", tweet);
-  console.log("includes", tweet.includes);*/
 
   // LOGS
 
@@ -193,7 +187,9 @@ client.once("ready", async () => {
     .millisecond(0); //tomorrow @ 2am
 
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
-  initAdminLogClearing(client, timeTo2Am);
+  initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
+
+  setGiftTimeoutLoop(client, commons); //gift timeout loop init
 });
 // Create an event listener for messages
 
