@@ -13,23 +13,10 @@ import {
 } from "../helpers/index.js";
 
 import reminder from "./reminder.js";
-import concrete from "./concrete.js";
 import spotify from "./spotify.js";
 import leaderboardApology from "./leadApo.js";
 import pronouns from "./pronouns.js";
 import { PERSONALITY } from "../personality.js";
-
-const helloWorld = {
-  // Is useful to verify is Ewibot is active or not.
-  name: "ping",
-  action: async (message) => {
-    await message.channel.send(PERSONALITY.getCommands().helloWorld.pong);
-  },
-  help: () => {
-    return PERSONALITY.getCommands().helloWorld.help;
-  },
-  admin: false,
-};
 
 const roll = {
   // Allow to get the total and each individual results for dice rolls.
@@ -78,7 +65,6 @@ const roll = {
 const commands =
   process.env.USE_SPOTIFY === "yes"
     ? [
-        helloWorld,
         leaderboardApology,
         pronouns,
         reminder,
@@ -86,7 +72,6 @@ const commands =
         spotify,
       ]
     : [
-        helloWorld,
         leaderboardApology,
         pronouns,
         reminder,
