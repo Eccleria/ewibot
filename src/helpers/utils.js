@@ -115,7 +115,7 @@ export const reactionHandler = async (message, currentServer, client) => {
         await message.react("🏳️‍🌈");
       } else if (today.getMonth() == 11) {
 
-        await message.react(currentServer.duomFetardId);
+        await message.react(currentServer.rudolphslichId);
       }
       else {
         for (const e of foundEmotes) {
