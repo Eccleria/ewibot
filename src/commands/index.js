@@ -2,12 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import {
-  //dbHelper
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  addIgnoredChannel,
-  addIgnoredUser,
-  removeIgnoredUser,
   //utils
   isAdmin,
 } from "../helpers/index.js";

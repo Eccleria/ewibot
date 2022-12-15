@@ -37,7 +37,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-const action = async (object, type) => {
+const action = async (object) => {
   //action to execute when command is fired
   const cPerso = PERSONALITY.getCommands().concrete;
   const { channel, client } = object;
