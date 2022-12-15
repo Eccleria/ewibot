@@ -36,7 +36,7 @@ const ignore = {
   // Allows users to choose if they want Ewibot reacting or not to their messages.
   name: "ignoreUser",
   action: async (message) => {
-        const db = message.client.db;
+    const db = message.client.db;
     const authorId = message.author.id;
     if (db.data.ignoredUsersIds.includes(authorId)) {
       removeIgnoredUser(authorId, db);
