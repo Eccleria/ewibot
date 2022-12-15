@@ -12,64 +12,18 @@ import leaderboardApology from "./leadApo.js";
 import pronouns from "./pronouns.js";
 import { PERSONALITY } from "../personality.js";
 
-const roll = {
-  // Allow to get the total and each individual results for dice rolls.
-  name: "roll",
-  action: async (message) => {
-    const args = message.content.toLowerCase().split(" ");
-    if (args[1]) {
-      //if enough args
-      const diceNumbers = args[1].split("d").map((nb) => Number(nb));
-      if (isNaN(diceNumbers[0]) || isNaN(diceNumbers[1]))
-        await message.reply(PERSONALITY.getCommands().roll.parsingError);
-      else if (
-        diceNumbers[0] > 20 ||
-        diceNumbers[1] > 100 ||
-        diceNumbers[0] <= 0 ||
-        diceNumbers[1] <= 0
-      ) {
-        await message.reply(PERSONALITY.getCommands().roll.numberError);
-      } else {
-        const diceNumber = diceNumbers[0];
-        const diceValue = diceNumbers[1];
-        const { total, details } = Array.from(new Array(diceNumber)).reduce(
-          (acc) => {
-            const value = Math.round((diceValue - 1) * Math.random()) + 1;
-            return {
-              total: acc.total + value,
-              details: [...acc.details, value],
-            };
-          },
-          {
-            total: 0,
-            details: [],
-          }
-        );
-
-        await message.reply(`${total} (${details.join(", ")})`);
-      }
-    }
-  },
-  help: () => {
-    return PERSONALITY.getCommands().roll.help;
-  },
-  admin: false,
-};
-
 const commands =
   process.env.USE_SPOTIFY === "yes"
     ? [
         leaderboardApology,
         pronouns,
         reminder,
-        roll,
         spotify,
       ]
     : [
         leaderboardApology,
         pronouns,
         reminder,
-        roll,
       ];
 
 const help = {

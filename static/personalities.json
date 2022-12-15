@@ -505,7 +505,6 @@
         },
         "help": "Cette commande permet de renvoyer les résultats d'un jet de dés.\nTapez `/roll 'dés' 'faces'` avec *dés = nombre de dés*, *faces = nombre de faces des dés*.\nExemple pour 2 dés à 6 faces : `/roll 2 6`. Le maximum est 20d100.",
         "name": "roll",
-        "numberError": "Les nombres donnés ne respectent pas les limites.",
         "parsingError": "Erreur de parsing."
       },
       "saveLog": {
