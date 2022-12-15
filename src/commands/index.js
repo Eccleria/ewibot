@@ -31,28 +31,6 @@ const helloWorld = {
   admin: false,
 };
 
-const ignore = {
-  // Allows users to choose if they want Ewibot reacting or not to their messages.
-  name: "ignoreUser",
-  action: async (message) => {
-    const db = message.client.db;
-    const authorId = message.author.id;
-    if (db.data.ignoredUsersIds.includes(authorId)) {
-      removeIgnoredUser(authorId, db);
-      await message.channel.send(
-        PERSONALITY.getCommands().ignoreUser.notIgnored
-      );
-    } else {
-      addIgnoredUser(authorId, db);
-      await message.channel.send(PERSONALITY.getCommands().ignoreUser.ignored);
-    }
-  },
-  help: () => {
-    return PERSONALITY.getCommands().ignoreUser.help;
-  },
-  admin: false,
-};
-
 const roll = {
   // Allow to get the total and each individual results for dice rolls.
   name: "roll",
@@ -101,7 +79,6 @@ const commands =
   process.env.USE_SPOTIFY === "yes"
     ? [
         helloWorld,
-        ignore,
         leaderboardApology,
         pronouns,
         reminder,
@@ -110,7 +87,6 @@ const commands =
       ]
     : [
         helloWorld,
-        ignore,
         leaderboardApology,
         pronouns,
         reminder,
