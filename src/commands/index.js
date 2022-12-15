@@ -53,33 +53,6 @@ const ignore = {
   admin: false,
 };
 
-const ignoreChannel = {
-  // ADMIN Allows to add or remove channels where Ewibot will (or not) react.
-  name: "ignoreChannel",
-  action: async (message) => {
-    const db = message.client.db;
-    const ignoredChannelId =
-      message.content.toLowerCase().split(" ")[1] || message.channel.id;
-    if (isIgnoredChannel(db, ignoredChannelId)) {
-      removeIgnoredChannel(db, ignoredChannelId);
-      await message.reply(
-        PERSONALITY.getCommands().ignoreChannel.notIgnored +
-          `<#${ignoredChannelId}>.`
-      );
-    } else {
-      addIgnoredChannel(db, ignoredChannelId);
-      await message.reply(
-        PERSONALITY.getCommands().ignoreChannel.ignored +
-          `<#${ignoredChannelId}>.`
-      );
-    }
-  },
-  help: () => {
-    return PERSONALITY.getCommands().ignoreChannel.help;
-  },
-  admin: true,
-};
-
 const roll = {
   // Allow to get the total and each individual results for dice rolls.
   name: "roll",
@@ -129,7 +102,6 @@ const commands =
     ? [
         helloWorld,
         ignore,
-        ignoreChannel,
         leaderboardApology,
         pronouns,
         reminder,
@@ -139,7 +111,6 @@ const commands =
     : [
         helloWorld,
         ignore,
-        ignoreChannel,
         leaderboardApology,
         pronouns,
         reminder,
