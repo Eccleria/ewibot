@@ -141,14 +141,6 @@ export const reactionHandler = async (message, currentServer, client) => {
   }
 };
 
-export const checkIsOnThread = async (channel, threadId) => {
-  // If Ewibot not in the thread, add Ewibot
-  const thread = channel.isThread
-    ? null
-    : channel.threads.cache.find((x) => x.id === threadId);
-  if (thread && thread.joinable) await thread.join();
-};
-
 // activity list
 const activityList = [
   { name: "La Quête d'Ewilan", type: "WATCHING" },
