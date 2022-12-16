@@ -382,7 +382,6 @@
       "help": {
         "description": "Cette commande permet d'afficher l'aide d'une commande.",
         "help": "Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.",
-        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n",
         "name": "help",
         "notFound": "La commande dont vous cherchez l'aide n'existe pas.",
         "stringOption": {
