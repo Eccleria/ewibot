@@ -1,4 +1,9 @@
-﻿## 4.7.0
+﻿## 5.0.0
+- Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll)
+- Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
+- Remove: `$commands` helpers (checkIsOnThread, isCommand)
+
+## 4.7.0
 - Feat: New Year personality
 - Feat: dbHelper addGiftSeparator()
 - Fix: `getLogChannel` deprecated use in generalEmbed(), octagonalLog(), savelog action()
