@@ -1,8 +1,6 @@
 import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 
-export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
-
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
 );
