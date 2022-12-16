@@ -1,4 +1,9 @@
-﻿## 4.5.0
+﻿## 5.0.0
+- Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll)
+- Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
+- Remove: `$commands` helpers (checkIsOnThread, isCommand)
+
+## 4.5.0
 - Feat: All non unique $ commands as `/commands`
 - Feat: new `/commands`:
 	- `/reverse` for reversing text
