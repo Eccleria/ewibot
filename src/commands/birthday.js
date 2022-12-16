@@ -98,18 +98,11 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().birthday.get.description)
   );
 
-const action = async (interaction, type) => {
+const action = async (interaction) => {
   const authorId = interaction.member.id;
   const db = interaction.client.db;
 
-  let whichCommand;
-  let words = null;
-  if (type === "/") whichCommand = interaction.options.getSubcommand();
-  else if (type === "$") {
-    words = interaction.content.split(" ");
-    whichCommand = words.length > 1 ? words[1] : null;
-  }
-
+  const whichCommand = interaction.options.getSubcommand();
   const bPerso = PERSONALITY.getCommands().birthday;
 
   if (whichCommand === bPerso.remove.name) {
@@ -121,9 +114,7 @@ const action = async (interaction, type) => {
     } else await interactionReply(interaction, bPerso.userNotFound);
     return;
   } else if (whichCommand === bPerso.add.name) {
-    // add user
-    let dateToAdd;
-    if (type === "/") {
+      // add user
       const day = interaction.options
         .getInteger(bPerso.add.dayOption.name)
         .toString();
@@ -134,34 +125,15 @@ const action = async (interaction, type) => {
 
       const dayToAdd = day.length === 1 ? "0" + day : day;
       const monthToAdd = month.length === 1 ? "0" + month : month;
-      dateToAdd = year
+      const dateToAdd = year
         ? `${dayToAdd}-${monthToAdd}-${year}`
         : `${dayToAdd}-${monthToAdd}`;
-    } else if (type === "$") dateToAdd = words[2];
 
-    const date = dayjs(dateToAdd, ["DD-MM-YYYY", "DD-MM"]);
+      const date = dayjs(dateToAdd, ["DD-MM-YYYY", "DD-MM"]);
     if (date.isValid()) {
       //if date respect dayjs form
-      if (type === "$") {
-        // Checks date validity
-        const message = interaction;
-        if (date.year() < 1950) {
-          // If too old
-          await message.reply(bPerso.tooOld);
-        } else if (
-          date.year() > dayjs().subtract(5, "year").year() &&
-          date.year() !== dayjs().year()
-        ) {
-          // If year of birth > now year - 5 => too young
-          await message.reply(bPerso.tooYoung);
-        } else {
-          addBirthday(authorId, db, date.toISOString());
-          await message.reply(bPerso.addUser);
-        }
-      } else if (type === "/") {
         addBirthday(authorId, db, date.toISOString()); //add to db
         await interactionReply(interaction, bPerso.addUser);
-      }
     } else await interactionReply(interaction, bPerso.parsingError);
   } else if (whichCommand === bPerso.get.name) {
     // checks if user is in DB and tells user

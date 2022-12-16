@@ -1,8 +1,6 @@
 import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 
-export const isCommand = (content) => content[0] === "$"; // check if is an Ewibot command
-
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
 );
@@ -141,14 +139,6 @@ export const reactionHandler = async (message, currentServer, client) => {
     if (presqueResult !== null)
       await message.react(currentServer.panDuomReactId); //add message reaction
   }
-};
-
-export const checkIsOnThread = async (channel, threadId) => {
-  // If Ewibot not in the thread, add Ewibot
-  const thread = channel.isThread
-    ? null
-    : channel.threads.cache.find((x) => x.id === threadId);
-  if (thread && thread.joinable) await thread.join();
 };
 
 // activity list
