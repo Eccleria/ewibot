@@ -97,7 +97,7 @@ const contextAction = (interaction) => {
     console.log(embeds);
     const fields = embeds.length !== 0 ? embeds[0].fields : null;
     switch (embeds[0].title) {
-      case adminPerso.messageDelete.title:
+      case adminPerso.messageDelete.title: {
         const mDPerso = adminPerso.messageDelete;
         const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
@@ -122,9 +122,10 @@ const contextAction = (interaction) => {
         message.edit({ embeds: [...embeds, embedTr] });
 
         return;
-
-      case adminPerso.messageUpdate.title:
+      }
+      case adminPerso.messageUpdate.title: {
         return;
+      }
     }
   } else {
     string = message.content; //get message content
