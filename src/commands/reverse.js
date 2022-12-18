@@ -6,7 +6,11 @@ import {
 
 import { PERSONALITY } from "../personality.js";
 
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
+
 import { interactionReply } from "./utils.js";
+import { MessageEmbed } from "discord.js";
 
 const reverseStr = (string) => {
   let reversed = "";
@@ -81,7 +85,51 @@ const contextCommand = new ContextMenuCommandBuilder()
 
 const contextAction = (interaction) => {
   const message = interaction.targetMessage; //get message
-  const string = message.content; //get message content
+
+  //if in log_channel => should handle embed contents + send as visible for anyone
+  const server = commons.find((obj) => obj.guildId === interaction.guildId);
+  const channels = [server.logChannelId, server.logThreadId];
+  let string;
+  if (channels.includes(interaction.channelId)) {
+    //look for correct embeds
+    const adminPerso = PERSONALITY.getAdmin();
+
+    const embeds = message.embeds;
+    console.log(embeds);
+    const fields = embeds.length !== 0 ? embeds[0].fields : null;
+    switch (embeds[0].title) {
+      case adminPerso.messageDelete.title:
+        const mDPerso = adminPerso.messageDelete;
+        const rTPerso = PERSONALITY.getCommands().reverseTranslator;
+
+        const titles = [mDPerso.text, mDPerso.textAgain];
+        string = fields.reduce((acc, fld) => {
+          if (titles.includes(fld.name))
+            return acc + fld.value;
+          else return acc;
+        }, "");
+
+        const reversed = reverseStr(string); //reverse message content
+        const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
+
+        const embedTr = new MessageEmbed()
+          .setTitle(rTPerso.title)
+          .setColor("DARK_RED")
+          .setTimestamp()
+          .setAuthor(interaction.member.toString())
+          .addFields({ name: rTPerso.embedName, value: content });
+
+        message.edit({ embeds: [...embeds, embedTr] });
+
+        break;
+
+      case adminPerso.messageUpdate.title:
+
+        break;
+    }
+
+    return
+  } else string = message.content; //get message content
 
   const reversed = reverseStr(string); //reverse message content
   const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;

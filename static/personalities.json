@@ -492,8 +492,10 @@
         }
       },
       "reverseTranslator": {
+        "embedName": "Traduction",
         "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
-        "name": "reverse-translator"
+        "name": "reverse-translator",
+        "title": "Reverse Translation"
       },
       "roll": {
         "description": "Lancer de dés",
