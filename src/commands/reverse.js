@@ -26,7 +26,6 @@ const reverseStr = (string) => {
       reversed = mention + reversed;
       mention = "";
     }
-
   }
   return reversed;
 };
@@ -104,13 +103,14 @@ const contextAction = (interaction) => {
 
         const titles = [mDPerso.text, mDPerso.textAgain];
         string = fields.reduce((acc, fld) => {
-          if (titles.includes(fld.name))
-            return acc + fld.value;
+          if (titles.includes(fld.name)) return acc + fld.value;
           else return acc;
         }, "");
 
         const reversed = reverseStr(string); //reverse message content
-        const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
+        const content = reversed.startsWith("~~")
+          ? reversed.slice(2, -2)
+          : reversed;
 
         const embedTr = new MessageEmbed()
           .setTitle(rTPerso.title)
@@ -121,20 +121,19 @@ const contextAction = (interaction) => {
 
         message.edit({ embeds: [...embeds, embedTr] });
 
-        break;
+        return;
 
       case adminPerso.messageUpdate.title:
-
-        break;
+        return;
     }
+  } else {
+    string = message.content; //get message content
 
-    return
-  } else string = message.content; //get message content
+    const reversed = reverseStr(string); //reverse message content
+    const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
 
-  const reversed = reverseStr(string); //reverse message content
-  const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
-
-  interactionReply(interaction, content);
+    interactionReply(interaction, content);
+  }
 };
 
 const reverseTranslator = {
