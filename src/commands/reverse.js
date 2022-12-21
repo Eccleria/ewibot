@@ -124,6 +124,65 @@ const contextAction = (interaction) => {
         return;
       }
       case adminPerso.messageUpdate.title: {
+        const mUPerso = adminPerso.messageUpdate;
+        const rTPerso = PERSONALITY.getCommands().reverseTranslator;
+
+        const oTitles = [mUPerso.contentOld, mUPerso.contentOldAgain];
+        const nTitles = [mUPerso.contentNew, mUPerso.contentNewAgain];
+        string = fields.reduce((acc, fld) => {
+          if (oTitles.includes(fld.name)) return { old: acc.old + fld.value, new: acc.new };
+          else if (nTitles.includes(fld.name)) return { old: acc.old, new: acc.new + fld.value };
+          else return acc;
+        }, { old: "", new: "" });
+
+        const reversed = {
+          old: reverseStr(string.old), new: reverseStr(string.new)
+        }; //reverse message content
+        const oContent = reversed.old.startsWith("~~")
+          ? reversed.old.slice(2, -2)
+          : reversed.old;
+        const nContent = reversed.new.startsWith("~~")
+          ? reversed.new.slice(2, -2)
+          : reversed.new;
+
+        const embedTr = new MessageEmbed()
+          .setTitle(rTPerso.title)
+          .setColor("DARK_GREEN")
+          .setTimestamp()
+          .setAuthor(interaction.member.toString());
+
+        const oSlice = Math.ceil(oContent.length / 1024); //get number of time to slice oldContent by 1024
+        if (oSlice > 1) {
+          //if need to slice
+          const oSliced = sliceAddString(oSlice, oContent); //slice and add to embed
+
+          oSliced.forEach((str, idx) => {
+            if (idx === 0)
+              embedTr.addFields({
+                name: mUPerso.contentOld,
+                value: str,
+              });
+            //name's different from others
+            else embed.addFields({ name: mUPerso.contentOldAgain, value: str });
+          });
+        } else embed.addFields({ name: mUPerso.contentOld, value: oContent });
+
+        if (nLen !== 0) {
+          const nSlice = Math.ceil(nContent.length / 1024); //get number of time to slice oldContent by 1024;
+          if (nSlice > 1) {
+            const nSliced = sliceAddString(nSlice, nContent); //slice and add to embed
+
+            nSliced.forEach((str, idx) => {
+              if (idx === 0)
+                embed.addFields({
+                  name: mUPerso.contentNew,
+                  value: str,
+                });
+              //name's different from others
+              else embed.addFields({ name: mUPerso.contentNewAgain, value: str });
+            });
+          } else embed.addFields({ name: mUPerso.contentNew, value: nContent });
+        }
         return;
       }
     }
