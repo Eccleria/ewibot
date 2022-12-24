@@ -70,10 +70,11 @@ const giftInteractionCreation = async (client) => {
     .setTimestamp()
     .setTitle(personality.nDayEmbed.title)
     .setDescription(nDayEmbed.description)
-    .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText })
-    .setImage(
-      "https://cdn.discordapp.com/attachments/1040335601330831420/1047879588220514394/image.png"
-    );
+    .addFields(
+      { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
+      { name: nDayEmbed.imageName, value: nDayEmbed.imageText }
+    )
+    .setImage(nDayEmbed.imageURL);
 
   //create message and send it
   channel.send({ embeds: [embed], components: [actionRow] });
