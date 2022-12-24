@@ -338,13 +338,13 @@
           "title": "Surprise de Noël"
         },
         "remove": {
-          "accept": " (qui accepte les messages de Noël)",
+          "accept": " (qui accepte les messages de Noël) :\n",
           "description": "Permet de supprimer un message de Noël.",
           "for": "Destiné.s à ",
           "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime tous les messages prévus.",
           "name": "remove",
           "noMessage": "Vous n'avez aucun message d'enregistré.",
-          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël) :\n",
           "separator": "\n-----\n",
           "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
           "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
