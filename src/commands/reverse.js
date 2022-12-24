@@ -12,10 +12,9 @@ const reverseStr = (string) => {
   let reversed = "";
   let isInMentionable = false;
   for (const char of string) {
-    if (char === "<") isInMentionable = true
+    if (char === "<") isInMentionable = true;
     if (!isInMentionable) reversed = char + reversed;
-    if (char === ">") isInMentionable = false
-
+    if (char === ">") isInMentionable = false;
   }
   return reversed;
 };
