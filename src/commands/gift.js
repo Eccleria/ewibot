@@ -231,26 +231,29 @@ const action = async (interaction) => {
       : removeGiftMessage(db, author.id);
 
     console.log("dbResults", dbResults);
-    if (dbResults.length !== 0) {
-      //is list
-
+    if (dbResults && dbResults.length !== 0) {
+      //is not null && is not empty list
       await interactionReply(interaction, remove.removed);
+
       dbResults.forEach(async (obj) => {
-        const userId = obj.recipientId;
+        //typeof obj can be "string" or "object"
+        const userId = typeof obj === "object" ? obj.recipientId : targetUser.id;
         const name = remove.for + `<@${userId}>`;
         const userState = isGiftUser(db, userId)
           ? remove.accept
           : remove.notAccept;
 
-        const messages = obj.messages.reduce(
+        const messages = typeof obj === "object" ? obj.messages.reduce(
           (acc, cur) => acc + remove.separator + cur,
           ""
-        ); //concat messages
+        ) : obj; //concat messages
+
         await interaction.followUp({
           content: name + userState + messages,
           ephemeral: true,
         });
       });
+
     } else interactionReply(interaction, remove.noMessage);
   } else if (subcommand === personality.get.name) {
     //get subcommand
