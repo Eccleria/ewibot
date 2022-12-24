@@ -230,7 +230,6 @@ const action = async (interaction) => {
       ? removeGiftMessage(db, author.id, targetUser.id)
       : removeGiftMessage(db, author.id);
 
-    console.log("dbResults", dbResults);
     if (dbResults && dbResults.length !== 0) {
       //is not null && is not empty list
       await interactionReply(interaction, remove.removed);
