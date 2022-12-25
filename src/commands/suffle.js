@@ -2,6 +2,33 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { PERSONALITY } from "../personality";
 import { interactionReply } from "./utils";
 
+const action = (interaction) => {
+    const subcommand = interaction.options.getSubcommand();
+    const perso = PERSONALITY.getCommands().shuffle;
+
+    if (subcommand === perso.startstop.name) {
+        const ststPerso = perso.startstop;
+        let newStatus;
+        if (suffle.status === ststPerso.stop) {
+            newStatus = ststPerso.status.start;
+            shuffle.status = newStatus;
+
+            //start loop
+
+            interactionReply(interaction, ststPerso.started);
+        } else if (suffle.status === ststPerso.start) {
+            newStatus = ststPerso.status.stop;
+            shuffle.status = newStatus;
+
+            //start loop
+
+            interactionReply(interaction, ststPerso.stoped);
+        }
+    } else if (subcommand === perso.set.name) {
+
+    };
+};
+
 const command = new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().shuffle.name)
     .setDescription(PERSONALITY.getCommands().shuffle.description)
