@@ -1,3 +1,29 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { PERSONALITY } from "../personality";
+import { interactionReply } from "./utils";
+
+const command = new SlashCommandBuilder()
+    .setName(PERSONALITY.getCommands().shuffle.name)
+    .setDescription(PERSONALITY.getCommands().shuffle.description)
+    .setDefaultMemberPermissions(0x0000010000000000);
+
+const shuffle = {
+    name: "shuffle",
+    command: command,
+    action,
+    help: (interaction) => {
+        const content = PERSONALITY.getCommands().shuffle.help;
+        interactionReply(interaction, content);
+    },
+    admin: true,
+    releaseDate: null, //dayjs("01-01-2023", "MM-DD-YYYY"),
+    sentinelle: false,
+    status: PERSONALITY.getCommands().shuffle.startstop.stop,
+    waitingTime: 10 * 60 * 1000, //10 min
+};
+
+export default shuffle;
+
 /*
 //Test suffle color
 setTimeout(async (client, commons) => {
