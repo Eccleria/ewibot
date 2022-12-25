@@ -1,4 +1,8 @@
-import { buttonHandler } from "../commands/utils.js";
+import {
+  buttonHandler,
+  interactionReply,
+  isReleasedCommand,
+} from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
@@ -65,7 +69,8 @@ export const onInteractionCreate = (interaction) => {
           (cmd) => cmd.command.name === interaction.commandName
         )
       : null; //find command that fired onInteractionCreate
-    if (foundCommand) foundCommand.autocomplete(interaction);
+    if (foundCommand && isReleasedCommand(foundCommand))
+      foundCommand.autocomplete(interaction);
     else interaction.respond([]); //if not found, return no choices
   } else if (interaction.isCommand()) {
     //slash commands
@@ -76,7 +81,14 @@ export const onInteractionCreate = (interaction) => {
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
+    if (foundCommand && isReleasedCommand(foundCommand))
+      foundCommand.action(interaction, "/");
+    //if found command, execute its action
+    else
+      interactionReply(
+        interaction,
+        PERSONALITY.getAdmin().commands.notReleased
+      );
   }
 };
 
@@ -105,7 +117,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const perm = chnUp.permissionOverwrites;
 
   //basic operations
-  const logChannel = await getLogChannel(commons, newChannel); //get logChannelId
+  const logChannel = await getLogChannel(newChannel); //get logChannelId
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
@@ -132,8 +144,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
             ? await oldChannel.guild.members.fetch(id)
             : await oldChannel.guild.roles.fetch(id);
       } catch (e) {
-        console.log(e)
-        obj = null
+        console.log(e);
+        obj = null;
       }
       const name =
         oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
@@ -335,7 +347,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const roleUp = personality.roleUpdate;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, newRole); //get logChannelId
+  const logChannel = await getLogChannel(newRole); //get logChannelId
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
 
@@ -427,7 +439,7 @@ export const onMessageDelete = async (message) => {
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, message, "thread"); //get logChannel
+  const logChannel = await getLogChannel(message, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
   const uDate = new Date(message.createdAt); //set date as Date object
@@ -573,7 +585,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const messageU = personality.messageUpdate;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, nMessage, "thread"); //get logChannel
+  const logChannel = await getLogChannel(nMessage, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
@@ -609,7 +621,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
-    embed.addField(messageU.linkName, link);
+    embed.addField(messageU.linkName, link, true);
 
     const messageList = await endCasesEmbed(
       nMessage,
@@ -778,7 +790,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const timeout = personality.timeout;
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, newMember); //get logChannel
+  const logChannel = await getLogChannel(newMember); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
@@ -800,7 +812,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const personality = PERSONALITY.getAdmin(); //get personality
   const auditLog = personality.auditLog;
 
-  const logChannel = await getLogChannel(commons, memberKick); //get logChannel
+  const logChannel = await getLogChannel(memberKick); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get kick reason

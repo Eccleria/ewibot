@@ -31,6 +31,9 @@
       "text": "Modifications :\n",
       "title": "Salon modifié"
     },
+    "commands": {
+      "notReleased": "La commande n'est pas disponible."
+    },
     "guildBan": {
       "author": "Membre :",
       "executor": "Banni par :",
@@ -236,19 +239,62 @@
         }
       },
       "birthday": {
+        "add": {
+          "dayOption": {
+            "description": "Votre jour de naissance.",
+            "name": "jour"
+          },
+          "description": "Ajouter/modifier votre date de naissance.",
+          "help": "Via cette commande, vous pouvez enregistrer votre date de naissance pour qu'Ewibot vous souhaite votre anniversaire. Il existe 2 versions :\n- Si vous utilisez la commande `$birthday add`, vous devez écrire votre date de naissance sous la forme **DD/MM** ou **DD/MM/AAAA**.\n- Si vous utilisez la commande `/birthday add`, vous devez remplir les champs `jour` et `mois`. Le champ `année` est optionnel.\n\nLe jour J, Ewibot vous enverra une notification d'anniversaire.",
+          "name": "ajouter",
+          "monthOption": {
+            "description": "Votre mois de naissance.",
+            "name": "mois"
+          },
+          "yearOption": {
+            "description": "Votre année de naissance.",
+            "name": "année"
+          }
+        },
         "addUser": "Je te souhaiterai ton anniversaire.",
         "birthday": "OWH ! Aujourd'hui on fête l'anniversaire de : \n",
         "birthdays": "OWH ! Aujourd'hui on fête les anniversaires de : \n",
+        "description": "Permet de modifier votre profil d'anniversaire.",
+        "get": {
+          "description": "Pour voir votre date d'anniversaire enregistrée.",
+          "help": "Cette commande vous permet de vérifier si vous avez enregistré une date de naissance et sa valeur si elle existe.",
+          "name": "get"
+        },
         "getUser": "Ton anniversaire est le ",
-        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday get` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
+        "name": "birthday",
         "parsingError": "Erreur de parsing dans la date.",
+        "remove": {
+          "description": "Pour retirer votre date de naissance.",
+          "help": "Via cette commande, vous pouvez supprimer votre date de naissance, si elle est enregistrée.",
+          "name": "remove"
+        },
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
         "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
+      "botMessage": {
+        "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot."
+      },
       "concrete": {
-        "help": "Cette commande permet de bétonner une personne. Utilisation :\n- `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "booleanOption": {
+          "description": "S'il faut actualiser la pp utilisée",
+          "name": "actualisation"
+        },
+        "description": "Choisissez qui vous souhaitez bétonner.",
+        "fileName": "concrete.gif",
+        "help": "Cette commande permet de bétonner une personne, grâce au don du gif réalisé par <@693830441660317726>. Utilisation :\n- `/concrete @cible` pour bétonner la cible.\n- `/concrete @cible true` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "name": "concrete",
+        "userOption": {
+          "description": "La personne que vous souhaitez bétonner.",
+          "name": "cible"
+        },
         "errorMention": "Il faut une seule mention."
       },
       "gift": {
@@ -286,19 +332,22 @@
         "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `gift remove` pour supprimer les messages destinés à une personne.\n- `gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `gift use` pour accepter ou non les messages.",
         "name": "gift",
         "nDayEmbed": {
-          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469> Joyeux Noël <:DuomFetard:822479563077976065> !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
+          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469>\n Joyeux Noël <:DuomFetard:822479563077976065> !!\n\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
+          "imageURL": "https://cdn.discordapp.com/attachments/1040335601330831420/1056257880174624768/Ewilan_Noel_crop.png",
+          "imageName": "Fan-art",
+          "imageText": "Un immense merci à <@705869091986210826> et <@693830441660317726> pour ce magnifique fan-art de notre groupe préféré, fêtant Noël ensemble ! <:DuomNoelErg:1048916483490717727>",
           "noteName": "Rappel",
-          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.",
+          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.\n",
           "title": "Surprise de Noël"
         },
         "remove": {
-          "accept": " (qui accepte les messages de Noël)",
+          "accept": " (qui accepte les messages de Noël) :\n",
           "description": "Permet de supprimer un message de Noël.",
           "for": "Destiné.s à ",
           "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime tous les messages prévus.",
           "name": "remove",
           "noMessage": "Vous n'avez aucun message d'enregistré.",
-          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël) :\n",
           "separator": "\n-----\n",
           "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
           "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
@@ -338,6 +387,7 @@
       "help": {
         "description": "Cette commande permet d'afficher l'aide d'une commande.",
         "help": "Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.",
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n",
         "name": "help",
         "notFound": "La commande dont vous cherchez l'aide n'existe pas.",
         "stringOption": {
@@ -345,24 +395,28 @@
           "name": "which_command"
         }
       },
-      "ignore": {
+      "ignoreChannel": {
+        "channelOption": {
+          "description": "Salon concerné",
+          "name": "salon"
+        },
+        "description": "Ewibot ignore ou non le channel.",
+        "ignored": "Je vais ignorer les messages de ",
+        "name": "ignore_channel",
+        "notIgnored": "Je n'ignorerai plus les messages de ",
+        "help": "Ewibot ignore ou non le channel. Utilisation :\n- `/ignoreChannel #channel` dans n'importe quel channel.\n- `/ignoreChannel` dans le channel concerné."
+      },
+      "ignoreUser": {
+        "description": "Permet de choisir si je réagirai à vos messages ou non.",
         "help": "Cette commande m'empêche ou non de réagir à vos messages.",
+        "name": "ignore_user",
         "ignored": "Dorénavant je ne réagirai plus à vos messages.",
         "notIgnored": "Je vais de nouveau réagir à vos messages."
-      },
-      "ignoreChannel": {
-        "ignored": "Je vais ignorer les messages de ",
-        "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help": "Ewibot ignore ou non le channel. Utilisation :\n- `$ignoreChannel channelId` dans n'importe quel channel.\n- `$ignoreChannel` dans le channel concerné."
       },
       "leaderboardApology": {
         "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
         "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
         "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
-      },
-      "messageCount": {
-        "addUser": "Je compterai le nombre de messages que vous envoyez.",
-        "removeUser": "Je ne compterai plus le nombre de vos messages."
       },
       "personality": {
         "change": "Dorénavant, j'aurai la personalité ",
@@ -403,13 +457,59 @@
         }
       },
       "reminder": {
-        "delete": "Le remind a bien été supprimé",
-        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier.",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
-        "remind": "Je te rappelerai ça dans environ "
+        "delete": "Le reminder a bien été supprimé.",
+        "description": "Une commande alarme pense-bête.",
+        "error": "Il faut une durée.",
+        "help": "Tapez `/reminder 'contenu'` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, indiquez `10` dans l'option `secondes`.",
+        "hourOption": {
+          "description": "Le nombre d'heure d'attente.",
+          "name": "heures"
+        },
+        "minuteOption": {
+          "description": "Le nombre de minutes d'attente.",
+          "name": "minutes"
+        },
+        "name": "reminder",
+        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
+        "remind": "Je te rappelerai ça dans environ ",
+        "secondOption": {
+          "description": "Le nombre de secondes d'attente.",
+          "name": "secondes"
+        },
+        "stringOption": {
+          "description": "Contenu du pense-bête.",
+          "name": "contenu"
+        }
+      },
+      "reverse": {
+        "booleanOption": {
+          "description": "True si vous voulez barrer le message complet",
+          "name": "barrer"
+        },
+        "description": "Permet d'inverser le texte du message que vous souhaitez.",
+        "help": "Cette commande permet d'inverser le texte que vous donnez en entrée.",
+        "name": "reverse",
+        "stringOption": {
+          "description": "Contenu du message à inverser.",
+          "name": "contenu"
+        }
+      },
+      "reverseTranslator": {
+        "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
+        "name": "reverse-translator"
       },
       "roll": {
-        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
+        "description": "Lancer de dés",
+        "diceOption": {
+          "description": "Nombre de dés à lancer",
+          "name": "dés"
+        },
+        "facesOption": {
+          "description": "Nombre de faces à chaque dé",
+          "name": "faces"
+        },
+        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés.\nTapez `/roll 'dés' 'faces'` avec *dés = nombre de dés*, *faces = nombre de faces des dés*.\nExemple pour 2 dés à 6 faces : `/roll 2 6`. Le maximum est 20d100.",
+        "name": "roll",
         "numberError": "Les nombres donnés ne respectent pas les limites.",
         "parsingError": "Erreur de parsing."
       },
@@ -422,7 +522,7 @@
         "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
       },
       "spotify": {
-        "help": "Utilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+        "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       },
       "twitter": {
         "compare": {
@@ -431,7 +531,7 @@
         },
         "description": "Commandes de gestions du lien Twitter-Discord.",
         "name": "twitter",
-        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
+        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.\n`- /twitter compare` pour forcer une comparaison entre la base de donnée et Twitter.\n- `/twitter share` envoie la différence de tweet dans le salon enregistré, avec un délai variable entre les tweets.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
         "noTweets": "Il n'y a aucun tweet de manqué.",
         "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
@@ -447,195 +547,6 @@
       "errorAdding": "Erreur lors de l'ajout.",
       "errorSupressing": "Erreur lors de la suppression.",
       "react": [". Vous pouvez react avec ", " pour annuler cet ajout !"],
-      "songAdded": "Chanson ajoutée : ",
-      "songSupressed": "Chanson supprimée de la playlist."
-    }
-  },
-  "funny": {
-    "name": "funny",
-    "commands": {
-      "announce": {
-        "announce_gift": {
-          "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?"
-        },
-        "button": {
-          "id": "announceComfirm",
-          "label": "Confirmer"
-        },
-        "description": "Permet d'envoyer des annonces enregistrées.",
-        "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
-        "name": "announce",
-        "notAdmin": "Cette commande est réservée à mes développeurs.",
-        "stringOption": {
-          "description": "Choisit quelle annonce à envoyer",
-          "name": "which"
-        }
-      },
-      "birthday": {
-        "addUser": "Je te souhaiterai ton anniversaire.",
-        "birthday": "OWH ! Aujourd'hui on fête l'anniversaire de : \n",
-        "birthdays": "OWH ! Aujourd'hui on fête les anniversaires de : \n",
-        "getUser": "Ton anniversaire est le ",
-        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
-        "parsingError": "Erreur de parsing dans la date.",
-        "removeUser": "Bon bah plus de gateau alors.",
-        "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
-        "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
-        "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
-      },
-      "concrete": {
-        "help": "Parfait pour bétonner des gens. Utilisation \nIl suffit de taper `$concrete @nom_du_gens` pour le bétonner.\n- `$concrete @nom_du_gens --force` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
-        "errorMention": "Il faut une seule mention."
-      },
-      "gift": {
-        "buttonLabel": "Recevoir",
-        "compensation": "Je te souhaites un merveilleux Noël ! 🎁 :DuomFetard:",
-        "delivery": "Joyeux Noël ! :DuomFetard:\n Voici venir vos messages de Noël 🎁",
-        "description": "Pour envoyer un message anonyme de Noël.",
-        "nDayEmbed": {
-          "description": "Bonjour tout le monde ! :Ewiyay: Joyeux Noël :DuomFetard: !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
-          "noteName": "Rappel",
-          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.",
-          "title": "Surprise de Noël"
-        },
-        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinaitres possibles seront affichés lors de leur sélection. Si jamais votre destinataire n'en fait pas partie, vous ne pourrez pas utiliser cette commande, enfin sauf si vous arrivez à la convaincre de l'utiliser :Ewinklan:.\n\n **Note : Aucune personne de la modération ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift use` pour accepter ou non les messages.\n- `gift message` pour envoyer un message à une personne.\n- `gift remove` pour supprimer les messages destinés à une personne.",
-        "name": "gift",
-        "remove": {
-          "description": "Permet de supprimer un message de Noël.",
-          "hasNoMessage": "Aucun message n'était sauvegardé concernant cette personne.",
-          "name": "remove",
-          "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
-          "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
-          "userOption": {
-            "description": "La personne qui recevra le message.",
-            "name": "destinateurice"
-          }
-        },
-        "send": {
-          "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël :DuomFetard:",
-          "description": "Pour envoyer un message de Noël.",
-          "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
-          "name": "send",
-          "saved": "Le message a été sauvegardé.",
-          "textOption": {
-            "description": "Le message à envoyer.",
-            "name": "message"
-          },
-          "userOption": {
-            "description": "La personne qui recevra le message.",
-            "name": "destinateurice"
-          }
-        },
-        "use": {
-          "description": "Pour accepter ou non de recevoir les messages de Noël.",
-          "isAccepting": "Vous acceptez maintenant les messages de Noël.",
-          "isNotAccepting": "Dorénavant, vous refusez de recevoir les messages de Noël",
-          "name": "use"
-        }
-      },
-      "helloWorld": {
-        "help": "Cette commande me permet de proposer un cookie.",
-        "pong": "Coucou, un cookie ?"
-      },
-      "help": {
-        "init": "Tapez `!help pouet` pour des infos sur la commande `pouet`. \nCommandes disponibles :",
-        "help": "Utilisez seulement `$help`."
-      },
-      "ignore": {
-        "ignored": "Dorénavant tu n'auras plus de cookies sur tes messages.",
-        "notignored": "Ca y est, tu as faim ? Tiens, un cookie !",
-        "help": "Cette commande m'empêche ou non de m'amuser avec vos messages."
-      },
-      "ignoreChannel": {
-        "ignored": "Je vais ignorer les messages de ",
-        "notIgnored": "Je n'ignorerai plus les messages de ",
-        "help": "Ewibot ignore ou non le channel. Utilisation :\n- `$ignoreChannel channelId` dans n'importe quel channel.\n- `$ignoreChannel` dans le channel concerné."
-      },
-      "leaderboardApology": {
-        "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
-        "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
-        "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
-      },
-      "personality": {
-        "change": "Plus de fun. Maintenant je serai ",
-        "currentName": "Actuellement, j'ai la personalité ",
-        "nameError": "Erreur d'argument.",
-        "nameList": "La liste des personalités est : ",
-        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
-      },
-      "pronouns": {
-        "agreements": {
-          "all": "Tous accords",
-          "ask": "Demandez",
-          "cancel": "Annuler",
-          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
-          "female": "Féminins",
-          "male": "Masculins",
-          "neutral": "Neutres",
-          "title": "Rôles accords"
-        },
-        "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
-        "pronouns": {
-          "all": "Tous pronoms",
-          "ael": "Æl",
-          "ask": "Demandez",
-          "cancel": "Annuler",
-          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
-          "he": "Il",
-          "no": "Pas de pronom",
-          "she": "Elle",
-          "they": "Iel",
-          "title": "Rôles pronoms"
-        },
-        "text": {
-          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
-          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
-        }
-      },
-      "reminder": {
-        "delete": "Le remind a bien été supprimé.",
-        "remind": "Je te rappelerai ça dans environ ",
-        "react": ["Tu peux react avec ", " pour annuler ce reminder !"],
-        "help": "Tapez `$reminder XXhYYmZZs contenu` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, tapez `00h00m10s` en entier."
-      },
-      "roll": {
-        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés. Tapez `nombre_de_dés d nombre_de_faces_des_dés`. \nExemple pour 2 dés à 6 faces : `$roll 2d6`. Le maximum est 20d100.",
-        "numberError": "Les nombres donnés ne respectent pas les limites.",
-        "parsingError": "Erreur de parsing."
-      },
-      "twitter": {
-        "compare": {
-          "name": "compare",
-          "description": "Compare les 5 derniers tweets avec la base de donnée et envoie la différence."
-        },
-        "description": "Commandes de gestions du lien Twitter-Discord.",
-        "name": "twitter",
-        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.",
-        "isSending": "Les Tweets sont en déjà en cours d'envoi.",
-        "noTweets": "Il n'y a aucun tweet de manqué.",
-        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
-        "share": {
-          "name": "share",
-          "description": "Partage les derniers tweets manquants au publique."
-        },
-        "dbUpToDate": "La db est à jour"
-      }
-    },
-    "saveLog": {
-      "author": "Logué par :",
-      "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
-      "noEmbed": "Le message ne contient pas d'embed.",
-      "sent": "Le log est archivé.",
-      "wrongChannel": "A n'utiliser que sur les logs fréquents.",
-      "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
-    },
-    "spotify": {
-      "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
-      "errorAdding": "Erreur lors de l'ajout.",
-      "errorSupressing": "Erreur lors de la suppression.",
-      "react": ["Vous pouvez react avec ", "pour annuler cet ajout !"],
       "songAdded": "Chanson ajoutée : ",
       "songSupressed": "Chanson supprimée de la playlist."
     }

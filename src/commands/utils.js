@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 import { MessageButton } from "discord.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
@@ -34,6 +36,29 @@ export const createButton = (id, label, style) => {
  */
 export const buttonHandler = (interaction) => {
   if (interaction.customId === "gift") giftButtonHandler(interaction);
-  else if (interaction.customId.startsWith("announce")) announceButtonHandler(interaction)
+  else if (interaction.customId.startsWith("announce"))
+    announceButtonHandler(interaction);
   else pronounsButtonHandler(interaction);
+};
+
+/**
+ * Return if guildMember has Sentinelle role or not
+ * @param {any} member guildMember to verify role
+ * @param {any} currentServer current server data from commons.json
+ * @returns {boolean}
+ */
+export const isSentinelle = (member, currentServer) => {
+  const roles = member.roles.cache;
+  return roles.has(currentServer.sentinelleRoleId);
+};
+
+/**
+ * Return if command has been released or not
+ * @param {object} command
+ * @returns {boolean}
+ */
+export const isReleasedCommand = (command) => {
+  const day = dayjs();
+  if (command.releaseDate) return command.releaseDate.diff(day) <= 0;
+  else return true;
 };

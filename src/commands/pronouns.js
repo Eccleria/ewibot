@@ -61,6 +61,8 @@ const pronouns = {
     return PERSONALITY.getCommands().pronouns.help;
   },
   admin: true,
+  releaseDate: null,
+  sentinelle: true,
 };
 
 export default pronouns;

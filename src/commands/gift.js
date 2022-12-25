@@ -70,10 +70,11 @@ const giftInteractionCreation = async (client) => {
     .setTimestamp()
     .setTitle(personality.nDayEmbed.title)
     .setDescription(nDayEmbed.description)
-    .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText })
-    .setImage(
-      "https://cdn.discordapp.com/attachments/1040335601330831420/1047879588220514394/image.png"
-    );
+    .addFields(
+      { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
+      { name: nDayEmbed.imageName, value: nDayEmbed.imageText }
+    )
+    .setImage(nDayEmbed.imageURL);
 
   //create message and send it
   channel.send({ embeds: [embed], components: [actionRow] });
@@ -230,21 +231,27 @@ const action = async (interaction) => {
       ? removeGiftMessage(db, author.id, targetUser.id)
       : removeGiftMessage(db, author.id);
 
-    if (dbResults.length !== 0) {
-      //is list
-
+    if (dbResults && dbResults.length !== 0) {
+      //is not null && is not empty list
       await interactionReply(interaction, remove.removed);
+
       dbResults.forEach(async (obj) => {
-        const userId = obj.recipientId;
+        //typeof obj can be "string" or "object"
+        const userId =
+          typeof obj === "object" ? obj.recipientId : targetUser.id;
         const name = remove.for + `<@${userId}>`;
         const userState = isGiftUser(db, userId)
           ? remove.accept
           : remove.notAccept;
 
-        const messages = obj.messages.reduce(
-          (acc, cur) => acc + remove.separator + cur,
-          ""
-        ); //concat messages
+        const messages =
+          typeof obj === "object"
+            ? obj.messages.reduce(
+                (acc, cur) => acc + remove.separator + cur,
+                ""
+              )
+            : obj; //concat messages
+
         await interaction.followUp({
           content: name + userState + messages,
           ephemeral: true,
@@ -297,6 +304,9 @@ const gift = {
       : personality;
     interactionReply(interaction, helpToUse.help);
   },
+  admin: false,
+  releaseDate: dayjs("12-01-2022", "MM-DD-YYYY"),
+  sentinelle: false,
   subcommands: [
     "gift",
     "gift use",

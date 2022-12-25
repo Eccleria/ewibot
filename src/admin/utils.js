@@ -244,12 +244,11 @@ export const generalEmbed = async (
 
 /**
  * Fetch Log Channel.
- * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
  * @param {string} [type] String to ditinguish if returns channel or thread. "thread" for thread.
  * @returns {TextChannel}
  */
-export const getLogChannel = async (commons, eventObject, type) => {
+export const getLogChannel = async (eventObject, type) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data

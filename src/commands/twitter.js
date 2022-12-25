@@ -15,12 +15,12 @@ const command = new SlashCommandBuilder()
   .setDescription(personality.twitter.description)
   .setDefaultMemberPermissions(0x0000010000000000) //MODERATE_MEMBERS bitwise
   .addSubcommand((command) =>
-    command
+    command //compare
       .setName(personality.twitter.compare.name)
       .setDescription(personality.twitter.compare.description)
   )
   .addSubcommand((command) =>
-    command
+    command //share
       .setName(personality.twitter.share.name)
       .setDescription(personality.twitter.share.description)
   );
@@ -105,6 +105,9 @@ const twitter = {
     });
   },
   admin: true,
+  releaseDate: null,
+  sentinelle: true,
+  subcommands: ["twitter", "twitter compare", "twitter share"],
 };
 
 export default twitter;
