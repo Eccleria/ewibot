@@ -32,7 +32,23 @@ const action = (interaction) => {
 const command = new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().shuffle.name)
     .setDescription(PERSONALITY.getCommands().shuffle.description)
-    .setDefaultMemberPermissions(0x0000010000000000);
+    .setDefaultMemberPermissions(0x0000010000000000)
+    .addSubcommand((subcommand) => 
+        subcommand
+            .setName(PERSONALITY.getCommands().shuffle.startstop.name)
+            .setDescription(PERSONALITY.getCommands().shuffle.startstop.description)
+    )
+    .addSubcommand((subcommand) => 
+        subcommand
+            .setName(PERSONALITY.getCommands().shuffle.set.name)
+            .setDescription(PERSONALITY.getCommands().shuffle.set.description)
+            .addNumberOption((option) =>
+                option
+                    .setName(PERSONALITY.getCommands().shuffle.set.numberOption.name)
+                    .setDescription(PERSONALITY.getCommands().shuffle.set.numberOption.description)
+                    .setRequired(true)
+            )
+    );
 
 const shuffle = {
     name: "shuffle",
