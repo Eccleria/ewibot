@@ -1,11 +1,16 @@
 ﻿## 4.5.0
 - Feat: All non unique $ commands as `/commands`
-- Feat: new `/commands`:
-	- `/reverse` for reversing text
-	- `reverse-translator` for traducing reversed text
 - Feat: december month emote
 - Feat: Ewibot `Activities`
+- Feat: new commands:
+	- `/reverse` allows to return a reversed string, with options
+	- `reverse-translator` context command for translating `/reversed` text
+- Update: Add /commands access for existing commands: 
+	`ping` `help` `roll` `ignoreChannel` `ignore` `concrete` `birthday` `reminder`
+- Update: `ignore` is now `/ignore_user`
 - Update: `/help` now with adapatative autocomplete and action according to user rigths
+- Update: gift Christmas embed with correct fan-art
+- Fix: `/gift remove` cases that caused db error
 
 # 4.4.1
 - Hotfix: removing defaultMemberPermission for `/gift` preventing every user from using it
