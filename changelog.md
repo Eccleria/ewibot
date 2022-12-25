@@ -1,5 +1,4 @@
 ﻿## 4.5.0
-- Feat: All non unique $ commands as `/commands`
 - Feat: december month emote
 - Feat: Ewibot `Activities`
 - Feat: new commands:
