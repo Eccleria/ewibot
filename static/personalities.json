@@ -523,7 +523,7 @@
       },
       "shuffle": {
         "description": "Permet de lancer le mode anniversaire d'Ewibot.",
-        "help": "- `start-stop` pour démarrer/arrêter le mode anniversaire.\n - `set` pour éditer la valeur du timeout.",
+        "help": "Commande du mode anniversaire pour alterner les couleurs des roles cosmétiques.\n- `startstop` pour démarrer/arrêter le mode anniversaire.\n- `set` pour éditer la valeur du timeout.",
         "name": "shuffle",
         "set": {
           "changed": "Le waitingTime a bien été changé.",
