@@ -346,7 +346,8 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   //handle role update event
 
   //check for birthday
-  if (shuffleParam.status === PERSONALITY.getCommands().shuffle.startstop.start) return;
+  if (shuffleParam.status === PERSONALITY.getCommands().shuffle.startstop.start)
+    return;
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const roleUp = personality.roleUpdate;
