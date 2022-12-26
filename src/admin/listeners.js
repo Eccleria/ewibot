@@ -27,6 +27,8 @@ import {
   hasOctagonalSign,
 } from "../helpers/index.js";
 
+import { shuffleParam } from "../commands/shuffle.js";
+
 import dayjs from "dayjs";
 
 // jsons imports
@@ -342,6 +344,9 @@ export const onRoleDelete = (role) => {
 
 export const onRoleUpdate = async (oldRole, newRole) => {
   //handle role update event
+
+  //check for birthday
+  if (shuffleParam.status === PERSONALITY.getCommands().shuffle.startstop.start) return;
 
   const personality = PERSONALITY.getAdmin(); //get personality
   const roleUp = personality.roleUpdate;

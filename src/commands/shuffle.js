@@ -5,7 +5,7 @@ import { interactionReply } from "./utils.js";
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
-const param = {
+export const shuffleParam = {
   status: PERSONALITY.getCommands().shuffle.startstop.stop,
   interval: null,
   waitingTime: 1000,
