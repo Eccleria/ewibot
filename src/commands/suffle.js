@@ -1,10 +1,40 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { PERSONALITY } from "../personality";
 import { interactionReply } from "./utils";
+//jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const param = {
   status: PERSONALITY.getCommands().shuffle.startstop.stop,
+  interval: null,
   waitingTime: 1 * 60 * 1000,
+};
+
+const colorList = ["#e74c3c", "#f1c40f", "#3498db", "#2ecc71", "#9b59b6", "#1abc9c"]; //Orange, yellow, blue, green, purple, cyan
+
+const shuffleRoleColor = async (client) => {
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+  const roles = Object.values(server.roles); // list of roles
+  const guild = await client.guilds.fetch(server.guildId)
+
+  let colorToApply = colorList;
+  roles.forEach(async (roleData) => {
+    const role = await guild.roles.fetch(roleData.roleId);
+    const rd = Math.round((colorToApply.length - 1) * Math.random());
+    role.setColor(colorToApply[rd]);
+    colorToApply = [...colorToApply.slice(0, rd), ...colorToApply.slice(rd + 1)];
+  })
+};
+
+//Test suffle color
+const startInterval = (client) => {
+  param.interval = setInterval(async (client) => {
+    console.log("end interval")
+    await shuffleRoleColor(client)
+  }, param.waitingTime, client);
 };
 
 const action = (interaction) => {
@@ -19,16 +49,14 @@ const action = (interaction) => {
         newStatus = ststPerso.status.start;
         param.status = newStatus;
 
-        //start loop
-
+        startInterval(interaction.client);
         interactionReply(interaction, ststPerso.started);
-
       } else if (param.status === ststPerso.start) {
         newStatus = ststPerso.status.stop;
         param.status = newStatus;
 
-        //stop loop
-
+        clearInterval(param.interval);
+        param.interval = null;
         interactionReply(interaction, ststPerso.stoped);
       }
     } else if (subcommand === perso.set.name) {
@@ -36,8 +64,12 @@ const action = (interaction) => {
       const newWaitingTime = options.getNumber(setPerso.numberOption.name);
 
       param.waitingTime = newWaitingTime;
-
       interactionReply(interaction, setPerso.changed);
+
+      if (param.interval) {
+        clearInterval(param.interval);
+        startInterval(interaction.client);
+      }
     }
 };
 
@@ -76,30 +108,3 @@ const shuffle = {
 };
 
 export default shuffle;
-
-/*
-//Test suffle color
-setTimeout(async (client, commons) => {
-  console.log("end timeout")
-  setInterval(async (client, commons) => {
-    console.log("end interval")
-    await shuffleRoleColor(client, commons)
-  }, 5000, client, commons)
-}, 3000, client, commons)
-
-const colorList = ["#e74c3c", "#f1c40f", "#3498db", "#2ecc71", "#9b59b6", "#1abc9c"]; //Orange, yellow, blue, green, purple, cyan
-
-export const shuffleRoleColor = async (client, commons) => {
-  const currentServer = commons.find((element) => element.name = "test")
-  const roles = Object.values(currentServer.roles); // list of roles
-  const guild = await client.guilds.fetch(currentServer.guildId)
-  let colorToApply = colorList;
-  roles.forEach(async (roleData) => {
-    const role = await guild.roles.fetch(roleData.roleId);
-    const rd = Math.round((colorToApply.length - 1) * Math.random());
-    role.setColor(colorToApply[rd]);
-    colorToApply = [...colorToApply.slice(0, rd), ...colorToApply.slice(rd + 1)];
-  })
-}
-
-*/
