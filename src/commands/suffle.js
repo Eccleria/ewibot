@@ -2,6 +2,11 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { PERSONALITY } from "../personality";
 import { interactionReply } from "./utils";
 
+const param = {
+  status: PERSONALITY.getCommands().shuffle.startstop.stop,
+  waitingTime: 1 * 60 * 1000,
+};
+
 const action = (interaction) => {
     const subcommand = interaction.options.getSubcommand();
     const perso = PERSONALITY.getCommands().shuffle;
@@ -9,24 +14,24 @@ const action = (interaction) => {
     if (subcommand === perso.startstop.name) {
         const ststPerso = perso.startstop;
         let newStatus;
-        if (suffle.status === ststPerso.stop) {
+        if (param.status === ststPerso.stop) {
             newStatus = ststPerso.status.start;
-            shuffle.status = newStatus;
+            param.status = newStatus;
 
             //start loop
 
             interactionReply(interaction, ststPerso.started);
-        } else if (suffle.status === ststPerso.start) {
+        } else if (param.status === ststPerso.start) {
             newStatus = ststPerso.status.stop;
-            shuffle.status = newStatus;
+            param.status = newStatus;
 
-            //start loop
+            //stop loop
 
             interactionReply(interaction, ststPerso.stoped);
         }
     } else if (subcommand === perso.set.name) {
 
-    };
+    }
 };
 
 const command = new SlashCommandBuilder()
@@ -61,8 +66,6 @@ const shuffle = {
     admin: true,
     releaseDate: null, //dayjs("01-01-2023", "MM-DD-YYYY"),
     sentinelle: false,
-    status: PERSONALITY.getCommands().shuffle.startstop.stop,
-    waitingTime: 10 * 60 * 1000, //10 min
 };
 
 export default shuffle;
