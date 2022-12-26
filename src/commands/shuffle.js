@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { PERSONALITY } from "../personality";
-import { interactionReply } from "./utils";
+import { PERSONALITY } from "../personality.js";
+import { interactionReply } from "./utils.js";
 //jsons import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
