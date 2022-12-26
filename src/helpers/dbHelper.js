@@ -216,11 +216,20 @@ const getGiftMessage = (db, senderId, recipientId = null) => {
   }
 };
 
+const addGiftSeparator = (db, separator) => {
+  const data = db.data.gift.messages;
+  data.forEach((obj) => {
+    //{userId, messages}
+    obj.messages.push({ senderId: null, message: separator})
+  });
+}
+
 export {
   addGiftMessage,
   removeGiftMessage,
   isMessageRecipient,
   getGiftMessage,
+  addGiftSeparator,
 };
 
 //IGNORE CHANNEL
