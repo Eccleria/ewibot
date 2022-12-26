@@ -8,7 +8,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 const param = {
   status: PERSONALITY.getCommands().shuffle.startstop.stop,
   interval: null,
-  waitingTime: 1 * 60 * 1000,
+  waitingTime: 1000,
 };
 
 const colorList = ["#e74c3c", "#f1c40f", "#3498db", "#2ecc71", "#9b59b6", "#1abc9c"]; //Orange, yellow, blue, green, purple, cyan
@@ -46,13 +46,13 @@ const action = (interaction) => {
       const ststPerso = perso.startstop;
       let newStatus;
       if (param.status === ststPerso.stop) {
-        newStatus = ststPerso.status.start;
+        newStatus = ststPerso.start;
         param.status = newStatus;
 
         startInterval(interaction.client);
         interactionReply(interaction, ststPerso.started);
       } else if (param.status === ststPerso.start) {
-        newStatus = ststPerso.status.stop;
+        newStatus = ststPerso.stop;
         param.status = newStatus;
 
         clearInterval(param.interval);
