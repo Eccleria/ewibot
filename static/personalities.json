@@ -526,6 +526,7 @@
         "help": "- `start-stop` pour démarrer/arrêter le mode anniversaire.\n - `set` pour éditer la valeur du timeout.",
         "name": "shuffle",
         "set": {
+          "changed": "Le waitingTime a bien été changé.",
           "description": "Permet de modifier la valeur du temps d'attente.",
           "name": "set",
           "numberOption": {

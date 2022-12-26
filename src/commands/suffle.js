@@ -8,29 +8,36 @@ const param = {
 };
 
 const action = (interaction) => {
-    const subcommand = interaction.options.getSubcommand();
+  const options = interaction.options;
+    const subcommand = options.getSubcommand();
     const perso = PERSONALITY.getCommands().shuffle;
 
     if (subcommand === perso.startstop.name) {
-        const ststPerso = perso.startstop;
-        let newStatus;
-        if (param.status === ststPerso.stop) {
-            newStatus = ststPerso.status.start;
-            param.status = newStatus;
+      const ststPerso = perso.startstop;
+      let newStatus;
+      if (param.status === ststPerso.stop) {
+        newStatus = ststPerso.status.start;
+        param.status = newStatus;
 
-            //start loop
+        //start loop
 
-            interactionReply(interaction, ststPerso.started);
-        } else if (param.status === ststPerso.start) {
-            newStatus = ststPerso.status.stop;
-            param.status = newStatus;
+        interactionReply(interaction, ststPerso.started);
 
-            //stop loop
+      } else if (param.status === ststPerso.start) {
+        newStatus = ststPerso.status.stop;
+        param.status = newStatus;
 
-            interactionReply(interaction, ststPerso.stoped);
-        }
+        //stop loop
+
+        interactionReply(interaction, ststPerso.stoped);
+      }
     } else if (subcommand === perso.set.name) {
+      const setPerso = perso.set;
+      const newWaitingTime = options.getNumber(setPerso.numberOption.name);
 
+      param.waitingTime = newWaitingTime;
+
+      interactionReply(interaction, setPerso.changed);
     }
 };
 
