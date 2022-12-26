@@ -25,6 +25,7 @@ import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
 import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
+import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
 
 import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
@@ -187,6 +188,7 @@ const slashCommands = [
   reminder,
   reverse,
   roll,
+  shuffle,
   spotify,
   twitter,
 ]; //command + action
