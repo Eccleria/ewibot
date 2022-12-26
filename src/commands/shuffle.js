@@ -8,7 +8,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 export const shuffleParam = {
   status: PERSONALITY.getCommands().shuffle.startstop.stop,
   interval: null,
-  waitingTime: 1000,
+  waitingTime: 10 * 60 * 1000,
 };
 
 const colorList = [
