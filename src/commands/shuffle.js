@@ -31,44 +31,59 @@ const shuffleRoleColor = async (client) => {
 
 //Test suffle color
 const startInterval = (client) => {
-  param.interval = setInterval(async (client) => {
+  shuffleParam.interval = setInterval(async (client) => {
     console.log("end interval")
     await shuffleRoleColor(client)
-  }, param.waitingTime, client);
+  }, shuffleParam.waitingTime, client);
 };
 
-const action = (interaction) => {
+const action = async (interaction) => {
   const options = interaction.options;
+  const client = interaction.client;
     const subcommand = options.getSubcommand();
     const perso = PERSONALITY.getCommands().shuffle;
+
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
 
     if (subcommand === perso.startstop.name) {
       const ststPerso = perso.startstop;
       let newStatus;
-      if (param.status === ststPerso.stop) {
+      if (shuffleParam.status === ststPerso.stop) {
         newStatus = ststPerso.start;
-        param.status = newStatus;
+        shuffleParam.status = newStatus;
 
-        startInterval(interaction.client);
+        startInterval(client);
         interactionReply(interaction, ststPerso.started);
-      } else if (param.status === ststPerso.start) {
+      } else if (shuffleParam.status === ststPerso.start) {
         newStatus = ststPerso.stop;
-        param.status = newStatus;
+        shuffleParam.status = newStatus;
 
-        clearInterval(param.interval);
-        param.interval = null;
+        //clear interval
+        clearInterval(shuffleParam.interval);
+        shuffleParam.interval = null;
+
+        //reset colors
+        const roles = Object.values(server.roles); // list of roles
+        const guild = await client.guilds.fetch(server.guildId)
+        roles.forEach(async (roleData) => {
+          const role = await guild.roles.fetch(roleData.roleId);
+          role.setColor(roleData.color);
+        });
+
         interactionReply(interaction, ststPerso.stoped);
       }
     } else if (subcommand === perso.set.name) {
       const setPerso = perso.set;
       const newWaitingTime = options.getNumber(setPerso.numberOption.name);
 
-      param.waitingTime = newWaitingTime;
+      shuffleParam.waitingTime = newWaitingTime;
       interactionReply(interaction, setPerso.changed);
 
-      if (param.interval) {
-        clearInterval(param.interval);
-        startInterval(interaction.client);
+      if (shuffleParam.interval) {
+        clearInterval(shuffleParam.interval);
+        startInterval(client);
       }
     }
 };
