@@ -70,7 +70,6 @@ const action = async (interaction) => {
       interactionReply(interaction, ststPerso.started);
     } else if (shuffleParam.status === ststPerso.start) {
       newStatus = ststPerso.stop;
-      shuffleParam.status = newStatus;
 
       //clear interval
       clearInterval(shuffleParam.interval);
@@ -84,6 +83,7 @@ const action = async (interaction) => {
         role.setColor(roleData.color);
       });
 
+      shuffleParam.status = newStatus;
       interactionReply(interaction, ststPerso.stoped);
     }
   } else if (subcommand === perso.set.name) {
