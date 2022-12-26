@@ -1,10 +1,42 @@
 {
+  "adminLogs": {
+    "frequent": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "userAD": [
+      [],
+      []
+    ]
+  },
   "alavirien": [],
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "concreteRecipients": [],
+  "gift": {
+    "users": [],
+    "messages": []
+  },
   "ignoredChannelIds": [],
   "ignoredUsersIds": [ "816960467335512114", "816979516916105220" ], // Maeva / Andarta Picture
   "messageCount": [],
-  "reminder": []
+  "reminder": [],
+  "twitter": {
+    "users": [
+      {
+        "userId": "1039418011260727296", //Andarta Pictures
+        "lastTweetId": "1563144877407277063"
+      },
+      {
+        "userId": "1032989926000939008", //La Quête d'Ewilan
+        "lastTweetId": "1563149333641703425"
+      }
+    ],
+    "missingTweets": []
+  }
 }

@@ -8,8 +8,12 @@
   const rolesJson = Object.values(server.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
 
   //check if the message has all Ewibot reactions
-  const channel = await client.channels.fetch(server.roleHandle.channelId); //get the channel
-  const message = await channel.messages.fetch(server.roleHandle.messageId); //get the message
+  const channel = await client.channels.fetch(
+    server.cosmeticRoleHandle.channelId
+  ); //get the channel
+  const message = await channel.messages.fetch(
+    server.cosmeticRoleHandle.messageId
+  ); //get the message
 
   //get emotes to add
   const reactionsNames = rolesJson.map((element) => element.name); //get the name of handled reactions
@@ -18,33 +22,36 @@
 };
 
 export const roleAdd = async (messageReaction, currentServer, user) => {
-  //handle reactions added to the role message
+  //handle reactions added to the cosmetic roles message
   const userId = user.id;
   if (userId === process.env.CLIENTID) return; //if bot, return
 
-  const rolesJson = Object.values(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
+  //fetch user data
   const guild = await messageReaction.client.guilds.fetch(
     currentServer.guildId
   ); //fetch the guild
+  const guildMember = await guild.members.fetch(userId); //get guildMember
 
-  const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
-
-  //check for correct triggering reaction
-  const reactionName = messageReaction.emoji.name; //get triggering reaction name
-  if (!reactionsNames.includes(reactionName)) {
-    messageReaction.remove();
-    return;
+  //check for alavirien role
+  if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
+    messageReaction.users.remove(userId); //remove wrong reaction
+    return; //if not having role, return
   }
 
-  //get all message reactions data
-
-  const guildMember = await guild.members.fetch(userId); //get guildMember
+  //check for correct triggering reaction
+  const rolesJson = Object.values(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
+  const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
+  const reactionName = messageReaction.emoji.name; //get triggering reaction name
+  if (!reactionsNames.includes(reactionName)) {
+    messageReaction.users.remove(userId); //remove wrong reaction
+    return;
+  }
 
   //get role parameters in servers.json
   const roleParam = rolesJson.find((role) => role.name === reactionName); //get json data for triggering role
   const roleIdtoChg = roleParam.roleId; //get the role id associated to the triggering reaction
 
-  await guildMember.roles.add(roleIdtoChg); //add requested role
+  guildMember.roles.add(roleIdtoChg); //add requested role
 };
 
 export const roleRemove = async (messageReaction, currentServer, user) => {
@@ -56,10 +63,16 @@ export const roleRemove = async (messageReaction, currentServer, user) => {
   ); //fetch the guild
   const guildMember = await guild.members.fetch(userId); //get guildMember
 
+  //check for correct triggering reaction
+  const rolesJson = Object.values(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
+  const reactionsNames = rolesJson.map((element) => element.name); //get names of handled reactions
   const reactionName = messageReaction.emoji.name; //get triggering reaction name
+  if (!reactionsNames.includes(reactionName)) {
+    messageReaction.users.remove(userId); //remove wrong reaction
+    return;
+  }
 
   //get commons data
-  const rolesJson = Object.values(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
   const roleParam = rolesJson.find((role) => role.name === reactionName); //get json data for triggering role
   const roleIdtoChg = roleParam.roleId; //get the role id associated to the triggering reaction
 

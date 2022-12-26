@@ -17,6 +17,7 @@ import birthday from "./birthday.js";
 import concrete from "./concrete.js";
 import spotify from "./spotify.js";
 import leaderboardApology from "./leadApo.js";
+import pronouns from "./pronouns.js";
 import { PERSONALITY } from "../personality.js";
 
 const helloWorld = {
@@ -33,20 +34,22 @@ const helloWorld = {
 
 const ignore = {
   // Allows users to choose if they want Ewibot reacting or not to their messages.
-  name: "ignore",
-  action: async (message, client) => {
-    const db = client.db;
+  name: "ignoreUser",
+  action: async (message) => {
+    const db = message.client.db;
     const authorId = message.author.id;
     if (db.data.ignoredUsersIds.includes(authorId)) {
       removeIgnoredUser(authorId, db);
-      await message.channel.send(PERSONALITY.getCommands().ignore.notIgnored);
+      await message.channel.send(
+        PERSONALITY.getCommands().ignoreUser.notIgnored
+      );
     } else {
       addIgnoredUser(authorId, db);
-      await message.channel.send(PERSONALITY.getCommands().ignore.ignored);
+      await message.channel.send(PERSONALITY.getCommands().ignoreUser.ignored);
     }
   },
   help: () => {
-    return PERSONALITY.getCommands().ignore.help;
+    return PERSONALITY.getCommands().ignoreUser.help;
   },
   admin: false,
 };
@@ -54,8 +57,8 @@ const ignore = {
 const ignoreChannel = {
   // ADMIN Allows to add or remove channels where Ewibot will (or not) react.
   name: "ignoreChannel",
-  action: async (message, client) => {
-    const db = client.db;
+  action: async (message) => {
+    const db = message.client.db;
     const ignoredChannelId =
       message.content.toLowerCase().split(" ")[1] || message.channel.id;
     if (isIgnoredChannel(db, ignoredChannelId)) {
@@ -131,6 +134,7 @@ const commands =
         ignore,
         ignoreChannel,
         leaderboardApology,
+        pronouns,
         reminder,
         roll,
         spotify,
@@ -142,6 +146,7 @@ const commands =
         ignore,
         ignoreChannel,
         leaderboardApology,
+        pronouns,
         reminder,
         roll,
       ];
@@ -169,7 +174,12 @@ const help = {
         //if user doesn't have the rigths
         return;
       }
-      await message.channel.send(command.help());
+      const commandName = command.command ? command.command.name : command.name;
+      const personality = PERSONALITY.getCommands()[commandName];
+      await message.channel.send({
+        content: personality.help,
+        allowed_mentions: { parse: [] },
+      });
     }
   },
   help: () => {

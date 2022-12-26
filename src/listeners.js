@@ -15,6 +15,7 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 
 // jsons imports
 import { readFileSync } from "fs";
+import { octagonalLog } from "./admin/utils.js";
 const commons = JSON.parse(readFileSync("./static/commons.json"));
 
 export const onPrivateMessage = async (message, client) => {
@@ -73,11 +74,15 @@ export const onPublicMessage = (message, client, currentServer, self) => {
       // spotify stuff
       checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
     }
-    command.action(message, client, currentServer, self);
+    command.action(message, "$");
   }
 };
 
-export const onRemoveReminderReaction = (messageReaction, currentServer) => {
+export const onRemoveReminderReaction = (
+  messageReaction,
+  reactionUser,
+  currentServer
+) => {
   const { removeEmoji } = currentServer;
   const { message, emoji, users, client } = messageReaction;
 
@@ -85,12 +90,15 @@ export const onRemoveReminderReaction = (messageReaction, currentServer) => {
     // found corresponding reminder message
     ({ botMessage }) => botMessage.id === message.id
   );
+
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
-    users.cache // if user reacting is the owner of reminder
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
+    (message.interaction
+      ? reactionUser.id === message.interaction.user.id
+      : users.cache
+          .map((user) => user.id)
+          .includes(message.mentions.users.first().id)) // if user reacting is the owner of reminder
   ) {
     try {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
@@ -98,6 +106,7 @@ export const onRemoveReminderReaction = (messageReaction, currentServer) => {
           // if it is the right message
           clearTimeout(timeout); //cancel timeout
           botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+          console.log("reminder deleted");
           return false;
         }
         return true;
@@ -152,12 +161,21 @@ export const onReactionAdd = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
-    await roleAdd(messageReaction, currentServer, user);
+  if (
+    currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
+  ) {
+    roleAdd(messageReaction, currentServer, user);
+    return;
+  }
+
+  if (currentServer.octagonalSign === messageReaction.emoji.name) {
+    octagonalLog(messageReaction, user);
+    return;
+  }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
 
-  onRemoveReminderReaction(messageReaction, currentServer);
+  onRemoveReminderReaction(messageReaction, user, currentServer);
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
@@ -165,6 +183,6 @@ export const onReactionRemove = async (messageReaction, user) => {
     ({ guildId }) => guildId === messageReaction.message.channel.guild.id
   );
 
-  if (currentServer.roleHandle.messageId === messageReaction.message.id)
+  if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
 };

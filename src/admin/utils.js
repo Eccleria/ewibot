@@ -1,6 +1,7 @@
 import { MessageEmbed } from "discord.js";
+
 import { PERSONALITY } from "../personality.js";
-import { removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
+import { getAdminLogs, removeAdminLogs, removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -65,6 +66,7 @@ export const setupEmbed = (color, personality, object, type) => {
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Additional text to add.
  * @param {Attachment[]} [attachments] Message attachments.
+ * @returns {object[]}
  */
 export const finishEmbed = async (
   personalityEvent,
@@ -75,7 +77,6 @@ export const finishEmbed = async (
   attachments
 ) => {
   const currentServer = commons.find(({ name }) => name === "test"); //get test data
-
   if (
     process.env.DEBUG === "no" &&
     logChannel.guildId === currentServer.guildId
@@ -84,27 +85,33 @@ export const finishEmbed = async (
     console.log("Ewibot log in Test server", personalityEvent.title);
     return;
   }
+
   if (embed.author !== null) {
-    //embed.author is a embed property & not an array property
+    //if is an array, embed.author is undefined !== null
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
       embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
     if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
 
     try {
-      await logChannel.send({ embeds: embed, allowed_mentions: { parse: [] } }); //send
-      if (attachments && attachments.length !== 0)
-        await logChannel.send({ files: attachments }); //if attachments, send new message
+      const message = await logChannel.send({
+        embeds: embed,
+        allowed_mentions: { parse: [] },
+      }); //send
+      if (attachments && attachments.length !== 0) {
+        const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+        return [message, gifMessage];
+      }
+      return [message];
     } catch (e) {
       console.log(
         "finishEmbed list error\n",
         personalityEvent.title,
         new Date(),
-        e,
-        embed
+        e
       );
     }
-    return;
+    return [];
   }
 
   if (personalityEvent.executor && executor !== null)
@@ -114,11 +121,18 @@ export const finishEmbed = async (
 
 
   try {
-    await logChannel.send({ embeds: [embed], allowed_mentions: { parse: [] } }); //send
-    if (attachments && attachments.length !== 0)
-      await logChannel.send({ files: attachments }); //if attachments, send new message
+    const message = await logChannel.send({
+      embeds: [embed],
+      allowed_mentions: { parse: [] },
+    }); //send
+    if (attachments && attachments.length !== 0) {
+      const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+      return [message, gifMessage];
+    }
+    return [message];
   } catch (e) {
-    console.log("finishEmbed error\n", personalityEvent.title, e, embed);
+    console.log("finishEmbed error\n", personalityEvent.title, e);
+    return [];
   }
 };
 
@@ -132,8 +146,9 @@ export const finishEmbed = async (
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
+ * @returns {object[]}
  */
-export const endCasesEmbed = (
+export const endCasesEmbed = async (
   object,
   log,
   eventPerso,
@@ -147,24 +162,49 @@ export const endCasesEmbed = (
   console.log("diff", diff)
   if (diff >= 5) {
     //if log too old
-    finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
-    return;
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.tooOld,
+      embed,
+      logChannel
+    );
+    return messageList;
   }
 
   if (!log) {
     //if no AuditLog
-    finishEmbed(eventPerso, logPerso.noLog, embed, logChannel, text);
-    return;
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.noLog,
+      embed,
+      logChannel,
+      text
+    );
+    return messageList;
   }
 
   const { executor, target } = log;
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    finishEmbed(eventPerso, executor, embed, logChannel, text);
+    const messageList = await finishEmbed(
+      eventPerso,
+      executor,
+      embed,
+      logChannel,
+      text
+    );
+    return messageList;
   } else {
     //if bot or author executed the kick
-    finishEmbed(eventPerso, logPerso.noExec, embed, logChannel, text);
+    const messageList = await finishEmbed(
+      eventPerso,
+      logPerso.noExec,
+      embed,
+      logChannel,
+      text
+    );
+    return messageList;
   }
 };
 
@@ -196,6 +236,7 @@ export const generalEmbed = async (
   const aLog = personality.auditLog;
 
   const channel = await getLogChannel(commons, obj); //get logChannel
+  if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
@@ -207,12 +248,11 @@ export const generalEmbed = async (
 
 /**
  * Fetch Log Channel.
- * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
- * @param {string} type String to ditinguish if returns channel or thread
+ * @param {string} [type] String to ditinguish if returns channel or thread. "thread" for thread.
  * @returns {TextChannel}
  */
-export const getLogChannel = async (commons, eventObject, type) => {
+export const getLogChannel = async (eventObject, type) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data
@@ -537,15 +577,129 @@ export const fetchMessage = async (message) => {
  */
 export const gifRecovery = (content) => {
   const tenor = "tenor.com/";
-  if (content.includes(tenor)) {
-    const words = content.split(" ");
+  const end = ".gif";
+
+  if (content.includes(tenor) || content.includes(end)) {
+    //if any gif inside content
+    const words = content.split(" "); //split content into words
     const results = words.reduce((acc, cur) => {
-      if (cur.includes(tenor)) return [...acc, cur];
+      //look for gif position in content
+      if (cur.includes(tenor) || cur.endsWith(end)) {
+        //if has link
+        const start = cur.indexOf("https://"); //look for link position
+        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
+        return [...acc, sliced]; //return link
+      }
       return acc;
     }, []);
     return results;
   }
   return null;
+};
+
+export const logsRemover = async (client) => {
+  console.log("logsRemover");
+  const db = client.db;
+  const server = commons.find(({ name }) =>
+    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
+  );
+
+  let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
+  const dbData = getAdminLogs(db);
+  let data = dbData[type][0]; //get corresponding data
+  if (data.length !== 0) {
+    const threadChannel = await client.channels.fetch(server.logThreadId);
+    const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
+
+    const diff = data.reduce((acc, cur) => {
+      if (result.has(cur)) return acc; //if no diff
+      else return [...acc, cur];
+    }, []); //find diff for error check
+    console.log("diff", diff); //log for debug
+  }
+  removeAdminLogs(db, type); //remove from db
+  //console.log("db", db.data.adminLogs.frequent);
+
+  /*
+  type = "userAD";
+  data = dbData[type][0];
+  if (data.length !== 0) {
+    const logChannel = await client.channels.fetch(server.logChannelId);
+    const result = await logChannel.bulkDelete(data);
+    //console.log("result2", result)
+  }
+  removeAdminLogs(db, type)*/
+};
+
+export const initAdminLogClearing = (client, waitingTime) => {
+  setTimeout(
+    () => {
+      logsRemover(client);
+      setInterval(
+        () => {
+          logsRemover(client);
+        },
+        24 * 3600 * 1000,
+        client
+      );
+    },
+    waitingTime,
+    client
+  );
+};
+
+export const octagonalLog = async (object, user) => {
+  //get personality
+  const personality = PERSONALITY.getAdmin();
+  const octaPerso = personality.octagonalSign;
+
+  let message = user ? object.message : object;
+  if (message.partial) await message.fetch();
+
+  //basic operations
+  const logChannel = await getLogChannel(commons, message); //get logChannelId
+  const embed = setupEmbed(
+    "LUMINOUS_VIVID_PINK",
+    octaPerso,
+    message.author,
+    "tag"
+  ); //setup embed
+
+  //add more info to embed
+  const executor = user
+    ? await message.guild.members.fetch(user.id)
+    : object.author; //get executor
+  const date = message.createdAt.toString().slice(4, 24);
+  embed.addFields(
+    { name: octaPerso.date, value: `${date}`, inline: true }, //date of message creation
+    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
+    { name: octaPerso.text, value: message.content }, //message content
+    { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
+    {
+      name: octaPerso.linkName,
+      value: `[${octaPerso.linkMessage}](${message.url})`,
+      inline: true,
+    } //get message link
+  );
+
+  finishEmbed(octaPerso, null, embed, logChannel);
+};
+
+export const checkProdTestMode = (logChannel) => {
+  const server = commons.find(({ name }) => name === "test");
+  const channels = [server.logChannelId, server.logThreadId];
+
+  return channels.includes(logChannel.id); //if test, return true
+};
+
+export const sliceAddString = (len, string) => {
+  const lenArray = Array.from(new Array(len));
+  const sliced = lenArray.reduce((acc, _cur, idx) => {
+    if (idx === len - 1) return [...acc, string.slice(idx * 1024)];
+    const sliced = string.slice(idx * 1024, (idx + 1) * 1024);
+    return [...acc, sliced];
+  }, []); //slice content in less than 1024 characters
+  return sliced;
 };
 
 export const checkDB = (userId, client) => {

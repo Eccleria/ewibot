@@ -1,23 +1,86 @@
 import Canvas from "canvas";
+import dayjs from "dayjs";
 import GIFEncoder from "gif-encoder-2";
+
 import { MessageAttachment } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
+
 import path from "path";
 import fs from "fs";
 
 import { PERSONALITY } from "../personality.js";
+import { interactionReply } from "./utils.js";
 
-const action = async (message, client, currentServer, self) => {
-  const { channel, mentions, content } = message;
+// jsons import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 
-  if (mentions.users.size !== 1) {
-    //if no or too many mentions, or @here/everyone
-    message.reply(PERSONALITY.getCommands().concrete.errorMention);
-    return;
+//personality
+const personality = PERSONALITY.getCommands().concrete;
+
+//COMMAND
+const command = new SlashCommandBuilder()
+  .setName(PERSONALITY.getCommands().concrete.name)
+  .setDescription(PERSONALITY.getCommands().concrete.description)
+  .addUserOption((option) =>
+    option
+      .setName(PERSONALITY.getCommands().concrete.userOption.name)
+      .setDescription(PERSONALITY.getCommands().concrete.userOption.description)
+      .setRequired(true)
+  )
+  .addBooleanOption((option) =>
+    option
+      .setName(PERSONALITY.getCommands().concrete.booleanOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().concrete.booleanOption.description
+      )
+      .setRequired(false)
+  );
+
+const action = async (object, type) => {
+  //action to execute when command is fired
+  const cPerso = PERSONALITY.getCommands().concrete;
+  const { channel, client } = object;
+
+  let force;
+  let recipient;
+  let buffer;
+
+  if (type === "$") {
+    const message = object;
+    const { mentions, content } = message;
+    if (mentions.users.size !== 1) {
+      //if no or too many mentions, or @here/everyone
+      message.reply(PERSONALITY.getCommands().concrete.errorMention);
+      return;
+    }
+
+    channel.sendTyping();
+    recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
+    force = content.includes("--force");
+  } else if (type === "/") {
+    const interaction = object;
+    const options = interaction.options;
+
+    //get options
+    force = options.getBoolean(cPerso.booleanOption.name);
+    let user;
+    try {
+      user = options.getUser(cPerso.userOption.name);
+    } catch (e) {
+      interactionReply(interaction, personality.errorMention);
+      console.log("concrete error", e);
+      return;
+    }
+
+    await interaction.deferReply();
+    recipient = await client.users.fetch(user.id); //get guildMember from user id
   }
 
-  channel.sendTyping();
-
-  const recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
+  const self = process.env.CLIENTID;
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === channel.guild.id
+  );
 
   const gifsPath = path.join(
     path.resolve(path.dirname("")),
@@ -26,7 +89,6 @@ const action = async (message, client, currentServer, self) => {
   );
   const dir = fs.readdirSync(gifsPath);
 
-  const force = content.includes("--force");
   const gifExists = dir.includes(`${recipient.id}.gif`);
 
   if (!gifExists || force) {
@@ -71,28 +133,33 @@ const action = async (message, client, currentServer, self) => {
     }
     encoder.finish();
 
-    const buffer = encoder.out.getData(); //Recover the gif
+    buffer = encoder.out.getData(); //Recover the gif
     fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
-    const attachment = new MessageAttachment(buffer, "concrete.gif");
+  } else buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
-    const sentMessage = await channel.send({ files: [attachment] });
-    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
-  } else {
-    const buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
+  const attachment = new MessageAttachment(buffer, cPerso.fileName);
+  let sentMessage;
+  if (type === "$") sentMessage = await channel.send({ files: [attachment] });
+  else if (type === "/")
+    sentMessage = await object.editReply({ files: [attachment] });
 
-    const attachment = new MessageAttachment(buffer, "concrete.gif");
-    const sentMessage = await channel.send({ files: [attachment] });
-    if (recipient.id === self) await sentMessage.react(currentServer.edouin);
-  }
+  if (recipient.id === self) await sentMessage.react(currentServer.edouin);
 };
 
 const concrete = {
   name: "concrete",
+  command: command,
   action,
-  help: () => {
-    return PERSONALITY.getCommands().concrete.help;
+  help: (interaction) => {
+    interaction.reply({
+      content: personality.help,
+      ephemeral: true,
+      allowed_mentions: { parse: [] },
+    });
   },
   admin: false,
+  releaseDate: dayjs("12-15-2022", "MM-DD-YYYY"),
+  sentinelle: false,
 };
 
 export default concrete;

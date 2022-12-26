@@ -1,12 +1,14 @@
 {
-  "name": "blindtest-bot",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "ewibot",
+  "version": "4.1.0",
+  "main": "bot.js",
   "type": "module",
   "license": "MIT",
   "dependencies": {
+    "@discordjs/rest": "^1.4.0",
     "canvas": "^2.9.1",
     "dayjs": "^1.11.0",
+    "discord-api-types": "^0.36.3",
     "discord.js": "13.9.0",
     "dotenv": "^16.0.0",
     "ffmpeg-static": "^5.0.0",
@@ -15,6 +17,7 @@
     "lowdb": "^3.0.0",
     "nodemon": "^2.0.15",
     "spotify-web-api-node": "^5.0.2",
+    "twitter-api-v2": "^1.12.5",
     "wait-for-user-input": "^1.0.0",
     "ytdl-core": "^4.11.0"
   },
