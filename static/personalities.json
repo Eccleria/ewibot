@@ -521,6 +521,28 @@
         "wrongChannel": "A n'utiliser que sur les logs fréquents.",
         "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
       },
+      "shuffle": {
+        "description": "Permet de lancer le mode anniversaire d'Ewibot.",
+        "help": "Commande du mode anniversaire pour alterner les couleurs des roles cosmétiques.\n- `startstop` pour démarrer/arrêter le mode anniversaire.\n- `set` pour éditer la valeur du timeout.",
+        "name": "shuffle",
+        "set": {
+          "changed": "Le waitingTime a bien été changé.",
+          "description": "Permet de modifier la valeur du temps d'attente.",
+          "name": "set",
+          "numberOption": {
+            "description": "Temps d'attente avant l'éxecution suivante de la boucle.",
+            "name": "waiting-time"
+          }
+        },
+        "startstop": {
+          "description": "Permet de démarrer/arrêter la boucle de changement de couleur.",
+          "name": "startstop",
+          "start": "start",
+          "started": "La boucle de changement est lancée.",
+          "stop": "stop",
+          "stoped": "La boucle de changement est arrêtée."
+        }
+      },
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       },
