@@ -1,4 +1,11 @@
-﻿## 4.5.0
+﻿## 4.6.0
+- Feat: bot birthday emote
+- Feat: `/shuffle` command:
+	- `startstop` that allows to start and stop the role color shuffle loop
+	- `set` subcommand to modify shuffle loop waitingTime 
+- Update: `roleUpdate` log ignore role logs when loop is active
+
+## 4.5.0
 - Feat: december month emote
 - Feat: Ewibot `Activities`
 - Feat: new commands:
@@ -11,7 +18,7 @@
 - Update: gift Christmas embed with correct fan-art
 - Fix: `/gift remove` cases that caused db error
 
-# 4.4.1
+## 4.4.1
 - Hotfix: removing defaultMemberPermission for `/gift` preventing every user from using it
 
 ## 4.4.0
