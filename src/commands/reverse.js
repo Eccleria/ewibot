@@ -25,7 +25,7 @@ const reverseStr = (string) => {
       isInMentionable = false;
       reversed = mention + reversed;
       mention = "";
-    }
+  }
   }
   return reversed;
 };
@@ -189,10 +189,10 @@ const contextAction = (interaction) => {
   } else {
     string = message.content; //get message content
 
-    const reversed = reverseStr(string); //reverse message content
-    const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
+  const reversed = reverseStr(string); //reverse message content
+  const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
 
-    interactionReply(interaction, content);
+  interactionReply(interaction, content);
   }
 };
 

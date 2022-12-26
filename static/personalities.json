@@ -332,19 +332,22 @@
         "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `gift remove` pour supprimer les messages destinés à une personne.\n- `gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `gift use` pour accepter ou non les messages.",
         "name": "gift",
         "nDayEmbed": {
-          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469> Joyeux Noël <:DuomFetard:822479563077976065> !!\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
+          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469>\n Joyeux Noël <:DuomFetard:822479563077976065> !!\n\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
+          "imageURL": "https://cdn.discordapp.com/attachments/1040335601330831420/1056257880174624768/Ewilan_Noel_crop.png",
+          "imageName": "Fan-art",
+          "imageText": "Un immense merci à <@705869091986210826> et <@693830441660317726> pour ce magnifique fan-art de notre groupe préféré, fêtant Noël ensemble ! <:DuomNoelErg:1048916483490717727>",
           "noteName": "Rappel",
-          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.",
+          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.\n",
           "title": "Surprise de Noël"
         },
         "remove": {
-          "accept": " (qui accepte les messages de Noël)",
+          "accept": " (qui accepte les messages de Noël) :\n",
           "description": "Permet de supprimer un message de Noël.",
           "for": "Destiné.s à ",
           "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime tous les messages prévus.",
           "name": "remove",
           "noMessage": "Vous n'avez aucun message d'enregistré.",
-          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël) :\n",
           "separator": "\n-----\n",
           "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
           "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
@@ -519,6 +522,28 @@
         "sent": "Le log est archivé.",
         "wrongChannel": "A n'utiliser que sur les logs fréquents.",
         "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
+      },
+      "shuffle": {
+        "description": "Permet de lancer le mode anniversaire d'Ewibot.",
+        "help": "Commande du mode anniversaire pour alterner les couleurs des roles cosmétiques.\n- `startstop` pour démarrer/arrêter le mode anniversaire.\n- `set` pour éditer la valeur du timeout.",
+        "name": "shuffle",
+        "set": {
+          "changed": "Le waitingTime a bien été changé.",
+          "description": "Permet de modifier la valeur du temps d'attente.",
+          "name": "set",
+          "numberOption": {
+            "description": "Temps d'attente avant l'éxecution suivante de la boucle.",
+            "name": "waiting-time"
+          }
+        },
+        "startstop": {
+          "description": "Permet de démarrer/arrêter la boucle de changement de couleur.",
+          "name": "startstop",
+          "start": "start",
+          "started": "La boucle de changement est lancée.",
+          "stop": "stop",
+          "stoped": "La boucle de changement est arrêtée."
+        }
       },
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
