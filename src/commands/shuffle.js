@@ -81,10 +81,10 @@ const action = async (interaction) => {
       //reset colors
       const roles = Object.values(server.roles); // list of roles
       const guild = await client.guilds.fetch(server.guildId);
-      for await (const roleData of roles) {
+      roles.forEach(async (roleData) => {
         const role = await guild.roles.fetch(roleData.roleId);
         role.setColor(roleData.color);
-      };
+      });
 
       setTimeout(() => {
         shuffleParam.status = newStatus; //reset param status after API update
