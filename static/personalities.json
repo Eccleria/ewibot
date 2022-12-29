@@ -67,6 +67,7 @@
       "date": "Envoyé le :",
       "executor": "Supprimé par :",
       "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+      "pinned": "*Un message System Discord indiquant qu'un message a été épinglé a été supprimé.*",
       "text": "Contenu du message :",
       "textAgain": "Contenu - suite",
       "title": "Message supprimé"
