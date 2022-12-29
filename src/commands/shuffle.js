@@ -60,15 +60,18 @@ const action = async (interaction) => {
   );
 
   if (subcommand === perso.startstop.name) {
+    //startstop
     const ststPerso = perso.startstop;
     let newStatus;
     if (shuffleParam.status === ststPerso.stop) {
+      //start shuffle
       newStatus = ststPerso.start;
       shuffleParam.status = newStatus;
 
       startInterval(client);
       interactionReply(interaction, ststPerso.started);
     } else if (shuffleParam.status === ststPerso.start) {
+      //stop shuffle
       newStatus = ststPerso.stop;
 
       //clear interval
@@ -78,12 +81,14 @@ const action = async (interaction) => {
       //reset colors
       const roles = Object.values(server.roles); // list of roles
       const guild = await client.guilds.fetch(server.guildId);
-      roles.forEach(async (roleData) => {
+      for await (const roleData of roles) {
         const role = await guild.roles.fetch(roleData.roleId);
         role.setColor(roleData.color);
-      });
+      };
 
-      shuffleParam.status = newStatus;
+      setTimeout(() => {
+        shuffleParam.status = newStatus; //reset param status after API update
+      }, 10000);
       interactionReply(interaction, ststPerso.stoped);
     }
   } else if (subcommand === perso.set.name) {
