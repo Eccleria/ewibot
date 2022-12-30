@@ -1,4 +1,12 @@
 ﻿## 4.7.0
+- Feat: New Year personality
+- Feat: dbHelper addGiftSeparator()
+- Fix: `getLogChannel` deprecated use in generalEmbed(), octagonalLog(), savelog action()
+- Fix: messageDelete log now handle system `CHANNEL_PINNED_MESSAGE` message deletion
+- Fix: missing tweet removing from db when sending tweets from timeout listener
+- Fix: role logs fired before the end of `shuffle` loop
+- Update: timeout with db modification once 12/27
+- Update: bot message once New Year
 
 ## 4.6.0
 - Feat: bot birthday emote
