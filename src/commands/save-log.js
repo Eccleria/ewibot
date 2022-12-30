@@ -41,7 +41,7 @@ const action = async (interaction, commons) => {
     return;
   }
 
-  const logChannel = await getLogChannel(commons, interaction); //get logChannel
+  const logChannel = await getLogChannel(interaction); //get logChannel
 
   //add executor of saveLog
   const member = interaction.member;

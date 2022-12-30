@@ -231,7 +231,7 @@ export const generalEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  const channel = await getLogChannel(commons, obj); //get logChannel
+  const channel = await getLogChannel(obj); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
@@ -653,7 +653,7 @@ export const octagonalLog = async (object, user) => {
   if (message.partial) await message.fetch();
 
   //basic operations
-  const logChannel = await getLogChannel(commons, message); //get logChannelId
+  const logChannel = await getLogChannel(message); //get logChannelId
   const embed = setupEmbed(
     "LUMINOUS_VIVID_PINK",
     octaPerso,

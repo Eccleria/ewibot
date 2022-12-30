@@ -9,7 +9,11 @@ import {
   getGiftMessage,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import { addGiftMessage, removeGiftMessage } from "../helpers/index.js";
+import {
+  addGiftMessage,
+  removeGiftMessage,
+  addGiftSeparator,
+} from "../helpers/index.js";
 import dayjs from "dayjs";
 
 //jsons import
@@ -48,7 +52,7 @@ export const giftButtonHandler = async (interaction) => {
   interactionReply(interaction, personality.compensation);
 };
 
-const giftInteractionCreation = async (client) => {
+const giftInteractionCreation = async (client, type) => {
   // handle the interaction creation once giftRecursiveTimeout is finished
   //get commons data
   const server = commons.find(({ name }) =>
@@ -64,25 +68,45 @@ const giftInteractionCreation = async (client) => {
     createButton("gift", personality.buttonLabel, "PRIMARY")
   );
 
-  const nDayEmbed = personality.nDayEmbed;
-  const embed = new MessageEmbed() //create embed
-    .setColor("DARK_GREEN")
-    .setTimestamp()
-    .setTitle(personality.nDayEmbed.title)
-    .setDescription(nDayEmbed.description)
-    .addFields(
-      { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
-      { name: nDayEmbed.imageName, value: nDayEmbed.imageText }
-    )
-    .setImage(nDayEmbed.imageURL);
+  if (type === "xmas") {
+    const nDayEmbed = personality.nDayEmbed;
+    const embed = new MessageEmbed() //create embed
+      .setColor("DARK_GREEN")
+      .setTimestamp()
+      .setTitle(personality.nDayEmbed.title)
+      .setDescription(nDayEmbed.description)
+      .addFields(
+        { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
+        { name: nDayEmbed.imageName, value: nDayEmbed.imageText }
+      )
+      .setImage(nDayEmbed.imageURL);
 
-  //create message and send it
-  channel.send({ embeds: [embed], components: [actionRow] });
+    //create message and send it
+    channel.send({ embeds: [embed], components: [actionRow] });
+  } else if (type === "ny") {
+    const newYear = personality.newYear;
+
+    const embed = new MessageEmbed() //create embed
+      .setColor("DARK_GREEN")
+      .setTimestamp()
+      .setTitle(newYear.title)
+      .setDescription(newYear.description);
+
+    channel.send({ embeds: [embed], components: [actionRow] });
+  }
+};
+
+const addSeparationToDb = (client) => {
+  const perso = PERSONALITY.getCommands().gift.newYear;
+  addGiftSeparator(client.db, perso.separator);
+  console.log("Separation added to gift db");
 };
 
 export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
-  const dDate = dayjs(new Date(2022, 11, 25, 1)); //date when to send
+  const xmasDate = dayjs(new Date(2022, 11, 25, 1)); //xmas date when to send
+  const nyDate = dayjs(new Date(2023, 0, 1, 1)); //new year date
+  const switchDate = dayjs(new Date(2022, 11, 27, 1)); //add separator to messages
 
   const tomorrowMidnight = dayjs()
     .add(1, "day")
@@ -96,9 +120,22 @@ export const setGiftTimeoutLoop = (client) => {
 
   const sendMessage = () => {
     const today = dayjs();
-    if (dDate.month() === today.month() && dDate.date() === today.date()) {
+    if (
+      xmasDate.month() === today.month() &&
+      xmasDate.date() === today.date()
+    ) {
       // send the gifts
-      giftInteractionCreation(client);
+      giftInteractionCreation(client, "xmas");
+    } else if (
+      nyDate.month() === today.month() &&
+      nyDate.date() === today.date()
+    ) {
+      giftInteractionCreation(client, "ny");
+    } else if (
+      switchDate.month() === today.month() &&
+      switchDate.date() === today.date()
+    ) {
+      addSeparationToDb(client);
     }
   };
 
