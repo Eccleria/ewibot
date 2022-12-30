@@ -2,6 +2,7 @@ import {
   getTwitterUser,
   updateLastTweetId,
   addMissingTweets,
+  removeMissingTweets,
 } from "../helpers/index.js";
 
 import { PERSONALITY } from "../personality.js";
@@ -86,6 +87,7 @@ export const tweetCompare = async (client, interaction) => {
       const channel = await client.channels.fetch(channelId);
       tLinks.forEach(async (link) => await channel.send(link));
     }
+    removeMissingTweets(tLinks, db);
   } else if (interaction)
     interaction.reply({
       content: PERSONALITY.getCommands().twitter.dbUpToDate,
