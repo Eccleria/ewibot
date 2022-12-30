@@ -25,6 +25,7 @@ import {
   addGiftMessage,
   removeGiftMessage,
   getGiftMessage,
+  addGiftSeparator,
 } from "./dbHelper.js";
 
 import {
@@ -87,4 +88,5 @@ export {
   addGiftMessage,
   removeGiftMessage,
   getGiftMessage,
+  addGiftSeparator,
 };
