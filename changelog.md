@@ -1,4 +1,6 @@
-﻿## 4.6.0
+﻿## 4.7.0
+
+## 4.6.0
 - Feat: bot birthday emote
 - Feat: `/shuffle` command:
 	- `startstop` that allows to start and stop the role color shuffle loop
