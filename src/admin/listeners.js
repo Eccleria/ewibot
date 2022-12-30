@@ -464,6 +464,13 @@ export const onMessageDelete = async (message) => {
   embed.addField(messageDel.channel, `<#${message.channelId}>`, true); //message channel
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
 
+  //test for system message
+  if (message.type === "CHANNEL_PINNED_MESSAGE") {
+    const msg = await finishEmbed(messageDel, null, embed, logChannel, messageDel.pinned);
+    addAdminLogs(msg[0].client.db, msg[0].id, "frequent", 6)
+    return;
+  }
+
   //get message data
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
