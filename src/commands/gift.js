@@ -9,7 +9,11 @@ import {
   getGiftMessage,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import { addGiftMessage, removeGiftMessage, addGiftSeparator } from "../helpers/index.js";
+import {
+  addGiftMessage,
+  removeGiftMessage,
+  addGiftSeparator,
+} from "../helpers/index.js";
 import dayjs from "dayjs";
 
 //jsons import
@@ -86,7 +90,7 @@ const giftInteractionCreation = async (client, type) => {
       .setColor("DARK_GREEN")
       .setTimestamp()
       .setTitle(newYear.title)
-      .setDescription(newYear.description)
+      .setDescription(newYear.description);
 
     channel.send({ embeds: [embed], components: [actionRow] });
   }
@@ -116,12 +120,21 @@ export const setGiftTimeoutLoop = (client) => {
 
   const sendMessage = () => {
     const today = dayjs();
-    if (xmasDate.month() === today.month() && xmasDate.date() === today.date()) {
+    if (
+      xmasDate.month() === today.month() &&
+      xmasDate.date() === today.date()
+    ) {
       // send the gifts
       giftInteractionCreation(client, "xmas");
-    } else if (nyDate.month() === today.month() && nyDate.date() === today.date()) {
+    } else if (
+      nyDate.month() === today.month() &&
+      nyDate.date() === today.date()
+    ) {
       giftInteractionCreation(client, "ny");
-    } else if (switchDate.month() === today.month() && switchDate.date() === today.date()) {
+    } else if (
+      switchDate.month() === today.month() &&
+      switchDate.date() === today.date()
+    ) {
       addSeparationToDb(client);
     }
   };

@@ -466,8 +466,14 @@ export const onMessageDelete = async (message) => {
 
   //test for system message
   if (message.type === "CHANNEL_PINNED_MESSAGE") {
-    const msg = await finishEmbed(messageDel, null, embed, logChannel, messageDel.pinned);
-    addAdminLogs(msg[0].client.db, msg[0].id, "frequent", 6)
+    const msg = await finishEmbed(
+      messageDel,
+      null,
+      embed,
+      logChannel,
+      messageDel.pinned
+    );
+    addAdminLogs(msg[0].client.db, msg[0].id, "frequent", 6);
     return;
   }
 
