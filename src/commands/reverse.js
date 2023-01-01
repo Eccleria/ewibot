@@ -11,6 +11,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 
 import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
 import { MessageEmbed } from "discord.js";
+import { getLogChannel } from "../admin/utils.js";
 
 const reverseStr = (string) => {
   let reversed = "";
@@ -82,7 +83,7 @@ const contextCommand = new ContextMenuCommandBuilder()
   .setName(PERSONALITY.getCommands().reverseTranslator.name)
   .setType(3);
 
-const contextAction = (interaction) => {
+const contextAction = async (interaction) => {
   const message = interaction.targetMessage; //get message
 
   //if in log_channel => should handle embed contents + send as visible for anyone
@@ -162,10 +163,20 @@ const contextAction = (interaction) => {
       value: interaction.member.toString(),
     });
 
-    //send translation
-    message.edit({ embeds: [...embeds, embedTr] });
-    interactionReply(interaction, rTPerso.translated);
+    //test for 6000 length limit
+    const newEmbeds = [...embeds, embedTr]
+    const size = newEmbeds.reduce((acc, cur) => acc + cur.length, 0);
+    if (size > 6000) {
+      message.delete(); //delete old log which will be doublon
+      const logChannel = await getLogChannel(interaction, "thread");
+      const msg = await logChannel.send({ embeds: embeds });
+      msg.reply({ embeds: [embedTr] });
 
+    } else {
+      //send translation
+      message.edit({ embeds: newEmbeds });
+      interactionReply(interaction, rTPerso.translated);
+    }
   } else {
     string = message.content; //get message content
 
