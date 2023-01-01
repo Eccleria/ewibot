@@ -1,4 +1,7 @@
-﻿## 4.7.0
+﻿## 4.8.0
+- Update: `reverse-translator` now can translate frequent-logs
+
+## 4.7.0
 - Feat: New Year personality
 - Feat: dbHelper addGiftSeparator()
 - Fix: `getLogChannel` deprecated use in generalEmbed(), octagonalLog(), savelog action()
