@@ -1,4 +1,7 @@
-﻿## 4.7.0
+﻿## 4.8.0
+- Feat: remove logs from user arrival/departure
+
+## 4.7.0
 - Feat: New Year personality
 - Feat: dbHelper addGiftSeparator()
 - Fix: `getLogChannel` deprecated use in generalEmbed(), octagonalLog(), savelog action()
