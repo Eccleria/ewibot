@@ -102,7 +102,6 @@ const contextAction = (interaction) => {
     const embedTr = new MessageEmbed()
       .setTitle(rTPerso.title)
       .setTimestamp()
-      .addFields({ name: rTPerso.embedName, value: content });
 
     if (title === adminPerso.messageDelete.title) {
       const mDPerso = adminPerso.messageDelete;

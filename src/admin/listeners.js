@@ -491,7 +491,7 @@ export const onMessageDelete = async (message) => {
 
   //handle content
   let content = message.content ? message.content : messageDel.note;
-  dispatchSlicedEmbedContent(content, eembed, messageDel);
+  dispatchSlicedEmbedContent(content, embed, messageDel);
 
   const gifs = gifRecovery(content); //handle gifs
 
