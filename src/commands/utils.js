@@ -62,3 +62,22 @@ export const isReleasedCommand = (command) => {
   if (command.releaseDate) return command.releaseDate.diff(day) <= 0;
   else return true;
 };
+
+export const dispatchSlicedEmbedContent = (content, embed, personality) => {
+  const slice = Math.ceil(content.length / 1024); //get number of time to slice oldContent by 1024
+
+  if (slice > 1) {
+    //if need to slice
+    const sliced = sliceAddString(slice, content); //slice and add to embed
+
+    sliced.forEach((str, idx) => {
+      if (idx === 0)
+        embed.addFields({
+          name: personality.text,
+          value: str,
+        });
+      //name's different from others
+      else embed.addFields({ name: personality.textAgain, value: str });
+    });
+  } else embed.addFields({ name: personality.text, value: content });
+};
