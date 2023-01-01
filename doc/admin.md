@@ -392,12 +392,13 @@ the same as permanent logs, but adding the deletion code part.
 
 In order to delete all messageDelete/Update logs when they are no longer usefull for moderation, 2 main
 functions are used for this: `logsRemover` and `initAdminLogClearing`.
-In the future, the bot will also delete logs associated to users leaving.
 
-Temporary logs are stored in Ewibot `database` as their message ids. From these ids, when the time as come,
-logs are bulk deleted together, and the bot send a log in the console for debug purpose.
+Temporary logs when created, are sent by Ewibot in #frequent-log thread channel. They are stored in 
+Ewibot `database` using message ids. From these ids, after the chosen waiting time, logs are bulk deleted 
+together, and the bot send a log in the console for debug purpose.
 
-Those logs, when created, are sent by Ewibot in #frequent-log thread channel.
+> Note: some logs are also defined as temporary even if they are sent in the log-channel and not the
+> thread channel. Eg: user leaving logs.
 
 #### logsRemover
 
