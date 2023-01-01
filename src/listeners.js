@@ -51,14 +51,9 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   )
     return;
 
-  const { playlistThreadId, presentationChannelId } = currentServer;
+  const { playlistThreadId } = currentServer;
 
   reactionHandler(message, currentServer, client);
-
-  if (channel.id === presentationChannelId) {
-    presentationHandler(client, currentServer, message);
-    return; //no command in presentation channel
-  }
 
   // check for command
   const commandName = content.split(" ")[0];
@@ -171,6 +166,12 @@ export const onReactionAdd = async (messageReaction, user) => {
   if (currentServer.octagonalSign === messageReaction.emoji.name) {
     octagonalLog(messageReaction, user);
     return;
+  }
+
+
+  if (messageReaction.channel.id === currentServer.presentationChannelId && currentServer.presentationReactId === messageReaction.emoji.name) {
+    presentationHandler(currentServer, messageReaction, user);
+    return; //no command in presentation channel
   }
 
   onRemoveSpotifyReaction(messageReaction, currentServer);
