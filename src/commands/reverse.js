@@ -9,7 +9,7 @@ import { PERSONALITY } from "../personality.js";
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
-import { interactionReply } from "./utils.js";
+import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
 import { MessageEmbed } from "discord.js";
 
 const reverseStr = (string) => {
@@ -151,38 +151,10 @@ const contextAction = (interaction) => {
           .setTimestamp()
           .setAuthor(interaction.member.toString());
 
-        const oSlice = Math.ceil(oContent.length / 1024); //get number of time to slice oldContent by 1024
-        if (oSlice > 1) {
-          //if need to slice
-          const oSliced = sliceAddString(oSlice, oContent); //slice and add to embed
+        dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
+        dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
 
-          oSliced.forEach((str, idx) => {
-            if (idx === 0)
-              embedTr.addFields({
-                name: mUPerso.contentOld,
-                value: str,
-              });
-            //name's different from others
-            else embed.addFields({ name: mUPerso.contentOldAgain, value: str });
-          });
-        } else embed.addFields({ name: mUPerso.contentOld, value: oContent });
-
-        if (nLen !== 0) {
-          const nSlice = Math.ceil(nContent.length / 1024); //get number of time to slice oldContent by 1024;
-          if (nSlice > 1) {
-            const nSliced = sliceAddString(nSlice, nContent); //slice and add to embed
-
-            nSliced.forEach((str, idx) => {
-              if (idx === 0)
-                embed.addFields({
-                  name: mUPerso.contentNew,
-                  value: str,
-                });
-              //name's different from others
-              else embed.addFields({ name: mUPerso.contentNewAgain, value: str });
-            });
-          } else embed.addFields({ name: mUPerso.contentNew, value: nContent });
-        }
+        message.edit({ embeds: [...embeds, embedTr] });
         return;
       }
     }
