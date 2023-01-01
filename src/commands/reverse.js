@@ -101,14 +101,15 @@ const contextAction = async (interaction) => {
     const title = embeds[0].title;
 
     //check for precedent translation
-    if (title === rTPerso.title || embeds.map((obj) => obj.title).includes(rTPerso.title)) {
+    if (
+      title === rTPerso.title ||
+      embeds.map((obj) => obj.title).includes(rTPerso.title)
+    ) {
       interactionReply(interaction, rTPerso.alreadyTranslated);
-      return
+      return;
     }
 
-    const embedTr = new MessageEmbed()
-      .setTitle(rTPerso.title)
-      .setTimestamp()
+    const embedTr = new MessageEmbed().setTitle(rTPerso.title).setTimestamp();
 
     if (title === adminPerso.messageDelete.title) {
       const mDPerso = adminPerso.messageDelete;
@@ -124,10 +125,9 @@ const contextAction = async (interaction) => {
         ? reversed.slice(2, -2)
         : reversed;
 
-      embedTr.setColor("DARK_RED")
+      embedTr.setColor("DARK_RED");
 
       dispatchSlicedEmbedContent(content, embedTr, mDPerso);
-
     } else if (title === adminPerso.messageUpdate.title) {
       const mUPerso = adminPerso.messageUpdate;
 
@@ -157,11 +157,10 @@ const contextAction = async (interaction) => {
         ? reversed.new.slice(2, -2)
         : reversed.new;
 
-      embedTr.setColor("DARK_GREEN")
+      embedTr.setColor("DARK_GREEN");
 
       dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
       dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
-
     }
 
     //add interaction author
@@ -171,20 +170,20 @@ const contextAction = async (interaction) => {
     });
 
     //test for 6000 length limit
-    const newEmbeds = [...embeds, embedTr]
+    const newEmbeds = [...embeds, embedTr];
     const size = newEmbeds.reduce((acc, cur) => acc + cur.length, 0);
     if (size > 6000) {
       message.delete(); //delete old log which will be doublon
       const logChannel = await getLogChannel(interaction, "thread");
       const msg = await logChannel.send({ embeds: embeds });
       msg.reply({ embeds: [embedTr] });
-
     } else {
       //send translation
       message.edit({ embeds: newEmbeds });
       interactionReply(interaction, rTPerso.translated);
     }
   } else {
+    //normal translation
     string = message.content; //get message content
 
     const reversed = reverseStr(string); //reverse message content
