@@ -75,10 +75,14 @@
       "author": "Membre :",
       "channel": "Salon :",
       "contentDiff": "Mots différents",
-      "contentNew": "Nouveau contenu",
-      "contentNewAgain": "Nouveau contenu - suite",
-      "contentOld": "Ancien contenu",
-      "contentOldAgain": "Ancien contenu - suite",
+      "contentNew": {
+        "text": "Nouveau contenu",
+        "textAgain": "Nouveau contenu - suite"
+      },
+      "contentOld": {
+        "text": "Ancien contenu",
+        "textAgain": "Ancien contenu - suite"
+      },
       "date": "Envoyé le :",
       "linkMessage": "Clique pour aller au message.",
       "linkName": "Lien",
