@@ -25,7 +25,7 @@ const reverseStr = (string) => {
       isInMentionable = false;
       reversed = mention + reversed;
       mention = "";
-  }
+    }
   }
   return reversed;
 };
@@ -92,83 +92,90 @@ const contextAction = (interaction) => {
   if (channels.includes(interaction.channelId)) {
     //look for correct embeds
     const adminPerso = PERSONALITY.getAdmin();
+    const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
+    //get embed data
     const embeds = message.embeds;
-    console.log(embeds);
     const fields = embeds.length !== 0 ? embeds[0].fields : null;
-    switch (embeds[0].title) {
-      case adminPerso.messageDelete.title: {
-        const mDPerso = adminPerso.messageDelete;
-        const rTPerso = PERSONALITY.getCommands().reverseTranslator;
+    const title = embeds[0].title;
 
-        const titles = [mDPerso.text, mDPerso.textAgain];
-        string = fields.reduce((acc, fld) => {
-          if (titles.includes(fld.name)) return acc + fld.value;
+    const embedTr = new MessageEmbed()
+      .setTitle(rTPerso.title)
+      .setTimestamp()
+      .addFields({ name: rTPerso.embedName, value: content });
+
+    if (title === adminPerso.messageDelete.title) {
+      const mDPerso = adminPerso.messageDelete;
+
+      const titles = [mDPerso.text, mDPerso.textAgain];
+      const string = fields.reduce((acc, fld) => {
+        if (titles.includes(fld.name)) return acc + fld.value;
+        else return acc;
+      }, "");
+
+      const reversed = reverseStr(string); //reverse message content
+      const content = reversed.startsWith("~~")
+        ? reversed.slice(2, -2)
+        : reversed;
+
+      embedTr.setColor("DARK_RED")
+
+      dispatchSlicedEmbedContent(content, embedTr, mDPerso);
+
+    } else if (title === adminPerso.messageUpdate.title) {
+      const mUPerso = adminPerso.messageUpdate;
+
+      const oTitles = Object.values(mUPerso.contentOld);
+      const nTitles = Object.values(mUPerso.contentNew);
+      const string = fields.reduce(
+        (acc, fld) => {
+          console.log("field", fld);
+          if (oTitles.includes(fld.name))
+            return { old: acc.old + fld.value, new: acc.new };
+          else if (nTitles.includes(fld.name))
+            return { old: acc.old, new: acc.new + fld.value };
           else return acc;
-        }, "");
+        },
+        { old: "", new: "" }
+      );
 
-        const reversed = reverseStr(string); //reverse message content
-        const content = reversed.startsWith("~~")
-          ? reversed.slice(2, -2)
-          : reversed;
+      //reverse content
+      const reversed = {
+        old: reverseStr(string.old),
+        new: reverseStr(string.new),
+      }; //reverse message content
+      const oContent = reversed.old.startsWith("~~")
+        ? reversed.old.slice(2, -2)
+        : reversed.old;
+      const nContent = reversed.new.startsWith("~~")
+        ? reversed.new.slice(2, -2)
+        : reversed.new;
 
-        const embedTr = new MessageEmbed()
-          .setTitle(rTPerso.title)
-          .setColor("DARK_RED")
-          .setTimestamp()
-          .setAuthor(interaction.member.toString())
-          .addFields({ name: rTPerso.embedName, value: content });
+      embedTr.setColor("DARK_GREEN")
 
-        dispatchSlicedEmbedContent(content, embedTr, mDPerso);
-
-        message.edit({ embeds: [...embeds, embedTr] });
-
-        return;
-      }
-      case adminPerso.messageUpdate.title: {
-        const mUPerso = adminPerso.messageUpdate;
-        const rTPerso = PERSONALITY.getCommands().reverseTranslator;
-
-        const oTitles = Object.values(mUPerso.contentOld);
-        const nTitles = Object.values(mUPerso.contentNew);
-        string = fields.reduce((acc, fld) => {
-          console.log('field', fld)
-          if (oTitles.includes(fld.name)) return { old: acc.old + fld.value, new: acc.new };
-          else if (nTitles.includes(fld.name)) return { old: acc.old, new: acc.new + fld.value };
-          else return acc;
-        }, { old: "", new: "" });
-        console.log(string)
-        const reversed = {
-          old: reverseStr(string.old), new: reverseStr(string.new)
-        }; //reverse message content
-        const oContent = reversed.old.startsWith("~~")
-          ? reversed.old.slice(2, -2)
-          : reversed.old;
-        const nContent = reversed.new.startsWith("~~")
-          ? reversed.new.slice(2, -2)
-          : reversed.new;
-
-        const embedTr = new MessageEmbed()
-          .setTitle(rTPerso.title)
-          .setColor("DARK_GREEN")
-          .setTimestamp();
-
-        dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
-        dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
-
-        embedTr.addFields({ name: rTPerso.executor, value: interaction.member.toString() });
-
-        message.edit({ embeds: [...embeds, embedTr] });
-        return;
-      }
+      dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
+      dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
     }
+
+    //add interaction author
+    embedTr.addFields({
+      name: rTPerso.executor,
+      value: interaction.member.toString(),
+    });
+
+    //send translation
+    message.edit({ embeds: [...embeds, embedTr] });
+    interactionReply(interaction, rTPerso.translated);
+
   } else {
     string = message.content; //get message content
 
-  const reversed = reverseStr(string); //reverse message content
-  const content = reversed.startsWith("~~") ? reversed.slice(2, -2) : reversed;
+    const reversed = reverseStr(string); //reverse message content
+    const content = reversed.startsWith("~~")
+      ? reversed.slice(2, -2)
+      : reversed;
 
-  interactionReply(interaction, content);
+    interactionReply(interaction, content);
   }
 };
 
