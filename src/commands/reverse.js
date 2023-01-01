@@ -119,6 +119,8 @@ const contextAction = (interaction) => {
           .setAuthor(interaction.member.toString())
           .addFields({ name: rTPerso.embedName, value: content });
 
+        dispatchSlicedEmbedContent(content, embedTr, mDPerso);
+
         message.edit({ embeds: [...embeds, embedTr] });
 
         return;
