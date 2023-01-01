@@ -100,6 +100,12 @@ const contextAction = async (interaction) => {
     const fields = embeds.length !== 0 ? embeds[0].fields : null;
     const title = embeds[0].title;
 
+    //check for precedent translation
+    if (title === rTPerso.title || embeds.map((obj) => obj.title).includes(rTPerso.title)) {
+      interactionReply(interaction, rTPerso.alreadyTranslated);
+      return
+    }
+
     const embedTr = new MessageEmbed()
       .setTitle(rTPerso.title)
       .setTimestamp()
@@ -155,6 +161,7 @@ const contextAction = async (interaction) => {
 
       dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
       dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
+
     }
 
     //add interaction author

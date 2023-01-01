@@ -505,6 +505,7 @@
         }
       },
       "reverseTranslator": {
+        "alreadyTranslated": "Le log est une traduction ou a déjà été traduit.",
         "embedName": "Traduction",
         "executor": "Traduit par :",
         "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
