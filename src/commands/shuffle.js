@@ -60,15 +60,18 @@ const action = async (interaction) => {
   );
 
   if (subcommand === perso.startstop.name) {
+    //startstop
     const ststPerso = perso.startstop;
     let newStatus;
     if (shuffleParam.status === ststPerso.stop) {
+      //start shuffle
       newStatus = ststPerso.start;
       shuffleParam.status = newStatus;
 
       startInterval(client);
       interactionReply(interaction, ststPerso.started);
     } else if (shuffleParam.status === ststPerso.start) {
+      //stop shuffle
       newStatus = ststPerso.stop;
 
       //clear interval
@@ -83,7 +86,9 @@ const action = async (interaction) => {
         role.setColor(roleData.color);
       });
 
-      shuffleParam.status = newStatus;
+      setTimeout(() => {
+        shuffleParam.status = newStatus; //reset param status after API update
+      }, 10000);
       interactionReply(interaction, ststPerso.stoped);
     }
   } else if (subcommand === perso.set.name) {
