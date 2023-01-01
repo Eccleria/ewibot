@@ -2,9 +2,30 @@ import dayjs from "dayjs";
 
 import { removeAlavirien } from "../helpers/index.js"
 import { setupEmbed, finishEmbed } from "./utils.js";
+import { isSentinelle } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 
-const checkAlavirien = async (client, server, logChannel) => {
+export const presentationHandler = (server, messageReaction, author) => {
+  if (isSentinelle(author, server)) {
+    giveAlavirien(client, server, personality, author.id, logChannel);
+  }
+};
+
+const giveAlavirien = (client, server, personality, userId) => {
+  //get GuildMember
+  const guild = await client.guilds.fetch(server.guildId);
+  const guildMember = await guild.members.fetch(userId);
+  const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
+
+  guildMember.roles.add(server.alavirienRoleId); //add role
+  removeAlavirien(client.db, userId); //remove from db
+
+  //send log
+  const embed = setupEmbed("DARK_GREY", personality, guildMember.user, "tag"); //create log
+  await finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
+};
+
+const checkAlavirien = async (client, server) => {
   //function to check every alavirien in db if they meet the requirements
 
   const db = client.db;
@@ -27,16 +48,7 @@ const checkAlavirien = async (client, server, logChannel) => {
     const isOneWeek = deltaT > 604800000; // 1week = 7*24*3600*1000 ms
     const is20Messages = messageNumber >= 20; 
     if (isOneWeek && is20Messages) {
-      //get GuildMember
-      const guild = await client.guilds.fetch(server.guildId);
-      const guildMember = await guild.members.fetch(userId);
-
-      guildMember.roles.add(server.alavirienRoleId); //add role
-      removeAlavirien(db, userId); //remove from db
-
-      //send log
-      const embed = setupEmbed("DARK_GREY", alavirien, guildMember.user, "tag"); //create log
-      await finishEmbed(alavirien, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
+      giveAlavirien(client, server, alavirien, userId);
     }
     //if doesn't respect requirements, nothing to do
   })
@@ -54,9 +66,8 @@ export const setupAlavirien = async (client, commons, tomorrow, frequency) => {
     const server = commons.find(({ name }) =>
       process.env.DEBUG === "yes" ? name === "test" : name === "prod"
     ); //get server data
-    const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
-    checkAlavirien(client, server, logChannel); //check for alavirien role attribution
+    checkAlavirien(client, server); //check for alavirien role attribution
 
-    setInterval(() => checkAlavirien, frequency, client, server, logChannel)
+    setInterval(() => checkAlavirien, frequency, client, server)
   }, timeToTomorrow);
 }
