@@ -67,6 +67,7 @@
       "date": "Envoyé le :",
       "executor": "Supprimé par :",
       "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+      "pinned": "*Un message System Discord indiquant qu'un message a été épinglé a été supprimé.*",
       "text": "Contenu du message :",
       "textAgain": "Contenu - suite",
       "title": "Message supprimé"
@@ -343,6 +344,11 @@
           "noteName": "Rappel",
           "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.\n",
           "title": "Surprise de Noël"
+        },
+        "newYear": {
+          "description": "Bonjour ! Bonnée année ! <:DuomNoelErg:1048916483490717727>\n Et c'est reparti pour un tour, vous pouvez recevoir une nouvelle fois les messages cadeaux <:Ewiyay:918249094391144469>. Cette fois-ci, vous aurez l'ensemble des messages envoyés. Une séparation vous indiquera la position des nouveaux messages.",
+          "separator": "----\n**Les messages suivants datent d'après Noël. Ce sont vos voeux du Nouvel An.**\n----",
+          "title": "Messages de Fin d'Année"
         },
         "remove": {
           "accept": " (qui accepte les messages de Noël) :\n",
