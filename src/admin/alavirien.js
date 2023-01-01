@@ -6,12 +6,15 @@ import { isSentinelle } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 
 export const presentationHandler = (server, messageReaction, author) => {
+  const client = messageReaction.client;
+  const personality = PERSONALITY.getCommands().alavirien;
+
   if (isSentinelle(author, server)) {
-    giveAlavirien(client, server, personality, author.id, logChannel);
+    giveAlavirien(client, server, personality, author.id);
   }
 };
 
-const giveAlavirien = (client, server, personality, userId) => {
+const giveAlavirien = async (client, server, personality, userId) => {
   //get GuildMember
   const guild = await client.guilds.fetch(server.guildId);
   const guildMember = await guild.members.fetch(userId);
