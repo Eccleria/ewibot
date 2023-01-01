@@ -509,7 +509,8 @@
         "executor": "Traduit par :",
         "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
         "name": "reverse-translator",
-        "title": "Reverse Translation"
+        "title": "Reverse Translation",
+        "translated": "Le log a bien été traduit."
       },
       "roll": {
         "description": "Lancer de dés",
