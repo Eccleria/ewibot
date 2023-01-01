@@ -411,7 +411,8 @@ const dbData = getAdminLogs(db);
 let data = dbData[type][0]; //get corresponding data
 ```
 
-If there is data in the `db`, the bot fetch the corresponding `threadChannel` where the logs were sent.
+If there is data in the `db`, the bot fetch the corresponding `logChannel` where the logs were sent. 
+> Note: for frequent-logs it fetches thread-channel, whereas for `"userAD"` it's the log-channel.
 Then, the bot `bulkDelete` all the logs and get all the messages ids where the process went smooth. Then it
 prints in the console the `result` of the process, and remove log message ids from `db`.
 
@@ -419,7 +420,12 @@ prints in the console the `result` of the process, and remove log message ids fr
 if (data.length !== 0) {
   const threadChannel = await client.channels.fetch(server.logThreadId);
   const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
-  console.log("result1", result.keys(), "data", data); //log for debug
+
+  const diff = data.reduce((acc, cur) => {
+    if (result.has(cur)) return acc; //if no diff
+    else return [...acc, cur];
+    }, []); //find diff for error check
+  console.log("frequent diff", diff); //log for debug
 }
 removeAdminLogs(db, type); //remove from db
 ```
