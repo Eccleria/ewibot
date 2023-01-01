@@ -63,12 +63,22 @@ export const isReleasedCommand = (command) => {
   else return true;
 };
 
+const sliceEmbedContent = (len, string) => {
+  const lenArray = Array.from(new Array(len));
+  const sliced = lenArray.reduce((acc, _cur, idx) => {
+    if (idx === len - 1) return [...acc, string.slice(idx * 1024)];
+    const sliced = string.slice(idx * 1024, (idx + 1) * 1024);
+    return [...acc, sliced];
+  }, []); //slice content in less than 1024 characters
+  return sliced;
+};
+
 export const dispatchSlicedEmbedContent = (content, embed, personality) => {
   const slice = Math.ceil(content.length / 1024); //get number of time to slice oldContent by 1024
 
   if (slice > 1) {
     //if need to slice
-    const sliced = sliceAddString(slice, content); //slice and add to embed
+    const sliced = sliceEmbedContent(slice, content); //slice and add to embed
 
     sliced.forEach((str, idx) => {
       if (idx === 0)

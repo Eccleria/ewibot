@@ -687,13 +687,3 @@ export const checkProdTestMode = (logChannel) => {
 
   return channels.includes(logChannel.id); //if test, return true
 };
-
-export const sliceAddString = (len, string) => {
-  const lenArray = Array.from(new Array(len));
-  const sliced = lenArray.reduce((acc, _cur, idx) => {
-    if (idx === len - 1) return [...acc, string.slice(idx * 1024)];
-    const sliced = string.slice(idx * 1024, (idx + 1) * 1024);
-    return [...acc, sliced];
-  }, []); //slice content in less than 1024 characters
-  return sliced;
-};
