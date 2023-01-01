@@ -129,14 +129,15 @@ const contextAction = (interaction) => {
         const mUPerso = adminPerso.messageUpdate;
         const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
-        const oTitles = [mUPerso.contentOld, mUPerso.contentOldAgain];
-        const nTitles = [mUPerso.contentNew, mUPerso.contentNewAgain];
+        const oTitles = Object.values(mUPerso.contentOld);
+        const nTitles = Object.values(mUPerso.contentNew);
         string = fields.reduce((acc, fld) => {
+          console.log('field', fld)
           if (oTitles.includes(fld.name)) return { old: acc.old + fld.value, new: acc.new };
           else if (nTitles.includes(fld.name)) return { old: acc.old, new: acc.new + fld.value };
           else return acc;
         }, { old: "", new: "" });
-
+        console.log(string)
         const reversed = {
           old: reverseStr(string.old), new: reverseStr(string.new)
         }; //reverse message content
@@ -150,11 +151,12 @@ const contextAction = (interaction) => {
         const embedTr = new MessageEmbed()
           .setTitle(rTPerso.title)
           .setColor("DARK_GREEN")
-          .setTimestamp()
-          .setAuthor(interaction.member.toString());
+          .setTimestamp();
 
         dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
         dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
+
+        embedTr.addFields({ name: rTPerso.executor, value: interaction.member.toString() });
 
         message.edit({ embeds: [...embeds, embedTr] });
         return;
