@@ -163,8 +163,8 @@ client.once("ready", async () => {
   setActivity(client);
   updateActivity(client);
 
+  //slash commands
   const server = process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-
   const guildId = server.guildId;
   slashCommandsInit(self, guildId, client); //commands submit to API
 
@@ -175,18 +175,17 @@ client.once("ready", async () => {
   client.twitter.isSending = false;
   initTwitterLoop(client);
 
-  // LOGS
-
+  //LOGS
   const tomorrow2Am = dayjs()
     .add(1, "day")
     .hour(2)
     .minute(0)
     .second(0)
     .millisecond(0); //tomorrow @ 2am
-
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 
+  //gift
   setGiftTimeoutLoop(client); //gift timeout loop init
 });
 // Create an event listener for messages
