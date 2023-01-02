@@ -1,6 +1,6 @@
 # Ewibot
 
-[![Version badge](https://badgen.net/github/release/Titch88/ewibot)](https://github.com/Titch88/ewibot)
+[![Version badge](https://badgen.net/github/release/Titch88/ewibot)](https://github.com/Titch88/ewibot) [![Version badge](https://badgen.net/github/branches/Titch88/ewibot)](https://github.com/Titch88/ewibot)
 
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
 This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
