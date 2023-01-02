@@ -1,5 +1,5 @@
-[
-  {
+{
+  "test": {
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
@@ -88,7 +88,7 @@
     "giftButtonChannelId": "935180557770448956",
     "sentinelleRoleId": "1043971181461651506"
   },
-  {
+  "prod": {
     "name": "prod",
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
@@ -176,5 +176,8 @@
     },
     "giftButtonChannelId": "973206750771687434",
     "sentinelleRoleId": "816975096518279188"
+  },
+  "shared": {
+    "name": "shared"
   }
-]
+}
