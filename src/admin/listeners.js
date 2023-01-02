@@ -113,8 +113,10 @@ export const onChannelDelete = async (channel) => {
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
-  //handle channel update event
-  const personality = PERSONALITY.getAdmin(); //get personality
+  // handle channel update event
+
+  //get personality
+  const personality = PERSONALITY.getAdmin(); 
   const chnUp = personality.channelUpdate;
   const auditLog = personality.auditLog;
   const perm = chnUp.permissionOverwrites;
