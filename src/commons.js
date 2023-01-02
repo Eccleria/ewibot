@@ -7,6 +7,7 @@ class Commons {
     this.test = test;
     this.prod = prod;
     this.shared = shared;
+    this.list = [this.test, this.prod];
   }
 
   getTest() {
@@ -17,6 +18,9 @@ class Commons {
   }
   getShared() {
     return this.personality.shared;
+  }
+  fetchGuildId(guildId) {
+    return this.list.find((obj) => guildId === obj.guildId);
   }
 };
 
