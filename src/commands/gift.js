@@ -342,7 +342,7 @@ const gift = {
       ? personality[userOption.split(" ")[1]]
       : personality;
     interactionReply(interaction, helpToUse.help);
-    },
+  },
   admin: false,
   releaseDate: dayjs("12-01-2022", "MM-DD-YYYY"),
   sentinelle: false,

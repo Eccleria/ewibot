@@ -33,7 +33,7 @@ const command = new SlashCommandBuilder()
           .setRequired(false)
       )
   )
-  .addSubcommand((command) => 
+  .addSubcommand((command) =>
     command
       .setName("reply")
       .setDescription("Réponse d'Ewibot à un message.")

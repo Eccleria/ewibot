@@ -23,10 +23,11 @@ const giftAction = async (interaction) => {
     .setTitle(personality.title)
     .setDescription(personality.description)
     .setFooter({
-        text: personality.footer,
+      text: personality.footer,
       iconURL:
         "https://cdn.discordapp.com/avatars/691336942117453876/6d73900209e4d3bc35039f68f4aa9789.webp",
     })
+    )
     .addFields(Object.values(fields))
     .setThumbnail(
       "https://media.discordapp.net/attachments/959815577575256124/1041070360461852724/Ewilan_writing_cut.png?width=670&height=670"
@@ -54,8 +55,8 @@ const giftAnnounce = {
 //announce action
 const action = (interaction) => {
   // handle announce command interaction
-
   const announceP = PERSONALITY.getCommands().announce; //get personality
+
   
   if (!isAdmin(interaction.user.id)) {
     //check for bot admin
