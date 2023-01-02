@@ -5,11 +5,15 @@ import { setupEmbed, finishEmbed } from "./utils.js";
 import { isSentinelle } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 
-export const presentationHandler = (server, messageReaction, author) => {
+export const presentationHandler = async (server, messageReaction, author) => {
   const client = messageReaction.client;
-  const personality = PERSONALITY.getCommands().alavirien;
+  const personality = PERSONALITY.getAdmin().alavirien;
 
-  if (isSentinelle(author, server)) {
+  const guild = await client.guilds.fetch(messageReaction.message.guildId);
+  const member = await guild.members.fetch(author.id);
+
+  if (isSentinelle(member, server)) {
+    console.log("isSentinelle reaction")
     giveAlavirien(client, server, personality, author.id);
   }
 };
