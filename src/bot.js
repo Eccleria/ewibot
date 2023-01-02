@@ -89,7 +89,7 @@ const tomorrow = dayjs()
   .minute(0)
   .second(0)
   .millisecond(0);
-const timeToTomorrowBD = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
+const timeToTomorrowDB = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
 const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
 setTimeout(async () => {
@@ -104,7 +104,7 @@ setTimeout(async () => {
   wishBirthday(db, channel);
 
   setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
-}, timeToTomorrowBD);
+}, timeToTomorrowDB);
 
 // Discord CLIENT
 const client = new Client({
