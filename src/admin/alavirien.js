@@ -24,12 +24,14 @@ const giveAlavirien = async (client, server, personality, userId) => {
   const guildMember = await guild.members.fetch(userId);
   const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
 
-  guildMember.roles.add(server.alavirienRoleId); //add role
-  removeAlavirien(client.db, userId); //remove from db
+  if (!guildMember.roles.cache.has(server.alavirienRoleId)) {
+    guildMember.roles.add(server.alavirienRoleId); //add role
+    removeAlavirien(client.db, userId); //remove from db
 
-  //send log
-  const embed = setupEmbed("DARK_GREY", personality, guildMember.user, "tag"); //create log
-  await finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
+    //send log
+    const embed = setupEmbed("DARK_GREY", personality, guildMember.user, "tag"); //create log
+    await finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
+  }
 };
 
 const checkAlavirien = async (client, server) => {
