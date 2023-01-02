@@ -117,8 +117,6 @@ export const finishEmbed = async (
   if (personalityEvent.executor && executor !== null)
     embed.addField(personalityEvent.executor, executor.toString(), true);
   if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
-  await logChannel.send({ embeds: [embed] }); //send
-
 
   try {
     const message = await logChannel.send({
