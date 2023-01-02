@@ -1,12 +1,8 @@
 import { PERSONALITY } from "./personality.js";
 
-import commands from "./commands/index.js";
-
 import {
   isAdmin,
-  isCommand,
   reactionHandler,
-  checkIsOnThread,
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
 
@@ -41,7 +37,7 @@ export const onPrivateMessage = async (message, client) => {
 };
 
 export const onPublicMessage = (message, client, currentServer, self) => {
-  const { author, content, channel } = message;
+  const { author } = message;
 
   if (
     author.id === self || // ignoring message from himself
@@ -50,26 +46,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   )
     return;
 
-  const { playlistThreadId } = currentServer;
-
   reactionHandler(message, currentServer, client);
-
-  // check for command
-  const commandName = content.split(" ")[0];
-  const command = commands
-    .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin) //filter appropriate commands if user has or not admin rigths
-    .find(({ name }) => commandName.slice(1) === name);
-  if (command && isCommand(commandName)) {
-    if (
-      command.name === "spotify" &&
-      process.env.USE_SPOTIFY === "yes" &&
-      channel.id === playlistThreadId
-    ) {
-      // spotify stuff
-      checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
-    }
-    command.action(message, "$");
-  }
 };
 
 export const onRemoveReminderReaction = (

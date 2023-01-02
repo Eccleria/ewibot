@@ -280,8 +280,6 @@
           "name": "remove"
         },
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
-        "tooOld": "Well, nope ! (_anniversaire non ajouté, date trop ancienne_)",
-        "tooYoung": "De retour du futur, Mc Fly ? (_anniversaire non ajouté, date trop récente_)",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
       "botMessage": {

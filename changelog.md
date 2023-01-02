@@ -1,4 +1,9 @@
-﻿## 4.8.0
+﻿## 5.0.0
+- Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll)
+- Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
+- Remove: `$commands` helpers (checkIsOnThread, isCommand)
+
+## 4.8.0
 - Update: `reverse-translator` now can translate frequent-logs
 
 ## 4.7.0
