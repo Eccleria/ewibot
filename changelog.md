@@ -3,16 +3,40 @@
 - Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
 - Remove: `$commands` helpers (checkIsOnThread, isCommand)
 
+## 4.8.0
+- Update: `reverse-translator` now can translate frequent-logs
+
+## 4.7.0
+- Feat: New Year personality
+- Feat: dbHelper addGiftSeparator()
+- Fix: `getLogChannel` deprecated use in generalEmbed(), octagonalLog(), savelog action()
+- Fix: messageDelete log now handle system `CHANNEL_PINNED_MESSAGE` message deletion
+- Fix: missing tweet removing from db when sending tweets from timeout listener
+- Fix: role logs fired before the end of `shuffle` loop
+- Update: timeout with db modification once 12/27
+- Update: bot message once New Year
+
+## 4.6.0
+- Feat: bot birthday emote
+- Feat: `/shuffle` command:
+	- `startstop` that allows to start and stop the role color shuffle loop
+	- `set` subcommand to modify shuffle loop waitingTime 
+- Update: `roleUpdate` log ignore role logs when loop is active
+
 ## 4.5.0
-- Feat: All non unique $ commands as `/commands`
-- Feat: new `/commands`:
-	- `/reverse` for reversing text
-	- `reverse-translator` for traducing reversed text
 - Feat: december month emote
 - Feat: Ewibot `Activities`
+- Feat: new commands:
+	- `/reverse` allows to return a reversed string, with options
+	- `reverse-translator` context command for translating `/reversed` text
+- Update: Add /commands access for existing commands: 
+	`ping` `help` `roll` `ignoreChannel` `ignore` `concrete` `birthday` `reminder`
+- Update: `ignore` is now `/ignore_user`
 - Update: `/help` now with adapatative autocomplete and action according to user rigths
+- Update: gift Christmas embed with correct fan-art
+- Fix: `/gift remove` cases that caused db error
 
-# 4.4.1
+## 4.4.1
 - Hotfix: removing defaultMemberPermission for `/gift` preventing every user from using it
 
 ## 4.4.0

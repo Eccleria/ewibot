@@ -15,19 +15,23 @@
     "roles": {
       "orange": {
         "roleId": "959360675451383828",
-        "name": "🟠"
+        "name": "🟠",
+        "color": "#e74c3c"
       },
       "vert": {
         "roleId": "959360739800391680",
-        "name": "🟢"
+        "name": "🟢",
+        "color": "#2ecc71"
       },
       "violet": {
         "roleId": "959360767063367691",
-        "name": "🟣"
+        "name": "🟣",
+        "color": "#9b59b6"
       },
       "bleu": {
         "roleId": "959360716979175455",
-        "name": "🔵"
+        "name": "🔵",
+        "color": "#3498db"
       }
     },
     "alavirienRoleId": "981493533598961706",
@@ -100,19 +104,23 @@
     "roles": {
       "reveurs": {
         "roleId": "816971306276880395",
-        "name": "🔵"
+        "name": "🔵",
+        "color": "#3498db"
       },
       "frontaliers": {
         "roleId": "823882466024357918",
-        "name": "🟢"
+        "name": "🟢",
+        "color": "#2ecc71"
       },
       "marchombres": {
         "roleId": "959085951559290882",
-        "name": "🟠"
+        "name": "🟠",
+        "color": "#e74c3c"
       },
       "dessinateurs": {
         "roleId": "824226236523610125",
-        "name": "🟣"
+        "name": "🟣",
+        "color": "#9b59b6"
       }
     },
     "alavirienRoleId": "826743423612092436",

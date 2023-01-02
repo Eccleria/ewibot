@@ -2,6 +2,7 @@ import {
   buttonHandler,
   interactionReply,
   isReleasedCommand,
+  dispatchSlicedEmbedContent,
 } from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
@@ -17,7 +18,6 @@ import {
   gifRecovery,
   octagonalLog,
   setupEmbed,
-  sliceAddString,
 } from "./utils.js";
 import {
   addAdminLogs,
@@ -26,6 +26,8 @@ import {
   sanitizePunctuation,
   hasOctagonalSign,
 } from "../helpers/index.js";
+
+import { shuffleParam } from "../commands/shuffle.js";
 
 import dayjs from "dayjs";
 
@@ -345,6 +347,10 @@ export const onRoleDelete = (role) => {
 export const onRoleUpdate = async (oldRole, newRole) => {
   //handle role update event
 
+  //check for birthday
+  if (shuffleParam.status === PERSONALITY.getCommands().shuffle.startstop.start)
+    return;
+
   const personality = PERSONALITY.getAdmin(); //get personality
   const roleUp = personality.roleUpdate;
   const auditLog = personality.auditLog;
@@ -460,6 +466,19 @@ export const onMessageDelete = async (message) => {
   embed.addField(messageDel.channel, `<#${message.channelId}>`, true); //message channel
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
 
+  //test for system message
+  if (message.type === "CHANNEL_PINNED_MESSAGE") {
+    const msg = await finishEmbed(
+      messageDel,
+      null,
+      embed,
+      logChannel,
+      messageDel.pinned
+    );
+    addAdminLogs(msg[0].client.db, msg[0].id, "frequent", 6);
+    return;
+  }
+
   //get message data
   const attachments = message.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
@@ -474,23 +493,7 @@ export const onMessageDelete = async (message) => {
 
   //handle content
   let content = message.content ? message.content : messageDel.note;
-  const len = content.length; //get content length
-  const slice = Math.ceil(len / 1024); //get number of time to slice content by 1024
-
-  if (slice > 1) {
-    //slice too long string to fit 1024 length restriction in field
-    const sliced = sliceAddString(slice, content); //slice and add to embed
-
-    sliced.forEach((str, idx) => {
-      if (idx === 0)
-        embed.addFields({
-          name: messageDel.text,
-          value: str,
-        });
-      //name's different from others
-      else embed.addFields({ name: messageDel.textAgain, value: str });
-    });
-  } else embed.addFields({ name: messageDel.text, value: content });
+  dispatchSlicedEmbedContent(content, embed, messageDel);
 
   const gifs = gifRecovery(content); //handle gifs
 
@@ -663,38 +666,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
     if (oLen !== 0) {
       //slice too long string to fit 1024 length restriction in field
-      const oSlice = Math.ceil(oLen / 1024); //get number of time to slice oldContent by 1024;
-
-      if (oSlice > 1) {
-        //if need to slice
-        const oSliced = sliceAddString(oSlice, oldContent); //slice and add to embed
-
-        oSliced.forEach((str, idx) => {
-          if (idx === 0)
-            embed.addFields({
-              name: messageU.contentOld,
-              value: str,
-            });
-          //name's different from others
-          else embed.addFields({ name: messageU.contentOldAgain, value: str });
-        });
-      } else embed.addFields({ name: messageU.contentOld, value: oldContent });
+      dispatchSlicedEmbedContent(oldContent, embed, messageU.contentOld);
     }
     if (nLen !== 0) {
-      const nSlice = Math.ceil(nLen / 1024); //get number of time to slice oldContent by 1024;
-      if (nSlice > 1) {
-        const nSliced = sliceAddString(nSlice, newContent); //slice and add to embed
-
-        nSliced.forEach((str, idx) => {
-          if (idx === 0)
-            embed.addFields({
-              name: messageU.contentNew,
-              value: str,
-            });
-          //name's different from others
-          else embed.addFields({ name: messageU.contentNewAgain, value: str });
-        });
-      } else embed.addFields({ name: messageU.contentNew, value: newContent });
+      dispatchSlicedEmbedContent(newContent, embed, messageU.contentNew);
     }
 
     if (oLen !== 0 && nLen !== 0) {

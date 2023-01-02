@@ -231,7 +231,7 @@ export const generalEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  const channel = await getLogChannel(commons, obj); //get logChannel
+  const channel = await getLogChannel(obj); //get logChannel
   if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
@@ -653,7 +653,7 @@ export const octagonalLog = async (object, user) => {
   if (message.partial) await message.fetch();
 
   //basic operations
-  const logChannel = await getLogChannel(commons, message); //get logChannelId
+  const logChannel = await getLogChannel(message); //get logChannelId
   const embed = setupEmbed(
     "LUMINOUS_VIVID_PINK",
     octaPerso,
@@ -686,14 +686,4 @@ export const checkProdTestMode = (logChannel) => {
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true
-};
-
-export const sliceAddString = (len, string) => {
-  const lenArray = Array.from(new Array(len));
-  const sliced = lenArray.reduce((acc, _cur, idx) => {
-    if (idx === len - 1) return [...acc, string.slice(idx * 1024)];
-    const sliced = string.slice(idx * 1024, (idx + 1) * 1024);
-    return [...acc, sliced];
-  }, []); //slice content in less than 1024 characters
-  return sliced;
 };
