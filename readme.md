@@ -6,10 +6,11 @@ Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord S
 This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
 
 ## Documentation
-Ewibot is written in Javascript. The tree is devided into 4 parts: 
+Ewibot is written in Javascript. The tree is devided into 5 parts: 
 
 - [concrete](#concrete)
 - [database](#database)
+- [documentation](#documentation)
 - [source code](#source-code)
 	- [admin](./doc/admin.md)
 	- [twitter](./doc/twitter.md)
@@ -31,17 +32,23 @@ The [database folder](./db) contains the database files required. The DB system 
 [db.json.example](./db/db.json.example) is a template file. This allows to share a template between developers without 
 sharing all users' information online.
 
+### Documentation
+The [documentation folder](./doc) regroups all the markedown files explaining in details Ewibot's code.
+
 ### Source Code
 The [folder src](./src) is the folder containing all the source code for Ewibot. It is divided into 4 parts: 
-[admin](#admin), [commands](#commands), [helpers](#helpers) and the [main code](#main-code).
+- [admin](#admin), 
+- [commands](#commands), 
+- [helpers](#helpers),
+- [main code](#main-code).
 
 #### Admin
 The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. 
-See [Admin documentation](./doc/admin.md) for more details.
+> See [Admin documentation](./doc/admin.md) for more details.
 
 #### Commands
 There are different commands available for the users. All are inside the files of the [commands folder](./src/commands). 
-See [Commands documentation](./doc/commands.md) for more details.
+> See [Commands documentation](./doc/commands.md) for more details.
 
 #### Helpers
 The [folder](./src/helpers) is dedicated to regroup every file having smaller functions or methods used in more important
@@ -59,8 +66,8 @@ Main code refers to all the single files in the src folder. It includes 3 files:
 functional, such as client login and event listeners.
 * _[listeners.js](./src/listeners.js)_ is a file regrouping all functions associated to the events Ewibot is responding to.
 * _[personality.js](./src/personality.js)_ is the file where the Personality Class is declared. This class allows Ewibot 
-to chose the correct text to send to users. It will also allow admins to change Ewibot personality, but is still work in
-progress.
+to chose the correct text to send to users. It will also allow admins to change Ewibot personality, but is still _work in
+progress_.
 
 ### Static Code
 The [static folder](./static) is including the 2 json files used.
@@ -77,12 +84,14 @@ written according to different personalities but for now only one is used.
 We welcome every contribution. If you want to contribute to Ewibot, you will have to follow the next instructions.
 
 ### Setup process
-You need to install nodejs *v16.14.2*. Then on your IDE you can clone the Ewibot repository. You will need to install yarn 
-with the follow command: ```npm install --global yarn```.
+#### Install
+You need to install nodejs *v16.14.2*. Then on your IDE (we use _Visual Studio Code/2019_), you can clone the Ewibot repository. 
+You will need to install yarn with the follow command: ```npm install --global yarn```.
 
-Next, you need to download every dependancy that the bot need. To do so, you need to go in the ewibot folder and use the 
-command in the terminal: ```yarn```.
+Next, you need to download every dependancy that the bot need. To do so, you need to go in the ewibot folder where the repo has
+been downloaded. In the console, use the command: ```yarn```.
 
+#### Folders
 Now, you need to setup the *.env* file by creating it and use the [.env.example](.env.example) as a template.  The *DEBUG*
 line needs to be set as **yes** if you have only a bot used for development, and **no** if you will host Ewibot on the 
 Discord Server.  The *USE_SPOTIFY* uses the same process: **yes** or **no**. If **no**, you don't need to write the rest of
@@ -94,7 +103,7 @@ the comments, otherwise you will get an error**
 
 Another folder that need to be created is the *gifs*, in the [concrete folder](./concrete). Nothing to add inside.
 
-Note: if you use an IDE that create local setup files, you shall add it to the [.gitignore file](.gitignore). It is the case 
+> Note: if you use an IDE that create local setup files, you shall add it to the [.gitignore file](.gitignore). It is the case 
 with Visual Studio 2019 that create the *.vs* folder locally.
 
 ### Contribution
