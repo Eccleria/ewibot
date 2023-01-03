@@ -1,4 +1,4 @@
-﻿import COMMONS from "../commons.js";
+﻿import { COMMONS } from "../commons.js";
 
 export const roleInit = async (client) => {
   console.log("role init");
