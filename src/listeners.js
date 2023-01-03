@@ -136,7 +136,7 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-  if (currentServer.octagonalSign === messageReaction.emoji.name) {
+  if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
     octagonalLog(messageReaction, user);
     return;
   }

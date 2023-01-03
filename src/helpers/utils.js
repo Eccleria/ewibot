@@ -1,5 +1,6 @@
 import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
+import { COMMONS } from "../commons.js";
 
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
@@ -55,8 +56,8 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
-export const hasOctagonalSign = (content, currentServer) => {
-  return content.includes(currentServer.octagonalSign);
+export const hasOctagonalSign = (content, cmnShared) => {
+  return content.includes(cmnShared.octagonalSignEmoji);
 };
 
 export const hasApology = (sanitizedContent) => {
@@ -78,8 +79,10 @@ export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
   const authorId = message.author.id;
 
+  const cmnShared = COMMONS.getShared();
+
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
-  if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message); //if contains octagonal_sign, log it
+  if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
   if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
