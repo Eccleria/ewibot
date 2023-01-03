@@ -1,5 +1,6 @@
 ﻿## 4.8.0
 - Feat: remove logs from user arrival/departure
+- Update: `reverse-translator` now can translate frequent-logs
 
 ## 4.7.0
 - Feat: New Year personality
