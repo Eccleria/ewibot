@@ -101,7 +101,7 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   //Ewibot wave to user
   if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
-    await message.react(currentServer.helloEmoji);
+    await message.react(cmnShared.helloEmoji);
   }
 
   // Ewibot reacts with the same emojis that are inside the message

@@ -44,7 +44,6 @@
     },
     "edouin": "😭",
     "eyeReactId": "👁️",
-    "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "🥖",
       "jamBjornBeurre": "🧈"
@@ -131,7 +130,6 @@
     },
     "edouin": "823872218928250890",
     "eyeReactId": "822487568766730270",
-    "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "823904010335158323",
       "jamBjornBeurre": "933464636223791144"
@@ -174,6 +172,7 @@
     "sentinelleRoleId": "816975096518279188"
   },
   "shared": {
+    "helloEmoji": "👋",
     "name": "shared",
     "octagonalSignEmoji": "🛑",
     "removeEmoji": "❌"
