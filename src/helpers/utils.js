@@ -133,7 +133,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     if (frequency) message.react(reaction[random]);
   }
 
-  if (authorId === currentServer.LuciferId) {
+  if (authorId === cmnShared.LuciferId) {
     //if Lucifer
     const presqueRegex = new RegExp(/pres(qu|k)e *(16|seize)/gim); //regex for presque 16 detection
     const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 16

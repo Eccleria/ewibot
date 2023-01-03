@@ -69,7 +69,6 @@
         "neutral": "988481811657142322"
       }
     },
-    "LuciferId": "657498573222576148",
     "twitter": {
       "prodChannelId": "935180557770448956",
       "testChannelId": "971866953859891220"
@@ -151,7 +150,6 @@
         "neutral": "1000807784738213918"
       }
     },
-    "LuciferId": "657498573222576148",
     "twitter": {
       "prodChannelId": "816986951021756446",
       "testChannelId": "1012365513676050462"
@@ -165,6 +163,7 @@
   },
   "shared": {
     "helloEmoji": "👋",
+    "LuciferId": "657498573222576148",
     "name": "shared",
     "octagonalSignEmoji": "🛑",
     "removeEmoji": "❌",
