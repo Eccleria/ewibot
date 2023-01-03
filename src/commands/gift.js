@@ -16,9 +16,7 @@ import {
 } from "../helpers/index.js";
 import dayjs from "dayjs";
 
-//jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
@@ -55,9 +53,9 @@ export const giftButtonHandler = async (interaction) => {
 const giftInteractionCreation = async (client, type) => {
   // handle the interaction creation once giftRecursiveTimeout is finished
   //get commons data
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
+
   const guild = await client.guilds.fetch(server.guildId);
   const channel = await guild.channels.fetch(server.giftButtonChannelId);
 

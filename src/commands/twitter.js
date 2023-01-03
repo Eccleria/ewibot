@@ -4,9 +4,7 @@ import { tweetCompare } from "../admin/twitter.js";
 import { removeMissingTweets } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 const personality = PERSONALITY.getCommands(); //get const name & description for commands init
 
@@ -61,9 +59,8 @@ const action = async (interaction) => {
     const missingTweets = db.data.twitter.missingTweets;
 
     //get prod channel where to send tweets
-    const server = commons.find(({ name }) =>
-      process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-    ); //get commons data
+    const server =
+      process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
     const channelId = server.twitter.prodChannelId;
     const channel = await client.channels.fetch(channelId);
 

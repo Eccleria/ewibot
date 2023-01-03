@@ -3,13 +3,14 @@ import { ContextMenuCommandBuilder } from "@discordjs/builders";
 import { getLogChannel, gifRecovery } from "../admin/utils.js";
 import { interactionReply } from "./utils.js";
 import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../commons.js";
 
 const command = new ContextMenuCommandBuilder()
   .setName("save-log")
   .setType(3)
   .setDefaultMemberPermissions(0x0000010000000000); //MODERATE_MEMBERS bitwise
 
-const action = async (interaction, commons) => {
+const action = async (interaction) => {
   const message = interaction.targetMessage; //get message
   const embeds = message.embeds; //get embeds
 
@@ -19,9 +20,8 @@ const action = async (interaction, commons) => {
   const saveLogP = personality.saveLog;
 
   //check for thread channel
-  const isLogThread = commons.some(
-    ({ logThreadId }) => logThreadId === message.channelId
-  ); //get server local data
+  const logIds = COMMONS.getBoth().map((obj) => obj.logThreadId);
+  const isLogThread = logIds.includes(message.channelId);
   if (!isLogThread) {
     interactionReply(interaction, saveLogP.wrongChannel);
     return;
