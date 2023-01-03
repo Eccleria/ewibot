@@ -74,10 +74,6 @@
       "prodChannelId": "935180557770448956",
       "testChannelId": "971866953859891220"
     },
-    "twitterUserIds": {
-      "laquetedewilan": "1032989926000939008",
-      "andartapictures": "1039418011260727296"
-    },
     "rudolphslichId": "1052970160903950346",
     "announce": {
       "giftChannelId": "935180557770448956"
@@ -160,10 +156,6 @@
       "prodChannelId": "816986951021756446",
       "testChannelId": "1012365513676050462"
     },
-    "twitterUserIds": {
-      "laquetedewilan": "1032989926000939008",
-      "andartapictures": "1039418011260727296"
-    },
     "rudolphslichId": "1050186232547790848",
     "announce": {
       "giftChannelId": "973206750771687434"
@@ -175,6 +167,10 @@
     "helloEmoji": "👋",
     "name": "shared",
     "octagonalSignEmoji": "🛑",
-    "removeEmoji": "❌"
+    "removeEmoji": "❌",
+    "twitterUserIds": {
+      "laquetedewilan": "1032989926000939008",
+      "andartapictures": "1039418011260727296"
+    }
   }
 }
