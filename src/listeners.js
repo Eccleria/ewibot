@@ -8,10 +8,8 @@ import {
 
 import { roleAdd, roleRemove } from "./admin/role.js";
 
-// jsons imports
-import { readFileSync } from "fs";
 import { octagonalLog } from "./admin/utils.js";
-const commons = JSON.parse(readFileSync("./static/commons.json"));
+import { COMMONS } from "./commons.js";
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
@@ -128,9 +126,7 @@ export const onRemoveSpotifyReaction = async (
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
-  );
+  const currentServer = COMMONS.fetchGuildId(messageReaction.message.channel.guild.id);
 
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
@@ -150,9 +146,8 @@ export const onReactionAdd = async (messageReaction, user) => {
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
-  );
+
+  const currentServer = COMMONS.fetchGuildId(messageReaction.message.channel.guild.id);
 
   if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);
