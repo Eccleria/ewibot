@@ -591,9 +591,8 @@ export const gifRecovery = (content) => {
 export const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server = process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+
 
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
   const dbData = getAdminLogs(db);
@@ -677,7 +676,7 @@ export const octagonalLog = async (object, user) => {
 };
 
 export const checkProdTestMode = (logChannel) => {
-  const server = commons.find(({ name }) => name === "test");
+  const server = COMMONS.getTest();
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true

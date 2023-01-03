@@ -20,7 +20,7 @@ const spotifyReply = async (link, interaction, client, cmnShared) => {
   }
 };
 
-const action = async (interaction, commons) => {
+const action = async (interaction) => {
   const options = interaction.options;
   const subcommand = options.getSubcommand();
 
