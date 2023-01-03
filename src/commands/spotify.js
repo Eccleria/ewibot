@@ -3,14 +3,15 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { PERSONALITY } from "../personality.js";
 import { parseLink } from "../helpers/index.js";
 import { interactionReply } from "./utils.js";
+import { COMMONS } from "../commons.js";
 
-const spotifyReply = async (link, interaction, client, currentServer) => {
+const spotifyReply = async (link, interaction, client, cmnShared) => {
   // Ewibot reply for command query
   if (link) {
     const { answer, songId } = link;
     const newMessage = await interactionReply(interaction, answer);
 
-    if (songId) await newMessage.react(currentServer.removeEmoji);
+    if (songId) await newMessage.react(cmnShared.removeEmoji);
 
     client.playlistCachedMessages = [
       ...client.playlistCachedMessages,
@@ -27,20 +28,18 @@ const action = async (interaction, commons) => {
     const link = interaction.options.getString("lien");
     const client = interaction.client;
 
-    const currentServer = commons.some(
-      ({ guildId }) => guildId === interaction.guildId
-    ); //get server local data
+    const cmnShared = COMMONS.getShared();
 
     const foundLink = await parseLink(
       link,
       client,
       PERSONALITY.getSpotify(),
-      currentServer
+      cmnShared
     );
 
     console.log("spotify", foundLink);
 
-    await spotifyReply(foundLink, interaction, client, currentServer);
+    await spotifyReply(foundLink, interaction, client, cmnShared);
   }
 };
 

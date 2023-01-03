@@ -50,7 +50,6 @@
       "jamBjornBeurre": "🧈"
     },
     "panDuomReactId": "😠",
-    "removeEmoji": "❌",
     "pronouns": {
       "pronouns": {
         "allP": "988481558325395567",
@@ -139,7 +138,6 @@
       "jamBjornBeurre": "933464636223791144"
     },
     "panDuomReactId": "826036478672109588",
-    "removeEmoji": "❌",
     "pronouns": {
       "pronouns": {
         "allP": "1000807331908567160",
@@ -178,6 +176,7 @@
     "sentinelleRoleId": "816975096518279188"
   },
   "shared": {
-    "name": "shared"
+    "name": "shared",
+    "removeEmoji": "❌"
   }
 }

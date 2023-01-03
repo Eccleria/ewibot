@@ -17,11 +17,11 @@ class Commons {
     return this.prod;
   }
   getShared() {
-    return this.personality.shared;
+    return this.shared;
   }
   fetchGuildId(guildId) {
     return this.list.find((obj) => guildId === obj.guildId);
   }
-};
+}
 
 export const COMMONS = new Commons(commons.test, commons.prod, commons.shared);
