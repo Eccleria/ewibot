@@ -87,10 +87,7 @@ export const onRemoveReminderReaction = (
   }
 };
 
-export const onRemoveSpotifyReaction = async (
-  messageReaction,
-  cmnShared
-) => {
+export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
   //remove song from client cache and spotify playlist using react
   const { client, message, emoji, users } = messageReaction;
   const { removeEmoji } = cmnShared;
@@ -126,7 +123,9 @@ export const onRemoveSpotifyReaction = async (
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
-  const currentServer = COMMONS.fetchGuildId(messageReaction.message.channel.guild.id);
+  const currentServer = COMMONS.fetchGuildId(
+    messageReaction.message.channel.guild.id
+  );
   const cmnShared = COMMONS.getShared();
 
   if (
@@ -147,8 +146,9 @@ export const onReactionAdd = async (messageReaction, user) => {
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
-
-  const currentServer = COMMONS.fetchGuildId(messageReaction.message.channel.guild.id);
+  const currentServer = COMMONS.fetchGuildId(
+    messageReaction.message.channel.guild.id
+  );
 
   if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
     await roleRemove(messageReaction, currentServer, user);

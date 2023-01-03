@@ -591,8 +591,8 @@ export const gifRecovery = (content) => {
 export const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
-  const server = process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
 
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
   const dbData = getAdminLogs(db);

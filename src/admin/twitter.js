@@ -40,7 +40,8 @@ export const tweetLink = (username, id) => {
 
 export const tweetCompare = async (client, interaction) => {
   const db = client.db;
-  const currentServer = process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+  const currentServer =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const cmnShared = COMMONS.getShared();
 
   //compare tweets

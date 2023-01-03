@@ -57,7 +57,7 @@ const answerBot = async (interaction, cmnShared, timing) => {
     personality.remind +
       `${formatMs(timing)}` +
       personality.react[0] +
-    `${removeEmoji}` +
+      `${removeEmoji}` +
       personality.react[1],
     false
   );
@@ -70,14 +70,14 @@ const answerBot = async (interaction, cmnShared, timing) => {
 const action = async (interaction) => {
   const { client, member, channel } = interaction;
 
-    //get interaction input
-    const messageContent = interaction.options.getString("contenu");
-    const timing = extractDuration(interaction); //waiting time in ms
+  //get interaction input
+  const messageContent = interaction.options.getString("contenu");
+  const timing = extractDuration(interaction); //waiting time in ms
 
   if (!timing) {
     //Checks for timing format
     const content = PERSONALITY.getCommands().reminder.error;
-    interactionReply(interaction, content)
+    interactionReply(interaction, content);
   } else {
     console.log("reminder timing: ", timing);
 

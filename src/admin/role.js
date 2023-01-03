@@ -3,7 +3,8 @@
 export const roleInit = async (client) => {
   console.log("role init");
   // Client init and check reactions on role message
-  const server = process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
 
   const rolesJson = Object.values(server.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
 

@@ -92,7 +92,8 @@ const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
 setTimeout(async () => {
   // init birthday check
-  const server = process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
 
   const channel = await client.channels.fetch(server.randomfloodChannelId);
 
@@ -164,7 +165,8 @@ client.once("ready", async () => {
   updateActivity(client);
 
   //slash commands
-  const server = process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
   slashCommandsInit(self, guildId, client); //commands submit to API
 
