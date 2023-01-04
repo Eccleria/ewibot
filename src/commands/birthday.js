@@ -114,26 +114,26 @@ const action = async (interaction) => {
     } else await interactionReply(interaction, bPerso.userNotFound);
     return;
   } else if (whichCommand === bPerso.add.name) {
-      // add user
-      const day = interaction.options
-        .getInteger(bPerso.add.dayOption.name)
-        .toString();
-      const month = interaction.options
-        .getNumber(bPerso.add.monthOption.name)
-        .toString();
-      const year = interaction.options.getNumber(bPerso.add.yearOption.name);
+    // add user
+    const day = interaction.options
+      .getInteger(bPerso.add.dayOption.name)
+      .toString();
+    const month = interaction.options
+      .getNumber(bPerso.add.monthOption.name)
+      .toString();
+    const year = interaction.options.getNumber(bPerso.add.yearOption.name);
 
-      const dayToAdd = day.length === 1 ? "0" + day : day;
-      const monthToAdd = month.length === 1 ? "0" + month : month;
-      const dateToAdd = year
-        ? `${dayToAdd}-${monthToAdd}-${year}`
-        : `${dayToAdd}-${monthToAdd}`;
+    const dayToAdd = day.length === 1 ? "0" + day : day;
+    const monthToAdd = month.length === 1 ? "0" + month : month;
+    const dateToAdd = year
+      ? `${dayToAdd}-${monthToAdd}-${year}`
+      : `${dayToAdd}-${monthToAdd}`;
 
-      const date = dayjs(dateToAdd, ["DD-MM-YYYY", "DD-MM"]);
+    const date = dayjs(dateToAdd, ["DD-MM-YYYY", "DD-MM"]);
     if (date.isValid()) {
       //if date respect dayjs form
-        addBirthday(authorId, db, date.toISOString()); //add to db
-        await interactionReply(interaction, bPerso.addUser);
+      addBirthday(authorId, db, date.toISOString()); //add to db
+      await interactionReply(interaction, bPerso.addUser);
     } else await interactionReply(interaction, bPerso.parsingError);
   } else if (whichCommand === bPerso.get.name) {
     // checks if user is in DB and tells user

@@ -2,10 +2,7 @@ import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
 import { getAdminLogs, removeAdminLogs } from "../helpers/index.js";
-
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 /**
  * Fetch AuditLog from API.
@@ -76,7 +73,7 @@ export const finishEmbed = async (
   text,
   attachments
 ) => {
-  const currentServer = commons.find(({ name }) => name === "test"); //get test data
+  const currentServer = COMMONS.getTest(); //get test data
   if (
     process.env.DEBUG === "no" &&
     logChannel.guildId === currentServer.guildId
@@ -249,9 +246,7 @@ export const generalEmbed = async (
  * @returns {TextChannel}
  */
 export const getLogChannel = async (eventObject, type) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === eventObject.guild.id
-  ); //get server local data
+  const currentServer = COMMONS.fetchGuildId(eventObject.guild.id); //get server local data
   const id =
     type === "thread" ? currentServer.logThreadId : currentServer.logChannelId;
   return await eventObject.guild.channels.fetch(id); //return the log channel
@@ -596,9 +591,8 @@ export const gifRecovery = (content) => {
 export const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
 
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
   const dbData = getAdminLogs(db);
@@ -682,7 +676,7 @@ export const octagonalLog = async (object, user) => {
 };
 
 export const checkProdTestMode = (logChannel) => {
-  const server = commons.find(({ name }) => name === "test");
+  const server = COMMONS.getTest();
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true

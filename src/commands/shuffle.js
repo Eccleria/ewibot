@@ -1,9 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { PERSONALITY } from "../personality.js";
 import { interactionReply } from "./utils.js";
-//jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 export const shuffleParam = {
   status: PERSONALITY.getCommands().shuffle.startstop.stop,
@@ -21,9 +19,9 @@ const colorList = [
 ]; //Orange, yellow, blue, green, purple, cyan
 
 const shuffleRoleColor = async (client) => {
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
+
   const roles = Object.values(server.roles); // list of roles
   const guild = await client.guilds.fetch(server.guildId);
 
@@ -55,9 +53,8 @@ const action = async (interaction) => {
   const subcommand = options.getSubcommand();
   const perso = PERSONALITY.getCommands().shuffle;
 
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
 
   if (subcommand === perso.startstop.name) {
     //startstop

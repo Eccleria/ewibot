@@ -31,9 +31,7 @@ import { shuffleParam } from "../commands/shuffle.js";
 
 import dayjs from "dayjs";
 
-// jsons imports
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("./static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 //LISTENERS
 
@@ -55,7 +53,7 @@ export const onInteractionCreate = (interaction) => {
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
+    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
     return;
   }
 
@@ -84,10 +82,8 @@ export const onInteractionCreate = (interaction) => {
     );
 
     if (foundCommand && isReleasedCommand(foundCommand))
-      foundCommand.action(
-        interaction,
-        "/"
-      ); //if found command, execute its action
+      foundCommand.action(interaction, "/");
+    //if found command, execute its action
     else
       interactionReply(
         interaction,
@@ -433,9 +429,7 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === message.guildId
-  );
+  const currentServer = COMMONS.fetchGuildId(message.guildId);
 
   if (
     message.channelId === currentServer.logThreadId ||
@@ -580,9 +574,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (!oMessage.guild) return; //Ignore DM
   if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === newMessage.guildId
-  );
+  const currentServer = COMMONS.fetchGuildId(newMessage.guildId);
   if (newMessage.channelId === currentServer.logThreadId) return;
 
   //get personality
@@ -680,9 +672,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       if (!hasApology(oSanitized) && hasApology(nSanitized)) {
         //in new message && not in old message
         const db = oMessage.client.db; //get db
-        const currentServer = commons.find(
-          ({ guildId }) => guildId === nMessage.guildId
-        ); //get commons.json data
+        const currentServer = COMMONS.fetchGuildId(nMessage.guildId); //get commons.json data
         addApologyCount(nMessage.author.id, db); //add data to db
         await nMessage.react(currentServer.panDuomReactId); //add message reaction
       }

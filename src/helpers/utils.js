@@ -1,5 +1,6 @@
 import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
+import { COMMONS } from "../commons.js";
 
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
@@ -55,8 +56,8 @@ const isHungry = (loweredContent) => {
   return loweredContent.includes("faim");
 };
 
-export const hasOctagonalSign = (content, currentServer) => {
-  return content.includes(currentServer.octagonalSign);
+export const hasOctagonalSign = (content, cmnShared) => {
+  return content.includes(cmnShared.octagonalSignEmoji);
 };
 
 export const hasApology = (sanitizedContent) => {
@@ -78,8 +79,10 @@ export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
   const authorId = message.author.id;
 
+  const cmnShared = COMMONS.getShared();
+
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
-  if (hasOctagonalSign(loweredContent, currentServer)) octagonalLog(message); //if contains octagonal_sign, log it
+  if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
   if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
@@ -98,7 +101,7 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   //Ewibot wave to user
   if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
-    await message.react(currentServer.helloEmoji);
+    await message.react(cmnShared.helloEmoji);
   }
 
   // Ewibot reacts with the same emojis that are inside the message
@@ -107,7 +110,7 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    if (foundEmotes.length > 0) {      
+    if (foundEmotes.length > 0) {
       if (today.getMonth() == 5) {
         //PRIDE MONTH, RAIBOWSSSSS
         await message.react("🏳️‍🌈");
@@ -130,7 +133,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     if (frequency) message.react(reaction[random]);
   }
 
-  if (authorId === currentServer.LuciferId) {
+  if (authorId === cmnShared.LuciferId) {
     //if Lucifer
     const presqueRegex = new RegExp(/pres(qu|k)e *(16|seize)/gim); //regex for presque 16 detection
     const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 16

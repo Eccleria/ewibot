@@ -6,10 +6,7 @@ import {
 } from "../helpers/index.js";
 
 import { PERSONALITY } from "../personality.js";
-
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 export const fetchUserTimeline = async (client, userId, pageToken) => {
   const twitter = client.twitter;
@@ -43,12 +40,12 @@ export const tweetLink = (username, id) => {
 
 export const tweetCompare = async (client, interaction) => {
   const db = client.db;
-  const currentServer = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const currentServer =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+  const cmnShared = COMMONS.getShared();
 
   //compare tweets
-  const users = Object.entries(currentServer.twitterUserIds);
+  const users = Object.entries(cmnShared.twitterUserIds);
   let tLinks = [];
 
   for (const [username, userId] of users) {
