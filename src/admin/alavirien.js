@@ -41,6 +41,7 @@ const checkAlavirien = async (client, server) => {
 
   const db = client.db;
   const dbUsers = db.data.alavirien;
+  console.log("alavirien dbUsers", dbUsers);
   if (!dbUsers) return; //if no data in db, nothing to do
 
   //get personality

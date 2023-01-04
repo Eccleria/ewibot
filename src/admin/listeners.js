@@ -892,6 +892,8 @@ export const onGuildMemberRemove = async (memberKick) => {
 };
 
 export const onGuildMemberAdd = async (guildMember) => {
+  console.log("onGuildMemberAdd", guildMember.displayName);
+  
   const db = guildMember.client.db;
   const authorId = guildMember.id;
   const date = guildMember.joinedAt.toISOString()
