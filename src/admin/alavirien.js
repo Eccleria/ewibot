@@ -19,23 +19,25 @@ export const presentationHandler = async (server, messageReaction, author) => {
 };
 
 const giveAlavirien = async (client, server, personality, userId) => {
-  //get GuildMember
+  //fetch data
   const guild = await client.guilds.fetch(server.guildId);
   const guildMember = await guild.members.fetch(userId);
   const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
 
   if (!guildMember.roles.cache.has(server.alavirienRoleId)) {
+    //if doesn't have the role
     guildMember.roles.add(server.alavirienRoleId); //add role
     removeAlavirien(client.db, userId); //remove from db
 
     //send log
     const embed = setupEmbed("DARK_GREY", personality, guildMember.user, "tag"); //create log
-    await finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
+    finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
   }
 };
 
 const checkAlavirien = async (client, server) => {
   //function to check every alavirien in db if they meet the requirements
+  console.log("Alavirien check");
 
   const db = client.db;
   const dbUsers = db.data.alavirien;
@@ -69,9 +71,7 @@ export const setupAlavirien = async (client, commons, tomorrow, frequency) => {
 
   setTimeout(async () => {
     //timeout until tomorrow
-    console.log("Alavirien check");
 
-    //get checkAlavirien args
     const server = commons.find(({ name }) =>
       process.env.DEBUG === "yes" ? name === "test" : name === "prod"
     ); //get server data
