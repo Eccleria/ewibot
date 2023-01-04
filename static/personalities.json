@@ -82,10 +82,14 @@
       "author": "Membre :",
       "channel": "Salon :",
       "contentDiff": "Mots différents",
-      "contentNew": "Nouveau contenu",
-      "contentNewAgain": "Nouveau contenu - suite",
-      "contentOld": "Ancien contenu",
-      "contentOldAgain": "Ancien contenu - suite",
+      "contentNew": {
+        "text": "Nouveau contenu",
+        "textAgain": "Nouveau contenu - suite"
+      },
+      "contentOld": {
+        "text": "Ancien contenu",
+        "textAgain": "Ancien contenu - suite"
+      },
       "date": "Envoyé le :",
       "linkMessage": "Clique pour aller au message.",
       "linkName": "Lien",
@@ -507,8 +511,13 @@
         }
       },
       "reverseTranslator": {
+        "alreadyTranslated": "Le log est une traduction ou a déjà été traduit.",
+        "embedName": "Traduction",
+        "executor": "Traduit par :",
         "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
-        "name": "reverse-translator"
+        "name": "reverse-translator",
+        "title": "Reverse Translation",
+        "translated": "Le log a bien été traduit."
       },
       "roll": {
         "description": "Lancer de dés",
