@@ -1,7 +1,9 @@
 ﻿## 5.0.0
+- New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality`
 - Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll)
 - Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
 - Remove: `$commands` helpers (checkIsOnThread, isCommand)
+- Update: files now use `COMMONS` object instead of commons.json parse 
 
 ## 4.8.0
 - Update: `reverse-translator` now can translate frequent-logs
