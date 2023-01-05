@@ -177,7 +177,6 @@ const ignoreChannel = {
 const contextCommands = [reverseTranslator, saveLog]; //context commands (message, channel, user)
 const slashCommands = [
   announce,
-  //botMessage,
   birthday,
   botMessage,
   concrete,

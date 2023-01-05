@@ -283,7 +283,63 @@
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
       "botMessage": {
-        "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot."
+        "attachmentOption":{
+          "description":"Pièce-jointe a transmettre avec le message",
+          "name":"piece-jointe"
+        },
+        "description": "Envoyer un message à la place d'Ewibot.",
+        "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot.",
+        "name": "message",
+        "reply":{
+          "attachmentOption":{
+            "description":"Pièce-jointe a transmettre avec le message",
+            "name":"piece-jointe"
+          },          
+          "spoilOption":{
+            "description": "Si la pièce-jointe doit être mise en spoiler.",
+            "name": "to-spoil"
+          },
+          "channelOption":{
+            "description": "Salon de destination",
+            "name": "salon"
+          },
+          "description": "Pour répondre à un message à travers Ewibot.",
+          "name": "reply",
+          "pingOption":{
+            "description": "Si l'utilisateurice doit être mentionné.",
+            "name": "to-ping"
+          },
+          "sent": "Le message est envoyé.",
+          "stringOption":{
+            "description": "Contenu du message d'Ewibot",
+            "name": "message"
+          },
+          "urlOption":{
+            "description": "Le lien du message auquel répondre.",
+            "name": "url"
+          }
+        },
+        "send":{
+          "attachmentOption":{
+            "description":"Pièce-jointe a transmettre avec le message",
+            "name":"piece-jointe"
+          },
+          "booleanOption":{
+            "description": "Si la pièce-jointe doit être mise en spoiler.",
+            "name": "to-spoil"
+          },
+          "channelOption":{
+            "description": "Salon de destination",
+            "name": "salon"
+          },
+          "description": "Pour envoyer un message à travers Ewibot.",
+          "name": "send",
+          "sent": "Le message est envoyé.",
+          "stringOption":{
+            "description": "Contenu du message d'Ewibot",
+            "name": "message"
+          }
+        }
       },
       "concrete": {
         "booleanOption": {

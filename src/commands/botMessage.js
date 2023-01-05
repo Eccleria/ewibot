@@ -1,89 +1,150 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v9";
+import { MessagePayload } from "discord.js";
 //import { ChannelType } from "discord.js"; //for discordjs v14
 
 import { PERSONALITY } from "../personality.js";
+import { interactionReply } from "./utils.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
-  .setName("message")
-  .setDescription("Envoyer un message � la place d'Ewibot.")
+  .setName(PERSONALITY.getCommands().botMessage.name)
+  .setDescription(PERSONALITY.getCommands().botMessage.description)
   .addSubcommand((command) =>
-    command
-      .setName("send")
-      .setDescription("Envoi d'un message.")
+    command //send
+      .setName(PERSONALITY.getCommands().botMessage.send.name)
+      .setDescription(PERSONALITY.getCommands().botMessage.send.description)
       .addChannelOption((option) =>
         option
-          .setName("salon")
-          .setDescription("Salon dans lequel Ewibot enverra le message.")
+          .setName(PERSONALITY.getCommands().botMessage.send.channelOption.name)
+          .setDescription(PERSONALITY.getCommands().botMessage.send.channelOption.description)
           .setRequired(false)
           .addChannelTypes(ChannelType.GuildText)
       )
       .addStringOption((option) =>
         option
-          .setName("texte")
-          .setDescription("Contenu du message.")
+          .setName(PERSONALITY.getCommands().botMessage.send.stringOption.name)
+          .setDescription(PERSONALITY.getCommands().botMessage.send.stringOption.description)
           .setMinLength(1)
           .setRequired(false)
       )
       .addAttachmentOption((option) =>
         option
-          .setName("piece-jointe")
-          .setDescription("Pi�ce jointe � envoyer.")
+          .setName(PERSONALITY.getCommands().botMessage.send.attachmentOption.name)
+          .setDescription(PERSONALITY.getCommands().botMessage.send.attachmentOption.description)
           .setRequired(false)
+      )
+      .addBooleanOption((option) => 
+      option
+      .setName(PERSONALITY.getCommands().botMessage.send.booleanOption.name)
+      .setDescription(PERSONALITY.getCommands().botMessage.send.booleanOption.description)
+      .setRequired(false)
       )
   )
   .addSubcommand((command) =>
-    command
-      .setName("reply")
-      .setDescription("R�ponse d'Ewibot � un message.")
+    command //reply 
+      .setName(PERSONALITY.getCommands().botMessage.reply.name)
+      .setDescription(PERSONALITY.getCommands().botMessage.reply.description)
+      .addStringOption((option) =>
+      option //url
+        .setName(PERSONALITY.getCommands().botMessage.reply.urlOption.name)
+        .setDescription(PERSONALITY.getCommands().botMessage.reply.urlOption.description)
+        .setMinLength(1)
+        .setRequired(true)
+      )
       .addChannelOption((option) =>
-        option
-          .setName("salon")
+        option //channel
+          .setName(PERSONALITY.getCommands().botMessage.reply.channelOption.name)
           .setDescription(
-            "L'id du channel dans lequel il y a le message auquel Ewibot r�pondra."
+            PERSONALITY.getCommands().botMessage.reply.channelOption.description
           )
-          .setRequired(true)
+          .setRequired(false)
           .addChannelTypes(ChannelType.GuildText)
       )
       .addStringOption((option) =>
-        option
-          .setName("messageid")
-          .setDescription("L'id du message auquel Ewibot r�pondra.")
-          .setRequired(true)
-      )
-      .addStringOption((option) =>
-        option
-          .setName("texte")
-          .setDescription("Contenu du message.")
+        option //text
+          .setName(PERSONALITY.getCommands().botMessage.reply.stringOption.name)
+          .setDescription(PERSONALITY.getCommands().botMessage.reply.stringOption.description)
           .setMinLength(1)
           .setRequired(false)
       )
       .addAttachmentOption((option) =>
-        option
-          .setName("piece-jointe")
-          .setDescription("Pi�ce jointe � envoyer.")
+        option //attachment
+          .setName(PERSONALITY.getCommands().botMessage.reply.attachmentOption.name)
+          .setDescription(PERSONALITY.getCommands().botMessage.reply.attachmentOption.description)
           .setRequired(false)
+      )
+      .addBooleanOption((option) => 
+      option //toSpoil
+      .setName(PERSONALITY.getCommands().botMessage.reply.spoilOption.name)
+      .setDescription(PERSONALITY.getCommands().botMessage.reply.spoilOption.description)
+      .setRequired(false)
+      )
+      .addBooleanOption((option) => 
+      option //toPing
+      .setName(PERSONALITY.getCommands().botMessage.reply.pingOption.name)
+      .setDescription(PERSONALITY.getCommands().botMessage.reply.pingOption.description)
+      .setRequired(false)
       )
   );
 
-const action = (interaction) => {
-  console.log(interaction);
+const action = async (interaction) => {
+  //console.log(interaction);
   const options = interaction.options;
   const subcommand = options.getSubcommand();
-  const messageId =
-    subcommand === "reply" ? options.getNumber("messageid") : null; //
-  const text = options.getString("texte"); //content to send
-  const attachment = options.getAttachment("piece-jointe"); //attachment to send
-  const channel = options.getChannel("salon")
-    ? options.getChannel("salon")
-    : interaction.channel; //channel where to send message
+  const personality = PERSONALITY.getCommands().botMessage;
 
-  console.log("subcommand", subcommand);
-  console.log("messageId", messageId);
-  console.log("text", text);
-  console.log("attachment", attachment);
-  console.log("channel", channel);
+  if (subcommand === personality.send.name) {
+    const sPerso = personality.send; //get personaity
+
+    //get interaction options
+    const content = options.getString(sPerso.stringOption.name, false);
+    const attachment = options.getAttachment(sPerso.attachmentOption.name, false);
+    const fetchedChannel = options.getChannel(sPerso.channelOption.name, false);
+    const toSpoil = options.getBoolean(sPerso.booleanOption.name, false);
+
+    const channel = fetchedChannel ? fetchedChannel : interaction.channel;
+    
+    //create message payload according to interaction options
+    const payload = {};
+    if (content) payload.content = content;
+    if (toSpoil && attachment) {
+      attachment.setSpoiler(toSpoil);
+      payload.files = [attachment];
+    } else if (attachment) payload.files = [attachment];
+    
+    //send message
+    channel.send(payload);
+    interactionReply(interaction, sPerso.sent);
+  } else if (subcommand === personality.reply.name) {
+    const rPerso = personality.reply; //get personality
+
+    //get interaction options
+    const content = options.getString(rPerso.stringOption.name, false);
+    const attachment = options.getAttachment(rPerso.attachmentOption.name, false);
+    //const fetchedChannel = options.getChannel(rPerso.channelOption.name, false);
+    const toSpoil = options.getBoolean(rPerso.spoilOption.name, false);
+    const url = options.getString(rPerso.urlOption.name);
+    //const toPing = options.getBoolean(rPerso.pingOption.name);
+
+    //get message to reply
+    const sliced = url.split("/");
+    const message = await interaction.channel.messages.fetch(sliced[sliced.length - 1]);
+
+    //create message payload according to interaction options
+    const payload = {};
+    if (content) payload.content = content;
+    if (toSpoil && attachment) {
+      attachment.setSpoiler(toSpoil);
+      payload.files = [attachment];
+    } else if (attachment) payload.files = [attachment];
+    //toPing ? payload.allowed_mentions = { parse: [] } : payload.allowed_mentions = { parse: [] };
+
+    new MessagePayload()
+    //send message
+    message.reply(payload);
+    interactionReply(interaction, rPerso.sent);
+  }
 };
 
 const botMessage = {
