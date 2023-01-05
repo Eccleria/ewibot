@@ -4,6 +4,9 @@
 - Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
 - Remove: `$commands` helpers (checkIsOnThread, isCommand)
 - Update: files now use `COMMONS` object instead of commons.json parse 
+- Update: personality organisation 
+	- explode personalities.json file into 3 files
+	- regroup files into personalities folder
 
 ## 4.8.0
 - Update: `reverse-translator` now can translate frequent-logs
