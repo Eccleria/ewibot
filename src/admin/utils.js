@@ -157,7 +157,7 @@ export const endCasesEmbed = async (
   diff
 ) => {
   //if no AuditLog
-  console.log("diff", diff)
+
   if (diff >= 5) {
     //if log too old
     const messageList = await finishEmbed(
