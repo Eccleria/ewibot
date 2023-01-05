@@ -203,6 +203,27 @@
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
+      "polls":{
+        "choiceOption": {
+          "description": "Les choix du sondage",
+          "name": "choix"
+        },
+        "description": "Cette commande permet de créer des sondages.",
+        "help": "Cette commande permet de créer des sondages.",
+        "hideOption": {
+          "description": "Cache ou révèle les votes des utilisateurices",
+          "name": "anonyme"
+        },
+        "name": "polls",
+        "titleOption": {
+          "description": "Titre du sondage",
+          "name": "titre"
+        },
+        "voteOption": {
+          "description": "Définit si les gens votent une seule (true) ou plusieurs fois (false)",
+          "name": "vote-unique"
+        }
+      },
       "pronouns": {
         "agreements": {
           "all": "Tous accords",
