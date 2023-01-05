@@ -1,0 +1,66 @@
+{
+    "announce_gift": {
+      "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
+      "description": "Salut les Ewinautes ! Une fois n'est pas coutume, c'est moi qui vous fais l'annonce <:Ewiyay:918249094391144469>.\n\n Après quelques semaines de développement, et sur une idée de la modération, voici venir votre **cadeau de Noël** ! <:DuomFetard:822479563077976065>. Enfin, **vos** cadeaux <:Ewinklan:841675143596212267>",
+      "fields": {
+        "field1": {
+          "name": "Principe",
+          "value": "A partir de maintenant, vous pouvez vous envoyer des messages de Noël entre vous. Je les conserverai, et les transmettrai au matin de Noël, comme cadeaux :gift:.\n\nNotes :\n*- Vous ne pourrez envoyer de messages **qu'aux personnes l'acceptant.***\n*- Après Noël, vous ne pourrez plus utiliser cette fonctionnalité.*"
+        },
+        "field2": {
+          "name": "\u200b",
+          "value": "\u200b"
+        },
+        "field3": {
+          "name": "Utilisation",
+          "value": "Il existe 5 commandes, ayant toutes le préfix *gift* :`use`, `accepting`, `send`, `remove`, `get`.\nPour chaque commande, une description s'affiche lorsque vous les utilisez."
+        },
+        "field4": {
+          "name": "gift use",
+          "value": "La commande `gift use` permet de m'indiquer que vous souhaitez ou non recevoir des messages de Noël.\n**Par défaut, je considère que vous REFUSEZ.**",
+          "inline": true
+        },
+        "field5": {
+          "name": "gift accepting",
+          "value": "Comment savoir qui accepte ou non ? Avec `gift accepting` ! Vous indiquez une personne et je me charge de vous dire s'iel accepte les messages de Noël ou non.",
+          "inline": true
+        },
+        "field6": {
+          "name": "gift send",
+          "value": "Avec `gift send`, vous pouvez envoyer des messages de Noël à un.e utilisateurice **qui l'accepte**. Si la personne n'accepte pas, vous aurez un message d'erreur.",
+          "inline": true
+        },
+        "field7": {
+          "name": "gift remove",
+          "value": "Si vous souhaitez supprimer des messages de Noël, utilisez `gift remove`. Il suffit d'indiquer la personne voulue et j'effacerai le.s message.s. Je vous rappelerai le contenu supprimé, au cas où.",
+          "inline": true
+        },
+        "field8": {
+          "name": "gift get",
+          "value": "Un oubli ? Vous pouvez utiliser `gift get` pour que je vous rappelle quel.s message.s vous vouliez envoyer.",
+          "inline": true
+        },
+        "field9": {
+          "name": "\u200b",
+          "value": "\u200b"
+        },
+        "field10": {
+          "name": "Gestion des données",
+          "value": "Maintenant, parlons un peu de la gestion des données.\n\n*Qu'est-ce que je stocke ?*\n- Côté reception : Je garde en mémoire qui souhaite recevoir des messages.\n- Côté envoie : Je garde en mémoire qui souhaite envoyer un message, le contenu du message, lea destinateurice.\n\n*Combien de temps est-ce stocké ?*\nJe garde ces informations en mémoire **jusqu'à 2 semaines après Noël**.\n\n*Qui a accès à ces données ?*\n- Mes 2 développeurs : **Tiitch et Eccléria**.\n\n*Quelles sont les conditions d'accès ?*\n - **Avant Noël**, les seuls accès qui seront réalisé auront pour **objet exclusif de vérifier le fonctionnement** du système.\n- **Après Noël**, si jamais une personne fait remonter un **message inaproprié, la modération se réserve le droit d'accéder aux données pour enquête et éventuelles actions**.\n- Après les 2 semaines : les données seront **intégralement supprimées.**"
+        },
+        "field11": {
+          "name": "\u200b",
+          "value": "\u200b"
+        },
+        "field12": {
+          "name": "Joyeux mois de l'Avent",
+          "value": "Toute l'équipe des Sentinelles vous souhaite un joyeux mois de l'Avent, en espérant vous apprécierez cette idée <:Ewiyay:918249094391144469> !"
+        }
+      },
+      "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
+      "id": "announce_gift",
+      "notFound": "Désolé, l'annonce n'a pas été trouvée.",
+      "sending": "L'annonce est en cours d'envoi.",
+      "title": "Cadeaux de Noël"
+    }
+}
