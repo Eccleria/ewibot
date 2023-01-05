@@ -299,10 +299,6 @@
             "description": "Si la pièce-jointe doit être mise en spoiler.",
             "name": "to-spoil"
           },
-          "channelOption":{
-            "description": "Salon de destination",
-            "name": "salon"
-          },
           "description": "Pour répondre à un message à travers Ewibot.",
           "name": "reply",
           "pingOption":{

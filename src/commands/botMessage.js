@@ -1,6 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v9";
-import { MessagePayload } from "discord.js";
 //import { ChannelType } from "discord.js"; //for discordjs v14
 
 import { PERSONALITY } from "../personality.js";
@@ -51,15 +50,6 @@ const command = new SlashCommandBuilder()
         .setDescription(PERSONALITY.getCommands().botMessage.reply.urlOption.description)
         .setMinLength(1)
         .setRequired(true)
-      )
-      .addChannelOption((option) =>
-        option //channel
-          .setName(PERSONALITY.getCommands().botMessage.reply.channelOption.name)
-          .setDescription(
-            PERSONALITY.getCommands().botMessage.reply.channelOption.description
-          )
-          .setRequired(false)
-          .addChannelTypes(ChannelType.GuildText)
       )
       .addStringOption((option) =>
         option //text
@@ -122,14 +112,20 @@ const action = async (interaction) => {
     //get interaction options
     const content = options.getString(rPerso.stringOption.name, false);
     const attachment = options.getAttachment(rPerso.attachmentOption.name, false);
-    //const fetchedChannel = options.getChannel(rPerso.channelOption.name, false);
     const toSpoil = options.getBoolean(rPerso.spoilOption.name, false);
     const url = options.getString(rPerso.urlOption.name);
-    //const toPing = options.getBoolean(rPerso.pingOption.name);
+    const toPing = options.getBoolean(rPerso.pingOption.name);
 
     //get message to reply
     const sliced = url.split("/");
-    const message = await interaction.channel.messages.fetch(sliced[sliced.length - 1]);
+    let message;
+    try {
+      message = await interaction.channel.messages.fetch(sliced[sliced.length - 1]);
+    } catch (e) {
+      console.log("botMessage message fetch error", e);
+      const channel = await interaction.client.channels.fetch(sliced[sliced.length -2]);
+      message = await channel.messages.fetch(sliced[sliced.length - 1]);
+    }
 
     //create message payload according to interaction options
     const payload = {};
@@ -138,10 +134,9 @@ const action = async (interaction) => {
       attachment.setSpoiler(toSpoil);
       payload.files = [attachment];
     } else if (attachment) payload.files = [attachment];
-    //toPing ? payload.allowed_mentions = { parse: [] } : payload.allowed_mentions = { parse: [] };
+    toPing ? payload.allowedMentions = {repliedUser: true} : payload.allowedMentions = {repliedUser: false};
 
-    new MessagePayload()
-    //send message
+    //send reply
     message.reply(payload);
     interactionReply(interaction, rPerso.sent);
   }
