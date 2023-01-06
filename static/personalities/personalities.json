@@ -208,6 +208,10 @@
           "description": "Les choix du sondage",
           "name": "choix"
         },
+        "descOption": {
+          "description": "Texte de la description du sondage.",
+          "name": "description"
+        },
         "description": "Cette commande permet de créer des sondages.",
         "help": "Cette commande permet de créer des sondages.",
         "hideOption": {

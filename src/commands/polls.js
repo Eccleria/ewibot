@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality";
 import {interactionReply} from "./utils.js";
 
@@ -8,7 +9,7 @@ const command = new SlashCommandBuilder()
     .setDescription(PERSONALITY.getCommands.polls.description)
     .setDefaultMemberPermissions(0x0000010000000000)
     .addStringOption((option) => 
-      option
+      option //title
         .setName(PERSONALITY.getCommands.polls.titleOption.name)
         .setDescription(PERSONALITY.getCommands.polls.titleOption.description)
         .setRequired(true)
@@ -16,26 +17,62 @@ const command = new SlashCommandBuilder()
         .setMaxLength(256)
     )
     .addStringOption((option) =>
-      option
+      option //choice
         .setName(PERSONALITY.getCommands.polls.choiceOption.name)
         .setDescription(PERSONALITY.getCommands.polls.choiceOption.description)
         .setRequired(true)
         .setMinLength(4)
     )
-    .addBooleanOption((option) =>
+    .addStringOption((option) => 
       option
+        .setName(PERSONALITY.getCommands.polls.descOption.name)
+        .setDescription(PERSONALITY.getCommands.polls.descOption.description)
+        .setMinLength(1)
+        .setMaxLength(4096)
+    )
+    .addBooleanOption((option) =>
+      option //hide
         .setName(PERSONALITY.getCommands.polls.hideOption.name)
         .setDescription(PERSONALITY.getCommands.polls.hideOption.description)
         .setRequired(false)
     )
     .addBooleanOption((option) =>
-      option
+      option //vote
         .setName(PERSONALITY.getCommands.polls.voteOption.name)
         .setDescription(PERSONALITY.getCommands.polls.voteOption.description)
         .setRequired(false)
-    )
+    );
+
+const action = (interaction) => {
+    const options = interaction.options;
+    const perso = PERSONALITY.getCommands().polls;
+
+    //get options
+    const title = options.getString(perso.titleOption.name);
+    const choices = options.getString(perso.choiceOption.name);
+
+    const description = options.getString(perso.descOption.name, false);
+    let option = options.getBoolean(perso.hideOption.name, false);
+    const anonymous = option == null ? true : option;
+    option = options.getBoolean(perso.voteOption.name, false);
+    const vote = option == null ? true : option;
+    option = options.getString(perso.colorOption.name, false);
+    const color = option == null ? "BLUE" : option;
+
+    //create embed
+    const embed = new MessageEmbed()
+      .setTitle(title)
+      .setTimestamp()
+      .setColor(color);
+
+    // Optionnal parameters
+    if (description) embed.setDescription(description);
+
+
+};
 
 const polls = {
+    action,
     command,
     help: (interaction) => {
         const personality = PERSONALITY.getCommands().polls;
