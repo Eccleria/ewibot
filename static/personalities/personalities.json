@@ -223,6 +223,7 @@
           "name": "anonyme"
         },
         "name": "polls",
+        "sent":"Le sondage a été envoyé",
         "titleOption": {
           "description": "Titre du sondage",
           "name": "titre"

@@ -97,6 +97,7 @@ const action = (interaction) => {
 
     //send poll
     interaction.channel.send({embeds: [embed]});
+    interactionReply(interaction, perso.sent);
 };
 
 const polls = {
