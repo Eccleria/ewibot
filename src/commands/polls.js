@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 //import { removeEmote } from "../admin/utils";
 import { PERSONALITY } from "../personality.js";
-import {interactionReply} from "./utils.js";
+import {createButton, interactionReply} from "./utils.js";
 
 
 const command = new SlashCommandBuilder()
@@ -92,11 +92,26 @@ const action = (interaction) => {
 
     console.log("results", results);
     results.fields.forEach(field => {
-      embed.addFields({name: field, value: "1 (0)"})
+      embed.addFields({name: field, value: "(0)"})
     });
 
+    //create vote buttons
+    const components = results.emotes.reduce((acc, cur, idx) => {
+      const button = new MessageButton().setCustomId(idx.toString()).setStyle("PRIMARY").setEmoji(cur);
+
+      if (idx === 0 || acc.size === 5) {
+        const newRow = new MessageActionRow().addComponents(button);
+        return {actionRows: [...acc.actionRows, newRow], size: 1};
+      } else {
+        const lastAR = acc.actionRows[acc.actionRows.length - 1];
+        lastAR.addComponents(button);
+        return {actionRows: acc.actionRows, size: acc.size + 1};
+      }
+    }, {actionRows: [], size: 0});
+    console.log("components", components);
+
     //send poll
-    interaction.channel.send({embeds: [embed]});
+    interaction.channel.send({embeds: [embed], components: components.actionRows});
     interactionReply(interaction, perso.sent);
 };
 
