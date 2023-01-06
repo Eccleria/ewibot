@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageEmbed } from "discord.js";
 //import { removeEmote } from "../admin/utils";
 import { PERSONALITY } from "../personality.js";
 import {createButton, interactionReply} from "./utils.js";
@@ -97,7 +97,7 @@ const action = (interaction) => {
 
     //create vote buttons
     const components = results.emotes.reduce((acc, cur, idx) => {
-      const button = new MessageButton().setCustomId(idx.toString()).setStyle("PRIMARY").setEmoji(cur);
+      const button = createButton(idx.toString(), null, "SECONDARY", cur);
 
       if (idx === 0 || acc.size === 5) {
         const newRow = new MessageActionRow().addComponents(button);
