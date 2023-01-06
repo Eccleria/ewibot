@@ -208,6 +208,10 @@
           "description": "Les choix du sondage",
           "name": "choix"
         },
+        "colorOption":{
+          "description": "La couleur du bandeau à gauche.",
+          "name": "couleur"
+        },
         "descOption": {
           "description": "Texte de la description du sondage.",
           "name": "description"

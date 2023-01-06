@@ -1,46 +1,52 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
-import { removeEmote } from "../admin/utils";
-import { PERSONALITY } from "../personality";
+//import { removeEmote } from "../admin/utils";
+import { PERSONALITY } from "../personality.js";
 import {interactionReply} from "./utils.js";
 
 
 const command = new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands.polls.name)
-    .setDescription(PERSONALITY.getCommands.polls.description)
+    .setName(PERSONALITY.getCommands().polls.name)
+    .setDescription(PERSONALITY.getCommands().polls.description)
     .setDefaultMemberPermissions(0x0000010000000000)
     .addStringOption((option) => 
       option //title
-        .setName(PERSONALITY.getCommands.polls.titleOption.name)
-        .setDescription(PERSONALITY.getCommands.polls.titleOption.description)
+        .setName(PERSONALITY.getCommands().polls.titleOption.name)
+        .setDescription(PERSONALITY.getCommands().polls.titleOption.description)
         .setRequired(true)
         .setMinLength(1)
         .setMaxLength(256)
     )
     .addStringOption((option) =>
       option //choice
-        .setName(PERSONALITY.getCommands.polls.choiceOption.name)
-        .setDescription(PERSONALITY.getCommands.polls.choiceOption.description)
+        .setName(PERSONALITY.getCommands().polls.choiceOption.name)
+        .setDescription(PERSONALITY.getCommands().polls.choiceOption.description)
         .setRequired(true)
         .setMinLength(4)
     )
     .addStringOption((option) => 
-      option
-        .setName(PERSONALITY.getCommands.polls.descOption.name)
-        .setDescription(PERSONALITY.getCommands.polls.descOption.description)
+      option //description
+        .setName(PERSONALITY.getCommands().polls.descOption.name)
+        .setDescription(PERSONALITY.getCommands().polls.descOption.description)
         .setMinLength(1)
         .setMaxLength(4096)
     )
     .addBooleanOption((option) =>
       option //hide
-        .setName(PERSONALITY.getCommands.polls.hideOption.name)
-        .setDescription(PERSONALITY.getCommands.polls.hideOption.description)
+        .setName(PERSONALITY.getCommands().polls.hideOption.name)
+        .setDescription(PERSONALITY.getCommands().polls.hideOption.description)
         .setRequired(false)
     )
     .addBooleanOption((option) =>
       option //vote
-        .setName(PERSONALITY.getCommands.polls.voteOption.name)
-        .setDescription(PERSONALITY.getCommands.polls.voteOption.description)
+        .setName(PERSONALITY.getCommands().polls.voteOption.name)
+        .setDescription(PERSONALITY.getCommands().polls.voteOption.description)
+        .setRequired(false)
+    )
+    .addStringOption((option) =>
+      option //color
+        .setName(PERSONALITY.getCommands().polls.colorOption.name)
+        .setDescription(PERSONALITY.getCommands().polls.colorOption.description)
         .setRequired(false)
     );
 
@@ -82,9 +88,8 @@ const action = (interaction) => {
         const text = emote + cur;
         return {fields: [...acc.fields, text], emotes: [...acc.emotes, emote]};
       }
-    }, {fields: "", emotes: []});
+    }, {fields: [], emotes: []});
 
-    
 };
 
 const polls = {
