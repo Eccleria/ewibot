@@ -90,6 +90,13 @@ const action = (interaction) => {
       }
     }, {fields: [], emotes: []});
 
+    console.log("results", results);
+    results.fields.forEach(field => {
+      embed.addFields({name: field, value: "1 (0)"})
+    });
+
+    //send poll
+    interaction.channel.send({embeds: [embed]});
 };
 
 const polls = {
