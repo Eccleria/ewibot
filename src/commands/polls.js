@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
+import { removeEmote } from "../admin/utils";
 import { PERSONALITY } from "../personality";
 import {interactionReply} from "./utils.js";
 
@@ -43,6 +44,8 @@ const command = new SlashCommandBuilder()
         .setRequired(false)
     );
 
+const bullet = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight", ":nine:", ":keycap_ten:"];
+
 const action = (interaction) => {
     const options = interaction.options;
     const perso = PERSONALITY.getCommands().polls;
@@ -68,7 +71,20 @@ const action = (interaction) => {
     // Optionnal parameters
     if (description) embed.setDescription(description);
 
+    //write choices text
+    const splited = choices.split(";");
+    const results = splited.reduce((acc, cur, idx) => {
+      if (cur.includes(",")) {
+        const emote = cur.split(",")[0];
+        return {fields: [...acc.fields, cur], emotes: [...acc.emotes, emote]};
+      } else {
+        const emote = bullet[idx];
+        const text = emote + cur;
+        return {fields: [...acc.fields, text], emotes: [...acc.emotes, emote]};
+      }
+    }, {fields: "", emotes: []});
 
+    
 };
 
 const polls = {
