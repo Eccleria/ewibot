@@ -78,6 +78,6 @@ export const setupAlavirien = async (client, commons, tomorrow, frequency) => {
     ); //get server data
     checkAlavirien(client, server); //check for alavirien role attribution
 
-    setInterval(() => checkAlavirien, frequency, client, server)
+    setInterval(checkAlavirien, frequency, client, server);
   }, timeToTomorrow);
 }
