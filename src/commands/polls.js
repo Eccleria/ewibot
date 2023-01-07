@@ -4,6 +4,35 @@ import { MessageActionRow, MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import {createButton, interactionReply} from "./utils.js";
 
+export const pollsButtonHandler = (interaction) => {
+  // Dispatch button action to corresponding functions
+  if (typeof Number(interaction.customId[6]) == "number") voteButtonHandler(interaction); 
+};
+
+const voteButtonHandler = (interaction) => {
+  // count vote, update db + embed
+  const { customId } = interaction;
+
+  const id = Number(customId.slice(6)); //field id to add 1
+  const pollEmbed = interaction.message.embeds[0];
+  const fields = pollEmbed.fields;
+
+  //update fields[id]
+  //get number values for each field
+  const fieldNumbers = fields.reduce((acc, cur) => {
+    //"emotes ...*% (no)"
+    const splited = cur.value.split(" ");
+    const ratio = Number(splited[1].slice(0, -1));
+    const value = Number(splited[2].slice(1, -1));
+    return {values: [...acc.values, value], ratio: [...acc.ratios, ratio]};
+  }, {values: [], ratios: []})
+  /*
+  const voteField = fields[id]; //get field
+  const splited1 = voteField.value.split("("); //split to get value
+  const splited2 = splited1[1].split(")"); //value to add 1 vote
+  const newValue = Number(splited2[0]) + 1;
+  */
+};
 
 const command = new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().polls.name)
@@ -100,7 +129,8 @@ const action = (interaction) => {
 
     //create vote buttons
     const components = results.emotes.reduce((acc, cur, idx) => {
-      const button = createButton(idx.toString(), null, "SECONDARY", cur);
+      const buttonId = "polls_" + idx.toString();
+      const button = createButton(buttonId, null, "SECONDARY", cur);
 
       if (idx === 0 || acc.size === 5) {
         const newRow = new MessageActionRow().addComponents(button);
