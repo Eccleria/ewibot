@@ -30,6 +30,14 @@ export const giftButtonHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().gift;
   const authorId = interaction.user.id;
 
+  //check for date
+  const today = dayjs();
+  if (today.month() !== 12 && (today.month !== 1 && today.date() > 7)) {
+    interactionReply(interaction, personality.tooLate);
+    return;
+  }
+
+  //handle commands
   if (isGiftUser(db, authorId)) {
     //if is accepting user
     const userData = dbData.messages.find((obj) => obj.userId === authorId);
@@ -342,7 +350,7 @@ const gift = {
     interactionReply(interaction, helpToUse.help);
   },
   admin: false,
-  releaseDate: dayjs("12-01-2022", "MM-DD-YYYY"),
+  releaseDate: dayjs("12-01-2023", "MM-DD-YYYY"),
   sentinelle: false,
   subcommands: [
     "gift",
