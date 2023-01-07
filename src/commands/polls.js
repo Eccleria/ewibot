@@ -51,6 +51,8 @@ const command = new SlashCommandBuilder()
     );
 
 const bullet = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight", ":nine:", ":keycap_ten:"];
+const black = ":black_large_square:";
+const white = ":white_large_square:";
 
 const action = (interaction) => {
     const options = interaction.options;
@@ -82,17 +84,18 @@ const action = (interaction) => {
     const results = splited.reduce((acc, cur, idx) => {
       if (cur.includes(",")) {
         const emote = cur.split(",")[0];
-        return {fields: [...acc.fields, cur], emotes: [...acc.emotes, emote]};
+        const replaced = cur.replace(",", "");
+        return {fields: [...acc.fields, replaced], emotes: [...acc.emotes, emote]};
       } else {
         const emote = bullet[idx];
-        const text = emote + cur;
+        const text = emote + cur.replace(",", "");
         return {fields: [...acc.fields, text], emotes: [...acc.emotes, emote]};
       }
     }, {fields: [], emotes: []});
 
     console.log("results", results);
     results.fields.forEach(field => {
-      embed.addFields({name: field, value: "(0)"})
+      embed.addFields({name: field, value: black.repeat(10) + " (0)"})
     });
 
     //create vote buttons
