@@ -16,46 +16,42 @@ const voteButtonHandler = (interaction) => {
   // count vote, update db + embed
   const { customId, message } = interaction;
 
+  //get data
   const id = Number(customId.slice(6)); //field id to add 1
   const pollEmbed = message.embeds[0];
-  const fields = pollEmbed.fields;
-  const perso = PERSONALITY.getCommands().polls;
+  const fields = pollEmbed.fields; //get embed fields
+  const perso = PERSONALITY.getCommands().polls; //get personality
 
-  //update fields[id]
   //get number values for each field
-  console.log("customId", customId, id);
   const fieldNumbers = fields.reduce((acc, cur, idx) => {
     //"emotes ...*% (no)"
-    console.log("acc", acc);
-    console.log("fields", cur, idx)
     const splited = cur.value.split(" ");
     const ratio = Number(splited[1].slice(0, -1)); //ratio
-    console.log("splited", splited);
-    console.log("ratio", ratio);
+
     //new value check
     const oldValue = Number(splited[2].slice(1, -1));
     const value = idx === id ? oldValue + 1 : oldValue;
-    console.log("oldValue", oldValue);
-    console.log("value", value);
+
     return {values: [...acc.values, value], ratios: [...acc.ratios, ratio]};
   }, {values: [], ratios: []});
   console.log("fieldNumbers", fieldNumbers);
+  
   //compute new ratios
   const values = fieldNumbers.values;
   const total = values.reduce((acc, cur) => acc + cur, 0); //get total count nb
-  const newRatios = values.map((value) => Math.round(value/total*10)); //emote ratio
+  const newRatios = values.map((value) => Math.round(value/total*100)); //emote ratio
   console.log("total", total);
   console.log("newRatios", newRatios);
 
   //write new fields
   const newFields = newRatios.reduce((acc, cur, idx) => {
     const oldField = fields[idx];
-    if (cur === fieldNumbers.ratios[idx]) {
+    if (id !== idx && cur === fieldNumbers.ratios[idx]) {
       //nothing to change => reuse oldField
-      console.log("same ratio");
       return [...acc, oldField];
     } else {
-      const newField = white.repeat(cur) + black.repeat(10 - cur) + ` ${cur * 10}% (${values[idx]})`;
+      const nb = Math.floor(cur/10);
+      const newField = white.repeat(nb) + black.repeat(10 - nb) + ` ${cur}% (${values[idx]})`;
       return [...acc, {value: newField, name: oldField.name}];
     }
   }, []);
