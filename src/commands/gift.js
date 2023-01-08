@@ -16,9 +16,7 @@ import {
 } from "../helpers/index.js";
 import dayjs from "dayjs";
 
-//jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
@@ -30,6 +28,14 @@ export const giftButtonHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().gift;
   const authorId = interaction.user.id;
 
+  //check for date
+  const today = dayjs();
+  if (today.month() !== 12 && (today.month !== 1 && today.date() > 7)) {
+    interactionReply(interaction, personality.tooLate);
+    return;
+  }
+
+  //handle commands
   if (isGiftUser(db, authorId)) {
     //if is accepting user
     const userData = dbData.messages.find((obj) => obj.userId === authorId);
@@ -55,9 +61,9 @@ export const giftButtonHandler = async (interaction) => {
 const giftInteractionCreation = async (client, type) => {
   // handle the interaction creation once giftRecursiveTimeout is finished
   //get commons data
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
+
   const guild = await client.guilds.fetch(server.guildId);
   const channel = await guild.channels.fetch(server.giftButtonChannelId);
 
@@ -342,7 +348,7 @@ const gift = {
     interactionReply(interaction, helpToUse.help);
   },
   admin: false,
-  releaseDate: dayjs("12-01-2022", "MM-DD-YYYY"),
+  releaseDate: dayjs("12-01-2023", "MM-DD-YYYY"),
   sentinelle: false,
   subcommands: [
     "gift",

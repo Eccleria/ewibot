@@ -5,9 +5,7 @@ import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 // GIFT Announce
 const giftAction = async (interaction) => {
@@ -33,7 +31,7 @@ const giftAction = async (interaction) => {
     );
 
   //get channel
-  const server = commons.find(({ guildId }) => guildId === interaction.guildId);
+  const server = COMMONS.fetchGuildId(interaction.guildId);
   const channelId = server.announce.giftChannelId;
   const channel = await interaction.client.channels.fetch(channelId);
 

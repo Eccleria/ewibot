@@ -8,10 +8,8 @@ import {
 
 import { roleAdd, roleRemove } from "./admin/role.js";
 
-// jsons imports
-import { readFileSync } from "fs";
 import { octagonalLog } from "./admin/utils.js";
-const commons = JSON.parse(readFileSync("./static/commons.json"));
+import { COMMONS } from "./commons.js";
 
 export const onPrivateMessage = async (message, client) => {
   const { author, content } = message;
@@ -52,9 +50,9 @@ export const onPublicMessage = (message, client, currentServer, self) => {
 export const onRemoveReminderReaction = (
   messageReaction,
   reactionUser,
-  currentServer
+  cmnShared
 ) => {
-  const { removeEmoji } = currentServer;
+  const { removeEmoji } = cmnShared;
   const { message, emoji, users, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
@@ -89,13 +87,10 @@ export const onRemoveReminderReaction = (
   }
 };
 
-export const onRemoveSpotifyReaction = async (
-  messageReaction,
-  currentServer
-) => {
+export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
   //remove song from client cache and spotify playlist using react
   const { client, message, emoji, users } = messageReaction;
-  const { removeEmoji } = currentServer;
+  const { removeEmoji } = cmnShared;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
     // found corresponding spotify message
@@ -128,9 +123,10 @@ export const onRemoveSpotifyReaction = async (
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  const currentServer = COMMONS.fetchGuildId(
+    messageReaction.message.channel.guild.id
   );
+  const cmnShared = COMMONS.getShared();
 
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
@@ -139,19 +135,19 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-  if (currentServer.octagonalSign === messageReaction.emoji.name) {
+  if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
     octagonalLog(messageReaction, user);
     return;
   }
 
-  onRemoveSpotifyReaction(messageReaction, currentServer);
+  onRemoveSpotifyReaction(messageReaction, cmnShared);
 
-  onRemoveReminderReaction(messageReaction, user, currentServer);
+  onRemoveReminderReaction(messageReaction, user, cmnShared);
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  const currentServer = COMMONS.fetchGuildId(
+    messageReaction.message.channel.guild.id
   );
 
   if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)

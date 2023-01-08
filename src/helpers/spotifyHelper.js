@@ -128,7 +128,7 @@ export const parseLink = async (
   messageContent,
   client,
   personality,
-  currentServer
+  cmnShared
 ) => {
   const songSpotify = await parseSpotifyLink(messageContent);
   const songYoutube = await parseYoutubeLink(messageContent, client);
@@ -170,7 +170,7 @@ export const parseLink = async (
           // Bot answer
           `${result}`,
           personality.react[0],
-          `${currentServer.removeEmoji}`,
+          `${cmnShared.removeEmoji}`,
           personality.react[1]
         ),
         songId,

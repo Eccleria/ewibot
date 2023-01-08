@@ -11,9 +11,7 @@ import fs from "fs";
 import { PERSONALITY } from "../personality.js";
 import { interactionReply } from "./utils.js";
 
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 //personality
 const personality = PERSONALITY.getCommands().concrete;
@@ -62,9 +60,7 @@ const action = async (object) => {
   const recipient = await client.users.fetch(user.id); //get guildMember from user id
 
   const self = process.env.CLIENTID;
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === channel.guild.id
-  );
+  const currentServer = COMMONS.fetchGuildId(channel.guild.id);
 
   const gifsPath = path.join(
     path.resolve(path.dirname("")),

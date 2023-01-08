@@ -10,10 +10,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
 
-// jsons import
-import { readFileSync } from "fs";
 import { interactionReply } from "./utils.js";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 const sendDelayed = async (
   // Function sending the reminder to the user
@@ -49,44 +47,43 @@ const extractDuration = (interaction) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (interaction, currentServer, timing) => {
+const answerBot = async (interaction, cmnShared, timing) => {
   // Confirm or not the reminder to user
   const personality = PERSONALITY.getCommands().reminder;
+  const { removeEmoji } = cmnShared;
 
   await interactionReply(
     interaction,
     personality.remind +
       `${formatMs(timing)}` +
       personality.react[0] +
-      `${currentServer.removeEmoji}` +
+      `${removeEmoji}` +
       personality.react[1],
     false
   );
   const answer = await interaction.fetchReply();
 
-  await answer.react(currentServer.removeEmoji);
+  await answer.react(removeEmoji);
   return answer;
 };
 
 const action = async (interaction) => {
   const { client, member, channel } = interaction;
 
-    //get interaction input
-    const messageContent = interaction.options.getString("contenu");
-    const timing = extractDuration(interaction); //waiting time in ms
+  //get interaction input
+  const messageContent = interaction.options.getString("contenu");
+  const timing = extractDuration(interaction); //waiting time in ms
 
   if (!timing) {
     //Checks for timing format
     const content = PERSONALITY.getCommands().reminder.error;
-    interactionReply(interaction, content)
+    interactionReply(interaction, content);
   } else {
     console.log("reminder timing: ", timing);
 
-    const currentServer = commons.find(
-      ({ guildId }) => guildId === interaction.guildId
-    );
+    const cmnShared = COMMONS.getShared();
 
-    const answer = await answerBot(interaction, currentServer, timing);
+    const answer = await answerBot(interaction, cmnShared, timing);
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user

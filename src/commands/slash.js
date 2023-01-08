@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
 import { SlashCommandBuilder } from "@discordjs/builders";
@@ -31,10 +34,7 @@ import spotify from "./spotify.js";
 import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
 
 import { PERSONALITY } from "../personality.js";
-
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -92,7 +92,7 @@ const roll = {
       ); //compute total + each dices values
 
       interactionReply(interaction, `${total} (${details.join(", ")})`);
-    } else interactionReply(interaction, personality.parsingError)
+    } else interactionReply(interaction, personality.parsingError);
   },
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().roll;
@@ -209,9 +209,7 @@ const help = {
     if (foundCommand) {
       const member = interaction.member;
 
-      const currentServer = commons.find(
-        (server) => server.guildId === interaction.guildId
-      );
+      const currentServer = COMMONS.fetchGuildId(interaction.guildId);
       const isModo = isSentinelle(interaction.member, currentServer);
       const isAdminUser = isAdmin(member.id);
 
@@ -232,9 +230,7 @@ const help = {
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const member = interaction.member;
-    const currentServer = commons.find(
-      (server) => server.guildId === interaction.guildId
-    );
+    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
 
     const isModo = isSentinelle(member, currentServer);
     const isDev = isAdmin(member.id);
