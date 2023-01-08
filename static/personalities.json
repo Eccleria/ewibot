@@ -382,6 +382,7 @@
             "name": "destinateurice"
           }
         },
+        "tooLate":"Désolé ! La fonctionnalité reviendra pour Noël prochain.",
         "use": {
           "description": "Pour accepter ou non de recevoir les messages de Noël.",
           "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `gift use`",

@@ -1,5 +1,6 @@
 ﻿## 4.8.0
 - Update: `reverse-translator` now can translate frequent-logs
+- Update: add gift button date check + change gift command release date 
 
 ## 4.7.0
 - Feat: New Year personality
