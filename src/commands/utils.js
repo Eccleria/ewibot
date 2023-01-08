@@ -42,10 +42,8 @@ export const createButton = (id, label, style, emoji) => {
 export const buttonHandler = (interaction) => {
   const { customId } = interaction;
   if (customId === "gift") giftButtonHandler(interaction);
-  else if (customId.startsWith("announce"))
-    announceButtonHandler(interaction);
-  else if (customId.startsWith("polls")) 
-    pollsButtonHandler(interaction);
+  else if (customId.startsWith("announce")) announceButtonHandler(interaction);
+  else if (customId.startsWith("polls")) pollsButtonHandler(interaction);
   else pronounsButtonHandler(interaction);
 };
 
