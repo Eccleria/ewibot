@@ -2,6 +2,7 @@
 - Feat: attribution of alavirien role for users' presentation with Sentinelle reaction
 - Feat: check new user alavirien eligibility each night
 - Update: `reverse-translator` now can translate frequent-logs
+- Update: add gift button date check + change gift command release date 
 
 ## 4.7.0
 - Feat: New Year personality
