@@ -537,7 +537,7 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      const msg = logChannel.send(content);
+      const msg = await logChannel.send(content);
       messageList.push(msg);
     }
     messageList.forEach((msg) =>
