@@ -64,6 +64,8 @@ _utils.js_.
 Main code refers to all the single files in the src folder. It includes 3 files:
 * _[bot.js](./src/bot.js)_ is the principal file containing all the major Discord features required to make the bot 
 functional, such as client login and event listeners.
+* _[commons.js](./src/commons.js)_ contains Commons Class, which give access to multiple methods. They allow to get the 
+local data related to the proper channel : *prod* or *test* Discord channels.
 * _[listeners.js](./src/listeners.js)_ is a file regrouping all functions associated to the events Ewibot is responding to.
 * _[personality.js](./src/personality.js)_ is the file where the Personality Class is declared. This class allows Ewibot 
 to chose the correct text to send to users. It will also allow admins to change Ewibot personality, but is still _work in
@@ -77,8 +79,9 @@ It allows the distinction between 2 modes:
 * _test_ is the development mode, used to have the data of the Discord *Test Server*.
 * _prod_ is the Ewibot mode, which is using all the data from *La Quête d'Ewilan* Discord Server. 
 
-[personalities.json](./src/personalities.json) includes all the texts send by the bot in Discord channels. The texts are
-written according to different personalities but for now only one is used.
+[personalities](./src/personalities) includes all the texts send by the bot in Discord channels. The texts are
+written according to different personalities but for now only one is used. It also includes text used for commands declaration,
+and also for announces.
 
 ## How to contribute
 We welcome every contribution. If you want to contribute to Ewibot, you will have to follow the next instructions.
