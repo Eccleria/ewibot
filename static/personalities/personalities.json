@@ -212,6 +212,7 @@
           "description": "La couleur du bandeau à gauche.",
           "name": "couleur"
         },
+        "counted": "Votre vote a été compté.",
         "descOption": {
           "description": "Texte de la description du sondage.",
           "name": "description"

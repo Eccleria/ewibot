@@ -4,6 +4,9 @@ import { MessageActionRow, MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import {createButton, interactionReply} from "./utils.js";
 
+const black = ":black_large_square:";
+const white = ":white_large_square:";
+
 export const pollsButtonHandler = (interaction) => {
   // Dispatch button action to corresponding functions
   if (typeof Number(interaction.customId[6]) == "number") voteButtonHandler(interaction); 
@@ -11,27 +14,57 @@ export const pollsButtonHandler = (interaction) => {
 
 const voteButtonHandler = (interaction) => {
   // count vote, update db + embed
-  const { customId } = interaction;
+  const { customId, message } = interaction;
 
   const id = Number(customId.slice(6)); //field id to add 1
-  const pollEmbed = interaction.message.embeds[0];
+  const pollEmbed = message.embeds[0];
   const fields = pollEmbed.fields;
+  const perso = PERSONALITY.getCommands().polls;
 
   //update fields[id]
   //get number values for each field
-  const fieldNumbers = fields.reduce((acc, cur) => {
+  console.log("customId", customId, id);
+  const fieldNumbers = fields.reduce((acc, cur, idx) => {
     //"emotes ...*% (no)"
+    console.log("acc", acc);
+    console.log("fields", cur, idx)
     const splited = cur.value.split(" ");
-    const ratio = Number(splited[1].slice(0, -1));
-    const value = Number(splited[2].slice(1, -1));
-    return {values: [...acc.values, value], ratio: [...acc.ratios, ratio]};
-  }, {values: [], ratios: []})
-  /*
-  const voteField = fields[id]; //get field
-  const splited1 = voteField.value.split("("); //split to get value
-  const splited2 = splited1[1].split(")"); //value to add 1 vote
-  const newValue = Number(splited2[0]) + 1;
-  */
+    const ratio = Number(splited[1].slice(0, -1)); //ratio
+    console.log("splited", splited);
+    console.log("ratio", ratio);
+    //new value check
+    const oldValue = Number(splited[2].slice(1, -1));
+    const value = idx === id ? oldValue + 1 : oldValue;
+    console.log("oldValue", oldValue);
+    console.log("value", value);
+    return {values: [...acc.values, value], ratios: [...acc.ratios, ratio]};
+  }, {values: [], ratios: []});
+  console.log("fieldNumbers", fieldNumbers);
+  //compute new ratios
+  const values = fieldNumbers.values;
+  const total = values.reduce((acc, cur) => acc + cur, 0); //get total count nb
+  const newRatios = values.map((value) => Math.round(value/total*10)); //emote ratio
+  console.log("total", total);
+  console.log("newRatios", newRatios);
+
+  //write new fields
+  const newFields = newRatios.reduce((acc, cur, idx) => {
+    const oldField = fields[idx];
+    if (cur === fieldNumbers.ratios[idx]) {
+      //nothing to change => reuse oldField
+      console.log("same ratio");
+      return [...acc, oldField];
+    } else {
+      const newField = white.repeat(cur) + black.repeat(10 - cur) + ` ${cur * 10}% (${values[idx]})`;
+      return [...acc, {value: newField, name: oldField.name}];
+    }
+  }, []);
+  console.log("newFields", newFields);
+
+  //update embed
+  pollEmbed.setFields(...newFields);
+  message.edit({embeds: [pollEmbed], components: message.components});
+  interactionReply(interaction, perso.counted);
 };
 
 const command = new SlashCommandBuilder()
@@ -80,8 +113,6 @@ const command = new SlashCommandBuilder()
     );
 
 const bullet = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight", ":nine:", ":keycap_ten:"];
-const black = ":black_large_square:";
-const white = ":white_large_square:";
 
 const action = (interaction) => {
     const options = interaction.options;
@@ -124,7 +155,7 @@ const action = (interaction) => {
 
     console.log("results", results);
     results.fields.forEach(field => {
-      embed.addFields({name: field, value: black.repeat(10) + " (0)"})
+      embed.addFields({name: field, value: black.repeat(10) + " 0% (0)"})
     });
 
     //create vote buttons
