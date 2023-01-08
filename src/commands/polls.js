@@ -13,7 +13,7 @@ export const pollsButtonHandler = (interaction) => {
     voteButtonHandler(interaction);
 };
 
-const voteButtonHandler = (interaction) => {
+const voteButtonHandler = async (interaction) => {
   // count vote, update db + embed
   const { customId, message } = interaction;
 
@@ -64,7 +64,7 @@ const voteButtonHandler = (interaction) => {
 
   //update embed
   pollEmbed.setFields(...newFields);
-  message.edit({ embeds: [pollEmbed], components: message.components });
+  await message.edit({ embeds: [pollEmbed], components: message.components });
   interactionReply(interaction, perso.counted);
 };
 
@@ -114,19 +114,19 @@ const command = new SlashCommandBuilder()
   );
 
 const bullet = [
-  ":one:",
-  ":two:",
-  ":three:",
-  ":four:",
-  ":five:",
-  ":six:",
-  ":seven:",
-  ":eight",
-  ":nine:",
-  ":keycap_ten:",
+  "1️⃣",
+  "2️⃣",
+  "3️⃣",
+  "4️⃣",
+  "5️⃣",
+  "6️⃣",
+  "7️⃣",
+  "8️⃣",
+  "9️⃣",
+  "🔟"
 ];
 
-const action = (interaction) => {
+const action = async (interaction) => {
   const options = interaction.options;
   const perso = PERSONALITY.getCommands().polls;
 
@@ -155,16 +155,17 @@ const action = (interaction) => {
   const splited = choices.split(";");
   const results = splited.reduce(
     (acc, cur, idx) => {
+      const replaced = cur.replace(",", "");
       if (cur.includes(",")) {
+        //if choices includes emote
         const emote = cur.split(",")[0];
-        const replaced = cur.replace(",", "");
         return {
           fields: [...acc.fields, replaced],
           emotes: [...acc.emotes, emote],
         };
       } else {
         const emote = bullet[idx];
-        const text = emote + cur.replace(",", "");
+        const text = idx === 0 ? emote + " " + replaced : emote + replaced;
         return {
           fields: [...acc.fields, text],
           emotes: [...acc.emotes, emote],
@@ -199,7 +200,7 @@ const action = (interaction) => {
   console.log("components", components);
 
   //send poll
-  interaction.channel.send({
+  await interaction.channel.send({
     embeds: [embed],
     components: components.actionRows,
   });
