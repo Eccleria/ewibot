@@ -1,6 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
-//import { removeEmote } from "../admin/utils";
+import { 
+  addPoll, 
+  addPollVoter, 
+  getPoll, 
+  isPollVoter 
+} from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { createButton, interactionReply } from "./utils.js";
 
@@ -18,10 +23,29 @@ const voteButtonHandler = async (interaction) => {
   const { customId, message } = interaction;
 
   //get data
-  const id = Number(customId.slice(6)); //field id to add 1
+  const voteIdx = Number(customId.slice(6)); //field id to add 1
   const pollEmbed = message.embeds[0];
   const fields = pollEmbed.fields; //get embed fields
   const perso = PERSONALITY.getCommands().polls; //get personality
+
+  //get db data
+  const db = interaction.client.db;
+  const pollId = message.id;
+  const dbPoll = getPoll(db, pollId);
+  const userId = interaction.user.id;
+
+  //check for voteType
+  const voteType = dbPoll.voteType;
+  if (voteType) {
+    const hasVoted = isPollVoter(db, pollId, userId);
+    if (hasVoted) {
+      interactionReply(interaction, perso.hasVoted);
+      return;
+    }
+  }
+  
+  //update db
+  addPollVoter(db, pollId, userId, voteIdx);
 
   //get number values for each field
   const fieldNumbers = fields.reduce(
@@ -32,7 +56,7 @@ const voteButtonHandler = async (interaction) => {
 
       //new value check
       const oldValue = Number(splited[2].slice(1, -1));
-      const value = idx === id ? oldValue + 1 : oldValue;
+      const value = idx === voteIdx ? oldValue + 1 : oldValue;
 
       return { values: [...acc.values, value], ratios: [...acc.ratios, ratio] };
     },
@@ -50,7 +74,7 @@ const voteButtonHandler = async (interaction) => {
   //write new fields
   const newFields = newRatios.reduce((acc, cur, idx) => {
     const oldField = fields[idx];
-    if (id !== idx && cur === fieldNumbers.ratios[idx]) {
+    if (voteIdx !== idx && cur === fieldNumbers.ratios[idx]) {
       //nothing to change => reuse oldField
       return [...acc, oldField];
     } else {
@@ -136,9 +160,9 @@ const action = async (interaction) => {
 
   const description = options.getString(perso.descOption.name, false);
   let option = options.getBoolean(perso.hideOption.name, false);
-  const anonymous = option == null ? true : option;
+  const anonymous = option == null ? true : option; //if true, no name displayed
   option = options.getBoolean(perso.voteOption.name, false);
-  const vote = option == null ? true : option;
+  const voteType = option == null ? true : option; //if true, only one vote
   option = options.getString(perso.colorOption.name, false);
   const color = option == null ? "BLUE" : option;
 
@@ -200,11 +224,19 @@ const action = async (interaction) => {
   console.log("components", components);
 
   //send poll
-  await interaction.channel.send({
+  const pollMsg = await interaction.channel.send({
     embeds: [embed],
     components: components.actionRows,
   });
   interactionReply(interaction, perso.sent);
+
+  //save poll
+  const dbVotes = results.fields.reduce((acc) => {
+    acc.push([]);
+    return acc;
+  }, []);
+  console.log("dbVotes", dbVotes);
+  addPoll(interaction.client.db, pollMsg.id, dbVotes, anonymous, voteType);
 };
 
 const polls = {

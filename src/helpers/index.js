@@ -26,6 +26,11 @@ import {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
+  addPoll,
+  getPoll,
+  addPollVoter,
+  isPollVoter,
+  removePoll,
 } from "./dbHelper.js";
 
 import {
@@ -85,4 +90,9 @@ export {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
+  addPoll,
+  getPoll,
+  addPollVoter,
+  isPollVoter,
+  removePoll,
 };

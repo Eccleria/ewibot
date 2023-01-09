@@ -278,6 +278,40 @@ const isIgnoredUser = (authorId, db) => {
 
 export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
 
+//POLLS
+const addPoll = (db, id, votes, anonymous, voteType) => {
+  const poll = {
+    pollId: id, anonymous: anonymous, voteType: voteType, votes: votes
+  };
+
+  db.data.polls.push(poll);
+  db.wasUpdated = true;
+};
+
+const getPoll = (db, pollId) => {
+  return db.data.polls.find((poll) => poll.pollId === pollId);
+};
+
+const addPollVoter = (db, pollId, userId, choiceIdx) => {
+  const data = getPoll(db, pollId);
+  data.votes[choiceIdx].push(userId);
+  db.wasUpdated = true;
+};
+
+const isPollVoter = (db, pollId, userId) => {
+  const poll = getPoll(db, pollId);
+  const allUsers = poll.votes.reduce((acc, cur) => [...acc, ...cur], []);
+  console.log("allUsers", allUsers);
+  return allUsers.includes(userId);
+};
+
+const removePoll = (db, pollId) => {
+  db.data.polls = db.data.polls.filter((poll) => poll.pollId !== pollId);
+  db.wasUpdated = true;
+};
+
+export { addPoll, getPoll, addPollVoter, isPollVoter, removePoll };
+
 //TWITTER
 const isTwitterUser = (authorId, db) => {
   return db.data.twitter.users

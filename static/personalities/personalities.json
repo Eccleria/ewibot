@@ -219,6 +219,7 @@
           "name": "description"
         },
         "description": "Cette commande permet de créer des sondages.",
+        "hasVoted": "Vous avez déjà voté.",
         "help": "Cette commande permet de créer des sondages.",
         "hideOption": {
           "description": "Cache ou révèle les votes des utilisateurices",
