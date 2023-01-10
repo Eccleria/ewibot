@@ -30,6 +30,7 @@ import {
   getPoll,
   addPollVoter,
   isGlobalPollVoter,
+  isThisChoicePollVoter,
   removePoll,
 } from "./dbHelper.js";
 
@@ -94,5 +95,6 @@ export {
   getPoll,
   addPollVoter,
   isGlobalPollVoter,
+  isThisChoicePollVoter,
   removePoll,
 };

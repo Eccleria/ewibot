@@ -305,12 +305,19 @@ const isGlobalPollVoter = (db, pollId, userId) => {
   return allUsers.includes(userId);
 };
 
+const isThisChoicePollVoter = (db, pollId, userId, voteIdx) => {
+  const data = getPoll(db, pollId);
+  const choice = data.votes[voteIdx];
+  if (choice) return choice.includes(userId);
+  else return null
+};
+
 const removePoll = (db, pollId) => {
   db.data.polls = db.data.polls.filter((poll) => poll.pollId !== pollId);
   db.wasUpdated = true;
 };
 
-export { addPoll, getPoll, addPollVoter, isGlobalPollVoter, removePoll };
+export { addPoll, getPoll, addPollVoter, isGlobalPollVoter, isThisChoicePollVoter, removePoll };
 
 //TWITTER
 const isTwitterUser = (authorId, db) => {

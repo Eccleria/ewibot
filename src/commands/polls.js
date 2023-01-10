@@ -4,7 +4,8 @@ import {
   addPoll, 
   addPollVoter, 
   getPoll, 
-  isGlobalPollVoter 
+  isGlobalPollVoter,
+  isThisChoicePollVoter
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { createButton, interactionReply } from "./utils.js";
@@ -42,6 +43,12 @@ const voteButtonHandler = async (interaction) => {
       interactionReply(interaction, perso.hasVoted);
       return;
     }
+  } else {
+    const hasVoted = isThisChoicePollVoter(db, pollId, userId, voteIdx);
+    if (hasVoted) {
+      interactionReply(interaction, perso.hasVotedChoice);
+      return;
+    }
   }
   
   //update db
@@ -70,7 +77,7 @@ const voteButtonHandler = async (interaction) => {
   const newRatios = values.map((value) => Math.round((value / total) * 100)); //emote ratio
   console.log("total", total);
   console.log("newRatios", newRatios);
-
+  
   //write new fields
   const newFields = newRatios.reduce((acc, cur, idx) => {
     const oldField = fields[idx];
