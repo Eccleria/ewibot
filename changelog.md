@@ -1,4 +1,5 @@
 ﻿## 4.8.0
+- Fix: reverse-translator error on message with empty content
 - Update: `reverse-translator` now can translate frequent-logs
 - Update: add gift button date check + change gift command release date 
 
