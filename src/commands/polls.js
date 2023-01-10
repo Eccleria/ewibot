@@ -4,7 +4,7 @@ import {
   addPoll, 
   addPollVoter, 
   getPoll, 
-  isPollVoter 
+  isGlobalPollVoter 
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { createButton, interactionReply } from "./utils.js";
@@ -37,7 +37,7 @@ const voteButtonHandler = async (interaction) => {
   //check for voteType
   const voteType = dbPoll.voteType;
   if (voteType) {
-    const hasVoted = isPollVoter(db, pollId, userId);
+    const hasVoted = isGlobalPollVoter(db, pollId, userId);
     if (hasVoted) {
       interactionReply(interaction, perso.hasVoted);
       return;

@@ -298,7 +298,7 @@ const addPollVoter = (db, pollId, userId, choiceIdx) => {
   db.wasUpdated = true;
 };
 
-const isPollVoter = (db, pollId, userId) => {
+const isGlobalPollVoter = (db, pollId, userId) => {
   const poll = getPoll(db, pollId);
   const allUsers = poll.votes.reduce((acc, cur) => [...acc, ...cur], []);
   console.log("allUsers", allUsers);
@@ -310,7 +310,7 @@ const removePoll = (db, pollId) => {
   db.wasUpdated = true;
 };
 
-export { addPoll, getPoll, addPollVoter, isPollVoter, removePoll };
+export { addPoll, getPoll, addPollVoter, isGlobalPollVoter, removePoll };
 
 //TWITTER
 const isTwitterUser = (authorId, db) => {
