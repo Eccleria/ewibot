@@ -1,11 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
-import { 
-  addPoll, 
-  addPollVoter, 
-  getPoll, 
+import {
+  addPoll,
+  addPollVoter,
+  getPoll,
   isGlobalPollVoter,
-  isThisChoicePollVoter
+  isThisChoicePollVoter,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { createButton, interactionReply } from "./utils.js";
@@ -50,7 +50,7 @@ const voteButtonHandler = async (interaction) => {
       return;
     }
   }
-  
+
   //update db
   addPollVoter(db, pollId, userId, voteIdx);
 
@@ -77,7 +77,7 @@ const voteButtonHandler = async (interaction) => {
   const newRatios = values.map((value) => Math.round((value / total) * 100)); //emote ratio
   console.log("total", total);
   console.log("newRatios", newRatios);
-  
+
   //write new fields
   const newFields = newRatios.reduce((acc, cur, idx) => {
     const oldField = fields[idx];
@@ -144,18 +144,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-const bullet = [
-  "1️⃣",
-  "2️⃣",
-  "3️⃣",
-  "4️⃣",
-  "5️⃣",
-  "6️⃣",
-  "7️⃣",
-  "8️⃣",
-  "9️⃣",
-  "🔟"
-];
+const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 const action = async (interaction) => {
   const options = interaction.options;

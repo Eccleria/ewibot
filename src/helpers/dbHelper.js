@@ -281,7 +281,10 @@ export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
 //POLLS
 const addPoll = (db, id, votes, anonymous, voteType) => {
   const poll = {
-    pollId: id, anonymous: anonymous, voteType: voteType, votes: votes
+    pollId: id,
+    anonymous: anonymous,
+    voteType: voteType,
+    votes: votes,
   };
 
   db.data.polls.push(poll);
@@ -309,7 +312,7 @@ const isThisChoicePollVoter = (db, pollId, userId, voteIdx) => {
   const data = getPoll(db, pollId);
   const choice = data.votes[voteIdx];
   if (choice) return choice.includes(userId);
-  else return null
+  else return null;
 };
 
 const removePoll = (db, pollId) => {
@@ -317,7 +320,14 @@ const removePoll = (db, pollId) => {
   db.wasUpdated = true;
 };
 
-export { addPoll, getPoll, addPollVoter, isGlobalPollVoter, isThisChoicePollVoter, removePoll };
+export {
+  addPoll,
+  getPoll,
+  addPollVoter,
+  isGlobalPollVoter,
+  isThisChoicePollVoter,
+  removePoll,
+};
 
 //TWITTER
 const isTwitterUser = (authorId, db) => {
