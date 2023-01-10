@@ -397,12 +397,13 @@ the same as permanent logs, but adding the deletion code part.
 
 In order to delete all messageDelete/Update logs when they are no longer usefull for moderation, 2 main
 functions are used for this: `logsRemover` and `initAdminLogClearing`.
-In the future, the bot will also delete logs associated to users leaving.
 
-Temporary logs are stored in Ewibot `database` as their message ids. From these ids, when the time as come,
-logs are bulk deleted together, and the bot send a log in the console for debug purpose.
+Temporary logs when created, are sent by Ewibot in #frequent-log thread channel. They are stored in 
+Ewibot `database` using message ids. From these ids, after the chosen waiting time, logs are bulk deleted 
+together, and the bot send a log in the console for debug purpose.
 
-Those logs, when created, are sent by Ewibot in #frequent-log thread channel.
+> Note: some logs are also defined as temporary even if they are sent in the log-channel and not the
+> thread channel. Eg: user leaving logs.
 
 #### logsRemover
 
@@ -416,7 +417,8 @@ const dbData = getAdminLogs(db);
 let data = dbData[type][0]; //get corresponding data
 ```
 
-If there is data in the `db`, the bot fetch the corresponding `threadChannel` where the logs were sent.
+If there is data in the `db`, the bot fetch the corresponding `logChannel` where the logs were sent. 
+> Note: for frequent-logs it fetches thread-channel, whereas for `"userAD"` it's the log-channel.
 Then, the bot `bulkDelete` all the logs and get all the messages ids where the process went smooth. Then it
 prints in the console the `result` of the process, and remove log message ids from `db`.
 
@@ -424,7 +426,12 @@ prints in the console the `result` of the process, and remove log message ids fr
 if (data.length !== 0) {
   const threadChannel = await client.channels.fetch(server.logThreadId);
   const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
-  console.log("result1", result.keys(), "data", data); //log for debug
+
+  const diff = data.reduce((acc, cur) => {
+    if (result.has(cur)) return acc; //if no diff
+    else return [...acc, cur];
+    }, []); //find diff for error check
+  console.log("frequent diff", diff); //log for debug
 }
 removeAdminLogs(db, type); //remove from db
 ```
