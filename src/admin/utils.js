@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
-import { getAdminLogs, removeAdminLogs } from "../helpers/index.js";
+import { getAdminLogs, removeAdminLogs, removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -156,6 +156,8 @@ export const endCasesEmbed = async (
   text,
   diff
 ) => {
+  //if no AuditLog
+
   if (diff >= 5) {
     //if log too old
     const messageList = await finishEmbed(
@@ -691,4 +693,12 @@ export const checkProdTestMode = (logChannel) => {
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true
+};
+
+export const checkDB = (userId, client) => {
+  //check if user is in db for removal
+  const db = client.db;
+  removeBirthday(userId, db);
+  removeIgnoredUser(userId, db);
+  removeAlavirien(userId, db);
 };

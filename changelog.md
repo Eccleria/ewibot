@@ -1,4 +1,6 @@
 ﻿## 4.8.0
+- Feat: attribution of alavirien role for users' presentation with Sentinelle reaction
+- Feat: check new user alavirien eligibility each night
 - Feat: remove logs from user arrival/departure
 - Fix: reverse-translator error on message with empty content
 - Update: `reverse-translator` now can translate frequent-logs

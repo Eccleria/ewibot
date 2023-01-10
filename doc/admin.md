@@ -6,6 +6,7 @@ The folder contains all the files required for the administrative part of Ewibot
 
 > For `Twitter` part, please see [twitter documentation](./twitter.md)
 
+- [Alavirien](#alavirien)
 - [Listeners](#listeners)
   - [File architecture](#how-the-file-is-divided)
   - [Listeners design](#listeners-design)
@@ -21,6 +22,10 @@ The folder contains all the files required for the administrative part of Ewibot
   - [Temporary Logs](#temporary-logs)
     - [logsRemover](#logsremover)
     - [initAdminLogClearing](#initadminlogclearing)
+
+
+## Alavirien
+_[alavirien.js](./src/admin/alavirien.js)_ dispatch the already named role to elligible users.
 
 ## Listeners
 

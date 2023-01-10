@@ -45,17 +45,21 @@ import {
   onMessageUpdate,
   onGuildBanAdd,
   onGuildBanRemove,
+  onGuildMemberAdd,
   onGuildMemberRemove,
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
 
 import { initAdminLogClearing } from "./admin/utils.js";
 
-// jsons import
+//alavirien import
+import { setupAlavirien } from "./admin/alavirien.js";
+
+// json import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
-// commands imports
+// command import
 import { wishBirthday } from "./commands/birthday.js";
 import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
@@ -85,7 +89,7 @@ const tomorrow = dayjs()
   .minute(0)
   .second(0)
   .millisecond(0);
-const timeToTomorrow = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
+const timeToTomorrowDB = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
 const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
 setTimeout(async () => {
@@ -100,7 +104,7 @@ setTimeout(async () => {
   wishBirthday(db, channel);
 
   setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
-}, timeToTomorrow);
+}, timeToTomorrowDB);
 
 // Discord CLIENT
 const client = new Client({
@@ -158,6 +162,7 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   // Bot init
   console.log("I am ready!");
+  setupAlavirien(client, commons, tomorrow, frequency);
   roleInit(client, commons); //role handler init
 
   //Ewibot activity
@@ -219,6 +224,7 @@ client.on("threadDelete", onThreadDelete);
 client.on("guildBanAdd", onGuildBanAdd);
 client.on("guildBanRemove", onGuildBanRemove);
 
+client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("guildMemberRemove", onGuildMemberRemove);
 client.on("guildMemberUpdate", onGuildMemberUpdate);
 
