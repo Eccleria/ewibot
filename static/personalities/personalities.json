@@ -150,7 +150,7 @@
             "name": "destinateurice"
           }
         },
-        "tooLate":"Désolé ! La fonctionnalité reviendra pour Noël prochain.",
+        "tooLate": "Désolé ! La fonctionnalité reviendra pour Noël prochain.",
         "use": {
           "description": "Pour accepter ou non de recevoir les messages de Noël.",
           "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `gift use`",
@@ -249,7 +249,7 @@
           "name": "minutes"
         },
         "name": "reminder",
-        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
+        "react": [". Tu peux react avec ", " pour annuler ce reminder !"],
         "remind": "Je te rappelerai ça dans environ ",
         "secondOption": {
           "description": "Le nombre de secondes d'attente.",
