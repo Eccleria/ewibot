@@ -58,12 +58,14 @@ const voteButtonHandler = async (interaction) => {
   //get number values for each field
   const fieldNumbers = fields.reduce(
     (acc, cur, idx) => {
+      console.log("field", [cur.value]);
       //"emotes ...*% (no)"
       const splited = cur.value.split(" ");
       const ratio = Number(splited[1].slice(0, -1)); //ratio
 
       //new value check
-      const oldValue = Number(splited[2].slice(1, -1));
+      console.log("splited[2]", [splited[2]])
+      const oldValue = splited[2].includes("\n") ? Number(splited[2].split("\n")[0].slice(1, -1)) : Number(splited[2].slice(1, -1));
       const value = idx === voteIdx ? oldValue + 1 : oldValue;
 
       return { values: [...acc.values, value], ratios: [...acc.ratios, ratio] };
@@ -80,8 +82,11 @@ const voteButtonHandler = async (interaction) => {
   console.log("newRatios", newRatios);
 
   //get progress bar color
-  const colorIdx = dbPoll.colorIdx;
-  const emoteColor = perso.colorOption.colors.progress_bar[colorIdx];
+  const colorIdx = dbPoll.colorIdx; //db data
+  const emoteColor = perso.colorOption.colors.progress_bar[colorIdx]; //emoteId from personality
+
+  //get isAnonymous
+  const isAnonymous = dbPoll.anonymous;
 
   //write new fields
   const newFields = newRatios.reduce((acc, cur, idx) => {
@@ -90,12 +95,24 @@ const voteButtonHandler = async (interaction) => {
       //nothing to change => reuse oldField
       return [...acc, oldField];
     } else {
+      //update values
       const nb = Math.floor(cur / 10);
-      const newField =
+      const newValues =
         emoteColor.repeat(nb) +
         black.repeat(10 - nb) +
         ` ${cur}% (${values[idx]})`;
-      return [...acc, { value: newField, name: oldField.name }];
+
+      //update voters + send
+      if (isAnonymous) 
+        return [...acc, { value: newValues, name: oldField.name }];
+      else {
+        const oldValue = oldField.value;
+        const oldText = oldValue.includes("\n") ? oldValue.split("\n")[1] : "";
+        const text = newValues + "\n" + oldText;
+        const newVoter = interaction.user.toString();
+        const newField = voteIdx !== idx ? text : text + `${newVoter} `;
+        return [...acc, { value: newField, name: oldField.name }];
+      }
     }
   }, []);
   console.log("newFields", newFields);
@@ -207,7 +224,7 @@ const action = async (interaction) => {
 
   console.log("results", results);
   results.fields.forEach((field) => {
-    embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)" });
+    embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
   });
 
   //create vote buttons
