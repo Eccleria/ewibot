@@ -37,13 +37,15 @@ const voteButtonHandler = async (interaction) => {
 
   //check for voteType
   const voteType = dbPoll.voteType;
-  if (voteType) {
+  if (voteType === perso.voteOption.choices[0].value) {
+    //unique
     const hasVoted = isGlobalPollVoter(db, pollId, userId);
     if (hasVoted) {
       interactionReply(interaction, perso.hasVoted);
       return;
     }
-  } else {
+  } else if (voteType === perso.voteOption.choices[1].value) {
+    //multiple
     const hasVoted = isThisChoicePollVoter(db, pollId, userId, voteIdx);
     if (hasVoted) {
       interactionReply(interaction, perso.hasVotedChoice);
@@ -70,14 +72,14 @@ const voteButtonHandler = async (interaction) => {
     { values: [], ratios: [] }
   );
   console.log("fieldNumbers", fieldNumbers);
-
+  
   //compute new ratios
   const values = fieldNumbers.values;
   const total = values.reduce((acc, cur) => acc + cur, 0); //get total count nb
   const newRatios = values.map((value) => Math.round((value / total) * 100)); //emote ratio
   console.log("total", total);
   console.log("newRatios", newRatios);
-
+  
   //write new fields
   const newFields = newRatios.reduce((acc, cur, idx) => {
     const oldField = fields[idx];
@@ -131,11 +133,12 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().polls.hideOption.description)
       .setRequired(false)
   )
-  .addBooleanOption((option) =>
+  .addStringOption((option) =>
     option //vote
       .setName(PERSONALITY.getCommands().polls.voteOption.name)
       .setDescription(PERSONALITY.getCommands().polls.voteOption.description)
       .setRequired(false)
+      .addChoices(...PERSONALITY.getCommands().polls.voteOption.choices)
   )
   .addStringOption((option) =>
     option //color
@@ -157,8 +160,8 @@ const action = async (interaction) => {
   const description = options.getString(perso.descOption.name, false);
   let option = options.getBoolean(perso.hideOption.name, false);
   const anonymous = option == null ? true : option; //if true, no name displayed
-  option = options.getBoolean(perso.voteOption.name, false);
-  const voteType = option == null ? true : option; //if true, only one vote
+  option = options.getString(perso.voteOption.name, false);
+  const voteType = option == null ? perso.voteOption.choices[0].value : option; //if true, only one vote
   option = options.getString(perso.colorOption.name, false);
   const color = option == null ? "BLUE" : option;
 

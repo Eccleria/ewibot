@@ -233,6 +233,10 @@
           "name": "titre"
         },
         "voteOption": {
+          "choices": [
+            {"name": "unique", "value": "pollVoteType_unique"}, 
+            {"name": "multiple", "value": "pollVoteType_multiple"}
+          ],
           "description": "Définit si les gens votent une seule (true) ou plusieurs fois (false)",
           "name": "vote-unique"
         }
