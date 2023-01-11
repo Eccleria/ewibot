@@ -10,7 +10,7 @@ import {
 import { PERSONALITY } from "../personality.js";
 import { createButton, interactionReply } from "./utils.js";
 
-const black = ":black_large_square:";
+const black = ":black_large_square:"; //black emote for empty progress bar
 
 export const pollsButtonHandler = (interaction) => {
   // Dispatch button action to corresponding functions
@@ -71,14 +71,14 @@ const voteButtonHandler = async (interaction) => {
     { values: [], ratios: [] }
   );
   console.log("fieldNumbers", fieldNumbers);
-  
+
   //compute new ratios
   const values = fieldNumbers.values;
   const total = values.reduce((acc, cur) => acc + cur, 0); //get total count nb
   const newRatios = values.map((value) => Math.round((value / total) * 100)); //emote ratio
   console.log("total", total);
   console.log("newRatios", newRatios);
-  
+
   //get progress bar color
   const colorIdx = dbPoll.colorIdx;
   const emoteColor = perso.colorOption.colors.progress_bar[colorIdx];
@@ -92,7 +92,9 @@ const voteButtonHandler = async (interaction) => {
     } else {
       const nb = Math.floor(cur / 10);
       const newField =
-        emoteColor.repeat(nb) + black.repeat(10 - nb) + ` ${cur}% (${values[idx]})`;
+        emoteColor.repeat(nb) +
+        black.repeat(10 - nb) +
+        ` ${cur}% (${values[idx]})`;
       return [...acc, { value: newField, name: oldField.name }];
     }
   }, []);
@@ -167,7 +169,8 @@ const action = async (interaction) => {
   option = options.getString(perso.voteOption.name, false);
   const voteType = option == null ? perso.voteOption.choices[0].value : option; //if true, only one vote
   option = options.getString(perso.colorOption.name, false);
-  const color = option == null ? perso.colorOption.colors.choices[4].value : option;
+  const color =
+    option == null ? perso.colorOption.colors.choices[4].value : option;
 
   //create embed
   const embed = new MessageEmbed()
@@ -238,9 +241,18 @@ const action = async (interaction) => {
     acc.push([]);
     return acc;
   }, []);
-  const colorIdx = perso.colorOption.colors.choices.findIndex((obj) => obj.value === color);
+  const colorIdx = perso.colorOption.colors.choices.findIndex(
+    (obj) => obj.value === color
+  );
   console.log("dbVotes", dbVotes);
-  addPoll(interaction.client.db, pollMsg.id, dbVotes, anonymous, voteType, colorIdx);
+  addPoll(
+    interaction.client.db,
+    pollMsg.id,
+    dbVotes,
+    anonymous,
+    voteType,
+    colorIdx
+  );
 };
 
 const polls = {

@@ -150,7 +150,7 @@
             "name": "destinateurice"
           }
         },
-        "tooLate":"Désolé ! La fonctionnalité reviendra pour Noël prochain.",
+        "tooLate": "Désolé ! La fonctionnalité reviendra pour Noël prochain.",
         "use": {
           "description": "Pour accepter ou non de recevoir les messages de Noël.",
           "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `gift use`",
@@ -204,64 +204,64 @@
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
-      "polls":{
+      "polls": {
         "choiceOption": {
           "description": "Les choix du sondage",
           "name": "choix"
         },
-        "colorOption":{
+        "colorOption": {
           "colors": {
             "choices": [
-              {"name": "turquoise", "value": "AQUA"},
-              {"name": "turquoise_foncé" , "value": "DARK_AQUA"},
-              {"name": "vert" , "value": "GREEN"},
-              {"name": "vert_foncé" , "value": "DARK_GREEN"},
-              {"name": "bleu" , "value": "BLUE"},
-              {"name": "bleu_foncé" , "value": "DARK_BLUE"},
-              {"name": "violet" , "value": "PURPLE"},
-              {"name": "violet_foncé" , "value": "DARK_PURPLE"},
-              {"name": "rose_vif" , "value": "LUMINOUS_VIVID_PINK"},
-              {"name": "rose_vif_foncé" , "value": "DARK_VIVID_PINK"},
-              {"name": "doré" , "value": "GOLD"},
-              {"name": "doré_foncé" , "value": "DARK_GOLD"},
-              {"name": "orange" , "value": "ORANGE"},
-              {"name": "orange_foncé" , "value": "DARK_ORANGE"},
-              {"name": "rouge" , "value": "RED"},
-              {"name": "rouge_foncé" , "value": "DARK_RED"},
-              {"name": "gris" , "value": "GREY"},
-              {"name": "gris_foncé" , "value": "DARK_GREY"},
-              {"name": "gris_très_foncé" , "value": "DARKER_GREY"},
-              {"name": "gris_clair" , "value": "LIGHT_GREY"},
-              {"name": "bleu_marine" , "value": "NAVY"},
-              {"name": "bleu_marine_foncé" , "value": "DARK_NAVY"},
-              {"name": "jaune" , "value": "YELLOW"}
+              { "name": "turquoise", "value": "AQUA" },
+              { "name": "turquoise_foncé", "value": "DARK_AQUA" },
+              { "name": "vert", "value": "GREEN" },
+              { "name": "vert_foncé", "value": "DARK_GREEN" },
+              { "name": "bleu", "value": "BLUE" },
+              { "name": "bleu_foncé", "value": "DARK_BLUE" },
+              { "name": "violet", "value": "PURPLE" },
+              { "name": "violet_foncé", "value": "DARK_PURPLE" },
+              { "name": "rose_vif", "value": "LUMINOUS_VIVID_PINK" },
+              { "name": "rose_vif_foncé", "value": "DARK_VIVID_PINK" },
+              { "name": "doré", "value": "GOLD" },
+              { "name": "doré_foncé", "value": "DARK_GOLD" },
+              { "name": "orange", "value": "ORANGE" },
+              { "name": "orange_foncé", "value": "DARK_ORANGE" },
+              { "name": "rouge", "value": "RED" },
+              { "name": "rouge_foncé", "value": "DARK_RED" },
+              { "name": "gris", "value": "GREY" },
+              { "name": "gris_foncé", "value": "DARK_GREY" },
+              { "name": "gris_très_foncé", "value": "DARKER_GREY" },
+              { "name": "gris_clair", "value": "LIGHT_GREY" },
+              { "name": "bleu_marine", "value": "NAVY" },
+              { "name": "bleu_marine_foncé", "value": "DARK_NAVY" },
+              { "name": "jaune", "value": "YELLOW" }
             ],
-          "progress_bar": [
-            ":blue_square:",
-            ":blue_square:",
-            ":green_square:",
-            ":green_square:",
-            ":blue_square:",
-            ":blue_square:",
-            ":purple_square:",
-            ":purple_square:",
-            ":red_square:",
-            ":red_square:",
-            ":yellow_square:",
-            ":yellow_square:",
-            ":orange_square:",
-            ":orange_square:",
-            ":red_square:",
-            ":red_square:",
-            ":white_large_square:",
-            ":white_large_square:",
-            ":white_large_square:",
-            ":white_large_square:",
-            ":blue_square:",
-            ":blue_square:",
-            ":yellow_square:"
-          ]
-        },
+            "progress_bar": [
+              ":blue_square:",
+              ":blue_square:",
+              ":green_square:",
+              ":green_square:",
+              ":blue_square:",
+              ":blue_square:",
+              ":purple_square:",
+              ":purple_square:",
+              ":red_square:",
+              ":red_square:",
+              ":yellow_square:",
+              ":yellow_square:",
+              ":orange_square:",
+              ":orange_square:",
+              ":red_square:",
+              ":red_square:",
+              ":white_large_square:",
+              ":white_large_square:",
+              ":white_large_square:",
+              ":white_large_square:",
+              ":blue_square:",
+              ":blue_square:",
+              ":yellow_square:"
+            ]
+          },
           "description": "La couleur du bandeau à gauche.",
           "name": "couleur"
         },
@@ -279,15 +279,15 @@
           "name": "anonyme"
         },
         "name": "polls",
-        "sent":"Le sondage a été envoyé",
+        "sent": "Le sondage a été envoyé",
         "titleOption": {
           "description": "Titre du sondage",
           "name": "titre"
         },
         "voteOption": {
           "choices": [
-            {"name": "unique", "value": "pollVoteType_unique"}, 
-            {"name": "multiple", "value": "pollVoteType_multiple"}
+            { "name": "unique", "value": "pollVoteType_unique" },
+            { "name": "multiple", "value": "pollVoteType_multiple" }
           ],
           "description": "Définit si les gens votent une seule (true) ou plusieurs fois (false)",
           "name": "vote-unique"
@@ -338,7 +338,7 @@
           "name": "minutes"
         },
         "name": "reminder",
-        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
+        "react": [". Tu peux react avec ", " pour annuler ce reminder !"],
         "remind": "Je te rappelerai ça dans environ ",
         "secondOption": {
           "description": "Le nombre de secondes d'attente.",
