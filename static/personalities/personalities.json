@@ -279,6 +279,7 @@
         "executor": "Traduit par :",
         "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
         "name": "reverse-translator",
+        "noContent": "Le message ne contient aucun contenu à inverser.",
         "title": "Reverse Translation",
         "translated": "Le log a bien été traduit."
       },
