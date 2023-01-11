@@ -1,8 +1,10 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
-import { getAdminLogs, removeAdminLogs } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+
+import { getAdminLogs, removeAdminLogs, removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
+
 
 /**
  * Fetch AuditLog from API.
@@ -153,6 +155,8 @@ export const endCasesEmbed = async (
   text,
   diff
 ) => {
+  //if no AuditLog
+
   if (diff >= 5) {
     //if log too old
     const messageList = await finishEmbed(
@@ -594,6 +598,7 @@ export const logsRemover = async (client) => {
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
 
+  // frequent logs remove
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
   const dbData = getAdminLogs(db);
   let data = dbData[type][0]; //get corresponding data
@@ -605,20 +610,24 @@ export const logsRemover = async (client) => {
       if (result.has(cur)) return acc; //if no diff
       else return [...acc, cur];
     }, []); //find diff for error check
-    console.log("diff", diff); //log for debug
+    console.log("frequent diff", diff); //log for debug
   }
   removeAdminLogs(db, type); //remove from db
-  //console.log("db", db.data.adminLogs.frequent);
 
-  /*
+  // userAD logs remove
   type = "userAD";
   data = dbData[type][0];
   if (data.length !== 0) {
     const logChannel = await client.channels.fetch(server.logChannelId);
     const result = await logChannel.bulkDelete(data);
-    //console.log("result2", result)
+
+    const diff = data.reduce((acc, cur) => {
+      if (result.has(cur)) return acc; //if no diff
+      else return [...acc, cur];
+    }, []); //find diff for error check
+    console.log("userAD diff", diff); //log for debug
   }
-  removeAdminLogs(db, type)*/
+  removeAdminLogs(db, type); //remove from db
 };
 
 export const initAdminLogClearing = (client, waitingTime) => {
@@ -680,4 +689,12 @@ export const checkProdTestMode = (logChannel) => {
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true
+};
+
+export const checkDB = (userId, client) => {
+  //check if user is in db for removal
+  const db = client.db;
+  removeBirthday(userId, db);
+  removeIgnoredUser(userId, db);
+  removeAlavirien(userId, db);
 };

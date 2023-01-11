@@ -32,6 +32,8 @@ import {
   isGlobalPollVoter,
   isThisChoicePollVoter,
   removePoll,
+  addAlavirien,
+  removeAlavirien,
 } from "./dbHelper.js";
 
 import {
@@ -97,4 +99,6 @@ export {
   isGlobalPollVoter,
   isThisChoicePollVoter,
   removePoll,
+  addAlavirien,
+  removeAlavirien,
 };

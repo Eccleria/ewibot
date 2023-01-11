@@ -18,8 +18,10 @@ import {
   gifRecovery,
   octagonalLog,
   setupEmbed,
+  checkDB,
 } from "./utils.js";
 import {
+  addAlavirien,
   addAdminLogs,
   addApologyCount,
   hasApology,
@@ -109,9 +111,10 @@ export const onChannelDelete = async (channel) => {
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
-  //handle channel update event
+  // handle channel update event
+
   //get personality
-  const personality = PERSONALITY.getAdmin();
+  const personality = PERSONALITY.getAdmin(); 
   const chnUp = personality.channelUpdate;
   const auditLog = personality.auditLog;
   const perm = chnUp.permissionOverwrites;
@@ -530,7 +533,7 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
-      const msg = logChannel.send(content);
+      const msg = await logChannel.send(content);
       messageList.push(msg);
     }
     messageList.forEach((msg) =>
@@ -747,7 +750,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   //check if timeout added or removed
   //const oldIsTimeout = oldMember.isCommunicationDisabled();
   const newIsTimeout = newMember.isCommunicationDisabled();
-
+  //console.log(oldIsTimeout, newIsTimeout);
   if (!newIsTimeout) return; // if no timeout added => return
   console.log("member timeout add");
 
@@ -775,6 +778,8 @@ export const onGuildMemberRemove = async (memberKick) => {
   console.log("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
+  checkDB(userKick.id, userKick.client); //remove user from db
+
   console.log("memberKick", userKick);
   const personality = PERSONALITY.getAdmin(); //get personality
   const auditLog = personality.auditLog;
@@ -833,3 +838,12 @@ export const onGuildMemberRemove = async (memberKick) => {
     diff
   );
 };
+
+export const onGuildMemberAdd = async (guildMember) => {
+  console.log("onGuildMemberAdd", guildMember.displayName);
+
+  const db = guildMember.client.db;
+  const authorId = guildMember.id;
+  const date = guildMember.joinedAt.toISOString()
+  addAlavirien(db, authorId, 0, date);
+}
