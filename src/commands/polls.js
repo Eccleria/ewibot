@@ -11,7 +11,6 @@ import { PERSONALITY } from "../personality.js";
 import { createButton, interactionReply } from "./utils.js";
 
 const black = ":black_large_square:";
-const white = ":white_large_square:";
 
 export const pollsButtonHandler = (interaction) => {
   // Dispatch button action to corresponding functions
@@ -80,6 +79,10 @@ const voteButtonHandler = async (interaction) => {
   console.log("total", total);
   console.log("newRatios", newRatios);
   
+  //get progress bar color
+  const colorIdx = dbPoll.colorIdx;
+  const emoteColor = perso.colorOption.colors.progress_bar[colorIdx];
+
   //write new fields
   const newFields = newRatios.reduce((acc, cur, idx) => {
     const oldField = fields[idx];
@@ -89,7 +92,7 @@ const voteButtonHandler = async (interaction) => {
     } else {
       const nb = Math.floor(cur / 10);
       const newField =
-        white.repeat(nb) + black.repeat(10 - nb) + ` ${cur}% (${values[idx]})`;
+        emoteColor.repeat(nb) + black.repeat(10 - nb) + ` ${cur}% (${values[idx]})`;
       return [...acc, { value: newField, name: oldField.name }];
     }
   }, []);
@@ -145,7 +148,7 @@ const command = new SlashCommandBuilder()
       .setName(PERSONALITY.getCommands().polls.colorOption.name)
       .setDescription(PERSONALITY.getCommands().polls.colorOption.description)
       .setRequired(false)
-      .addChoices(...PERSONALITY.getCommands().polls.colorOption.choices)
+      .addChoices(...PERSONALITY.getCommands().polls.colorOption.colors.choices)
   );
 
 const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
@@ -164,7 +167,7 @@ const action = async (interaction) => {
   option = options.getString(perso.voteOption.name, false);
   const voteType = option == null ? perso.voteOption.choices[0].value : option; //if true, only one vote
   option = options.getString(perso.colorOption.name, false);
-  const color = option == null ? perso.colorOption.choices[4].value : option;
+  const color = option == null ? perso.colorOption.colors.choices[4].value : option;
 
   //create embed
   const embed = new MessageEmbed()
@@ -235,8 +238,9 @@ const action = async (interaction) => {
     acc.push([]);
     return acc;
   }, []);
+  const colorIdx = perso.colorOption.colors.choices.findIndex((obj) => obj.value === color);
   console.log("dbVotes", dbVotes);
-  addPoll(interaction.client.db, pollMsg.id, dbVotes, anonymous, voteType);
+  addPoll(interaction.client.db, pollMsg.id, dbVotes, anonymous, voteType, colorIdx);
 };
 
 const polls = {

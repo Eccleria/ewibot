@@ -279,10 +279,11 @@ const isIgnoredUser = (authorId, db) => {
 export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
 
 //POLLS
-const addPoll = (db, id, votes, anonymous, voteType) => {
+const addPoll = (db, id, votes, anonymous, voteType, colorIdx) => {
   const poll = {
     pollId: id,
     anonymous: anonymous,
+    colorIdx: colorIdx,
     voteType: voteType,
     votes: votes,
   };
