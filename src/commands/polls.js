@@ -145,6 +145,7 @@ const command = new SlashCommandBuilder()
       .setName(PERSONALITY.getCommands().polls.colorOption.name)
       .setDescription(PERSONALITY.getCommands().polls.colorOption.description)
       .setRequired(false)
+      .addChoices(...PERSONALITY.getCommands().polls.colorOption.choices)
   );
 
 const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
@@ -163,7 +164,7 @@ const action = async (interaction) => {
   option = options.getString(perso.voteOption.name, false);
   const voteType = option == null ? perso.voteOption.choices[0].value : option; //if true, only one vote
   option = options.getString(perso.colorOption.name, false);
-  const color = option == null ? "BLUE" : option;
+  const color = option == null ? perso.colorOption.choices[4].value : option;
 
   //create embed
   const embed = new MessageEmbed()

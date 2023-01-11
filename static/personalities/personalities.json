@@ -210,6 +210,31 @@
           "name": "choix"
         },
         "colorOption":{
+          "choices": [
+            {"name": "turquoise", "value": "AQUA"},
+            {"name": "turquoise_foncé" , "value": "DARK_AQUA"},
+            {"name": "vert" , "value": "GREEN"},
+            {"name": "vert_foncé" , "value": "DARK_GREEN"},
+            {"name": "bleu" , "value": "BLUE"},
+            {"name": "bleu_foncé" , "value": "DARK_BLUE"},
+            {"name": "violet" , "value": "PURPLE"},
+            {"name": "violet_foncé" , "value": "DARK_PURPLE"},
+            {"name": "rose_vif" , "value": "LUMINOUS_VIVID_PINK"},
+            {"name": "rose_vif_foncé" , "value": "DARK_VIVID_PINK"},
+            {"name": "doré" , "value": "GOLD"},
+            {"name": "doré_foncé" , "value": "DARK_GOLD"},
+            {"name": "orange" , "value": "ORANGE"},
+            {"name": "orange_foncé" , "value": "DARK_ORANGE"},
+            {"name": "rouge" , "value": "RED"},
+            {"name": "rouge_foncé" , "value": "DARK_RED"},
+            {"name": "gris" , "value": "GREY"},
+            {"name": "gris_foncé" , "value": "DARK_GREY"},
+            {"name": "gris_très_foncé" , "value": "DARKER_GREY"},
+            {"name": "gris_clair" , "value": "LIGHT_GREY"},
+            {"name": "bleu_marine" , "value": "NAVY"},
+            {"name": "bleu_marine_foncé" , "value": "DARK_NAVY"},
+            {"name": "jaune" , "value": "YELLOW"}
+          ],
           "description": "La couleur du bandeau à gauche.",
           "name": "couleur"
         },
