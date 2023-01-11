@@ -262,7 +262,7 @@
               ":yellow_square:"
             ]
           },
-          "description": "La couleur du bandeau à gauche.",
+          "description": "La couleur du bandeau et de la barre de progression.",
           "name": "couleur"
         },
         "counted": "Votre vote a été compté.",
@@ -275,13 +275,13 @@
         "hasVotedChoice": "Vous avez déjà voté pour ce choix.",
         "help": "Cette commande permet de créer des sondages.",
         "hideOption": {
-          "description": "Cache ou révèle les votes des utilisateurices",
+          "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
           "name": "anonyme"
         },
         "name": "polls",
-        "sent": "Le sondage a été envoyé",
+        "sent": "Le sondage a été envoyé.",
         "titleOption": {
-          "description": "Titre du sondage",
+          "description": "Titre du sondage.",
           "name": "titre"
         },
         "voteOption": {
@@ -289,7 +289,7 @@
             { "name": "unique", "value": "pollVoteType_unique" },
             { "name": "multiple", "value": "pollVoteType_multiple" }
           ],
-          "description": "Définit si les gens votent une seule (true) ou plusieurs fois (false)",
+          "description": "Définit si les gens votent une ou plusieurs fois.",
           "name": "vote-unique"
         }
       },
