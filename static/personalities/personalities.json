@@ -280,6 +280,7 @@
         },
         "name": "polls",
         "sent": "Le sondage a été envoyé.",
+        "settings": "Vous pouvez changer les paramètres de ce sondage.",
         "titleOption": {
           "description": "Titre du sondage.",
           "name": "titre"

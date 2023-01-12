@@ -14,8 +14,16 @@ const black = ":black_large_square:"; //black emote for empty progress bar
 
 export const pollsButtonHandler = (interaction) => {
   // Dispatch button action to corresponding functions
-  if (typeof Number(interaction.customId[6]) == "number")
+	const {customId} = interaction;
+  if (typeof Number(customId[6]) == "number")
     voteButtonHandler(interaction);
+	else if (customId.includes("settings")) 
+		settingsButtonHandler(interaction);
+};
+
+const settingsButtonHandler = (interaction) => {
+	const perso = PERSONALITY.getCommands().polls;
+  interactionReply(interaction, perso.settings);
 };
 
 const voteButtonHandler = async (interaction) => {
@@ -241,6 +249,14 @@ const action = async (interaction) => {
     { actionRows: [], size: 0 }
   );
   console.log("components", components);
+  
+	//add setting button
+	const settingId = "polls_" + "settings";
+	const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
+	if (components.size === 5) {
+		const newRow = new MessageActionRow().addComponents(settingButton);
+		components.actionRows.push(newRow);
+	} else components.actionRows[components.actionRows.length - 1].addComponents(settingButton);
 
   //send poll
   const pollMsg = await interaction.channel.send({
