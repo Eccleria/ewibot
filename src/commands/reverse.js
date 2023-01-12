@@ -83,6 +83,7 @@ const contextCommand = new ContextMenuCommandBuilder()
 
 const contextAction = async (interaction) => {
   const message = interaction.targetMessage; //get message
+  const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
   //if in log_channel => should handle embed contents + send as visible for anyone
   const server = COMMONS.fetchGuildId(interaction.guildId);
@@ -91,7 +92,6 @@ const contextAction = async (interaction) => {
   if (channels.includes(interaction.channelId)) {
     //look for correct embeds
     const adminPerso = PERSONALITY.getAdmin();
-    const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
     //get embed data
     const embeds = message.embeds;
@@ -184,12 +184,14 @@ const contextAction = async (interaction) => {
     //normal translation
     string = message.content; //get message content
 
-    const reversed = reverseStr(string); //reverse message content
-    const content = reversed.startsWith("~~")
-      ? reversed.slice(2, -2)
-      : reversed;
-
-    interactionReply(interaction, content);
+    if(string.length !== 0) {
+      const reversed = reverseStr(string); //reverse message content
+      const content = reversed.startsWith("~~")
+        ? reversed.slice(2, -2)
+        : reversed;
+  
+      interactionReply(interaction, content);
+    } else interactionReply(interaction, rTPerso.noContent);
   }
 };
 

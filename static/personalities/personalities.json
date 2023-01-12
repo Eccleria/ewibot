@@ -1,234 +1,4 @@
 {
-  "admin": {
-    "auditLog": {
-      "noExec": "Le propriétaire ou un bot.",
-      "noLog": "Aucun log relatif n'a été trouvé.",
-      "partial": "Le message est inaccessible. Pas assez de données expoitables.",
-      "tooOld": "Aucun log récent correspondant."
-    },
-    "channelCreate": {
-      "author": "Salon :",
-      "executor": "Créé par :",
-      "title": "Salon créé"
-    },
-    "channelDelete": {
-      "author": "Salon :",
-      "executor": "Supprimé par :",
-      "title": "Salon supprimé"
-    },
-    "channelUpdate": {
-      "permissionOverwrites": {
-        "permAdded": "- Permissions ajoutées :",
-        "permRemoved": "- Permissions retirées :",
-        "roleAdded": "Droits ajoutés au rôle :",
-        "roleRemoved": "Droits retirés au rôle :",
-        "userAdded": "Droits personnalisés ajoutés au membre :",
-        "userRemoved": "Droits personnalisés retirés au membre :"
-      },
-      "author": "Salon :",
-      "executor": "Modifié par :",
-      "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
-      "text": "Modifications :\n",
-      "title": "Salon modifié"
-    },
-    "commands": {
-      "notReleased": "La commande n'est pas disponible."
-    },
-    "guildBan": {
-      "author": "Membre :",
-      "executor": "Banni par :",
-      "text": "Raison du ban :",
-      "title": "Membre banni"
-    },
-    "guildKick": {
-      "kick": {
-        "author": "Membre :",
-        "duration": "Durée :",
-        "executor": "Kick par :",
-        "roles": "Roles",
-        "text": "Raison du kick :",
-        "title": "Membre expulsé"
-      },
-      "leave": {
-        "author": "Membre :",
-        "roles": "Roles",
-        "title": "Membre ayant quitté le serveur"
-      }
-    },
-    "guildUnban": {
-      "author": "Membre :",
-      "executor": "Débanni par :",
-      "text": "Raison de la levée du ban :",
-      "title": "Membre débanni"
-    },
-    "messageDelete": {
-      "author": "Auteur :",
-      "channel": "Salon :",
-      "date": "Envoyé le :",
-      "executor": "Supprimé par :",
-      "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-      "pinned": "*Un message System Discord indiquant qu'un message a été épinglé a été supprimé.*",
-      "text": "Contenu du message :",
-      "textAgain": "Contenu - suite",
-      "title": "Message supprimé"
-    },
-    "messageUpdate": {
-      "author": "Membre :",
-      "channel": "Salon :",
-      "contentDiff": "Mots différents",
-      "contentNew": {
-        "text": "Nouveau contenu",
-        "textAgain": "Nouveau contenu - suite"
-      },
-      "contentOld": {
-        "text": "Ancien contenu",
-        "textAgain": "Ancien contenu - suite"
-      },
-      "date": "Envoyé le :",
-      "linkMessage": "Clique pour aller au message.",
-      "linkName": "Lien",
-      "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
-      "pinned": {
-        "title": "Message épinglé",
-        "text": "Le message a été épinglé."
-      },
-      "text": "Contenu du message :",
-      "title": "Message modifié",
-      "unpinned": {
-        "title": "Message désépinglé",
-        "text": "Le message a été désépinglé."
-      }
-    },
-    "octagonalSign": {
-      "author": "Message de :",
-      "channel": "Salon :",
-      "date": "Envoyé le :",
-      "executor": "Emote envoyée par :",
-      "linkMessage": "Lien du message.",
-      "linkName": "Lien",
-      "text": "Contenu du message :",
-      "title": "Utilisation de 🛑"
-    },
-    "roleCreate": {
-      "author": "Rôle :",
-      "date": "Créé le :",
-      "executor": "Créé par :",
-      "title": "Rôle créé"
-    },
-    "roleDelete": {
-      "author": "Rôle :",
-      "date": "Supprimé le :",
-      "executor": "Supprimé par :",
-      "title": "Rôle supprimé"
-    },
-    "roleUpdate": {
-      "author": "Rôle :",
-      "executor": "Modifié par :",
-      "features": [
-        "- Couleur : ",
-        "- Séparé : ",
-        "- Icone : ",
-        "- Emote : ",
-        "- Nom : ",
-        "- Permissions : "
-      ],
-      "new": "\n  Ajoutée.s : ",
-      "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
-      "old": "\n  Supprimée.s : ",
-      "text": "Modifications :",
-      "permission": "- Permissions :",
-      "title": "Rôle mis à jour",
-      "titleRoles": "Rôles mis à jour"
-    },
-    "threadCreate": {
-      "author": "Fil :",
-      "executor": "Créé par :",
-      "title": "Fil créé"
-    },
-    "threadDelete": {
-      "author": "Fil :",
-      "executor": "Supprimé par :",
-      "title": "Fil supprimé"
-    },
-    "threadUpdate": {
-      "author": "Fil :",
-      "executor": "Modifié par :",
-      "title": "Fil modifié"
-    },
-    "timeout": {
-      "author": "Membre :",
-      "duration": "Durée :",
-      "executor": "Timeout par :",
-      "text": "Raison du timeout :",
-      "title": "Timeout"
-    }
-  },
-  "announces": {
-    "announce_gift": {
-      "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
-      "description": "Salut les Ewinautes ! Une fois n'est pas coutume, c'est moi qui vous fais l'annonce <:Ewiyay:918249094391144469>.\n\n Après quelques semaines de développement, et sur une idée de la modération, voici venir votre **cadeau de Noël** ! <:DuomFetard:822479563077976065>. Enfin, **vos** cadeaux <:Ewinklan:841675143596212267>",
-      "fields": {
-        "field1": {
-          "name": "Principe",
-          "value": "A partir de maintenant, vous pouvez vous envoyer des messages de Noël entre vous. Je les conserverai, et les transmettrai au matin de Noël, comme cadeaux :gift:.\n\nNotes :\n*- Vous ne pourrez envoyer de messages **qu'aux personnes l'acceptant.***\n*- Après Noël, vous ne pourrez plus utiliser cette fonctionnalité.*"
-        },
-        "field2": {
-          "name": "\u200b",
-          "value": "\u200b"
-        },
-        "field3": {
-          "name": "Utilisation",
-          "value": "Il existe 5 commandes, ayant toutes le préfix *gift* :`use`, `accepting`, `send`, `remove`, `get`.\nPour chaque commande, une description s'affiche lorsque vous les utilisez."
-        },
-        "field4": {
-          "name": "gift use",
-          "value": "La commande `gift use` permet de m'indiquer que vous souhaitez ou non recevoir des messages de Noël.\n**Par défaut, je considère que vous REFUSEZ.**",
-          "inline": true
-        },
-        "field5": {
-          "name": "gift accepting",
-          "value": "Comment savoir qui accepte ou non ? Avec `gift accepting` ! Vous indiquez une personne et je me charge de vous dire s'iel accepte les messages de Noël ou non.",
-          "inline": true
-        },
-        "field6": {
-          "name": "gift send",
-          "value": "Avec `gift send`, vous pouvez envoyer des messages de Noël à un.e utilisateurice **qui l'accepte**. Si la personne n'accepte pas, vous aurez un message d'erreur.",
-          "inline": true
-        },
-        "field7": {
-          "name": "gift remove",
-          "value": "Si vous souhaitez supprimer des messages de Noël, utilisez `gift remove`. Il suffit d'indiquer la personne voulue et j'effacerai le.s message.s. Je vous rappelerai le contenu supprimé, au cas où.",
-          "inline": true
-        },
-        "field8": {
-          "name": "gift get",
-          "value": "Un oubli ? Vous pouvez utiliser `gift get` pour que je vous rappelle quel.s message.s vous vouliez envoyer.",
-          "inline": true
-        },
-        "field9": {
-          "name": "\u200b",
-          "value": "\u200b"
-        },
-        "field10": {
-          "name": "Gestion des données",
-          "value": "Maintenant, parlons un peu de la gestion des données.\n\n*Qu'est-ce que je stocke ?*\n- Côté reception : Je garde en mémoire qui souhaite recevoir des messages.\n- Côté envoie : Je garde en mémoire qui souhaite envoyer un message, le contenu du message, lea destinateurice.\n\n*Combien de temps est-ce stocké ?*\nJe garde ces informations en mémoire **jusqu'à 2 semaines après Noël**.\n\n*Qui a accès à ces données ?*\n- Mes 2 développeurs : **Tiitch et Eccléria**.\n\n*Quelles sont les conditions d'accès ?*\n - **Avant Noël**, les seuls accès qui seront réalisé auront pour **objet exclusif de vérifier le fonctionnement** du système.\n- **Après Noël**, si jamais une personne fait remonter un **message inaproprié, la modération se réserve le droit d'accéder aux données pour enquête et éventuelles actions**.\n- Après les 2 semaines : les données seront **intégralement supprimées.**"
-        },
-        "field11": {
-          "name": "\u200b",
-          "value": "\u200b"
-        },
-        "field12": {
-          "name": "Joyeux mois de l'Avent",
-          "value": "Toute l'équipe des Sentinelles vous souhaite un joyeux mois de l'Avent, en espérant vous apprécierez cette idée <:Ewiyay:918249094391144469> !"
-        }
-      },
-      "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
-      "id": "announce_gift",
-      "notFound": "Désolé, l'annonce n'a pas été trouvée.",
-      "sending": "L'annonce est en cours d'envoi.",
-      "title": "Cadeaux de Noël"
-    }
-  },
   "normal": {
     "name": "normal",
     "commands": {
@@ -432,6 +202,7 @@
             "name": "destinateurice"
           }
         },
+        "tooLate": "Désolé ! La fonctionnalité reviendra pour Noël prochain.",
         "use": {
           "description": "Pour accepter ou non de recevoir les messages de Noël.",
           "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `gift use`",
@@ -530,7 +301,7 @@
           "name": "minutes"
         },
         "name": "reminder",
-        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
+        "react": [". Tu peux react avec ", " pour annuler ce reminder !"],
         "remind": "Je te rappelerai ça dans environ ",
         "secondOption": {
           "description": "Le nombre de secondes d'attente.",
@@ -560,6 +331,7 @@
         "executor": "Traduit par :",
         "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
         "name": "reverse-translator",
+        "noContent": "Le message ne contient aucun contenu à inverser.",
         "title": "Reverse Translation",
         "translated": "Le log a bien été traduit."
       },
