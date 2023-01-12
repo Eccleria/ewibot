@@ -20,7 +20,7 @@ export const pollsButtonHandler = (interaction) => {
 
 const voteButtonHandler = async (interaction) => {
   // count vote, update db + embed
-  const { customId, message } = interaction;
+  const { customId, message, user } = interaction;
 
   //get data
   const voteIdx = Number(customId.slice(6)); //field id to add 1
@@ -32,7 +32,7 @@ const voteButtonHandler = async (interaction) => {
   const db = interaction.client.db;
   const pollId = message.id;
   const dbPoll = getPoll(db, pollId);
-  const userId = interaction.user.id;
+  const userId = user.id;
 
   //check for voteType
   const voteType = dbPoll.voteType;
@@ -58,13 +58,11 @@ const voteButtonHandler = async (interaction) => {
   //get number values for each field
   const fieldNumbers = fields.reduce(
     (acc, cur, idx) => {
-      console.log("field", [cur.value]);
       //"emotes ...*% (no)"
       const splited = cur.value.split(" ");
       const ratio = Number(splited[1].slice(0, -1)); //ratio
 
       //new value check
-      console.log("splited[2]", [splited[2]])
       const oldValue = splited[2].includes("\n") ? Number(splited[2].split("\n")[0].slice(1, -1)) : Number(splited[2].slice(1, -1));
       const value = idx === voteIdx ? oldValue + 1 : oldValue;
 
@@ -78,8 +76,6 @@ const voteButtonHandler = async (interaction) => {
   const values = fieldNumbers.values;
   const total = values.reduce((acc, cur) => acc + cur, 0); //get total count nb
   const newRatios = values.map((value) => Math.round((value / total) * 100)); //emote ratio
-  console.log("total", total);
-  console.log("newRatios", newRatios);
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
@@ -106,11 +102,11 @@ const voteButtonHandler = async (interaction) => {
       if (isAnonymous) 
         return [...acc, { value: newValues, name: oldField.name }];
       else {
-        const oldValue = oldField.value;
+        const oldValue = oldField.value; //get oldField
         const oldText = oldValue.includes("\n") ? oldValue.split("\n")[1] : "";
         const text = newValues + "\n" + oldText;
-        const newVoter = interaction.user.toString();
-        const newField = voteIdx !== idx ? text : text + `${newVoter} `;
+        const newVoter = user.toString(); //get voter as embed
+        const newField = voteIdx !== idx ? text : text + `${newVoter} `; //if right idx, add voter
         return [...acc, { value: newField, name: oldField.name }];
       }
     }
