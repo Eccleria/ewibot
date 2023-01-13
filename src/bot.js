@@ -27,7 +27,6 @@ import {
 
 // listeners imports
 import {
-  onPrivateMessage,
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
@@ -48,6 +47,7 @@ import {
   onMessageUpdate,
   onGuildBanAdd,
   onGuildBanRemove,
+  onGuildMemberAdd,
   onGuildMemberRemove,
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
@@ -57,7 +57,10 @@ import { initAdminLogClearing } from "./admin/utils.js";
 // jsons import
 import { COMMONS } from "./commons.js";
 
-// commands imports
+//alavirien import
+import { setupAlavirien } from "./admin/alavirien.js";
+
+// command import
 import { wishBirthday } from "./commands/birthday.js";
 import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
@@ -87,7 +90,7 @@ const tomorrow = dayjs()
   .minute(0)
   .second(0)
   .millisecond(0);
-const timeToTomorrow = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
+const timeToTomorrowDB = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
 const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
 setTimeout(async () => {
@@ -102,7 +105,7 @@ setTimeout(async () => {
   wishBirthday(db, channel);
 
   setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
-}, timeToTomorrow);
+}, timeToTomorrowDB);
 
 // Discord CLIENT
 const client = new Client({
@@ -146,9 +149,8 @@ const onMessageHandler = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
 
-  if (channel.type === "DM") {
-    onPrivateMessage(message, client);
-  } else {
+  if (channel.type === "DM") return;
+  else {
     const currentServer = COMMONS.fetchGuildId(channel.guildId);
     onPublicMessage(message, client, currentServer, self);
   }
@@ -159,6 +161,7 @@ client.once("ready", async () => {
   // Bot init
   console.log("I am ready!");
   roleInit(client); //role handler init
+  setupAlavirien(client, tomorrow, frequency);
 
   //Ewibot activity
   setActivity(client);
@@ -218,6 +221,7 @@ client.on("threadDelete", onThreadDelete);
 client.on("guildBanAdd", onGuildBanAdd);
 client.on("guildBanRemove", onGuildBanRemove);
 
+client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("guildMemberRemove", onGuildMemberRemove);
 client.on("guildMemberUpdate", onGuildMemberUpdate);
 

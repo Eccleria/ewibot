@@ -30,7 +30,7 @@ export const giftButtonHandler = async (interaction) => {
 
   //check for date
   const today = dayjs();
-  if (today.month() !== 12 && (today.month !== 1 && today.date() > 7)) {
+  if (today.month() !== 12 && today.month !== 1 && today.date() > 7) {
     interactionReply(interaction, personality.tooLate);
     return;
   }

@@ -1,14 +1,20 @@
 ﻿## 5.0.0
 - New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality`
+- New: admin `/commands` `message send/reply` for dev usage
 - Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll)
 - Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
 - Remove: `$commands` helpers (checkIsOnThread, isCommand)
+- Remove: `onPrivateMessage` - dev ability to speak through Ewibot
 - Update: files now use `COMMONS` object instead of commons.json parse 
 - Update: personality organisation 
 	- explode personalities.json file into 3 files
 	- regroup files into personalities folder
 
 ## 4.8.0
+- Feat: attribution of alavirien role for users' presentation with Sentinelle reaction
+- Feat: check new user alavirien eligibility each night
+- Feat: remove logs from user arrival/departure
+- Fix: reverse-translator error on message with empty content
 - Update: `reverse-translator` now can translate frequent-logs
 - Update: add gift button date check + change gift command release date 
 

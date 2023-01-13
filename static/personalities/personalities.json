@@ -53,7 +53,61 @@
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
       "botMessage": {
-        "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot."
+        "attachmentOption":{
+          "description":"Pièce-jointe a transmettre avec le message",
+          "name":"piece-jointe"
+        },
+        "description": "Envoyer un message à la place d'Ewibot.",
+        "empty": "Le message ne peut pas être vide.",
+        "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot.",
+        "name": "message",
+        "reply":{
+          "attachmentOption":{
+            "description":"Pièce-jointe a transmettre avec le message",
+            "name":"piece-jointe"
+          },          
+          "spoilOption":{
+            "description": "Si la pièce-jointe doit être mise en spoiler.",
+            "name": "to-spoil"
+          },
+          "description": "Pour répondre à un message à travers Ewibot.",
+          "name": "reply",
+          "pingOption":{
+            "description": "Si l'utilisateurice doit être mentionné.",
+            "name": "to-ping"
+          },
+          "sent": "Le message est envoyé.",
+          "stringOption":{
+            "description": "Contenu du message d'Ewibot",
+            "name": "message"
+          },
+          "urlOption":{
+            "description": "Le lien du message auquel répondre.",
+            "name": "url"
+          }
+        },
+        "send":{
+          "attachmentOption":{
+            "description":"Pièce-jointe a transmettre avec le message",
+            "name":"piece-jointe"
+          },
+          "booleanOption":{
+            "description": "Si la pièce-jointe doit être mise en spoiler.",
+            "name": "to-spoil"
+          },
+          "channelOption":{
+            "description": "Salon de destination",
+            "name": "salon"
+          },
+          "description": "Pour envoyer un message à travers Ewibot.",
+          "name": "send",
+          "sent": "Le message est envoyé.",
+          "stringOption":{
+            "description": "Contenu du message d'Ewibot",
+            "name": "message"
+          }
+        },
+        "wrongUrl": "Le lien du message auquel répondre n'est pas accessible."
       },
       "concrete": {
         "booleanOption": {
@@ -150,7 +204,7 @@
             "name": "destinateurice"
           }
         },
-        "tooLate":"Désolé ! La fonctionnalité reviendra pour Noël prochain.",
+        "tooLate": "Désolé ! La fonctionnalité reviendra pour Noël prochain.",
         "use": {
           "description": "Pour accepter ou non de recevoir les messages de Noël.",
           "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `gift use`",
@@ -249,7 +303,7 @@
           "name": "minutes"
         },
         "name": "reminder",
-        "react": [ ". Tu peux react avec ", " pour annuler ce reminder !" ],
+        "react": [". Tu peux react avec ", " pour annuler ce reminder !"],
         "remind": "Je te rappelerai ça dans environ ",
         "secondOption": {
           "description": "Le nombre de secondes d'attente.",
@@ -279,6 +333,7 @@
         "executor": "Traduit par :",
         "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
         "name": "reverse-translator",
+        "noContent": "Le message ne contient aucun contenu à inverser.",
         "title": "Reverse Translation",
         "translated": "Le log a bien été traduit."
       },
