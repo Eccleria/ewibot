@@ -8,6 +8,7 @@ import {
   isThisChoicePollVoter,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
+import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "./utils.js";
 
 const black = ":black_large_square:"; //black emote for empty progress bar
@@ -48,14 +49,14 @@ const voteButtonHandler = async (interaction) => {
     //unique
     const hasVoted = isGlobalPollVoter(db, pollId, userId);
     if (hasVoted) {
-      interactionReply(interaction, perso.hasVoted);
+      interaction.editReply(perso.hasVoted);
       return;
     }
   } else if (voteType === perso.voteOption.choices[1].value) {
     //multiple
     const hasVoted = isThisChoicePollVoter(db, pollId, userId, voteIdx);
     if (hasVoted) {
-      interactionReply(interaction, perso.hasVotedChoice);
+      interaction.editReply(perso.hasVotedChoice);
       return;
     }
   }
@@ -124,7 +125,7 @@ const voteButtonHandler = async (interaction) => {
   //update embed
   pollEmbed.setFields(...newFields);
   await message.edit({ embeds: [pollEmbed], components: message.components });
-  interactionReply(interaction, perso.counted);
+  interaction.editReply({content: perso.counted, ephemeral: true});
 };
 
 const command = new SlashCommandBuilder()
@@ -263,6 +264,8 @@ const action = async (interaction) => {
     embeds: [embed],
     components: components.actionRows,
   });
+
+  pollButtonCollector(pollMsg);
   interactionReply(interaction, perso.sent);
 
   //save poll
