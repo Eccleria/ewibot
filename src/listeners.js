@@ -1,7 +1,6 @@
 import { PERSONALITY } from "./personality.js";
 
 import {
-  isAdmin,
   reactionHandler,
   deleteSongFromPlaylist,
 } from "./helpers/index.js";
@@ -11,29 +10,6 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
-
-export const onPrivateMessage = async (message, client) => {
-  const { author, content } = message;
-
-  if (!isAdmin(author.id)) return; // If not admin, no rigth to
-
-  const destinationChannelId = content.split(" ")[0];
-
-  const newContent = content.split(" ").slice(1).join(" ");
-
-  try {
-    const channel = await client.channels.fetch(destinationChannelId);
-
-    if (channel) {
-      channel.sendTyping(); // effect of Ewibot writing
-      setTimeout(() => {
-        channel.send(newContent);
-      }, 2000); // duration
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 export const onPublicMessage = (message, client, currentServer, self) => {
   const { author } = message;

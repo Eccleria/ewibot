@@ -27,7 +27,6 @@ import {
 
 // listeners imports
 import {
-  onPrivateMessage,
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
@@ -150,9 +149,9 @@ const onMessageHandler = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
 
-  if (channel.type === "DM") {
-    onPrivateMessage(message, client);
-  } else {
+  if (channel.type === "DM") 
+    return;
+  else {
     const currentServer = COMMONS.fetchGuildId(channel.guildId);
     onPublicMessage(message, client, currentServer, self);
   }
