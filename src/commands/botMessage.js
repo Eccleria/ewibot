@@ -16,65 +16,89 @@ const command = new SlashCommandBuilder()
       .addChannelOption((option) =>
         option
           .setName(PERSONALITY.getCommands().botMessage.send.channelOption.name)
-          .setDescription(PERSONALITY.getCommands().botMessage.send.channelOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.send.channelOption.description
+          )
           .setRequired(false)
           .addChannelTypes(ChannelType.GuildText)
       )
       .addStringOption((option) =>
         option
           .setName(PERSONALITY.getCommands().botMessage.send.stringOption.name)
-          .setDescription(PERSONALITY.getCommands().botMessage.send.stringOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.send.stringOption.description
+          )
           .setMinLength(1)
           .setRequired(false)
       )
       .addAttachmentOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().botMessage.send.attachmentOption.name)
-          .setDescription(PERSONALITY.getCommands().botMessage.send.attachmentOption.description)
+          .setName(
+            PERSONALITY.getCommands().botMessage.send.attachmentOption.name
+          )
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.send.attachmentOption
+              .description
+          )
           .setRequired(false)
       )
-      .addBooleanOption((option) => 
-      option
-      .setName(PERSONALITY.getCommands().botMessage.send.booleanOption.name)
-      .setDescription(PERSONALITY.getCommands().botMessage.send.booleanOption.description)
-      .setRequired(false)
+      .addBooleanOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().botMessage.send.booleanOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.send.booleanOption.description
+          )
+          .setRequired(false)
       )
   )
   .addSubcommand((command) =>
-    command //reply 
+    command //reply
       .setName(PERSONALITY.getCommands().botMessage.reply.name)
       .setDescription(PERSONALITY.getCommands().botMessage.reply.description)
       .addStringOption((option) =>
-      option //url
-        .setName(PERSONALITY.getCommands().botMessage.reply.urlOption.name)
-        .setDescription(PERSONALITY.getCommands().botMessage.reply.urlOption.description)
-        .setMinLength(1)
-        .setRequired(true)
+        option //url
+          .setName(PERSONALITY.getCommands().botMessage.reply.urlOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.reply.urlOption.description
+          )
+          .setMinLength(1)
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option //text
           .setName(PERSONALITY.getCommands().botMessage.reply.stringOption.name)
-          .setDescription(PERSONALITY.getCommands().botMessage.reply.stringOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.reply.stringOption.description
+          )
           .setMinLength(1)
           .setRequired(false)
       )
       .addAttachmentOption((option) =>
         option //attachment
-          .setName(PERSONALITY.getCommands().botMessage.reply.attachmentOption.name)
-          .setDescription(PERSONALITY.getCommands().botMessage.reply.attachmentOption.description)
+          .setName(
+            PERSONALITY.getCommands().botMessage.reply.attachmentOption.name
+          )
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.reply.attachmentOption
+              .description
+          )
           .setRequired(false)
       )
-      .addBooleanOption((option) => 
-      option //toSpoil
-      .setName(PERSONALITY.getCommands().botMessage.reply.spoilOption.name)
-      .setDescription(PERSONALITY.getCommands().botMessage.reply.spoilOption.description)
-      .setRequired(false)
+      .addBooleanOption((option) =>
+        option //toSpoil
+          .setName(PERSONALITY.getCommands().botMessage.reply.spoilOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.reply.spoilOption.description
+          )
+          .setRequired(false)
       )
-      .addBooleanOption((option) => 
-      option //toPing
-      .setName(PERSONALITY.getCommands().botMessage.reply.pingOption.name)
-      .setDescription(PERSONALITY.getCommands().botMessage.reply.pingOption.description)
-      .setRequired(false)
+      .addBooleanOption((option) =>
+        option //toPing
+          .setName(PERSONALITY.getCommands().botMessage.reply.pingOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().botMessage.reply.pingOption.description
+          )
+          .setRequired(false)
       )
   );
 
@@ -89,12 +113,15 @@ const action = async (interaction) => {
 
     //get interaction options
     const content = options.getString(sPerso.stringOption.name, false);
-    const attachment = options.getAttachment(sPerso.attachmentOption.name, false);
+    const attachment = options.getAttachment(
+      sPerso.attachmentOption.name,
+      false
+    );
     const fetchedChannel = options.getChannel(sPerso.channelOption.name, false);
     const toSpoil = options.getBoolean(sPerso.booleanOption.name, false);
 
     const channel = fetchedChannel ? fetchedChannel : interaction.channel;
-    
+
     //create message payload according to interaction options
     const payload = {};
     if (content) payload.content = content;
@@ -102,9 +129,9 @@ const action = async (interaction) => {
       attachment.setSpoiler(toSpoil);
       payload.files = [attachment];
     } else if (attachment) payload.files = [attachment];
-    
+
     //send message
-    if (Object.values(payload).length !== 0){
+    if (Object.values(payload).length !== 0) {
       channel.send(payload);
       interactionReply(interaction, sPerso.sent);
     } else interactionReply(interaction, personality.empty);
@@ -113,7 +140,10 @@ const action = async (interaction) => {
 
     //get interaction options
     const content = options.getString(rPerso.stringOption.name, false);
-    const attachment = options.getAttachment(rPerso.attachmentOption.name, false);
+    const attachment = options.getAttachment(
+      rPerso.attachmentOption.name,
+      false
+    );
     const toSpoil = options.getBoolean(rPerso.spoilOption.name, false);
     const url = options.getString(rPerso.urlOption.name);
     const toPing = options.getBoolean(rPerso.pingOption.name);
@@ -122,11 +152,15 @@ const action = async (interaction) => {
     const sliced = url.split("/");
     let message;
     try {
-      message = await interaction.channel.messages.fetch(sliced[sliced.length - 1]);
+      message = await interaction.channel.messages.fetch(
+        sliced[sliced.length - 1]
+      );
     } catch (e) {
       console.log("botMessage message fetch error", e);
       try {
-        const channel = await interaction.client.channels.fetch(sliced[sliced.length -2]);
+        const channel = await interaction.client.channels.fetch(
+          sliced[sliced.length - 2]
+        );
         message = await channel.messages.fetch(sliced[sliced.length - 1]);
       } catch (e2) {
         console.log("botMessage channel/message fetch error", e2);
@@ -142,10 +176,12 @@ const action = async (interaction) => {
       attachment.setSpoiler(toSpoil);
       payload.files = [attachment];
     } else if (attachment) payload.files = [attachment];
-    toPing ? payload.allowedMentions = {repliedUser: true} : payload.allowedMentions = {repliedUser: false};
+    toPing
+      ? (payload.allowedMentions = { repliedUser: true })
+      : (payload.allowedMentions = { repliedUser: false });
 
     //send reply
-    if (Object.values(payload).length !== 0){
+    if (Object.values(payload).length !== 0) {
       message.reply(payload);
       interactionReply(interaction, rPerso.sent);
     } else interactionReply(interaction, personality.empty);

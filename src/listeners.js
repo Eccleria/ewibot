@@ -1,9 +1,6 @@
 import { PERSONALITY } from "./personality.js";
 
-import {
-  reactionHandler,
-  deleteSongFromPlaylist,
-} from "./helpers/index.js";
+import { reactionHandler, deleteSongFromPlaylist } from "./helpers/index.js";
 
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
@@ -117,8 +114,12 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-  if (messageReaction.message.channel.id === currentServer.presentationChannelId && currentServer.presentationReactId === messageReaction.emoji.name) {
-    console.log("detected")
+  if (
+    messageReaction.message.channel.id ===
+      currentServer.presentationChannelId &&
+    currentServer.presentationReactId === messageReaction.emoji.name
+  ) {
+    console.log("detected");
     presentationHandler(currentServer, messageReaction, user);
     return; //no command in presentation channel
   }
