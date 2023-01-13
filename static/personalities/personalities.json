@@ -58,6 +58,7 @@
           "name":"piece-jointe"
         },
         "description": "Envoyer un message à la place d'Ewibot.",
+        "empty": "Le message ne peut pas être vide.",
         "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot.",
         "name": "message",
         "reply":{
@@ -105,7 +106,8 @@
             "description": "Contenu du message d'Ewibot",
             "name": "message"
           }
-        }
+        },
+        "wrongUrl": "Le lien du message auquel répondre n'est pas accessible."
       },
       "concrete": {
         "booleanOption": {

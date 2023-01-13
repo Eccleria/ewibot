@@ -104,8 +104,10 @@ const action = async (interaction) => {
     } else if (attachment) payload.files = [attachment];
     
     //send message
-    channel.send(payload);
-    interactionReply(interaction, sPerso.sent);
+    if (Object.values(payload).length !== 0){
+      channel.send(payload);
+      interactionReply(interaction, sPerso.sent);
+    } else interactionReply(interaction, personality.empty);
   } else if (subcommand === personality.reply.name) {
     const rPerso = personality.reply; //get personality
 
@@ -123,8 +125,14 @@ const action = async (interaction) => {
       message = await interaction.channel.messages.fetch(sliced[sliced.length - 1]);
     } catch (e) {
       console.log("botMessage message fetch error", e);
-      const channel = await interaction.client.channels.fetch(sliced[sliced.length -2]);
-      message = await channel.messages.fetch(sliced[sliced.length - 1]);
+      try {
+        const channel = await interaction.client.channels.fetch(sliced[sliced.length -2]);
+        message = await channel.messages.fetch(sliced[sliced.length - 1]);
+      } catch (e2) {
+        console.log("botMessage channel/message fetch error", e2);
+        interactionReply(interaction, personality.wrongUrl);
+        return;
+      }
     }
 
     //create message payload according to interaction options
@@ -137,8 +145,10 @@ const action = async (interaction) => {
     toPing ? payload.allowedMentions = {repliedUser: true} : payload.allowedMentions = {repliedUser: false};
 
     //send reply
-    message.reply(payload);
-    interactionReply(interaction, rPerso.sent);
+    if (Object.values(payload).length !== 0){
+      message.reply(payload);
+      interactionReply(interaction, rPerso.sent);
+    } else interactionReply(interaction, personality.empty);
   }
 };
 
