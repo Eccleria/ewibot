@@ -253,7 +253,7 @@ const action = async (interaction) => {
   
 	//add setting button
 	const settingId = "polls_" + "settings";
-	const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
+	const settingButton = createButton(settingId, null, "SECONDARY", "⚙️").setDisabled(true);
 	if (components.size === 5) {
 		const newRow = new MessageActionRow().addComponents(settingButton);
 		components.actionRows.push(newRow);

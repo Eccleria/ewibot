@@ -6,7 +6,7 @@ export const pollButtonCollector = (message) => {
   };
 
   const collector = message.createMessageComponentCollector(
-    { filter, componentType: "BUTTON", time: 10000 }
+    { filter, componentType: "BUTTON", time: 30000 }
   );
   
   collector.on("collect", async (interaction) => {
