@@ -23,6 +23,8 @@ const giveAlavirien = async (client, server, personality, userId) => {
   const guild = await client.guilds.fetch(server.guildId);
   const guildMember = await guild.members.fetch(userId);
   const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
+  console.log("roles", guildMember.roles);
+  console.log("Cache", guildMember.roles.cache);
 
   if (!guildMember.roles.cache.has(server.alavirienRoleId)) {
     //if doesn't have the role
