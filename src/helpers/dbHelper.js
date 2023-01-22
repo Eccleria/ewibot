@@ -279,11 +279,12 @@ const isIgnoredUser = (authorId, db) => {
 export { addIgnoredUser, removeIgnoredUser, isIgnoredUser };
 
 //POLLS
-const addPoll = (db, id, votes, anonymous, voteType, colorIdx) => {
+const addPoll = (db, id, votes, anonymous, voteType, colorIdx, voteMax) => {
   const poll = {
     pollId: id,
     anonymous: anonymous,
     colorIdx: colorIdx,
+    voteMax: voteMax,
     voteType: voteType,
     votes: votes,
   };
@@ -302,13 +303,6 @@ const addPollVoter = (db, pollId, userId, choiceIdx) => {
   db.wasUpdated = true;
 };
 
-const isGlobalPollVoter = (db, pollId, userId) => {
-  const poll = getPoll(db, pollId);
-  const allUsers = poll.votes.reduce((acc, cur) => [...acc, ...cur], []);
-  console.log("allUsers", allUsers);
-  return allUsers.includes(userId);
-};
-
 const isThisChoicePollVoter = (db, pollId, userId, voteIdx) => {
   const data = getPoll(db, pollId);
   const choice = data.votes[voteIdx];
@@ -316,8 +310,30 @@ const isThisChoicePollVoter = (db, pollId, userId, voteIdx) => {
   else return null;
 };
 
+const getPollVoteIndexes = (db, pollId, userId) => {
+  //return index of userId vote
+  const { votes } = getPoll(db, pollId);
+  return votes.reduce((acc, cur) => [...acc, cur.includes(userId)], []);
+};
+
+const getThisChoicePollIndex = (db, pollId, userId, voteIdx) => {
+  const { votes } = getPoll(db, pollId);
+  console.log(
+    "votes",
+    votes,
+    votes[voteIdx].findIndex((id) => id === userId)
+  );
+  return votes[voteIdx].findIndex((id) => id === userId);
+};
+
 const removePoll = (db, pollId) => {
   db.data.polls = db.data.polls.filter((poll) => poll.pollId !== pollId);
+  db.wasUpdated = true;
+};
+
+const removePollIndex = (db, pollId, userId, voteIdx) => {
+  const data = getPoll(db, pollId);
+  data.votes[voteIdx] = data.votes[voteIdx].filter((id) => id !== userId);
   db.wasUpdated = true;
 };
 
@@ -325,9 +341,11 @@ export {
   addPoll,
   getPoll,
   addPollVoter,
-  isGlobalPollVoter,
   isThisChoicePollVoter,
+  getPollVoteIndexes,
+  getThisChoicePollIndex,
   removePoll,
+  removePollIndex,
 };
 
 //TWITTER
@@ -405,12 +423,16 @@ const addAlavirienNumber = (db, authorId, number) => {
       user.messageNumber += number;
       db.wasUpdated = true;
     }
-  })
+  });
 };
 
 const addAlavirien = (db, authorId, number, date) => {
   if (!isAlavirien(db, authorId)) {
-    db.data.alavirien.push({ userId: authorId, messageNumber: number, joinAt: date});
+    db.data.alavirien.push({
+      userId: authorId,
+      messageNumber: number,
+      joinAt: date,
+    });
     db.wasUpdated = true;
   } else {
     addAlavirienNumber(db, authorId, number);
@@ -426,4 +448,4 @@ const removeAlavirien = (db, authorId) => {
   }
 };
 
-export { isAlavirien, addAlavirienNumber, addAlavirien, removeAlavirien};
+export { isAlavirien, addAlavirienNumber, addAlavirien, removeAlavirien };

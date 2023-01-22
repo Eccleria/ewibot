@@ -43,7 +43,8 @@ export const buttonHandler = (interaction) => {
   const { customId } = interaction;
   if (customId === "gift") giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
-  else if (customId.startsWith("polls")) return // pollsButtonHandler(interaction);
+  else if (customId.startsWith("polls"))
+    return; // pollsButtonHandler(interaction);
   else pronounsButtonHandler(interaction);
 };
 

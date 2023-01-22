@@ -264,6 +264,7 @@
           "name": "choix"
         },
         "colorOption": {
+          "black": ":black_large_square:",
           "colors": {
             "choices": [
               { "name": "turquoise", "value": "AQUA" },
@@ -325,12 +326,16 @@
           "name": "description"
         },
         "description": "Cette commande permet de créer des sondages.",
-        "hasVoted": "Vous avez déjà voté.",
-        "hasVotedChoice": "Vous avez déjà voté pour ce choix.",
+        "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
+        "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
         "help": "Cette commande permet de créer des sondages.",
         "hideOption": {
           "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
           "name": "anonyme"
+        },
+        "maxOption": {
+          "description": "Si vote multiples, le nombre maximal de votes",
+          "name": "nombre-vote-max"
         },
         "name": "polls",
         "sent": "Le sondage a été envoyé.",
