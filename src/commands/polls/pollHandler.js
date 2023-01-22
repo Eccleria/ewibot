@@ -1,4 +1,4 @@
-import { uniqueVoteType } from "./pollUnique.js";
+import { uniqueVoteType } from "./pollsTypeUnique.js";
 import { interactionReply } from "../utils.js";
 import { getPoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
