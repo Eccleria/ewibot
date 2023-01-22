@@ -1,3 +1,4 @@
+import { multipleVoteType } from "./pollsTypeMultiple.js";
 import { uniqueVoteType } from "./pollsTypeUnique.js";
 import { interactionReply } from "../utils.js";
 import { getPoll } from "../../helpers/index.js";
@@ -43,10 +44,10 @@ export const voteButtonHandler = (interaction) => {
   const dbPoll = getPoll(db, pollId); //get poll from db
   const { voteType } = dbPoll;
 
-  /*if (voteType === perso.voteOption.choices[1].value) {
+  if (voteType === perso.voteOption.choices[1].value) {
     //multiple
     multipleVoteType(interaction, dbPoll, perso);
-  } else */ if (voteType === perso.voteOption.choices[0].value) {
+  } else if (voteType === perso.voteOption.choices[0].value) {
     //unique
     uniqueVoteType(interaction, dbPoll, perso);
   } else interactionReply(perso.errorUnknownChoice);
