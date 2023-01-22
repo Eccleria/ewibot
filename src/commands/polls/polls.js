@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
-import { addPoll } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { addPoll } from "../../helpers/index.js";
+import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
-import { createButton, interactionReply } from "./utils.js";
+import { createButton, interactionReply } from "../utils.js";
 import { voteButtonHandler } from "./pollHandler.js";
 
 const black = ":black_large_square:"; //black emote for empty progress bar

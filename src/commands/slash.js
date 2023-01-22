@@ -24,7 +24,7 @@ import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import gift from "./gift.js";
-import polls from "./polls.js";
+import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
 import twitter from "./twitter.js";
