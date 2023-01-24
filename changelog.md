@@ -1,4 +1,7 @@
-﻿## 4.8.0
+﻿## 4.8.1
+- Fix: activities updated with setInterval, wrongly used as setTimeout
+
+## 4.8.0
 - Feat: attribution of alavirien role for users' presentation with Sentinelle reaction
 - Feat: check new user alavirien eligibility each night
 - Feat: remove logs from user arrival/departure
