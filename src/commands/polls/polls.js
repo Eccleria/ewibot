@@ -96,7 +96,7 @@ const action = async (interaction) => {
   const color =
     option == null ? perso.colorOption.colors.choices[4].value : option;
 
-  option = options.getNumber(perso.maxOption, false); //max
+  option = options.getNumber(perso.maxOption.name, false); //max
   const voteMax = option == null ? choices.split(";").length : option;
 
   //create embed
