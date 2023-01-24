@@ -37,12 +37,24 @@ export const multipleVoteType = async (interaction, dbPoll, perso) => {
     } else {
       //modify vote
       console.log("modify vote");
-      toRemoveVoteIdx = hasVotedIndexes.findIndex((vote) => vote);
-      addPollVoter(db, pollId, userId, currentVoteIdx);
-    }
+
+      const voteCount = hasVotedIndexes.reduce((acc, cur) => {
+        console.log("cur", cur)
+        if (cur) return acc + 1;
+        else return acc;
+      });
+      console.log("voteCount", voteCount);
+
+      if(voteCount < dbPoll.voteMax) 
+        addPollVoter(db, pollId, userId, currentVoteIdx);
+      else {
+        interaction.editReply({ content: perso.errorMaxVote, ephemeral: true });
+        return;
+      }
+    }/*
     console.log("hasVotedIndexes", hasVotedIndexes, "oldVoteStatus", oldVoteStatus);
     console.log("toAddVoteIdx", toAddVoteIdx, "toRemoveVoteIdx", toRemoveVoteIdx);
-  
+  */
     const oldVoteRemoveIdx =
     !isAnonymous && toRemoveVoteIdx !== -1
       ? getThisChoicePollIndex(db, pollId, userId, toRemoveVoteIdx)
