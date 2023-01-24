@@ -25,8 +25,6 @@ const giveAlavirien = async (client, server, personality, userId) => {
   const guild = await client.guilds.fetch(server.guildId);
   const guildMember = await guild.members.fetch(userId);
   const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
-  console.log("roles", guildMember.roles);
-  console.log("Cache", guildMember.roles.cache);
 
   if (!guildMember.roles.cache.has(server.alavirienRoleId)) {
     //if doesn't have the role
@@ -45,7 +43,7 @@ const checkAlavirien = async (client, server) => {
 
   const db = client.db;
   const dbUsers = db.data.alavirien;
-  console.log("alavirien dbUsers", dbUsers);
+  console.log("alavirien dbUsers", dbUsers.length);
   if (!dbUsers) return; //if no data in db, nothing to do
 
   //get personality
