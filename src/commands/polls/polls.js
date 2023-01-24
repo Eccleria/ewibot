@@ -5,19 +5,15 @@ import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
 import { voteButtonHandler } from "./pollHandler.js";
+import { settingsButtonHandler } from "./pollsSettings.js";
 
 const black = ":black_large_square:"; //black emote for empty progress bar
 
 export const pollsButtonHandler = (interaction) => {
   // Dispatch button action to corresponding functions
   const { customId } = interaction;
-  if (typeof Number(customId[6]) == "number") voteButtonHandler(interaction);
-  else if (customId.includes("settings")) settingsButtonHandler(interaction);
-};
-
-const settingsButtonHandler = (interaction) => {
-  const perso = PERSONALITY.getCommands().polls;
-  interactionReply(interaction, perso.settings);
+  if (customId.includes("set")) settingsButtonHandler(interaction);
+  else if (typeof Number(customId[6]) == "number") voteButtonHandler(interaction);
 };
 
 const command = new SlashCommandBuilder()
@@ -30,7 +26,7 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().polls.titleOption.description)
       .setRequired(true)
       .setMinLength(1)
-      .setMaxLength(256)
+      .setMaxLength(225)
   )
   .addStringOption((option) =>
     option //choice
@@ -161,7 +157,7 @@ const action = async (interaction) => {
     null,
     "SECONDARY",
     "⚙️"
-  ).setDisabled(true);
+  );//.setDisabled(true);
 
   if (components.size === 5) {
     const newRow = new MessageActionRow().addComponents(settingButton);
@@ -177,7 +173,7 @@ const action = async (interaction) => {
     components: components.actionRows,
   });
 
-  pollButtonCollector(pollMsg);
+  //pollButtonCollector(pollMsg);
   interactionReply(interaction, perso.sent);
 
   //save poll

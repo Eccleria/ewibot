@@ -4,7 +4,7 @@ import { MessageButton } from "discord.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
-//import { pollsButtonHandler } from "./polls.js";
+import { pollsButtonHandler } from "./polls/polls.js";
 
 /**
  * Reply to interaction function
@@ -43,8 +43,7 @@ export const buttonHandler = (interaction) => {
   const { customId } = interaction;
   if (customId === "gift") giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
-  else if (customId.startsWith("polls"))
-    return; // pollsButtonHandler(interaction);
+  else if (customId.includes("set")) pollsButtonHandler(interaction);
   else pronounsButtonHandler(interaction);
 };
 
