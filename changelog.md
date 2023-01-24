@@ -1,4 +1,7 @@
-﻿## 4.8.0
+﻿## 4.8.1
+- Fix: giving alavirien role to sentinelle reacting and not to presenting user
+
+## 4.8.0
 - Feat: attribution of alavirien role for users' presentation with Sentinelle reaction
 - Feat: check new user alavirien eligibility each night
 - Feat: remove logs from user arrival/departure
