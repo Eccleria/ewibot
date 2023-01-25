@@ -5,8 +5,6 @@ import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
 
-const black = ":black_large_square:"; //black emote for empty progress bar
-
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
   .setDescription(PERSONALITY.getCommands().polls.description)
@@ -118,7 +116,8 @@ const action = async (interaction) => {
     },
     { fields: [], emotes: [] }
   );
-
+  
+  const black = perso.colorOption.black;
   results.fields.forEach((field) => {
     embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
   });
