@@ -158,7 +158,7 @@ export const updateActivity = (client) => {
   // set random waiting time for updating Ewibot activity
 
   const waitingTime = (20 * Math.random() + 4) * 3600 * 1000;
-  setInterval(() => {
+  setTimeout(() => {
     setActivity(client);
     updateActivity(client);
   }, waitingTime);

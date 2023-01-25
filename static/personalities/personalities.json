@@ -107,7 +107,8 @@
             "name": "message"
           }
         },
-        "wrongUrl": "Le lien du message auquel répondre n'est pas accessible."
+        "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
+        "wrongUser": "Vous n'avez pas accès à cette commande."
       },
       "concrete": {
         "booleanOption": {

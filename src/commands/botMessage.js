@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v9";
+import { isAdmin } from "../helpers/utils.js";
 //import { ChannelType } from "discord.js"; //for discordjs v14
 
 import { PERSONALITY } from "../personality.js";
@@ -107,6 +108,13 @@ const action = async (interaction) => {
   const options = interaction.options;
   const subcommand = options.getSubcommand();
   const personality = PERSONALITY.getCommands().botMessage;
+
+  //check for admin rights
+  if(!isAdmin(interaction.user.id)) {
+    console.log(`${interaction.user.id} tried to use /message`)
+    interactionReply(interaction, personality.wrongUser);
+    return
+  }
 
   if (subcommand === personality.send.name) {
     const sPerso = personality.send; //get personaity
