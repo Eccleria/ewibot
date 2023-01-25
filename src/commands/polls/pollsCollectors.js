@@ -1,8 +1,8 @@
 import { pollsButtonHandler } from "./polls.js";
 
 export const pollButtonCollector = (message) => {
-  const filter = (customId) => {
-    return typeof Number(customId[6]) == "number";
+  const filter = ({customId}) => {
+    return !isNaN(Number(customId[6])) && typeof Number(customId[6]) == "number";
   };
 
   const collector = message.createMessageComponentCollector({

@@ -2,27 +2,29 @@ import { createButton, interactionReply } from "../utils.js";
 //import { PERSONALITY } from "../../personality.js";
 import { MessageActionRow } from "discord.js";
 
-export const settingsButtonHandler = (interaction) => {
+export const settingsButtonHandler = async (interaction) => {
     // handle settings button
     /*const perso = PERSONALITY.getCommands().polls;
     interactionReply(interaction, perso.settings);
     */
+
     const { customId } = interaction;
     if (customId.includes("settings")) sendSettingsButtons(interaction);
     else if (customId.includes("set_disable")) disablePoll(interaction);
 };
 
 const sendSettingsButtons = (interaction) => {
+    console.log("sendSettingsButtons")
     //create stop button
     const stopButton = createButton("polls_set_disable", "stop", "DANGER");
     const actionRow = new MessageActionRow().addComponents(stopButton);
 
     //send buttons
-    interaction.reply({components: [actionRow], isEphemeral: true});
+    interaction.reply({components: [actionRow], ephemeral: true});
 };
 
 const disablePoll = async (interaction) => {
-    console.log("interaction", interaction.message.reference);
+    console.log("disablePoll")
     
     //fetch pollMessage
     const pollMessage = await interaction.channel.messages.fetch(interaction.message.reference.messageId);

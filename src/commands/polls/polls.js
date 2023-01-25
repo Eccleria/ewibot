@@ -5,15 +5,16 @@ import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
 import { voteButtonHandler } from "./pollHandler.js";
-import { settingsButtonHandler } from "./pollsSettings.js";
 
 const black = ":black_large_square:"; //black emote for empty progress bar
 
 export const pollsButtonHandler = (interaction) => {
   // Dispatch button action to corresponding functions
   const { customId } = interaction;
-  if (customId.includes("set")) settingsButtonHandler(interaction);
-  else if (typeof Number(customId[6]) == "number") voteButtonHandler(interaction);
+
+  const sixNumber = Number(customId[6]);
+  const voteButtonTest = !isNaN(sixNumber) && typeof sixNumber == "number";
+  if (voteButtonTest) voteButtonHandler(interaction);
 };
 
 const command = new SlashCommandBuilder()
@@ -157,7 +158,7 @@ const action = async (interaction) => {
     null,
     "SECONDARY",
     "⚙️"
-  );//.setDisabled(true);
+  );
 
   if (components.size === 5) {
     const newRow = new MessageActionRow().addComponents(settingButton);
@@ -173,7 +174,7 @@ const action = async (interaction) => {
     components: components.actionRows,
   });
 
-  //pollButtonCollector(pollMsg);
+  pollButtonCollector(pollMsg);
   interactionReply(interaction, perso.sent);
 
   //save poll
