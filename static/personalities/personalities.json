@@ -340,7 +340,13 @@
         },
         "name": "polls",
         "sent": "Le sondage a été envoyé.",
-        "settings": "Vous pouvez changer les paramètres de ce sondage.",
+        "settings": {
+          "disable": {
+            "disabled": "Le sondage a bien été verrouillé.",
+            "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
+            "title": " - **Sondage Terminé**"
+          }
+        },
         "titleOption": {
           "description": "Titre du sondage.",
           "name": "titre"

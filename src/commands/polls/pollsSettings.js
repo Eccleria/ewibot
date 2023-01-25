@@ -1,6 +1,7 @@
 import { createButton, interactionReply } from "../utils.js";
 //import { PERSONALITY } from "../../personality.js";
 import { MessageActionRow } from "discord.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const settingsButtonHandler = async (interaction) => {
     // handle settings button
@@ -15,8 +16,18 @@ export const settingsButtonHandler = async (interaction) => {
 
 const sendSettingsButtons = (interaction) => {
     console.log("sendSettingsButtons")
+    //get personality
+    const perso = PERSONALITY.getCommands().polls.settings;
+
+    //fetch embed
+    const pollMessage = interaction.message;
+    const pollEmbed = pollMessage.embeds[0];
+
     //create stop button
     const stopButton = createButton("polls_set_disable", "stop", "DANGER");
+    if (pollEmbed.title.includes(perso.disable.title)) stopButton.setDisabled(true);
+    
+    //create ActionRows
     const actionRow = new MessageActionRow().addComponents(stopButton);
 
     //send buttons
@@ -26,14 +37,16 @@ const sendSettingsButtons = (interaction) => {
 const disablePoll = async (interaction) => {
     console.log("disablePoll")
     
+    //get personality
+    const perso = PERSONALITY.getCommands().polls.settings;
+
     //fetch pollMessage
     const pollMessage = await interaction.channel.messages.fetch(interaction.message.reference.messageId);
     const editedPollMessage = {};
 
-    const pollEmbed = pollMessage.embeds[0];
-
     //edit title
-    pollEmbed.title = pollEmbed.title + " - **Sondage Terminé**"
+    const pollEmbed = pollMessage.embeds[0];
+    pollEmbed.title = pollEmbed.title + perso.disable.title;
     editedPollMessage.embeds = [pollEmbed];
 
     //edit poll buttons
@@ -45,5 +58,5 @@ const disablePoll = async (interaction) => {
 
     //edit poll message
     pollMessage.edit(editedPollMessage);
-    interactionReply(interaction, "Le sondage a bien été verrouillé.");
+    interactionReply(interaction, perso.disable.disabled);
 }
