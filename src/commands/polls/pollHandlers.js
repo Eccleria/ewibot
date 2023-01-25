@@ -31,6 +31,15 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
   return results;
 };
 
+export const pollsButtonHandler = (interaction) => {
+  // Dispatch button action to corresponding functions
+  const { customId } = interaction;
+
+  const sixNumber = Number(customId[6]);
+  const voteButtonTest = !isNaN(sixNumber) && typeof sixNumber == "number";
+  if (voteButtonTest) voteButtonHandler(interaction);
+};
+
 export const voteButtonHandler = (interaction) => {
   // dipatch vote according to voteType
   const { message, client } = interaction;

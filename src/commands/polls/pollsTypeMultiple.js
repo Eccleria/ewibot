@@ -1,4 +1,4 @@
-import { getFieldNumbers } from "./pollHandler.js";
+import { getFieldNumbers } from "./pollHandlers.js";
 import {
     addPollVoter,
     getPollVoteIndexes,

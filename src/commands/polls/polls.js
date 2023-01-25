@@ -4,18 +4,8 @@ import { addPoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
-import { voteButtonHandler } from "./pollHandler.js";
 
 const black = ":black_large_square:"; //black emote for empty progress bar
-
-export const pollsButtonHandler = (interaction) => {
-  // Dispatch button action to corresponding functions
-  const { customId } = interaction;
-
-  const sixNumber = Number(customId[6]);
-  const voteButtonTest = !isNaN(sixNumber) && typeof sixNumber == "number";
-  if (voteButtonTest) voteButtonHandler(interaction);
-};
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
