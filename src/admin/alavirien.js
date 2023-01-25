@@ -5,16 +5,18 @@ import { setupEmbed, finishEmbed } from "./utils.js";
 import { isSentinelle } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 
-export const presentationHandler = async (server, messageReaction, author) => {
+export const presentationHandler = async (server, messageReaction) => {
   const client = messageReaction.client;
   const personality = PERSONALITY.getAdmin().alavirien;
 
-  const guild = await client.guilds.fetch(messageReaction.message.guildId);
-  const member = await guild.members.fetch(author.id);
+  const { message } = messageReaction;
+
+  const guild = await client.guilds.fetch(message.guildId);
+  const member = await guild.members.fetch(message.author.id);
 
   if (isSentinelle(member, server)) {
     console.log("isSentinelle reaction")
-    giveAlavirien(client, server, personality, author.id);
+    giveAlavirien(client, server, personality, member.id);
   }
 };
 
@@ -41,7 +43,7 @@ const checkAlavirien = async (client, server) => {
 
   const db = client.db;
   const dbUsers = db.data.alavirien;
-  console.log("alavirien dbUsers", dbUsers);
+  console.log("alavirien dbUsers", dbUsers.length);
   if (!dbUsers) return; //if no data in db, nothing to do
 
   //get personality
