@@ -116,7 +116,7 @@ const action = async (interaction) => {
     },
     { fields: [], emotes: [] }
   );
-  
+
   const black = perso.colorOption.black;
   results.fields.forEach((field) => {
     embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
@@ -142,12 +142,7 @@ const action = async (interaction) => {
 
   //add setting button
   const settingId = "polls_" + "settings";
-  const settingButton = createButton(
-    settingId,
-    null,
-    "SECONDARY",
-    "⚙️"
-  );
+  const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
 
   if (components.size === 5) {
     const newRow = new MessageActionRow().addComponents(settingButton);
