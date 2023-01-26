@@ -59,4 +59,14 @@ const disablePoll = async (interaction) => {
     //edit poll message
     pollMessage.edit(editedPollMessage);
     interactionReply(interaction, perso.disable.disabled);
+    /*console.log(interaction.message.components);
+    const buttons = interaction.message.components.reduce((acc, cur) => [...acc, ...cur.components], []);
+    console.log("buttons", buttons);
+    const stopButton = buttons.find((button) => button.customId === "polls_set_disable");
+    console.log("stopButton", stopButton);
+    stopButton.setDisabled(true);
+    const compLength = interaction.message.components.length;
+    const newComponents = interaction.message.components;
+    newComponents[compLength - 1].setComponents(newComponents[compLength - 1].slice(-1) + stopButton);*/
+    .edit({components: []});
 }
