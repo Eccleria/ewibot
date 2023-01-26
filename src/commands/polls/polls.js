@@ -84,6 +84,13 @@ const action = async (interaction) => {
   option = options.getNumber(perso.maxOption.name, false); //max
   const voteMax = option == null ? choices.split(";").length : option;
 
+  //check if not too many choices
+  const splited = choices.split(";");
+  if (splited.length > 10) {
+    interactionReply(interaction, perso.errorChoicesNumber);
+    return;
+  }
+
   //create embed
   const embed = new MessageEmbed()
     .setTitle(title)
@@ -94,7 +101,6 @@ const action = async (interaction) => {
   if (description) embed.setDescription(description);
 
   //write choices text
-  const splited = choices.split(";");
   const results = splited.reduce(
     (acc, cur, idx) => {
       const replaced = cur.replace(",", "");
