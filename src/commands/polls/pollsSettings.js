@@ -1,4 +1,4 @@
-import { MessageActionRow } from "discord.js";
+import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
 import { createButton } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
@@ -12,16 +12,37 @@ export const sendSettingsButtons = async (interaction) => {
   const pollMessage = interaction.message;
   const pollEmbed = pollMessage.embeds[0];
 
+  //create add button
+  const addButton = createButton("polls_set_add", "ajouter", "PRIMARY");
   //create stop button
   const stopButton = createButton("polls_set_disable", "stop", "DANGER");
   if (pollEmbed.title.includes(perso.disable.title))
     stopButton.setDisabled(true);
 
   //create ActionRows
-  const actionRow = new MessageActionRow().addComponents(stopButton);
+  const actionRow = new MessageActionRow().addComponents([addButton, stopButton]);
 
   //send buttons
   interaction.editReply({ components: [actionRow], ephemeral: true });
+};
+
+export const addChoicePoll = async (interaction) => {
+  const modal = new Modal()
+    .setTitle("Ajouter un choix au sondage")
+    .setCustomId("polls_modal_addChoice");
+
+  const newChoiceInput = new TextInputComponent()
+    .setCustomId("polls_modal_choiceInput")
+    .setLabel("Nouveau choix")
+    .setMinLength(1)
+    .setMaxLength(50)
+    .setStyle("SHORT");
+  
+  const actionRow = new MessageActionRow().addComponents(newChoiceInput);
+
+  modal.addComponents(actionRow);
+
+  interaction.showModal(modal);
 };
 
 export const disablePoll = async (interaction) => {

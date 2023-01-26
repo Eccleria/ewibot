@@ -1,4 +1,4 @@
-import { sendSettingsButtons, disablePoll } from "./pollsSettings.js";
+import { sendSettingsButtons, disablePoll, addChoicePoll } from "./pollsSettings.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
 import { uniqueVoteType } from "./pollsTypeUnique.js";
 import { interactionReply } from "../utils.js";
@@ -41,4 +41,5 @@ export const settingsButtonHandler = async (interaction) => {
   const { customId } = interaction;
   if (customId.includes("settings")) sendSettingsButtons(interaction);
   else if (customId.includes("set_disable")) disablePoll(interaction);
+  else if (customId.includes("set_add")) addChoicePoll(interaction);
 };
