@@ -1,21 +1,18 @@
-import { createButton, interactionReply } from "../utils.js";
+import { createButton } from "../utils.js";
 //import { PERSONALITY } from "../../personality.js";
 import { MessageActionRow } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const settingsButtonHandler = async (interaction) => {
     // handle settings button
-    /*const perso = PERSONALITY.getCommands().polls;
-    interactionReply(interaction, perso.settings);
-    */
-
     const { customId } = interaction;
     if (customId.includes("settings")) sendSettingsButtons(interaction);
     else if (customId.includes("set_disable")) disablePoll(interaction);
 };
 
-const sendSettingsButtons = (interaction) => {
+const sendSettingsButtons = async (interaction) => {
     console.log("sendSettingsButtons")
+    await interaction.deferReply({ephemeral: true});
     //get personality
     const perso = PERSONALITY.getCommands().polls.settings;
 
@@ -31,11 +28,12 @@ const sendSettingsButtons = (interaction) => {
     const actionRow = new MessageActionRow().addComponents(stopButton);
 
     //send buttons
-    interaction.reply({components: [actionRow], ephemeral: true});
+    interaction.editReply({components: [actionRow], ephemeral: true});
 };
 
 const disablePoll = async (interaction) => {
     console.log("disablePoll")
+    await interaction.deferUpdate();
     
     //get personality
     const perso = PERSONALITY.getCommands().polls.settings;
@@ -57,16 +55,7 @@ const disablePoll = async (interaction) => {
     editedPollMessage.components = [newActionRow];
 
     //edit poll message
+    const editedStopMessage = {content: perso.disable.disabled, components: [], ephemeral: true}
+    interaction.editReply(editedStopMessage);
     pollMessage.edit(editedPollMessage);
-    interactionReply(interaction, perso.disable.disabled);
-    /*console.log(interaction.message.components);
-    const buttons = interaction.message.components.reduce((acc, cur) => [...acc, ...cur.components], []);
-    console.log("buttons", buttons);
-    const stopButton = buttons.find((button) => button.customId === "polls_set_disable");
-    console.log("stopButton", stopButton);
-    stopButton.setDisabled(true);
-    const compLength = interaction.message.components.length;
-    const newComponents = interaction.message.components;
-    newComponents[compLength - 1].setComponents(newComponents[compLength - 1].slice(-1) + stopButton);*/
-    .edit({components: []});
 }
