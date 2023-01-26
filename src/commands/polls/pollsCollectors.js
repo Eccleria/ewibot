@@ -1,4 +1,4 @@
-import { pollsButtonHandler } from "./pollHandlers.js";
+import { pollsButtonHandler } from "./pollsHandlers.js";
 
 export const pollButtonCollector = (message) => {
   const filter = ({ customId }) => {

@@ -1,16 +1,8 @@
-import { createButton } from "../utils.js";
-//import { PERSONALITY } from "../../personality.js";
 import { MessageActionRow } from "discord.js";
+import { createButton } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
-export const settingsButtonHandler = async (interaction) => {
-  // handle settings button
-  const { customId } = interaction;
-  if (customId.includes("settings")) sendSettingsButtons(interaction);
-  else if (customId.includes("set_disable")) disablePoll(interaction);
-};
-
-const sendSettingsButtons = async (interaction) => {
+export const sendSettingsButtons = async (interaction) => {
   console.log("sendSettingsButtons");
   await interaction.deferReply({ ephemeral: true });
   //get personality
@@ -32,7 +24,7 @@ const sendSettingsButtons = async (interaction) => {
   interaction.editReply({ components: [actionRow], ephemeral: true });
 };
 
-const disablePoll = async (interaction) => {
+export const disablePoll = async (interaction) => {
   console.log("disablePoll");
   await interaction.deferUpdate();
 
