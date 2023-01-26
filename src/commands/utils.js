@@ -4,7 +4,7 @@ import { MessageButton } from "discord.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
-import { settingsButtonHandler } from "./polls/pollsSettings.js";
+import { settingsButtonHandler } from "./polls/pollsHandlers.js";
 
 /**
  * Reply to interaction function
