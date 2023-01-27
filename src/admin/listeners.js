@@ -1,5 +1,6 @@
 import {
   buttonHandler,
+  modalHandler,
   interactionReply,
   isReleasedCommand,
   dispatchSlicedEmbedContent,
@@ -42,6 +43,12 @@ export const onInteractionCreate = (interaction) => {
 
   if (interaction.isButton()) {
     buttonHandler(interaction);
+    return;
+  }
+
+  if (interaction.isModalSubmit()) {
+    console.log("modal interaction detected");
+    modalHandler(interaction);
     return;
   }
 

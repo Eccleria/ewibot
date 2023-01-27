@@ -1,5 +1,5 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
-import { createButton } from "../utils.js";
+import { createButton, interactionReply } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const sendSettingsButtons = async (interaction) => {
@@ -26,13 +26,13 @@ export const sendSettingsButtons = async (interaction) => {
   interaction.editReply({ components: [actionRow], ephemeral: true });
 };
 
-export const addChoicePoll = async (interaction) => {
+export const addChoicePollButton = async (interaction) => {
   const modal = new Modal()
     .setTitle("Ajouter un choix au sondage")
     .setCustomId("polls_modal_addChoice");
 
   const newChoiceInput = new TextInputComponent()
-    .setCustomId("polls_modal_choiceInput")
+    .setCustomId("choiceInput")
     .setLabel("Nouveau choix")
     .setMinLength(1)
     .setMaxLength(50)
@@ -79,4 +79,10 @@ export const disablePoll = async (interaction) => {
   };
   interaction.editReply(editedStopMessage);
   pollMessage.edit(editedPollMessage);
+};
+
+export const addChoicePollModal = (interaction) => {
+  const choiceToAdd = interaction.fields.getTextInputValue("choiceInput");
+  console.log("choiceToAdd", [choiceToAdd]);
+  interactionReply(interaction, "Bien reçu");
 };
