@@ -1,4 +1,7 @@
-﻿## 4.8.1
+﻿## 4.8.2
+- Fix: alavirien checking wrong sentinelle member + not fetching old presentations
+
+## 4.8.1
 - Fix: activities updated with setInterval, wrongly used as setTimeout
 - Fix: giving alavirien role to sentinelle reacting and not to presenting user
 
