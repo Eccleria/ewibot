@@ -1,4 +1,5 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
+import { fetchPollMessage } from "./pollsUtils.js";
 import { createButton, interactionReply } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
@@ -53,9 +54,7 @@ export const disablePoll = async (interaction) => {
   const perso = PERSONALITY.getCommands().polls.settings;
 
   //fetch pollMessage
-  const pollMessage = await interaction.channel.messages.fetch(
-    interaction.message.reference.messageId
-  );
+  const pollMessage = await fetchPollMessage(interaction);
   const editedPollMessage = {};
 
   //edit title
@@ -81,8 +80,20 @@ export const disablePoll = async (interaction) => {
   pollMessage.edit(editedPollMessage);
 };
 
-export const addChoicePollModal = (interaction) => {
-  const choiceToAdd = interaction.fields.getTextInputValue("choiceInput");
-  console.log("choiceToAdd", [choiceToAdd]);
-  interactionReply(interaction, "Bien reçu");
+export const addChoicePollModal = async (interaction) => {
+  const inputs = interaction.fields.getTextInputValue("choiceInput");
+  console.log("inputs", [inputs]);
+  //get perso
+  const perso = PERSONALITY.getCommands().polls;
+  
+  //get pollMessage
+  const pollMessage = await fetchPollMessage(interaction);
+  
+  //check for multiple inputs
+  const splited = inputs.split(";");
+
+  if (splited.length > 10) {
+    interactionReply(interaction, perso.errorChoicesNumber);
+    return;
+  }
 };
