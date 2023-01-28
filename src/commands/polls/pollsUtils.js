@@ -24,3 +24,15 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
   );
   return results;
 };
+
+/**
+ * get Poll message from buttonInteraction 
+ * @param {object} poll button settings interaction 
+ * @returns Poll message
+ */
+export const fetchPollMessage = async (interaction) => {
+  const pollMessage = await interaction.channel.messages.fetch(
+    interaction.message.reference.messageId
+  );
+  return pollMessage;
+};
