@@ -1,4 +1,4 @@
-import { getFieldNumbers } from "./pollsUtils.js";
+import { getFieldNumbers, interactionEditReply } from "./pollsUtils.js";
 import {
   addPollVoter,
   getPollVoteIndexes,
@@ -48,7 +48,7 @@ export const multipleVoteType = async (interaction, dbPoll, perso) => {
     if (voteCount < dbPoll.voteMax)
       addPollVoter(db, pollId, userId, currentVoteIdx);
     else {
-      interaction.editReply({ content: perso.errorMaxVote, ephemeral: true });
+      interactionEditReply(interaction, perso.errorMaxVote);
       return;
     }
   } /*
@@ -163,5 +163,5 @@ export const multipleVoteType = async (interaction, dbPoll, perso) => {
   //update embed
   pollEmbed.setFields(...newFields);
   await message.edit({ embeds: [pollEmbed], components: message.components });
-  interaction.editReply({ content: perso.counted, ephemeral: true });
+  interactionEditReply(interaction, perso.counted);
 };

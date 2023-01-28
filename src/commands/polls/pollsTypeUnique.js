@@ -1,4 +1,4 @@
-import { getFieldNumbers } from "./pollsUtils.js";
+import { getFieldNumbers, interactionEditReply } from "./pollsUtils.js";
 import {
   addPollVoter,
   getPollVoteIndexes,
@@ -156,5 +156,5 @@ export const uniqueVoteType = async (interaction, dbPoll, perso) => {
   //update embed
   pollEmbed.setFields(...newFields);
   await message.edit({ embeds: [pollEmbed], components: message.components });
-  interaction.editReply({ content: perso.counted, ephemeral: true });
+  interactionEditReply(interaction, perso.counted);
 };

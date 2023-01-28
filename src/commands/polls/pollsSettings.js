@@ -1,5 +1,5 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
-import { fetchPollMessage } from "./pollsUtils.js";
+import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
 import { createButton, interactionReply } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
@@ -24,7 +24,7 @@ export const sendSettingsButtons = async (interaction) => {
   const actionRow = new MessageActionRow().addComponents([addButton, stopButton]);
 
   //send buttons
-  interaction.editReply({ components: [actionRow], ephemeral: true });
+  interactionEditReply(interaction, {components: [actionRow]})
 };
 
 export const addChoicePollButton = async (interaction) => {
@@ -76,7 +76,7 @@ export const disablePoll = async (interaction) => {
     components: [],
     ephemeral: true,
   };
-  interaction.editReply(editedStopMessage);
+  interactionEditReply(interaction, editedStopMessage);
   pollMessage.edit(editedPollMessage);
 };
 
