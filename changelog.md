@@ -1,5 +1,6 @@
 ﻿## 4.8.2
 - Fix: alavirien checking wrong sentinelle member + not fetching old presentations
+- Fix: dbHelper `removeAlavirien` wrong param order in `checkDb`
 
 ## 4.8.1
 - Fix: activities updated with setInterval, wrongly used as setTimeout
