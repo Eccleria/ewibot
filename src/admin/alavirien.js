@@ -29,7 +29,7 @@ const giveAlavirien = async (client, server, personality, userId) => {
   if (!guildMember.roles.cache.has(server.alavirienRoleId)) {
     //if doesn't have the role
     guildMember.roles.add(server.alavirienRoleId); //add role
-    removeAlavirien(client.db, userId); //remove from db
+    removeAlavirien(userId, client.db); //remove from db
 
     //send log
     const embed = setupEmbed("DARK_GREY", personality, guildMember.user, "tag"); //create log
