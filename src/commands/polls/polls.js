@@ -4,6 +4,7 @@ import { addPoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
+import { parsePollFields } from "./pollsUtils.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
@@ -59,8 +60,6 @@ const command = new SlashCommandBuilder()
       .setMinValue(1)
   );
 
-const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
-
 const action = async (interaction) => {
   const options = interaction.options;
   const perso = PERSONALITY.getCommands().polls;
@@ -101,27 +100,7 @@ const action = async (interaction) => {
   if (description) embed.setDescription(description);
 
   //write choices text
-  const results = splited.reduce(
-    (acc, cur, idx) => {
-      const replaced = cur.replace(",", "");
-      if (cur.includes(",")) {
-        //if choices includes emote
-        const emote = cur.split(",")[0];
-        return {
-          fields: [...acc.fields, replaced],
-          emotes: [...acc.emotes, emote],
-        };
-      } else {
-        const emote = bullet[idx];
-        const text = idx === 0 ? emote + " " + replaced : emote + replaced;
-        return {
-          fields: [...acc.fields, text],
-          emotes: [...acc.emotes, emote],
-        };
-      }
-    },
-    { fields: [], emotes: [] }
-  );
+  const results = parsePollFields(splited);
 
   const black = perso.colorOption.black;
   results.fields.forEach((field) => {

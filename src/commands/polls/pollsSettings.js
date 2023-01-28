@@ -1,5 +1,5 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
-import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
+import { fetchPollMessage, interactionEditReply, parsePollFields } from "./pollsUtils.js";
 import { createButton, interactionReply } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
@@ -88,7 +88,8 @@ export const addChoicePollModal = async (interaction) => {
   
   //get pollMessage
   const pollMessage = await fetchPollMessage(interaction);
-  const fields = pollMessage.embeds[0].fields;
+  const embed = pollMessage.embeds[0];
+  const fields = embed.fields;
 
   //check for multiple inputs
   const splited = inputs.split(";");
@@ -99,4 +100,9 @@ export const addChoicePollModal = async (interaction) => {
   }
 
   //add to embed
+  const results = parsePollFields(splited);
+  const black = perso.colorOption.black;
+  results.fields.forEach((field) => {
+    embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
+  });
 };

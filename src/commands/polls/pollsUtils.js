@@ -55,3 +55,30 @@ export const interactionEditReply = async (
     await interaction.editReply(payload);
   }
 };
+
+const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+
+export const parsePollFields = (content) => {
+  const results = content.reduce(
+    (acc, cur, idx) => {
+      const replaced = cur.replace(",", "");
+      if (cur.includes(",")) {
+        //if choices includes emote
+        const emote = cur.split(",")[0];
+        return {
+          fields: [...acc.fields, replaced],
+          emotes: [...acc.emotes, emote],
+        };
+      } else {
+        const emote = bullet[idx];
+        const text = idx === 0 ? emote + " " + replaced : emote + replaced;
+        return {
+          fields: [...acc.fields, text],
+          emotes: [...acc.emotes, emote],
+        };
+      }
+    },
+    { fields: [], emotes: [] }
+  );
+  return results;
+}
