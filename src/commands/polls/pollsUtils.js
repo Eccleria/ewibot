@@ -36,3 +36,22 @@ export const fetchPollMessage = async (interaction) => {
   );
   return pollMessage;
 };
+
+/**
+ * Edit the reply to an interaction after being defered, using payload as content
+ * @param {object} interaction Interaction to edit the reply.
+ * @param {object|string} payload Content of the reply, can be only a string.
+ * @param {?boolean} isEphemeral To send reply only to author, true by default.
+ */
+export const interactionEditReply = async ( 
+  interaction,
+  payload,
+  isEphemeral = true
+) => {
+  if (typeof payload == "string")
+   await interaction.editReply({ content: payload, ephemeral: isEphemeral });
+  else {
+    payload.ephemeral = isEphemeral;
+    await interaction.editReply(payload);
+  }
+};
