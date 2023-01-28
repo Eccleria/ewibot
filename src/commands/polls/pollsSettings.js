@@ -88,12 +88,15 @@ export const addChoicePollModal = async (interaction) => {
   
   //get pollMessage
   const pollMessage = await fetchPollMessage(interaction);
-  
+  const fields = pollMessage.embeds[0].fields;
+
   //check for multiple inputs
   const splited = inputs.split(";");
-
-  if (splited.length > 10) {
+  const newLength = splited.length + fields.length;
+  if (newLength > 10) {
     interactionReply(interaction, perso.errorChoicesNumber);
     return;
   }
+
+  //add to embed
 };
