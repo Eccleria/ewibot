@@ -26,9 +26,12 @@ import {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
+} from "./db/dbHelper.js";
+
+import {
   addAlavirien,
   removeAlavirien,
-} from "./db/dbHelper.js";
+} from "./db/dbAlavirien.js";
 
 import {
   generateSpotifyClient,
@@ -87,6 +90,7 @@ export {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
+  //alavirien
   addAlavirien,
   removeAlavirien,
 };
