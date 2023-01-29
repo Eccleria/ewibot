@@ -36,7 +36,7 @@ const action = async (message, client) => {
       guildMember = await guildMembers.fetch(cur.userId); //get guildMember
     } catch {
       //if not found, not in serveur anymore => remove from db
-      removeAppologyCount(cur.userId, db);
+      removeAppologyCount(db, cur.userId);
     }
 
     if (guildMember && cur.counter >= 10) {

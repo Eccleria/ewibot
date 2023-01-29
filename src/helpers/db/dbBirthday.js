@@ -14,7 +14,7 @@ const addBirthday = (db, authorId, birthday) => {
   db.wasUpdated = true;
 };
 
-const removeBirthday = (authorId, db) => {
+const removeBirthday = (db, authorId) => {
   if (isBirthdayDate(db, authorId)) {
     db.data.birthdaysUsers = db.data.birthdaysUsers.filter(
       ({ userId }) => userId !== authorId
