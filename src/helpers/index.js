@@ -1,7 +1,4 @@
 import {
-  addAdminLogs,
-  getAdminLogs,
-  removeAdminLogs,
   addBirthday,
   removeBirthday,
   isBirthdayDate,
@@ -9,6 +6,12 @@ import {
   addApologyCount,
   removeAppologyCount,
 } from "./db/dbHelper.js";
+
+import {
+  addAdminLogs,
+  getAdminLogs,
+  removeAdminLogs,
+} from "./db/dbAdmin.js";
 
 import {
   addAlavirien,
