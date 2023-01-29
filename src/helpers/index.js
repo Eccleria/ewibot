@@ -78,9 +78,13 @@ export {
   parseLink,
   deleteSongFromPlaylist,
   // dbHelper
+  //admin
   addAdminLogs,
   getAdminLogs,
   removeAdminLogs,
+  //alavirien
+  addAlavirien,
+  removeAlavirien,
   //apology
   isApologyUser,
   addApologyCount,
@@ -89,17 +93,6 @@ export {
   addBirthday,
   removeBirthday,
   isBirthdayDate,
-  //ignore
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  addIgnoredUser,
-  isIgnoredUser,
-  removeIgnoredUser,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
   //gift
   addGiftUser,
   removeGiftUser,
@@ -109,7 +102,16 @@ export {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
-  //alavirien
-  addAlavirien,
-  removeAlavirien,
+  //ignore
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+  //twitter
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
 };
