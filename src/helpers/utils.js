@@ -90,7 +90,7 @@ export const reactionHandler = async (message, currentServer, client) => {
   // If message contains apology, Ewibot reacts
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
   if (hasApology(sanitizedContent)) {
-    addApologyCount(authorId, db); //add data to db
+    addApologyCount(db, authorId); //add data to db
     await message.react(currentServer.panDuomReactId); //add message reaction
   }
 

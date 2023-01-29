@@ -6,7 +6,7 @@ const isApologyUser = (db, authorId) => {
     .includes(authorId);
 };
 
-const addApologyCount = (authorId, db) => {
+const addApologyCount = (db, authorId) => {
   const { apologiesCounting } = db.data;
 
   if (isApologyUser(db, authorId)) {
