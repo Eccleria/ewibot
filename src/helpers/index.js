@@ -28,7 +28,7 @@ import {
   addGiftSeparator,
   addAlavirien,
   removeAlavirien,
-} from "./dbHelper.js";
+} from "./db/dbHelper.js";
 
 import {
   generateSpotifyClient,
