@@ -2,17 +2,11 @@ import {
   addAdminLogs,
   getAdminLogs,
   removeAdminLogs,
-  addIgnoredUser,
-  removeIgnoredUser,
-  isIgnoredUser,
   addBirthday,
   removeBirthday,
   isBirthdayDate,
   isApologyUser,
   addApologyCount,
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
   removeAppologyCount,
 } from "./db/dbHelper.js";
 
@@ -31,6 +25,15 @@ import {
   getGiftMessage,
   addGiftSeparator,
 } from "./db/dbGift.js";
+
+import {
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+} from "./db/dbIgnore.js";
 
 import {
   getTwitterUser,
@@ -72,17 +75,18 @@ export {
   addAdminLogs,
   getAdminLogs,
   removeAdminLogs,
+  //ignore
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
   addIgnoredUser,
-  removeIgnoredUser,
   isIgnoredUser,
+  removeIgnoredUser,
   addBirthday,
   removeBirthday,
   isBirthdayDate,
   isApologyUser,
   addApologyCount,
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
   removeAppologyCount,
   getTwitterUser,
   updateLastTweetId,
