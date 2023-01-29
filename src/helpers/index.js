@@ -2,7 +2,7 @@ import {
   isApologyUser,
   addApologyCount,
   removeAppologyCount,
-} from "./db/dbHelper.js";
+} from "./db/dbApology.js";
 
 import {
   addAdminLogs,
@@ -81,6 +81,10 @@ export {
   addAdminLogs,
   getAdminLogs,
   removeAdminLogs,
+  //apology
+  isApologyUser,
+  addApologyCount,
+  removeAppologyCount,
   //birthday
   addBirthday,
   removeBirthday,
@@ -92,9 +96,6 @@ export {
   addIgnoredUser,
   isIgnoredUser,
   removeIgnoredUser,
-  isApologyUser,
-  addApologyCount,
-  removeAppologyCount,
   getTwitterUser,
   updateLastTweetId,
   addMissingTweets,
