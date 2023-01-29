@@ -1,4 +1,3 @@
-// ADMIN
 const addAdminLogs = (db, messageId, type, index) => {
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}

@@ -12,12 +12,16 @@ const addAlavirienNumber = (db, authorId, number) => {
       user.messageNumber += number;
       db.wasUpdated = true;
     }
-  })
+  });
 };
 
 const addAlavirien = (db, authorId, number, date) => {
   if (!isAlavirien(db, authorId)) {
-    db.data.alavirien.push({ userId: authorId, messageNumber: number, joinAt: date});
+    db.data.alavirien.push({
+      userId: authorId,
+      messageNumber: number,
+      joinAt: date,
+    });
     db.wasUpdated = true;
   } else {
     addAlavirienNumber(db, authorId, number);
@@ -33,4 +37,4 @@ const removeAlavirien = (db, authorId) => {
   }
 };
 
-export { isAlavirien, addAlavirienNumber, addAlavirien, removeAlavirien};
+export { isAlavirien, addAlavirienNumber, addAlavirien, removeAlavirien };

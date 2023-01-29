@@ -4,16 +4,9 @@ import {
   removeAppologyCount,
 } from "./db/dbApology.js";
 
-import {
-  addAdminLogs,
-  getAdminLogs,
-  removeAdminLogs,
-} from "./db/dbAdmin.js";
+import { addAdminLogs, getAdminLogs, removeAdminLogs } from "./db/dbAdmin.js";
 
-import {
-  addAlavirien,
-  removeAlavirien,
-} from "./db/dbAlavirien.js";
+import { addAlavirien, removeAlavirien } from "./db/dbAlavirien.js";
 
 import {
   addBirthday,

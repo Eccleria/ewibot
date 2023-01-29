@@ -1,4 +1,3 @@
-// APOLOGY COUNTING
 const isApologyUser = (authorId, db) => {
   return db.data.apologiesCounting
     .map((obj) => {
