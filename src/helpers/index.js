@@ -10,6 +10,7 @@ import { addAlavirien, removeAlavirien } from "./db/dbAlavirien.js";
 
 import {
   addBirthday,
+  isBirthdayDate,
   removeBirthday,
 } from "./db/dbBirthday.js";
 
@@ -83,6 +84,7 @@ export {
   removeAppologyCount,
   //birthday
   addBirthday,
+  isBirthdayDate,
   removeBirthday,
   //gift
   addGiftUser,

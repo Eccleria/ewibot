@@ -6,7 +6,7 @@ const isBirthdayDate = (db, authorId) => {
     .includes(authorId);
 };
 
-const addBirthday = (authorId, db, birthday) => {
+const addBirthday = (db, authorId, birthday) => {
   db.data.birthdaysUsers = [
     ...db.data.birthdaysUsers.filter(({ userId }) => userId !== authorId),
     { userId: authorId, birthdayDate: birthday },
@@ -23,4 +23,4 @@ const removeBirthday = (authorId, db) => {
   }
 };
 
-export { addBirthday, removeBirthday };
+export { addBirthday, isBirthdayDate, removeBirthday };
