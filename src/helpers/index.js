@@ -1,7 +1,4 @@
 import {
-  addBirthday,
-  removeBirthday,
-  isBirthdayDate,
   isApologyUser,
   addApologyCount,
   removeAppologyCount,
@@ -17,6 +14,12 @@ import {
   addAlavirien,
   removeAlavirien,
 } from "./db/dbAlavirien.js";
+
+import {
+  addBirthday,
+  removeBirthday,
+  isBirthdayDate,
+} from "./db/dbBirthday.js";
 
 import {
   addGiftUser,
@@ -78,6 +81,10 @@ export {
   addAdminLogs,
   getAdminLogs,
   removeAdminLogs,
+  //birthday
+  addBirthday,
+  removeBirthday,
+  isBirthdayDate,
   //ignore
   addIgnoredChannel,
   isIgnoredChannel,
@@ -85,9 +92,6 @@ export {
   addIgnoredUser,
   isIgnoredUser,
   removeIgnoredUser,
-  addBirthday,
-  removeBirthday,
-  isBirthdayDate,
   isApologyUser,
   addApologyCount,
   removeAppologyCount,
