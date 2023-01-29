@@ -14,10 +14,6 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
   addGiftUser,
   removeGiftUser,
   isGiftUser,
@@ -32,6 +28,13 @@ import {
   addAlavirien,
   removeAlavirien,
 } from "./db/dbAlavirien.js";
+
+import {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
+} from "./db/dbTwitter.js";
 
 import {
   generateSpotifyClient,
