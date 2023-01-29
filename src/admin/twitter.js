@@ -54,7 +54,8 @@ export const tweetCompare = async (client, interaction) => {
   for (const [username, userId] of users) {
     const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
-    const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
+    const tweetIds = fetchedTweets.data.data ? fetchedTweets.data.data.map((obj) => obj.id) : null; //tweet ids
+    if (tweetIds === null) return;
     const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
 
     if (idx > 0) {
