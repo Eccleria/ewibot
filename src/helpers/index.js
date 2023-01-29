@@ -14,6 +14,14 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   removeAppologyCount,
+} from "./db/dbHelper.js";
+
+import {
+  addAlavirien,
+  removeAlavirien,
+} from "./db/dbAlavirien.js";
+
+import {
   addGiftUser,
   removeGiftUser,
   isGiftUser,
@@ -22,12 +30,7 @@ import {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
-} from "./db/dbHelper.js";
-
-import {
-  addAlavirien,
-  removeAlavirien,
-} from "./db/dbAlavirien.js";
+} from "./db/dbGift.js";
 
 import {
   getTwitterUser,
@@ -85,6 +88,7 @@ export {
   updateLastTweetId,
   addMissingTweets,
   removeMissingTweets,
+  //gift
   addGiftUser,
   removeGiftUser,
   isGiftUser,
