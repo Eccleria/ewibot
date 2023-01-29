@@ -1,4 +1,4 @@
-const isBirthdayDate = (authorId, db) => {
+const isBirthdayDate = (db, authorId) => {
   return db.data.birthdaysUsers
     .map((obj) => {
       return obj.userId;
@@ -15,7 +15,7 @@ const addBirthday = (authorId, db, birthday) => {
 };
 
 const removeBirthday = (authorId, db) => {
-  if (isBirthdayDate(authorId, db)) {
+  if (isBirthdayDate(db, authorId)) {
     db.data.birthdaysUsers = db.data.birthdaysUsers.filter(
       ({ userId }) => userId !== authorId
     );
@@ -23,4 +23,4 @@ const removeBirthday = (authorId, db) => {
   }
 };
 
-export { addBirthday, removeBirthday, isBirthdayDate };
+export { addBirthday, removeBirthday };

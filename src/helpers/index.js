@@ -11,7 +11,6 @@ import { addAlavirien, removeAlavirien } from "./db/dbAlavirien.js";
 import {
   addBirthday,
   removeBirthday,
-  isBirthdayDate,
 } from "./db/dbBirthday.js";
 
 import {
@@ -85,7 +84,6 @@ export {
   //birthday
   addBirthday,
   removeBirthday,
-  isBirthdayDate,
   //gift
   addGiftUser,
   removeGiftUser,
