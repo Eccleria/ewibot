@@ -1,4 +1,4 @@
-const isApologyUser = (authorId, db) => {
+const isApologyUser = (db, authorId) => {
   return db.data.apologiesCounting
     .map((obj) => {
       return obj.userId;
@@ -9,7 +9,7 @@ const isApologyUser = (authorId, db) => {
 const addApologyCount = (authorId, db) => {
   const { apologiesCounting } = db.data;
 
-  if (isApologyUser(authorId, db)) {
+  if (isApologyUser(db, authorId)) {
     // If already in DB, add +1 to the counter
     for (const obj of apologiesCounting) {
       if (obj.userId === authorId) {
@@ -27,7 +27,7 @@ const addApologyCount = (authorId, db) => {
 };
 
 const removeAppologyCount = (authorId, db) => {
-  if (isApologyUser(authorId, db)) {
+  if (isApologyUser(db, authorId)) {
     db.data.apologiesCounting = db.data.apologiesCounting.filter(
       (cur) => cur.userId !== authorId
     );
