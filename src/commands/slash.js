@@ -114,7 +114,7 @@ const ignoreUser = {
 
     //check for command argument
     if (isIgnoredUser(authorId, db)) {
-      removeIgnoredUser(authorId, db);
+      removeIgnoredUser(db, authorId);
       interactionReply(interaction, iPerso.notIgnored);
     } else {
       addIgnoredUser(db, authorId);

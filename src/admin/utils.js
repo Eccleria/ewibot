@@ -695,6 +695,6 @@ export const checkDB = (userId, client) => {
   //check if user is in db for removal
   const db = client.db;
   removeBirthday(db, userId);
-  removeIgnoredUser(userId, db);
+  removeIgnoredUser(db, userId);
   removeAlavirien(db, userId);
 };
