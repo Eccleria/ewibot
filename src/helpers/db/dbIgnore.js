@@ -38,7 +38,7 @@ const removeIgnoredUser = (db, authorId) => {
   db.wasUpdated = true;
 };
 
-const isIgnoredUser = (authorId, db) => {
+const isIgnoredUser = (db, authorId) => {
   return db.data.ignoredUsersIds.includes(authorId);
 };
 

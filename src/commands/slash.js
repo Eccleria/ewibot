@@ -113,7 +113,7 @@ const ignoreUser = {
     const iPerso = PERSONALITY.getCommands().ignoreUser;
 
     //check for command argument
-    if (isIgnoredUser(authorId, db)) {
+    if (isIgnoredUser(db, authorId)) {
       removeIgnoredUser(db, authorId);
       interactionReply(interaction, iPerso.notIgnored);
     } else {

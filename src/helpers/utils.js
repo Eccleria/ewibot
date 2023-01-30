@@ -84,7 +84,7 @@ export const reactionHandler = async (message, currentServer, client) => {
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
-  if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
+  if (isIgnoredUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
