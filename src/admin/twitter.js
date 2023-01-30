@@ -49,7 +49,7 @@ export const tweetCompare = async (client, interaction) => {
   let tLinks = [];
 
   for (const [username, userId] of users) {
-    const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
+    const dbData = getTwitterUser(client.db, userId); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
     const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
     const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet

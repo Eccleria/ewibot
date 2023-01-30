@@ -6,7 +6,7 @@ const isTwitterUser = (db, authorId) => {
     .includes(authorId);
 };
 
-const getTwitterUser = (authorId, db) => {
+const getTwitterUser = (db, authorId) => {
   const twitter = db.data.twitter.users;
   if (isTwitterUser(db, authorId)) {
     for (const obj of twitter) {
