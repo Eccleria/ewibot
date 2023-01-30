@@ -694,7 +694,7 @@ export const checkProdTestMode = (logChannel) => {
 export const checkDB = (userId, client) => {
   //check if user is in db for removal
   const db = client.db;
-  removeBirthday(userId, db);
+  removeBirthday(db, userId);
   removeIgnoredUser(userId, db);
   removeAlavirien(db, userId);
 };
