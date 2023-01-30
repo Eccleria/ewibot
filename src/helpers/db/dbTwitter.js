@@ -1,4 +1,4 @@
-const isTwitterUser = (authorId, db) => {
+const isTwitterUser = (db, authorId) => {
   return db.data.twitter.users
     .map((obj) => {
       return obj.userId;
@@ -8,7 +8,7 @@ const isTwitterUser = (authorId, db) => {
 
 const getTwitterUser = (authorId, db) => {
   const twitter = db.data.twitter.users;
-  if (isTwitterUser(authorId, db)) {
+  if (isTwitterUser(db, authorId)) {
     for (const obj of twitter) {
       if (obj.userId === authorId) {
         return obj;
@@ -19,7 +19,7 @@ const getTwitterUser = (authorId, db) => {
 
 const updateLastTweetId = (authorId, tweetId, db) => {
   const twitter = db.data.twitter.users;
-  if (isTwitterUser(authorId, db)) {
+  if (isTwitterUser(db, authorId)) {
     for (const obj of twitter) {
       if (obj.userId === authorId) {
         obj.lastTweetId = tweetId;
