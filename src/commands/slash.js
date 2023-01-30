@@ -117,7 +117,7 @@ const ignoreUser = {
       removeIgnoredUser(authorId, db);
       interactionReply(interaction, iPerso.notIgnored);
     } else {
-      addIgnoredUser(authorId, db);
+      addIgnoredUser(db, authorId);
       interactionReply(interaction, iPerso.ignored);
     }
   },

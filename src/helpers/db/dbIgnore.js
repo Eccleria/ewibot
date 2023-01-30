@@ -22,7 +22,7 @@ const removeIgnoredChannel = (db, channelId) => {
 export { isIgnoredChannel, addIgnoredChannel, removeIgnoredChannel };
 
 // IGNORED USERS
-const addIgnoredUser = (authorId, db) => {
+const addIgnoredUser = (db, authorId) => {
   if (!db.data.ignoredUsersIds.includes(authorId)) {
     db.data.ignoredUsersIds.push(authorId);
   }
