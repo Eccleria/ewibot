@@ -1,6 +1,9 @@
 // jsons imports
 import { readFileSync } from "fs";
-const personalities = JSON.parse(readFileSync("static/personalities.json"));
+const path = "static/personalities/";
+const admin = JSON.parse(readFileSync(path + "admin.json"));
+const announces = JSON.parse(readFileSync(path + "announces.json"));
+const personalities = JSON.parse(readFileSync(path + "personalities.json"));
 
 class Personality {
   /**
@@ -8,11 +11,13 @@ class Personality {
    * @param {string} name name of the personality, corresponding to personnalities.json names
    * @param {object} personality personality object related to the name.
    * @param {object} admin personality admin object, common for any personality.
+   * @param {object} announces personality announces object.
    */
-  constructor(name, personality, admin) {
+  constructor(name, personality, admin, announces) {
     this.name = name;
     this.personality = personality;
     this.admin = admin;
+    this.announces = announces;
   }
 
   /**
@@ -59,11 +64,15 @@ class Personality {
   getAdmin() {
     return this.admin;
   }
+  getAnnounces() {
+    return this.announces;
+  }
 }
 
 //initiating Personality for the bot with init values.
 export const PERSONALITY = new Personality(
   "normal",
   personalities.normal,
-  personalities.admin
+  admin,
+  announces
 );

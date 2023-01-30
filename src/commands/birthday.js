@@ -4,6 +4,9 @@ import "dayjs/locale/fr.js";
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
 
+import { SlashCommandBuilder } from "@discordjs/builders";
+
+import { interactionReply } from "./utils.js";
 import {
   addBirthday,
   isBirthdayDate,
@@ -46,61 +49,122 @@ export const wishBirthday = async (db, channel) => {
   }
 };
 
-const action = async (message, client) => {
-  const content = message.content;
-  const authorId = message.author.id;
-  const db = client.db;
-  const words = content.toLowerCase().split(" ");
+const command = new SlashCommandBuilder()
+  .setName(PERSONALITY.getCommands().birthday.name)
+  .setDescription(PERSONALITY.getCommands().birthday.description)
+  .addSubcommand((subcommand) =>
+    subcommand //add subcommand
+      .setName(PERSONALITY.getCommands().birthday.add.name)
+      .setDescription(PERSONALITY.getCommands().birthday.add.description)
+      .addIntegerOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().birthday.add.dayOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().birthday.add.dayOption.description
+          )
+          .setRequired(true)
+          .setMinValue(1)
+          .setMaxValue(31)
+      )
+      .addNumberOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().birthday.add.monthOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().birthday.add.monthOption.description
+          )
+          .setRequired(true)
+          .setMinValue(1)
+          .setMaxValue(12)
+      )
+      .addNumberOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().birthday.add.yearOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().birthday.add.yearOption.description
+          )
+          .setRequired(false)
+          .setMinValue(dayjs().subtract(100, "year").year())
+          .setMaxValue(dayjs().subtract(5, "year").year())
+      )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand //remove subcommand
+      .setName(PERSONALITY.getCommands().birthday.remove.name)
+      .setDescription(PERSONALITY.getCommands().birthday.remove.description)
+  )
+  .addSubcommand((subcommand) =>
+    subcommand //get subcommand
+      .setName(PERSONALITY.getCommands().birthday.get.name)
+      .setDescription(PERSONALITY.getCommands().birthday.get.description)
+  );
 
-  if (words[1] && words[1] === "del") {
+const action = async (interaction) => {
+  const authorId = interaction.member.id;
+  const db = interaction.client.db;
+
+  const whichCommand = interaction.options.getSubcommand();
+  const bPerso = PERSONALITY.getCommands().birthday;
+
+  if (whichCommand === bPerso.remove.name) {
     // remove user
     if (isBirthdayDate(authorId, db)) {
+      //if in db
       removeBirthday(authorId, db);
-      await message.reply(PERSONALITY.getCommands().birthday.removeUser);
-      return;
-    }
-  } else if (words[1] === "add" && words[2]) {
+      await interactionReply(interaction, bPerso.removeUser);
+    } else await interactionReply(interaction, bPerso.userNotFound);
+    return;
+  } else if (whichCommand === bPerso.add.name) {
     // add user
-    const date = dayjs(words[2], ["DD-MM-YYYY", "DD-MM"]);
+    const day = interaction.options
+      .getInteger(bPerso.add.dayOption.name)
+      .toString();
+    const month = interaction.options
+      .getNumber(bPerso.add.monthOption.name)
+      .toString();
+    const year = interaction.options.getNumber(bPerso.add.yearOption.name);
+
+    const dayToAdd = day.length === 1 ? "0" + day : day;
+    const monthToAdd = month.length === 1 ? "0" + month : month;
+    const dateToAdd = year
+      ? `${dayToAdd}-${monthToAdd}-${year}`
+      : `${dayToAdd}-${monthToAdd}`;
+
+    const date = dayjs(dateToAdd, ["DD-MM-YYYY", "DD-MM"]);
     if (date.isValid()) {
-      // Checks date validity
-      if (date.year() < 1950) {
-        // If too old
-        await message.reply(PERSONALITY.getCommands().birthday.tooOld);
-      } else if (
-        date.year() > dayjs().subtract(5, "year").year() &&
-        date.year() !== dayjs().year()
-      ) {
-        // If year of birth > now year - 5 => too young
-        await message.reply(PERSONALITY.getCommands().birthday.tooYoung);
-      } else {
-        addBirthday(authorId, db, date.toISOString());
-        await message.reply(PERSONALITY.getCommands().birthday.addUser);
-      }
-    } else await message.reply(PERSONALITY.getCommands().birthday.parsingError);
-  } else if (words.length === 1) {
+      //if date respect dayjs form
+      addBirthday(authorId, db, date.toISOString()); //add to db
+      await interactionReply(interaction, bPerso.addUser);
+    } else await interactionReply(interaction, bPerso.parsingError);
+  } else if (whichCommand === bPerso.get.name) {
     // checks if user is in DB and tells user
     const users = db.data.birthdaysUsers;
     const user = users.find(({ userId }) => userId === authorId);
 
     if (user)
-      await message.reply(
-        `${PERSONALITY.getCommands().birthday.getUser}${dayjs(
-          user.birthdayDate
-        ).format("DD/MM/YYYY")}.`
+      await interactionReply(
+        interaction,
+        `${bPerso.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`
       );
-    else await message.reply(PERSONALITY.getCommands().birthday.userNotFound);
+    else await interactionReply(interaction, bPerso.userNotFound);
   }
 };
 
 const birthday = {
   // Allows Ewibot to wish happy birthday to users willing to
   name: "birthday",
+  command: command,
   action,
-  help: () => {
-    return PERSONALITY.getCommands().birthday.help;
+  help: (interaction, userOption) => {
+    const personality = PERSONALITY.getCommands().birthday;
+    const helpToUse = userOption.includes(" ")
+      ? personality[userOption.split(" ")[1]]
+      : personality;
+    interactionReply(interaction, helpToUse.help);
   },
   admin: false,
+  releaseDate: null,
+  sentinelle: false,
+  subcommands: ["birthday", "birthday add", "birthday get", "birthday remove"],
 };
 
 export default birthday;

@@ -1,7 +1,8 @@
-import { MessageActionRow, MessageButton } from "discord.js";
+import { MessageActionRow } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 
 import { setupEmbed } from "../admin/utils.js";
+import { createButton } from "./utils.js";
 
 const action = async (message, client, currentServer) => {
   const { pronounsRoleHandleChannelId } = currentServer;
@@ -15,27 +16,31 @@ const action = async (message, client, currentServer) => {
 
   //create all buttons
   const style = "SECONDARY"; //grey background
-  const row1 = new MessageActionRow().addComponents(
+  const rowP1 = new MessageActionRow().addComponents(
     createButton("he", pronounsP.he, style),
     createButton("she", pronounsP.she, style),
     createButton("they", pronounsP.they, style),
     createButton("ael", pronounsP.ael, style),
     createButton("askP", pronounsP.ask, style)
   );
-  const row2 = new MessageActionRow().addComponents(
+  const rowP2 = new MessageActionRow().addComponents(
     createButton("no", pronounsP.no, style),
-    createButton("all", pronounsP.all, style),
-    createButton("cancelP", pronounsP.cancel, "DANGER")
+    createButton("allP", pronounsP.all, style),
+    createButton("cancelP", pronounsP.cancel, "DANGER") //red background
   );
-  const rowsPronouns = [row1, row2];
+  const rowsPronouns = [rowP1, rowP2];
 
-  const rowAgreement = new MessageActionRow().addComponents(
+  const rowA1 = new MessageActionRow().addComponents(
     createButton("male", agreements.male, style),
     createButton("neutral", agreements.neutral, style),
     createButton("female", agreements.female, style),
     createButton("askA", agreements.ask, style),
+    createButton("allA", agreements.all, style)
+  );
+  const rowA2 = new MessageActionRow().addComponents(
     createButton("cancelA", agreements.cancel, "DANGER") //red background
   );
+  const rowAgreement = [rowA1, rowA2];
 
   //create embeds;
   const embedPronouns = setupEmbed("ORANGE", pronounsP, null, "skip");
@@ -45,12 +50,8 @@ const action = async (message, client, currentServer) => {
   await roleChannel.send({ embeds: [embedPronouns], components: rowsPronouns });
   await roleChannel.send({
     embeds: [embedAgreements],
-    components: [rowAgreement],
+    components: rowAgreement,
   });
-};
-
-const createButton = (id, label, style) => {
-  return new MessageButton().setCustomId(id).setLabel(label).setStyle(style);
 };
 
 const pronouns = {
@@ -60,6 +61,8 @@ const pronouns = {
     return PERSONALITY.getCommands().pronouns.help;
   },
   admin: true,
+  releaseDate: null,
+  sentinelle: true,
 };
 
 export default pronouns;

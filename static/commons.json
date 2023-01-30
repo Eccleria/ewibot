@@ -1,12 +1,12 @@
-[
-  {
+{
+  "test": {
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
     "charteChannelId": "935180557770448956",
     "randomfloodChannelId": "935180557770448956",
     "logChannelId": "981478339439104090",
-    "logThreadId": "998526867533463572",
+    "logThreadId": "1017080172677177345",
     "cosmeticRoleHandle": {
       "channelId": "967059786644488192",
       "messageId": "973889029969936406"
@@ -15,22 +15,28 @@
     "roles": {
       "orange": {
         "roleId": "959360675451383828",
-        "name": "🟠"
+        "name": "🟠",
+        "color": "#e74c3c"
       },
       "vert": {
         "roleId": "959360739800391680",
-        "name": "🟢"
+        "name": "🟢",
+        "color": "#2ecc71"
       },
       "violet": {
         "roleId": "959360767063367691",
-        "name": "🟣"
+        "name": "🟣",
+        "color": "#9b59b6"
       },
       "bleu": {
         "roleId": "959360716979175455",
-        "name": "🔵"
+        "name": "🔵",
+        "color": "#3498db"
       }
     },
     "alavirienRoleId": "981493533598961706",
+    "presentationChannelId": "988100769356079114",
+    "presentationReactId": "👋",
     "autoEmotes": {
       "ewiyayReactId": "😄",
       "bjornLoveReactId": "😍",
@@ -40,16 +46,14 @@
     },
     "edouin": "😭",
     "eyeReactId": "👁️",
-    "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "🥖",
       "jamBjornBeurre": "🧈"
     },
     "panDuomReactId": "😠",
-    "removeEmoji": "❌",
     "pronouns": {
       "pronouns": {
-        "all": "988481558325395567",
+        "allP": "988481558325395567",
         "ael": "988481383817154610",
         "askP": "988481491623370783",
         "cancelP": "Annuler",
@@ -59,6 +63,7 @@
         "they": "988481438510895225"
       },
       "agreements": {
+        "allA": "1010828306800713759",
         "askA": "988481851364622336",
         "cancelA": "Annuler",
         "female": "988481769844117505",
@@ -66,16 +71,25 @@
         "neutral": "988481811657142322"
       }
     },
-    "LuciferId": "657498573222576148"
+    "twitter": {
+      "prodChannelId": "935180557770448956",
+      "testChannelId": "971866953859891220"
+    },
+    "rudolphslichId": "1052970160903950346",
+    "announce": {
+      "giftChannelId": "935180557770448956"
+    },
+    "giftButtonChannelId": "935180557770448956",
+    "sentinelleRoleId": "1043971181461651506"
   },
-  {
+  "prod": {
     "name": "prod",
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
     "charteChannelId": "817066925976191037",
     "randomfloodChannelId": "822132004581408828",
     "logChannelId": "959168176908804106",
-    "logThreadId": "998524941349691452",
+    "logThreadId": "1012365101594058762",
     "cosmeticRoleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"
@@ -84,22 +98,28 @@
     "roles": {
       "reveurs": {
         "roleId": "816971306276880395",
-        "name": "🔵"
+        "name": "🔵",
+        "color": "#3498db"
       },
       "frontaliers": {
         "roleId": "823882466024357918",
-        "name": "🟢"
+        "name": "🟢",
+        "color": "#2ecc71"
       },
       "marchombres": {
         "roleId": "959085951559290882",
-        "name": "🟠"
+        "name": "🟠",
+        "color": "#e74c3c"
       },
       "dessinateurs": {
         "roleId": "824226236523610125",
-        "name": "🟣"
+        "name": "🟣",
+        "color": "#9b59b6"
       }
     },
     "alavirienRoleId": "826743423612092436",
+    "presentationChannelId": "816966112968179712",
+    "presentationReactId": "👋",
     "autoEmotes": {
       "ewiyayReactId": "918249094391144469",
       "bjornLoveReactId": "822437083003355146",
@@ -109,16 +129,14 @@
     },
     "edouin": "823872218928250890",
     "eyeReactId": "822487568766730270",
-    "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "823904010335158323",
       "jamBjornBeurre": "933464636223791144"
     },
     "panDuomReactId": "826036478672109588",
-    "removeEmoji": "❌",
     "pronouns": {
       "pronouns": {
-        "all": "1000807331908567160",
+        "allP": "1000807331908567160",
         "ael": "1000805873842659398",
         "askP": "1000807113066553495",
         "cancelP": "Annuler",
@@ -128,6 +146,7 @@
         "they": "1000806759532863558"
       },
       "agreements": {
+        "allA": "1010826570484695091",
         "askA": "1000807897732759582",
         "cancelA": "Annuler",
         "female": "1000807692522229860",
@@ -135,6 +154,26 @@
         "neutral": "1000807784738213918"
       }
     },
-    "LuciferId": "657498573222576148"
+    "twitter": {
+      "prodChannelId": "816986951021756446",
+      "testChannelId": "1012365513676050462"
+    },
+    "rudolphslichId": "1050186232547790848",
+    "announce": {
+      "giftChannelId": "973206750771687434"
+    },
+    "giftButtonChannelId": "973206750771687434",
+    "sentinelleRoleId": "816975096518279188"
+  },
+  "shared": {
+    "helloEmoji": "👋",
+    "LuciferId": "657498573222576148",
+    "name": "shared",
+    "octagonalSignEmoji": "🛑",
+    "removeEmoji": "❌",
+    "twitterUserIds": {
+      "laquetedewilan": "1032989926000939008",
+      "andartapictures": "1039418011260727296"
+    }
   }
-]
+}

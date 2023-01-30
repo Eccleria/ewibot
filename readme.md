@@ -1,14 +1,20 @@
 # Ewibot
 
+[![Version badge](https://badgen.net/github/release/Titch88/ewibot)](https://github.com/Titch88/ewibot) [![Version badge](https://badgen.net/github/branches/Titch88/ewibot)](https://github.com/Titch88/ewibot)
+
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
 This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
 
-## How it works
+## Documentation
 Ewibot is written in Javascript. The tree is devided into 4 parts: 
-[concrete](https://github.com/Titch88/ewibot/edit/master/readme.md#concrete), 
-[database](https://github.com/Titch88/ewibot/edit/master/readme.md#database), 
-[source code](https://github.com/Titch88/ewibot/edit/master/readme.md#source-code) 
-and [static code](https://github.com/Titch88/ewibot/edit/master/readme.md#static-code).
+
+- [concrete](#concrete)
+- [database](#database)
+- [source code](#source-code)
+	- [admin](./doc/admin.md)
+	- [twitter](./doc/twitter.md)
+	- [slash commands](./doc/slashCommands.md)
+- [static code](#static-code)
 
 ### Concrete
 The [concrete folder](./concrete) contains all the concrete related files. Concrete is a command used by Ewibot users to
@@ -27,36 +33,21 @@ sharing all users' information online.
 
 ### Source Code
 The [folder src](./src) is the folder containing all the source code for Ewibot. It is divided into 4 parts: 
-[admin](https://github.com/Titch88/ewibot/edit/master/readme.md#admin), 
-[commands](https://github.com/Titch88/ewibot/edit/master/readme.md#commands), 
-[helpers](https://github.com/Titch88/ewibot/edit/master/readme.md#helpers)
-and the [main code](https://github.com/Titch88/ewibot/edit/master/readme.md#main-code).
+[admin](#admin), [commands](#commands), [helpers](#helpers) and the [main code](#main-code).
 
 #### Admin
 The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. 
-* _[listeners.js](./src/admin/listeners.js)_ is a file regrouping all functions associated to the events Ewibot is responding
-to. These events are affiliated to moderation stuff, like message update/delete, timeout, kick, ban and so on.
-* _[role.js](./src/admin/role.js)_ is used to dispatch cosmetic roles among users.
-* _[utils](.src/admin/utils.js)_ is regrouping all the functions used in different files of the admin folder.  
+See [Admin documentation](./doc/admin.md) for more details.
 
 #### Commands
 There are different commands available for the users. All are inside the files of the [commands folder](./src/commands). 
-If the commands are not complex, they are written in the [index file](./src/commands/index.js). Otherwise, they are 
-separated from the rest in a dedicated file, like the [reminder command](./src/commands/reminder.js). Then they are 
-imported in the [index file](./src/commands/index.js) and regrouped for the main bot file usage.  
-A command is a object divided in 4 arguments:
-* _name_ is for the recognition of the command in an user message. 
-* _action_ is the associated function to use when the command is called by a user. 
-* _help_ is the message the bot should send when calling `$help function`. 
-* _admin_ is the argument distinguishing if the command may only be used by bot admins or by all users. An admin is a bot 
-developer.
+See [Commands documentation](./doc/commands.md) for more details.
 
 #### Helpers
 The [folder](./src/helpers) is dedicated to regroup every file having smaller functions or methods used in more important
 files. It contains 4 files:  
 * _[dbHelper.js](./src/helpers/dbHelper.js)_ is regrouping every function used for accessing and modifying the 
-[database](https://github.com/Titch88/ewibot/edit/master/readme.md#database). It usually has the _Is_, _Add_ and _Remove_ 
-functions for basic DB access and modification.  
+[database](#database). It usually has the _Is_, _Add_ and _Remove_ functions for basic DB access and modification.  
 * _[index.js](.src/helpers/index.js)_ regroups all the exported functions from _dbHelper.js_, _spotifyHelper.js_ and 
 _utils.js_.  
 * _[spotifyHelper](.src/helpers/spotifyHelper.js)_ is regrouping all the functions used in the spotify application.  

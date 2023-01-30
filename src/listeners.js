@@ -1,46 +1,15 @@
 import { PERSONALITY } from "./personality.js";
 
-import commands from "./commands/index.js";
+import { reactionHandler, deleteSongFromPlaylist } from "./helpers/index.js";
 
-import {
-  isAdmin,
-  isCommand,
-  reactionHandler,
-  checkIsOnThread,
-  deleteSongFromPlaylist,
-} from "./helpers/index.js";
-
+import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 
-// jsons imports
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("./static/commons.json"));
-
-export const onPrivateMessage = async (message, client) => {
-  const { author, content } = message;
-
-  if (!isAdmin(author.id)) return; // If not admin, no rigth to
-
-  const destinationChannelId = content.split(" ")[0];
-
-  const newContent = content.split(" ").slice(1).join(" ");
-
-  try {
-    const channel = await client.channels.fetch(destinationChannelId);
-
-    if (channel) {
-      channel.sendTyping(); // effect of Ewibot writing
-      setTimeout(() => {
-        channel.send(newContent);
-      }, 2000); // duration
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
+import { octagonalLog } from "./admin/utils.js";
+import { COMMONS } from "./commons.js";
 
 export const onPublicMessage = (message, client, currentServer, self) => {
-  const { author, content, channel } = message;
+  const { author } = message;
 
   if (
     author.id === self || // ignoring message from himself
@@ -49,42 +18,30 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   )
     return;
 
-  const { playlistThreadId } = currentServer;
-
   reactionHandler(message, currentServer, client);
-
-  // check for command
-  const commandName = content.split(" ")[0];
-  const command = commands
-    .filter(({ admin }) => (admin && isAdmin(author.id)) || !admin) //filter appropriate commands if user has or not admin rigths
-    .find(({ name }) => commandName.slice(1) === name);
-  if (command && isCommand(commandName)) {
-    if (
-      command.name === "spotify" &&
-      process.env.USE_SPOTIFY === "yes" &&
-      channel.id === playlistThreadId
-    ) {
-      // spotify stuff
-      checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
-    }
-    command.action(message, client, currentServer, self);
-  }
 };
 
-export const onRemoveReminderReaction = (messageReaction, currentServer) => {
-  const { removeEmoji } = currentServer;
+export const onRemoveReminderReaction = (
+  messageReaction,
+  reactionUser,
+  cmnShared
+) => {
+  const { removeEmoji } = cmnShared;
   const { message, emoji, users, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
     ({ botMessage }) => botMessage.id === message.id
   );
+
   if (
     foundReminder &&
     emoji.name === removeEmoji &&
-    users.cache // if user reacting is the owner of reminder
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
+    (message.interaction
+      ? reactionUser.id === message.interaction.user.id
+      : users.cache
+          .map((user) => user.id)
+          .includes(message.mentions.users.first().id)) // if user reacting is the owner of reminder
   ) {
     try {
       client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
@@ -92,6 +49,7 @@ export const onRemoveReminderReaction = (messageReaction, currentServer) => {
           // if it is the right message
           clearTimeout(timeout); //cancel timeout
           botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+          console.log("reminder deleted");
           return false;
         }
         return true;
@@ -103,13 +61,10 @@ export const onRemoveReminderReaction = (messageReaction, currentServer) => {
   }
 };
 
-export const onRemoveSpotifyReaction = async (
-  messageReaction,
-  currentServer
-) => {
+export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
   //remove song from client cache and spotify playlist using react
   const { client, message, emoji, users } = messageReaction;
-  const { removeEmoji } = currentServer;
+  const { removeEmoji } = cmnShared;
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
     // found corresponding spotify message
@@ -142,9 +97,10 @@ export const onRemoveSpotifyReaction = async (
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  const currentServer = COMMONS.fetchGuildId(
+    messageReaction.message.channel.guild.id
   );
+  const cmnShared = COMMONS.getShared();
 
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
@@ -153,14 +109,29 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-  onRemoveSpotifyReaction(messageReaction, currentServer);
+  if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
+    octagonalLog(messageReaction, user);
+    return;
+  }
 
-  onRemoveReminderReaction(messageReaction, currentServer);
+  if (
+    messageReaction.message.channel.id ===
+      currentServer.presentationChannelId &&
+    currentServer.presentationReactId === messageReaction.emoji.name
+  ) {
+    console.log("detected");
+    presentationHandler(currentServer, messageReaction, user);
+    return; //no command in presentation channel
+  }
+
+  onRemoveSpotifyReaction(messageReaction, cmnShared);
+
+  onRemoveReminderReaction(messageReaction, user, cmnShared);
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === messageReaction.message.channel.guild.id
+  const currentServer = COMMONS.fetchGuildId(
+    messageReaction.message.channel.guild.id
   );
 
   if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)

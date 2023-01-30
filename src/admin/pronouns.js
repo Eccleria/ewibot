@@ -1,14 +1,9 @@
-// jsons imports
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
-
+import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
-export const buttonHandler = async (interaction) => {
+export const pronounsButtonHandler = async (interaction) => {
   //get commons pronouns data
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === interaction.guildId
-  );
+  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
   const pronounsJson = Object.entries(currentServer.pronouns.pronouns);
   const agreementsJson = Object.entries(currentServer.pronouns.agreements);
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]
@@ -34,8 +29,7 @@ export const buttonHandler = async (interaction) => {
       const content = pronounsP.text.replyAlreadyHave; //get reply message content
       interaction.reply({ content: content, ephemeral: true }); //reply to interaction
     }
-  }
-  else {
+  } else {
     //is cancel
     //get all roles to removes
     const jsonToUse = pronounsJson.includes(json)

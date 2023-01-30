@@ -6,7 +6,12 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
+import { SlashCommandBuilder } from "@discordjs/builders";
+
 import { PERSONALITY } from "../personality.js";
+
+import { interactionReply } from "./utils.js";
+import { COMMONS } from "../commons.js";
 
 const sendDelayed = async (
   // Function sending the reminder to the user
@@ -16,14 +21,7 @@ const sendDelayed = async (
   messageContent,
   botMessage
 ) => {
-  /*
-  try {
-    // try to DM
-    await author.send(`${author.toString()} : ${messageContent}`);
-  } catch {*/
-  // send in the original channel
   await channel.send(`${author.toString()} : ${messageContent}`);
-  //}
   client.remindme = client.remindme.filter(
     // removes from cache
     ({ botMessage: answer }) => answer.id !== botMessage.id
@@ -34,15 +32,12 @@ const formatMs = (nbr) => {
   return dayjs.duration(nbr, "milliseconds").humanize();
 };
 
-const extractDuration = (str) => {
+const extractDuration = (interaction) => {
   // returns the waiting time in ms
-  const lowerStr = str.toLowerCase();
 
-  // Date writing format: XXhYYmZZs
-
-  const hours = Number(lowerStr.slice(0, 2));
-  const minutes = Number(lowerStr.slice(3, 5));
-  const seconds = Number(lowerStr.slice(6, 8));
+  const hours = interaction.options.getNumber("heures");
+  const minutes = interaction.options.getNumber("minutes");
+  const seconds = interaction.options.getNumber("secondes");
 
   const durationMs =
     (isNaN(hours) ? 0 : hours * 3600) +
@@ -52,53 +47,43 @@ const extractDuration = (str) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (message, currentServer, timing) => {
+const answerBot = async (interaction, cmnShared, timing) => {
   // Confirm or not the reminder to user
-  /*
-  try {
-    // try to DM
-    const answer = await message.author.send(
-      PERSONALITY.getCommands().reminder.remind.concat(
-        `${formatMs(timing)}. `,
-        PERSONALITY.getCommands().reminder.react[0],
-        `${currentServer.removeEmoji}`,
-        PERSONALITY.getCommands().reminder.react[1]
-      )
-    );
-    await answer.react(currentServer.removeEmoji);
-    return answer;
-  } catch {
-    // reply to the request message
-    console.log(`Utilisateur ayant bloqué les DMs`);*/
-  const answer = await message.reply(
-    PERSONALITY.getCommands().reminder.remind +
+  const personality = PERSONALITY.getCommands().reminder;
+  const { removeEmoji } = cmnShared;
+
+  await interactionReply(
+    interaction,
+    personality.remind +
       `${formatMs(timing)}` +
-      PERSONALITY.getCommands().reminder.react[0] +
-      `${currentServer.removeEmoji}` +
-      PERSONALITY.getCommands().reminder.react[1]
+      personality.react[0] +
+      `${removeEmoji}` +
+      personality.react[1],
+    false
   );
-  await answer.react(currentServer.removeEmoji);
+  const answer = await interaction.fetchReply();
+
+  await answer.react(removeEmoji);
   return answer;
-  //}
 };
 
-const action = async (message, client, currentServer) => {
-  const { channel, content, author } = message;
-  const args = content.split(" ");
+const action = async (interaction) => {
+  const { client, member, channel } = interaction;
 
-  const wordTiming = args[1];
-
-  const timing = extractDuration(wordTiming);
+  //get interaction input
+  const messageContent = interaction.options.getString("contenu");
+  const timing = extractDuration(interaction); //waiting time in ms
 
   if (!timing) {
     //Checks for timing format
-    console.log("erreur de parsing");
+    const content = PERSONALITY.getCommands().reminder.error;
+    interactionReply(interaction, content);
   } else {
-    console.log("timing: ", timing);
+    console.log("reminder timing: ", timing);
 
-    const messageContent = args.slice(2).join(" ");
+    const cmnShared = COMMONS.getShared();
 
-    const answer = await answerBot(message, currentServer, timing);
+    const answer = await answerBot(interaction, cmnShared, timing);
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user
@@ -106,27 +91,72 @@ const action = async (message, client, currentServer) => {
       timing,
       client,
       channel,
-      author,
+      member,
       messageContent,
       answer
     );
 
     client.remindme.push({
       // Add request to cache
-      authorId: author.id,
+      authorId: member.id,
       botMessage: answer,
       timeout: timeoutObj,
     });
   }
 };
 
+const command = new SlashCommandBuilder()
+  .setName(PERSONALITY.getCommands().reminder.name)
+  .setDescription(PERSONALITY.getCommands().reminder.description)
+  .addStringOption((option) =>
+    option
+      .setName(PERSONALITY.getCommands().reminder.stringOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().reminder.stringOption.description
+      )
+      .setRequired(true)
+      .setMinLength(1)
+  )
+  .addNumberOption((option) =>
+    option //hour
+      .setName(PERSONALITY.getCommands().reminder.hourOption.name)
+      .setDescription(PERSONALITY.getCommands().reminder.hourOption.name)
+      .setRequired(false)
+      .setMinValue(1)
+      .setMaxValue(99)
+  )
+  .addNumberOption((option) =>
+    option //minutes
+      .setName(PERSONALITY.getCommands().reminder.minuteOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().reminder.minuteOption.description
+      )
+      .setRequired(false)
+      .setMinValue(1)
+      .setMaxValue(60)
+  )
+  .addNumberOption((option) =>
+    option //seconds
+      .setName(PERSONALITY.getCommands().reminder.secondOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().reminder.secondOption.description
+      )
+      .setRequired(false)
+      .setMinValue(1)
+      .setMaxValue(60)
+  );
+
 const reminder = {
   name: "reminder",
+  command: command,
   action,
-  help: () => {
-    return PERSONALITY.getCommands().reminder.help;
+  help: (interaction) => {
+    const content = PERSONALITY.getCommands().reminder.help;
+    interactionReply(interaction, content);
   },
   admin: false,
+  releaseDate: null, //dayjs("12-09-2022", "MM-DD-YYYY"),
+  sentinelle: false,
 };
 
 export default reminder;
