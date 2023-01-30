@@ -696,5 +696,5 @@ export const checkDB = (userId, client) => {
   const db = client.db;
   removeBirthday(userId, db);
   removeIgnoredUser(userId, db);
-  removeAlavirien(userId, db);
+  removeAlavirien(db, userId);
 };
