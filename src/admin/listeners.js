@@ -676,7 +676,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         //in new message && not in old message
         const db = oMessage.client.db; //get db
         const currentServer = COMMONS.fetchGuildId(nMessage.guildId); //get commons.json data
-        addApologyCount(nMessage.author.id, db); //add data to db
+        addApologyCount(db, nMessage.author.id); //add data to db
         await nMessage.react(currentServer.panDuomReactId); //add message reaction
       }
     }
