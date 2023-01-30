@@ -36,7 +36,7 @@ const addMissingTweets = (db, tweetIds) => {
   db.wasUpdated = true;
 };
 
-const removeMissingTweets = (tweetIds, db) => {
+const removeMissingTweets = (db, tweetIds) => {
   const missingTweets = db.data.twitter.missingTweets;
   if (typeof tweetIds === "string")
     db.data.twitter.missingTweets = missingTweets.filter(
