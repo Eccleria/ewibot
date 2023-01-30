@@ -29,7 +29,7 @@ const updateLastTweetId = (db, authorId, tweetId) => {
   }
 };
 
-const addMissingTweets = (tweetIds, db) => {
+const addMissingTweets = (db, tweetIds) => {
   if (typeof tweetIds === "string")
     db.data.twitter.missingTweets.push(tweetIds);
   else db.data.twitter.missingTweets.push(...tweetIds);

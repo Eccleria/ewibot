@@ -65,7 +65,7 @@ export const tweetCompare = async (client, interaction) => {
 
       //update db
       updateLastTweetId(db, userId, tweetIds[0]); //update last tweet id
-      addMissingTweets(newTLinks, db); //tweets links
+      addMissingTweets(db, newTLinks); //tweets links
     }
     //if idx === 0 => db up to date
     //if idx === -1 => too many tweets or issue
