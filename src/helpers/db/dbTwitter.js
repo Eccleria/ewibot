@@ -17,7 +17,7 @@ const getTwitterUser = (db, authorId) => {
   }
 };
 
-const updateLastTweetId = (authorId, tweetId, db) => {
+const updateLastTweetId = (db, authorId, tweetId) => {
   const twitter = db.data.twitter.users;
   if (isTwitterUser(db, authorId)) {
     for (const obj of twitter) {

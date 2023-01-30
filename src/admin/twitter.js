@@ -64,7 +64,7 @@ export const tweetCompare = async (client, interaction) => {
       tLinks = newTLinks; //regroup links
 
       //update db
-      updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
+      updateLastTweetId(db, userId, tweetIds[0]); //update last tweet id
       addMissingTweets(newTLinks, db); //tweets links
     }
     //if idx === 0 => db up to date
