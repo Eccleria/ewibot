@@ -27,7 +27,9 @@ export const sendSettingsButtons = async (interaction) => {
 
   //create add button
   const addButton = createButton("polls_set_add", "ajouter", "PRIMARY");
-  
+  if (pollEmbed.title.includes(perso.disable.title))
+    addButton.setDisabled(true);
+
   //create stop button
   const stopButton = createButton("polls_set_disable", "stop", "DANGER");
   if (pollEmbed.title.includes(perso.disable.title))
