@@ -6,18 +6,21 @@ import { isSentinelle } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
-export const presentationHandler = async (server, messageReaction) => {
+export const presentationHandler = async (server, messageReaction, reactingUser) => {
   const client = messageReaction.client;
   const personality = PERSONALITY.getAdmin().alavirien;
 
+  //fetch message if too old to be cached
   const { message } = messageReaction;
+  const fetchedMessage = await message.fetch();
+  
+  //fetch reactingMember for role check
+  const guild = await client.guilds.fetch(fetchedMessage.guildId);
+  const reactingMember = await guild.members.fetch(reactingUser.id);
 
-  const guild = await client.guilds.fetch(message.guildId);
-  const member = await guild.members.fetch(message.author.id);
-
-  if (isSentinelle(member, server)) {
+  if (isSentinelle(reactingMember, server)) {
     console.log("isSentinelle reaction")
-    giveAlavirien(client, server, personality, member.id);
+    giveAlavirien(client, server, personality, fetchedMessage.author.id);
   }
 };
 

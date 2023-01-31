@@ -49,7 +49,7 @@ export const tweetCompare = async (client, interaction) => {
   let tLinks = [];
 
   for (const [username, userId] of users) {
-    const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
+    const dbData = getTwitterUser(client.db, userId); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
     const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
     const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
@@ -64,8 +64,8 @@ export const tweetCompare = async (client, interaction) => {
       tLinks = newTLinks; //regroup links
 
       //update db
-      updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
-      addMissingTweets(newTLinks, db); //tweets links
+      updateLastTweetId(db, userId, tweetIds[0]); //update last tweet id
+      addMissingTweets(db, newTLinks); //tweets links
     }
     //if idx === 0 => db up to date
     //if idx === -1 => too many tweets or issue
@@ -84,7 +84,7 @@ export const tweetCompare = async (client, interaction) => {
       const channel = await client.channels.fetch(channelId);
       tLinks.forEach(async (link) => await channel.send(link));
     }
-    removeMissingTweets(tLinks, db);
+    removeMissingTweets(db, tLinks);
   } else if (interaction)
     interaction.reply({
       content: PERSONALITY.getCommands().twitter.dbUpToDate,

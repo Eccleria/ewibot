@@ -107,9 +107,9 @@ const action = async (interaction) => {
 
   if (whichCommand === bPerso.remove.name) {
     // remove user
-    if (isBirthdayDate(authorId, db)) {
+    if (isBirthdayDate(db, authorId)) {
       //if in db
-      removeBirthday(authorId, db);
+      removeBirthday(db, authorId);
       await interactionReply(interaction, bPerso.removeUser);
     } else await interactionReply(interaction, bPerso.userNotFound);
     return;
@@ -132,7 +132,7 @@ const action = async (interaction) => {
     const date = dayjs(dateToAdd, ["DD-MM-YYYY", "DD-MM"]);
     if (date.isValid()) {
       //if date respect dayjs form
-      addBirthday(authorId, db, date.toISOString()); //add to db
+      addBirthday(db, authorId, date.toISOString()); //add to db
       await interactionReply(interaction, bPerso.addUser);
     } else await interactionReply(interaction, bPerso.parsingError);
   } else if (whichCommand === bPerso.get.name) {
