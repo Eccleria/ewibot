@@ -1,8 +1,8 @@
-import { 
+import {
   sendSettingsButtons,
-  disablePoll, 
+  disablePoll,
   addChoicePollButton,
-  addChoicePollModal 
+  addChoicePollModal,
 } from "./pollsSettings.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
 import { uniqueVoteType } from "./pollsTypeUnique.js";
@@ -52,6 +52,6 @@ export const settingsButtonHandler = async (interaction) => {
 export const pollModalHandler = (interaction) => {
   // handle modals
   const { customId } = interaction;
-  console.log("pollModalHandler")
-  if(customId.includes("addChoice")) addChoicePollModal(interaction);
+  console.log("pollModalHandler");
+  if (customId.includes("addChoice")) addChoicePollModal(interaction);
 };

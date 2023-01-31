@@ -1,5 +1,14 @@
 //POLLS
-const addPoll = (db, id, authorId, votes, anonymous, voteType, colorIdx, voteMax) => {
+const addPoll = (
+  db,
+  id,
+  authorId,
+  votes,
+  anonymous,
+  voteType,
+  colorIdx,
+  voteMax
+) => {
   const poll = {
     pollId: id,
     authorId: authorId,

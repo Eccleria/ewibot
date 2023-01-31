@@ -26,8 +26,8 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
 };
 
 /**
- * get Poll message from buttonInteraction 
- * @param {object} poll button settings interaction 
+ * get Poll message from buttonInteraction
+ * @param {object} poll button settings interaction
  * @returns Poll message
  */
 export const fetchPollMessage = async (interaction) => {
@@ -43,13 +43,13 @@ export const fetchPollMessage = async (interaction) => {
  * @param {object|string} payload Content of the reply, can be only a string.
  * @param {?boolean} isEphemeral To send reply only to author, true by default.
  */
-export const interactionEditReply = async ( 
+export const interactionEditReply = async (
   interaction,
   payload,
   isEphemeral = true
 ) => {
   if (typeof payload == "string")
-   await interaction.editReply({ content: payload, ephemeral: isEphemeral });
+    await interaction.editReply({ content: payload, ephemeral: isEphemeral });
   else {
     payload.ephemeral = isEphemeral;
     await interaction.editReply(payload);
@@ -81,4 +81,4 @@ export const parsePollFields = (content) => {
     { fields: [], emotes: [] }
   );
   return results;
-}
+};

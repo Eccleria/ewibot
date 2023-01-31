@@ -1,5 +1,9 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
-import { fetchPollMessage, interactionEditReply, parsePollFields } from "./pollsUtils.js";
+import {
+  fetchPollMessage,
+  interactionEditReply,
+  parsePollFields,
+} from "./pollsUtils.js";
 import { createButton, interactionReply, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll } from "../../helpers/index.js";
@@ -8,7 +12,7 @@ import { COMMONS } from "../../commons.js";
 export const sendSettingsButtons = async (interaction) => {
   console.log("sendSettingsButtons");
   await interaction.deferReply({ ephemeral: true });
-  
+
   //get personality
   const perso = PERSONALITY.getCommands().polls.settings;
 
@@ -18,7 +22,7 @@ export const sendSettingsButtons = async (interaction) => {
   if (!interaction.user.id === dbPoll.authorId) {
     const currentServer = COMMONS.fetchGuildId(interaction.guildId);
     if (!isSentinelle(interaction.member, currentServer)) {
-      interactionEditReply(interaction, perso.errotNotAuthor)
+      interactionEditReply(interaction, perso.errotNotAuthor);
     }
   }
 
@@ -36,10 +40,13 @@ export const sendSettingsButtons = async (interaction) => {
     stopButton.setDisabled(true);
 
   //create ActionRows
-  const actionRow = new MessageActionRow().addComponents([addButton, stopButton]);
+  const actionRow = new MessageActionRow().addComponents([
+    addButton,
+    stopButton,
+  ]);
 
   //send buttons
-  interactionEditReply(interaction, {components: [actionRow]})
+  interactionEditReply(interaction, { components: [actionRow] });
 };
 
 export const addChoicePollButton = async (interaction) => {
@@ -53,7 +60,7 @@ export const addChoicePollButton = async (interaction) => {
     .setMinLength(1)
     .setMaxLength(50)
     .setStyle("SHORT");
-  
+
   const actionRow = new MessageActionRow().addComponents(newChoiceInput);
 
   modal.addComponents(actionRow);
@@ -100,7 +107,7 @@ export const addChoicePollModal = async (interaction) => {
   console.log("inputs", [inputs]);
   //get perso
   const perso = PERSONALITY.getCommands().polls;
-  
+
   //get pollMessage
   const pollMessage = await fetchPollMessage(interaction);
   const embed = pollMessage.embeds[0];

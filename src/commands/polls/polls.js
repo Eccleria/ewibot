@@ -96,6 +96,13 @@ const action = async (interaction) => {
     .setTimestamp()
     .setColor(color);
 
+  //write footer according to voteType
+  const footerText =
+    voteType === perso.voteOption.choices[0].value
+      ? perso.footer[voteType] + perso.footer.options
+      : perso.footer[voteType] + ` (${voteMax})` + perso.footer.options;
+  embed.setFooter({ text: footerText });
+
   // Optionnal parameters
   if (description) embed.setDescription(description);
 

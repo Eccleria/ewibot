@@ -330,6 +330,11 @@
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
         "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
+        "footer": {
+          "options": " | ⚙️ options",
+          "pollVoteType_multiple": "Vote multiple",
+          "pollVoteType_unique": "Vote unique"
+        },
         "help": "Cette commande permet de créer des sondages.",
         "hideOption": {
           "description": "Cache (true) ou révèle (false) les votes des utilisateurices",

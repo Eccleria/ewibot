@@ -4,7 +4,10 @@ import { MessageButton } from "discord.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
-import { settingsButtonHandler, pollModalHandler } from "./polls/pollsHandlers.js";
+import {
+  settingsButtonHandler,
+  pollModalHandler,
+} from "./polls/pollsHandlers.js";
 
 /**
  * Reply to interaction function
@@ -50,11 +53,11 @@ export const buttonHandler = (interaction) => {
 
 /**
  * Dispatch modal interactions between corresponding functions
- * @param {object} interaction 
+ * @param {object} interaction
  */
 export const modalHandler = (interaction) => {
-  const {customId} = interaction;
-  console.log("modalHandler")
+  const { customId } = interaction;
+  console.log("modalHandler");
   if (customId.startsWith("polls_modal")) pollModalHandler(interaction);
   else return;
 };
