@@ -1,25 +1,29 @@
 import dayjs from "dayjs";
 
-import { removeAlavirien } from "../helpers/index.js"
+import { removeAlavirien } from "../helpers/index.js";
 import { setupEmbed, finishEmbed } from "./utils.js";
 import { isSentinelle } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
-export const presentationHandler = async (server, messageReaction, reactingUser) => {
+export const presentationHandler = async (
+  server,
+  messageReaction,
+  reactingUser
+) => {
   const client = messageReaction.client;
   const personality = PERSONALITY.getAdmin().alavirien;
 
   //fetch message if too old to be cached
   const { message } = messageReaction;
   const fetchedMessage = await message.fetch();
-  
+
   //fetch reactingMember for role check
   const guild = await client.guilds.fetch(fetchedMessage.guildId);
   const reactingMember = await guild.members.fetch(reactingUser.id);
 
   if (isSentinelle(reactingMember, server)) {
-    console.log("isSentinelle reaction")
+    console.log("isSentinelle reaction");
     giveAlavirien(client, server, personality, fetchedMessage.author.id);
   }
 };
@@ -58,22 +62,22 @@ const checkAlavirien = async (client, server) => {
 
   dbUsers.forEach(async (cur) => {
     //db data format : { userId: authorId, messageNumber: number, joinAt: date}
-    const { userId, messageNumber, joinAt } = cur
+    const { userId, messageNumber, joinAt } = cur;
     const day = dayjs(joinAt);
     const deltaT = today.diff(day); //diff between joining date and now in ms
 
     //check if 1 week + 20 messages : alavirien requirement
     const isOneWeek = deltaT > 604800000; // 1week = 7*24*3600*1000 ms
-    const is20Messages = messageNumber >= 20; 
+    const is20Messages = messageNumber >= 20;
     if (isOneWeek && is20Messages) {
       giveAlavirien(client, server, alavirien, userId);
     }
     //if doesn't respect requirements, nothing to do
-  })
-}
+  });
+};
 
 export const setupAlavirien = async (client, tomorrow, frequency) => {
-  //init everyday Alavirien 
+  //init everyday Alavirien
   const timeToTomorrow = tomorrow.minute(5).diff(dayjs()); //time to tommorow in ms
 
   setTimeout(async () => {
@@ -85,4 +89,4 @@ export const setupAlavirien = async (client, tomorrow, frequency) => {
 
     setInterval(checkAlavirien, frequency, client, server);
   }, timeToTomorrow);
-}
+};
