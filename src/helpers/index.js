@@ -37,6 +37,7 @@ import {
 import {
   addPoll,
   getPoll,
+  addPollChoices,
   addPollVoter,
   isThisChoicePollVoter,
   getPollVoteIndexes,
@@ -116,6 +117,7 @@ export {
   //polls
   addPoll,
   getPoll,
+  addPollChoices,
   addPollVoter,
   isThisChoicePollVoter,
   getPollVoteIndexes,

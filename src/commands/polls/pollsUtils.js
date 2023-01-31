@@ -61,6 +61,8 @@ const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"
 export const parsePollFields = (content) => {
   const results = content.reduce(
     (acc, cur, idx) => {
+      if (cur.length === 0) return acc; //filter empty choice
+
       const replaced = cur.replace(",", "");
       if (cur.includes(",")) {
         //if choices includes emote
@@ -81,4 +83,16 @@ export const parsePollFields = (content) => {
     { fields: [], emotes: [] }
   );
   return results;
+};
+
+/**
+ * Create the appropriate storage according to poll choices input
+ * @param {list} choices List of choices for voters
+ * @returns list
+ */
+export const createChoicesStorage = (choices) => {
+  return choices.reduce((acc) => {
+    acc.push([]);
+    return acc;
+  }, []);
 };

@@ -27,6 +27,12 @@ const getPoll = (db, pollId) => {
   return db.data.polls.find((poll) => poll.pollId === pollId);
 };
 
+const addPollChoices = (db, pollId, choices) => {
+  const data = getPoll(db, pollId);
+  data.votes.push(...choices);
+  db.wasUpdated = true;
+};
+
 const addPollVoter = (db, pollId, userId, choiceIdx) => {
   const data = getPoll(db, pollId);
   data.votes[choiceIdx].push(userId);
@@ -70,6 +76,7 @@ const removePollIndex = (db, pollId, userId, voteIdx) => {
 export {
   addPoll,
   getPoll,
+  addPollChoices,
   addPollVoter,
   isThisChoicePollVoter,
   getPollVoteIndexes,

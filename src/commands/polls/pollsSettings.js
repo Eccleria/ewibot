@@ -1,12 +1,13 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
 import {
+  createChoicesStorage,
   fetchPollMessage,
   interactionEditReply,
   parsePollFields,
 } from "./pollsUtils.js";
 import { createButton, interactionReply, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
-import { getPoll } from "../../helpers/index.js";
+import { addPollChoices, getPoll } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
@@ -123,8 +124,16 @@ export const addChoicePollModal = async (interaction) => {
 
   //add to embed
   const results = parsePollFields(splited);
+  console.log("results", results);
   const black = perso.colorOption.black;
   results.fields.forEach((field) => {
     embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
   });
+
+  //edit original data
+  const payload = {embeds: [embed]};
+  payload.components = pollMessage.components;
+  pollMessage.edit(payload); //edit message
+  addPollChoices(interaction.client.db, pollMessage.id, createChoicesStorage(results.fields)); //edit db
+  interactionReply(interaction, perso.settings.add.done);
 };

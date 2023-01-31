@@ -347,6 +347,9 @@
         "name": "polls",
         "sent": "Le sondage a été envoyé.",
         "settings": {
+          "add": {
+            "done": "Le ou les nouveaux choix ont été ajoutés."
+          },
           "disable": {
             "disabled": "Le sondage a bien été verrouillé.",
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
