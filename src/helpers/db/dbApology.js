@@ -37,4 +37,4 @@ const removeApologyCount = (db, authorId) => {
 };
 */
 
-export { isApologyUser, addApologyCount}; //, removeApologyCount };
+export { isApologyUser, addApologyCount }; //, removeApologyCount };
