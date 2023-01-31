@@ -55,8 +55,7 @@ export const tweetCompare = async (client, interaction) => {
     const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
     const tweetIds = fetchedTweets.data.data ? fetchedTweets.data.data.map((obj) => obj.id) : null; //tweet ids
-    if (tweetIds === null) return;
-    const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
+    const idx = tweetIds ? tweetIds.findIndex((id) => id === dbData.lastTweetId) : -2; //find tweet
 
     if (idx > 0) {
       //some tweets are missing => get links + update db;
@@ -73,6 +72,7 @@ export const tweetCompare = async (client, interaction) => {
     }
     //if idx === 0 => db up to date
     //if idx === -1 => too many tweets or issue
+    //if idx === -2 => empty data from Twitter => only retweets
   }
 
   //send tweets
