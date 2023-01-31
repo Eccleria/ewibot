@@ -157,6 +157,7 @@ const action = async (interaction) => {
 
   addPoll(
     interaction.client.db,
+    interaction.user.id,
     pollMsg.id,
     dbVotes,
     anonymous,
