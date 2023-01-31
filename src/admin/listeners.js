@@ -121,7 +121,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   // handle channel update event
 
   //get personality
-  const personality = PERSONALITY.getAdmin(); 
+  const personality = PERSONALITY.getAdmin();
   const chnUp = personality.channelUpdate;
   const auditLog = personality.auditLog;
   const perm = chnUp.permissionOverwrites;
@@ -851,6 +851,6 @@ export const onGuildMemberAdd = async (guildMember) => {
 
   const db = guildMember.client.db;
   const authorId = guildMember.id;
-  const date = guildMember.joinedAt.toISOString()
+  const date = guildMember.joinedAt.toISOString();
   addAlavirien(db, authorId, 0, date);
-}
+};

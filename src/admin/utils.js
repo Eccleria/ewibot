@@ -3,8 +3,13 @@ import { MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
-import { getAdminLogs, removeAdminLogs, removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
-
+import {
+  getAdminLogs,
+  removeAdminLogs,
+  removeBirthday,
+  removeIgnoredUser,
+  removeAlavirien,
+} from "../helpers/index.js";
 
 /**
  * Fetch AuditLog from API.

@@ -110,10 +110,10 @@ const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().botMessage;
 
   //check for admin rights
-  if(!isAdmin(interaction.user.id)) {
-    console.log(`${interaction.user.id} tried to use /message`)
+  if (!isAdmin(interaction.user.id)) {
+    console.log(`${interaction.user.id} tried to use /message`);
     interactionReply(interaction, personality.wrongUser);
-    return
+    return;
   }
 
   if (subcommand === personality.send.name) {
