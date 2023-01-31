@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+/*import { MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { removeApologyCount } from "../helpers/index.js";
 
@@ -86,3 +86,4 @@ const leaderboardApology = {
 };
 
 export default leaderboardApology;
+*/
