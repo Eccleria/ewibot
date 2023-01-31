@@ -9,6 +9,10 @@
 - Update: personality organisation 
 	- explode personalities.json file into 3 files
 	- regroup files into personalities folder
+- Update dbHelper organisation
+	- explode dbHelper.js into files
+	- regroup new files in new db folder
+	- every dbHelper function have `db` as first arg
 
 ## 4.8.2
 - Fix: alavirien checking wrong sentinelle member + not fetching old presentations

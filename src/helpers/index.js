@@ -1,23 +1,20 @@
 import {
-  addAdminLogs,
-  getAdminLogs,
-  removeAdminLogs,
-  addIgnoredUser,
-  removeIgnoredUser,
-  isIgnoredUser,
-  addBirthday,
-  removeBirthday,
-  isBirthdayDate,
   isApologyUser,
   addApologyCount,
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  removeAppologyCount,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
+  //removeApologyCount,
+} from "./db/dbApology.js";
+
+import { addAdminLogs, getAdminLogs, removeAdminLogs } from "./db/dbAdmin.js";
+
+import { addAlavirien, removeAlavirien } from "./db/dbAlavirien.js";
+
+import {
+  addBirthday,
+  isBirthdayDate,
+  removeBirthday,
+} from "./db/dbBirthday.js";
+
+import {
   addGiftUser,
   removeGiftUser,
   isGiftUser,
@@ -26,9 +23,23 @@ import {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
-  addAlavirien,
-  removeAlavirien,
-} from "./dbHelper.js";
+} from "./db/dbGift.js";
+
+import {
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+} from "./db/dbIgnore.js";
+
+import {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
+} from "./db/dbTwitter.js";
 
 import {
   generateSpotifyClient,
@@ -60,25 +71,22 @@ export {
   parseLink,
   deleteSongFromPlaylist,
   // dbHelper
+  //admin
   addAdminLogs,
   getAdminLogs,
   removeAdminLogs,
-  addIgnoredUser,
-  removeIgnoredUser,
-  isIgnoredUser,
-  addBirthday,
-  removeBirthday,
-  isBirthdayDate,
+  //alavirien
+  addAlavirien,
+  removeAlavirien,
+  //apology
   isApologyUser,
   addApologyCount,
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  removeAppologyCount,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
+  //removeApologyCount,
+  //birthday
+  addBirthday,
+  isBirthdayDate,
+  removeBirthday,
+  //gift
   addGiftUser,
   removeGiftUser,
   isGiftUser,
@@ -87,6 +95,16 @@ export {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
-  addAlavirien,
-  removeAlavirien,
+  //ignore
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+  //twitter
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
 };
