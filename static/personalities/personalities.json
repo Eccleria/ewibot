@@ -346,7 +346,8 @@
             "disabled": "Le sondage a bien été verrouillé.",
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
             "title": " - **Sondage Terminé**"
-          }
+          },
+          "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage."
         },
         "titleOption": {
           "description": "Titre du sondage.",

@@ -1,20 +1,33 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
 import { fetchPollMessage, interactionEditReply, parsePollFields } from "./pollsUtils.js";
-import { createButton, interactionReply } from "../utils.js";
+import { createButton, interactionReply, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
+import { getPoll } from "../../helpers/index.js";
+import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
   console.log("sendSettingsButtons");
   await interaction.deferReply({ ephemeral: true });
+  
   //get personality
   const perso = PERSONALITY.getCommands().polls.settings;
 
-  //fetch embed
+  //check for Sentinelle or author
   const pollMessage = interaction.message;
+  const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  if (!interaction.user.id === dbPoll.authorId) {
+    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+    if (!isSentinelle(interaction.member, currentServer)) {
+      interactionEditReply(interaction, perso.errotNotAuthor)
+    }
+  }
+
+  //fetch embed
   const pollEmbed = pollMessage.embeds[0];
 
   //create add button
   const addButton = createButton("polls_set_add", "ajouter", "PRIMARY");
+  
   //create stop button
   const stopButton = createButton("polls_set_disable", "stop", "DANGER");
   if (pollEmbed.title.includes(perso.disable.title))
