@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { removeAppologyCount } from "../helpers/index.js";
+import { removeApologyCount } from "../helpers/index.js";
 
 const action = async (message, client) => {
   const db = client.db;
@@ -36,7 +36,7 @@ const action = async (message, client) => {
       guildMember = await guildMembers.fetch(cur.userId); //get guildMember
     } catch {
       //if not found, not in serveur anymore => remove from db
-      removeAppologyCount(db, cur.userId);
+      removeApologyCount(db, cur.userId);
     }
 
     if (guildMember && cur.counter >= 10) {

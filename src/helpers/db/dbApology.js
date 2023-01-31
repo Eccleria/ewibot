@@ -26,7 +26,7 @@ const addApologyCount = (db, authorId) => {
   db.wasUpdated = true;
 };
 
-const removeAppologyCount = (db, authorId) => {
+const removeApologyCount = (db, authorId) => {
   if (isApologyUser(db, authorId)) {
     db.data.apologiesCounting = db.data.apologiesCounting.filter(
       (cur) => cur.userId !== authorId
@@ -35,4 +35,4 @@ const removeAppologyCount = (db, authorId) => {
   }
 };
 
-export { isApologyUser, addApologyCount, removeAppologyCount };
+export { isApologyUser, addApologyCount, removeApologyCount };

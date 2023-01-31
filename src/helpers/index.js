@@ -1,7 +1,7 @@
 import {
   isApologyUser,
   addApologyCount,
-  removeAppologyCount,
+  removeApologyCount,
 } from "./db/dbApology.js";
 
 import { addAdminLogs, getAdminLogs, removeAdminLogs } from "./db/dbAdmin.js";
@@ -81,7 +81,7 @@ export {
   //apology
   isApologyUser,
   addApologyCount,
-  removeAppologyCount,
+  removeApologyCount,
   //birthday
   addBirthday,
   isBirthdayDate,
