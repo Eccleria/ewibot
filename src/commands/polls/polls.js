@@ -106,9 +106,10 @@ const action = async (interaction) => {
   // Optionnal parameters
   if (description) embed.setDescription(description);
 
-  //write choices text
+  //parse choices text
   const results = parsePollFields(splited);
 
+  //write choices in embed
   const black = perso.colorOption.black;
   results.fields.forEach((field) => {
     embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
@@ -135,8 +136,8 @@ const action = async (interaction) => {
   //add setting button
   const settingId = "polls_" + "settings";
   const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
-
   if (components.size === 5) {
+    //if actionRow is full, create one more
     const newRow = new MessageActionRow().addComponents(settingButton);
     components.actionRows.push(newRow);
   } else
@@ -149,19 +150,17 @@ const action = async (interaction) => {
     embeds: [embed],
     components: components.actionRows,
   });
-
-  pollButtonCollector(pollMsg);
+  pollButtonCollector(pollMsg); //start listening to interactions
   interactionReply(interaction, perso.sent);
 
   //save poll
   const dbVotes = results.fields.reduce((acc) => {
     acc.push([]);
     return acc;
-  }, []);
+  }, []); //create db choice storage
   const colorIdx = perso.colorOption.colors.choices.findIndex(
     (obj) => obj.value === color
-  );
-
+  ); //find color index from personality
   addPoll(
     interaction.client.db,
     pollMsg.id,
@@ -171,7 +170,7 @@ const action = async (interaction) => {
     voteType,
     colorIdx,
     voteMax
-  );
+  ); //add to db
 };
 
 const polls = {
