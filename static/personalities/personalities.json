@@ -329,6 +329,7 @@
         "description": "Cette commande permet de créer des sondages.",
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
         "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
+        "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
         "footer": {
           "options": " | ⚙️ options",

@@ -115,15 +115,18 @@ export const addChoicePollModal = async (interaction) => {
   const fields = embed.fields;
 
   //check for multiple inputs
-  const splited = inputs.split(";");
-  const newLength = splited.length + fields.length;
-  if (newLength > 10) {
+  if (inputs.includes(";")) {
+    interactionReply(interaction, perso.errorMultipleInput);
+    return;
+  }
+  //check for choices number
+  if (fields.length + 1 > 10) {
     interactionReply(interaction, perso.errorChoicesNumber);
     return;
   }
 
   //add to embed
-  const results = parsePollFields(splited);
+  const results = parsePollFields(inputs);
   console.log("results", results);
   const black = perso.colorOption.black;
   results.fields.forEach((field) => {
