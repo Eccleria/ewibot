@@ -345,7 +345,7 @@
           "disable": {
             "disabled": "Le sondage a bien été verrouillé.",
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
-            "title": " - **Sondage Terminé**"
+            "title": " - **Terminé**"
           },
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage."
         },
