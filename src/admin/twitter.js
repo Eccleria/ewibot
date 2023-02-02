@@ -73,14 +73,16 @@ export const tweetCompare = async (client, interaction) => {
         const tLink = tweetLink(username, tweetId); //get tweet link
         return [...acc, tLink]; //return link for future process
       }, []);
-      tLinks = newTLinks; //regroup links
+      console.log("tweetsToSend", tweetsToSend);
+      console.log("newTLinks", newTLinks);
+      tLinks = [...tLinks, ...newTLinks]; //regroup links
 
       //update db
       updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
       addMissingTweets(newTLinks, db); //tweets links
     }
     //if idx === 0 => db up to date
-    //if idx === -1 => too many tweets or issue
+    //if idx === -1 => too many retweets or issue
     //if idx === -2 => empty data from Twitter => only retweets
   }
 
