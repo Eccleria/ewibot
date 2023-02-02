@@ -4,7 +4,7 @@ import {
   addMissingTweets,
   removeMissingTweets,
 } from "../helpers/index.js";
-
+import { interactionReply } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 
 // jsons import
@@ -61,9 +61,14 @@ export const tweetCompare = async (client, interaction) => {
       ? tweetIds.findIndex((id) => id === dbData.lastTweetId)
       : -2; //find tweet
 
-    if (idx > 0) {
+    console.log("user", username, userId);
+    console.log("fetchedTweets.data.data", fetchedTweets.data.data);
+    console.log("tweetIds", tweetIds);
+    console.log("idx", idx);
+  
+    if (idx > 0 || idx === -1) {
       //some tweets are missing => get links + update db;
-      const tweetsToSend = tweetIds.slice(0, idx);
+      const tweetsToSend = idx === -1 ? tweetIds : tweetIds.slice(0, idx);
       const newTLinks = tweetsToSend.reduceRight((acc, tweetId) => {
         const tLink = tweetLink(username, tweetId); //get tweet link
         return [...acc, tLink]; //return link for future process
@@ -86,7 +91,7 @@ export const tweetCompare = async (client, interaction) => {
     if (interaction) {
       //if is command
       const content = tLinks.join("\n");
-      interaction.reply({ content: content }); //, ephemeral: true });
+      interactionReply(interaction, content);
     } else {
       const channelId = currentServer.twitter.prodChannelId;
       const channel = await client.channels.fetch(channelId);
