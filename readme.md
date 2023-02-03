@@ -26,7 +26,7 @@ contains 50 frames.
 The gifs created by the code are stored in the *gifs* folder. Note: this folder *is not* uploaded on github.
 
 ### Database
-The [database folder](./db) contains the database files required. The DB system is a .json file.   
+The [database folder](./db) contains the database (DB) files required. The DB system is a .json file.   
 *db.json* file is the database file used by the bot. All the database values are stored inside of it. Note: this folder 
 *is not* uploaded on github, for privacy concerns.  
 [db.json.example](./db/db.json.example) is a template file. This allows to share a template between developers without 
@@ -36,40 +36,9 @@ sharing all users' information online.
 The [documentation folder](./doc) regroups all the markedown files explaining in details Ewibot's code.
 
 ### Source Code
-The [folder src](./src) is the folder containing all the source code for Ewibot. It is divided into 4 parts: 
-- [admin](#admin), 
-- [commands](#commands), 
-- [helpers](#helpers),
-- [main code](#main-code).
+The [folder src](./src) is the folder containing all the source code for Ewibot.
 
-#### Admin
-The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. 
-> See [Admin documentation](./doc/admin.md) for more details.
-
-#### Commands
-There are different commands available for the users. All are inside the files of the [commands folder](./src/commands). 
-> See [Commands documentation](./doc/commands.md) for more details.
-
-#### Helpers
-The [folder](./src/helpers) is dedicated to regroup every file having smaller functions or methods used in more important
-files. It contains 4 files:  
-* _[dbHelper.js](./src/helpers/dbHelper.js)_ is regrouping every function used for accessing and modifying the 
-[database](#database). It usually has the _Is_, _Add_ and _Remove_ functions for basic DB access and modification.  
-* _[index.js](.src/helpers/index.js)_ regroups all the exported functions from _dbHelper.js_, _spotifyHelper.js_ and 
-_utils.js_.  
-* _[spotifyHelper](.src/helpers/spotifyHelper.js)_ is regrouping all the functions used in the spotify application.  
-* _[utils](.src/helpers/utils.js)_ does the same as _spotifyHelper.js_ but for more general functions.
-
-#### Main Code
-Main code refers to all the single files in the src folder. It includes 3 files:
-* _[bot.js](./src/bot.js)_ is the principal file containing all the major Discord features required to make the bot 
-functional, such as client login and event listeners.
-* _[commons.js](./src/commons.js)_ contains Commons Class, which give access to multiple methods. They allow to get the 
-local data related to the proper channel : *prod* or *test* Discord channels.
-* _[listeners.js](./src/listeners.js)_ is a file regrouping all functions associated to the events Ewibot is responding to.
-* _[personality.js](./src/personality.js)_ is the file where the Personality Class is declared. This class allows Ewibot 
-to chose the correct text to send to users. It will also allow admins to change Ewibot personality, but is still _work in
-progress_.
+> Please see [source code documentation](./doc/source.md) for more details.
 
 ### Static Code
 The [static folder](./static) is including the 2 json files used.
