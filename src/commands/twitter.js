@@ -32,7 +32,7 @@ const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
   setTimeout(
     () => {
       channel.send({ content: tweetLink });
-      removeMissingTweets(tweetLink, client.db);
+      removeMissingTweets(client.db, tweetLink);
       if (isLast) client.twitter.isSending = false;
     },
     waitingTime,

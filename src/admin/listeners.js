@@ -114,7 +114,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   // handle channel update event
 
   //get personality
-  const personality = PERSONALITY.getAdmin(); 
+  const personality = PERSONALITY.getAdmin();
   const chnUp = personality.channelUpdate;
   const auditLog = personality.auditLog;
   const perm = chnUp.permissionOverwrites;
@@ -676,7 +676,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         //in new message && not in old message
         const db = oMessage.client.db; //get db
         const currentServer = COMMONS.fetchGuildId(nMessage.guildId); //get commons.json data
-        addApologyCount(nMessage.author.id, db); //add data to db
+        addApologyCount(db, nMessage.author.id); //add data to db
         await nMessage.react(currentServer.panDuomReactId); //add message reaction
       }
     }
@@ -844,6 +844,6 @@ export const onGuildMemberAdd = async (guildMember) => {
 
   const db = guildMember.client.db;
   const authorId = guildMember.id;
-  const date = guildMember.joinedAt.toISOString()
+  const date = guildMember.joinedAt.toISOString();
   addAlavirien(db, authorId, 0, date);
-}
+};

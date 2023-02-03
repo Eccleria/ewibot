@@ -3,8 +3,13 @@ import { MessageEmbed } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
-import { getAdminLogs, removeAdminLogs, removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
-
+import {
+  getAdminLogs,
+  removeAdminLogs,
+  removeBirthday,
+  removeIgnoredUser,
+  removeAlavirien,
+} from "../helpers/index.js";
 
 /**
  * Fetch AuditLog from API.
@@ -694,7 +699,7 @@ export const checkProdTestMode = (logChannel) => {
 export const checkDB = (userId, client) => {
   //check if user is in db for removal
   const db = client.db;
-  removeBirthday(userId, db);
-  removeIgnoredUser(userId, db);
-  removeAlavirien(userId, db);
+  removeBirthday(db, userId);
+  removeIgnoredUser(db, userId);
+  removeAlavirien(db, userId);
 };

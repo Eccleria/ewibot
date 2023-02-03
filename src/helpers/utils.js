@@ -84,13 +84,13 @@ export const reactionHandler = async (message, currentServer, client) => {
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
   if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
-  if (isIgnoredUser(authorId, db) || isIgnoredChannel(db, message.channel.id))
+  if (isIgnoredUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
   if (hasApology(sanitizedContent)) {
-    addApologyCount(authorId, db); //add data to db
+    addApologyCount(db, authorId); //add data to db
     await message.react(currentServer.panDuomReactId); //add message reaction
   }
 
@@ -158,7 +158,7 @@ export const updateActivity = (client) => {
   // set random waiting time for updating Ewibot activity
 
   const waitingTime = (20 * Math.random() + 4) * 3600 * 1000;
-  setInterval(() => {
+  setTimeout(() => {
     setActivity(client);
     updateActivity(client);
   }, waitingTime);

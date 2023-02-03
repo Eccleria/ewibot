@@ -184,12 +184,12 @@ const contextAction = async (interaction) => {
     //normal translation
     string = message.content; //get message content
 
-    if(string.length !== 0) {
+    if (string.length !== 0) {
       const reversed = reverseStr(string); //reverse message content
       const content = reversed.startsWith("~~")
         ? reversed.slice(2, -2)
         : reversed;
-  
+
       interactionReply(interaction, content);
     } else interactionReply(interaction, rTPerso.noContent);
   }
