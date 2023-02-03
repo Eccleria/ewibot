@@ -3,8 +3,10 @@
 This doc covers all the part about Twitter-Discord links. This link was asked by Andarta Pictures for
 a communication purpose. It aims to send all tweets sent by 
 [Andarta Pictures](https://twitter.com/andartapictures) and
-[La Quête d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts on the appropriate Discord
+[La QuÃªte d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts on the appropriate Discord
 channel. 
+
+**NOTE: Since last Twtter announce, API v1.1 and v2 endpoints are no longer free, starting 2023 February the 9th. Thus, Twitter-Discord link created by this functionnality is ended.**
 
 This functionality uses the [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) library, 
 with v2 endpoints that are free to use. The old v1.1 is reserved for verified application and has 
