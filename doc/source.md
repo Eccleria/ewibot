@@ -1,7 +1,7 @@
 # Source code
 The src (source) folder contains all the javascript code of the bot.
 The organization is divided into 4 parts: 
-- [admin](#admin), 
+- [admin](#admin),
 - [commands](#commands), 
 - [helpers](#helpers),
 - [main code](#main-code).

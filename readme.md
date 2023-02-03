@@ -6,7 +6,7 @@ Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord S
 This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
 
 - [Tree organisation](#organisation)
-- [How to contributee](#how-to-contribute)
+- [How to contribute](#how-to-contribute)
 	- [Setup](#setup-process)
 		- [Install](#install)
 		- [Folders](#folders)
