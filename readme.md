@@ -1,18 +1,20 @@
 # Ewibot
 
-[![Version badge](https://badgen.net/github/release/Titch88/ewibot)](https://github.com/Titch88/ewibot) [![Version badge](https://badgen.net/github/branches/Titch88/ewibot)](https://github.com/Titch88/ewibot)
+[![Version badge](https://badgen.net/github/release/Titch88/ewibot)](https://github.com/Titch88/ewibot)
+[![Version badge](https://badgen.net/github/branches/Titch88/ewibot)](https://github.com/Titch88/ewibot)
 
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
-This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
+This bot does not have the aim to directly do some moderation but to help moderators. It also have as purpose to enhance 
+the social interactions between users.
 
-- [Tree organisation](#organisation)
+- [Code organisation](#code-organisation)
 - [How to contribute](#how-to-contribute)
 	- [Setup](#setup-process)
 		- [Install](#install)
-		- [Folders](#folders)
+		- [Folders and Files](#folders-and-files)
 	- [Contribution rules](#contribution)
 
-## Organisation
+## Code Organisation
 Ewibot is written in Javascript. The tree is devided into 5 parts: 
 
 - [concrete](#concrete)
@@ -22,7 +24,7 @@ Ewibot is written in Javascript. The tree is devided into 5 parts:
 - [static code](#static-code)
 
 ### Concrete
-The [concrete folder](./concrete) contains all the concrete related files. Concrete is a command used by Ewibot users to
+The [concrete folder](./concrete) contains all concrete related files. `concrete` is a command used by Ewibot users to
 make a gif containing a falling concrete block and the specified user profile picture. It is inspired by the 
 *La Quête d'Ewilan* book.  
 The [jpgs folder](./concrete/jpgs) regroups all the necessary pictures for creating the concrete gif asked by a user. It 
@@ -41,7 +43,6 @@ The [documentation folder](./doc) regroups all the markedown files explaining in
 
 ### Source Code
 The [folder src](./src) is the folder containing all the source code for Ewibot.
-
 > Please see [source code documentation](./doc/source.md) for more details.
 
 ### Static Code
@@ -61,32 +62,33 @@ We welcome every contribution. If you want to contribute to Ewibot, you will hav
 
 ### Setup process
 #### Install
-You need to install nodejs *v16.14.2*. Then on your IDE (we use _Visual Studio Code/2019_), you can clone the Ewibot repository. 
+You need to install nodejs *v16.14.2*. Then on your IDE (we use _Visual Studio Code_), you can clone the Ewibot repository. 
 You will need to install yarn with the follow command: ```npm install --global yarn```.
 
 Next, you need to download every dependancy that the bot need. To do so, you need to go in the ewibot folder where the repo has
-been downloaded. In the console, use the command: ```yarn```.
+been downloaded, using `cd your_correct_path_/ewibot`. In the console, use the command: ```yarn```.
 
-#### Folders
-Now, you need to setup the *.env* file by creating it and use the [.env.example](.env.example) as a template.  The *DEBUG*
-line needs to be set as **yes** if you have only a bot used for development, and **no** if you will host Ewibot on the 
-Discord Server.  The *USE_SPOTIFY* uses the same process: **yes** or **no**. If **no**, you don't need to write the rest of
-the *SPOTIFY_* stuff.
+#### Folders and files
+Now, you need to setup the *.env* file by creating it and use the [.env.example](.env.example) as a template. The *DEBUG*
+line needs to be set as `yes` if you have only a bot used for development, and `no` if you will host Ewibot on the 
+Discord Server. `USE_SPOTIFY` and `USE_TWITTER` have the same process: `USE_XX=yes` or `USE_XX=no`. If `no`, you 
+don't need to write the rest of the stuff (such as `TWITTER_BEARER_TOKEN`, `SPOTIFY_CLIENT_ID`, ...).
 
-For the database, you need to create the *.db.json* file in the [database folder](./db). When created, you can copy the 
-content of the [.db.json.example](./db/db.json.example) and paste it in the newly created file. **Do not forget to remove
-the comments, otherwise you will get an error**
+For the database, you need to create the *db.json* file in the [database folder](./db). When created, you can copy the 
+content of [db.json.example](./db/db.json.example) and paste it in the newly created file.
+**Do not forget to remove comments, otherwise you will get an error.**
 
-Another folder that need to be created is the *gifs*, in the [concrete folder](./concrete). Nothing to add inside.
+Another folder that need to be created is the *gifs*, in the [concrete folder](./concrete). Nothing to add inside, it will be 
+done automatically when a gif is created.
 
 > Note: if you use an IDE that create local setup files, you shall add it to the [.gitignore file](.gitignore). It is the case 
-with Visual Studio 2019 that create the *.vs* folder locally.
+with Visual Studio 2019 that create the configuration folder *.vs* locally.
 
 ### Contribution
 To contribute, you can do so by different ways. You can contribute on existing branches or by creating a new branch. 
 
-For an existing branch, please ask to contributors if there are commits under way before adding yours. 
-
-For a new branch, you will need to create a *Pull Request*(PR) in order to have this branch merged into master. The PR 
-cannot be merged without the approval of at least one other contributor. If the branch is still under development, you can
-set the PR as a draft. When it is ready, undraft it and request an approval.
+- For an existing branch, please ask to contributors if there are commits under way before adding yours.
+- For a new branch, please respect the notation used.
+You will need to create a *Pull Request*(PR) in order to have this branch merged. The PR cannot be merged without the approval 
+of at least one other contributor. If the branch is still under development, you can set the PR as a draft. When it is ready, 
+undraft it and request an approval.
