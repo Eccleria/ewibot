@@ -5,16 +5,20 @@
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
 This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
 
-## Documentation
+- [Tree organisation](#organisation)
+- [How to contributee](#how-to-contribute)
+	- [Setup](#setup-process)
+		- [Install](#install)
+		- [Folders](#folders)
+	- [Contribution rules](#contribution)
+
+## Organisation
 Ewibot is written in Javascript. The tree is devided into 5 parts: 
 
 - [concrete](#concrete)
 - [database](#database)
 - [documentation](#documentation)
 - [source code](#source-code)
-	- [admin](./doc/admin.md)
-	- [twitter](./doc/twitter.md)
-	- [slash commands](./doc/slashCommands.md)
 - [static code](#static-code)
 
 ### Concrete
