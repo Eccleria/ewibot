@@ -260,71 +260,95 @@
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
       "polls": {
-        "choiceOption": {
-          "description": "Les choix du sondage",
-          "name": "choix"
-        },
-        "colorOption": {
-          "black": ":black_large_square:",
-          "colors": {
-            "choices": [
-              { "name": "turquoise", "value": "AQUA" },
-              { "name": "turquoise_foncé", "value": "DARK_AQUA" },
-              { "name": "vert", "value": "GREEN" },
-              { "name": "vert_foncé", "value": "DARK_GREEN" },
-              { "name": "bleu", "value": "BLUE" },
-              { "name": "bleu_foncé", "value": "DARK_BLUE" },
-              { "name": "violet", "value": "PURPLE" },
-              { "name": "violet_foncé", "value": "DARK_PURPLE" },
-              { "name": "rose_vif", "value": "LUMINOUS_VIVID_PINK" },
-              { "name": "rose_vif_foncé", "value": "DARK_VIVID_PINK" },
-              { "name": "doré", "value": "GOLD" },
-              { "name": "doré_foncé", "value": "DARK_GOLD" },
-              { "name": "orange", "value": "ORANGE" },
-              { "name": "orange_foncé", "value": "DARK_ORANGE" },
-              { "name": "rouge", "value": "RED" },
-              { "name": "rouge_foncé", "value": "DARK_RED" },
-              { "name": "gris", "value": "GREY" },
-              { "name": "gris_foncé", "value": "DARK_GREY" },
-              { "name": "gris_très_foncé", "value": "DARKER_GREY" },
-              { "name": "gris_clair", "value": "LIGHT_GREY" },
-              { "name": "bleu_marine", "value": "NAVY" },
-              { "name": "bleu_marine_foncé", "value": "DARK_NAVY" },
-              { "name": "jaune", "value": "YELLOW" }
-            ],
-            "progress_bar": [
-              ":blue_square:",
-              ":blue_square:",
-              ":green_square:",
-              ":green_square:",
-              ":blue_square:",
-              ":blue_square:",
-              ":purple_square:",
-              ":purple_square:",
-              ":red_square:",
-              ":red_square:",
-              ":yellow_square:",
-              ":yellow_square:",
-              ":orange_square:",
-              ":orange_square:",
-              ":red_square:",
-              ":red_square:",
-              ":white_large_square:",
-              ":white_large_square:",
-              ":white_large_square:",
-              ":white_large_square:",
-              ":blue_square:",
-              ":blue_square:",
-              ":yellow_square:"
-            ]
-          },
-          "description": "La couleur du bandeau et de la barre de progression.",
-          "name": "couleur"
-        },
         "counted": "Votre vote a été compté.",
-        "descOption": {
-          "description": "Texte de la description du sondage.",
-          "name": "description"
+        "create": {
+          "choiceOption": {
+            "description": "Les choix du sondage",
+            "name": "choix"
+          },
+          "colorOption": {
+            "black": ":black_large_square:",
+            "colors": {
+              "choices": [
+                { "name": "turquoise", "value": "AQUA" },
+                { "name": "turquoise_foncé", "value": "DARK_AQUA" },
+                { "name": "vert", "value": "GREEN" },
+                { "name": "vert_foncé", "value": "DARK_GREEN" },
+                { "name": "bleu", "value": "BLUE" },
+                { "name": "bleu_foncé", "value": "DARK_BLUE" },
+                { "name": "violet", "value": "PURPLE" },
+                { "name": "violet_foncé", "value": "DARK_PURPLE" },
+                { "name": "rose_vif", "value": "LUMINOUS_VIVID_PINK" },
+                { "name": "rose_vif_foncé", "value": "DARK_VIVID_PINK" },
+                { "name": "doré", "value": "GOLD" },
+                { "name": "doré_foncé", "value": "DARK_GOLD" },
+                { "name": "orange", "value": "ORANGE" },
+                { "name": "orange_foncé", "value": "DARK_ORANGE" },
+                { "name": "rouge", "value": "RED" },
+                { "name": "rouge_foncé", "value": "DARK_RED" },
+                { "name": "gris", "value": "GREY" },
+                { "name": "gris_foncé", "value": "DARK_GREY" },
+                { "name": "gris_très_foncé", "value": "DARKER_GREY" },
+                { "name": "gris_clair", "value": "LIGHT_GREY" },
+                { "name": "bleu_marine", "value": "NAVY" },
+                { "name": "bleu_marine_foncé", "value": "DARK_NAVY" },
+                { "name": "jaune", "value": "YELLOW" }
+              ],
+              "progress_bar": [
+                ":blue_square:",
+                ":blue_square:",
+                ":green_square:",
+                ":green_square:",
+                ":blue_square:",
+                ":blue_square:",
+                ":purple_square:",
+                ":purple_square:",
+                ":red_square:",
+                ":red_square:",
+                ":yellow_square:",
+                ":yellow_square:",
+                ":orange_square:",
+                ":orange_square:",
+                ":red_square:",
+                ":red_square:",
+                ":white_large_square:",
+                ":white_large_square:",
+                ":white_large_square:",
+                ":white_large_square:",
+                ":blue_square:",
+                ":blue_square:",
+                ":yellow_square:"
+              ]
+            },
+            "description": "La couleur du bandeau et de la barre de progression.",
+            "name": "couleur"
+          },
+          "description": "Créer un nouveau sondage.",
+          "descOption": {
+            "description": "Texte de la description du sondage.",
+            "name": "description"
+          },
+          "hideOption": {
+            "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
+            "name": "anonyme"
+          },
+          "maxOption": {
+            "description": "Si vote multiples, le nombre maximal de votes",
+            "name": "nombre-vote-max"
+          },
+          "name": "create",
+          "titleOption": {
+            "description": "Titre du sondage.",
+            "name": "titre"
+          },
+          "voteOption": {
+            "choices": [
+              { "name": "unique", "value": "pollVoteType_unique" },
+              { "name": "multiple", "value": "pollVoteType_multiple" }
+            ],
+            "description": "Définit si les gens votent une ou plusieurs fois.",
+            "name": "vote-unique"
+          }          
         },
         "description": "Cette commande permet de créer des sondages.",
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
@@ -337,14 +361,6 @@
           "pollVoteType_unique": "Vote unique"
         },
         "help": "Cette commande permet de créer des sondages.",
-        "hideOption": {
-          "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
-          "name": "anonyme"
-        },
-        "maxOption": {
-          "description": "Si vote multiples, le nombre maximal de votes",
-          "name": "nombre-vote-max"
-        },
         "name": "polls",
         "sent": "Le sondage a été envoyé.",
         "settings": {
@@ -357,18 +373,6 @@
             "title": " - **Terminé**"
           },
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage."
-        },
-        "titleOption": {
-          "description": "Titre du sondage.",
-          "name": "titre"
-        },
-        "voteOption": {
-          "choices": [
-            { "name": "unique", "value": "pollVoteType_unique" },
-            { "name": "multiple", "value": "pollVoteType_multiple" }
-          ],
-          "description": "Définit si les gens votent une ou plusieurs fois.",
-          "name": "vote-unique"
         }
       },
       "pronouns": {
