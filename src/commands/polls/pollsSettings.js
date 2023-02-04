@@ -1,13 +1,11 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
 import {
-  createChoicesStorage,
   fetchPollMessage,
   interactionEditReply,
-  parsePollFields,
 } from "./pollsUtils.js";
-import { createButton, interactionReply, isSentinelle } from "../utils.js";
+import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
-import { addPollChoices, getPoll } from "../../helpers/index.js";
+import { getPoll } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
@@ -30,10 +28,12 @@ export const sendSettingsButtons = async (interaction) => {
   //fetch embed
   const pollEmbed = pollMessage.embeds[0];
 
+  /*
   //create add button
   const addButton = createButton("polls_set_add", "ajouter", "PRIMARY");
   if (pollEmbed.title.includes(perso.disable.title))
     addButton.setDisabled(true);
+  */
 
   //create stop button
   const stopButton = createButton("polls_set_disable", "stop", "DANGER");
@@ -42,7 +42,7 @@ export const sendSettingsButtons = async (interaction) => {
 
   //create ActionRows
   const actionRow = new MessageActionRow().addComponents([
-    addButton,
+    //addButton,
     stopButton,
   ]);
 
@@ -103,6 +103,7 @@ export const disablePoll = async (interaction) => {
   pollMessage.edit(editedPollMessage);
 };
 
+/*
 export const addChoicePollModal = async (interaction) => {
   const inputs = interaction.fields.getTextInputValue("choiceInput");
   console.log("inputs", [inputs]);
@@ -140,3 +141,4 @@ export const addChoicePollModal = async (interaction) => {
   addPollChoices(interaction.client.db, pollMessage.id, createChoicesStorage(results.fields)); //edit db
   interactionReply(interaction, perso.settings.add.done);
 };
+*/

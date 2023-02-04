@@ -6,7 +6,7 @@ import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
 import {
   settingsButtonHandler,
-  pollModalHandler,
+  //pollModalHandler,
 } from "./polls/pollsHandlers.js";
 
 /**
@@ -57,9 +57,9 @@ export const buttonHandler = (interaction) => {
  */
 export const modalHandler = (interaction) => {
   const { customId } = interaction;
-  console.log("modalHandler");
-  if (customId.startsWith("polls_modal")) pollModalHandler(interaction);
-  else return;
+  console.log("modalHandler", customId);
+  /*if (customId.startsWith("polls_modal")) pollModalHandler(interaction);
+  else */return;
 };
 
 /**
