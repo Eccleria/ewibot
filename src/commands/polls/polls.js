@@ -16,50 +16,50 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().polls.create.description)
       .addStringOption((option) =>
         option //title
-          .setName(PERSONALITY.getCommands().polls.titleOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.titleOption.description)
+          .setName(PERSONALITY.getCommands().polls.create.titleOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.titleOption.description)
           .setRequired(true)
           .setMinLength(1)
           .setMaxLength(225)
       )
       .addStringOption((option) =>
         option //choice
-          .setName(PERSONALITY.getCommands().polls.choiceOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.choiceOption.description)
+          .setName(PERSONALITY.getCommands().polls.create.choiceOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.choiceOption.description)
           .setRequired(true)
           .setMinLength(4)
       )
       .addStringOption((option) =>
         option //description
-          .setName(PERSONALITY.getCommands().polls.descOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.descOption.description)
+          .setName(PERSONALITY.getCommands().polls.create.descOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.descOption.description)
           .setMinLength(1)
           .setMaxLength(4096)
       )
       .addBooleanOption((option) =>
         option //hide
-          .setName(PERSONALITY.getCommands().polls.hideOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.hideOption.description)
+          .setName(PERSONALITY.getCommands().polls.create.hideOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.hideOption.description)
           .setRequired(false)
       )
       .addStringOption((option) =>
         option //vote
-          .setName(PERSONALITY.getCommands().polls.voteOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.voteOption.description)
+          .setName(PERSONALITY.getCommands().polls.create.voteOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.voteOption.description)
           .setRequired(false)
-          .addChoices(...PERSONALITY.getCommands().polls.voteOption.choices)
+          .addChoices(...PERSONALITY.getCommands().polls.create.voteOption.choices)
       )
       .addStringOption((option) =>
         option //color
-          .setName(PERSONALITY.getCommands().polls.colorOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.colorOption.description)
+          .setName(PERSONALITY.getCommands().polls.create.colorOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.colorOption.description)
           .setRequired(false)
-          .addChoices(...PERSONALITY.getCommands().polls.colorOption.colors.choices)
+          .addChoices(...PERSONALITY.getCommands().polls.create.colorOption.colors.choices)
       )
       .addNumberOption((option) =>
         option //maxVoteNumber
-          .setName(PERSONALITY.getCommands().polls.maxOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.maxOption.description)
+          .setName(PERSONALITY.getCommands().polls.create.maxOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.maxOption.description)
           .setRequired(false)
           .setMinValue(1)
       )
@@ -73,10 +73,12 @@ const command = new SlashCommandBuilder()
 
 const action = async (interaction) => {
   const options = interaction.options;
-  const perso = PERSONALITY.getCommands().polls;
+  const personality = PERSONALITY.getCommands().polls;
 
-  if(options.getSubcommands(perso.create.name)) {
+  if(options.getSubcommand(personality.create.name)) {
     //create poll subcommand
+    const perso = personality.create;
+
     //get options
     const title = options.getString(perso.titleOption.name);
     const choices = options.getString(perso.choiceOption.name);

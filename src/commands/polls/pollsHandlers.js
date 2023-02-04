@@ -25,6 +25,7 @@ export const voteButtonHandler = (interaction) => {
 
   //get personality
   const perso = PERSONALITY.getCommands().polls;
+  const cPerso = perso.create;
 
   //get db data
   const db = client.db;
@@ -32,12 +33,12 @@ export const voteButtonHandler = (interaction) => {
   const dbPoll = getPoll(db, pollId); //get poll from db
   const { voteType } = dbPoll;
 
-  if (voteType === perso.voteOption.choices[1].value) {
+  if (voteType === cPerso.voteOption.choices[1].value) {
     //multiple
-    multipleVoteType(interaction, dbPoll, perso);
-  } else if (voteType === perso.voteOption.choices[0].value) {
+    multipleVoteType(interaction, dbPoll, perso, cPerso);
+  } else if (voteType === cPerso.voteOption.choices[0].value) {
     //unique
-    uniqueVoteType(interaction, dbPoll, perso);
+    uniqueVoteType(interaction, dbPoll, perso, cPerso);
   } else interactionReply(perso.errorUnknownChoice);
 };
 

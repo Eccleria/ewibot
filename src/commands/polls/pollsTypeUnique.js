@@ -6,7 +6,7 @@ import {
   getThisChoicePollIndex,
 } from "../../helpers/index.js";
 
-export const uniqueVoteType = async (interaction, dbPoll, perso) => {
+export const uniqueVoteType = async (interaction, dbPoll, perso, cPerso) => {
   // voteType unique : count vote, update db + embed
   const { customId, message, user, client } = interaction;
 
@@ -78,8 +78,8 @@ export const uniqueVoteType = async (interaction, dbPoll, perso) => {
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
-  const emoteColor = perso.colorOption.colors.progress_bar[colorIdx]; //emoteId from personality
-  const black = perso.colorOption.black; //empty bar color
+  const emoteColor = cPerso.colorOption.colors.progress_bar[colorIdx]; //emoteId from personality
+  const black = cPerso.colorOption.black; //empty bar color
 
   //write new fields
   //const toChangeFieldIdx = [toAddVoteIdx, toRemoveVoteIdx];

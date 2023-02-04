@@ -332,6 +332,11 @@
             "description": "Texte de la description du sondage.",
             "name": "description"
           },
+          "footer": {
+            "options": " | ⚙️ options",
+            "pollVoteType_multiple": "Vote multiple",
+            "pollVoteType_unique": "Vote unique"
+          },
           "hideOption": {
             "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
             "name": "anonyme"
@@ -345,6 +350,7 @@
             "description": "Titre du sondage.",
             "name": "titre"
           },
+          "sent": "Le sondage a été envoyé.",
           "voteOption": {
             "choices": [
               { "name": "unique", "value": "pollVoteType_unique" },
@@ -359,14 +365,8 @@
         "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
         "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
-        "footer": {
-          "options": " | ⚙️ options",
-          "pollVoteType_multiple": "Vote multiple",
-          "pollVoteType_unique": "Vote unique"
-        },
         "help": "Cette commande permet de créer des sondages.",
         "name": "polls",
-        "sent": "Le sondage a été envoyé.",
         "settings": {
           "add": {
             "done": "Le ou les nouveaux choix ont été ajoutés."
