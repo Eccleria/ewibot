@@ -126,7 +126,7 @@ export const addChoicePollModal = async (interaction) => {
   }
 
   //add to embed
-  const results = parsePollFields(inputs);
+  const results = parsePollFields([inputs]);
   console.log("results", results);
   const black = perso.colorOption.black;
   results.fields.forEach((field) => {
