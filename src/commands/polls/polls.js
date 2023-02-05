@@ -1,10 +1,13 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
-import { addPoll } from "../../helpers/index.js";
+import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
-import { parsePollFields } from "./pollsUtils.js";
+import { 
+  parsePollFields,   
+  createChoicesStorage,
+} from "./pollsUtils.js";
 import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 
 const command = new SlashCommandBuilder()
@@ -140,7 +143,7 @@ const action = async (interaction) => {
     const results = parsePollFields(splited);
 
     //write choices in embed
-    const black = perso.colorOption.black;
+    const black = personality.black;
     results.fields.forEach((field) => {
       embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
     });
@@ -208,38 +211,92 @@ const action = async (interaction) => {
 
     //get options
     const pollInput = options.getString(perso.pollOption.name);
-    //const choices = options.getString(perso.choiceOption.name); 
+    const choices = options.getString(perso.choiceOption.name); 
+    
+    //check if not too many choices
+    const splited = choices.split(";");
+    if (splited.length > 10) {
+      interactionReply(interaction, personality.errorChoicesNumber);
+      return;
+    }
 
     //fetch db data
     const dbPoll = getPollFromTitle(interaction.client.db, pollInput);
-    if (dbPoll) {
-      console.log("dbPoll", dbPoll);
-    } else interactionReply(interaction, perso.errorNoPoll);
+    if (!dbPoll) {
+      interactionReply(interaction, perso.errorNoPoll);
+      return;
+    }
+
+    //get pollMessage
+    const pollMessage = await interaction.channel.messages.fetch(dbPoll.pollId);
+    const embed = pollMessage.embeds[0];
+    const fields = embed.fields;
+
+    //check for choices number
+    if (fields.length + splited.length > 10) {
+      interactionReply(interaction, perso.errorChoicesNumber);
+      return;
+    }
+
+    //get total choices size
+    const oldComponents = pollMessage.components; 
+    const lastAR = oldComponents[oldComponents.length - 1]; //last action row, with settings button
+    const totalSize = (oldComponents.length - 1) * 5 + lastAR.components.length - 1; //total number of buttons
+
+    //add to embed
+    const results = parsePollFields(splited, totalSize);
+    const black = personality.black;
+    results.fields.forEach((field) => {
+      embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
+    });
+
+    //create new vote buttons + regroup with olders
+    const settingButton = lastAR.components[lastAR.components.length - 1]; //get settings button
+    const voteAR = [...oldComponents.slice(0, -1), lastAR.spliceComponents(-1, 1)]; //filtered actionRows
+    const initComponents = {actionRows: voteAR, size: voteAR[voteAR.length - 1].components.length}; //init for reduce
+    const newComponents = results.emotes.reduce(
+      (acc, cur, idx) => {
+        const totalIdx = idx + totalSize;
+        const buttonId = "polls_" + totalIdx.toString();
+        const button = createButton(buttonId, null, "SECONDARY", cur);
+
+        if (acc.size === 5) {
+          const newRow = new MessageActionRow().addComponents(button);
+          return { actionRows: [...acc.actionRows, newRow], size: 1 };
+        } else {
+          const lastAR = acc.actionRows[acc.actionRows.length - 1];
+          lastAR.addComponents(button);
+          return { actionRows: acc.actionRows, size: acc.size + 1 };
+        }
+      },
+      initComponents
+    );
+
+    //add again settingsButton
+    if (newComponents.size === 5) {
+      //if actionRow is full, create one more
+      const newRow = new MessageActionRow().addComponents(settingButton);
+      newComponents.actionRows.push(newRow);
+    } else
+      newComponents.actionRows[newComponents.actionRows.length - 1].addComponents(
+        settingButton
+      );
+
+    //edit original data
+    const payload = {embeds: [embed]};
+    payload.components = newComponents.actionRows;
+    pollMessage.edit(payload); //edit message
+    addPollChoices(interaction.client.db, pollMessage.id, createChoicesStorage(results.fields)); //edit db
+    interactionReply(interaction, perso.updated);
   }
 };
 
 const autocomplete = (interaction) => {
   const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
-  
-  /*
-  const member = interaction.member;
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
-  const isModo = isSentinelle(member, currentServer);
-  */
 
   const dbData = getPollsTitles(interaction.client.db);
-  const results = dbData.titles.reduce((acc, cur, idx) => {
-      if (cur.startsWith(focusedValue))
-        return {titles: [...acc.titles, cur], ids: [...acc.ids, dbData.ids[idx]]}
-      else return acc
-    }, {titles: [], ids: []}); //filter to corresponding commands names
-  
-  const filtered = results.titles;
+  const filtered = dbData.filter((title) => title.startsWith(focusedValue)); //filter to corresponding commands names
   const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
-  console.log("dbData", dbData);
-  console.log("results", results);
-  console.log("filtered", filtered);
-  console.log("sliced", sliced);
 
   interaction.respond(
     sliced.map((choice) => ({ name: choice, value: choice }))

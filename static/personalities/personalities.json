@@ -271,8 +271,10 @@
           "pollOption": {
             "description": "Choix du sondage auquel ajouter les options.",
             "name": "sondage"
-          }
+          },
+          "updated": "Le sondage a été mis à jour."
         },
+        "black": ":black_large_square:",
         "counted": "Votre vote a été compté.",
         "create": {
           "choiceOption": {

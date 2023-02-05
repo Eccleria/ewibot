@@ -34,9 +34,7 @@ const getPollFromTitle = (db, title) => {
 }
 
 const getPollsTitles = (db) => {
-  return db.data.polls.reduce((acc, cur) => {
-    return {titles: [...acc.titles, cur.title], ids: [...acc.ids, cur.pollId]}
-  }, {titles: [], ids: []});
+  return db.data.polls.map((poll) => poll.title);
 };
 
 const addPollChoices = (db, pollId, choices) => {

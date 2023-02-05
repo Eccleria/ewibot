@@ -58,7 +58,7 @@ export const interactionEditReply = async (
 
 const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
-export const parsePollFields = (content) => {
+export const parsePollFields = (content, totalSize = 0) => {
   const results = content.reduce(
     (acc, cur, idx) => {
       if (cur.length === 0) return acc; //filter empty choice
@@ -72,7 +72,7 @@ export const parsePollFields = (content) => {
           emotes: [...acc.emotes, emote],
         };
       } else {
-        const emote = bullet[idx];
+        const emote = bullet[idx + totalSize];
         const text = idx === 0 ? emote + " " + replaced : emote + replaced;
         return {
           fields: [...acc.fields, text],
