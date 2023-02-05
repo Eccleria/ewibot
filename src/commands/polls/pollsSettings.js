@@ -1,4 +1,4 @@
-import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
+import { MessageActionRow } from "discord.js";
 import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
@@ -47,25 +47,6 @@ export const sendSettingsButtons = async (interaction) => {
   interactionEditReply(interaction, { components: [actionRow] });
 };
 
-export const addChoicePollButton = async (interaction) => {
-  const modal = new Modal()
-    .setTitle("Ajouter un choix au sondage")
-    .setCustomId("polls_modal_addChoice");
-
-  const newChoiceInput = new TextInputComponent()
-    .setCustomId("choiceInput")
-    .setLabel("Nouveau choix")
-    .setMinLength(1)
-    .setMaxLength(50)
-    .setStyle("SHORT");
-
-  const actionRow = new MessageActionRow().addComponents(newChoiceInput);
-
-  modal.addComponents(actionRow);
-
-  interaction.showModal(modal);
-};
-
 export const disablePoll = async (interaction) => {
   console.log("disablePoll");
   await interaction.deferUpdate();
@@ -99,43 +80,3 @@ export const disablePoll = async (interaction) => {
   interactionEditReply(interaction, editedStopMessage);
   pollMessage.edit(editedPollMessage);
 };
-
-/*
-export const addChoicePollModal = async (interaction) => {
-  const inputs = interaction.fields.getTextInputValue("choiceInput");
-  console.log("inputs", [inputs]);
-  //get perso
-  const perso = PERSONALITY.getCommands().polls;
-
-  //get pollMessage
-  const pollMessage = await fetchPollMessage(interaction);
-  const embed = pollMessage.embeds[0];
-  const fields = embed.fields;
-
-  //check for multiple inputs
-  if (inputs.includes(";")) {
-    interactionReply(interaction, perso.errorMultipleInput);
-    return;
-  }
-  //check for choices number
-  if (fields.length + 1 > 10) {
-    interactionReply(interaction, perso.errorChoicesNumber);
-    return;
-  }
-
-  //add to embed
-  const results = parsePollFields([inputs]);
-  console.log("results", results);
-  const black = perso.colorOption.black;
-  results.fields.forEach((field) => {
-    embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
-  });
-
-  //edit original data
-  const payload = {embeds: [embed]};
-  payload.components = pollMessage.components;
-  pollMessage.edit(payload); //edit message
-  addPollChoices(interaction.client.db, pollMessage.id, createChoicesStorage(results.fields)); //edit db
-  interactionReply(interaction, perso.settings.add.done);
-};
-*/

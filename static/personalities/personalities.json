@@ -379,9 +379,6 @@
         "help": "Cette commande permet de créer des sondages.",
         "name": "polls",
         "settings": {
-          "add": {
-            "done": "Le ou les nouveaux choix ont été ajoutés."
-          },
           "disable": {
             "disabled": "Le sondage a bien été verrouillé.",
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
