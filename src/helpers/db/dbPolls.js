@@ -7,7 +7,8 @@ const addPoll = (
   anonymous,
   voteType,
   colorIdx,
-  voteMax
+  voteMax,
+  title
 ) => {
   const poll = {
     pollId: id,
@@ -17,6 +18,7 @@ const addPoll = (
     voteMax: voteMax,
     voteType: voteType,
     votes: votes,
+    title: title
   };
 
   db.data.polls.push(poll);
@@ -25,6 +27,16 @@ const addPoll = (
 
 const getPoll = (db, pollId) => {
   return db.data.polls.find((poll) => poll.pollId === pollId);
+};
+
+const getPollFromTitle = (db, title) => {
+  return db.data.polls.find((poll) => poll.title === title);
+}
+
+const getPollsTitles = (db) => {
+  return db.data.polls.reduce((acc, cur) => {
+    return {titles: [...acc.titles, cur.title], ids: [...acc.ids, cur.pollId]}
+  }, {titles: [], ids: []});
 };
 
 const addPollChoices = (db, pollId, choices) => {
@@ -76,6 +88,8 @@ const removePollIndex = (db, pollId, userId, voteIdx) => {
 export {
   addPoll,
   getPoll,
+  getPollFromTitle,
+  getPollsTitles,
   addPollChoices,
   addPollVoter,
   isThisChoicePollVoter,

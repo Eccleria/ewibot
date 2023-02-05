@@ -5,6 +5,7 @@ import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
 import { parsePollFields } from "./pollsUtils.js";
+import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
@@ -68,14 +69,28 @@ const command = new SlashCommandBuilder()
     command
       .setName(PERSONALITY.getCommands().polls.addChoice.name)
       .setDescription(PERSONALITY.getCommands().polls.addChoice.description)
-    
+      .addStringOption((option) =>
+        option //poll
+          .setName(PERSONALITY.getCommands().polls.addChoice.pollOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.addChoice.pollOption.description)
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
+      .addStringOption((option) =>
+        option //choice
+          .setName(PERSONALITY.getCommands().polls.addChoice.choiceOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.addChoice.choiceOption.description)
+          .setRequired(true)
+          .setMinLength(4)
+      )
   );
 
 const action = async (interaction) => {
   const options = interaction.options;
   const personality = PERSONALITY.getCommands().polls;
+  const subcommand = options.getSubcommand();
 
-  if(options.getSubcommand(personality.create.name)) {
+  if(subcommand === personality.create.name) {
     //create poll subcommand
     const perso = personality.create;
 
@@ -184,13 +199,56 @@ const action = async (interaction) => {
       anonymous,
       voteType,
       colorIdx,
-      voteMax
+      voteMax,
+      title
     ); //add to db
+  } else if (subcommand === personality.addChoice.name) {
+    //addChoice poll subcommand
+    const perso = personality.addChoice;
+
+    //get options
+    const pollInput = options.getString(perso.pollOption.name);
+    //const choices = options.getString(perso.choiceOption.name); 
+
+    //fetch db data
+    const dbPoll = getPollFromTitle(interaction.client.db, pollInput);
+    if (dbPoll) {
+      console.log("dbPoll", dbPoll);
+    } else interactionReply(interaction, perso.errorNoPoll);
   }
+};
+
+const autocomplete = (interaction) => {
+  const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
+  
+  /*
+  const member = interaction.member;
+  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const isModo = isSentinelle(member, currentServer);
+  */
+
+  const dbData = getPollsTitles(interaction.client.db);
+  const results = dbData.titles.reduce((acc, cur, idx) => {
+      if (cur.startsWith(focusedValue))
+        return {titles: [...acc.titles, cur], ids: [...acc.ids, dbData.ids[idx]]}
+      else return acc
+    }, {titles: [], ids: []}); //filter to corresponding commands names
+  
+  const filtered = results.titles;
+  const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
+  console.log("dbData", dbData);
+  console.log("results", results);
+  console.log("filtered", filtered);
+  console.log("sliced", sliced);
+
+  interaction.respond(
+    sliced.map((choice) => ({ name: choice, value: choice }))
+  );
 };
 
 const polls = {
   action,
+  autocomplete,
   command,
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().polls;

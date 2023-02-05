@@ -261,8 +261,17 @@
       },
       "polls": {
         "addChoice": {
+          "choiceOption": {
+            "description": "Choix à ajouter au sondage",
+            "name": "choix"
+          },
           "description": "Ajouter un choix au sondage.",
-          "name": "nouveau-choix"
+          "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
+          "name": "nouveau-choix",
+          "pollOption": {
+            "description": "Choix du sondage auquel ajouter les options.",
+            "name": "sondage"
+          }
         },
         "counted": "Votre vote a été compté.",
         "create": {
@@ -346,11 +355,11 @@
             "name": "nombre-vote-max"
           },
           "name": "create",
+          "sent": "Le sondage a été envoyé.",
           "titleOption": {
             "description": "Titre du sondage.",
             "name": "titre"
           },
-          "sent": "Le sondage a été envoyé.",
           "voteOption": {
             "choices": [
               { "name": "unique", "value": "pollVoteType_unique" },
