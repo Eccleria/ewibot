@@ -4,24 +4,23 @@ import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
-import { 
-  parsePollFields,   
-  createChoicesStorage,
-} from "./pollsUtils.js";
+import { parsePollFields, createChoicesStorage } from "./pollsUtils.js";
 import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
   .setDescription(PERSONALITY.getCommands().polls.description)
   .setDefaultMemberPermissions(0x0000010000000000)
-  .addSubcommand((command) => 
+  .addSubcommand((command) =>
     command //create
       .setName(PERSONALITY.getCommands().polls.create.name)
       .setDescription(PERSONALITY.getCommands().polls.create.description)
       .addStringOption((option) =>
         option //title
           .setName(PERSONALITY.getCommands().polls.create.titleOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.titleOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.titleOption.description
+          )
           .setRequired(true)
           .setMinLength(1)
           .setMaxLength(225)
@@ -29,41 +28,57 @@ const command = new SlashCommandBuilder()
       .addStringOption((option) =>
         option //choice
           .setName(PERSONALITY.getCommands().polls.create.choiceOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.choiceOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.choiceOption.description
+          )
           .setRequired(true)
           .setMinLength(4)
       )
       .addStringOption((option) =>
         option //description
           .setName(PERSONALITY.getCommands().polls.create.descOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.descOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.descOption.description
+          )
           .setMinLength(1)
           .setMaxLength(4096)
       )
       .addBooleanOption((option) =>
         option //hide
           .setName(PERSONALITY.getCommands().polls.create.hideOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.hideOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.hideOption.description
+          )
           .setRequired(false)
       )
       .addStringOption((option) =>
         option //vote
           .setName(PERSONALITY.getCommands().polls.create.voteOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.voteOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.voteOption.description
+          )
           .setRequired(false)
-          .addChoices(...PERSONALITY.getCommands().polls.create.voteOption.choices)
+          .addChoices(
+            ...PERSONALITY.getCommands().polls.create.voteOption.choices
+          )
       )
       .addStringOption((option) =>
         option //color
           .setName(PERSONALITY.getCommands().polls.create.colorOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.colorOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.colorOption.description
+          )
           .setRequired(false)
-          .addChoices(...PERSONALITY.getCommands().polls.create.colorOption.colors.choices)
+          .addChoices(
+            ...PERSONALITY.getCommands().polls.create.colorOption.colors.choices
+          )
       )
       .addNumberOption((option) =>
         option //maxVoteNumber
           .setName(PERSONALITY.getCommands().polls.create.maxOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.maxOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.maxOption.description
+          )
           .setRequired(false)
           .setMinValue(1)
       )
@@ -75,14 +90,18 @@ const command = new SlashCommandBuilder()
       .addStringOption((option) =>
         option //poll
           .setName(PERSONALITY.getCommands().polls.addChoice.pollOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.addChoice.pollOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.addChoice.pollOption.description
+          )
           .setRequired(true)
           .setAutocomplete(true)
       )
       .addStringOption((option) =>
         option //choice
           .setName(PERSONALITY.getCommands().polls.addChoice.choiceOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.addChoice.choiceOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.addChoice.choiceOption.description
+          )
           .setRequired(true)
           .setMinLength(4)
       )
@@ -93,7 +112,7 @@ const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   const subcommand = options.getSubcommand();
 
-  if(subcommand === personality.create.name) {
+  if (subcommand === personality.create.name) {
     //create poll subcommand
     const perso = personality.create;
 
@@ -107,7 +126,8 @@ const action = async (interaction) => {
     const anonymous = option == null ? true : option; //if true, no name displayed
 
     option = options.getString(perso.voteOption.name, false); //voteType
-    const voteType = option == null ? perso.voteOption.choices[0].value : option; //if true, only one vote
+    const voteType =
+      option == null ? perso.voteOption.choices[0].value : option; //if true, only one vote
 
     option = options.getString(perso.colorOption.name, false); //color
     const color =
@@ -211,8 +231,8 @@ const action = async (interaction) => {
 
     //get options
     const pollInput = options.getString(perso.pollOption.name);
-    const choices = options.getString(perso.choiceOption.name); 
-    
+    const choices = options.getString(perso.choiceOption.name);
+
     //check if not too many choices
     const splited = choices.split(";");
     if (splited.length > 10) {
@@ -239,9 +259,10 @@ const action = async (interaction) => {
     }
 
     //get total choices size
-    const oldComponents = pollMessage.components; 
+    const oldComponents = pollMessage.components; //get old components
     const lastAR = oldComponents[oldComponents.length - 1]; //last action row, with settings button
-    const totalSize = (oldComponents.length - 1) * 5 + lastAR.components.length - 1; //total number of buttons
+    const totalSize =
+      (oldComponents.length - 1) * 5 + lastAR.components.length - 1; //total number of buttons
 
     //add to embed
     const results = parsePollFields(splited, totalSize);
@@ -252,25 +273,28 @@ const action = async (interaction) => {
 
     //create new vote buttons + regroup with olders
     const settingButton = lastAR.components[lastAR.components.length - 1]; //get settings button
-    const voteAR = [...oldComponents.slice(0, -1), lastAR.spliceComponents(-1, 1)]; //filtered actionRows
-    const initComponents = {actionRows: voteAR, size: voteAR[voteAR.length - 1].components.length}; //init for reduce
-    const newComponents = results.emotes.reduce(
-      (acc, cur, idx) => {
-        const totalIdx = idx + totalSize;
-        const buttonId = "polls_" + totalIdx.toString();
-        const button = createButton(buttonId, null, "SECONDARY", cur);
+    const voteAR = [
+      ...oldComponents.slice(0, -1),
+      lastAR.spliceComponents(-1, 1),
+    ]; //filter actionRows
+    const initComponents = {
+      actionRows: voteAR,
+      size: voteAR[voteAR.length - 1].components.length,
+    }; //init for reduce
+    const newComponents = results.emotes.reduce((acc, cur, idx) => {
+      const totalIdx = idx + totalSize;
+      const buttonId = "polls_" + totalIdx.toString();
+      const button = createButton(buttonId, null, "SECONDARY", cur);
 
-        if (acc.size === 5) {
-          const newRow = new MessageActionRow().addComponents(button);
-          return { actionRows: [...acc.actionRows, newRow], size: 1 };
-        } else {
-          const lastAR = acc.actionRows[acc.actionRows.length - 1];
-          lastAR.addComponents(button);
-          return { actionRows: acc.actionRows, size: acc.size + 1 };
-        }
-      },
-      initComponents
-    );
+      if (acc.size === 5) {
+        const newRow = new MessageActionRow().addComponents(button);
+        return { actionRows: [...acc.actionRows, newRow], size: 1 };
+      } else {
+        const lastAR = acc.actionRows[acc.actionRows.length - 1];
+        lastAR.addComponents(button);
+        return { actionRows: acc.actionRows, size: acc.size + 1 };
+      }
+    }, initComponents);
 
     //add again settingsButton
     if (newComponents.size === 5) {
@@ -278,15 +302,19 @@ const action = async (interaction) => {
       const newRow = new MessageActionRow().addComponents(settingButton);
       newComponents.actionRows.push(newRow);
     } else
-      newComponents.actionRows[newComponents.actionRows.length - 1].addComponents(
-        settingButton
-      );
+      newComponents.actionRows[
+        newComponents.actionRows.length - 1
+      ].addComponents(settingButton);
 
     //edit original data
-    const payload = {embeds: [embed]};
+    const payload = { embeds: [embed] };
     payload.components = newComponents.actionRows;
     pollMessage.edit(payload); //edit message
-    addPollChoices(interaction.client.db, pollMessage.id, createChoicesStorage(results.fields)); //edit db
+    addPollChoices(
+      interaction.client.db,
+      pollMessage.id,
+      createChoicesStorage(results.fields)
+    ); //edit db
     interactionReply(interaction, perso.updated);
   }
 };

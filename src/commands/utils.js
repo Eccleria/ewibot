@@ -59,7 +59,7 @@ export const modalHandler = (interaction) => {
   const { customId } = interaction;
   console.log("modalHandler", customId);
   /*if (customId.startsWith("polls_modal")) pollModalHandler(interaction);
-  else */return;
+  else */ return;
 };
 
 /**

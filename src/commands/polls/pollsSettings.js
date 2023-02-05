@@ -1,8 +1,5 @@
 import { MessageActionRow, Modal, TextInputComponent } from "discord.js";
-import {
-  fetchPollMessage,
-  interactionEditReply,
-} from "./pollsUtils.js";
+import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll } from "../../helpers/index.js";

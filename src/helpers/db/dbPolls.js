@@ -18,7 +18,7 @@ const addPoll = (
     voteMax: voteMax,
     voteType: voteType,
     votes: votes,
-    title: title
+    title: title,
   };
 
   db.data.polls.push(poll);
@@ -31,7 +31,7 @@ const getPoll = (db, pollId) => {
 
 const getPollFromTitle = (db, title) => {
   return db.data.polls.find((poll) => poll.title === title);
-}
+};
 
 const getPollsTitles = (db) => {
   return db.data.polls.map((poll) => poll.title);
