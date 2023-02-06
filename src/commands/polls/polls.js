@@ -4,7 +4,7 @@ import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
-import { parsePollFields, createChoicesStorage } from "./pollsUtils.js";
+import { parsePollFields } from "./pollsUtils.js";
 import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 
 const command = new SlashCommandBuilder()
@@ -173,17 +173,18 @@ const action = async (interaction) => {
       (acc, cur, idx) => {
         const buttonId = "polls_" + idx.toString();
         const button = createButton(buttonId, null, "SECONDARY", cur);
-
+        const newDbVotesValue = {votes: [], buttonId: buttonId}; //create db choice storage
+        
         if (idx === 0 || acc.size === 5) {
           const newRow = new MessageActionRow().addComponents(button);
-          return { actionRows: [...acc.actionRows, newRow], size: 1 };
+          return { actionRows: [...acc.actionRows, newRow], size: 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
         } else {
           const lastAR = acc.actionRows[acc.actionRows.length - 1];
           lastAR.addComponents(button);
-          return { actionRows: acc.actionRows, size: acc.size + 1 };
+          return { actionRows: acc.actionRows, size: acc.size + 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
         }
       },
-      { actionRows: [], size: 0 }
+      { actionRows: [], size: 0, dbVotes: [] }
     );
 
     //add setting button
@@ -207,10 +208,6 @@ const action = async (interaction) => {
     interactionReply(interaction, perso.sent);
 
     //save poll
-    const dbVotes = results.fields.reduce((acc) => {
-      acc.push([]);
-      return acc;
-    }, []); //create db choice storage
     const colorIdx = perso.colorOption.colors.choices.findIndex(
       (obj) => obj.value === color
     ); //find color index from personality
@@ -218,7 +215,7 @@ const action = async (interaction) => {
       interaction.client.db,
       pollMsg.id,
       interaction.user.id,
-      dbVotes,
+      components.dbVotes,
       anonymous,
       voteType,
       colorIdx,
@@ -280,19 +277,21 @@ const action = async (interaction) => {
     const initComponents = {
       actionRows: voteAR,
       size: voteAR[voteAR.length - 1].components.length,
+      dbVotes: [],
     }; //init for reduce
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
       const buttonId = "polls_" + totalIdx.toString();
       const button = createButton(buttonId, null, "SECONDARY", cur);
+      const newDbVotesValue = {votes: [], buttonId: buttonId}; //create db choice storage
 
       if (acc.size === 5) {
         const newRow = new MessageActionRow().addComponents(button);
-        return { actionRows: [...acc.actionRows, newRow], size: 1 };
+        return { actionRows: [...acc.actionRows, newRow], size: 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
       } else {
         const lastAR = acc.actionRows[acc.actionRows.length - 1];
         lastAR.addComponents(button);
-        return { actionRows: acc.actionRows, size: acc.size + 1 };
+        return { actionRows: acc.actionRows, size: acc.size + 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
       }
     }, initComponents);
 
@@ -313,7 +312,7 @@ const action = async (interaction) => {
     addPollChoices(
       interaction.client.db,
       pollMessage.id,
-      createChoicesStorage(results.fields)
+      newComponents.dbVotes
     ); //edit db
     interactionReply(interaction, perso.updated);
   }

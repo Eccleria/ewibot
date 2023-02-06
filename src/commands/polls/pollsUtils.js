@@ -84,15 +84,3 @@ export const parsePollFields = (content, totalSize = 0) => {
   );
   return results;
 };
-
-/**
- * Create the appropriate storage according to poll choices input
- * @param {list} choices List of choices for voters
- * @returns list
- */
-export const createChoicesStorage = (choices) => {
-  return choices.reduce((acc) => {
-    acc.push([]);
-    return acc;
-  }, []);
-};
