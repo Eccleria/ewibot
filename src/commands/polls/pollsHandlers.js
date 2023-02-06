@@ -1,6 +1,7 @@
 import {
   sendSettingsButtons,
   disablePoll,
+  removePollButtonAction,
   //addChoicePollModal,
 } from "./pollsSettings.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
@@ -46,6 +47,7 @@ export const settingsButtonHandler = async (interaction) => {
   const { customId } = interaction;
   if (customId.includes("settings")) sendSettingsButtons(interaction);
   else if (customId.includes("set_disable")) disablePoll(interaction);
+  else if (customId.includes("set_remove")) removePollButtonAction(interaction);
 };
 
 /*
@@ -56,3 +58,17 @@ export const pollModalHandler = (interaction) => {
   if (customId.includes("addChoice")) addChoicePollModal(interaction);
 };
 */
+
+export const pollSelectMenuHandler = (interaction) => {
+  const { customId } = interaction;
+
+  const perso = PERSONALITY.getCommands().polls;
+  if (customId.includes("_remove")) {
+    console.log("interaction", interaction);
+
+    interaction.deferReply();
+    const selected = interaction.values;
+    console.log("values", selected);
+
+  } else return interactionReply(interaction, perso.errorSelectMenuNotFound)
+};

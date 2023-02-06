@@ -1,4 +1,4 @@
-import { MessageActionRow } from "discord.js";
+import { MessageActionRow, MessageSelectMenu } from "discord.js";
 import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
@@ -25,21 +25,19 @@ export const sendSettingsButtons = async (interaction) => {
   //fetch embed
   const pollEmbed = pollMessage.embeds[0];
 
-  /*
   //create add button
-  const addButton = createButton("polls_set_add", "ajouter", "PRIMARY");
-  if (pollEmbed.title.includes(perso.disable.title))
-    addButton.setDisabled(true);
-  */
+  const removeButton = createButton("polls_set_remove", "Retirer", "PRIMARY");
+  if (pollEmbed.title.includes(perso.remove.title))
+    removeButton.setDisabled(true);
 
   //create stop button
-  const stopButton = createButton("polls_set_disable", "stop", "DANGER");
+  const stopButton = createButton("polls_set_disable", "Stop", "DANGER");
   if (pollEmbed.title.includes(perso.disable.title))
     stopButton.setDisabled(true);
 
   //create ActionRows
   const actionRow = new MessageActionRow().addComponents([
-    //addButton,
+    removeButton,
     stopButton,
   ]);
 
@@ -79,4 +77,37 @@ export const disablePoll = async (interaction) => {
   };
   interactionEditReply(interaction, editedStopMessage);
   pollMessage.edit(editedPollMessage);
+};
+
+export const removePollButtonAction = async (interaction) => {
+  await interaction.deferUpdate();
+
+  const perso = PERSONALITY.getCommands().polls.settings.remove;
+
+  //get poll from db
+  const pollMessage = await fetchPollMessage(interaction);
+  const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  const maxToRemove = dbPoll.votes.length - 2;
+
+  if (maxToRemove < 1) return interactionEditReply(interaction, perso.errorNotEnoughToRemove)
+
+  //create selectMenu
+  const menu = new MessageSelectMenu()
+    .setCustomId("polls_selectMenu_remove")
+    .setPlaceholder("Choix des options à supprimer")
+    .setMinValues(1)
+    .setMaxValues(maxToRemove);
+
+  //parse choices
+  const fields = pollMessage.embeds[0].fields;
+  const choices = fields.reduce((acc, cur, idx) => {
+    const curChoice = {label: cur.name, value: idx.toString()} // description: "Choix_" + idx.toString(), 
+    return [...acc, curChoice]
+  }, []);
+  menu.addOptions(choices);
+
+  //send message
+  const actionRow = new MessageActionRow().addComponents(menu);
+  const payload = {components: [actionRow]};
+  interactionEditReply(interaction, payload);
 };

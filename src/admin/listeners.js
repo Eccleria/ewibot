@@ -1,6 +1,7 @@
 import {
   buttonHandler,
   modalHandler,
+  selectMenuHandler,
   interactionReply,
   isReleasedCommand,
   dispatchSlicedEmbedContent,
@@ -49,6 +50,12 @@ export const onInteractionCreate = (interaction) => {
   if (interaction.isModalSubmit()) {
     console.log("modal interaction detected");
     modalHandler(interaction);
+    return;
+  }
+
+  if (interaction.isSelectMenu()) {
+    console.log("selectMenu interaction detected");
+    selectMenuHandler(interaction);
     return;
   }
 

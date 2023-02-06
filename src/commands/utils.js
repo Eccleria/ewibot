@@ -6,6 +6,7 @@ import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
 import {
   settingsButtonHandler,
+  pollSelectMenuHandler,
   //pollModalHandler,
 } from "./polls/pollsHandlers.js";
 
@@ -61,6 +62,16 @@ export const modalHandler = (interaction) => {
   /*if (customId.startsWith("polls_modal")) pollModalHandler(interaction);
   else */ return;
 };
+
+/**
+ * Dispatch selectMenu interactions between corresponding functions
+ * @param {object} interaction
+ */
+export const selectMenuHandler = (interaction) => {
+  const { customId } = interaction;
+  console.log("menuHandler", customId);
+  if (customId.startsWith("polls_selectMenu")) pollSelectMenuHandler(interaction);
+}
 
 /**
  * Return if guildMember has Sentinelle role or not

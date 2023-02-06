@@ -375,6 +375,7 @@
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
         "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
         "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",
+        "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
         "help": "Cette commande permet de créer des sondages.",
         "name": "polls",
@@ -384,7 +385,11 @@
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
             "title": " - **Terminé**"
           },
-          "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage."
+          "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
+          "remove": {
+            "errorNotEnoughToRemove": "Il n'y a pas assez de choix pour en retirer.",
+            "removed": "Les choix de ce sondage ont été supprimés."
+          }
         }
       },
       "pronouns": {
