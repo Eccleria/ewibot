@@ -6,6 +6,7 @@ import { PERSONALITY } from "../personality.js";
 
 // jsons import
 import { readFileSync } from "fs";
+import { interactionReply } from "./utils.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const personality = PERSONALITY.getCommands(); //get const name & description for commands init
@@ -46,7 +47,11 @@ const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
 const action = async (interaction) => {
   const client = interaction.client; //get client data
   const personality = PERSONALITY.getCommands().twitter; //get personality
-
+  
+  if (process.env.USE_TWITTER === "no") {
+    interactionReply(interaction, personality.errorNoTwitter);
+    return;
+  }
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
 

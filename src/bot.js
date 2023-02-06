@@ -176,11 +176,13 @@ client.once("ready", async () => {
   slashCommandsInit(self, guildId, client); //commands submit to API
 
   //TWITTER
-  const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
-  const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
-  client.twitter = twitter; //save twitter into client
-  client.twitter.isSending = false;
-  initTwitterLoop(client);
+  if (process.env.USE_TWITTER === "yes") {
+    const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
+    const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
+    client.twitter = twitter; //save twitter into client
+    client.twitter.isSending = false;
+    initTwitterLoop(client);
+  }
 
   // LOGS
 
