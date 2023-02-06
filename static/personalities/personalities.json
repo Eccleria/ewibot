@@ -525,6 +525,7 @@
           "description": "Compare les 5 derniers tweets avec la base de donnée et envoie la différence."
         },
         "description": "Commandes de gestions du lien Twitter-Discord.",
+        "errorNoTwitter": "La fonctionnalité est désactivée.",
         "name": "twitter",
         "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.\n`- /twitter compare` pour forcer une comparaison entre la base de donnée et Twitter.\n- `/twitter share` envoie la différence de tweet dans le salon enregistré, avec un délai variable entre les tweets.",
         "isSending": "Les Tweets sont en déjà en cours d'envoi.",
