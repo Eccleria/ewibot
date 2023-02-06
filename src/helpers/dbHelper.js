@@ -365,7 +365,7 @@ const addAlavirien = (db, authorId, number, date) => {
   }
 };
 
-const removeAlavirien = (db, authorId) => {
+const removeAlavirien = (authorId, db) => {
   if (isAlavirien(db, authorId)) {
     db.data.alavirien = db.data.alavirien.filter(
       ({ userId }) => userId !== authorId
