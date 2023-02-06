@@ -15,7 +15,10 @@
 	- every dbHelper function have `db` as first arg
 
 ## 4.8.2
+- Disable: Twitter API no longer free, disabling Twitter link
 - Fix: alavirien checking wrong sentinelle member + not fetching old presentations
+- Fix: dbHelper `removeAlavirien` wrong param order in `checkDb`
+- Fix: handle empty twitter fetched data when is only retweets
 
 ## 4.8.1
 - Fix: activities updated with setInterval, wrongly used as setTimeout
