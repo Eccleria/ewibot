@@ -1,9 +1,15 @@
+/**
+ * Extract votes values and ratios from poll embed fields
+ * @param {list} fields Poll embed fields
+ * @param {number} newVoteIdx Current vote button index
+ * @param {number} oldVoteIdx Precedent user vote index, from database
+ * @returns Object with new vote values and old ratios
+ */
 export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
   const results = fields.reduce(
     (acc, cur, idx) => {
       //"emotes ...*% (no)"
       const splited = cur.value.split(" ");
-      //console.log("newVoteIdx", newVoteIdx, "oldVoteIdx", oldVoteIdx)
       //new ratio
       const ratio = Number(splited[1].slice(0, -1));
 
@@ -17,7 +23,6 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
       if (idx === newVoteIdx && idx === oldVoteIdx) value = oldValue - 1;
       else if (idx === newVoteIdx) value = oldValue + 1; //add 1 to voteIdx
       else if (idx === oldVoteIdx) value = oldValue - 1; //remove 1 to oldIndex
-      //console.log("newValue", value);
       return { values: [...acc.values, value], ratios: [...acc.ratios, ratio] };
     },
     { values: [], ratios: [] }
@@ -26,7 +31,7 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
 };
 
 /**
- * get Poll message from buttonInteraction
+ * Get poll message from buttonInteraction
  * @param {object} poll button settings interaction
  * @returns Poll message
  */
@@ -58,6 +63,12 @@ export const interactionEditReply = async (
 
 const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
+/**
+ * Parse future poll fields with text and emotes, corresponding to input data 
+ * @param {list} content Text from commands to parse, splited with ";"
+ * @param {?number} totalSize Precedent poll size to get correct bullet emote, default 0
+ * @returns Object with fields and emotes lists
+ */
 export const parsePollFields = (content, totalSize = 0) => {
   const results = content.reduce(
     (acc, cur, idx) => {
