@@ -391,7 +391,7 @@
             "removed": "Les choix de ce sondage ont été supprimés."
           },
           "reset": {
-            
+            "reset": "Les votes du sondage ont bien été réinitialisés."
           }
         }
       },
