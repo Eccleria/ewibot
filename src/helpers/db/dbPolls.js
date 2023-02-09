@@ -45,21 +45,21 @@ const addPollChoices = (db, pollId, choices) => {
 
 const addPollVoter = (db, pollId, userId, choiceIdx) => {
   const data = getPoll(db, pollId);
-  data.votes[choiceIdx].push(userId);
+  data.votes[choiceIdx].votes.push(userId);
   db.wasUpdated = true;
 };
 
 const isThisChoicePollVoter = (db, pollId, userId, voteIdx) => {
   const data = getPoll(db, pollId);
   const choice = data.votes[voteIdx];
-  if (choice) return choice.includes(userId);
+  if (choice) return choice.votes.includes(userId);
   else return null;
 };
 
 const getPollVoteIndexes = (db, pollId, userId) => {
   //return index of userId vote
   const { votes } = getPoll(db, pollId);
-  return votes.reduce((acc, cur) => [...acc, cur.includes(userId)], []);
+  return votes.reduce((acc, cur) => [...acc, cur.votes.includes(userId)], []);
 };
 
 const getThisChoicePollIndex = (db, pollId, userId, voteIdx) => {
@@ -67,9 +67,9 @@ const getThisChoicePollIndex = (db, pollId, userId, voteIdx) => {
   console.log(
     "votes",
     votes,
-    votes[voteIdx].findIndex((id) => id === userId)
+    votes[voteIdx].votes.findIndex((id) => id === userId)
   );
-  return votes[voteIdx].findIndex((id) => id === userId);
+  return votes[voteIdx].votes.findIndex((id) => id === userId);
 };
 
 const removePoll = (db, pollId) => {
@@ -79,7 +79,7 @@ const removePoll = (db, pollId) => {
 
 const removePollIndex = (db, pollId, userId, voteIdx) => {
   const data = getPoll(db, pollId);
-  data.votes[voteIdx] = data.votes[voteIdx].filter((id) => id !== userId);
+  data.votes[voteIdx].votes = data.votes[voteIdx].votes.filter((id) => id !== userId);
   db.wasUpdated = true;
 };
 
