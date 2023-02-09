@@ -389,6 +389,9 @@
           "remove": {
             "errorNotEnoughToRemove": "Il n'y a pas assez de choix pour en retirer.",
             "removed": "Les choix de ce sondage ont été supprimés."
+          },
+          "reset": {
+            
           }
         }
       },

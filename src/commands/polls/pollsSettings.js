@@ -25,9 +25,14 @@ export const sendSettingsButtons = async (interaction) => {
   //fetch embed
   const pollEmbed = pollMessage.embeds[0];
 
-  //create add button
+  //create reset button
+  const resetButton = createButton("polls_set_reset", "RAZ", "PRIMARY");
+  if (pollEmbed.title.includes(perso.disable.title))
+    removeButton.setDisabled(true);
+
+  //create remove button
   const removeButton = createButton("polls_set_remove", "Retirer", "PRIMARY");
-  if (pollEmbed.title.includes(perso.remove.title))
+  if (pollEmbed.title.includes(perso.disable.title))
     removeButton.setDisabled(true);
 
   //create stop button
@@ -37,6 +42,7 @@ export const sendSettingsButtons = async (interaction) => {
 
   //create ActionRows
   const actionRow = new MessageActionRow().addComponents([
+    resetButton,
     removeButton,
     stopButton,
   ]);
