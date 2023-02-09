@@ -83,6 +83,13 @@ const removePollIndex = (db, pollId, userId, voteIdx) => {
   db.wasUpdated = true;
 };
 
+const resetPollVoters = (db, pollId) => {
+  const data = getPoll(db, pollId);
+  const newVoters = data.votes.map((obj) => { return { votes: [], "buttonId": obj.buttonId } });
+  data.votes = newVoters;
+  db.wasUpdated = true;
+};
+
 export {
   addPoll,
   getPoll,
@@ -95,4 +102,5 @@ export {
   getThisChoicePollIndex,
   removePoll,
   removePollIndex,
+  resetPollVoters,
 };

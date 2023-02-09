@@ -117,3 +117,11 @@ export const removePollButtonAction = async (interaction) => {
   const payload = {components: [actionRow]};
   interactionEditReply(interaction, payload);
 };
+
+export const resetPollButtonAction = async (interaction) => {
+  await interaction.deferUpdate();
+
+  const perso = PERSONALITY.getCommands().polls.settings.remove;
+
+  
+};

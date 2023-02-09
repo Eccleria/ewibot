@@ -45,6 +45,7 @@ import {
   getThisChoicePollIndex,
   removePoll,
   removePollIndex,
+  resetPollVoters,
 } from "./db/dbPolls.js";
 
 import {
@@ -126,6 +127,7 @@ export {
   getThisChoicePollIndex,
   removePoll,
   removePollIndex,
+  resetPollVoters,
   //twitter
   getTwitterUser,
   updateLastTweetId,
