@@ -123,7 +123,7 @@ export const resetPollButtonAction = async (interaction) => {
 
   //get data
   const personality = PERSONALITY.getCommands().polls;
-  const perso = personality.settings.remove; //personality
+  const perso = personality.settings.reset; //personality
   const pollMessage = await fetchPollMessage(interaction); //db data
   const embed = pollMessage.embeds[0];
 
@@ -132,12 +132,21 @@ export const resetPollButtonAction = async (interaction) => {
 
   //reset embed
   const black = personality.black;
-  const newFields = embed.fields.map((field) => field.value = black.repeat(10) + " 0% (0)\n");
+  const newFields = embed.fields.map((field) => {
+    return {name: field.name, value: black.repeat(10) + " 0% (0)\n"}
+  });
+  console.log("newFields", newFields);
   embed.setFields(newFields);
 
   //update message
   const editedPollMessage = {embeds: [embed]}; //update embed
   editedPollMessage.components = pollMessage.components; //get old buttons
   pollMessage.edit(editedPollMessage); //update message
-  interactionEditReply(interaction, perso.reset);
+
+  const editedInteractionMessage = {
+    content: perso.reset,
+    components: [],
+    ephemeral: true,
+  };
+  interactionEditReply(interaction, editedInteractionMessage);
 };

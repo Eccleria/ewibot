@@ -66,7 +66,6 @@ export const uniqueVoteType = async (interaction, dbPoll, perso, cPerso) => {
 
   //get new values and old ratios for each field
   const fieldNumbers = getFieldNumbers(fields, toAddVoteIdx, toRemoveVoteIdx);
-  console.log("fieldNumbers", fieldNumbers);
 
   //compute new ratios
   const values = fieldNumbers.values;
