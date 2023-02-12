@@ -95,7 +95,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   if (toChange.includes("color")) {
     const perso = personality.settings.update.color;
-    const persoChoices = personality.create.colorOption.colors.choices;
+    const persoColors = personality.create.colorOption.colors;
 
     if (toChange === "color") {
       // create selectMenu to chose wich poll param to change
@@ -107,7 +107,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //parse choices
       const baseValue = perso.baseValue;
-      const choices = persoChoices.reduce((acc, cur) => {
+      const choices = persoColors.choices.reduce((acc, cur) => {
         return [...acc, {label: cur.name, value: baseValue + cur.value}]
       }, []);
       selectMenu.addOptions(choices);
@@ -119,16 +119,35 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     } else {
       // color is selected, apply change
       const color = toChange.split("_").slice(1).join("_"); //remove "color"
-      console.log("color", color);
-      const colorIdx = persoChoices.findIndex((obj) => obj.value === color);
-      console.log("colorIdx", colorIdx);
+      const colorIdx = persoColors.choices.findIndex((obj) => obj.value === color);
 
       //get embed
       const pollMessage = await fetchPollMessage(interaction);
       const embed = pollMessage.embeds[0];
 
-      //apply change
-      embed.setColor(color);
+      //update fields color
+      const emoteColor = persoColors.progressBar[colorIdx];
+      const black = personality.create.colorOption.black;
+      const newFields = embed.fields.reduce((acc, cur) => {
+        //get ratio
+        const splited = cur.value.split(" ");
+        const ratio = Number(splited[1].slice(0, -1));
+        const nb = Math.floor(ratio / 10);
+
+        //write new field
+        const newValue = 
+          emoteColor.repeat(nb) + 
+          black.repeat(10 - nb) + 
+          splited.slice(1).join(" "); //new colorBar
+        const field = {name: cur.name, value: newValue};
+        return [...acc, field]
+      }, []);
+
+      //update embed
+      embed.setColor(color); //change color
+      embed.setFields(newFields); //change fields colorbar
+
+      //send changes
       const editedPollMessage = {embeds: [embed]}; //update embed
       updatePollParam(interaction.client.db, pollMessage.id, "colorIdx", colorIdx);
       pollMessage.edit(editedPollMessage);

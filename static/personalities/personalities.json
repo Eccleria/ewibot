@@ -309,7 +309,7 @@
                 { "name": "bleu_marine_foncé", "value": "DARK_NAVY" },
                 { "name": "jaune", "value": "YELLOW" }
               ],
-              "progress_bar": [
+              "progressBar": [
                 ":blue_square:",
                 ":blue_square:",
                 ":green_square:",

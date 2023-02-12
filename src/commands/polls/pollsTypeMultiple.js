@@ -84,7 +84,7 @@ export const multipleVoteType = async (interaction, dbPoll, perso, cPerso) => {
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
-  const emoteColor = cPerso.colorOption.colors.progress_bar[colorIdx]; //emoteId from personality
+  const emoteColor = cPerso.colorOption.colors.progressBar[colorIdx]; //emoteId from personality
   const black = cPerso.colorOption.black; //empty bar color
 
   //write new fields
