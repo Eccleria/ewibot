@@ -158,27 +158,20 @@ export const resetPollButtonAction = async (interaction) => {
 };
 
 export const updatePollButtonAction = async (interaction) => {
-  console.log("updatePoll");
+  console.log("updatePollButtonAction");
   await interaction.deferUpdate();
 
   //get personality
-  const perso = PERSONALITY.getCommands().polls.update;
+  const perso = PERSONALITY.getCommands().polls.settings.update;
 
   //create selectMenu
   const selectMenu = new MessageSelectMenu()
-    .setCustomId("polls_selectMenu_update")
-    .setPlaceholder("Paramètre à modifier.")
+    .setCustomId(perso.customId)
+    .setPlaceholder(perso.placeholder)
     .setMaxValues(1);
   
   //parse choices
-  const baseValue = "polls_selectMenu_update_";
-  const choices = [
-    { label: "title", value: baseValue + "title" }, 
-    { label: "color", value: baseValue + "color" }, 
-    { label: "description", value: baseValue + "description" }, 
-    { label: "type de vote", value: baseValue + "voteType" }, 
-    { label: "nombre de votes", value: baseValue + "voteMax" }, 
-  ];
+  const choices = perso.choices;
   selectMenu.addOptions(choices);
 
   //send message
