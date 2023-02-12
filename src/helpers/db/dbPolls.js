@@ -90,6 +90,12 @@ const resetPollVoters = (db, pollId) => {
   db.wasUpdated = true;
 };
 
+const updatePollParam = (db, pollId, param, newValue) => {
+  const data = getPoll(db, pollId);
+  data[param] = newValue;
+  db.wasUpdated = true;
+};
+
 export {
   addPoll,
   getPoll,
@@ -103,4 +109,5 @@ export {
   removePoll,
   removePollIndex,
   resetPollVoters,
+  updatePollParam,
 };

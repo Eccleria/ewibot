@@ -3,6 +3,7 @@ import {
   disablePoll,
   removePollButtonAction,
   resetPollButtonAction,
+  updatePollButtonAction,
   //addChoicePollModal,
 } from "./pollsSettings.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
@@ -50,6 +51,7 @@ export const settingsButtonHandler = async (interaction) => {
   else if (customId.includes("set_disable")) disablePoll(interaction);
   else if (customId.includes("set_remove")) removePollButtonAction(interaction);
   else if (customId.includes("set_reset")) resetPollButtonAction(interaction);
+  else if (customId.includes("set_update")) updatePollButtonAction(interaction);
 };
 
 /*
@@ -72,5 +74,13 @@ export const pollSelectMenuHandler = (interaction) => {
     const selected = interaction.values;
     console.log("values", selected);
 
+  } else if (customId.includes("_update")) {
+    interaction.deferReply();
+    const selected = interaction.values;
+    console.log("values", selected);
+
+    const toChange = selected[0].split("update_")[1]; //get poll param to change
+    console.log("toChange", toChange);
+    
   } else return interactionReply(interaction, perso.errorSelectMenuNotFound)
 };

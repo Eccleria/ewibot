@@ -25,6 +25,11 @@ export const sendSettingsButtons = async (interaction) => {
   //fetch embed
   const pollEmbed = pollMessage.embeds[0];
 
+  //create update button
+  const updateButton = createButton("polls_set_update", "MàJ", "PRIMARY");
+  if (pollEmbed.title.includes(perso.disable.title))
+    removeButton.setDisabled(true);
+
   //create reset button
   const resetButton = createButton("polls_set_reset", "RAZ", "PRIMARY");
   if (pollEmbed.title.includes(perso.disable.title))
@@ -42,6 +47,7 @@ export const sendSettingsButtons = async (interaction) => {
 
   //create ActionRows
   const actionRow = new MessageActionRow().addComponents([
+    updateButton,
     resetButton,
     removeButton,
     stopButton,
@@ -149,4 +155,34 @@ export const resetPollButtonAction = async (interaction) => {
     ephemeral: true,
   };
   interactionEditReply(interaction, editedInteractionMessage);
+};
+
+export const updatePollButtonAction = async (interaction) => {
+  console.log("updatePoll");
+  await interaction.deferUpdate();
+
+  //get personality
+  const perso = PERSONALITY.getCommands().polls.update;
+
+  //create selectMenu
+  const selectMenu = new MessageSelectMenu()
+    .setCustomId("polls_selectMenu_update")
+    .setPlaceholder("Paramètre à modifier.")
+    .setMaxValues(1);
+  
+  //parse choices
+  const baseValue = "polls_selectMenu_update_";
+  const choices = [
+    { label: "title", value: baseValue + "title" }, 
+    { label: "color", value: baseValue + "color" }, 
+    { label: "description", value: baseValue + "description" }, 
+    { label: "type de vote", value: baseValue + "voteType" }, 
+    { label: "nombre de votes", value: baseValue + "voteMax" }, 
+  ];
+  selectMenu.addOptions(choices);
+
+  //send message
+  const actionRow = new MessageActionRow().addComponents(selectMenu);
+  const payload = {components: [actionRow], ephemeral: true};
+  interactionEditReply(interaction, payload);
 };
