@@ -101,7 +101,8 @@ export const removePollButtonAction = async (interaction) => {
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
   const maxToRemove = dbPoll.votes.length - 2;
 
-  if (maxToRemove < 1) return interactionEditReply(interaction, perso.errorNotEnoughToRemove)
+  if (maxToRemove < 1)
+    return interactionEditReply(interaction, perso.errorNotEnoughToRemove);
 
   //create selectMenu
   const menu = new MessageSelectMenu()
@@ -113,14 +114,14 @@ export const removePollButtonAction = async (interaction) => {
   //parse choices
   const fields = pollMessage.embeds[0].fields;
   const choices = fields.reduce((acc, cur, idx) => {
-    const curChoice = {label: cur.name, value: idx.toString()} // description: "Choix_" + idx.toString(), 
-    return [...acc, curChoice]
+    const curChoice = { label: cur.name, value: idx.toString() }; // description: "Choix_" + idx.toString(),
+    return [...acc, curChoice];
   }, []);
   menu.addOptions(choices);
 
   //send message
   const actionRow = new MessageActionRow().addComponents(menu);
-  const payload = {components: [actionRow]};
+  const payload = { components: [actionRow] };
   interactionEditReply(interaction, payload);
 };
 
@@ -139,13 +140,13 @@ export const resetPollButtonAction = async (interaction) => {
   //reset embed
   const black = personality.black;
   const newFields = embed.fields.map((field) => {
-    return {name: field.name, value: black.repeat(10) + " 0% (0)\n"}
+    return { name: field.name, value: black.repeat(10) + " 0% (0)\n" };
   });
   console.log("newFields", newFields);
   embed.setFields(newFields);
 
   //update message
-  const editedPollMessage = {embeds: [embed]}; //update embed
+  const editedPollMessage = { embeds: [embed] }; //update embed
   editedPollMessage.components = pollMessage.components; //get old buttons
   pollMessage.edit(editedPollMessage); //update message
 
@@ -169,13 +170,13 @@ export const updatePollButtonAction = async (interaction) => {
     .setCustomId(perso.customId)
     .setPlaceholder(perso.placeholder)
     .setMaxValues(1);
-  
+
   //parse choices
   const choices = perso.choices;
   selectMenu.addOptions(choices);
 
   //send message
   const actionRow = new MessageActionRow().addComponents(selectMenu);
-  const payload = {components: [actionRow], ephemeral: true};
+  const payload = { components: [actionRow], ephemeral: true };
   interactionEditReply(interaction, payload);
 };

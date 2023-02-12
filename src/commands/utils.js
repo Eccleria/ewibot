@@ -70,8 +70,9 @@ export const modalHandler = (interaction) => {
 export const selectMenuHandler = (interaction) => {
   const { customId } = interaction;
   console.log("menuHandler", customId);
-  if (customId.startsWith("polls_selectMenu")) pollSelectMenuHandler(interaction);
-}
+  if (customId.startsWith("polls_selectMenu"))
+    pollSelectMenuHandler(interaction);
+};
 
 /**
  * Return if guildMember has Sentinelle role or not

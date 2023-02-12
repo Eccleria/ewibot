@@ -64,7 +64,7 @@ export const interactionEditReply = async (
 const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 /**
- * Parse future poll fields with text and emotes, corresponding to input data 
+ * Parse future poll fields with text and emotes, corresponding to input data
  * @param {list} content Text from commands to parse, splited with ";"
  * @param {?number} totalSize Precedent poll size to get correct bullet emote, default 0
  * @returns Object with fields and emotes lists

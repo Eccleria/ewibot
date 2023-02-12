@@ -7,7 +7,7 @@ import {
   updatePollButtonAction,
   //addChoicePollModal,
 } from "./pollsSettings.js";
-import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js"; 
+import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
 import { uniqueVoteType } from "./pollsTypeUnique.js";
 import { interactionReply } from "../utils.js";
@@ -72,17 +72,17 @@ export const pollSelectMenuHandler = async (interaction) => {
   if (customId.includes("_remove")) {
     console.log("interaction", interaction);
 
-    interaction.deferReply({ephemeral: true});
+    interaction.deferReply({ ephemeral: true });
     const selected = interaction.values;
     console.log("values", selected);
-
   } else if (customId.includes("_update"))
     pollUpdateSelectMenuHandler(interaction);
-  else return interactionReply(interaction, personality.errorSelectMenuNotFound)
+  else
+    return interactionReply(interaction, personality.errorSelectMenuNotFound);
 };
 
 const pollUpdateSelectMenuHandler = async (interaction) => {
-  await interaction.deferUpdate({ephemeral: true});
+  await interaction.deferUpdate({ ephemeral: true });
 
   //handle interaction
   const selected = interaction.values;
@@ -101,25 +101,27 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       // create selectMenu to chose wich poll param to change
       //create selectMenu
       const selectMenu = new MessageSelectMenu()
-      .setCustomId(perso.customId)
-      .setPlaceholder(perso.placeholder)
-      .setMaxValues(1);
+        .setCustomId(perso.customId)
+        .setPlaceholder(perso.placeholder)
+        .setMaxValues(1);
 
       //parse choices
       const baseValue = perso.baseValue;
       const choices = persoColors.choices.reduce((acc, cur) => {
-        return [...acc, {label: cur.name, value: baseValue + cur.value}]
+        return [...acc, { label: cur.name, value: baseValue + cur.value }];
       }, []);
       selectMenu.addOptions(choices);
 
       //send message
       const actionRow = new MessageActionRow().addComponents(selectMenu);
-      const payload = {components: [actionRow], ephemeral: true};
+      const payload = { components: [actionRow], ephemeral: true };
       interactionEditReply(interaction, payload);
     } else {
       // color is selected, apply change
       const color = toChange.split("_").slice(1).join("_"); //remove "color"
-      const colorIdx = persoColors.choices.findIndex((obj) => obj.value === color);
+      const colorIdx = persoColors.choices.findIndex(
+        (obj) => obj.value === color
+      );
 
       //get embed
       const pollMessage = await fetchPollMessage(interaction);
@@ -135,12 +137,12 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         const nb = Math.floor(ratio / 10);
 
         //write new field
-        const newValue = 
-          emoteColor.repeat(nb) + 
-          black.repeat(10 - nb) + 
+        const newValue =
+          emoteColor.repeat(nb) +
+          black.repeat(10 - nb) +
           splited.slice(1).join(" "); //new colorBar
-        const field = {name: cur.name, value: newValue};
-        return [...acc, field]
+        const field = { name: cur.name, value: newValue };
+        return [...acc, field];
       }, []);
 
       //update embed
@@ -148,10 +150,18 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       embed.setFields(newFields); //change fields colorbar
 
       //send changes
-      const editedPollMessage = {embeds: [embed]}; //update embed
-      updatePollParam(interaction.client.db, pollMessage.id, "colorIdx", colorIdx);
+      const editedPollMessage = { embeds: [embed] }; //update embed
+      updatePollParam(
+        interaction.client.db,
+        pollMessage.id,
+        "colorIdx",
+        colorIdx
+      );
       pollMessage.edit(editedPollMessage);
-      interactionEditReply(interaction, {content: "La couleur a été changée.", components: []});
+      interactionEditReply(interaction, {
+        content: "La couleur a été changée.",
+        components: [],
+      });
     }
   }
-}
+};

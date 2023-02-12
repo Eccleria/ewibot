@@ -173,15 +173,23 @@ const action = async (interaction) => {
       (acc, cur, idx) => {
         const buttonId = "polls_" + idx.toString();
         const button = createButton(buttonId, null, "SECONDARY", cur);
-        const newDbVotesValue = {votes: [], buttonId: buttonId}; //create db choice storage
-        
+        const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
+
         if (idx === 0 || acc.size === 5) {
           const newRow = new MessageActionRow().addComponents(button);
-          return { actionRows: [...acc.actionRows, newRow], size: 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
+          return {
+            actionRows: [...acc.actionRows, newRow],
+            size: 1,
+            dbVotes: [...acc.dbVotes, newDbVotesValue],
+          };
         } else {
           const lastAR = acc.actionRows[acc.actionRows.length - 1];
           lastAR.addComponents(button);
-          return { actionRows: acc.actionRows, size: acc.size + 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
+          return {
+            actionRows: acc.actionRows,
+            size: acc.size + 1,
+            dbVotes: [...acc.dbVotes, newDbVotesValue],
+          };
         }
       },
       { actionRows: [], size: 0, dbVotes: [] }
@@ -283,15 +291,23 @@ const action = async (interaction) => {
       const totalIdx = idx + totalSize;
       const buttonId = "polls_" + totalIdx.toString();
       const button = createButton(buttonId, null, "SECONDARY", cur);
-      const newDbVotesValue = {votes: [], buttonId: buttonId}; //create db choice storage
+      const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
       if (acc.size === 5) {
         const newRow = new MessageActionRow().addComponents(button);
-        return { actionRows: [...acc.actionRows, newRow], size: 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
+        return {
+          actionRows: [...acc.actionRows, newRow],
+          size: 1,
+          dbVotes: [...acc.dbVotes, newDbVotesValue],
+        };
       } else {
         const lastAR = acc.actionRows[acc.actionRows.length - 1];
         lastAR.addComponents(button);
-        return { actionRows: acc.actionRows, size: acc.size + 1, dbVotes: [...acc.dbVotes, newDbVotesValue] };
+        return {
+          actionRows: acc.actionRows,
+          size: acc.size + 1,
+          dbVotes: [...acc.dbVotes, newDbVotesValue],
+        };
       }
     }, initComponents);
 

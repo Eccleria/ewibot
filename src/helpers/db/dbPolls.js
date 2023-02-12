@@ -79,13 +79,17 @@ const removePoll = (db, pollId) => {
 
 const removePollIndex = (db, pollId, userId, voteIdx) => {
   const data = getPoll(db, pollId);
-  data.votes[voteIdx].votes = data.votes[voteIdx].votes.filter((id) => id !== userId);
+  data.votes[voteIdx].votes = data.votes[voteIdx].votes.filter(
+    (id) => id !== userId
+  );
   db.wasUpdated = true;
 };
 
 const resetPollVoters = (db, pollId) => {
   const data = getPoll(db, pollId);
-  const newVoters = data.votes.map((obj) => { return { votes: [], "buttonId": obj.buttonId } });
+  const newVoters = data.votes.map((obj) => {
+    return { votes: [], buttonId: obj.buttonId };
+  });
   data.votes = newVoters;
   db.wasUpdated = true;
 };
