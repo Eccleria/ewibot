@@ -224,7 +224,8 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         const newFooter =
           fPerso.pollVoteType_multiple + ` (${newVoteMax})` + fPerso.options;
         const embed = pollMessage.embeds[0];
-        embed.setFooter(newFooter);
+        embed.setFooter({ text: newFooter });
+
 
         //send
         pollMessage.edit({ embeds: [embed] });
