@@ -83,6 +83,7 @@ export const pollSelectMenuHandler = async (interaction) => {
 
 const pollUpdateSelectMenuHandler = async (interaction) => {
   await interaction.deferUpdate({ ephemeral: true });
+  const db = interaction.client.db;
 
   //handle interaction
   const selected = interaction.values;
@@ -151,17 +152,85 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //send changes
       const editedPollMessage = { embeds: [embed] }; //update embed
-      updatePollParam(
-        interaction.client.db,
-        pollMessage.id,
-        "colorIdx",
-        colorIdx
-      );
+      updatePollParam(db, pollMessage.id, "colorIdx", colorIdx);
       pollMessage.edit(editedPollMessage);
       interactionEditReply(interaction, {
         content: "La couleur a été changée.",
         components: [],
       });
+    }
+  } else if (toChange.includes("voteMax")) {
+    const perso = personality.settings.update.voteMax;
+
+    //get poll data
+    const pollMessage = await fetchPollMessage(interaction);
+    const dbPoll = getPoll(db, pollMessage.id);
+    const oldVoteMax = dbPoll.voteMax;
+
+    if (toChange === "voteMax") {
+      //chose which is new voteMax value
+
+      //create selectMenu
+      const selectMenu = new MessageSelectMenu()
+        .setCustomId(perso.customId)
+        .setPlaceholder(perso.placeholder)
+        .setMaxValues(1);
+
+      //parse choices
+      const baseValue = perso.baseValue;
+      const choices = Array.from(new Array(10)).reduce((acc, _cur, idx) => {
+        const voteNb = idx + 1;
+        if (voteNb === oldVoteMax) return acc;
+        const voteStr = voteNb.toString();
+        return [...acc, { label: voteStr, value: baseValue + voteStr }];
+      }, []);
+      selectMenu.addOptions(choices);
+
+      //send message
+      const actionRow = new MessageActionRow().addComponents(selectMenu);
+      const payload = { components: [actionRow], ephemeral: true };
+      interactionEditReply(interaction, payload);
+    } else {
+      //change value
+      //check voteType
+      if (dbPoll.voteType === personality.create.voteOption.choices[0].name) {
+        const payload = { content: perso.errorVoteUnique, components: [] };
+        interactionEditReply(interaction, payload);
+        return;
+      }
+
+      //get input value
+      const maxVoteMax = dbPoll.votes.length;
+      const newVoteMax = Number(toChange.split("_").slice(1)); //remove "voteMax"
+
+      //compare
+      if (newVoteMax > maxVoteMax) {
+        // too many votes => return
+        const payload = { content: perso.errorTooManyVotesMax, components: [] };
+        interactionEditReply(interaction, payload);
+        return;
+      } else if (newVoteMax < oldVoteMax) {
+        // should RAZ first
+        const payload = { content: perso.errorShouldRAZBefore, components: [] };
+        interactionEditReply(interaction, payload);
+        return;
+      } else {
+        // change
+
+        updatePollParam(db, pollMessage.id, "voteMax", newVoteMax); //db
+
+        //embed footer
+        const fPerso = personality.create.footer;
+        const newFooter =
+          fPerso.pollVoteType_multiple + ` (${newVoteMax})` + fPerso.options;
+        const embed = pollMessage.embeds[0];
+        embed.setFooter(newFooter);
+
+        //send
+        pollMessage.edit({ embeds: [embed] });
+        const payload = { content: perso.voteMaxChanged, components: [] };
+        interactionEditReply(interaction, payload);
+      }
     }
   }
 };

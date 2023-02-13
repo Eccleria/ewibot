@@ -407,7 +407,16 @@
               "placeholder": "Nouvelle couleur."
             },
             "customId": "polls_selectMenu_update",
-            "placeholder": "Paramètre à modifier."
+            "placeholder": "Paramètre à modifier.",
+            "voteMax": {
+              "baseValue": "polls_selectMenu_update_voteMax_",
+              "customId": "polls_selectMenu_update_voteMax",
+              "errorShouldRAZBefore": "Veuillez remettre à 0 les votes avant de diminuer le nombre de vote possible.",
+              "errorTooManyVotesMax": "Vous ne pouvez pas voter plus de fois que le nombre de choix.",
+              "errorVoteUnique": "Vous ne pouvez pas changer le nombre de vote possible pour ce type. Veuillez passer à un vote multiple avant de changer le nombre de vote.",
+              "placeholder": "Nouveau nombre de vote maximal.",
+              "voteMaxChanged": "Le nombre de vote possible a bien été modifié."
+            }
           }
         }
       },
