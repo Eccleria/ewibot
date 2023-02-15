@@ -134,7 +134,7 @@ const action = async (interaction) => {
       option == null ? perso.colorOption.colors.choices[4].value : option;
 
     option = options.getNumber(perso.maxOption.name, false); //max
-    const voteMax = option == null ? choices.split(";").length : option;
+    const voteMax = option == null ? 1 : option;
 
     //check if not too many choices
     const splited = choices.split(";");
