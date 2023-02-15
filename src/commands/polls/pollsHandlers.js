@@ -249,7 +249,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         const payload = { content: perso.errorTooManyVotesMax, components: [] };
         interactionEditReply(interaction, payload);
         return;
-      } else if (newVoteMax < oldVoteMax) {
+      } else if (newVoteMax < oldVoteMax && !isPollEmptyVotes(db, pollMessage.id)) {
         // should RAZ first
         const payload = { content: perso.errorShouldRAZBefore, components: [] };
         interactionEditReply(interaction, payload);
