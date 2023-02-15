@@ -139,7 +139,7 @@ const action = async (interaction) => {
     //check if not too many choices
     const splited = choices.split(";");
     if (splited.length > 10) {
-      interactionReply(interaction, perso.errorChoicesNumber);
+      interactionReply(interaction, personality.errorChoicesNumber);
       return;
     }
 

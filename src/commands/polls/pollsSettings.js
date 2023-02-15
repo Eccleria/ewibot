@@ -177,3 +177,59 @@ export const updatePollButtonAction = async (interaction) => {
   const payload = { components: [actionRow], ephemeral: true };
   interactionEditReply(interaction, payload);
 };
+
+export const refreshPollButtonAction = async (interaction) => {
+  await interaction.update({content: "En cours", ephemeral: true, components: []});
+
+  const cPerso = PERSONALITY.getCommands().polls.create;
+  const pollMessage = await fetchPollMessage(interaction);
+  const embed = pollMessage.embeds[0];
+  const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+
+  //disable actions during refresh
+  const disabledComponents = pollMessage.components.reduce((acc, cur) => {
+    cur.components.forEach((button) => button.setDisabled(true)); //disable buttons of cur actionRow
+    return [...acc, cur];
+  }, []);
+  await pollMessage.edit({components: disabledComponents});
+
+  //write new fields from db data and pollMessage
+  const newFieldsInit = embed.fields.map((obj) => { return {name: obj.name, value: ""}}); //init with old names
+  
+  //compute ratios
+  const values = dbPoll.votes.map((obj) => obj.votes.length);
+  const totalValues = values.reduce((acc, cur) => acc + cur, 0);
+  const ratios = values.reduce((acc, cur) => [...acc, cur/totalValues * 100], []);
+  
+  //get progress bar color
+  const colorIdx = dbPoll.colorIdx; //db data
+  const emoteColor = cPerso.colorOption.colors.progressBar[colorIdx]; //emoteId from personality
+  const black = cPerso.colorOption.black; //empty bar color
+  
+  //write new fields
+  const newFields = newFieldsInit.map((field, idx) => {
+    //update values
+    const nb = Math.floor(ratios[idx] / 10);
+    const newColorBar =
+      emoteColor.repeat(nb) +
+      black.repeat(10 - nb) +
+      ` ${ratios[idx]}% (${values[idx]})\n`; //new colorBar
+    console.log("newColorBar", newColorBar);
+    const votersEmbed = dbPoll.isAnonymous ? "" : dbPoll.votes[idx].votes.map((userId) => `<@${userId}> `);
+    console.log("votersEmbed", votersEmbed);
+    return { name: field.name, value: newColorBar + votersEmbed };
+  });
+
+  //update message
+  embed.setFields(newFields);
+  await pollMessage.edit({embeds: [embed]});
+
+  //reply and enable votes
+  interactionEditReply(interaction, {ephemeral: true, content: "Effectué"});
+  //disable actions during refresh
+  const enabledComponents = pollMessage.components.reduce((acc, cur) => {
+    cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
+    return [...acc, cur];
+  }, []);
+  pollMessage.edit({components: enabledComponents});
+}

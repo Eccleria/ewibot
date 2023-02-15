@@ -5,6 +5,7 @@ import {
   removePollButtonAction,
   resetPollButtonAction,
   updatePollButtonAction,
+  refreshPollButtonAction,
   //addChoicePollModal,
 } from "./pollsSettings.js";
 import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
@@ -55,6 +56,7 @@ export const settingsButtonHandler = async (interaction) => {
   else if (customId.includes("set_remove")) removePollButtonAction(interaction);
   else if (customId.includes("set_reset")) resetPollButtonAction(interaction);
   else if (customId.includes("set_update")) updatePollButtonAction(interaction);
+  else if (customId.includes("set_refresh")) refreshPollButtonAction(interaction);
 };
 
 /*
