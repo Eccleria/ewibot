@@ -25,39 +25,27 @@ export const sendSettingsButtons = async (interaction) => {
   //fetch embed
   const pollEmbed = pollMessage.embeds[0];
 
-  //create refresh button
-  const refreshButton = createButton("polls_set_refresh", "Actualiser", "PRIMARY");
-  if (pollEmbed.title.includes(perso.disable.title))
-    refreshButton.setDisabled(true);
+  //create buttons
+  const refreshButton = createButton("polls_set_refresh", "Actualiser", "PRIMARY"); // refresh poll embed
+  const updateButton = createButton("polls_set_update", "Modifier", "PRIMARY"); // update poll parameters
+  const removeButton = createButton("polls_set_remove", "Retirer", "PRIMARY"); // remove poll choices
+  const resetButton = createButton("polls_set_reset", "RAZ", "DANGER"); // reset poll votes
+  const stopButton = createButton("polls_set_disable", "Stop", "DANGER"); //stop poll
 
-  //create update button
-  const updateButton = createButton("polls_set_update", "Modifier", "PRIMARY");
-  if (pollEmbed.title.includes(perso.disable.title))
-    updateButton.setDisabled(true);
-
-  //create remove button
-  const removeButton = createButton("polls_set_remove", "Retirer", "PRIMARY");
-  if (pollEmbed.title.includes(perso.disable.title))
-    removeButton.setDisabled(true);
-
-  //create reset button
-  const resetButton = createButton("polls_set_reset", "RAZ", "DANGER");
-  if (pollEmbed.title.includes(perso.disable.title))
-    resetButton.setDisabled(true);
-
-  //create stop button
-  const stopButton = createButton("polls_set_disable", "Stop", "DANGER");
-  if (pollEmbed.title.includes(perso.disable.title))
-    stopButton.setDisabled(true);
-
-  //create ActionRows
-  const actionRow = new MessageActionRow().addComponents([
+  const settingsButton = [
     refreshButton,
     updateButton,
     removeButton,
     resetButton,
     stopButton,
-  ]);
+  ];
+
+  //If stoped poll, disable buttons
+  if (pollEmbed.title.includes(perso.disable.title)) 
+    settingsButton.forEach((btn) => btn.setDisabled(true));
+
+  //create ActionRows
+  const actionRow = new MessageActionRow().addComponents(settingsButton);
 
   //send buttons
   interactionEditReply(interaction, { components: [actionRow] });
