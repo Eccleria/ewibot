@@ -13,6 +13,7 @@ import { uniqueVoteType } from "./pollsTypeUnique.js";
 import { interactionReply } from "../utils.js";
 import { getPoll, updatePollParam } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
+import { isPollEmptyVotes } from "../../helpers/db/dbPolls.js";
 
 export const pollsButtonHandler = (interaction) => {
   // Dispatch button action to corresponding functions
@@ -159,6 +160,45 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         components: [],
       });
     }
+  } else if (toChange.includes("voteType")) {
+    const perso = personality.settings.update.voteType;
+    const voteTypePerso = personality.create.voteOption.choices;
+    
+    //get poll data
+    const pollMessage = await fetchPollMessage(interaction);
+    const dbPoll = getPoll(db, pollMessage.id);
+    const oldVoteType = dbPoll.voteType;
+
+    //check voteType
+    const voteTypeTest = oldVoteType === voteTypePerso[1].name; //multiple
+    if ( voteTypeTest && !isPollEmptyVotes(db, pollMessage.id)) {
+      //multiple && is not empty
+      const payload = { content: perso.errorShouldRAZBefore, components: [] };
+      interactionEditReply(interaction, payload);
+      return;
+    }
+
+    //embed footer
+    const fPerso = personality.create.footer;
+    const footerEnd = fPerso.options;
+    let footerBegin;
+    if (voteTypeTest) {
+      //if old multiple, new unique
+      footerBegin = fPerso.pollVoteType_unique;
+      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[0].name); //voteType
+      updatePollParam(db, pollMessage.id, "voteMax", 1); //set voteMax to 1
+    } else {
+      //if old unique, new multiple
+      footerBegin = fPerso.pollVoteType_multiple + ` (${dbPoll.voteMax})`;
+      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[1].name); //db
+    }
+    const embed = pollMessage.embeds[0];
+    embed.setFooter({ text: footerBegin + footerEnd });
+
+    //send
+    pollMessage.edit({ embeds: [embed] });
+    const payload = { content: perso.voteMaxChanged, components: [] };
+    interactionEditReply(interaction, payload);
   } else if (toChange.includes("voteMax")) {
     const perso = personality.settings.update.voteMax;
 

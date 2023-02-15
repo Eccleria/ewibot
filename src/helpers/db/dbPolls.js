@@ -56,6 +56,11 @@ const isThisChoicePollVoter = (db, pollId, userId, voteIdx) => {
   else return null;
 };
 
+const isPollEmptyVotes = (db, pollId) => {
+  const data = getPoll(db, pollId);
+  return data.votes.every((obj) => obj.votes.length === 0);
+}
+
 const getPollVoteIndexes = (db, pollId, userId) => {
   //return index of userId vote
   const { votes } = getPoll(db, pollId);
@@ -108,6 +113,7 @@ export {
   addPollChoices,
   addPollVoter,
   isThisChoicePollVoter,
+  isPollEmptyVotes,
   getPollVoteIndexes,
   getThisChoicePollIndex,
   removePoll,

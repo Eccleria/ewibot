@@ -416,6 +416,10 @@
               "errorVoteUnique": "Vous ne pouvez pas changer le nombre de vote possible pour ce type. Veuillez passer à un vote multiple avant de changer le nombre de vote.",
               "placeholder": "Nouveau nombre de vote maximal.",
               "voteMaxChanged": "Le nombre de vote possible a bien été modifié."
+            },
+            "voteType": {
+              "errorShouldRAZBefore": "Veuillez remettre à 0 les votes avant de passer à un vote unique.",
+              "voteMaxChanged": "Le type de vote a bien été modifié."
             }
           }
         }
