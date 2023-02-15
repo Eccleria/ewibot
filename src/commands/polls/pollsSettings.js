@@ -26,14 +26,14 @@ export const sendSettingsButtons = async (interaction) => {
   const pollEmbed = pollMessage.embeds[0];
 
   //create update button
-  const updateButton = createButton("polls_set_update", "MàJ", "PRIMARY");
+  const updateButton = createButton("polls_set_update", "Modifier", "PRIMARY");
   if (pollEmbed.title.includes(perso.disable.title))
-    removeButton.setDisabled(true);
+    updateButton.setDisabled(true);
 
   //create reset button
   const resetButton = createButton("polls_set_reset", "RAZ", "PRIMARY");
   if (pollEmbed.title.includes(perso.disable.title))
-    removeButton.setDisabled(true);
+    resetButton.setDisabled(true);
 
   //create remove button
   const removeButton = createButton("polls_set_remove", "Retirer", "PRIMARY");
