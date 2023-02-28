@@ -163,6 +163,9 @@ client.once("ready", async () => {
   roleInit(client); //role handler init
   setupAlavirien(client, tomorrow, frequency);
 
+  //polls
+  client.voteBuffers = {}; //init poll votes buffer
+
   //Ewibot activity
   setActivity(client);
   updateActivity(client);

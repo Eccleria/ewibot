@@ -16,16 +16,16 @@ import { getPoll, updatePollParam } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { isPollEmptyVotes } from "../../helpers/db/dbPolls.js";
 
-export const pollsButtonHandler = (interaction) => {
+export const  pollsButtonHandler = async (interaction) => {
   // Dispatch button action to corresponding functions
   const { customId } = interaction;
 
   const sixNumber = Number(customId[6]);
   const voteButtonTest = !isNaN(sixNumber) && typeof sixNumber == "number";
-  if (voteButtonTest) voteButtonHandler(interaction);
+  if (voteButtonTest) await voteButtonHandler(interaction);
 };
 
-export const voteButtonHandler = (interaction) => {
+export const voteButtonHandler = async (interaction) => {
   // dipatch vote according to voteType
   const { message, client } = interaction;
 
