@@ -1,3 +1,6 @@
+﻿## 4.8.3
+- Feat: guildMemberAdd now filter debug mode & test/prod
+
 ## 4.8.2
 - Disable: Twitter API no longer free, disabling Twitter link
 - Fix: alavirien checking wrong sentinelle member + not fetching old presentations
