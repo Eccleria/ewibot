@@ -601,9 +601,12 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link);
 
+    //add executor
+    embed.addFields({name: unpinned.executor, value: unpinLog.executor.toString()})
+
     const messageList = await endCasesEmbed(
       nMessage,
-      unpinLog,
+      null,
       messageU,
       auditLog,
       embed,
@@ -623,9 +626,12 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link, true);
 
+    //add executor
+    embed.addFields({name: pinned.executor, value: pinLog.executor.toString()})
+
     const messageList = await endCasesEmbed(
       nMessage,
-      pinLog,
+      null,
       messageU,
       auditLog,
       embed,
