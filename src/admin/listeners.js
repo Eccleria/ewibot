@@ -219,19 +219,14 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
           : await newChannel.guild.roles.fetch(cur[0].id);
 
       //write text
-      const textAdded = "\n" + added.join("\n");
-      const textRemoved = "\n" + removed.join("\n");
+      const textAdded = added.length !== 0 ? "\n" + perm.permAdded + "\n" + added.join("\n"): "";
+      const textRemoved = added.length !== 0 ? "\n" + perm.permRemoved + "\n" + removed.join("\n") : "";
       return (
         acc +
         "\n" +
         obj.toString() +
-        "\n" +
-        perm.permAdded +
         textAdded +
-        "\n" +
-        perm.permRemoved +
-        textRemoved +
-        "\n"
+        textRemoved
       );
     }, "");
 
