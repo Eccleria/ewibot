@@ -34,7 +34,8 @@ const command = new SlashCommandBuilder()
 
 const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().eventRoles;
-  const subcommand = interaction.options.getSubcommand();
+  const options = interaction.options;
+  const subcommand = options.getSubcommand();
 
   if (subcommand === personality.send.name) {
     const perso = personality.send;
@@ -44,14 +45,20 @@ const action = async (interaction) => {
     const guild = interaction.guild;
     const roles = guild.roles; //roleManager
     const role = roles.fetch("959360675451383828");
+    const perso = personality.create;
 
-    const newRole = await roles.create(
-      {
-        name: "permissionstest", 
-        permisions: role.permisions, 
-        reason: `Comme demandé par ${interaction.member.toString()}`
-      }
-    );
+    //get options
+    const name = options.getString(perso.nameOption.name);
+    const color = options.getString(perso.colorOption.name, false);
+    
+    //create new role
+    const newRoleObj = { 
+      name: name,
+      permisions: role.permisions, 
+      reason: `Comme demandé par ${interaction.member.toString()}.`
+    };
+    if (color) newRoleObj.color = color;
+    const newRole = await roles.create(newRoleObj);
     console.log("newRole", newRole);
   }
 };
@@ -62,7 +69,7 @@ const eventRoles = {
   command: command,
   action,
   help: (interaction) => {
-    interactionReply(interaction, PERSONALITY.getCommands().announce.help);
+    interactionReply(interaction, PERSONALITY.getCommands().eventRoles.help);
   },
   admin: true,
   releaseDate: null,

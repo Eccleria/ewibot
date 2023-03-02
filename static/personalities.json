@@ -318,6 +318,7 @@
           }          
         },
         "description": "Commandes de gestions des roles associés aux évènements.",
+        "help": "Cette commande permet de gérer les roles associés aux évènements.",
         "name": "event-roles",
         "send": {
           "description": "Envoie le message de sélection des roles.",
