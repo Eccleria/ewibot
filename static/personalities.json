@@ -308,6 +308,15 @@
         },
         "errorMention": "Il faut une seule mention."
       },
+      "eventRoles": {
+        "description": "Commandes de gestions des roles associés aux évènements.",
+        "name": "eventRoles",
+        "send": {
+          "description": "Envoie le message de sélection des roles.",
+          "name": "send",
+          "sent": "Le message de sélection des rôles a bien été envoyé."
+        }
+      },
       "gift": {
         "accepting": {
           "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
