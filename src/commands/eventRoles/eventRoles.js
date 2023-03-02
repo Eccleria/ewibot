@@ -7,27 +7,33 @@ const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().eventRoles.name)
   .setDescription(PERSONALITY.getCommands().eventRoles.description)
   .setDefaultMemberPermissions(0x0000010000000000)
-  .addSubcommand((command) => 
+  .addSubcommand((command) =>
     command //send
       .setName(PERSONALITY.getCommands().eventRoles.send.name)
       .setDescription(PERSONALITY.getCommands().eventRoles.send.description)
   )
-  .addSubcommand((command) => 
+  .addSubcommand((command) =>
     command
       .setName(PERSONALITY.getCommands().eventRoles.create.description)
       .setDescription(PERSONALITY.getCommands().eventRoles.create.description)
-      .addStringOption((option) => 
+      .addStringOption((option) =>
         option
           .setName(PERSONALITY.getCommands().eventRoles.create.nameOption.name)
-          .setDescription(PERSONALITY.getCommands().eventRoles.create.nameOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().eventRoles.create.nameOption.description
+          )
           .setMinLength(2)
           .setRequired(true)
       )
-      .addStringOption((option) => 
+      .addStringOption((option) =>
         option
           .setName(PERSONALITY.getCommands().eventRoles.create.colorOption.name)
-          .setDescription(PERSONALITY.getCommands().eventRoles.create.colorOption.description)
-          .setChoices(PERSONALITY.getCommands().eventRoles.create.colorOption.choices)
+          .setDescription(
+            PERSONALITY.getCommands().eventRoles.create.colorOption.description
+          )
+          .setChoices(
+            PERSONALITY.getCommands().eventRoles.create.colorOption.choices
+          )
           .setRequired(false)
       )
   );
@@ -50,12 +56,12 @@ const action = async (interaction) => {
     //get options
     const name = options.getString(perso.nameOption.name);
     const color = options.getString(perso.colorOption.name, false);
-    
+
     //create new role
-    const newRoleObj = { 
+    const newRoleObj = {
       name: name,
-      permisions: role.permisions, 
-      reason: `Comme demandé par ${interaction.member.toString()}.`
+      permisions: role.permisions,
+      reason: `Comme demandé par ${interaction.member.toString()}.`,
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
