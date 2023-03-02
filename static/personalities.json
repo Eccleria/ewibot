@@ -309,8 +309,16 @@
         "errorMention": "Il faut une seule mention."
       },
       "eventRoles": {
+        "create": {
+          "description": "Pour créer un nouveau rôle d'évènement.",
+          "name": "create",
+          "nameOption": {
+            "description": "Le nom du futur rôle d'évènements.",
+            "name": "nom"
+          }          
+        },
         "description": "Commandes de gestions des roles associés aux évènements.",
-        "name": "eventRoles",
+        "name": "event-roles",
         "send": {
           "description": "Envoie le message de sélection des roles.",
           "name": "send",

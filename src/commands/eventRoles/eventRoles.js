@@ -1,25 +1,58 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { interactionReply } from "../utils.js";
-import { PERSONALITY } from "../../personality";
+import { PERSONALITY } from "../../personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().eventRoles.name)
   .setDescription(PERSONALITY.getCommands().eventRoles.description)
   .setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) => 
-    command
+    command //send
       .setName(PERSONALITY.getCommands().eventRoles.send.name)
       .setDescription(PERSONALITY.getCommands().eventRoles.send.description)
+  )
+  .addSubcommand((command) => 
+    command
+      .setName(PERSONALITY.getCommands().eventRoles.create.description)
+      .setDescription(PERSONALITY.getCommands().eventRoles.create.description)
+      .addStringOption((option) => 
+        option
+          .setName(PERSONALITY.getCommands().eventRoles.create.nameOption.name)
+          .setDescription(PERSONALITY.getCommands().eventRoles.create.nameOption.description)
+          .setMinLength(2)
+          .setRequired(true)
+      )
+      .addStringOption((option) => 
+        option
+          .setName(PERSONALITY.getCommands().eventRoles.create.colorOption.name)
+          .setDescription(PERSONALITY.getCommands().eventRoles.create.colorOption.description)
+          .setChoices(PERSONALITY.getCommands().eventRoles.create.colorOption.choices)
+          .setRequired(false)
+      )
   );
 
-const action = (interaction) => {
+const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().eventRoles;
   const subcommand = interaction.options.getSubcommand();
 
   if (subcommand === personality.send.name) {
     const perso = personality.send;
     interactionReply(interaction, perso.sent);
+  } else if (subcommand === personality.create.name) {
+    // create subcommand
+    const guild = interaction.guild;
+    const roles = guild.roles; //roleManager
+    const role = roles.fetch("959360675451383828");
+
+    const newRole = await roles.create(
+      {
+        name: "permissionstest", 
+        permisions: role.permisions, 
+        reason: `Comme demandé par ${interaction.member.toString()}`
+      }
+    );
+    console.log("newRole", newRole);
   }
 };
 
