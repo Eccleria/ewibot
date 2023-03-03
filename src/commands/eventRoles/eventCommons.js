@@ -1,6 +1,6 @@
 // json import
 import { readFileSync } from "fs";
-const eventCommons = JSON.parse(readFileSync("./eventCommons.json"));
+const eventCommons = JSON.parse(readFileSync("src/commands/eventRoles/eventCommons.json"));
 
 class EventCommons {
   constructor(commons) {
@@ -26,5 +26,4 @@ class EventCommons {
   }
 }
 
-const EVENTCOMMONS = new EventCommons(eventCommons);
-export default EVENTCOMMONS;
+export const EVENTCOMMONS = new EventCommons(eventCommons);
