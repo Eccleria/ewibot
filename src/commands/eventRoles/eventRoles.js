@@ -13,7 +13,7 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().eventRoles.send.description)
   )
   .addSubcommand((command) =>
-    command
+    command //create
       .setName(PERSONALITY.getCommands().eventRoles.create.description)
       .setDescription(PERSONALITY.getCommands().eventRoles.create.description)
       .addStringOption((option) =>
@@ -31,9 +31,7 @@ const command = new SlashCommandBuilder()
           .setDescription(
             PERSONALITY.getCommands().eventRoles.create.colorOption.description
           )
-          .setChoices(
-            PERSONALITY.getCommands().eventRoles.create.colorOption.choices
-          )
+          .setChoices(PERSONALITY.getColors().choices)
           .setRequired(false)
       )
   );
