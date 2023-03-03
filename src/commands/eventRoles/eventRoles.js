@@ -68,7 +68,6 @@ const action = async (interaction) => {
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
     EVENTCOMMONS.addRole(guild.id, newRole.name , newRole.id);
-    console.log("newRole", newRole);
   }
 };
 
