@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
+import { EVENTCOMMONS } from "./eventCommons.js";
 import { interactionReply } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
@@ -46,10 +47,13 @@ const action = async (interaction) => {
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand
+    const currentEventServer = EVENTCOMMONS.getCommons().find(({ guildId }) => guildId === interaction.guildId);
     const guild = interaction.guild;
-    const roles = guild.roles; //roleManager
-    const role = roles.fetch("959360675451383828");
     const perso = personality.create;
+
+    //get base role
+    const roles = guild.roles; //roleManager
+    const baseRole = roles.fetch(currentEventServer.baseRoleId);
 
     //get options
     const name = options.getString(perso.nameOption.name);
@@ -58,11 +62,12 @@ const action = async (interaction) => {
     //create new role
     const newRoleObj = {
       name: name,
-      permisions: role.permisions,
+      permisions: baseRole.permisions,
       reason: `Comme demandé par ${interaction.member.toString()}.`,
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
+    EVENTCOMMONS.addRole(guild.id, newRole.name , newRole.id);
     console.log("newRole", newRole);
   }
 };
