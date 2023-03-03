@@ -15,7 +15,7 @@ const command = new SlashCommandBuilder()
   )
   .addSubcommand((command) =>
     command //create
-      .setName(PERSONALITY.getCommands().eventRoles.create.description)
+      .setName(PERSONALITY.getCommands().eventRoles.create.name)
       .setDescription(PERSONALITY.getCommands().eventRoles.create.description)
       .addStringOption((option) =>
         option
@@ -32,7 +32,7 @@ const command = new SlashCommandBuilder()
           .setDescription(
             PERSONALITY.getCommands().eventRoles.create.colorOption.description
           )
-          .setChoices(PERSONALITY.getColors().choices)
+          .setChoices(...PERSONALITY.getColors().choices)
           .setRequired(false)
       )
   );
@@ -63,7 +63,7 @@ const action = async (interaction) => {
     const newRoleObj = {
       name: name,
       permisions: baseRole.permisions,
-      reason: `Comme demandé par ${interaction.member.toString()}.`,
+      reason: `Demandé par ${interaction.member.toString()}`,
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);

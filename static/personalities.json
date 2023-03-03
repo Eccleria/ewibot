@@ -310,6 +310,10 @@
       },
       "eventRoles": {
         "create": {
+          "colorOption": {
+            "description": "Couleur du rôle.",
+            "name": "couleur"
+          },
           "description": "Pour créer un nouveau rôle d'évènement.",
           "name": "create",
           "nameOption": {
