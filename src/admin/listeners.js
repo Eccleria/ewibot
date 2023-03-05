@@ -843,10 +843,16 @@ export const onGuildMemberRemove = async (memberKick) => {
 };
 
 export const onGuildMemberAdd = async (guildMember) => {
-  console.log("onGuildMemberAdd", guildMember.displayName);
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === guildMember.guild.id
+  );
 
-  const db = guildMember.client.db;
-  const authorId = guildMember.id;
-  const date = guildMember.joinedAt.toISOString();
-  addAlavirien(db, authorId, 0, date);
-};
+  if (currentServer.name === "prod" && process.env.DEBUG === "no") {
+    console.log("onGuildMemberAdd", guildMember.displayName);
+
+    const db = guildMember.client.db;
+    const authorId = guildMember.id;
+    const date = guildMember.joinedAt.toISOString();
+    addAlavirien(db, authorId, 0, date);
+  }
+}
