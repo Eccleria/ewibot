@@ -24,8 +24,8 @@
     },
     "channelUpdate": {
       "permissionOverwrites": {
-        "permAdded": "- Permissions ajoutées :",
-        "permRemoved": "- Permissions retirées :",
+        "permAdded": "(+) Permissions ajoutées :",
+        "permRemoved": "(-) Permissions retirées :",
         "roleAdded": "Droits ajoutés au rôle :",
         "roleRemoved": "Droits retirés au rôle :",
         "userAdded": "Droits personnalisés ajoutés au membre :",
