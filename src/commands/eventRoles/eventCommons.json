@@ -5,7 +5,7 @@
     "baseRoleId": "959360675451383828",
     "CDLRoleId": "1082032288398852156",
     "tournamentRoleId": "1082033302325690408",
-    "voiceRoleId": "1082033356256067634",
+    "voiceChannelRoleId": "1082033356256067634",
     "miscRoleId": "1082033648003453051"
   },
   {
@@ -14,7 +14,7 @@
     "baseRoleId": "959085951559290882",
     "CDLRoleId": "",
     "tournamentRoleId": "",
-    "voiceRoleId": "",
+    "voiceChannelRoleId": "",
     "miscRoleId": ""
   }
 ]
