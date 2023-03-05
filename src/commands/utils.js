@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 
 import { MessageButton } from "discord.js";
+import { eventRolesButtonHandler } from "./eventRoles/eventRolesHandler.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
@@ -35,9 +36,12 @@ export const createButton = (id, label, style) => {
  * @param {object} interaction
  */
 export const buttonHandler = (interaction) => {
-  if (interaction.customId === "gift") giftButtonHandler(interaction);
-  else if (interaction.customId.startsWith("announce"))
+  const {customId} = interaction;
+  if (customId === "gift") giftButtonHandler(interaction);
+  else if (customId.startsWith("announce"))
     announceButtonHandler(interaction);
+  else if (customId.startsWith("eventRole")) 
+    eventRolesButtonHandler(interaction);
   else pronounsButtonHandler(interaction);
 };
 
