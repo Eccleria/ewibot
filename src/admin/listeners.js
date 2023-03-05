@@ -224,7 +224,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
           ? "\n" + perm.permAdded + "\n" + added.join("\n")
           : "";
       const textRemoved =
-        added.length !== 0
+        removed.length !== 0
           ? "\n" + perm.permRemoved + "\n" + removed.join("\n")
           : "";
       return acc + "\n" + obj.toString() + textAdded + textRemoved;
