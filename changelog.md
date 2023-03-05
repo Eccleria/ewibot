@@ -13,6 +13,8 @@
 	- explode dbHelper.js into files
 	- regroup new files in new db folder
 	- every dbHelper function have `db` as first arg
+- Update AdminLogs:
+	- messageUpdate now with un/pinned author and message channel
 
 ## 4.8.2
 - Disable: Twitter API no longer free, disabling Twitter link

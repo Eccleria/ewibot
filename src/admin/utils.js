@@ -141,7 +141,7 @@ export const finishEmbed = async (
 /**
  * Differentiate finishEmbed cases.
  * @param {object} obj Object related to listened event.
- * @param {GuildAuditLogsEntry} log Audit log.
+ * @param {?object} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
  * @param {(MessageEmbed|MessageEmbed[])} embed Embed, or array of embeds with log at index 0.
