@@ -1,8 +1,13 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { MessageEmbed } from "discord.js";
 
 import { EVENTCOMMONS } from "./eventCommons.js";
 import { interactionReply } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
+
+// json import
+import { readFileSync } from "fs";
+const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().eventRoles.name)
@@ -44,6 +49,19 @@ const action = async (interaction) => {
 
   if (subcommand === personality.send.name) {
     const perso = personality.send;
+
+    const embed = new MessageEmbed()
+      .setTitle(perso.title)
+      .setDescription(perso.description)
+      .setColor("DARK_NAVY")
+    
+    //get channel where to send    
+    const currentServer = commons.find(({ guildId }) => guildId === interaction.guildId);
+    const guild = await interaction.guild.fetch();
+    const channel = await guild.channels.fetch(currentServer.eventRoleHandleChannelId);
+
+    //send message
+    await channel.send({embeds: [embed]});
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand

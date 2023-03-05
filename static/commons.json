@@ -12,6 +12,7 @@
       "messageId": "973889029969936406"
     },
     "pronounsRoleHandleChannelId": "967059786644488192",
+    "eventRoleHandleChannelId": "935180557770448956",
     "roles": {
       "orange": {
         "roleId": "959360675451383828",
@@ -103,6 +104,7 @@
       "messageId": "974736389914640464"
     },
     "pronounsRoleHandleChannelId": "974735995872350208",
+    "eventRoleHandleChannelId": "1012365513676050462",
     "roles": {
       "reveurs": {
         "roleId": "816971306276880395",
