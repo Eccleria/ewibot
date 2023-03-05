@@ -1,5 +1,6 @@
 ﻿## 4.8.3
 - Feat: guildMemberAdd now filter debug mode & test/prod
+- Update: channel permission overwrite logs now adapt text to added/removed permissions 
 
 ## 4.8.2
 - Disable: Twitter API no longer free, disabling Twitter link
