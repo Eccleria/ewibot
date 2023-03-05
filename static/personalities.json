@@ -326,6 +326,10 @@
         "name": "event-roles",
         "send": {
           "description": "Envoie le message de sélection des roles.",
+          "embed": {
+            "description": "Ici, vous pouvez choisir d'être inscrit à rôle associé à certains évènements du serveur. Cela vous permettra d'être notifié.e lorsque le ou les évènements qui vous intéressent auront lieu.",
+            "title": "Choix des rôles d'évènements"
+          },
           "name": "send",
           "sent": "Le message de sélection des rôles a bien été envoyé."
         }

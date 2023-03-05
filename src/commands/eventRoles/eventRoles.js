@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { EVENTCOMMONS } from "./eventCommons.js";
-import { interactionReply } from "../utils.js";
+import { createButton, interactionReply } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 
 // json import
@@ -50,18 +50,27 @@ const action = async (interaction) => {
   if (subcommand === personality.send.name) {
     const perso = personality.send;
 
+    //setup embed
     const embed = new MessageEmbed()
-      .setTitle(perso.title)
-      .setDescription(perso.description)
+      .setTitle(perso.embed.title)
+      .setDescription(perso.embed.description)
       .setColor("DARK_NAVY")
     
+    //setup buttons
+    const CDLButton = createButton("eventRole_CDL", "CDL", "PRIMARY");
+    const tournamentButton = createButton("eventRole_tournament", "Tournois", "PRIMARY");
+    const voiceButton = createButton("eventRole_voiceChannel", "Vocal", "PRIMARY");
+    const miscButton = createButton("eventRole_misc", "Divers", "PRIMARY");
+    const components = [CDLButton, tournamentButton, voiceButton, miscButton];
+    const actionRow = new MessageActionRow().addComponents(components);
+
     //get channel where to send    
     const currentServer = commons.find(({ guildId }) => guildId === interaction.guildId);
     const guild = await interaction.guild.fetch();
     const channel = await guild.channels.fetch(currentServer.eventRoleHandleChannelId);
 
     //send message
-    await channel.send({embeds: [embed]});
+    await channel.send({embeds: [embed], components: [actionRow]});
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand
