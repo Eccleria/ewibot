@@ -13,6 +13,11 @@ export const eventRolesButtonHandler = async (interaction) => {
 
   //give requested role
   const guildMember = interaction.member;
-  await guildMember.roles.add(eventRoleId);
-  interactionReply(interaction, personality.role.added);
+  if (!guildMember.roles.cache.has(eventRoleId)) {
+    await guildMember.roles.add(eventRoleId);
+    interactionReply(interaction, personality.role.added);
+  } else {
+    await guildMember.roles.remove(eventRoleId);
+    interactionReply(interaction, personality.role.removed);
+  }
 }

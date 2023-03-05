@@ -325,7 +325,8 @@
         "help": "Cette commande permet de gérer les roles associés aux évènements.",
         "name": "event-roles",
         "role": {
-          "added": "Le rôle vous a bien été attribué."
+          "added": "Le rôle vous a bien été attribué.",
+          "removed": "Le rôle vous a bien été retiré."
         },
         "send": {
           "description": "Envoie le message de sélection des roles.",
