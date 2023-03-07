@@ -332,6 +332,12 @@
           "description": "Envoie le message de sélection des roles.",
           "embed": {
             "description": "Ici, vous pouvez choisir d'être inscrit à rôle associé à certains évènements du serveur. Cela vous permettra d'être notifié.e lorsque le ou les évènements qui vous intéressent auront lieu.",
+            "fields": [
+              {"name": "Club de Lecture - CDL", "value": "Initié sur ce serveur par Arsenic, le Club de Lecture réunit les passionné.e.s de la lecture. A chaque cycle, un thème est voté parmis une liste proposée par vous. Après votre lecture, une session de partage est programmée en fonction des disponibilités de chacun.e."},
+              {"name": "Tournois", "value": "Des tournois sont régulièrement organisés. Ils peuvent porter sur tous les sujets : Meilleur personnage du Botteroverse, couleur, pates, musique de jeux vidéos, ...\n Cela mène à des discussions passionnées sur des sujets improbables, mais laissent toujours des souvenirs mémorables ! <:Ewinklan:841675143596212267>"},
+              {"name": "Vocal", "value": "Si jamais vous souhaitez participer aux vocaux, c'est par ici ! Cela peut être pour seulement discuter, comme jouer à Geoguessr, au Solo, etc."},
+              {"name": "Divers", "value": "Pour tous les autres évènements proposés, vous pouvez rejoindre ce rôle. Que ce soit des évènements uniques ou réguliers, comme le jeu du mouton, un blind-test, un Père Noël secret..."}
+            ],
             "title": "Choix des rôles d'évènements"
           },
           "name": "send",

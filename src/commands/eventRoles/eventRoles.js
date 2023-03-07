@@ -55,6 +55,7 @@ const action = async (interaction) => {
       .setTitle(perso.embed.title)
       .setDescription(perso.embed.description)
       .setColor("NAVY")
+      .addFields(perso.embed.fields);
     
     //setup buttons
     const CDLButton = createButton("eventRole_CDL", "CDL", "PRIMARY", "822489141312618507");
