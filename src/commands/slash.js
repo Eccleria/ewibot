@@ -20,7 +20,7 @@ import announce from "./announce.js";
 import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
-import eventRoles from "./eventRoles/eventRoles.js";
+import eventRoles from "./eventRoles.js";
 import gift from "./gift.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";

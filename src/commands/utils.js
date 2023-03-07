@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import { MessageButton } from "discord.js";
-import { eventRolesButtonHandler } from "./eventRoles/eventRolesHandler.js";
+//import { eventRolesButtonHandler } from "./eventRoles.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
@@ -44,8 +44,10 @@ export const buttonHandler = (interaction) => {
   if (customId === "gift") giftButtonHandler(interaction);
   else if (customId.startsWith("announce"))
     announceButtonHandler(interaction);
+  /*
   else if (customId.startsWith("eventRole")) 
     eventRolesButtonHandler(interaction);
+  */
   else pronounsButtonHandler(interaction);
 };
 

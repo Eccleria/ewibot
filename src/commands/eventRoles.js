@@ -1,13 +1,37 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
-import { createButton, interactionReply } from "../utils.js";
+import { createButton, interactionReply } from "./utils.js";
 //import { addEventRole, getEventRoles } from "../../helpers/dbHelper.js";
-import { PERSONALITY } from "../../personality.js";
+import { PERSONALITY } from "../personality.js";
 
 // json import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
+
+/*
+
+export const eventRolesButtonHandler = async (interaction) => {
+  const { customId, guildId } = interaction;
+  const personality = PERSONALITY.getCommands().eventRoles;
+  const db = interaction.client.db;
+
+  //get wanted role data
+  const requestedEventRole = customId.split("_")[1];
+  const currentEventServer = getEventRoles(db).find((obj) => obj.guildId === guildId);
+  const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
+
+  //give requested role
+  const guildMember = interaction.member;
+  if (!guildMember.roles.cache.has(eventRoleId)) {
+    await guildMember.roles.add(eventRoleId);
+    interactionReply(interaction, personality.role.added);
+  } else {
+    await guildMember.roles.remove(eventRoleId);
+    interactionReply(interaction, personality.role.removed);
+  }
+}
+*/
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().eventRoles.name)
