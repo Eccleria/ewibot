@@ -54,13 +54,13 @@ const action = async (interaction) => {
     const embed = new MessageEmbed()
       .setTitle(perso.embed.title)
       .setDescription(perso.embed.description)
-      .setColor("DARK_NAVY")
+      .setColor("NAVY")
     
     //setup buttons
-    const CDLButton = createButton("eventRole_CDL", "CDL", "PRIMARY");
-    const tournamentButton = createButton("eventRole_tournament", "Tournois", "PRIMARY");
-    const voiceButton = createButton("eventRole_voiceChannel", "Vocal", "PRIMARY");
-    const miscButton = createButton("eventRole_misc", "Divers", "PRIMARY");
+    const CDLButton = createButton("eventRole_CDL", "CDL", "PRIMARY", "822489141312618507");
+    const tournamentButton = createButton("eventRole_tournament", "Tournois", "PRIMARY", "⚔️");
+    const voiceButton = createButton("eventRole_voiceChannel", "Vocal", "PRIMARY", "841651539662995466");
+    const miscButton = createButton("eventRole_misc", "Divers", "PRIMARY", "822479563077976065");
     const components = [CDLButton, tournamentButton, voiceButton, miscButton];
     const actionRow = new MessageActionRow().addComponents(components);
 
