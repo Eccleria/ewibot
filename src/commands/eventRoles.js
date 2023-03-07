@@ -2,14 +2,13 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
-//import { addEventRole, getEventRoles } from "../../helpers/dbHelper.js";
+import { /*addEventRole,*/ getEventRoles } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 // json import
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
-/*
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
   const personality = PERSONALITY.getCommands().eventRoles;
@@ -29,8 +28,7 @@ export const eventRolesButtonHandler = async (interaction) => {
     await guildMember.roles.remove(eventRoleId);
     interactionReply(interaction, personality.role.removed);
   }
-}
-*/
+};
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().eventRoles.name)
