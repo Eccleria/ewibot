@@ -18,7 +18,7 @@
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "concreteRecipients": [],
-    "eventRoles": [
+  "eventRoles": [
     {
       "name": "test",
       "guildId": "926909708072284170",
@@ -32,10 +32,10 @@
       "name": "prod",
       "guildId": "816961245743808582",
       "baseRoleId": "959085951559290882",
-      "CDLRoleId": "",
-      "tournamentRoleId": "",
-      "voiceChannelRoleId": "",
-      "miscRoleId": ""
+      "CDLRoleId": "1082760577312620604",
+      "tournamentRoleId": "1082761295469748287",
+      "voiceChannelRoleId": "1082762918044639294",
+      "miscRoleId": "1082762246377181275"
     }
   ],
   "gift": {
