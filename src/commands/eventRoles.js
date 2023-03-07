@@ -10,7 +10,6 @@ import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 /*
-
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
   const personality = PERSONALITY.getCommands().eventRoles;
@@ -80,28 +79,52 @@ const action = async (interaction) => {
       .setDescription(perso.embed.description)
       .setColor("NAVY")
       .addFields(perso.embed.fields);
-    
+
     //setup buttons
-    const CDLButton = createButton("eventRole_CDL", "CDL", "PRIMARY", "822489141312618507");
-    const tournamentButton = createButton("eventRole_tournament", "Tournois", "PRIMARY", "⚔️");
-    const voiceButton = createButton("eventRole_voiceChannel", "Vocal", "PRIMARY", "841651539662995466");
-    const miscButton = createButton("eventRole_misc", "Divers", "PRIMARY", "822479563077976065");
+    const CDLButton = createButton(
+      "eventRole_CDL",
+      "CDL",
+      "PRIMARY",
+      "822489141312618507"
+    );
+    const tournamentButton = createButton(
+      "eventRole_tournament",
+      "Tournois",
+      "PRIMARY",
+      "⚔️"
+    );
+    const voiceButton = createButton(
+      "eventRole_voiceChannel",
+      "Vocal",
+      "PRIMARY",
+      "841651539662995466"
+    );
+    const miscButton = createButton(
+      "eventRole_misc",
+      "Divers",
+      "PRIMARY",
+      "822479563077976065"
+    );
     const components = [CDLButton, tournamentButton, voiceButton, miscButton];
     const actionRow = new MessageActionRow().addComponents(components);
 
-    //get channel where to send    
-    const currentServer = commons.find(({ guildId }) => guildId === interaction.guildId);
+    //get channel where to send
+    const currentServer = commons.find(
+      ({ guildId }) => guildId === interaction.guildId
+    );
     const guild = await interaction.guild.fetch();
-    const channel = await guild.channels.fetch(currentServer.eventRoleHandleChannelId);
+    const channel = await guild.channels.fetch(
+      currentServer.eventRoleHandleChannelId
+    );
 
     //send message
-    await channel.send({embeds: [embed], components: [actionRow]});
+    await channel.send({ embeds: [embed], components: [actionRow] });
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand
     interactionReply(interaction, "En cours de développement");
     return;
-    
+
     /*
     const db = interaction.client.db;
     const currentEventServer = getEventRoles(db).find(({ guildId }) => guildId === interaction.guildId);

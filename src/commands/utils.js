@@ -23,7 +23,7 @@ export const interactionReply = async (
 /**
  * Create a button from MessageButton
  * @param {string} id Button id for recognition
- * @param {?string} label Button label shown to user 
+ * @param {?string} label Button label shown to user
  * @param {string} style Button style
  * @param {?string} emoji Emoji to add to button label
  * @returns {MessageButton}
@@ -40,15 +40,13 @@ export const createButton = (id, label, style, emoji) => {
  * @param {object} interaction
  */
 export const buttonHandler = (interaction) => {
-  const {customId} = interaction;
+  const { customId } = interaction;
   if (customId === "gift") giftButtonHandler(interaction);
-  else if (customId.startsWith("announce"))
-    announceButtonHandler(interaction);
+  else if (customId.startsWith("announce")) announceButtonHandler(interaction);
   /*
   else if (customId.startsWith("eventRole")) 
     eventRolesButtonHandler(interaction);
-  */
-  else pronounsButtonHandler(interaction);
+  */ else pronounsButtonHandler(interaction);
 };
 
 /**

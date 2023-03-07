@@ -101,15 +101,15 @@ const getEventRoles = (db) => {
 const addEventRole = (db, guildId, roleName, roleId) => {
   const data = getEventRoles(db);
   const guildData = data.find((obj) => obj.guildId === guildId); //get correct server data
-  
-  if(guildData) {
+
+  if (guildData) {
     guildData[`${roleName}RoleId`] = roleId;
-    db.wasUpdated = true
+    db.wasUpdated = true;
     return true;
   } else return false;
 };
 
-export { getEventRoles, addEventRole }
+export { getEventRoles, addEventRole };
 
 //GIFT
 const isGiftUser = (db, userId) => {
@@ -371,12 +371,16 @@ const addAlavirienNumber = (db, authorId, number) => {
       user.messageNumber += number;
       db.wasUpdated = true;
     }
-  })
+  });
 };
 
 const addAlavirien = (db, authorId, number, date) => {
   if (!isAlavirien(db, authorId)) {
-    db.data.alavirien.push({ userId: authorId, messageNumber: number, joinAt: date});
+    db.data.alavirien.push({
+      userId: authorId,
+      messageNumber: number,
+      joinAt: date,
+    });
     db.wasUpdated = true;
   } else {
     addAlavirienNumber(db, authorId, number);
@@ -392,4 +396,4 @@ const removeAlavirien = (authorId, db) => {
   }
 };
 
-export { isAlavirien, addAlavirienNumber, addAlavirien, removeAlavirien};
+export { isAlavirien, addAlavirienNumber, addAlavirien, removeAlavirien };
