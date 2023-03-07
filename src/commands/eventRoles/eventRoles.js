@@ -2,11 +2,11 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { createButton, interactionReply } from "../utils.js";
-import { addEventRole, getEventRoles } from "../../helpers/dbHelper.js";
+//import { addEventRole, getEventRoles } from "../../helpers/dbHelper.js";
 import { PERSONALITY } from "../../personality.js";
 
 // json import
-import { readFileSync, stat } from "fs";
+import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const command = new SlashCommandBuilder()
@@ -75,6 +75,10 @@ const action = async (interaction) => {
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand
+    interactionReply(interaction, "En cours de développement");
+    return;
+    
+    /*
     const db = interaction.client.db;
     const currentEventServer = getEventRoles(db).find(({ guildId }) => guildId === interaction.guildId);
     const guild = interaction.guild;
@@ -100,6 +104,7 @@ const action = async (interaction) => {
     console.log("status", status);
     if (status) interactionReply(interaction, "c'est bon");
     else interactionReply(interaction, "fail");
+    */
   }
 };
 
