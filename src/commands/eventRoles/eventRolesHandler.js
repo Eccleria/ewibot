@@ -1,14 +1,15 @@
-import { PERSONALITY } from "../../personality.js";
+import { getEventRoles } from "../../helpers/dbHelper.js";
 import { interactionReply } from "../utils.js";
-import { EVENTCOMMONS } from "./eventCommons.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
   const personality = PERSONALITY.getCommands().eventRoles;
+  const db = interaction.client.db;
 
   //get wanted role data
   const requestedEventRole = customId.split("_")[1];
-  const currentEventServer = EVENTCOMMONS.getCommons().find((obj) => obj.guildId === guildId);
+  const currentEventServer = getEventRoles(db).find((obj) => obj.guildId === guildId);
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
   //give requested role

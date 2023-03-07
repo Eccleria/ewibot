@@ -93,6 +93,24 @@ const removeBirthday = (authorId, db) => {
 
 export { addBirthday, removeBirthday, isBirthdayDate };
 
+//EVENTROLES
+const getEventRoles = (db) => {
+  return db.data.eventRoles;
+};
+
+const addEventRole = (db, guildId, roleName, roleId) => {
+  const data = getEventRoles(db);
+  const guildData = data.find((obj) => obj.guildId === guildId); //get correct server data
+  
+  if(guildData) {
+    guildData[`${roleName}RoleId`] = roleId;
+    db.wasUpdated = true
+    return true;
+  } else return false;
+};
+
+export { getEventRoles, addEventRole }
+
 //GIFT
 const isGiftUser = (db, userId) => {
   return db.data.gift.users.includes(userId);

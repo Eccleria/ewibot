@@ -1,12 +1,12 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
-import { EVENTCOMMONS } from "./eventCommons.js";
 import { createButton, interactionReply } from "../utils.js";
+import { addEventRole, getEventRoles } from "../../helpers/dbHelper.js";
 import { PERSONALITY } from "../../personality.js";
 
 // json import
-import { readFileSync } from "fs";
+import { readFileSync, stat } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 const command = new SlashCommandBuilder()
@@ -75,7 +75,8 @@ const action = async (interaction) => {
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand
-    const currentEventServer = EVENTCOMMONS.getCommons().find(({ guildId }) => guildId === interaction.guildId);
+    const db = interaction.client.db;
+    const currentEventServer = getEventRoles(db).find(({ guildId }) => guildId === interaction.guildId);
     const guild = interaction.guild;
     const perso = personality.create;
 
@@ -95,7 +96,10 @@ const action = async (interaction) => {
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
-    EVENTCOMMONS.addRole(guild.id, newRole.name , newRole.id);
+    const status = addEventRole(db, guild.id, newRole.name , newRole.id);
+    console.log("status", status);
+    if (status) interactionReply(interaction, "c'est bon");
+    else interactionReply(interaction, "fail");
   }
 };
 

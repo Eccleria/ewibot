@@ -18,6 +18,26 @@
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "concreteRecipients": [],
+    "eventRoles": [
+    {
+      "name": "test",
+      "guildId": "926909708072284170",
+      "baseRoleId": "959360675451383828",
+      "CDLRoleId": "1082032288398852156",
+      "tournamentRoleId": "1082033302325690408",
+      "voiceChannelRoleId": "1082033356256067634",
+      "miscRoleId": "1082033648003453051"
+    },
+    {
+      "name": "prod",
+      "guildId": "816961245743808582",
+      "baseRoleId": "959085951559290882",
+      "CDLRoleId": "",
+      "tournamentRoleId": "",
+      "voiceChannelRoleId": "",
+      "miscRoleId": ""
+    }
+  ],
   "gift": {
     "users": [],
     "messages": []
@@ -33,7 +53,7 @@
         "lastTweetId": "1563144877407277063"
       },
       {
-        "userId": "1032989926000939008", //La Quête d'Ewilan
+        "userId": "1032989926000939008", //La Quï¿½te d'Ewilan
         "lastTweetId": "1563149333641703425"
       }
     ],
