@@ -19,14 +19,21 @@ export const eventRolesButtonHandler = async (interaction) => {
   const currentEventServer = getEventRoles(db).find((obj) => obj.guildId === guildId);
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
+  //get alavirien role id
+  const currentServer = commons.find((obj) => obj.guildId === guildId);
+
   //give requested role
   const guildMember = interaction.member;
-  if (!guildMember.roles.cache.has(eventRoleId)) {
-    await guildMember.roles.add(eventRoleId);
-    interactionReply(interaction, personality.role.added);
+  if (guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
+    if (!guildMember.roles.cache.has(eventRoleId)) {
+      await guildMember.roles.add(eventRoleId);
+      interactionReply(interaction, personality.role.added);
+    } else {
+      await guildMember.roles.remove(eventRoleId);
+      interactionReply(interaction, personality.role.removed);
+    }
   } else {
-    await guildMember.roles.remove(eventRoleId);
-    interactionReply(interaction, personality.role.removed);
+    interactionReply(interaction, personality.role.errorNotAlavirien)
   }
 };
 
