@@ -23,12 +23,16 @@ export const interactionReply = async (
 /**
  * Create a button from MessageButton
  * @param {string} id Button id for recognition
- * @param {string} label Button label shown to user
+ * @param {?string} label Button label shown to user 
  * @param {string} style Button style
+ * @param {?string} emoji Emoji to add to button label
  * @returns {MessageButton}
  */
-export const createButton = (id, label, style) => {
-  return new MessageButton().setCustomId(id).setLabel(label).setStyle(style);
+export const createButton = (id, label, style, emoji) => {
+  const button = new MessageButton().setCustomId(id).setStyle(style);
+  if (label) button.setLabel(label);
+  if (emoji) button.setEmoji(emoji);
+  return button;
 };
 
 /**
