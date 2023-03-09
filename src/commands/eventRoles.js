@@ -178,9 +178,9 @@ const action = async (interaction) => {
     const newField = {name: name, value: embedValue, inline: true};
     const embed = roleMessage.embeds[0];
     const fields = embed.fields;
-    const blankNumber = embed.fields.reduce((acc, cur) => acc + Number(cur.name === "\u200b"));
-    const newFieldsNumber = fields.length - blankNumber + 1;
-    const fieldsToAdd = Math.ceil((newFieldsNumber) / 2) === blankNumber ? [newField] : [{"name": "\u200b", "value": "\u200b"}, newField];
+    const blankNumber = embed.fields.reduce((acc, cur) => acc + Number(cur.name === "\u200b"), 0);
+    const newFieldsNumber = fields.length - blankNumber;
+    const fieldsToAdd = newFieldsNumber%2 ? [newField] : [{"name": "\u200b", "value": "\u200b"}, newField];
     embed.addFields(fieldsToAdd);
 
     //create new button
