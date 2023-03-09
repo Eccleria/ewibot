@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "node --experimental-json-modules src/bot.js",
-    "dev": "nodemon --ignore ./db/ --ignore ./src/commands/eventRoles/eventCommons.json --exec node --experimental-json-modules src/bot.js",
+    "dev": "nodemon --ignore ./db/ --exec node --experimental-json-modules src/bot.js",
     "lint": "eslint src",
     "prettier": "prettier --write src"
   }
