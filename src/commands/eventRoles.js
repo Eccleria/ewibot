@@ -182,8 +182,21 @@ const action = async (interaction) => {
     const newFieldsNumber = fields.length - blankNumber + 1;
     const fieldsToAdd = Math.ceil((newFieldsNumber) / 2) === blankNumber ? [newField] : [{"name": "\u200b", "value": "\u200b"}, newField];
     embed.addFields(fieldsToAdd);
-    const status2 = await roleMessage.edit({embeds: [embed]});
-    console.log("status2", status2);
+
+    //create new button
+    const emoteId = name.includes("<") ? name.split(">")[0] : null;
+    const newButton = createButton("eventRole_" + slicedName, slicedName, "PRIMARY", emoteId);
+    
+    //create new vote buttons + regroup with olders
+    const oldComponents = roleMessage.components;
+    const lastARSize = oldComponents[oldComponents.length - 1].components.length;
+    const newComponents = 
+      lastARSize === 5 ? 
+      [...oldComponents, new MessageActionRow().addComponents(newButton)] : 
+      [...oldComponents.slice(0, -1), oldComponents[oldComponents.length - 1].addComponents(newButton)];
+    
+      //edit message 
+    const status2 = await roleMessage.edit({embeds: [embed], components: newComponents});
 
     //reply to interaction
     if (status && status2) interactionReply(interaction, "c'est bon");
