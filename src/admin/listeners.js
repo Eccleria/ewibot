@@ -305,10 +305,20 @@ export const onThreadCreate = async (thread, newly) => {
   if (thread) {
     //sometimes thread is null
     if (thread.joinable && !thread.joined) await thread.join(); //join thread created
+    const logChannel = await getLogChannel(thread); //get logChannel
+    if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
 
-    const logType = "THREAD_CREATE";
-    const perso = "threadCreate";
-    generalEmbed(perso, thread, "DARK_GREY", logType, 1, null, "tag");
+    const perso = PERSONALITY.getAdmin().threadCreate;
+    const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
+    const executor = log.executor ? log.executor : await thread.guild.members.fetch(thread.ownerId);
+    const embed = setupEmbed("DARK_GREY", perso, thread, "tag"); //setup embed
+
+    finishEmbed(
+      perso,
+      executor,
+      embed,
+      logChannel
+    );
   } else console.log("threadCreateIsNull", thread, newly);
 };
 
