@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
-import { addEventRole, getEventRoles } from "../helpers/index.js";
+import { addEventRole, getEventRoles, updateEventRoleMessageId } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 // json import
@@ -84,6 +84,7 @@ const action = async (interaction) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === interaction.guildId
   );
+  const db = interaction.client.db;
 
   if (subcommand === personality.send.name) {
     const perso = personality.send;
@@ -130,7 +131,8 @@ const action = async (interaction) => {
     );
 
     //send message
-    await channel.send({ embeds: [embed], components: [actionRow] });
+    const roleMessage = await channel.send({ embeds: [embed], components: [actionRow] });
+    updateEventRoleMessageId(db, interaction.guildId, roleMessage.id);
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand
@@ -140,7 +142,6 @@ const action = async (interaction) => {
     */
 
     //get data
-    const db = interaction.client.db;
     const currentEventServer = getEventRoles(db).find(({ guildId }) => guildId === interaction.guildId);
     const guild = interaction.guild;
     const perso = personality.create;

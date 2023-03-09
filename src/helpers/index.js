@@ -30,6 +30,7 @@ import {
   removeAlavirien,
   getEventRoles,
   addEventRole,
+  updateEventRoleMessageId,
 } from "./dbHelper.js";
 
 import {
@@ -97,4 +98,5 @@ export {
   removeAlavirien,
   getEventRoles,
   addEventRole,
+  updateEventRoleMessageId,
 };

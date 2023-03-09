@@ -109,7 +109,14 @@ const addEventRole = (db, guildId, roleName, roleId) => {
   } else return false;
 };
 
-export { getEventRoles, addEventRole };
+const updateEventRoleMessageId = (db, guildId, messageId) => {
+  const data = getEventRoles(db);
+  const guildData = data.find((obj) => obj.guildId === guildId); //get correct server data
+  guildData.roleMessageId = messageId;
+  db.wasUpdated = true;
+}
+
+export { getEventRoles, addEventRole, updateEventRoleMessageId };
 
 //GIFT
 const isGiftUser = (db, userId) => {
