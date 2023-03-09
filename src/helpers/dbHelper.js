@@ -114,7 +114,7 @@ const updateEventRoleMessageId = (db, guildId, messageId) => {
   const guildData = data.find((obj) => obj.guildId === guildId); //get correct server data
   guildData.roleMessageId = messageId;
   db.wasUpdated = true;
-}
+};
 
 export { getEventRoles, addEventRole, updateEventRoleMessageId };
 

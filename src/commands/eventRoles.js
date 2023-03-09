@@ -2,7 +2,11 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
-import { addEventRole, getEventRoles, updateEventRoleMessageId } from "../helpers/index.js";
+import {
+  addEventRole,
+  getEventRoles,
+  updateEventRoleMessageId,
+} from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 // json import
@@ -16,7 +20,9 @@ export const eventRolesButtonHandler = async (interaction) => {
 
   //get wanted role data
   const requestedEventRole = customId.split("_")[1];
-  const currentEventServer = getEventRoles(db).find((obj) => obj.guildId === guildId);
+  const currentEventServer = getEventRoles(db).find(
+    (obj) => obj.guildId === guildId
+  );
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
   //get alavirien role id
@@ -33,7 +39,7 @@ export const eventRolesButtonHandler = async (interaction) => {
       interactionReply(interaction, personality.role.removed);
     }
   } else {
-    interactionReply(interaction, personality.role.errorNotAlavirien)
+    interactionReply(interaction, personality.role.errorNotAlavirien);
   }
 };
 
@@ -59,11 +65,13 @@ const command = new SlashCommandBuilder()
           .setMinLength(2)
           .setRequired(true)
       )
-      .addStringOption((option) => 
-      option
-        .setName(PERSONALITY.getCommands().eventRoles.create.embedOption.name)
-        .setDescription(PERSONALITY.getCommands().eventRoles.create.embedOption.description)
-        .setRequired(true)
+      .addStringOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().eventRoles.create.embedOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().eventRoles.create.embedOption.description
+          )
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
@@ -131,7 +139,10 @@ const action = async (interaction) => {
     );
 
     //send message
-    const roleMessage = await channel.send({ embeds: [embed], components: [actionRow] });
+    const roleMessage = await channel.send({
+      embeds: [embed],
+      components: [actionRow],
+    });
     updateEventRoleMessageId(db, interaction.guildId, roleMessage.id);
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
@@ -142,7 +153,9 @@ const action = async (interaction) => {
     */
 
     //get data
-    const currentEventServer = getEventRoles(db).find(({ guildId }) => guildId === interaction.guildId);
+    const currentEventServer = getEventRoles(db).find(
+      ({ guildId }) => guildId === interaction.guildId
+    );
     const guild = interaction.guild;
     const perso = personality.create;
 
@@ -157,8 +170,12 @@ const action = async (interaction) => {
     const slicedName = name.includes("<") ? name.split(">")[1] : name;
 
     //get role message
-    const roleChannel = await interaction.guild.channels.fetch(currentServer.eventRoleHandleChannelId);
-    const roleMessage = currentEventServer.roleMessageId ? await roleChannel.messages.fetch(currentEventServer.roleMessageId) : null;
+    const roleChannel = await interaction.guild.channels.fetch(
+      currentServer.eventRoleHandleChannelId
+    );
+    const roleMessage = currentEventServer.roleMessageId
+      ? await roleChannel.messages.fetch(currentEventServer.roleMessageId)
+      : null;
     if (!roleMessage) {
       interactionReply(interaction, perso.errorNoRoleMessage);
       return;
@@ -172,32 +189,50 @@ const action = async (interaction) => {
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
-    const status = addEventRole(db, guild.id, newRole.name , newRole.id);
+    const status = addEventRole(db, guild.id, newRole.name, newRole.id);
     console.log("status", status);
 
     //update embed
-    const newField = {name: name, value: embedValue, inline: true};
+    const newField = { name: name, value: embedValue, inline: true };
     const embed = roleMessage.embeds[0];
     const fields = embed.fields;
-    const blankNumber = embed.fields.reduce((acc, cur) => acc + Number(cur.name === "\u200b"), 0);
+    const blankNumber = embed.fields.reduce(
+      (acc, cur) => acc + Number(cur.name === "\u200b"),
+      0
+    );
     const newFieldsNumber = fields.length - blankNumber;
-    const fieldsToAdd = newFieldsNumber%2 ? [newField] : [{"name": "\u200b", "value": "\u200b"}, newField];
+    const fieldsToAdd =
+      newFieldsNumber % 2
+        ? [newField]
+        : [{ name: "\u200b", value: "\u200b" }, newField];
     embed.addFields(fieldsToAdd);
 
     //create new button
     const emoteId = name.includes("<") ? name.split(">")[0] : null;
-    const newButton = createButton("eventRole_" + slicedName, slicedName, "PRIMARY", emoteId);
-    
+    const newButton = createButton(
+      "eventRole_" + slicedName,
+      slicedName,
+      "PRIMARY",
+      emoteId
+    );
+
     //create new vote buttons + regroup with olders
     const oldComponents = roleMessage.components;
-    const lastARSize = oldComponents[oldComponents.length - 1].components.length;
-    const newComponents = 
-      lastARSize === 5 ? 
-      [...oldComponents, new MessageActionRow().addComponents(newButton)] : 
-      [...oldComponents.slice(0, -1), oldComponents[oldComponents.length - 1].addComponents(newButton)];
-    
-      //edit message 
-    const status2 = await roleMessage.edit({embeds: [embed], components: newComponents});
+    const lastARSize =
+      oldComponents[oldComponents.length - 1].components.length;
+    const newComponents =
+      lastARSize === 5
+        ? [...oldComponents, new MessageActionRow().addComponents(newButton)]
+        : [
+            ...oldComponents.slice(0, -1),
+            oldComponents[oldComponents.length - 1].addComponents(newButton),
+          ];
+
+    //edit message
+    const status2 = await roleMessage.edit({
+      embeds: [embed],
+      components: newComponents,
+    });
 
     //reply to interaction
     if (status && status2) interactionReply(interaction, "c'est bon");
