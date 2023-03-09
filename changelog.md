@@ -1,5 +1,5 @@
 ﻿## 4.9.0
-- Draft: `/event-roles create` subcommand for event role creation
+- Feat: `/event-roles create` subcommand for event role creation
 - Feat: `/event-roles send` subcommand for event roles attribution
 
 ## 4.8.3
