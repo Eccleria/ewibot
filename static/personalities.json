@@ -315,6 +315,12 @@
             "name": "couleur"
           },
           "description": "Pour créer un nouveau rôle d'évènement.",
+          "embedOption": {
+            "description": "Description du rôle à ajouter à l'embed du message.",
+            "name": "role-description"
+          },
+          "errorGeneral": "Erreur - mise à jour du message ou création du rôle",
+          "errorNoRoleMessage": "Aucun message de choix de rôle d'évènement n'a été envoyé. Impossible de le mettre à jour.",
           "name": "create",
           "nameOption": {
             "description": "Le nom du futur rôle d'évènements.",

@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageActionRow, MessageEmbed } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
-import { /*addEventRole,*/ getEventRoles } from "../helpers/index.js";
+import { addEventRole, getEventRoles } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 // json import
@@ -59,6 +59,12 @@ const command = new SlashCommandBuilder()
           .setMinLength(2)
           .setRequired(true)
       )
+      .addStringOption((option) => 
+      option
+        .setName(PERSONALITY.getCommands().eventRoles.create.embedOption.name)
+        .setDescription(PERSONALITY.getCommands().eventRoles.create.embedOption.description)
+        .setRequired(true)
+      )
       .addStringOption((option) =>
         option
           .setName(PERSONALITY.getCommands().eventRoles.create.colorOption.name)
@@ -74,6 +80,10 @@ const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().eventRoles;
   const options = interaction.options;
   const subcommand = options.getSubcommand();
+
+  const currentServer = commons.find(
+    ({ guildId }) => guildId === interaction.guildId
+  );
 
   if (subcommand === personality.send.name) {
     const perso = personality.send;
@@ -114,9 +124,6 @@ const action = async (interaction) => {
     const actionRow = new MessageActionRow().addComponents(components);
 
     //get channel where to send
-    const currentServer = commons.find(
-      ({ guildId }) => guildId === interaction.guildId
-    );
     const guild = await interaction.guild.fetch();
     const channel = await guild.channels.fetch(
       currentServer.eventRoleHandleChannelId
@@ -127,10 +134,12 @@ const action = async (interaction) => {
     interactionReply(interaction, perso.sent);
   } else if (subcommand === personality.create.name) {
     // create subcommand
+    /*
     interactionReply(interaction, "En cours de développement");
     return;
+    */
 
-    /*
+    //get data
     const db = interaction.client.db;
     const currentEventServer = getEventRoles(db).find(({ guildId }) => guildId === interaction.guildId);
     const guild = interaction.guild;
@@ -143,10 +152,20 @@ const action = async (interaction) => {
     //get options
     const name = options.getString(perso.nameOption.name);
     const color = options.getString(perso.colorOption.name, false);
+    const embedValue = options.getString(perso.embedOption.name);
+    const slicedName = name.includes("<") ? name.split(">")[1] : name;
+
+    //get role message
+    const roleChannel = await interaction.guild.channels.fetch(currentServer.eventRoleHandleChannelId);
+    const roleMessage = currentEventServer.roleMessageId ? await roleChannel.messages.fetch(currentEventServer.roleMessageId) : null;
+    if (!roleMessage) {
+      interactionReply(interaction, perso.errorNoRoleMessage);
+      return;
+    }
 
     //create new role
     const newRoleObj = {
-      name: name,
+      name: slicedName,
       permisions: baseRole.permisions,
       reason: `Demandé par ${interaction.member.toString()}`,
     };
@@ -154,9 +173,21 @@ const action = async (interaction) => {
     const newRole = await roles.create(newRoleObj);
     const status = addEventRole(db, guild.id, newRole.name , newRole.id);
     console.log("status", status);
-    if (status) interactionReply(interaction, "c'est bon");
-    else interactionReply(interaction, "fail");
-    */
+
+    //update embed
+    const newField = {name: name, value: embedValue, inline: true};
+    const embed = roleMessage.embeds[0];
+    const fields = embed.fields;
+    const blankNumber = embed.fields.reduce((acc, cur) => acc + Number(cur.name === "\u200b"));
+    const newFieldsNumber = fields.length - blankNumber + 1;
+    const fieldsToAdd = Math.ceil((newFieldsNumber) / 2) === blankNumber ? [newField] : [{"name": "\u200b", "value": "\u200b"}, newField];
+    embed.addFields(fieldsToAdd);
+    const status2 = await roleMessage.edit({embeds: [embed]});
+    console.log("status2", status2);
+
+    //reply to interaction
+    if (status && status2) interactionReply(interaction, "c'est bon");
+    else interactionReply(interaction, perso.errorGeneral);
   }
 };
 
