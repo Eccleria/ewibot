@@ -1,7 +1,13 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
-import { getAdminLogs, removeAdminLogs, removeBirthday, removeIgnoredUser, removeAlavirien } from "../helpers/index.js";
+import {
+  getAdminLogs,
+  removeAdminLogs,
+  removeBirthday,
+  removeIgnoredUser,
+  removeAlavirien,
+} from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";

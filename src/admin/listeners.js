@@ -310,16 +310,13 @@ export const onThreadCreate = async (thread, newly) => {
 
     const perso = PERSONALITY.getAdmin().threadCreate;
     const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
-    const executor = log.executor ? log.executor : await thread.guild.members.fetch(thread.ownerId);
+    const executor = log.executor
+      ? log.executor
+      : await thread.guild.members.fetch(thread.ownerId);
     const embed = setupEmbed("DARK_GREY", perso, thread, "tag"); //setup embed
     console.log("log.executor", log.executor.id);
 
-    finishEmbed(
-      perso,
-      executor,
-      embed,
-      logChannel
-    );
+    finishEmbed(perso, executor, embed, logChannel);
   } else console.log("threadCreateIsNull", thread, newly);
 };
 
@@ -866,4 +863,4 @@ export const onGuildMemberAdd = async (guildMember) => {
     const date = guildMember.joinedAt.toISOString();
     addAlavirien(db, authorId, 0, date);
   }
-}
+};
