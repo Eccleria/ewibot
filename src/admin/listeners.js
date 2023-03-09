@@ -312,6 +312,7 @@ export const onThreadCreate = async (thread, newly) => {
     const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
     const executor = log.executor ? log.executor : await thread.guild.members.fetch(thread.ownerId);
     const embed = setupEmbed("DARK_GREY", perso, thread, "tag"); //setup embed
+    console.log("log.executor", log.executor.id);
 
     finishEmbed(
       perso,
