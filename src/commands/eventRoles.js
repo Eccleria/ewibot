@@ -93,9 +93,11 @@ const action = async (interaction) => {
     ({ guildId }) => guildId === interaction.guildId
   );
   const db = interaction.client.db;
+  const buttonType = "PRIMARY";
 
   if (subcommand === personality.send.name) {
-    const perso = personality.send;
+    //send subcommand
+    const perso = personality.send; //get personality
 
     //setup embed
     const embed = new MessageEmbed()
@@ -105,28 +107,25 @@ const action = async (interaction) => {
       .addFields(perso.embed.fields);
 
     //setup buttons
+    const pButton = perso.button;
     const CDLButton = createButton(
-      "eventRole_CDL",
-      "CDL",
-      "PRIMARY",
+      ...pButton.CDL,
+      buttonType,
       "822489141312618507"
     );
     const tournamentButton = createButton(
-      "eventRole_tournament",
-      "Tournois",
-      "PRIMARY",
+      ...pButton.tournament,
+      buttonType,
       "⚔️"
     );
     const voiceButton = createButton(
-      "eventRole_voiceChannel",
-      "Vocal",
-      "PRIMARY",
+      ...pButton.voice,
+      buttonType,
       "841651539662995466"
     );
     const miscButton = createButton(
-      "eventRole_misc",
-      "Divers",
-      "PRIMARY",
+      ...pButton.misc,
+      buttonType,
       "822479563077976065"
     );
     const components = [CDLButton, tournamentButton, voiceButton, miscButton];
@@ -212,7 +211,7 @@ const action = async (interaction) => {
     const newButton = createButton(
       "eventRole_" + slicedName,
       slicedName,
-      "PRIMARY",
+      buttonType,
       emoteId
     );
 

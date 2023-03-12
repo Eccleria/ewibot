@@ -336,6 +336,12 @@
           "removed": "Le rôle vous a bien été retiré."
         },
         "send": {
+          "button": {
+            "CDL": ["eventRole_CDL", "CDL"],
+            "misc": ["eventRole_misc", "Divers"],
+            "tournament": ["eventRole_tournament", "Tournois"],
+            "voice": ["eventRole_voiceChannel", "Vocal"]
+          },
           "description": "Envoie le message de sélection des roles.",
           "embed": {
             "description": "Ici, vous pouvez choisir un ou plusieurs rôles, associés à certains évènements du serveur. Cela vous permettra d'être notifié.e lorsque le ou les évènements qui vous intéressent auront lieu.\n Pour ne plus être notifié, vous pouvez retirer le rôle en cliquant sur le bouton du rôle.",
