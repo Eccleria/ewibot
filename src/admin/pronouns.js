@@ -13,7 +13,7 @@ export const pronounsButtonHandler = async (interaction) => {
   const agreementsJson = Object.entries(currentServer.pronouns.agreements);
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]
 
-  const json = rolesJson.find((arr) => arr[0] === interaction.customId); //get corresponding json duo
+  const json = rolesJson.find((arr) => arr[0] === interaction.customId.split("_")[1]); //get corresponding json duo
 
   //get triggering user data
   const guildMember = interaction.member; //get guildMember
