@@ -1,5 +1,7 @@
 ﻿## 4.9.0
 - Update: pronouns buttons with `pronouns_` prefix
+- Feat: `/event-roles create` subcommand for event role creation
+- Feat: `/event-roles send` subcommand for event roles attribution
 - Fix: `$pronouns` with missing `currentServer` arg
 
 ## 4.8.3
