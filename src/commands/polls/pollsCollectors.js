@@ -25,9 +25,11 @@ const pollVoteBuffer = (interaction) => {
   if (bufferData.timeout) clearTimeout(bufferData.timeout);
   const newTimeout = setTimeout(pollBufferLoop, 3000, client, pollMessageId);
   bufferData.timeout = newTimeout;
+  //console.log("bufferData", bufferData);
 
   //update client
-  client.voteBuffers.pollMessageId = bufferData;
+  client.voteBuffers[pollMessageId] = bufferData;
+  console.log("client.voteBuffers", client.voteBuffers)
 };
 
 export const pollButtonCollector = (message) => {
