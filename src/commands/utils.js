@@ -38,7 +38,9 @@ export const buttonHandler = (interaction) => {
   if (interaction.customId === "gift") giftButtonHandler(interaction);
   else if (interaction.customId.startsWith("announce"))
     announceButtonHandler(interaction);
-  else pronounsButtonHandler(interaction);
+  else if (interaction.customId.startsWith("pronouns")) 
+    pronounsButtonHandler(interaction);
+  else (interactionReply(interaction, "ERROR 404"))
 };
 
 /**
