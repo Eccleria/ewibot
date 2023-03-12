@@ -45,7 +45,9 @@ export const buttonHandler = (interaction) => {
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
     eventRolesButtonHandler(interaction);
-  else pronounsButtonHandler(interaction);
+  else if (interaction.customId.startsWith("pronouns"))
+    pronounsButtonHandler(interaction);
+  else interactionReply(interaction, "ERROR 404");
 };
 
 /**
