@@ -469,9 +469,9 @@
         },
         "text": {
           "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
-          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
+          "replyAdd": "Le rôle a bien été attribué !\n_Vous pouvez supprimer ce message en cliquant sur `Rejeter le message`._",
+          "replyAlreadyHave": "Vous possédez déjà le rôle !\n_Vous pouvez supprimer ce message en cliquant sur `Rejeter le message`._",
+          "replyRemove": "Le rôle a bien été retiré !\n_Vous pouvez supprimer ce message en cliquant sur `Rejeter le message`._"
         }
       },
       "reminder": {
