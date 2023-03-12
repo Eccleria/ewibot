@@ -453,6 +453,7 @@
           "neutral": "Neutres",
           "title": "Rôles accords"
         },
+        "baseId": "pronouns_",
         "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
         "pronouns": {
           "all": "Tous pronoms",
