@@ -1,4 +1,8 @@
-﻿## 4.8.3
+﻿## 4.9.0
+- Update: pronouns buttons with `pronouns_` prefix
+- Fix: `$pronouns` with missing `currentServer` arg
+
+## 4.8.3
 - Feat: guildMemberAdd now filter debug mode & test/prod
 - Update: channel permission overwrite logs now adapt text to added/removed permissions 
 
