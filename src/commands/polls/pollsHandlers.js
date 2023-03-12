@@ -45,7 +45,7 @@ export const voteButtonHandler = async (interaction) => {
   } else if (voteType === cPerso.voteOption.choices[0].value) {
     //unique
     uniqueVoteType(interaction, dbPoll, perso, cPerso);
-  } else interactionReply(perso.errorUnknownChoice);
+  } else interactionReply(interaction, perso.errorUnknownChoice);
 };
 
 export const settingsButtonHandler = async (interaction) => {
