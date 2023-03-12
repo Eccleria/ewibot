@@ -220,7 +220,8 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //parse choices
       const baseValue = perso.baseValue;
-      const choices = Array.from(new Array(10)).reduce((acc, _cur, idx) => {
+      const maxVoteMax = dbPoll.votes.length; //to delimit number of vote max
+      const choices = Array.from(new Array(maxVoteMax)).reduce((acc, _cur, idx) => {
         const voteNb = idx + 1;
         if (voteNb === oldVoteMax) return acc;
         const voteStr = voteNb.toString();
