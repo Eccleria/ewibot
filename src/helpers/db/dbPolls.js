@@ -31,6 +31,10 @@ const getPoll = (db, pollId) => {
   return db.data.polls.find((poll) => poll.pollId === pollId);
 };
 
+const getPolls = (db) => {
+  return db.data.polls;
+};
+
 const getPollFromTitle = (db, title) => {
   return db.data.polls.find((poll) => poll.title === title);
 };
@@ -110,6 +114,7 @@ const updatePollParam = (db, pollId, param, newValue) => {
 export {
   addPoll,
   getPoll,
+  getPolls,
   getPollFromTitle,
   getPollsTitles,
   addPollChoices,

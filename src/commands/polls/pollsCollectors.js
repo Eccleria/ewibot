@@ -1,5 +1,11 @@
 import { pollsButtonHandler } from "./pollsHandlers.js";
 
+export const initPollsLookup = (client) => {
+  // once startup, init polls lookup
+  const db = client.db;
+  const polls = getPolls(db);
+};
+
 const pollBufferLoop = async (client, pollMessageId) => {
   const clientData = client.voteBuffers[pollMessageId];
   for (const interaction of clientData.votes)
