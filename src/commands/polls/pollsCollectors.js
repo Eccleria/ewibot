@@ -1,9 +1,17 @@
 import { pollsButtonHandler } from "./pollsHandlers.js";
+import { getPolls } from "../../helpers/index.js";
 
-export const initPollsLookup = (client) => {
+export const initPollsCollector = (client) => {
   // once startup, init polls lookup
   const db = client.db;
   const polls = getPolls(db);
+
+  polls.forEach(async (poll) => {
+    const channel = await client.channels.fetch(poll.channelId);
+    const message = await channel.messages.fetch(poll.pollId);
+
+    pollButtonCollector(message);
+  })
 };
 
 const pollBufferLoop = async (client, pollMessageId) => {
