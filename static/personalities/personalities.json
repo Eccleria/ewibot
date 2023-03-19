@@ -395,9 +395,7 @@
           },
           "update": {
             "choices": [
-              { "label": "titre", "value": "polls_selectMenu_update_title" }, 
               { "label": "couleur", "value": "polls_selectMenu_update_color" }, 
-              { "label": "description", "value": "polls_selectMenu_update_description" }, 
               { "label": "type de vote", "value": "polls_selectMenu_update_voteType" }, 
               { "label": "nombre de votes", "value": "polls_selectMenu_update_voteMax" } 
             ],

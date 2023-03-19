@@ -7,7 +7,6 @@ import { giftButtonHandler } from "./gift.js";
 import {
   settingsButtonHandler,
   pollSelectMenuHandler,
-  //pollModalHandler,
 } from "./polls/pollsHandlers.js";
 
 /**
@@ -50,17 +49,6 @@ export const buttonHandler = (interaction) => {
   else if (customId.startsWith("polls_set")) settingsButtonHandler(interaction);
   else if (!customId.startsWith("polls")) pronounsButtonHandler(interaction);
   else return;
-};
-
-/**
- * Dispatch modal interactions between corresponding functions
- * @param {object} interaction
- */
-export const modalHandler = (interaction) => {
-  const { customId } = interaction;
-  console.log("modalHandler", customId);
-  /*if (customId.startsWith("polls_modal")) pollModalHandler(interaction);
-  else */ return;
 };
 
 /**
