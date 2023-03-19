@@ -201,7 +201,7 @@ export const refreshPollButtonAction = async (interaction) => {
   }, []);
   await pollMessage.edit({ components: disabledComponents });
 
-  //write new fields from db data and pollMessage
+  //create new fields objects from pollMessage
   const newFieldsInit = embed.fields.map((obj) => {
     return { name: obj.name, value: "" };
   }); //init with old names
@@ -209,10 +209,12 @@ export const refreshPollButtonAction = async (interaction) => {
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
   const totalValues = values.reduce((acc, cur) => acc + cur, 0);
-  const ratios = values.reduce(
-    (acc, cur) => [...acc, (cur / totalValues) * 100],
-    []
-  );
+  const ratios = totalValues === 0 
+  ? dbPoll.votes.map(() => 0) 
+  : values.reduce(
+      (acc, cur) => [...acc, (cur / totalValues) * 100],
+      []
+    );
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
