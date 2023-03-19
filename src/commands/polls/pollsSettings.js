@@ -39,17 +39,17 @@ export const sendSettingsButtons = async (interaction) => {
   const resetButton = createButton("polls_set_reset", "RAZ", "DANGER"); // reset poll votes
   const stopButton = createButton("polls_set_disable", "Stop", "DANGER"); //stop poll
 
-  const settingsButton = [
-    refreshButton,
+  const firstButton = [
     updateButton,
     removeButton,
     resetButton,
     stopButton,
   ];
 
-  //If stoped poll, disable buttons
+  //If stoped poll, disable most buttons
   if (pollEmbed.title.includes(perso.disable.title))
-    settingsButton.forEach((btn) => btn.setDisabled(true));
+    firstButton.forEach((btn) => btn.setDisabled(true));
+  const settingsButton = [refreshButton, ...firstButton];
 
   //create ActionRows
   const actionRow = new MessageActionRow().addComponents(settingsButton);
@@ -189,7 +189,8 @@ export const refreshPollButtonAction = async (interaction) => {
     components: [],
   });
 
-  const cPerso = PERSONALITY.getCommands().polls.create;
+  const perso = PERSONALITY.getCommands().polls;
+  const cPerso = perso.create;
   const pollMessage = await fetchPollMessage(interaction);
   const embed = pollMessage.embeds[0];
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
@@ -243,10 +244,16 @@ export const refreshPollButtonAction = async (interaction) => {
 
   //reply and enable votes
   interactionEditReply(interaction, { ephemeral: true, content: "Effectué" });
-  //disable actions during refresh
-  const enabledComponents = pollMessage.components.reduce((acc, cur) => {
-    cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
-    return [...acc, cur];
-  }, []);
-  pollMessage.edit({ components: enabledComponents });
+  
+  //enable actions during refresh
+  if (!embed.title.includes(perso.settings.disable.title)) {
+    //if not disabled, add again all buttons as enabled
+    const enabledComponents = pollMessage.components.reduce((acc, cur) => {
+      cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
+      return [...acc, cur];
+    }, []);
+    pollMessage.edit({ components: enabledComponents });
+  } else pollMessage.edit({ components: [] }); //else remove every button
+
+
 };
