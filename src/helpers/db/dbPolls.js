@@ -2,6 +2,7 @@
 const addPoll = (
   db,
   id,
+  channelId,
   authorId,
   votes,
   anonymous,
@@ -12,6 +13,7 @@ const addPoll = (
 ) => {
   const poll = {
     pollId: id,
+    channelId: channelId,
     authorId: authorId,
     anonymous: anonymous,
     colorIdx: colorIdx,
