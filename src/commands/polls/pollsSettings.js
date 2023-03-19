@@ -29,7 +29,11 @@ export const sendSettingsButtons = async (interaction) => {
   const pollEmbed = pollMessage.embeds[0];
 
   //create buttons
-  const refreshButton = createButton("polls_set_refresh", "Actualiser", "PRIMARY"); // refresh poll embed
+  const refreshButton = createButton(
+    "polls_set_refresh",
+    "Actualiser",
+    "PRIMARY"
+  ); // refresh poll embed
   const updateButton = createButton("polls_set_update", "Modifier", "PRIMARY"); // update poll parameters
   const removeButton = createButton("polls_set_remove", "Retirer", "PRIMARY"); // remove poll choices
   const resetButton = createButton("polls_set_reset", "RAZ", "DANGER"); // reset poll votes
@@ -44,7 +48,7 @@ export const sendSettingsButtons = async (interaction) => {
   ];
 
   //If stoped poll, disable buttons
-  if (pollEmbed.title.includes(perso.disable.title)) 
+  if (pollEmbed.title.includes(perso.disable.title))
     settingsButton.forEach((btn) => btn.setDisabled(true));
 
   //create ActionRows
@@ -179,7 +183,11 @@ export const updatePollButtonAction = async (interaction) => {
 };
 
 export const refreshPollButtonAction = async (interaction) => {
-  await interaction.update({content: "En cours", ephemeral: true, components: []});
+  await interaction.update({
+    content: "En cours",
+    ephemeral: true,
+    components: [],
+  });
 
   const cPerso = PERSONALITY.getCommands().polls.create;
   const pollMessage = await fetchPollMessage(interaction);
@@ -191,21 +199,26 @@ export const refreshPollButtonAction = async (interaction) => {
     cur.components.forEach((button) => button.setDisabled(true)); //disable buttons of cur actionRow
     return [...acc, cur];
   }, []);
-  await pollMessage.edit({components: disabledComponents});
+  await pollMessage.edit({ components: disabledComponents });
 
   //write new fields from db data and pollMessage
-  const newFieldsInit = embed.fields.map((obj) => { return {name: obj.name, value: ""}}); //init with old names
-  
+  const newFieldsInit = embed.fields.map((obj) => {
+    return { name: obj.name, value: "" };
+  }); //init with old names
+
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
   const totalValues = values.reduce((acc, cur) => acc + cur, 0);
-  const ratios = values.reduce((acc, cur) => [...acc, cur/totalValues * 100], []);
-  
+  const ratios = values.reduce(
+    (acc, cur) => [...acc, (cur / totalValues) * 100],
+    []
+  );
+
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
   const emoteColor = cPerso.colorOption.colors.progressBar[colorIdx]; //emoteId from personality
   const black = cPerso.colorOption.black; //empty bar color
-  
+
   //write new fields
   const newFields = newFieldsInit.map((field, idx) => {
     //update values
@@ -215,21 +228,23 @@ export const refreshPollButtonAction = async (interaction) => {
       black.repeat(10 - nb) +
       ` ${ratios[idx]}% (${values[idx]})\n`; //new colorBar
     console.log("newColorBar", newColorBar);
-    const votersEmbed = dbPoll.isAnonymous ? "" : dbPoll.votes[idx].votes.map((userId) => `<@${userId}> `);
+    const votersEmbed = dbPoll.isAnonymous
+      ? ""
+      : dbPoll.votes[idx].votes.map((userId) => `<@${userId}> `);
     console.log("votersEmbed", votersEmbed);
     return { name: field.name, value: newColorBar + votersEmbed };
   });
 
   //update message
   embed.setFields(newFields);
-  await pollMessage.edit({embeds: [embed]});
+  await pollMessage.edit({ embeds: [embed] });
 
   //reply and enable votes
-  interactionEditReply(interaction, {ephemeral: true, content: "Effectué"});
+  interactionEditReply(interaction, { ephemeral: true, content: "Effectué" });
   //disable actions during refresh
   const enabledComponents = pollMessage.components.reduce((acc, cur) => {
     cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
     return [...acc, cur];
   }, []);
-  pollMessage.edit({components: enabledComponents});
-}
+  pollMessage.edit({ components: enabledComponents });
+};

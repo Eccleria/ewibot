@@ -6,7 +6,6 @@ import {
   resetPollButtonAction,
   updatePollButtonAction,
   refreshPollButtonAction,
-  //addChoicePollModal,
 } from "./pollsSettings.js";
 import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
@@ -16,7 +15,7 @@ import { getPoll, updatePollParam } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { isPollEmptyVotes } from "../../helpers/db/dbPolls.js";
 
-export const  pollsButtonHandler = async (interaction) => {
+export const pollsButtonHandler = async (interaction) => {
   // Dispatch button action to corresponding functions
   const { customId } = interaction;
 
@@ -56,17 +55,9 @@ export const settingsButtonHandler = async (interaction) => {
   else if (customId.includes("set_remove")) removePollButtonAction(interaction);
   else if (customId.includes("set_reset")) resetPollButtonAction(interaction);
   else if (customId.includes("set_update")) updatePollButtonAction(interaction);
-  else if (customId.includes("set_refresh")) refreshPollButtonAction(interaction);
+  else if (customId.includes("set_refresh"))
+    refreshPollButtonAction(interaction);
 };
-
-/*
-export const pollModalHandler = (interaction) => {
-  // handle modals
-  const { customId } = interaction;
-  console.log("pollModalHandler");
-  if (customId.includes("addChoice")) addChoicePollModal(interaction);
-};
-*/
 
 export const pollSelectMenuHandler = async (interaction) => {
   const { customId } = interaction;
@@ -165,7 +156,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
   } else if (toChange.includes("voteType")) {
     const perso = personality.settings.update.voteType;
     const voteTypePerso = personality.create.voteOption.choices;
-    
+
     //get poll data
     const pollMessage = await fetchPollMessage(interaction);
     const dbPoll = getPoll(db, pollMessage.id);
@@ -173,7 +164,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
     //check voteType
     const voteTypeTest = oldVoteType === voteTypePerso[1].name; //multiple
-    if ( voteTypeTest && !isPollEmptyVotes(db, pollMessage.id)) {
+    if (voteTypeTest && !isPollEmptyVotes(db, pollMessage.id)) {
       //multiple && is not empty
       const payload = { content: perso.errorShouldRAZBefore, components: [] };
       interactionEditReply(interaction, payload);
@@ -221,12 +212,15 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       //parse choices
       const baseValue = perso.baseValue;
       const maxVoteMax = dbPoll.votes.length; //to delimit number of vote max
-      const choices = Array.from(new Array(maxVoteMax)).reduce((acc, _cur, idx) => {
-        const voteNb = idx + 1;
-        if (voteNb === oldVoteMax) return acc;
-        const voteStr = voteNb.toString();
-        return [...acc, { label: voteStr, value: baseValue + voteStr }];
-      }, []);
+      const choices = Array.from(new Array(maxVoteMax)).reduce(
+        (acc, _cur, idx) => {
+          const voteNb = idx + 1;
+          if (voteNb === oldVoteMax) return acc;
+          const voteStr = voteNb.toString();
+          return [...acc, { label: voteStr, value: baseValue + voteStr }];
+        },
+        []
+      );
       selectMenu.addOptions(choices);
 
       //send message
@@ -252,7 +246,10 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         const payload = { content: perso.errorTooManyVotesMax, components: [] };
         interactionEditReply(interaction, payload);
         return;
-      } else if (newVoteMax < oldVoteMax && !isPollEmptyVotes(db, pollMessage.id)) {
+      } else if (
+        newVoteMax < oldVoteMax &&
+        !isPollEmptyVotes(db, pollMessage.id)
+      ) {
         // should RAZ first
         const payload = { content: perso.errorShouldRAZBefore, components: [] };
         interactionEditReply(interaction, payload);
@@ -268,7 +265,6 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
           fPerso.pollVoteType_multiple + ` (${newVoteMax})` + fPerso.options;
         const embed = pollMessage.embeds[0];
         embed.setFooter({ text: newFooter });
-
 
         //send
         pollMessage.edit({ embeds: [embed] });

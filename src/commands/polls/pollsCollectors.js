@@ -2,7 +2,7 @@ import { pollsButtonHandler } from "./pollsHandlers.js";
 
 const pollBufferLoop = async (client, pollMessageId) => {
   const clientData = client.voteBuffers[pollMessageId];
-  for (const interaction of clientData.votes) 
+  for (const interaction of clientData.votes)
     await pollsButtonHandler(interaction);
 
   //clear client
@@ -16,9 +16,9 @@ const pollVoteBuffer = (interaction) => {
   const pollMessageId = interaction.message.id;
 
   //get old buffer data
-  const bufferData = client.voteBuffers[pollMessageId] 
-  ? client.voteBuffers[pollMessageId] 
-  : {timeout: null, votes: []}; 
+  const bufferData = client.voteBuffers[pollMessageId]
+    ? client.voteBuffers[pollMessageId]
+    : { timeout: null, votes: [] };
   bufferData.votes.push(interaction);
 
   //handle timeout
@@ -29,7 +29,7 @@ const pollVoteBuffer = (interaction) => {
 
   //update client
   client.voteBuffers[pollMessageId] = bufferData;
-  console.log("client.voteBuffers", client.voteBuffers)
+  console.log("client.voteBuffers", client.voteBuffers);
 };
 
 export const pollButtonCollector = (message) => {

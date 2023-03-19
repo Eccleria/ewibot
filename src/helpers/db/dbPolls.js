@@ -59,7 +59,7 @@ const isThisChoicePollVoter = (db, pollId, userId, voteIdx) => {
 const isPollEmptyVotes = (db, pollId) => {
   const data = getPoll(db, pollId);
   return data.votes.every((obj) => obj.votes.length === 0);
-}
+};
 
 const getPollVoteIndexes = (db, pollId, userId) => {
   //return index of userId vote
