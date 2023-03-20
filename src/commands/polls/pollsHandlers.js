@@ -63,20 +63,21 @@ export const pollSelectMenuHandler = async (interaction) => {
   const { customId } = interaction;
 
   const personality = PERSONALITY.getCommands().polls;
-  if (customId.includes("_remove")) {
-    console.log("interaction", interaction);
+  interaction.deferReply({ ephemeral: true });
 
-    interaction.deferReply({ ephemeral: true });
-    const selected = interaction.values;
-    console.log("values", selected);
+  if (customId.includes("_remove")) {
+    pollRemoveChoicesSelectMenuHandler(interaction);
   } else if (customId.includes("_update"))
     pollUpdateSelectMenuHandler(interaction);
   else
     return interactionReply(interaction, personality.errorSelectMenuNotFound);
 };
 
+const pollRemoveChoicesSelectMenuHandler = (interaction) => {
+  const selected = interaction.values;
+};
+
 const pollUpdateSelectMenuHandler = async (interaction) => {
-  await interaction.deferUpdate({ ephemeral: true });
   const db = interaction.client.db;
 
   //handle interaction
