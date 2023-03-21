@@ -130,7 +130,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
     console.log("newColorBar", newColorBar);
     const votersEmbed = dbPoll.isAnonymous
       ? ""
-      : dbPoll.votes[idx].votes.map((userId) => `<@${userId}> `);
+      : dbPoll.votes[idx].votes.map((userId) => ` <@${userId}>`).join("");
     console.log("votersEmbed", votersEmbed);
     return { name: field.name, value: newColorBar + votersEmbed };
   });
