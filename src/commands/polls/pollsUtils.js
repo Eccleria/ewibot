@@ -110,7 +110,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
   const ratios = totalValues === 0 
   ? dbPoll.votes.map(() => 0) 
   : values.reduce(
-      (acc, cur) => [...acc, (cur / totalValues) * 100],
+      (acc, cur) => [...acc, Math.round((cur / totalValues) * 100)],
       []
     );
 
