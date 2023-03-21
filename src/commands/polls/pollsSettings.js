@@ -103,7 +103,7 @@ export const removePollButtonAction = async (interaction) => {
   const maxToRemove = dbPoll.votes.length - 2;
 
   if (maxToRemove < 1)
-    return interactionEditReply(interaction, perso.errorNotEnoughToRemove);
+    return interactionEditReply(interaction, {content: perso.errorNotEnoughToRemove, components: []});
 
   //create selectMenu
   const menu = new MessageSelectMenu()
@@ -115,7 +115,7 @@ export const removePollButtonAction = async (interaction) => {
   //parse choices
   const fields = pollMessage.embeds[0].fields;
   const choices = fields.reduce((acc, cur, idx) => {
-    const curChoice = { label: cur.name, value: idx.toString() }; // description: "Choix_" + idx.toString(),
+    const curChoice = { label: cur.name, value: "polls_" + idx.toString() }; // description: "Choix_" + idx.toString(),
     return [...acc, curChoice];
   }, []);
   menu.addOptions(choices);
