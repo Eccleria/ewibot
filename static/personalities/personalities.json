@@ -388,6 +388,7 @@
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
           "remove": {
             "errorNotEnoughToRemove": "Il n'y a pas assez de choix pour en retirer.",
+            "errorNotUpdated": "Le sondage n'a pas pu être mis à jour. Veuillez contacter une Sentinelle.",
             "removed": "Les choix de ce sondage ont été supprimés."
           },
           "reset": {

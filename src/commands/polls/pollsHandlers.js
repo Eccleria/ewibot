@@ -75,6 +75,7 @@ export const pollSelectMenuHandler = async (interaction) => {
 
 const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const selected = interaction.values; //get choices to remove
+  const perso = PERSONALITY.getCommands().polls.settings.remove;
   console.log("selected", selected);
 
   //get data
@@ -127,7 +128,9 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   }, []);
 
   //update pollMessage
-  pollMessage.edit({embeds: [embed], components: newComponents});
+  const message = await pollMessage.edit({embeds: [embed], components: newComponents});
+  if (message) interactionEditReply(interaction, {content: perso.removed , components: []})
+  else interactionEditReply(interaction, {content: perso.errorNotUpdated, components: []})
 };
 
 const pollUpdateSelectMenuHandler = async (interaction) => {
