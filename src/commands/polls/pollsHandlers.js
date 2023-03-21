@@ -11,9 +11,9 @@ import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
 import { uniqueVoteType } from "./pollsTypeUnique.js";
 import { interactionReply } from "../utils.js";
-import { getPoll, updatePollParam } from "../../helpers/index.js";
+import { getPoll, updatePollParam, updatePollButtonId } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
-import { isPollEmptyVotes } from "../../helpers/db/dbPolls.js";
+import { isPollEmptyVotes, removePollChoice } from "../../helpers/db/dbPolls.js";
 
 export const pollsButtonHandler = async (interaction) => {
   // Dispatch button action to corresponding functions
@@ -63,18 +63,69 @@ export const pollSelectMenuHandler = async (interaction) => {
   const { customId } = interaction;
 
   const personality = PERSONALITY.getCommands().polls;
-  interaction.deferReply({ ephemeral: true });
+  await interaction.deferUpdate({ ephemeral: true });
 
   if (customId.includes("_remove")) {
     pollRemoveChoicesSelectMenuHandler(interaction);
   } else if (customId.includes("_update"))
     pollUpdateSelectMenuHandler(interaction);
   else
-    return interactionReply(interaction, personality.errorSelectMenuNotFound);
+    return interactionEditReply(interaction, personality.errorSelectMenuNotFound);
 };
 
-const pollRemoveChoicesSelectMenuHandler = (interaction) => {
-  const selected = interaction.values;
+const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
+  const selected = interaction.values; //get choices to remove
+  console.log("selected", selected);
+
+  //get data
+  const pollMessage = await fetchPollMessage(interaction);
+  const embed = pollMessage.embeds[0];
+
+  //remove in db
+  selected.forEach((buttonId) => removePollChoice(interaction.client.db, pollMessage.id, buttonId));
+
+  //remove in embed
+  const fields = embed.fields;
+  const selectedIndexes = selected.map((str) => Number(str.split("_")[1])); //"polls_id"
+  console.log("selectedIndexes", selectedIndexes);
+  const updatedFields = fields.reduce((acc, cur, idx) => {
+    if (selectedIndexes.includes(idx)) return acc //to remove
+    else return [...acc, cur];
+  }, []);
+  console.log("updatedFields", updatedFields);
+  embed.setFields(updatedFields);
+
+  //remove vote buttons
+  const buttons = pollMessage.components.reduce((acc, cur) => [...acc, ...cur.components], [])
+  const filteredButtons = buttons.reduce((acc, cur, idx) => {
+    if (selectedIndexes.includes(idx)) return acc;
+    else return [...acc, cur];    
+  }, []);
+  console.log("filteredButtons", filteredButtons);
+
+  const newComponents = filteredButtons.reduce((acc, cur, idx) => {
+    //update buttons ids + db value
+    if (idx !== filteredButtons.length - 1) {
+      //do not change polls_settings button
+      const newId = "polls_" + idx.toString();
+      updatePollButtonId(interaction.client.db, pollMessage.id, cur.customId, newId);
+      cur.setCustomId(newId);
+    }
+
+    //handle MessageActionRows
+    if (idx === 0 || acc[acc.length - 1].components.length === 5) {
+      //if first or last AR is full
+      const newAR = new MessageActionRow().addComponents(cur);
+      return [...acc, newAR];
+    } else {
+      acc[acc.length - 1].addComponents(cur);
+      return acc;
+    }
+  }, []);
+  console.log("newComponents", newComponents.map((ar) => ar.components));
+
+  //update pollMessage
+  pollMessage.edit({embeds: [embed], components: newComponents});
 };
 
 const pollUpdateSelectMenuHandler = async (interaction) => {
@@ -136,7 +187,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         const newValue =
           emoteColor.repeat(nb) +
           black.repeat(10 - nb) +
-          splited.slice(1).join(" "); //new colorBar
+          ` ${splited.slice(1).join(" ")}`; //new colorBar
         const field = { name: cur.name, value: newValue };
         return [...acc, field];
       }, []);
