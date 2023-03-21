@@ -205,8 +205,7 @@ export const refreshPollButtonAction = async (interaction) => {
   const newFieldsInit = embed.fields.map((obj) => {
     return { name: obj.name, value: "" };
   }); //init with old names
-
-  const newFields = refreshPollFields(dbPoll, newFieldsInit);
+  const newFields = refreshPollFields(dbPoll, newFieldsInit, perso.create);
 
   //update message
   embed.setFields(newFields);
