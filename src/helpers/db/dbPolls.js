@@ -88,6 +88,14 @@ const removePoll = (db, pollId) => {
   db.wasUpdated = true;
 };
 
+const removePollChoice = (db, pollId, buttonId) => {
+  const data = getPoll(db, pollId);
+  data.votes = data.votes.filter(
+    (choice) => choice.buttonId !== buttonId
+  );
+  db.wasUpdated = true;
+};
+
 const removePollIndex = (db, pollId, userId, voteIdx) => {
   const data = getPoll(db, pollId);
   data.votes[voteIdx].votes = data.votes[voteIdx].votes.filter(
@@ -111,6 +119,16 @@ const updatePollParam = (db, pollId, param, newValue) => {
   db.wasUpdated = true;
 };
 
+const updatePollButtonId = (db, pollId, oldId, newId) => {
+  const data = getPoll(db, pollId);
+  const idx = data.votes.findIndex((choice) => choice.buttonId === oldId);
+  console.log("oldId", oldId, "newId", newId);
+  console.log("data.votes", data.votes);
+  console.log("idx", idx);
+  data.votes[idx].buttonId = newId;
+  db.wasUpdated = true;
+}
+
 export {
   addPoll,
   getPoll,
@@ -124,7 +142,9 @@ export {
   getPollVoteIndexes,
   getThisChoicePollIndex,
   removePoll,
+  removePollChoice,
   removePollIndex,
   resetPollVoters,
   updatePollParam,
+  updatePollButtonId,
 };
