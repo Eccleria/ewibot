@@ -7,7 +7,7 @@ import {
   updatePollButtonAction,
   refreshPollButtonAction,
 } from "./pollsSettings.js";
-import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
+import { fetchPollMessage, interactionEditReply, refreshPollFields } from "./pollsUtils.js";
 import { multipleVoteType } from "./pollsTypeMultiple.js";
 import { uniqueVoteType } from "./pollsTypeUnique.js";
 import { interactionReply } from "../utils.js";
@@ -88,11 +88,15 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const fields = embed.fields;
   const selectedIndexes = selected.map((str) => Number(str.split("_")[1])); //"polls_id"
   console.log("selectedIndexes", selectedIndexes);
-  const updatedFields = fields.reduce((acc, cur, idx) => {
+  const filteredFields = fields.reduce((acc, cur, idx) => {
     if (selectedIndexes.includes(idx)) return acc //to remove
     else return [...acc, cur];
   }, []);
-  console.log("updatedFields", updatedFields);
+  console.log("filteredFields", filteredFields);
+
+  //update fields values/ratios
+  const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  const updatedFields = refreshPollFields(dbPoll, filteredFields, PERSONALITY.getCommands().polls.create);
   embed.setFields(updatedFields);
 
   //remove vote buttons
@@ -102,7 +106,6 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
     else return [...acc, cur];    
   }, []);
   console.log("filteredButtons", filteredButtons);
-
   const newComponents = filteredButtons.reduce((acc, cur, idx) => {
     //update buttons ids + db value
     if (idx !== filteredButtons.length - 1) {
@@ -122,7 +125,6 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
       return acc;
     }
   }, []);
-  console.log("newComponents", newComponents.map((ar) => ar.components));
 
   //update pollMessage
   pollMessage.edit({embeds: [embed], components: newComponents});
