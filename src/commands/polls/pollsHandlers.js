@@ -217,7 +217,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     const oldVoteType = dbPoll.voteType;
 
     //check voteType
-    const voteTypeTest = oldVoteType === voteTypePerso[1].name; //multiple
+    const voteTypeTest = oldVoteType === voteTypePerso[1].value; //multiple
     if (voteTypeTest && !isPollEmptyVotes(db, pollMessage.id)) {
       //multiple && is not empty
       const payload = { content: perso.errorShouldRAZBefore, components: [] };
@@ -232,12 +232,12 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     if (voteTypeTest) {
       //if old multiple, new unique
       footerBegin = fPerso.pollVoteType_unique;
-      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[0].name); //voteType
+      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[0].value); //voteType
       updatePollParam(db, pollMessage.id, "voteMax", 1); //set voteMax to 1
     } else {
       //if old unique, new multiple
       footerBegin = fPerso.pollVoteType_multiple + ` (${dbPoll.voteMax})`;
-      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[1].name); //db
+      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[1].value); //db
     }
     const embed = pollMessage.embeds[0];
     embed.setFooter({ text: footerBegin + footerEnd });
