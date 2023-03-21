@@ -95,3 +95,43 @@ export const parsePollFields = (content, totalSize = 0) => {
   );
   return results;
 };
+
+/**
+ * 
+ * @param {*} dbPoll poll message data from db
+ * @param {*} newFieldsInit init value for new fields
+ * @param {*} perso Color personality
+ * @returns List of new fields objects
+ */
+export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
+  //compute ratios
+  const values = dbPoll.votes.map((obj) => obj.votes.length);
+  const totalValues = values.reduce((acc, cur) => acc + cur, 0);
+  const ratios = totalValues === 0 
+  ? dbPoll.votes.map(() => 0) 
+  : values.reduce(
+      (acc, cur) => [...acc, (cur / totalValues) * 100],
+      []
+    );
+
+  //get progress bar color
+  const colorIdx = dbPoll.colorIdx; //db data
+  const emoteColor = perso.colorOption.colors.progressBar[colorIdx]; //emoteId from personality
+  const black = perso.colorOption.black; //empty bar color
+
+  //return new fields
+  return newFieldsInit.map((field, idx) => {
+    //update values
+    const nb = Math.floor(ratios[idx] / 10);
+    const newColorBar =
+      emoteColor.repeat(nb) +
+      black.repeat(10 - nb) +
+      ` ${ratios[idx]}% (${values[idx]})\n`; //new colorBar
+    console.log("newColorBar", newColorBar);
+    const votersEmbed = dbPoll.isAnonymous
+      ? ""
+      : dbPoll.votes[idx].votes.map((userId) => `<@${userId}> `);
+    console.log("votersEmbed", votersEmbed);
+    return { name: field.name, value: newColorBar + votersEmbed };
+  });
+};

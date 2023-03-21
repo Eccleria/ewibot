@@ -1,5 +1,5 @@
 import { MessageActionRow, MessageSelectMenu } from "discord.js";
-import { fetchPollMessage, interactionEditReply } from "./pollsUtils.js";
+import { fetchPollMessage, interactionEditReply, refreshPollFields } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll, resetPollVoters } from "../../helpers/index.js";
@@ -190,7 +190,6 @@ export const refreshPollButtonAction = async (interaction) => {
   });
 
   const perso = PERSONALITY.getCommands().polls;
-  const cPerso = perso.create;
   const pollMessage = await fetchPollMessage(interaction);
   const embed = pollMessage.embeds[0];
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
@@ -207,36 +206,7 @@ export const refreshPollButtonAction = async (interaction) => {
     return { name: obj.name, value: "" };
   }); //init with old names
 
-  //compute ratios
-  const values = dbPoll.votes.map((obj) => obj.votes.length);
-  const totalValues = values.reduce((acc, cur) => acc + cur, 0);
-  const ratios = totalValues === 0 
-  ? dbPoll.votes.map(() => 0) 
-  : values.reduce(
-      (acc, cur) => [...acc, (cur / totalValues) * 100],
-      []
-    );
-
-  //get progress bar color
-  const colorIdx = dbPoll.colorIdx; //db data
-  const emoteColor = cPerso.colorOption.colors.progressBar[colorIdx]; //emoteId from personality
-  const black = cPerso.colorOption.black; //empty bar color
-
-  //write new fields
-  const newFields = newFieldsInit.map((field, idx) => {
-    //update values
-    const nb = Math.floor(ratios[idx] / 10);
-    const newColorBar =
-      emoteColor.repeat(nb) +
-      black.repeat(10 - nb) +
-      ` ${ratios[idx]}% (${values[idx]})\n`; //new colorBar
-    console.log("newColorBar", newColorBar);
-    const votersEmbed = dbPoll.isAnonymous
-      ? ""
-      : dbPoll.votes[idx].votes.map((userId) => `<@${userId}> `);
-    console.log("votersEmbed", votersEmbed);
-    return { name: field.name, value: newColorBar + votersEmbed };
-  });
+  const newFields = refreshPollFields(dbPoll, newFieldsInit);
 
   //update message
   embed.setFields(newFields);
