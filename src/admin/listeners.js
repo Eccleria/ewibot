@@ -603,14 +603,18 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const unpinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_UNPIN", 1); //get auditLog
     const unpinned = messageU.unpinned;
     embed.addField(unpinned.title, unpinned.text, true); //add unpinned text
+    embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
-    embed.addField(messageU.linkName, link);
+    embed.addField(messageU.linkName, link, true);
+
+    //add executor
+    embed.addFields({name: unpinned.executor, value: unpinLog.executor.toString(), inline: true})
 
     const messageList = await endCasesEmbed(
       nMessage,
-      unpinLog,
+      null,
       messageU,
       auditLog,
       embed,
@@ -625,14 +629,18 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN", 1); //get auditLog
     const pinned = messageU.pinned;
     embed.addField(pinned.title, pinned.text, true); //add unpinned text
+    embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link, true);
 
+    //add executor
+    embed.addFields({name: pinned.executor, value: pinLog.executor.toString(), inline: true})
+
     const messageList = await endCasesEmbed(
       nMessage,
-      pinLog,
+      null,
       messageU,
       auditLog,
       embed,

@@ -88,12 +88,14 @@
     "linkName": "Lien",
     "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
     "pinned": {
+      "executor": "Epinglé par :",
       "title": "Message épinglé",
       "text": "Le message a été épinglé."
     },
     "text": "Contenu du message :",
     "title": "Message modifié",
     "unpinned": {
+      "executor": "Désépinglé par :",
       "title": "Message désépinglé",
       "text": "Le message a été désépinglé."
     }
