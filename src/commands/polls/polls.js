@@ -6,11 +6,12 @@ import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
 import { parsePollFields } from "./pollsUtils.js";
 import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
+import { COMMONS } from "../../commons.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
   .setDescription(PERSONALITY.getCommands().polls.description)
-  .setDefaultMemberPermissions(0x0000010000000000)
+  //.setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) =>
     command //create
       .setName(PERSONALITY.getCommands().polls.create.name)
@@ -111,6 +112,14 @@ const action = async (interaction) => {
   const options = interaction.options;
   const personality = PERSONALITY.getCommands().polls;
   const subcommand = options.getSubcommand();
+
+  //check for alavirien.ne role
+  const guildMember = await interaction.member.fetch();
+  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
+    interactionReply(interaction, personality.errorNotAlavirien);
+    return;
+  }
 
   if (subcommand === personality.create.name) {
     //create poll subcommand
