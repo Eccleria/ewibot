@@ -77,7 +77,7 @@ export const parsePollFields = (content, totalSize = 0) => {
       const replaced = cur.replace(",", "");
       if (cur.includes(",")) {
         //if choices includes emote
-        const emote = cur.split(",")[0];
+        const emote = cur.split(",")[0].trim();
         return {
           fields: [...acc.fields, replaced],
           emotes: [...acc.emotes, emote],
