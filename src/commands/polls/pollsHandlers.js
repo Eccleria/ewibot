@@ -287,7 +287,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     } else {
       //change value
       //check voteType
-      if (dbPoll.voteType === personality.create.voteOption.choices[0].name) {
+      if (dbPoll.voteType === personality.create.voteOption.choices[0].value) {
         const payload = { content: perso.errorVoteUnique, components: [] };
         interactionEditReply(interaction, payload);
         return;
