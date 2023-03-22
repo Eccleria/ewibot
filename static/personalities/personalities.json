@@ -381,6 +381,13 @@
         "help": "Cette commande permet de créer des sondages.",
         "name": "polls",
         "settings": {
+          "buttons": {
+            "refresh": ["polls_set_refresh", "Actualiser"],
+            "remove": ["polls_set_remove", "Retirer"],
+            "reset": ["polls_set_reset", "RAZ"],
+            "stop": ["polls_set_disable", "Stop"],
+            "update": ["polls_set_update", "Modifier"]
+          },
           "disable": {
             "disabled": "Le sondage a bien été verrouillé.",
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
@@ -388,8 +395,10 @@
           },
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
           "remove": {
+            "customId": "polls_selectMenu_remove",
             "errorNotEnoughToRemove": "Il n'y a pas assez de choix pour en retirer.",
             "errorNotUpdated": "Le sondage n'a pas pu être mis à jour. Veuillez contacter une Sentinelle.",
+            "placeholder": "Choix des options à supprimer",
             "removed": "Les choix de ce sondage ont été supprimés."
           },
           "reset": {

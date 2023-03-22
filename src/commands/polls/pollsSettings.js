@@ -29,15 +29,12 @@ export const sendSettingsButtons = async (interaction) => {
   const pollEmbed = pollMessage.embeds[0];
 
   //create buttons
-  const refreshButton = createButton(
-    "polls_set_refresh",
-    "Actualiser",
-    "PRIMARY"
-  ); // refresh poll embed
-  const updateButton = createButton("polls_set_update", "Modifier", "PRIMARY"); // update poll parameters
-  const removeButton = createButton("polls_set_remove", "Retirer", "PRIMARY"); // remove poll choices
-  const resetButton = createButton("polls_set_reset", "RAZ", "DANGER"); // reset poll votes
-  const stopButton = createButton("polls_set_disable", "Stop", "DANGER"); //stop poll
+  const bPerso = perso.buttons;
+  const refreshButton = createButton(...bPerso.refresh, "PRIMARY"); // refresh poll embed
+  const updateButton = createButton(...bPerso.update, "PRIMARY"); // update poll parameters
+  const removeButton = createButton(...bPerso.remove, "PRIMARY"); // remove poll choices
+  const resetButton = createButton(...bPerso.reset, "DANGER"); // reset poll votes
+  const stopButton = createButton(...bPerso.stop, "DANGER"); //stop poll
 
   const firstButton = [
     updateButton,
@@ -107,8 +104,8 @@ export const removePollButtonAction = async (interaction) => {
 
   //create selectMenu
   const menu = new MessageSelectMenu()
-    .setCustomId("polls_selectMenu_remove")
-    .setPlaceholder("Choix des options à supprimer")
+    .setCustomId(perso.customId)
+    .setPlaceholder(perso.placeholder)
     .setMinValues(1)
     .setMaxValues(maxToRemove);
 
