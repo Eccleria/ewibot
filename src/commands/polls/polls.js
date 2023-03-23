@@ -217,29 +217,33 @@ const action = async (interaction) => {
       );
 
     //send poll
-    const pollMsg = await interaction.channel.send({
-      embeds: [embed],
-      components: components.actionRows,
-    });
-    pollButtonCollector(pollMsg); //start listening to interactions
-    interactionReply(interaction, perso.sent);
-
-    //save poll
-    const colorIdx = perso.colorOption.colors.choices.findIndex(
-      (obj) => obj.value === color
-    ); //find color index from personality
-    addPoll(
-      interaction.client.db,
-      pollMsg.id,
-      pollMsg.channelId,
-      interaction.user.id,
-      components.dbVotes,
-      anonymous,
-      voteType,
-      colorIdx,
-      voteMax,
-      title
-    ); //add to db
+    try {
+      const pollMsg = await interaction.channel.send({
+        embeds: [embed],
+        components: components.actionRows,
+      });
+      pollButtonCollector(pollMsg); //start listening to interactions
+      interactionReply(interaction, perso.sent);
+  
+      //save poll
+      const colorIdx = perso.colorOption.colors.choices.findIndex(
+        (obj) => obj.value === color
+      ); //find color index from personality
+      addPoll(
+        interaction.client.db,
+        pollMsg.id,
+        pollMsg.channelId,
+        interaction.user.id,
+        components.dbVotes,
+        anonymous,
+        voteType,
+        colorIdx,
+        voteMax,
+        title
+      ); //add to db
+    } catch (e) {
+      console.log("/polls create error\n", e)
+    }
   } else if (subcommand === personality.addChoice.name) {
     //addChoice poll subcommand
     const perso = personality.addChoice;
