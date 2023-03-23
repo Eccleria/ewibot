@@ -224,20 +224,15 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
           : await newChannel.guild.roles.fetch(cur[0].id);
 
       //write text
-      const textAdded = "\n" + added.join("\n");
-      const textRemoved = "\n" + removed.join("\n");
-      return (
-        acc +
-        "\n" +
-        obj.toString() +
-        "\n" +
-        perm.permAdded +
-        textAdded +
-        "\n" +
-        perm.permRemoved +
-        textRemoved +
-        "\n"
-      );
+      const textAdded =
+        added.length !== 0
+          ? "\n" + perm.permAdded + "\n" + added.join("\n")
+          : "";
+      const textRemoved =
+        removed.length !== 0
+          ? "\n" + perm.permRemoved + "\n" + removed.join("\n")
+          : "";
+      return acc + "\n" + obj.toString() + textAdded + textRemoved;
     }, "");
 
     if (modifs.length !== 0) {
@@ -855,10 +850,14 @@ export const onGuildMemberRemove = async (memberKick) => {
 };
 
 export const onGuildMemberAdd = async (guildMember) => {
-  console.log("onGuildMemberAdd", guildMember.displayName);
+  const currentServer = COMMONS.fetchGuildId(guildMember.guild.id);
 
-  const db = guildMember.client.db;
-  const authorId = guildMember.id;
-  const date = guildMember.joinedAt.toISOString();
-  addAlavirien(db, authorId, 0, date);
+  if (currentServer.name === "prod" && process.env.DEBUG === "no") {
+    console.log("onGuildMemberAdd", guildMember.displayName);
+
+    const db = guildMember.client.db;
+    const authorId = guildMember.id;
+    const date = guildMember.joinedAt.toISOString();
+    addAlavirien(db, authorId, 0, date);
+  }
 };

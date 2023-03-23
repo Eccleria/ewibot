@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 
 import { MessageButton } from "discord.js";
+import { eventRolesButtonHandler } from "./eventRoles.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
@@ -28,7 +29,7 @@ export const interactionReply = async (
  * @param {string} id Button id for recognition
  * @param {?string} label Button label shown to user
  * @param {string} style Button style
- * @param {?string} emoji to add to button label
+ * @param {?string} emoji Emoji to add to button label
  * @returns {MessageButton}
  */
 export const createButton = (id, label, style, emoji) => {
@@ -46,9 +47,13 @@ export const buttonHandler = (interaction) => {
   const { customId } = interaction;
   if (customId === "gift") giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
+  else if (customId.startsWith("eventRole"))
+    eventRolesButtonHandler(interaction);
   else if (customId.startsWith("polls_set")) settingsButtonHandler(interaction);
   else if (!customId.startsWith("polls")) pronounsButtonHandler(interaction);
-  else return;
+  else if (interaction.customId.startsWith("pronouns"))
+    pronounsButtonHandler(interaction);
+  else interactionReply(interaction, "ERROR 404");
 };
 
 /**

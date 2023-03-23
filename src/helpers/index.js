@@ -15,6 +15,12 @@ import {
 } from "./db/dbBirthday.js";
 
 import {
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
+} from "./db/dbEventRoles.js";
+
+import {
   addGiftUser,
   removeGiftUser,
   isGiftUser,
@@ -104,6 +110,10 @@ export {
   addBirthday,
   isBirthdayDate,
   removeBirthday,
+  //eventRoles
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
   //gift
   addGiftUser,
   removeGiftUser,

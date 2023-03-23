@@ -23,6 +23,7 @@ import announce from "./announce.js";
 import birthday from "./birthday.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
+import eventRoles from "./eventRoles.js";
 import gift from "./gift.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
@@ -181,6 +182,7 @@ const slashCommands = [
   birthday,
   botMessage,
   concrete,
+  eventRoles,
   gift,
   ignoreChannel,
   ignoreUser,

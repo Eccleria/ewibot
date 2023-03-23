@@ -16,6 +16,19 @@
 - Update AdminLogs:
 	- messageUpdate now with un/pinned author and message channel
 
+## 4.9.1
+- Feat: new emote reaction on `reactionHandler`
+
+## 4.9.0
+- Update: pronouns buttons with `pronouns_` prefix
+- Feat: `/event-roles create` subcommand for event role creation
+- Feat: `/event-roles send` subcommand for event roles attribution
+- Fix: `$pronouns` with missing `currentServer` arg
+
+## 4.8.3
+- Feat: guildMemberAdd now filter debug mode & test/prod
+- Update: channel permission overwrite logs now adapt text to added/removed permissions 
+
 ## 4.8.2
 - Disable: Twitter API no longer free, disabling Twitter link
 - Fix: alavirien checking wrong sentinelle member + not fetching old presentations
