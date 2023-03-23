@@ -134,16 +134,22 @@ const action = async (interaction) => {
     let option = options.getBoolean(perso.hideOption.name, false); //anonymous
     const anonymous = option == null ? true : option; //if true, no name displayed
 
+    option = options.getNumber(perso.maxOption.name, false); //max
+    const voteMax = option == null ? 1 : option;
+
     option = options.getString(perso.voteOption.name, false); //voteType
-    const voteType =
-      option == null ? perso.voteOption.choices[0].value : option; //if true, only one vote
+    let voteType
+    if (option == null) {
+      //not given by user, check voteMax for hint
+      const vTPerso = perso.voteOption.choices;
+      if (voteMax && voteMax > 1) voteType = vTPerso[1].value; //multiple
+      else voteType = vTPerso[0].value; //unique
+    } else voteType = option; //if given, get value
+       
 
     option = options.getString(perso.colorOption.name, false); //color
     const color =
       option == null ? perso.colorOption.colors.choices[4].value : option;
-
-    option = options.getNumber(perso.maxOption.name, false); //max
-    const voteMax = option == null ? 1 : option;
 
     //check if not too many choices
     const splited = choices.split(";");
