@@ -25,7 +25,7 @@ export const pronounsButtonHandler = async (interaction) => {
   //get personality
   const personality = PERSONALITY.getCommands();
   const pronounsP = personality.pronouns;
-  
+
   //mitigate rare error
   if (!json) {
     interactionReply(interaction, pronounsP.errorNoJson);
