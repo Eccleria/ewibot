@@ -1,5 +1,6 @@
 ﻿## 4.9.1
 - Feat: new emote reaction on `reactionHandler`
+- Fix: pronouns rare case with missing json. Add log for monitoring.
 
 ## 4.9.0
 - Update: pronouns buttons with `pronouns_` prefix
