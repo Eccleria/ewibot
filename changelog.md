@@ -1,6 +1,7 @@
 ﻿## 4.9.1
+- Update: `checkProdTestMode` now `isTestServer` for clarity
 - Feat: new emote reaction on `reactionHandler`
-- Fix: rare case when log.executor is not retrieved
+- Fix: rare case when `AuditLog.executor` is not retrieved
 
 ## 4.9.0
 - Update: pronouns buttons with `pronouns_` prefix
