@@ -308,6 +308,57 @@
         },
         "errorMention": "Il faut une seule mention."
       },
+      "eventRoles": {
+        "create": {
+          "colorOption": {
+            "description": "Couleur du rôle.",
+            "name": "couleur"
+          },
+          "description": "Pour créer un nouveau rôle d'évènement.",
+          "embedOption": {
+            "description": "Description du rôle à ajouter à l'embed du message.",
+            "name": "role-description"
+          },
+          "errorGeneral": "Erreur - mise à jour du message ou création du rôle",
+          "errorNoRoleMessage": "Aucun message de choix de rôle d'évènement n'a été envoyé. Impossible de le mettre à jour.",
+          "name": "create",
+          "nameOption": {
+            "description": "Le nom du futur rôle d'évènements.",
+            "name": "nom"
+          }          
+        },
+        "description": "Commandes de gestions des roles associés aux évènements.",
+        "help": "Cette commande permet de gérer les roles associés aux évènements.",
+        "name": "event-roles",
+        "role": {
+          "added": "Le rôle vous a bien été attribué.",
+          "errorNotAlavirien":"Désolé, vous n'êtes pas Alavirien·nes. Vous n'avez pas accès à cette fonctionnalité.",
+          "removed": "Le rôle vous a bien été retiré."
+        },
+        "send": {
+          "button": {
+            "CDL": ["eventRole_CDL", "CDL"],
+            "misc": ["eventRole_misc", "Divers"],
+            "tournament": ["eventRole_tournament", "Tournois"],
+            "voice": ["eventRole_voiceChannel", "Vocal"]
+          },
+          "description": "Envoie le message de sélection des roles.",
+          "embed": {
+            "description": "**Note : Ces rôles sont réservés aux Alavirien•nes.**\n\nIci, vous pouvez choisir un ou plusieurs rôles, associés à certains évènements du serveur. Cela vous permettra d'être notifié.e lorsque le ou les évènements qui vous intéressent auront lieu.\n Pour ne plus être notifié, vous pouvez retirer le rôle en cliquant sur le bouton du rôle.",
+            "fields": [
+              {"name": "\u200b", "value": "\u200b"},
+              {"name": "<:lecture:822489141312618507> Club de Lecture - CDL", "value": "Le Club de Lecture réunit les passionné.e.s de la lecture. A chaque cycle, un thème est voté parmi une liste proposée par vous. Après votre lecture, une session de partage est programmée en fonction des disponibilités de chacun.e. Tout se passe dans les fils du salon <#959109916516294757>.", "inline": true},
+              {"name": "⚔️ Tournois", "value": "Des tournois sont régulièrement organisés. Ils peuvent porter sur tous les sujets : Meilleur personnage du Botteroverse, couleur, pates, musique de jeux vidéos, ...\n Cela mène à des discussions passionnées sur des sujets improbables, mais laissent toujours des souvenirs mémorables ! <:Ewinklan:841675143596212267>", "inline": true},
+              {"name": "\u200b", "value": "\u200b"},
+              {"name": "<:CelineDuom:841651539662995466> Vocal", "value": "Si jamais vous souhaitez participer aux vocaux, c'est par ici ! Cela peut être pour seulement discuter, comme jouer à Geoguessr, au Solo, etc.", "inline": true},
+              {"name": "<:DuomFetard:822479563077976065> Divers", "value": "Pour tous les autres évènements proposés, vous pouvez rejoindre ce rôle. Que ce soit des évènements uniques ou réguliers, comme le jeu du mouton, un blind-test, un Père Noël secret...", "inline": true}
+            ],
+            "title": "Choix des rôles d'évènements"
+          },
+          "name": "send",
+          "sent": "Le message de sélection des rôles a bien été envoyé."
+        }
+      },
       "gift": {
         "accepting": {
           "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
@@ -453,6 +504,7 @@
           "neutral": "Neutres",
           "title": "Rôles accords"
         },
+        "baseId": "pronouns_",
         "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
         "pronouns": {
           "all": "Tous pronoms",
@@ -468,9 +520,9 @@
         },
         "text": {
           "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
-          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
-          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
+          "replyAdd": "Le rôle a bien été attribué !\n_Vous pouvez supprimer ce message en cliquant sur `Rejeter le message`._",
+          "replyAlreadyHave": "Vous possédez déjà le rôle !\n_Vous pouvez supprimer ce message en cliquant sur `Rejeter le message`._",
+          "replyRemove": "Le rôle a bien été retiré !\n_Vous pouvez supprimer ce message en cliquant sur `Rejeter le message`._"
         }
       },
       "reminder": {

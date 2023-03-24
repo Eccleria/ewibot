@@ -1,5 +1,12 @@
-﻿## 4.9.0
+﻿## 4.9.1
+- Feat: new emote reaction on `reactionHandler`
 - Fix: rare case when log.executor is not retrieved
+
+## 4.9.0
+- Update: pronouns buttons with `pronouns_` prefix
+- Feat: `/event-roles create` subcommand for event role creation
+- Feat: `/event-roles send` subcommand for event roles attribution
+- Fix: `$pronouns` with missing `currentServer` arg
 
 ## 4.8.3
 - Feat: guildMemberAdd now filter debug mode & test/prod

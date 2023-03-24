@@ -69,7 +69,7 @@ export const onPublicMessage = (message, client, currentServer, self) => {
       // spotify stuff
       checkIsOnThread(channel, playlistThreadId); //add bot if not on thread
     }
-    command.action(message, "$");
+    command.action(message, "$", currentServer);
   }
 };
 

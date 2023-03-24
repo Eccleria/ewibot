@@ -28,6 +28,9 @@ import {
   addGiftSeparator,
   addAlavirien,
   removeAlavirien,
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
 } from "./dbHelper.js";
 
 import {
@@ -93,4 +96,7 @@ export {
   addGiftSeparator,
   addAlavirien,
   removeAlavirien,
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
 };
