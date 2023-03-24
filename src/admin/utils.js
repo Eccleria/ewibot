@@ -696,8 +696,8 @@ export const octagonalLog = async (object, user) => {
 
 /**
  * Check if is currently in test server
- * @param {*} logChannel 
- * @returns Boolean True if is test server
+ * @param {Object} logChannel LogChannel retrieved from currentServer
+ * @returns True if is test server
  */
 export const isTestServer = (logChannel) => {
   const server = commons.find(({ name }) => name === "test");
