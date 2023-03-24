@@ -12,7 +12,7 @@ export const pronounsButtonHandler = async (interaction) => {
   const pronounsJson = Object.entries(currentServer.pronouns.pronouns);
   const agreementsJson = Object.entries(currentServer.pronouns.agreements);
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]
-
+  console.log("interaction.customId.split('_')", interaction.customId)
   const json = rolesJson.find(
     (arr) => arr[0] === interaction.customId.split("_")[1]
   ); //get corresponding json duo
