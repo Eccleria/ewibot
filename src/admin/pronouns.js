@@ -1,5 +1,6 @@
 // jsons imports
 import { readFileSync } from "fs";
+import { interactionReply } from "../commands/utils.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 import { PERSONALITY } from "../personality.js";
@@ -12,7 +13,7 @@ export const pronounsButtonHandler = async (interaction) => {
   const pronounsJson = Object.entries(currentServer.pronouns.pronouns);
   const agreementsJson = Object.entries(currentServer.pronouns.agreements);
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]
-  console.log("interaction.customId.split('_')", interaction.customId)
+
   const json = rolesJson.find(
     (arr) => arr[0] === interaction.customId.split("_")[1]
   ); //get corresponding json duo
@@ -24,6 +25,13 @@ export const pronounsButtonHandler = async (interaction) => {
   //get personality
   const personality = PERSONALITY.getCommands();
   const pronounsP = personality.pronouns;
+  
+  //mitigate rare error
+  if (!json) {
+    interactionReply(interaction, pronounsP.errorNoJson);
+    console.log("errorNoJson", interaction.customId, rolesJson);
+    return;
+  }
 
   //handle roles
   if (json[1] !== "Annuler") {
