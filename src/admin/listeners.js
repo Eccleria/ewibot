@@ -7,7 +7,7 @@ import {
 
 import { PERSONALITY } from "../personality.js";
 import {
-  checkProdTestMode,
+  isTestServer,
   clientEventUpdateProcess,
   endCasesEmbed,
   fetchAuditLog,
@@ -123,7 +123,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   //basic operations
   const logChannel = await getLogChannel(newChannel); //get logChannelId
-  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
@@ -306,7 +306,7 @@ export const onThreadCreate = async (thread, newly) => {
     //sometimes thread is null
     if (thread.joinable && !thread.joined) await thread.join(); //join thread created
     const logChannel = await getLogChannel(thread); //get logChannel
-    if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+    if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
 
     const perso = PERSONALITY.getAdmin().threadCreate;
     const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
@@ -360,7 +360,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(newRole); //get logChannelId
-  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
 
   //get client
@@ -452,7 +452,7 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(message, "thread"); //get logChannel
-  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
 
   const uDate = new Date(message.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
@@ -595,7 +595,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(nMessage, "thread"); //get logChannel
-  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
 
   const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
@@ -772,7 +772,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(newMember); //get logChannel
-  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
@@ -796,7 +796,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const auditLog = personality.auditLog;
 
   const logChannel = await getLogChannel(memberKick); //get logChannel
-  if (process.env.DEBUG === "no" && checkProdTestMode(logChannel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get kick reason
 

@@ -240,7 +240,7 @@ export const generalEmbed = async (
   const aLog = personality.auditLog;
 
   const channel = await getLogChannel(obj); //get logChannel
-  if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(channel)) return; //if in prod && modif in test server
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
@@ -694,7 +694,12 @@ export const octagonalLog = async (object, user) => {
   finishEmbed(octaPerso, null, embed, logChannel);
 };
 
-export const checkProdTestMode = (logChannel) => {
+/**
+ * Check if is currently in test server
+ * @param {*} logChannel 
+ * @returns Boolean True if is test server
+ */
+export const isTestServer = (logChannel) => {
   const server = commons.find(({ name }) => name === "test");
   const channels = [server.logChannelId, server.logThreadId];
 
