@@ -286,12 +286,6 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       interactionEditReply(interaction, payload);
     } else {
       //change value
-      //check voteType
-      if (dbPoll.voteType === personality.create.voteOption.choices[0].value) {
-        const payload = { content: perso.errorVoteUnique, components: [] };
-        interactionEditReply(interaction, payload);
-        return;
-      }
 
       //get input value
       const maxVoteMax = dbPoll.votes.length;
@@ -299,7 +293,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //compare
       if (newVoteMax > maxVoteMax) {
-        // too many votes => return
+        //too many votes => return
         const payload = { content: perso.errorTooManyVotesMax, components: [] };
         interactionEditReply(interaction, payload);
         return;
@@ -307,13 +301,12 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         newVoteMax < oldVoteMax &&
         !isPollEmptyVotes(db, pollMessage.id)
       ) {
-        // should RAZ first
+        //not empty, should RAZ first
         const payload = { content: perso.errorShouldRAZBefore, components: [] };
         interactionEditReply(interaction, payload);
         return;
       } else {
         // change
-
         updatePollParam(db, pollMessage.id, "voteMax", newVoteMax); //db
 
         //embed footer
