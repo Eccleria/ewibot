@@ -208,45 +208,6 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         components: [],
       });
     }
-  } else if (toChange.includes("voteType")) {
-    const perso = personality.settings.update.voteType;
-    const voteTypePerso = personality.create.voteOption.choices;
-
-    //get poll data
-    const pollMessage = await fetchPollMessage(interaction);
-    const dbPoll = getPoll(db, pollMessage.id);
-    const oldVoteType = dbPoll.voteType;
-
-    //check voteType
-    const voteTypeTest = oldVoteType === voteTypePerso[1].value; //multiple
-    if (voteTypeTest && !isPollEmptyVotes(db, pollMessage.id)) {
-      //multiple && is not empty
-      const payload = { content: perso.errorShouldRAZBefore, components: [] };
-      interactionEditReply(interaction, payload);
-      return;
-    }
-
-    //embed footer
-    const fPerso = personality.create.footer;
-    const footerEnd = fPerso.options;
-    let footerBegin;
-    if (voteTypeTest) {
-      //if old multiple, new unique
-      footerBegin = fPerso.pollVoteType_unique;
-      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[0].value); //voteType
-      updatePollParam(db, pollMessage.id, "voteMax", 1); //set voteMax to 1
-    } else {
-      //if old unique, new multiple
-      footerBegin = fPerso.pollVoteType_multiple + ` (${dbPoll.voteMax})`;
-      updatePollParam(db, pollMessage.id, "voteType", voteTypePerso[1].value); //db
-    }
-    const embed = pollMessage.embeds[0];
-    embed.setFooter({ text: footerBegin + footerEnd });
-
-    //send
-    pollMessage.edit({ embeds: [embed] });
-    const payload = { content: perso.voteMaxChanged, components: [] };
-    interactionEditReply(interaction, payload);
   } else if (toChange.includes("voteMax")) {
     const perso = personality.settings.update.voteMax;
 
@@ -299,7 +260,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         newVoteMax < oldVoteMax &&
         !isPollEmptyVotes(db, pollMessage.id)
       ) {
-        //not empty, should RAZ first
+        //decreasing voteMax && not empty, should RAZ first
         const payload = { content: perso.errorShouldRAZBefore, components: [] };
         interactionEditReply(interaction, payload);
         return;
@@ -309,10 +270,9 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
         //embed footer
         const fPerso = personality.create.footer;
-        const newFooter =
-          fPerso.pollVoteType_multiple + ` (${newVoteMax})` + fPerso.options;
+        const newFooter = newVoteMax !== 1 ? fPerso.multiple + ` (${newVoteMax})` : fPerso.unique;
         const embed = pollMessage.embeds[0];
-        embed.setFooter({ text: newFooter });
+        embed.setFooter({ text: newFooter + fPerso.options });
 
         //send
         pollMessage.edit({ embeds: [embed] });

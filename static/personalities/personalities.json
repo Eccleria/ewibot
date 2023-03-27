@@ -396,8 +396,8 @@
           },
           "footer": {
             "options": " | ⚙️ options",
-            "pollVoteType_multiple": "Vote multiple",
-            "pollVoteType_unique": "Vote unique"
+            "multiple": "Vote multiple",
+            "unique": "Vote unique"
           },
           "hideOption": {
             "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
@@ -412,15 +412,7 @@
           "titleOption": {
             "description": "Titre du sondage.",
             "name": "titre"
-          },
-          "voteOption": {
-            "choices": [
-              { "name": "unique", "value": "pollVoteType_unique" },
-              { "name": "multiple", "value": "pollVoteType_multiple" }
-            ],
-            "description": "Définit si les gens votent une ou plusieurs fois.",
-            "name": "vote-unique"
-          }          
+          }        
         },
         "description": "Cette commande permet de créer des sondages.",
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
@@ -458,7 +450,6 @@
           "update": {
             "choices": [
               { "label": "couleur", "value": "polls_selectMenu_update_color" }, 
-              { "label": "type de vote", "value": "polls_selectMenu_update_voteType" }, 
               { "label": "nombre de votes", "value": "polls_selectMenu_update_voteMax" } 
             ],
             "color": {
@@ -476,10 +467,6 @@
               "errorVoteUnique": "Vous ne pouvez pas changer le nombre de vote possible pour ce type. Veuillez passer à un vote multiple avant de changer le nombre de vote.",
               "placeholder": "Nouveau nombre de vote maximal.",
               "voteMaxChanged": "Le nombre de vote possible a bien été modifié."
-            },
-            "voteType": {
-              "errorShouldRAZBefore": "Veuillez remettre à 0 les votes avant de passer à un vote unique.",
-              "voteMaxChanged": "Le type de vote a bien été modifié."
             }
           }
         }
