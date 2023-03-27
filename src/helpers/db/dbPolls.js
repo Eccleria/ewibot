@@ -6,7 +6,6 @@ const addPoll = (
   authorId,
   votes,
   anonymous,
-  voteType,
   colorIdx,
   voteMax,
   title
@@ -18,7 +17,6 @@ const addPoll = (
     anonymous: anonymous,
     colorIdx: colorIdx,
     voteMax: voteMax,
-    voteType: voteType,
     votes: votes,
     title: title,
   };

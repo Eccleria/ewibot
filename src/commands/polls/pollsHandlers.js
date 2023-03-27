@@ -25,7 +25,7 @@ export const pollsButtonHandler = async (interaction) => {
 };
 
 export const voteButtonHandler = async (interaction) => {
-  // dipatch vote according to voteType
+  // dipatch vote according to voteMax
   const { message, client } = interaction;
 
   //get personality
@@ -36,15 +36,13 @@ export const voteButtonHandler = async (interaction) => {
   const db = client.db;
   const pollId = message.id;
   const dbPoll = getPoll(db, pollId); //get poll from db
-  const { voteType } = dbPoll;
+  const { voteMax } = dbPoll;
 
-  if (voteType === cPerso.voteOption.choices[1].value) {
-    //multiple
-    multipleVoteType(interaction, dbPoll, perso, cPerso);
-  } else if (voteType === cPerso.voteOption.choices[0].value) {
-    //unique
-    uniqueVoteType(interaction, dbPoll, perso, cPerso);
-  } else interactionReply(interaction, perso.errorUnknownChoice);
+  if (voteMax > 1)
+    multipleVoteType(interaction, dbPoll, perso, cPerso); //multiple
+  else if (voteMax === 1)
+    uniqueVoteType(interaction, dbPoll, perso, cPerso); //unique
+  else interactionReply(interaction, perso.errorUnknownChoice);
 };
 
 export const settingsButtonHandler = async (interaction) => {

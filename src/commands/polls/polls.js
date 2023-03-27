@@ -53,17 +53,6 @@ const command = new SlashCommandBuilder()
           .setRequired(false)
       )
       .addStringOption((option) =>
-        option //vote
-          .setName(PERSONALITY.getCommands().polls.create.voteOption.name)
-          .setDescription(
-            PERSONALITY.getCommands().polls.create.voteOption.description
-          )
-          .setRequired(false)
-          .addChoices(
-            ...PERSONALITY.getCommands().polls.create.voteOption.choices
-          )
-      )
-      .addStringOption((option) =>
         option //color
           .setName(PERSONALITY.getCommands().polls.create.colorOption.name)
           .setDescription(
@@ -137,16 +126,6 @@ const action = async (interaction) => {
     option = options.getNumber(perso.maxOption.name, false); //max
     const voteMax = option == null ? 1 : option;
 
-    option = options.getString(perso.voteOption.name, false); //voteType
-    let voteType
-    if (option == null) {
-      //not given by user, check voteMax for hint
-      const vTPerso = perso.voteOption.choices;
-      if (voteMax && voteMax > 1) voteType = vTPerso[1].value; //multiple
-      else voteType = vTPerso[0].value; //unique
-    } else voteType = option; //if given, get value
-       
-
     option = options.getString(perso.colorOption.name, false); //color
     const color =
       option == null ? perso.colorOption.colors.choices[4].value : option;
@@ -164,11 +143,11 @@ const action = async (interaction) => {
       .setTimestamp()
       .setColor(color);
 
-    //write footer according to voteType
+    //write footer according to voteMax
     const footerText =
-      voteType === perso.voteOption.choices[0].value
-        ? perso.footer[voteType] + perso.footer.options
-        : perso.footer[voteType] + ` (${voteMax})` + perso.footer.options;
+      voteMax === 1
+        ? perso.footer.unique + perso.footer.options
+        : perso.footer.multiple + ` (${voteMax})` + perso.footer.options;
     embed.setFooter({ text: footerText });
 
     // Optionnal parameters
@@ -242,7 +221,6 @@ const action = async (interaction) => {
         interaction.user.id,
         components.dbVotes,
         anonymous,
-        voteType,
         colorIdx,
         voteMax,
         title
