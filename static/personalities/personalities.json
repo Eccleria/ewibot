@@ -437,6 +437,10 @@
             "title": " - **Terminé**"
           },
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
+          "refresh" : {
+            "done": "L'actualisation du message est terminée",
+            "underRefresh": "Le sondage est en cours d'actualisation."
+          },
           "remove": {
             "customId": "polls_selectMenu_remove",
             "errorNotEnoughToRemove": "Il n'y a pas assez de choix pour en retirer.",

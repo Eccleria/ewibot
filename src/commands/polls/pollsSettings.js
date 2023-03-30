@@ -2,7 +2,7 @@ import { MessageActionRow, MessageSelectMenu } from "discord.js";
 import { fetchPollMessage, interactionEditReply, refreshPollFields } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
-import { getPoll, resetPollVoters } from "../../helpers/index.js";
+import { getPoll, removePoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
@@ -180,16 +180,18 @@ export const updatePollButtonAction = async (interaction) => {
 };
 
 export const refreshPollButtonAction = async (interaction) => {
+  const perso = PERSONALITY.getCommands().polls; //personality
+  const sPerso = perso.settings;
   await interaction.update({
-    content: "En cours",
+    content: sPerso.refresh.underRefresh,
     ephemeral: true,
     components: [],
   });
 
-  const perso = PERSONALITY.getCommands().polls;
   const pollMessage = await fetchPollMessage(interaction);
   const embed = pollMessage.embeds[0];
-  const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  const db = interaction.client.db;
+  const dbPoll = getPoll(db, pollMessage.id);
 
   //disable actions during refresh
   const disabledComponents = pollMessage.components.reduce((acc, cur) => {
@@ -209,17 +211,18 @@ export const refreshPollButtonAction = async (interaction) => {
   await pollMessage.edit({ embeds: [embed] });
 
   //reply and enable votes
-  interactionEditReply(interaction, { ephemeral: true, content: "Effectué" });
+  interactionEditReply(interaction, { ephemeral: true, content: sPerso.refresh.done });
   
   //enable actions during refresh
-  if (!embed.title.includes(perso.settings.disable.title)) {
+  if (!embed.title.includes(sPerso.disable.title)) {
     //if not disabled, add again all buttons as enabled
     const enabledComponents = pollMessage.components.reduce((acc, cur) => {
       cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
       return [...acc, cur];
     }, []);
     pollMessage.edit({ components: enabledComponents });
-  } else pollMessage.edit({ components: [] }); //else remove every button
-
-
+  } else {
+    pollMessage.edit({ components: [] }); //else remove every button
+    removePoll(db, pollMessage.id); //remove data from db
+  }
 };
