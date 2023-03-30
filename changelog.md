@@ -1,4 +1,7 @@
-﻿## 4.9.1
+﻿## 4.9.2
+- Upgrade: discord.js to 13.14, fixing ([#173](https://github.com/Eccleria/ewibot/issues/173))
+
+## 4.9.1
 - Update: `checkProdTestMode` now `isTestServer` for clarity
 - Feat: new emote reaction on `reactionHandler`
 - Fix: rare case when `AuditLog.executor` is not retrieved
