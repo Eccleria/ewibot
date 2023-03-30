@@ -18,6 +18,9 @@
 
 ## 4.9.1
 - Feat: new emote reaction on `reactionHandler`
+- Fix: rare case when `AuditLog.executor` is not retrieved
+- Fix: pronouns rare case with missing json. Add log for monitoring.
+- Update: `checkProdTestMode` now `isTestServer` for clarity
 
 ## 4.9.0
 - Update: pronouns buttons with `pronouns_` prefix
