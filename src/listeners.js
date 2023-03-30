@@ -168,9 +168,12 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-
-  if (messageReaction.message.channel.id === currentServer.presentationChannelId && currentServer.presentationReactId === messageReaction.emoji.name) {
-    console.log("detected")
+  if (
+    messageReaction.message.channel.id ===
+      currentServer.presentationChannelId &&
+    currentServer.presentationReactId === messageReaction.emoji.name
+  ) {
+    console.log("detected");
     presentationHandler(currentServer, messageReaction, user);
     return; //no command in presentation channel
   }
