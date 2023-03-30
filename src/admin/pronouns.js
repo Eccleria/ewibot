@@ -1,4 +1,5 @@
 import { COMMONS } from "../commons.js";
+import { interactionReply } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 
 export const pronounsButtonHandler = async (interaction) => {
@@ -19,6 +20,13 @@ export const pronounsButtonHandler = async (interaction) => {
   //get personality
   const personality = PERSONALITY.getCommands();
   const pronounsP = personality.pronouns;
+
+  //mitigate rare error
+  if (!json) {
+    interactionReply(interaction, pronounsP.errorNoJson);
+    console.log("errorNoJson", interaction.customId, rolesJson);
+    return;
+  }
 
   //handle roles
   if (json[1] !== "Annuler") {
