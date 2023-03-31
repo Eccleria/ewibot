@@ -8,8 +8,7 @@ import {
   refreshPollButtonAction,
 } from "./pollsSettings.js";
 import { fetchPollMessage, interactionEditReply, refreshPollFields } from "./pollsUtils.js";
-import { multipleVoteType } from "./pollsTypeMultiple.js";
-import { uniqueVoteType } from "./pollsTypeUnique.js";
+import { pollVoteHandler } from "./pollsVote.js";
 import { interactionReply } from "../utils.js";
 import { getPoll, updatePollParam, updatePollButtonId } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
@@ -38,10 +37,8 @@ export const voteButtonHandler = async (interaction) => {
   const dbPoll = getPoll(db, pollId); //get poll from db
   const { voteMax } = dbPoll;
 
-  if (voteMax > 1)
-    multipleVoteType(interaction, dbPoll, perso, cPerso); //multiple
-  else if (voteMax === 1)
-    uniqueVoteType(interaction, dbPoll, perso, cPerso); //unique
+  if (voteMax > 1 || voteMax === 1)
+    pollVoteHandler(interaction, dbPoll, perso, cPerso);
   else interactionReply(interaction, perso.errorUnknownChoice);
 };
 
