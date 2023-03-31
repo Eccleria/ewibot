@@ -97,7 +97,7 @@ export const parsePollFields = (content, totalSize = 0) => {
 };
 
 /**
- * 
+ *
  * @param {*} dbPoll poll message data from db
  * @param {*} newFieldsInit init value for new fields
  * @param {*} perso Color personality
@@ -107,12 +107,13 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
   const totalValues = values.reduce((acc, cur) => acc + cur, 0);
-  const ratios = totalValues === 0 
-  ? dbPoll.votes.map(() => 0) 
-  : values.reduce(
-      (acc, cur) => [...acc, Math.round((cur / totalValues) * 100)],
-      []
-    );
+  const ratios =
+    totalValues === 0
+      ? dbPoll.votes.map(() => 0)
+      : values.reduce(
+          (acc, cur) => [...acc, Math.round((cur / totalValues) * 100)],
+          []
+        );
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data

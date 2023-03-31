@@ -6,11 +6,16 @@ import {
   getThisChoicePollIndex,
 } from "../../helpers/index.js";
 
-
-const pollVoteMultiple = (interaction, hasVotedIndexes, dbPoll, currentVoteIdx, perso) => {
+const pollVoteMultiple = (
+  interaction,
+  hasVotedIndexes,
+  dbPoll,
+  currentVoteIdx,
+  perso
+) => {
   const db = interaction.client.db;
   const userId = interaction.user.id;
-  
+
   const voteCount = hasVotedIndexes.reduce((acc, cur) => {
     console.log("cur", cur);
     if (cur) return acc + 1;
@@ -26,7 +31,12 @@ const pollVoteMultiple = (interaction, hasVotedIndexes, dbPoll, currentVoteIdx, 
   }
 };
 
-const pollVoteUnique = (interaction, hasVotedIndexes, pollId, currentVoteIdx) => {
+const pollVoteUnique = (
+  interaction,
+  hasVotedIndexes,
+  pollId,
+  currentVoteIdx
+) => {
   const db = interaction.client.db;
   const userId = interaction.user.id;
   const toRemoveVoteIdx = hasVotedIndexes.findIndex((vote) => vote);
@@ -65,13 +75,32 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
   } else {
     //modify vote
     console.log("modify vote");
-    if (dbPoll.voteMax > 1) pollVoteMultiple(interaction, hasVotedIndexes, dbPoll, pollId, currentVoteIdx, perso)
-    else if (dbPoll.voteMax === 1) toRemoveVoteIdx = pollVoteUnique(interaction, hasVotedIndexes, pollId, currentVoteIdx);
+    if (dbPoll.voteMax > 1)
+      pollVoteMultiple(
+        interaction,
+        hasVotedIndexes,
+        dbPoll,
+        pollId,
+        currentVoteIdx,
+        perso
+      );
+    else if (dbPoll.voteMax === 1)
+      toRemoveVoteIdx = pollVoteUnique(
+        interaction,
+        hasVotedIndexes,
+        pollId,
+        currentVoteIdx
+      );
   }
 
-  console.log("hasVotedIndexes", hasVotedIndexes, "oldVoteStatus", oldVoteStatus);
+  console.log(
+    "hasVotedIndexes",
+    hasVotedIndexes,
+    "oldVoteStatus",
+    oldVoteStatus
+  );
   console.log("toAddVoteIdx", toAddVoteIdx, "toRemoveVoteIdx", toRemoveVoteIdx);
-  
+
   const oldVoteRemoveIdx =
     !isAnonymous && toRemoveVoteIdx !== -1
       ? getThisChoicePollIndex(db, pollId, userId, toRemoveVoteIdx)

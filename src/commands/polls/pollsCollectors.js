@@ -11,7 +11,7 @@ export const initPollsCollector = (client) => {
     const message = await channel.messages.fetch(poll.pollId);
 
     pollButtonCollector(message);
-  })
+  });
 };
 
 const pollBufferLoop = async (client, pollMessageId) => {

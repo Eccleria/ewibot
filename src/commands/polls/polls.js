@@ -209,7 +209,7 @@ const action = async (interaction) => {
       });
       pollButtonCollector(pollMsg); //start listening to interactions
       interactionReply(interaction, perso.sent);
-  
+
       //save poll
       const colorIdx = perso.colorOption.colors.choices.findIndex(
         (obj) => obj.value === color
@@ -226,7 +226,7 @@ const action = async (interaction) => {
         title
       ); //add to db
     } catch (e) {
-      console.log("/polls create error\n", e)
+      console.log("/polls create error\n", e);
     }
   } else if (subcommand === personality.addChoice.name) {
     //addChoice poll subcommand

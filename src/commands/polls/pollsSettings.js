@@ -1,5 +1,9 @@
 import { MessageActionRow, MessageSelectMenu } from "discord.js";
-import { fetchPollMessage, interactionEditReply, refreshPollFields } from "./pollsUtils.js";
+import {
+  fetchPollMessage,
+  interactionEditReply,
+  refreshPollFields,
+} from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll, removePoll, resetPollVoters } from "../../helpers/index.js";
@@ -36,12 +40,7 @@ export const sendSettingsButtons = async (interaction) => {
   const resetButton = createButton(...bPerso.reset, "DANGER"); // reset poll votes
   const stopButton = createButton(...bPerso.stop, "DANGER"); //stop poll
 
-  const firstButton = [
-    updateButton,
-    removeButton,
-    resetButton,
-    stopButton,
-  ];
+  const firstButton = [updateButton, removeButton, resetButton, stopButton];
 
   //If stoped poll, disable most buttons
   if (pollEmbed.title.includes(perso.disable.title))
@@ -100,7 +99,10 @@ export const removePollButtonAction = async (interaction) => {
   const maxToRemove = dbPoll.votes.length - 2;
 
   if (maxToRemove < 1)
-    return interactionEditReply(interaction, {content: perso.errorNotEnoughToRemove, components: []});
+    return interactionEditReply(interaction, {
+      content: perso.errorNotEnoughToRemove,
+      components: [],
+    });
 
   //create selectMenu
   const menu = new MessageSelectMenu()
@@ -211,8 +213,11 @@ export const refreshPollButtonAction = async (interaction) => {
   await pollMessage.edit({ embeds: [embed] });
 
   //reply and enable votes
-  interactionEditReply(interaction, { ephemeral: true, content: sPerso.refresh.done });
-  
+  interactionEditReply(interaction, {
+    ephemeral: true,
+    content: sPerso.refresh.done,
+  });
+
   //enable actions during refresh
   if (!embed.title.includes(sPerso.disable.title)) {
     //if not disabled, add again all buttons as enabled
