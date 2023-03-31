@@ -47,7 +47,7 @@ export const uniqueVoteType = async (interaction, dbPoll, perso, cPerso) => {
     oldVoteStatus
   );
   console.log("toAddVoteIdx", toAddVoteIdx, "toRemoveVoteIdx", toRemoveVoteIdx);
-
+  
   const oldVoteRemoveIdx =
     !isAnonymous && toRemoveVoteIdx !== -1
       ? getThisChoicePollIndex(db, pollId, userId, toRemoveVoteIdx)

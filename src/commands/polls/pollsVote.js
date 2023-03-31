@@ -6,7 +6,35 @@ import {
   getThisChoicePollIndex,
 } from "../../helpers/index.js";
 
-export const multipleVoteType = async (interaction, dbPoll, perso, cPerso) => {
+
+const pollVoteMultiple = (interaction, hasVotedIndexes, dbPoll, currentVoteIdx, perso) => {
+  const db = interaction.client.db;
+  const userId = interaction.user.id;
+  
+  const voteCount = hasVotedIndexes.reduce((acc, cur) => {
+    console.log("cur", cur);
+    if (cur) return acc + 1;
+    else return acc;
+  });
+  console.log("voteCount", voteCount);
+
+  if (voteCount < dbPoll.voteMax)
+    addPollVoter(db, dbPoll.pollId, userId, currentVoteIdx);
+  else {
+    interactionEditReply(interaction, perso.errorMaxVote);
+    return;
+  }
+};
+
+const pollVoteUnique = (interaction, hasVotedIndexes, pollId, currentVoteIdx) => {
+  const db = interaction.client.db;
+  const userId = interaction.user.id;
+  const toRemoveVoteIdx = hasVotedIndexes.findIndex((vote) => vote);
+  addPollVoter(db, pollId, userId, currentVoteIdx);
+  return toRemoveVoteIdx;
+};
+
+export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
   // voteType multiple : count vote, update db + embed
   const { customId, message, user, client } = interaction;
 
@@ -37,26 +65,11 @@ export const multipleVoteType = async (interaction, dbPoll, perso, cPerso) => {
   } else {
     //modify vote
     console.log("modify vote");
-    const voteCount = hasVotedIndexes.reduce((acc, cur) => {
-      console.log("cur", cur);
-      if (cur) return acc + 1;
-      else return acc;
-    });
-    console.log("voteCount", voteCount);
-
-    if (voteCount < dbPoll.voteMax)
-      addPollVoter(db, pollId, userId, currentVoteIdx);
-    else {
-      interactionEditReply(interaction, perso.errorMaxVote);
-      return;
-    }
+    if (dbPoll.voteMax > 1) pollVoteMultiple(interaction, hasVotedIndexes, dbPoll, pollId, currentVoteIdx, perso)
+    else if (dbPoll.voteMax === 1) toRemoveVoteIdx = pollVoteUnique(interaction, hasVotedIndexes, pollId, currentVoteIdx);
   }
-  console.log(
-    "hasVotedIndexes",
-    hasVotedIndexes,
-    "oldVoteStatus",
-    oldVoteStatus
-  );
+
+  console.log("hasVotedIndexes", hasVotedIndexes, "oldVoteStatus", oldVoteStatus);
   console.log("toAddVoteIdx", toAddVoteIdx, "toRemoveVoteIdx", toRemoveVoteIdx);
   
   const oldVoteRemoveIdx =
