@@ -1,4 +1,7 @@
-﻿## 4.9.2
+﻿## 4.9.3
+- Fix: missing frequency check for reducing April Fools react occurence
+
+## 4.9.2
 - Upgrade: discord.js to 13.14, fixing ([#173](https://github.com/Eccleria/ewibot/issues/173))
 
 ## 4.9.1
