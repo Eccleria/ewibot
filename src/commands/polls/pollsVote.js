@@ -23,6 +23,7 @@ const pollVoteMultiple = (
   });
   console.log("voteCount", voteCount);
 
+  console.log(dbPoll.pollId, userId, currentVoteIdx)
   if (voteCount < dbPoll.voteMax)
     addPollVoter(db, dbPoll.pollId, userId, currentVoteIdx);
   else {
