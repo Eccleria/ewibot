@@ -13,9 +13,36 @@
 	- explode dbHelper.js into files
 	- regroup new files in new db folder
 	- every dbHelper function have `db` as first arg
+- Update AdminLogs:
+	- messageUpdate now with un/pinned author and message channel
+
+## 4.9.3
+- Fix: missing frequency check for reducing April Fools react occurence
+
+## 4.9.2
+- Upgrade: discord.js to 13.14, fixing ([#173](https://github.com/Eccleria/ewibot/issues/173))
+
+## 4.9.1
+- Feat: new emote reaction on `reactionHandler`
+- Fix: rare case when `AuditLog.executor` is not retrieved
+- Fix: pronouns rare case with missing json. Add log for monitoring.
+- Update: `checkProdTestMode` now `isTestServer` for clarity
+
+## 4.9.0
+- Update: pronouns buttons with `pronouns_` prefix
+- Feat: `/event-roles create` subcommand for event role creation
+- Feat: `/event-roles send` subcommand for event roles attribution
+- Fix: `$pronouns` with missing `currentServer` arg
+
+## 4.8.3
+- Feat: guildMemberAdd now filter debug mode & test/prod
+- Update: channel permission overwrite logs now adapt text to added/removed permissions 
 
 ## 4.8.2
+- Disable: Twitter API no longer free, disabling Twitter link
 - Fix: alavirien checking wrong sentinelle member + not fetching old presentations
+- Fix: dbHelper `removeAlavirien` wrong param order in `checkDb`
+- Fix: handle empty twitter fetched data when is only retweets
 
 ## 4.8.1
 - Fix: activities updated with setInterval, wrongly used as setTimeout

@@ -141,7 +141,7 @@ export const finishEmbed = async (
 /**
  * Differentiate finishEmbed cases.
  * @param {object} obj Object related to listened event.
- * @param {GuildAuditLogsEntry} log Audit log.
+ * @param {?object} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
  * @param {(MessageEmbed|MessageEmbed[])} embed Embed, or array of embeds with log at index 0.
@@ -238,7 +238,7 @@ export const generalEmbed = async (
   const aLog = personality.auditLog;
 
   const channel = await getLogChannel(obj); //get logChannel
-  if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(channel)) return; //if in prod && modif in test server
 
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
@@ -689,7 +689,12 @@ export const octagonalLog = async (object, user) => {
   finishEmbed(octaPerso, null, embed, logChannel);
 };
 
-export const checkProdTestMode = (logChannel) => {
+/**
+ * Check if is currently in test server
+ * @param {Object} logChannel LogChannel retrieved from currentServer
+ * @returns True if is test server
+ */
+export const isTestServer = (logChannel) => {
   const server = COMMONS.getTest();
   const channels = [server.logChannelId, server.logThreadId];
 

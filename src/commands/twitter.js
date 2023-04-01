@@ -2,8 +2,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { tweetCompare } from "../admin/twitter.js";
 import { removeMissingTweets } from "../helpers/index.js";
+import { interactionReply } from "./utils.js";
 import { PERSONALITY } from "../personality.js";
-
 import { COMMONS } from "../commons.js";
 
 const personality = PERSONALITY.getCommands(); //get const name & description for commands init
@@ -45,6 +45,10 @@ const action = async (interaction) => {
   const client = interaction.client; //get client data
   const personality = PERSONALITY.getCommands().twitter; //get personality
 
+  if (process.env.USE_TWITTER === "no") {
+    interactionReply(interaction, personality.errorNoTwitter);
+    return;
+  }
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
 

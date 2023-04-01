@@ -4,7 +4,7 @@ import {
   addMissingTweets,
   removeMissingTweets,
 } from "../helpers/index.js";
-
+import { interactionReply } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
@@ -51,24 +51,36 @@ export const tweetCompare = async (client, interaction) => {
   for (const [username, userId] of users) {
     const dbData = getTwitterUser(client.db, userId); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
-    const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
-    const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
+    const tweetIds = fetchedTweets.data.data
+      ? fetchedTweets.data.data.map((obj) => obj.id)
+      : null; //tweet ids
+    const idx = tweetIds
+      ? tweetIds.findIndex((id) => id === dbData.lastTweetId)
+      : -2; //find tweet
 
-    if (idx > 0) {
+    console.log("user", username, userId);
+    console.log("fetchedTweets.data.data", fetchedTweets.data.data);
+    console.log("tweetIds", tweetIds);
+    console.log("idx", idx);
+
+    if (idx > 0 || idx === -1) {
       //some tweets are missing => get links + update db;
-      const tweetsToSend = tweetIds.slice(0, idx);
+      const tweetsToSend = idx === -1 ? tweetIds : tweetIds.slice(0, idx);
       const newTLinks = tweetsToSend.reduceRight((acc, tweetId) => {
         const tLink = tweetLink(username, tweetId); //get tweet link
         return [...acc, tLink]; //return link for future process
       }, []);
-      tLinks = newTLinks; //regroup links
+      console.log("tweetsToSend", tweetsToSend);
+      console.log("newTLinks", newTLinks);
+      tLinks = [...tLinks, ...newTLinks]; //regroup links
 
       //update db
       updateLastTweetId(db, userId, tweetIds[0]); //update last tweet id
       addMissingTweets(db, newTLinks); //tweets links
     }
     //if idx === 0 => db up to date
-    //if idx === -1 => too many tweets or issue
+    //if idx === -1 => too many retweets or issue
+    //if idx === -2 => empty data from Twitter => only retweets
   }
 
   //send tweets
@@ -78,7 +90,7 @@ export const tweetCompare = async (client, interaction) => {
     if (interaction) {
       //if is command
       const content = tLinks.join("\n");
-      interaction.reply({ content: content }); //, ephemeral: true });
+      interactionReply(interaction, content);
     } else {
       const channelId = currentServer.twitter.prodChannelId;
       const channel = await client.channels.fetch(channelId);
