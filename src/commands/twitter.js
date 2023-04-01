@@ -44,7 +44,7 @@ const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
 const action = async (interaction) => {
   const client = interaction.client; //get client data
   const personality = PERSONALITY.getCommands().twitter; //get personality
-  
+
   if (process.env.USE_TWITTER === "no") {
     interactionReply(interaction, personality.errorNoTwitter);
     return;
