@@ -22,8 +22,6 @@ const pollVoteMultiple = (
     else return acc;
   });
   console.log("voteCount", voteCount);
-
-  console.log(dbPoll.pollId, userId, currentVoteIdx)
   if (voteCount < dbPoll.voteMax)
     addPollVoter(db, dbPoll.pollId, userId, currentVoteIdx);
   else {
@@ -81,7 +79,6 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
         interaction,
         hasVotedIndexes,
         dbPoll,
-        pollId,
         currentVoteIdx,
         perso
       );
