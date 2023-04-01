@@ -1,6 +1,6 @@
 # Slash commands
 
-> For `polls`, please see (Polls Documentation)[./polls.md].
+> For `polls`, please see [Polls Documentation](./polls.md).
 
 ```javascript
 const command = new SlashCommandBuilder()
