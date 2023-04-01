@@ -105,7 +105,7 @@ The first filter is to verify that there are not too many choices to vote to.
     }
 ```
 
-Then, we create the `embed` object that will be used for the poll. Ther are some optionnal stuff here,
+Then, we create the `embed` object that will be used for the poll. There are some optionnal stuff here,
 such as the `footer` which depends of vote type (unique or multiple), and if there is any description.
 
 ```js
@@ -124,7 +124,52 @@ such as the `footer` which depends of vote type (unique or multiple), and if the
 
     // Optionnal parameters
     if (description) embed.setDescription(description);
+```
 
+Next phase is to write each choice in the `embed`. For this, it needs to parse user input into `embed.fields`.
+The `results` object regroup `fields` names and `emotes`, if provided by the user.
+
+```js
+    //parse choices text
+    const results = parsePollFields(splited);
+
+    //write choices in embed
+    const black = personality.black;
+    results.fields.forEach((field) => {
+      embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
+    });
+```
+
+After the `embed`, it's `button` creation. It loops over `emotes`, creating buttons attributes according to
+buttons `index` and `ActionRow` restrictions. 
+
+```js
+//create vote buttons
+    const components = results.emotes.reduce(
+      (acc, cur, idx) => {
+        const buttonId = "polls_" + idx.toString();
+        const button = createButton(buttonId, null, "SECONDARY", cur);
+        const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
+
+        if (idx === 0 || acc.size === 5) {
+          const newRow = new MessageActionRow().addComponents(button);
+          return {
+            actionRows: [...acc.actionRows, newRow],
+            size: 1,
+            dbVotes: [...acc.dbVotes, newDbVotesValue],
+          };
+        } else {
+          const lastAR = acc.actionRows[acc.actionRows.length - 1];
+          lastAR.addComponents(button);
+          return {
+            actionRows: acc.actionRows,
+            size: acc.size + 1,
+            dbVotes: [...acc.dbVotes, newDbVotesValue],
+          };
+        }
+      },
+      { actionRows: [], size: 0, dbVotes: [] }
+    );
 ```
 
 ### New choices
