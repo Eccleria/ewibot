@@ -176,6 +176,57 @@ buttons `index` and `ActionRow` restrictions. At the same time, it create the ob
     );
 ```
 
+After votes button, we add the `settings button` according to last AR status. If full, it creates a new
+AR, else it add the settings button to the last AR.
+
+```js
+    //add setting button
+    const settingId = "polls_" + "settings";
+    const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
+    if (components.size === 5) {
+      //if actionRow is full, create one more
+      const newRow = new MessageActionRow().addComponents(settingButton);
+      components.actionRows.push(newRow);
+    } else
+      components.actionRows[components.actionRows.length - 1].addComponents(
+        settingButton
+      );
+```
+
+Everything is created, so now it's time to send and save the content created. The poll is sent, the data
+is saved in db. Plus, a `MessageComponentCollector` is created, to listen to any button interaction on the
+poll message. It can be votes or setting buttons.
+
+```js
+    //send poll
+    try {
+      const pollMsg = await interaction.channel.send({
+        embeds: [embed],
+        components: components.actionRows,
+      });
+      pollButtonCollector(pollMsg); //start listening to interactions
+      interactionReply(interaction, perso.sent);
+
+      //save poll
+      const colorIdx = perso.colorOption.colors.choices.findIndex(
+        (obj) => obj.value === color
+      ); //find color index from personality
+      addPoll(
+        interaction.client.db,
+        pollMsg.id,
+        pollMsg.channelId,
+        interaction.user.id,
+        components.dbVotes,
+        anonymous,
+        colorIdx,
+        voteMax,
+        title
+      ); //add to db
+    } catch (e) {
+      console.log("/polls create error\n", e);
+    }
+```
+
 ### New choices
 
 ## Buttons
