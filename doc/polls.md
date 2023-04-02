@@ -141,17 +141,20 @@ The `results` object regroup `fields` names and `emotes`, if provided by the use
 ```
 
 After the `embed`, it's `button` creation. It loops over `emotes`, creating buttons attributes according to
-buttons `index` and `ActionRow` restrictions. 
+buttons `index` and `ActionRow` restrictions. At the same time, it create the objects that will be stored in the `db`.
 
 ```js
 //create vote buttons
     const components = results.emotes.reduce(
       (acc, cur, idx) => {
+        //create button
         const buttonId = "polls_" + idx.toString();
         const button = createButton(buttonId, null, "SECONDARY", cur);
         const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
+        //handle actionRow maxe size of 5 components.
         if (idx === 0 || acc.size === 5) {
+          //if first button or last AR is full
           const newRow = new MessageActionRow().addComponents(button);
           return {
             actionRows: [...acc.actionRows, newRow],
@@ -159,6 +162,7 @@ buttons `index` and `ActionRow` restrictions.
             dbVotes: [...acc.dbVotes, newDbVotesValue],
           };
         } else {
+          //add button to last AR
           const lastAR = acc.actionRows[acc.actionRows.length - 1];
           lastAR.addComponents(button);
           return {

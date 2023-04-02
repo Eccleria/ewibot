@@ -165,11 +165,14 @@ const action = async (interaction) => {
     //create vote buttons
     const components = results.emotes.reduce(
       (acc, cur, idx) => {
+        //create button
         const buttonId = "polls_" + idx.toString();
         const button = createButton(buttonId, null, "SECONDARY", cur);
         const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
+        //handle actionRow maxe size of 5 components.
         if (idx === 0 || acc.size === 5) {
+          //if first button or last AR is full
           const newRow = new MessageActionRow().addComponents(button);
           return {
             actionRows: [...acc.actionRows, newRow],
@@ -177,6 +180,7 @@ const action = async (interaction) => {
             dbVotes: [...acc.dbVotes, newDbVotesValue],
           };
         } else {
+          //add button to last AR
           const lastAR = acc.actionRows[acc.actionRows.length - 1];
           lastAR.addComponents(button);
           return {
