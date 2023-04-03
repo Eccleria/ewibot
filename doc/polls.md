@@ -2,7 +2,11 @@
 
 - [Commands](#commands)
   - [Create](#create)
+    - [Parameters](#parameters)
+    - [Code explanation](#code-explanation)
   - [New choices](#create)
+    - [Parameters](#parameters-1)
+    - [Code explanation](#code-explanation-1)
 - [Buttons](#buttons)
 
 Polls are a `5.0.0` feature, allowing Alavirien.nes to create interactive messages from which everyone 
@@ -20,7 +24,7 @@ const command = new SlashCommandBuilder()
   .setDescription(PERSONALITY.getCommands().polls.description)
 ```
 
-For both commands, the action functions it filters triggering people to Alavirien.nes only.
+For both commands, the action functions filters triggering people to Alavirien.nes only.
 
 ```js
 const action = async (interaction) => {
@@ -41,15 +45,22 @@ const action = async (interaction) => {
 
 The major command is the `/polls create` one. It allows to create a new poll and customise it. 
 
-Commands parameters:
+#### Parameters
+
 - Mandatory:
-  - _title_ Title of the poll.
-  - _choices_ Choices of the poll.
+  - _title_ Title of the poll. Minimum 1 character, maximum 225.
+  - _choices_ Choices of the poll. You **must** follow the notation. 
+    - Two choices are separated by a **semi-colon `;`**. 
+    - If you want to specify an emote for a choice, you must separate the emote from the choice text using a **comma `,`**. 
+    - The last choice **does not** require a *semi-colon*.  
+    Eg: `🥖, bread; 🧈, butter`
 - Optional:
-  - _color_ Color of the mebed and the colorbar.
+  - _color_ Color of the embed and the colorbar. You can choose using the choices list, and filter selection by starting typing the color you want. Default: blue.
   - _description_ Description of the poll, to add details or context.
-  - _anonymous_ If you want ot display or not each voter choice.s.
-  - _max votes_ Max number of votes.
+  - _anonymous_ If you want ot display or not each voter choice.s. Default: **not** displayed.
+  - _max votes_ Max number of votes. Cannot be more than the number of choices. Default: 1.
+
+#### Code explanation
 
 The following is the definition of the title argument of `/poll create` command.
 ```js
@@ -228,6 +239,10 @@ poll message. It can be votes or setting buttons.
 ```
 
 ### New choices
+
+#### Parameters
+
+#### Code explanation
 
 ## Buttons
 
