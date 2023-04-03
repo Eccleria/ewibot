@@ -62,7 +62,7 @@ export const tweetCompare = async (client, interaction) => {
     console.log("fetchedTweets.data.data", fetchedTweets.data.data);
     console.log("tweetIds", tweetIds);
     console.log("idx", idx);
-  
+
     if (idx > 0 || idx === -1) {
       //some tweets are missing => get links + update db;
       const tweetsToSend = idx === -1 ? tweetIds : tweetIds.slice(0, idx);

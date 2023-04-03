@@ -106,7 +106,7 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   //April
   const today = new Date();
-  if (today.getMonth() === 3 && today.getDate() === 1) {
+  if (today.getMonth() === 3 && today.getDate() === 1 && frequency) {
     message.react("🐟");
   }
 
