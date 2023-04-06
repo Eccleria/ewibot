@@ -352,13 +352,17 @@ const polls = {
   action,
   autocomplete,
   command,
-  help: (interaction) => {
+  help: (interaction, userOption) => {
     const personality = PERSONALITY.getCommands().polls;
-    interactionReply(interaction, personality.help);
+    const helpToUse = userOption.includes(" ")
+      ? personality[userOption.split(" ")[1]]
+      : personality;
+    interactionReply(interaction, helpToUse.help);
   },
   admin: true,
   releaseDate: null,
   sentinelle: true,
+  subcommands: ["polls", "polls create", "polls addChoice"],
 };
 
 export default polls;
