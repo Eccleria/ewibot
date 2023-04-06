@@ -1,4 +1,4 @@
-import { PERSONALITY } from "../../personality";
+import { PERSONALITY } from "../../personality.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
