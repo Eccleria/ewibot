@@ -5,6 +5,7 @@ import {
   removePollIndex,
   getThisChoicePollIndex,
 } from "../../helpers/index.js";
+import { PERSONALITY } from "../../personality.js";
 
 const pollVoteMultiple = (
   interaction,
@@ -128,7 +129,7 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
-  const emoteColor = cPerso.colorOption.colors.progressBar[colorIdx]; //emoteId from personality
+  const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
   const black = cPerso.colorOption.black; //empty bar color
 
   //write new fields

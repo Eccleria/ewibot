@@ -1,3 +1,5 @@
+import { PERSONALITY } from "../../personality";
+
 /**
  * Extract votes values and ratios from poll embed fields
  * @param {list} fields Poll embed fields
@@ -117,7 +119,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
-  const emoteColor = perso.colorOption.colors.progressBar[colorIdx]; //emoteId from personality
+  const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
   const black = perso.colorOption.black; //empty bar color
 
   //return new fields

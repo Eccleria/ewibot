@@ -59,9 +59,7 @@ const command = new SlashCommandBuilder()
             PERSONALITY.getCommands().polls.create.colorOption.description
           )
           .setRequired(false)
-          .addChoices(
-            ...PERSONALITY.getCommands().polls.create.colorOption.colors.choices
-          )
+          .addChoices(...PERSONALITY.getColors().choices)
       )
       .addNumberOption((option) =>
         option //maxVoteNumber
@@ -113,6 +111,7 @@ const action = async (interaction) => {
   if (subcommand === personality.create.name) {
     //create poll subcommand
     const perso = personality.create;
+    const pColors = PERSONALITY.getColors();
 
     //get options
     const title = options.getString(perso.titleOption.name);
@@ -128,7 +127,7 @@ const action = async (interaction) => {
 
     option = options.getString(perso.colorOption.name, false); //color
     const color =
-      option == null ? perso.colorOption.colors.choices[4].value : option;
+      option == null ? pColors.choices[4].value : option;
 
     //check if not too many choices
     const splited = choices.split(";");
@@ -215,7 +214,7 @@ const action = async (interaction) => {
       interactionReply(interaction, perso.sent);
 
       //save poll
-      const colorIdx = perso.colorOption.colors.choices.findIndex(
+      const colorIdx = pColors.choices.findIndex(
         (obj) => obj.value === color
       ); //find color index from personality
       addPoll(

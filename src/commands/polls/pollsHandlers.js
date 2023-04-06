@@ -181,7 +181,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   if (toChange.includes("color")) {
     const perso = personality.settings.update.color;
-    const persoColors = personality.create.colorOption.colors;
+    const persoColors = PERSONALITY.getColors();
 
     if (toChange === "color") {
       // create selectMenu to chose wich poll param to change
