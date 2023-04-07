@@ -11,7 +11,7 @@ import { COMMONS } from "../../commons.js";
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
   .setDescription(PERSONALITY.getCommands().polls.description)
-  //.setDefaultMemberPermissions(0x0000010000000000)
+  .setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) =>
     command //create
       .setName(PERSONALITY.getCommands().polls.create.name)
