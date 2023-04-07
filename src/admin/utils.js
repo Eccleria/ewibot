@@ -454,7 +454,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   //client == {roles: [data], timeout: timeout}
   //data == {id, name, oldPos, newPos}
   const { roles } = client.roleUpdate;
-  
+
   //change embed
   embed.setTitle(roleUp.titleRoles); //change title
   embed.setFields(embed.fields.slice(1)); //remove author field
@@ -464,18 +464,25 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   const newSortedOrder = roles.sort((a, b) => b.newPos - a.newPos).slice();
 
   //filter duplicate ids (same old/new position)
-  const filtered = oldSortedOrder.reduce((acc, cur, idx) => {
-    const newCur = newSortedOrder[idx];
-    //console.log("newCur", newCur.id, "cur.id", cur.id)
-    if (cur.id === newCur.id) return acc;
-    else return {oldOrder: [...acc.oldOrder, cur], newOrder: [...acc.newOrder, newCur]};
-  }, {oldOrder: [], newOrder: []});
+  const filtered = oldSortedOrder.reduce(
+    (acc, cur, idx) => {
+      const newCur = newSortedOrder[idx];
+      //console.log("newCur", newCur.id, "cur.id", cur.id)
+      if (cur.id === newCur.id) return acc;
+      else
+        return {
+          oldOrder: [...acc.oldOrder, cur],
+          newOrder: [...acc.newOrder, newCur],
+        };
+    },
+    { oldOrder: [], newOrder: [] }
+  );
   if (filtered.oldOrder.length === 0) {
     //if empty, no changes => return
     finishEmbed(roleUp, logPerso.noLog, embed, logChannel, roleUp.noModifs); //send embed
     return;
   }
-  
+
   const { oldOrder, newOrder } = filtered;
 
   const space = 15;
