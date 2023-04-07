@@ -1,4 +1,7 @@
-﻿## 4.9.3
+﻿## 4.9.4
+- Fix: RoleLog filter roles with no position change.
+
+## 4.9.3
 - Fix: missing frequency check for reducing April Fools react occurence
 
 ## 4.9.2
