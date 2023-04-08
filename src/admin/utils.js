@@ -397,7 +397,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
   //write text for embed
   const oLen = oldOrder.length;
   //console.log("oldOrder", oldOrder)
-  const oText = oldOrder.reduce((acc, cur, idx) => {
+  const oldText = oldOrder.reduce((acc, cur, idx) => {
     //cur = [x*{name, id, parent, old, new}]
     //write text for futur concatenation
     const len = cur.length;
@@ -414,7 +414,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     return [...acc, ...text];
   }, []);
 
-  const nText = newOrder.reduce((acc, cur, idx) => {
+  const newText = newOrder.reduce((acc, cur, idx) => {
     //write text for futur concatenation
     //check length for separation
     const len = cur.length;
@@ -429,6 +429,16 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     if (sep !== null) return [...acc, ...text, sep];
     return [...acc, ...text];
   }, []);
+  console.log("oldText", oldText, "newText", newText);
+
+  //delete duplicate channels not in bulk of changes
+  const isDuplicate = oldText.reduce((acc, cur, idx) => {
+    return [...acc, cur.slice(1) === newText[idx]];
+  }, []); //true if no change, false else
+  const first = isDuplicate.findIndex((bool) => !bool);
+  const last = isDuplicate.lastIndexOf(false) + 1;
+  const oText = oldText.slice(first, last);
+  const nText = newText.slice(first, last);
 
   const space = 15;
   //console.log("oText", [oText])
