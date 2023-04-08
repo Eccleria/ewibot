@@ -220,8 +220,8 @@ export const finishEmbed = async (
     //if is an array, embed.author is undefined !== null
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
-      embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
-    if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+      embed[0].addFields({name: personalityEvent.executor, value: executor.toString(), inline: true}); //add the executor section
+    if (text) embed[0].addFields({name: personalityEvent.text, value: text, inline: false}); //if any text (reason or content), add it
 
     //now trying to send messages
     try {

@@ -69,7 +69,7 @@ const action = async (message, client) => {
     .setTitle(leadApo.title)
     .setDescription(leadApo.description)
     .addFields(fields.slice(0, 3))
-    .addField(fields[3].name, `${leadApo.top3} ${fields[3].value}`);
+    .addFields({name: fields[3].name, value: `${leadApo.top3} ${fields[3].value}`});
 
   message.reply({ embeds: [embed] });
 };
