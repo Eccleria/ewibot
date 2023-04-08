@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import { MessageActionRow, EmbedBuilder } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
@@ -15,7 +15,7 @@ const giftAction = async (interaction) => {
 
   //create announce
   const fields = personality.fields;
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setColor("DARK_GREEN")
     .setTimestamp()
     .setTitle(personality.title)

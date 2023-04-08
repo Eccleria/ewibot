@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import { MessageActionRow, EmbedBuilder } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import {
@@ -100,7 +100,7 @@ const action = async (interaction) => {
     const perso = personality.send; //get personality
 
     //setup embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(perso.embed.title)
       .setDescription(perso.embed.description)
       .setColor("NAVY")
