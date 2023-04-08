@@ -3,7 +3,7 @@
 This doc covers all the part about Twitter-Discord links. This link was asked by Andarta Pictures for
 a communication purpose. It aims to send all tweets sent by 
 [Andarta Pictures](https://twitter.com/andartapictures) and
-[La Qu�te d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts on the appropriate Discord
+[La Quête d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts on the appropriate Discord
 channel. 
 
 This functionality uses the [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) library, 

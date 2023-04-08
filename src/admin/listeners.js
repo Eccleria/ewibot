@@ -97,20 +97,6 @@ export const onInteractionCreate = (interaction) => {
         PERSONALITY.getAdmin().commands.notReleased
       );
   }
-
-  if (interaction.isCommand()) {
-    //slash commands
-    const client = interaction.client; //get client
-    const slashCommands = client.slashCommands; //get commands
-
-    const foundCommand = slashCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
-    );
-
-    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
-    //console.log(interaction);
-    if (interaction.isButton()) buttonHandler(interaction);
-  }
 };
 
 export const onChannelCreate = async (channel) => {
@@ -532,14 +518,15 @@ export const onMessageDelete = async (message) => {
   const messageReaction = message.reactions.cache;
   console.log("messageReaction", messageReaction.cache);
 
-  if (messageReaction) messageReaction.forEach((msgR) => {
-    console.log("msgR", msgR);
-    const emoteId = msgR.emoji.id; //get emoji id
-    const users = msgR.users.cache; //get users
-    users.forEach((user) => {
-      if (isStatsUser(db, user.id)) emojiStat(emoteId, user, null, "react");
-    })
-  });
+  if (messageReaction)
+    messageReaction.forEach((msgR) => {
+      console.log("msgR", msgR);
+      const emoteId = msgR.emoji.id; //get emoji id
+      const users = msgR.users.cache; //get users
+      users.forEach((user) => {
+        if (isStatsUser(db, user.id)) emojiStat(emoteId, user, null, "react");
+      });
+    });
 
   //if no AuditLog
   if (!deletionLog) {
@@ -722,7 +709,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       const modifs = oFoundEmotes.reduce(
         (acc, cur, idx) => {
           const nEmote = nFoundEmotes[idx]; //get associated newEmote
-          if (nEmote && cur !== nEmote) //if new emote exists && is different
+          if (nEmote && cur !== nEmote)
+            //if new emote exists && is different
             return { add: [...acc.add, nEmote], rem: [...acc.rem, cur] };
           else return { add: acc.add, rem: [...acc.rem, cur] }; //if no new emote => remove
         },
@@ -733,7 +721,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       //now handle nFoundEmote longer
       const nLen = nFoundEmotes.length;
       const oLen = oFoundEmotes.length;
-      if (nLen > oLen ) {
+      if (nLen > oLen) {
         const eDiff = nFoundEmotes.slice(oLen);
         modifs.add = [...modifs.add, ...eDiff];
       }
@@ -745,29 +733,28 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
           emojiStat(emoteId, nMessage.author, "add"); //add emotes counts
       });
       rem.forEach((emoteId) => {
-        if (isStatsUser(db, authorId))
-          emojiStat(emoteId, nMessage.author); //remove emotes counts
+        if (isStatsUser(db, authorId)) emojiStat(emoteId, nMessage.author); //remove emotes counts
       });
     }
 
     //build embed from message content modifications
     if (isLengthy) {
-    //if has a length difference > 2
-    const oLen = oldContent.length;
-    const nLen = newContent.length;
+      //if has a length difference > 2
+      const oLen = oldContent.length;
+      const nLen = newContent.length;
 
-    if (oLen !== 0) {
-      //slice too long string to fit 1024 length restriction in field
-      dispatchSlicedEmbedContent(oldContent, embed, messageU.contentOld);
-    }
-    if (nLen !== 0) {
-      dispatchSlicedEmbedContent(newContent, embed, messageU.contentNew);
-    }
+      if (oLen !== 0) {
+        //slice too long string to fit 1024 length restriction in field
+        dispatchSlicedEmbedContent(oldContent, embed, messageU.contentOld);
+      }
+      if (nLen !== 0) {
+        dispatchSlicedEmbedContent(newContent, embed, messageU.contentNew);
+      }
 
-    if (oLen !== 0 && nLen !== 0) {
-      //check for apology
-      const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
-      const nSanitized = sanitizePunctuation(newContent.toLowerCase());
+      if (oLen !== 0 && nLen !== 0) {
+        //check for apology
+        const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
+        const nSanitized = sanitizePunctuation(newContent.toLowerCase());
 
         if (!hasApology(oSanitized) && hasApology(nSanitized)) {
           //in new message && not in old message
@@ -781,54 +768,54 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         }
       }
     }
+
+    //check for objects changes
+    const attachments = oMessage.attachments.reduce((acc, cur) => {
+      if (nMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
+        return [...acc, cur.attachment];
+      return acc;
+    }, []); //check for attachments
+
+    const oldEmbeds = oMessage.embeds;
+    const newEmbeds = nMessage.embeds;
+    let embeds;
+    try {
+      embeds =
+        oldEmbeds.length !== 0 && newEmbeds.length !== 0
+          ? newEmbeds.reduce(
+              (acc, cur, idx) => {
+                if (!cur.equals(nMessage.embeds[idx]) && cur.type !== "gifv")
+                  //exclude gifs embed which cannot be sent by bot
+                  return [...acc, cur];
+                return acc;
+              },
+              [embed]
+            )
+          : [embed]; //check for embeds. It includes link integration
+    } catch (e) {
+      console.log("onMessageUpdate embeds", e);
+      embeds = [embed];
+    }
+
+    if (!isLengthy && embeds.length === 1 && attachments.length === 0) return; //if no apparent modif, return
+
+    //add message link
+    const link = `[${messageU.linkMessage}](${nMessage.url})`;
+    embed.addField(messageU.linkName, link);
+
+    //send log
+    const messageList = await finishEmbed(
+      messageU,
+      null,
+      embeds,
+      logChannel,
+      null,
+      attachments
+    );
+    messageList.forEach((msg) =>
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    );
   }
-
-  //check for objects changes
-  const attachments = oMessage.attachments.reduce((acc, cur) => {
-    if (nMessage.attachments.findKey((obj) => obj.id === cur.id) !== cur.id)
-      return [...acc, cur.attachment];
-    return acc;
-  }, []); //check for attachments
-
-  const oldEmbeds = oMessage.embeds;
-  const newEmbeds = nMessage.embeds;
-  let embeds;
-  try {
-    embeds =
-      oldEmbeds.length !== 0 && newEmbeds.length !== 0
-        ? newEmbeds.reduce(
-            (acc, cur, idx) => {
-              if (!cur.equals(nMessage.embeds[idx]) && cur.type !== "gifv")
-                //exclude gifs embed which cannot be sent by bot
-                return [...acc, cur];
-              return acc;
-            },
-            [embed]
-          )
-        : [embed]; //check for embeds. It includes link integration
-  } catch (e) {
-    console.log("onMessageUpdate embeds", e);
-    embeds = [embed];
-  }
-
-  if (!isLengthy && embeds.length === 1 && attachments.length === 0) return; //if no apparent modif, return
-
-  //add message link
-  const link = `[${messageU.linkMessage}](${nMessage.url})`;
-  embed.addField(messageU.linkName, link);
-
-  //send log
-  const messageList = await finishEmbed(
-    messageU,
-    null,
-    embeds,
-    logChannel,
-    null,
-    attachments
-  );
-  messageList.forEach((msg) =>
-    addAdminLogs(msg.client.db, msg.id, "frequent", 6)
-  );
 };
 
 export const onGuildBanAdd = (userBan) => {
