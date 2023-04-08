@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
 
 import { interactionReply, createButton } from "./utils.js";
 import {
@@ -71,7 +71,7 @@ const giftInteractionCreation = async (client, type) => {
 
   //create button
   const actionRow = new ActionRowBuilder().addComponents(
-    createButton("gift", personality.buttonLabel, "PRIMARY")
+    createButton("gift", personality.buttonLabel, ButtonStyle.Primary)
   );
 
   if (type === "xmas") {

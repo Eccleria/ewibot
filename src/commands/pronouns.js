@@ -1,4 +1,4 @@
-import { ActionRowBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonStyle } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 
 import { setupEmbed } from "../admin/utils.js";
@@ -15,7 +15,7 @@ const action = async (message, _client, currentServer) => {
   const agreements = personality.pronouns.agreements;
 
   //create all buttons
-  const style = "SECONDARY"; //grey background
+  const style = ButtonStyle.Secondary; //grey background
   const base = personality.pronouns.baseId;
   const rowP1 = new ActionRowBuilder().addComponents(
     createButton(base + "he", pronounsP.he, style),
