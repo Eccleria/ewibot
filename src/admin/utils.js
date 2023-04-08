@@ -460,15 +460,30 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   embed.setFields(embed.fields.slice(1)); //remove author field
 
   //create old/new channel order
-  const oldOrder = roles.sort((a, b) => b.oldPos - a.oldPos).slice(); //sort channels with oldPosition
-  const newOrder = roles.sort((a, b) => b.newPos - a.newPos).slice(); //slice() for variable shallow copy
+  const oldSortedOrder = roles.sort((a, b) => b.oldPos - a.oldPos).slice(); //sort channels with oldPosition
+  const newSortedOrder = roles.sort((a, b) => b.newPos - a.newPos).slice();
 
-  const oldSortedIds = oldOrder.map((obj) => obj.id);
-  const newSortedIds = newOrder.map((obj) => obj.id);
-  if (oldSortedIds.every((oldId, idx) => oldId === newSortedIds[idx])) {
+  //filter duplicate ids (same old/new position)
+  const filtered = oldSortedOrder.reduce(
+    (acc, cur, idx) => {
+      const newCur = newSortedOrder[idx];
+      //console.log("newCur", newCur.id, "cur.id", cur.id)
+      if (cur.id === newCur.id) return acc;
+      else
+        return {
+          oldOrder: [...acc.oldOrder, cur],
+          newOrder: [...acc.newOrder, newCur],
+        };
+    },
+    { oldOrder: [], newOrder: [] }
+  );
+  if (filtered.oldOrder.length === 0) {
+    //if empty, no changes => return
     finishEmbed(roleUp, logPerso.noLog, embed, logChannel, roleUp.noModifs); //send embed
     return;
   }
+
+  const { oldOrder, newOrder } = filtered;
 
   const space = 15;
   const orderText = oldOrder.reduce((acc, cur, idx) => {
