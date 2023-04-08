@@ -1,11 +1,11 @@
 ﻿## 5.0.0
-- New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#180](https://github.com/Eccleria/ewibot/pull/180))
+- New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
 - New: admin `/commands` `message send/reply` for dev usage
 - Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll)
 - Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
 - Remove: `$commands` helpers (checkIsOnThread, isCommand)
 - Remove: `onPrivateMessage` - dev ability to speak through Ewibot
-- Update: files now use `COMMONS` object instead of commons.json parse ([#138](https://github.com/Eccleria/ewibot/pull/138), [#180](https://github.com/Eccleria/ewibot/pull/180))
+- Update: files now use `COMMONS` object instead of commons.json parse ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
 - Update: personality organisation 
 	- explode personalities.json file into 3 files
 	- regroup files into personalities folder
