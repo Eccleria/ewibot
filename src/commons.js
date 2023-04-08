@@ -22,7 +22,7 @@ class Commons {
   fetchGuildId(guildId) {
     return this.list.find((obj) => guildId === obj.guildId);
   }
-  getBoth() {
+  getList() {
     return this.list;
   }
 }

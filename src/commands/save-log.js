@@ -20,7 +20,7 @@ const action = async (interaction) => {
   const saveLogP = personality.saveLog;
 
   //check for thread channel
-  const logIds = COMMONS.getBoth().map((obj) => obj.logThreadId);
+  const logIds = COMMONS.getList().map((obj) => obj.logThreadId);
   const isLogThread = logIds.includes(message.channelId);
   if (!isLogThread) {
     interactionReply(interaction, saveLogP.wrongChannel);
