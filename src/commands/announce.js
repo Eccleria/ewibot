@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
@@ -67,7 +67,7 @@ const action = (interaction) => {
   const whichAnnounce = options.getString(announceP.stringOption.name);
   const whichAnnounceP = PERSONALITY.getAnnounces()[whichAnnounce];
   //create confirm button
-  const actionRow = new MessageActionRow().addComponents(
+  const actionRow = new ActionRowBuilder().addComponents(
     createButton(whichAnnounceP.id, announceP.buttonLabel, "DANGER")
   );
 

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import {
@@ -129,7 +129,7 @@ const action = async (interaction) => {
       "822479563077976065"
     );
     const components = [CDLButton, tournamentButton, voiceButton, miscButton];
-    const actionRow = new MessageActionRow().addComponents(components);
+    const actionRow = new ActionRowBuilder().addComponents(components);
 
     //get channel where to send
     const guild = await interaction.guild.fetch();
@@ -221,7 +221,7 @@ const action = async (interaction) => {
       oldComponents[oldComponents.length - 1].components.length;
     const newComponents =
       lastARSize === 5
-        ? [...oldComponents, new MessageActionRow().addComponents(newButton)]
+        ? [...oldComponents, new ActionRowBuilder().addComponents(newButton)]
         : [
             ...oldComponents.slice(0, -1),
             oldComponents[oldComponents.length - 1].addComponents(newButton),
