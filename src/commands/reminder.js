@@ -140,7 +140,8 @@ const action = async (interaction, type) => {
       timeout: timeoutObj,
     });
 
-    if (isStatsUser(client.db, member.id)) addCommandCount(member.id, client.db, "concrete"); //add data to db
+    if (isStatsUser(client.db, member.id))
+      addCommandCount(member.id, client.db, "concrete"); //add data to db
   }
 };
 

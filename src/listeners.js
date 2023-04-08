@@ -62,7 +62,8 @@ export const onPublicMessage = (message, client, currentServer, self) => {
   const { playlistThreadId, catThreadId, dogThreadId } = currentServer;
 
   if (attachments) {
-    if (channel.id === catThreadId) catAndDogsCount(client, attachments, "cats", "add");
+    if (channel.id === catThreadId)
+      catAndDogsCount(client, attachments, "cats", "add");
     else if (channel.id === dogThreadId)
       catAndDogsCount(client, attachments, "dogs", "add");
   }
@@ -185,7 +186,7 @@ export const onReactionAdd = async (messageReaction, user) => {
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
   ) {
     //handle cosmetic role attribution
-    roleAdd(messageReaction, currentServer, user); 
+    roleAdd(messageReaction, currentServer, user);
     return;
   }
 

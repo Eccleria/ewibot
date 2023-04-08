@@ -20,12 +20,12 @@ import {
   generateSpotifyClient,
   setActivity,
   updateActivity,
-  emojiInit
+  emojiInit,
 } from "./helpers/index.js";
 
 // listeners imports
 import {
-    onEmojiCreate,
+  onEmojiCreate,
   onEmojiDelete,
   onEmojiUpdate,
   onPrivateMessage,
@@ -175,7 +175,7 @@ client.once("ready", async () => {
   updateActivity(client);
 
   emojiInit(client, commons);
-  
+
   const server = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );

@@ -113,11 +113,12 @@ export const wordEmojiDetection = (message, client) => {
     //get only ids of emote from server
     if (cur.includes("<:")) {
       //if emote
-      console.log("cur", cur)
+      console.log("cur", cur);
       const parsed = cur.slice(2, -1).split(":"); //[name, id]
-      console.log("parsed", parsed)
+      console.log("parsed", parsed);
       const id = parsed[1]; //get id
-      if (emoteIds.includes(id)) return [...acc, id]; //if server emote, return id
+      if (emoteIds.includes(id))
+        return [...acc, id]; //if server emote, return id
       else return acc; //not server emote
     } else return acc; //not emote
   }, []);
@@ -126,7 +127,7 @@ export const wordEmojiDetection = (message, client) => {
     const sortedEmotes = onlyEmotes.sort((a, b) => a - b); //sort by ids
     return sortedEmotes;
   }
-  return onlyEmotes
+  return onlyEmotes;
 };
 
 export const reactionHandler = async (message, currentServer, client) => {
@@ -259,7 +260,7 @@ export const catAndDogsCount = (client, attachments, typeCD, typeAR) => {
       if (typeAR === "add") addStatsServer(db, typeCD, typePV);
       else if (typeAR === "remove") removeStatsServer(db, typeCD, typePV);
     }
-  })
+  });
 };
 
 // activity list

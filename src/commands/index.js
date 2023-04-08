@@ -27,7 +27,8 @@ const helloWorld = {
   name: "ping",
   action: async (message) => {
     const { client, author } = message;
-    if (isStatsUser(client.db, author.id)) addCommandCount(author.id, client.db, "ping"); //add data to db
+    if (isStatsUser(client.db, author.id))
+      addCommandCount(author.id, client.db, "ping"); //add data to db
 
     await message.channel.send(PERSONALITY.getCommands().helloWorld.pong);
   },
@@ -123,7 +124,8 @@ const roll = {
         await message.reply(`${total} (${details.join(", ")})`);
 
         const { client, author } = message;
-        if (isStatsUser(client.db, author.id)) addCommandCount(author.id, client.db, "concrete"); //add data to db
+        if (isStatsUser(client.db, author.id))
+          addCommandCount(author.id, client.db, "concrete"); //add data to db
       }
     }
   },

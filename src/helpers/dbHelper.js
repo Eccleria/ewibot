@@ -368,7 +368,7 @@ export {
 //STATS USER
 
 const isUseStatUser = (authorId, db) => {
-  return db.data.useStatUsers.includes(authorId)
+  return db.data.useStatUsers.includes(authorId);
 };
 
 const addUseStatUser = (authorId, db) => {
@@ -379,7 +379,7 @@ const addUseStatUser = (authorId, db) => {
 const removeUseStatUser = (authorId, db) => {
   if (isUseStatUser(authorId, db))
     db.data.useStatUsers = db.data.useStatUsers.filter((id) => id !== authorId);
-}
+};
 
 export { addUseStatUser, removeUseStatUser };
 
@@ -394,7 +394,7 @@ const addStatsUser = (authorId, db) => {
         concrete: 0,
         ping: 0,
         reminder: 0,
-        roll: 0
+        roll: 0,
       },
       emotes: { total: 0, react: 0, inMessage: 0, emotes: [] },
       hello: 0,
@@ -417,7 +417,9 @@ const isStatsUser = (authorId, db) => {
 
 const removeStatsUser = (authorId, db) => {
   if (isStatsUser(authorId, db)) {
-    db.data.statsUsers = db.data.statsUsers.filter((cur) => cur.userId !== authorId);
+    db.data.statsUsers = db.data.statsUsers.filter(
+      (cur) => cur.userId !== authorId
+    );
     db.wasUpdated = true;
   }
 };
@@ -442,7 +444,7 @@ const addStatData = (authorId, db, type) => {
     //Else add user
     addStatsUser(authorId, db); //add to db
     addStatData(authorId, db, type); //add 1 to counter
-  } else return
+  } else return;
   db.wasUpdated = true;
 };
 
@@ -452,13 +454,14 @@ const addCommandCount = (authorId, db, type) => {
   if (isStatsUser(authorId, db)) {
     //If already in DB, add +1 to counter
     for (const obj of stats) {
-      if (obj.userId === authorId && obj[type] !== undefined) obj.commands[type]++;
+      if (obj.userId === authorId && obj[type] !== undefined)
+        obj.commands[type]++;
     }
   } else if (isUseStatUser(authorId, db)) {
     //Else add user
     addStatsUser(authorId, db); //add to db
     addStatData(authorId, db, type); //add 1 to counter
-  } else return
+  } else return;
   db.wasUpdated = true;
 };
 
@@ -496,7 +499,7 @@ const addEmoteCount = (authorId, db, emoteId, type) => {
     //Else if is useStatUser, add user
     addStatsUser(authorId, db); //add to db
     addStatData(authorId, db, emoteId); //add 1 to counter
-  } else return
+  } else return;
   db.wasUpdated = true;
 };
 

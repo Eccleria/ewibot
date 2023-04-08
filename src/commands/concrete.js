@@ -60,7 +60,7 @@ const action = async (object, type) => {
     recipient = await client.users.fetch(mentions.users.first().id); // find user from user id
     force = content.includes("--force");
 
-    if (isStatsUser(client.db, author.id)) 
+    if (isStatsUser(client.db, author.id))
       addCommandCount(author.id, client.db, "concrete"); //add data to db
   } else if (type === "/") {
     const interaction = object;
@@ -79,10 +79,10 @@ const action = async (object, type) => {
 
     await interaction.deferReply();
     recipient = await client.users.fetch(user.id); //get guildMember from user id
-    if (isStatsUser(client.db, interaction.member.id)) 
+    if (isStatsUser(client.db, interaction.member.id))
       addCommandCount(interaction.member.id, client.db, "concrete"); //add data to db
   }
-  
+
   const self = process.env.CLIENTID;
   const currentServer = commons.find(
     ({ guildId }) => guildId === channel.guild.id

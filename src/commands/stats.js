@@ -1,12 +1,17 @@
 //import { MessageEmbed } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders"
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { interactionReply } from "./utils.js";
-import { addStatsUser, isStatsUser, removeStatsUser } from "../helpers/index.js";
+import {
+  addStatsUser,
+  isStatsUser,
+  removeStatsUser,
+} from "../helpers/index.js";
 
 import { PERSONALITY } from "../personality.js";
 
-const action = async (interaction) => { //, client) => {
+const action = async (interaction) => {
+  //, client) => {
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
   const db = interaction.client.db;
@@ -120,7 +125,7 @@ const stats = {
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().stats;
     interactionReply(interaction, personality.help);
-  }
+  },
 };
 
 export default stats;
