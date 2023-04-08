@@ -22,8 +22,8 @@ class Commons {
   fetchGuildId(guildId) {
     return this.list.find((obj) => guildId === obj.guildId);
   }
-  getBoth() {
-    return [this.test, this.prod];
+  getList() {
+    return this.list;
   }
 }
 
