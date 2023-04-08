@@ -433,7 +433,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //delete duplicate channels not in bulk of changes
   const isDuplicate = oldText.reduce((acc, cur, idx) => {
-    return [...acc, cur.slice(1) === newText[idx]]
+    return [...acc, cur.slice(1) === newText[idx]];
   }, []); //true if no change, false else
   const first = isDuplicate.findIndex((bool) => !bool);
   const last = isDuplicate.lastIndexOf(false) + 1;
