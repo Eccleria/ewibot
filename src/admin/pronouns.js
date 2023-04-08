@@ -1,10 +1,11 @@
 // jsons imports
 import { readFileSync } from "fs";
+import { interactionReply } from "../commands/utils.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 import { PERSONALITY } from "../personality.js";
 
-export const buttonHandler = async (interaction) => {
+export const pronounsButtonHandler = async (interaction) => {
   //get commons pronouns data
   const currentServer = commons.find(
     ({ guildId }) => guildId === interaction.guildId
@@ -13,7 +14,9 @@ export const buttonHandler = async (interaction) => {
   const agreementsJson = Object.entries(currentServer.pronouns.agreements);
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]
 
-  const json = rolesJson.find((arr) => arr[0] === interaction.customId); //get corresponding json duo
+  const json = rolesJson.find(
+    (arr) => arr[0] === interaction.customId.split("_")[1]
+  ); //get corresponding json duo
 
   //get triggering user data
   const guildMember = interaction.member; //get guildMember
@@ -22,6 +25,13 @@ export const buttonHandler = async (interaction) => {
   //get personality
   const personality = PERSONALITY.getCommands();
   const pronounsP = personality.pronouns;
+
+  //mitigate rare error
+  if (!json) {
+    interactionReply(interaction, pronounsP.errorNoJson);
+    console.log("errorNoJson", interaction.customId, rolesJson);
+    return;
+  }
 
   //handle roles
   if (json[1] !== "Annuler") {

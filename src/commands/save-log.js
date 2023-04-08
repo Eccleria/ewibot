@@ -41,7 +41,7 @@ const action = async (interaction, commons) => {
     return;
   }
 
-  const logChannel = await getLogChannel(commons, interaction); //get logChannel
+  const logChannel = await getLogChannel(interaction); //get logChannel
 
   //add executor of saveLog
   const member = interaction.member;
@@ -79,6 +79,9 @@ const saveLog = {
     const personality = PERSONALITY.getCommands().saveLog;
     interactionReply(interaction, personality.help);
   },
+  admin: true,
+  releaseDate: null,
+  sentinelle: true,
 };
 
 export default saveLog;

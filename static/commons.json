@@ -12,25 +12,32 @@
       "messageId": "973889029969936406"
     },
     "pronounsRoleHandleChannelId": "967059786644488192",
+    "eventRoleHandleChannelId": "935180557770448956",
     "roles": {
       "orange": {
         "roleId": "959360675451383828",
-        "name": "🟠"
+        "name": "🟠",
+        "color": "#e74c3c"
       },
       "vert": {
         "roleId": "959360739800391680",
-        "name": "🟢"
+        "name": "🟢",
+        "color": "#2ecc71"
       },
       "violet": {
         "roleId": "959360767063367691",
-        "name": "🟣"
+        "name": "🟣",
+        "color": "#9b59b6"
       },
       "bleu": {
         "roleId": "959360716979175455",
-        "name": "🔵"
+        "name": "🔵",
+        "color": "#3498db"
       }
     },
     "alavirienRoleId": "981493533598961706",
+    "presentationChannelId": "988100769356079114",
+    "presentationReactId": "👋",
     "autoEmotes": {
       "ewiyayReactId": "😄",
       "bjornLoveReactId": "😍",
@@ -78,7 +85,13 @@
     },
     "octagonalSign": "🛑",
     "catThreadId": "1017823854984450118",
-    "dogThreadId": "1017823898672316486"
+    "dogThreadId": "1017823898672316486",
+    "rudolphslichId": "1052970160903950346",
+    "announce": {
+      "giftChannelId": "935180557770448956"
+    },
+    "giftButtonChannelId": "935180557770448956",
+    "sentinelleRoleId": "1043971181461651506"
   },
   {
     "name": "prod",
@@ -93,25 +106,32 @@
       "messageId": "974736389914640464"
     },
     "pronounsRoleHandleChannelId": "974735995872350208",
+    "eventRoleHandleChannelId": "974735995872350208",
     "roles": {
       "reveurs": {
         "roleId": "816971306276880395",
-        "name": "🔵"
+        "name": "🔵",
+        "color": "#3498db"
       },
       "frontaliers": {
         "roleId": "823882466024357918",
-        "name": "🟢"
+        "name": "🟢",
+        "color": "#2ecc71"
       },
       "marchombres": {
         "roleId": "959085951559290882",
-        "name": "🟠"
+        "name": "🟠",
+        "color": "#e74c3c"
       },
       "dessinateurs": {
         "roleId": "824226236523610125",
-        "name": "🟣"
+        "name": "🟣",
+        "color": "#9b59b6"
       }
     },
     "alavirienRoleId": "826743423612092436",
+    "presentationChannelId": "816966112968179712",
+    "presentationReactId": "👋",
     "autoEmotes": {
       "ewiyayReactId": "918249094391144469",
       "bjornLoveReactId": "822437083003355146",
@@ -120,7 +140,7 @@
       "salimmdrReactId": "823904313792266250"
     },
     "edouin": "823872218928250890",
-    "eyeReactId": "822487568766730270",
+    "eyeReactId": "822487568766730270", 
     "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "823904010335158323",
@@ -150,7 +170,7 @@
     },
     "LuciferId": "657498573222576148",
     "twitter": {
-      "prodChannelId": "1012365513676050462",
+      "prodChannelId": "816986951021756446",
       "testChannelId": "1012365513676050462"
     },
     "twitterUserIds": {
@@ -159,6 +179,12 @@
     },
     "octagonalSign": "🛑",
     "catThreadId": "933456973591097415",
-    "dogThreadId": "945001266650689586"
+    "dogThreadId": "945001266650689586",
+    "rudolphslichId": "1050186232547790848",
+    "announce": {
+      "giftChannelId": "973206750771687434"
+    },
+    "giftButtonChannelId": "973206750771687434",
+    "sentinelleRoleId": "816975096518279188"
   }
 ]

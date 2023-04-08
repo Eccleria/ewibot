@@ -1,55 +1,29 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-import {
-  tweetLink,
-  fetchUserTimeline,
-  twitterListeners,
- } from "../admin/twitter.js";
-import {
-  removeMissingTweets,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-} from "../helpers/index.js";
+import { tweetCompare } from "../admin/twitter.js";
+import { removeMissingTweets } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 // jsons import
 import { readFileSync } from "fs";
+import { interactionReply } from "./utils.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
+const personality = PERSONALITY.getCommands(); //get const name & description for commands init
+
 const command = new SlashCommandBuilder()
-  .setName("twitter")
-  .setDescription("Commandes de gestions du lien Twitter-Discord.")
-  .setDefaultMemberPermissions(0x0000000000000020) //MANAGE_GUILD bitwise
-  .addSubcommand((command) => 
-    command
-      .setName("compare")
-      .setDescription("Compare les 5 derniers tweets avec la base de donnée et envoie la différence.")
+  .setName(personality.twitter.name)
+  .setDescription(personality.twitter.description)
+  .setDefaultMemberPermissions(0x0000010000000000) //MODERATE_MEMBERS bitwise
+  .addSubcommand((command) =>
+    command //compare
+      .setName(personality.twitter.compare.name)
+      .setDescription(personality.twitter.compare.description)
   )
   .addSubcommand((command) =>
-    command
-      .setName("share")
-      .setDescription("Partage les derniers tweets manquants au publique.")  
-  )
-  .addSubcommandGroup((group) =>
-    group
-      .setName("stream")
-      .setDescription("Gère le stream sur Twitter.")
-      .addSubcommand((command) =>
-        command
-          .setName("connect")
-          .setDescription("Lance une connexion avec Twitter.")
-      )
-      .addSubcommand((command) =>
-        command
-          .setName("close")
-          .setDescription("Ferme une connexion avec Twitter.")
-      )
-      .addSubcommand((command) =>
-        command
-          .setName("status")
-          .setDescription("Indique le status actuel de la connexion avec Twitter.")
-      )
+    command //share
+      .setName(personality.twitter.share.name)
+      .setDescription(personality.twitter.share.description)
   );
 
 const waitingTimeRadomizer = (mean, variation) => {
@@ -71,17 +45,17 @@ const timeoutTweets = (tweetLink, waitingTime, channel, isLast, client) => {
 };
 
 const action = async (interaction) => {
-  //get client data
-  const client = interaction.client;
-  const twitter = client.twitter;
-  const stream = twitter.stream;
-
+  const client = interaction.client; //get client data
   const personality = PERSONALITY.getCommands().twitter; //get personality
 
+  if (process.env.USE_TWITTER === "no") {
+    interactionReply(interaction, personality.errorNoTwitter);
+    return;
+  }
   const options = interaction.options; //get interaction options
   const subcommand = options.getSubcommand();
 
-  if (subcommand === "share") {
+  if (subcommand === personality.share.name) {
     const isSending = client.twitter.isSending;
     if (isSending) {
       //if already sending tweets, return
@@ -120,97 +94,9 @@ const action = async (interaction) => {
     });
     client.twitter.isSending = true;
     return;
-  }
-  else if (subcommand === "compare") {
-    const db = client.db;
-    const currentServer = commons.find(({ name }) =>
-      process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-    );
-
-    //compare tweets
-    const users = Object.entries(currentServer.twitterUserIds);
-    let tLinks = [];
-
-    for (const [username, userId] of users) {
-      const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
-      const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
-      const tweetIds = fetchedTweets.data.data.map((obj) => obj.id); //tweet ids
-      const idx = tweetIds.findIndex((id) => id === dbData.lastTweetId); //find tweet
-
-      if (idx > 0) {
-        //some tweets are missing => get links + update db;
-        const tweetsToSend = tweetIds.slice(0, idx);
-        const newTLinks = tweetsToSend.reduceRight((acc, tweetId) => {
-          const tLink = tweetLink(username, tweetId); //get tweet link
-          return [...acc, tLink]; //return link for future process
-        }, []); 
-        tLinks = [...tLinks, newTLinks]; //regroup links
-
-        //update db
-        updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
-        addMissingTweets(newTLinks, db); //tweets links
-      }
-      //if idx === 0 => db up to date
-      //if idx === -1 => issue
-    }
-    //send tweets
-    if (tLinks.length !== 0) {
-      const content = tLinks.join("\n");
-      interaction.reply({ content: content }); //, ephemeral: true });
-    }
-    else interaction.reply({ content: "La db est à jour.", ephemeral: true });
+  } else if (subcommand === personality.compare.name) {
+    tweetCompare(client, interaction);
     return;
-  }
-
-  //handle stream connexion
-  let subcommandGroup;
-  try {
-    subcommandGroup = interaction.options.getSubcommandGroup();
-  } catch {
-    subcommandGroup = null;
-  }
-
-  if (subcommandGroup === "stream") {
-    if (subcommand === "close") {
-      //handle stream destroy
-      if (twitter.streamConnected) {
-        //handle interaction
-        twitter.interactions.close = interaction; //save for future interaction follow up
-        await interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
-        interaction.followUp({ content: personality.streamClosing, ephemeral: true });
-
-        //destroy stream
-        stream.autoReconnect = false; //prevent stream reconnection after .destroy()
-        stream.destroy(); //destroy stream
-
-        //setup future stream
-        const newStream = twitter.searchStream({ expansions: "author_id", autoConnect: false });
-        twitter.stream = newStream; //reset client
-        twitterListeners(newStream, client); //setup twitter stream listeners
-        return;
-      }
-
-      interaction.reply({ content: personality.streamNotConnected, ephemeral: true });
-      return;
-    } else if (subcommand === "connect") {
-      if (twitter.streamConnected) {
-        interaction.reply({ content: personality.streamExists, ephemeral: true });
-        return;
-      }
-
-      twitter.interactions.connect = interaction; //save for future interaction follow up
-      interaction.deferReply({ ephemeral: true }); //to handle possible Twitter latency
-
-      const args = { autoReconnect: true, autoReconnectRetries: Infinity };
-      stream.connect(args); //connect stream
-      return
-    } else if (subcommand === "status") {
-      if (twitter.streamConnected)
-        interaction.reply({ content: personality.streamConnected, ephemeral: true });
-      else
-        interaction.reply({ content: personality.streamNotConnected, ephemeral: true });
-      return
-    }
   }
 };
 
@@ -224,6 +110,9 @@ const twitter = {
     });
   },
   admin: true,
+  releaseDate: null,
+  sentinelle: true,
+  subcommands: ["twitter", "twitter compare", "twitter share"],
 };
 
 export default twitter;

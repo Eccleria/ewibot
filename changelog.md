@@ -1,7 +1,100 @@
-﻿## 4.3.0
+﻿## 4.10.0
 - Feat: add user dedicated stats such as apologies, emotes, messageCreate.
 - Feat: add server-wide stats such as cats/dogs pictures
 - Feat: add `useStats` command
+
+## 4.9.3
+- Fix: missing frequency check for reducing April Fools react occurence
+
+## 4.9.2
+- Upgrade: discord.js to 13.14, fixing ([#173](https://github.com/Eccleria/ewibot/issues/173))
+
+## 4.9.1
+- Update: `checkProdTestMode` now `isTestServer` for clarity
+- Feat: new emote reaction on `reactionHandler`
+- Fix: rare case when `AuditLog.executor` is not retrieved
+- Fix: pronouns rare case with missing json. Add log for monitoring.
+
+## 4.9.0
+- Update: pronouns buttons with `pronouns_` prefix
+- Feat: `/event-roles create` subcommand for event role creation
+- Feat: `/event-roles send` subcommand for event roles attribution
+- Fix: `$pronouns` with missing `currentServer` arg
+
+## 4.8.3
+- Feat: guildMemberAdd now filter debug mode & test/prod
+- Update: channel permission overwrite logs now adapt text to added/removed permissions 
+
+## 4.8.2
+- Disable: Twitter API no longer free, disabling Twitter link
+- Fix: alavirien checking wrong sentinelle member + not fetching old presentations
+- Fix: dbHelper `removeAlavirien` wrong param order in `checkDb`
+- Fix: handle empty twitter fetched data when is only retweets
+
+## 4.8.1
+- Fix: activities updated with setInterval, wrongly used as setTimeout
+- Fix: giving alavirien role to sentinelle reacting and not to presenting user
+
+## 4.8.0
+- Feat: attribution of alavirien role for users' presentation with Sentinelle reaction
+- Feat: check new user alavirien eligibility each night
+- Feat: remove logs from user arrival/departure
+- Fix: reverse-translator error on message with empty content
+- Update: `reverse-translator` now can translate frequent-logs
+- Update: add gift button date check + change gift command release date 
+
+## 4.7.0
+- Feat: New Year personality
+- Feat: dbHelper addGiftSeparator()
+- Fix: `getLogChannel` deprecated use in generalEmbed(), octagonalLog(), savelog action()
+- Fix: messageDelete log now handle system `CHANNEL_PINNED_MESSAGE` message deletion
+- Fix: missing tweet removing from db when sending tweets from timeout listener
+- Fix: role logs fired before the end of `shuffle` loop
+- Update: timeout with db modification once 12/27
+- Update: bot message once New Year
+
+## 4.6.0
+- Feat: bot birthday emote
+- Feat: `/shuffle` command:
+	- `startstop` that allows to start and stop the role color shuffle loop
+	- `set` subcommand to modify shuffle loop waitingTime 
+- Update: `roleUpdate` log ignore role logs when loop is active
+
+## 4.5.0
+- Feat: december month emote
+- Feat: Ewibot `Activities`
+- Feat: new commands:
+	- `/reverse` allows to return a reversed string, with options
+	- `reverse-translator` context command for translating `/reversed` text
+- Update: Add /commands access for existing commands: 
+	`ping` `help` `roll` `ignoreChannel` `ignore` `concrete` `birthday` `reminder`
+- Update: `ignore` is now `/ignore_user`
+- Update: `/help` now with adapatative autocomplete and action according to user rigths
+- Update: gift Christmas embed with correct fan-art
+- Fix: `/gift remove` cases that caused db error
+
+## 4.4.1
+- Hotfix: removing defaultMemberPermission for `/gift` preventing every user from using it
+
+## 4.4.0
+- Feat: `/help` command with autocomplete feature
+- Feat: `/gift` commands: `use`, `add`, `remove`, `get`, `accepting`
+- Feat: `/announce` command
+	- announce confirmation button
+	- `announce_gift` as first annouce
+- Update: share functions from `pronouns.js` (`buttonHandler`, `createButton`)
+- Update: add announce personality part where announce_... content is stored
+
+## 4.3.0
+- Feat: twitter
+	- commands
+	- loop for tweets auto fetch
+- Fix: `commands.md` with wrong links and typos
+- Fix: `messageDelete` deleter not as embed
+- Fix: `date` log field now adapt between prod and test mode
+- Fix: `memberKick` wrong db index access 
+- Fix: rare crash case with `updateChannel` after `memberKick`
+- Doc : `twitter.md`
 
 ## 4.2.0
 - Feat: add imported gif log detection

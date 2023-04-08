@@ -1,5 +1,10 @@
-import { ETwitterStreamEvent } from "twitter-api-v2";
-
+import {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
+} from "../helpers/index.js";
+import { interactionReply } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
 
 // jsons import
@@ -36,119 +41,82 @@ export const tweetLink = (username, id) => {
   return "https://twitter.com/" + username + "/status/" + id; //write tweet url
 };
 
-const tweetHandler = async (tweet, client) => {
-  console.log("Twitter has sent something:", tweet);
-  console.log("includes", tweet.includes);
-
-  const { data } = tweet;
-  const tweetId = data.id; //get tweet Id
-  const authorId = data.author_id; //get author id
-
-  //get author username
-  const userProfile = await fetchUserProfile(client, authorId);
-  const username = userProfile.data.username;
-
-  const tLink = tweetLink(username, tweetId); //create tweet url
-
-  //get rules tag;
-  const tag = tweet.matching_rules[0].tag;
-
-  //get tag corresponding channel
-  const server = commons.find(({ name }) =>
+export const tweetCompare = async (client, interaction) => {
+  const db = client.db;
+  const currentServer = commons.find(({ name }) =>
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  ); //get commons data
-  const channelId =
-    tag === "test"
-      ? server.twitter.testChannelId
-      : server.twitter.prodChannelId;
-
-  const channel = await client.channels.fetch(channelId);
-
-  channel.send({ content: tLink });
-};
-
-const onConnection = (client) => {
-  //handle connection
-  const interaction = client.twitter.interactions.connect;
-  const personality = PERSONALITY.getCommands().twitter; //get personality
-
-  if (interaction) interaction.followUp({ content: personality.streamConnected, ephemeral: true });
-  client.twitter.streamConnected = true;
-
-  console.log("Twitter Event:Connected");
-};
-
-const onConnectionClosed = async (client) => {
-  //handle connection closed
-  const interaction = client.twitter.interactions.close;
-  const personality = PERSONALITY.getCommands().twitter; //get personality
-
-  if (interaction) interaction.followUp({ content: personality.streamClosed, ephemeral: true });
-  client.twitter.streamConnected = false;
-
-  console.log("Twitter Event:ConnectionClosed");
-};
-
-export const twitterListeners = (stream, client) => {
-  stream.on(ETwitterStreamEvent.Connected, async () => {
-    onConnection(client)
-  });
-  stream.on(ETwitterStreamEvent.ConnectionLost, async () => {
-    console.log("Twitter Event:ConnectionLost");
-  });
-  stream.on(ETwitterStreamEvent.ConnectionError, async (data) => {
-    console.log("Twitter Event:ConnectionError", data);
-  });
-  stream.on(ETwitterStreamEvent.ConnectionClosed, async () => {
-    onConnectionClosed(client);
-  });
-
-  stream.on(
-    // Emitted when a Twitter payload (a tweet or not, given the endpoint).
-    ETwitterStreamEvent.Data,
-    (eventData) => tweetHandler(eventData, client)
   );
-  stream.on(ETwitterStreamEvent.TweetParseError, async (data) => {
-    console.log("Twitter Event:TweetParseError", data);
-  });
 
-  stream.on(ETwitterStreamEvent.Error, async (error) => {
-    console.log(`Twitter Event:Error: ${JSON.stringify(error)}`);
-  });
+  //compare tweets
+  const users = Object.entries(currentServer.twitterUserIds);
+  let tLinks = [];
 
-  stream.on(ETwitterStreamEvent.ReconnectAttempt, async (data) => {
-    console.log("Twitter Event:ReconnectAttempt", data);
-  });
-  stream.on(ETwitterStreamEvent.Reconnected, async () => {
-    console.log("Twitter Event:Reconnected");
-  });
-  stream.on(ETwitterStreamEvent.ReconnectError, async (data) => {
-    console.log("Twitter Event:ReconnectError", data);
-  });
-  stream.on(ETwitterStreamEvent.ReconnectLimitExceeded, async () => {
-    console.log("Twitter Event:ReconnectLimitExceeded");
-  });
-  /*
-  stream.on(ETwitterStreamEvent.DataKeepAlive, async () => {
-    console.log('Twitter Event:DataKeepAlive');
-  });*/
-}
+  for (const [username, userId] of users) {
+    const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
+    const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
+    const tweetIds = fetchedTweets.data.data
+      ? fetchedTweets.data.data.map((obj) => obj.id)
+      : null; //tweet ids
+    const idx = tweetIds
+      ? tweetIds.findIndex((id) => id === dbData.lastTweetId)
+      : -2; //find tweet
 
-export const initTwitterStream = async (client) => {
-  const twitter = client.twitter;
+    console.log("user", username, userId);
+    console.log("fetchedTweets.data.data", fetchedTweets.data.data);
+    console.log("tweetIds", tweetIds);
+    console.log("idx", idx);
 
-  //stream
-  let stream;
-  if (process.env.INIT_TWITTER === "no")
-    stream = twitter.searchStream({ expansions: "author_id", autoConnect: false });
-  else
-    stream = await twitter.searchStream({ expansions: "author_id" }); //create stream
-  twitterListeners(stream, client); //add listeners to the stream
-  client.twitter.stream = stream; //bind stream to client
+    if (idx > 0 || idx === -1) {
+      //some tweets are missing => get links + update db;
+      const tweetsToSend = idx === -1 ? tweetIds : tweetIds.slice(0, idx);
+      const newTLinks = tweetsToSend.reduceRight((acc, tweetId) => {
+        const tLink = tweetLink(username, tweetId); //get tweet link
+        return [...acc, tLink]; //return link for future process
+      }, []);
+      console.log("tweetsToSend", tweetsToSend);
+      console.log("newTLinks", newTLinks);
+      tLinks = [...tLinks, ...newTLinks]; //regroup links
 
-  // Enable reconnect feature
-  stream.autoReconnect = true;
-  stream.autoReconnectRetries = Infinity;
+      //update db
+      updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
+      addMissingTweets(newTLinks, db); //tweets links
+    }
+    //if idx === 0 => db up to date
+    //if idx === -1 => too many retweets or issue
+    //if idx === -2 => empty data from Twitter => only retweets
+  }
+
+  //send tweets
+  if (tLinks.length !== 0) {
+    console.log("tLinks", tLinks);
+    //if tweets to send
+    if (interaction) {
+      //if is command
+      const content = tLinks.join("\n");
+      interactionReply(interaction, content);
+    } else {
+      const channelId = currentServer.twitter.prodChannelId;
+      const channel = await client.channels.fetch(channelId);
+      tLinks.forEach(async (link) => await channel.send(link));
+    }
+    removeMissingTweets(tLinks, db);
+  } else if (interaction)
+    interaction.reply({
+      content: PERSONALITY.getCommands().twitter.dbUpToDate,
+      ephemeral: true,
+    });
+};
+
+export const initTwitterLoop = async (client) => {
+  console.log("initTwitterLoop");
+
+  setInterval(
+    (client) => {
+      tweetCompare(client);
+    },
+    10 * 60 * 1000,
+    client
+  );
 };
 
 //rule id : prod "1561102350546247683", test "1561102350546247684"

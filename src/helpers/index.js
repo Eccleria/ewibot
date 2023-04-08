@@ -11,6 +11,7 @@ import {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
+  removeAppologyCount,
   getTwitterUser,
   updateLastTweetId,
   addMissingTweets,
@@ -26,6 +27,19 @@ import {
   removeStatsServer,
   addUseStatUser,
   removeUseStatUser,
+  addGiftUser,
+  removeGiftUser,
+  isGiftUser,
+  isMessageRecipient,
+  addGiftMessage,
+  removeGiftMessage,
+  getGiftMessage,
+  addGiftSeparator,
+  addAlavirien,
+  removeAlavirien,
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
 } from "./dbHelper.js";
 
 import {
@@ -46,6 +60,8 @@ import {
   wordEmojiDetection,
   catAndDogsCount,
   hasOctagonalSign,
+  setActivity,
+  updateActivity,
 } from "./utils.js";
 
 export {
@@ -61,6 +77,8 @@ export {
   wordEmojiDetection,
   catAndDogsCount,
   hasOctagonalSign,
+  setActivity,
+  updateActivity,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
@@ -78,6 +96,7 @@ export {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
+  removeAppologyCount,
   getTwitterUser,
   updateLastTweetId,
   addMissingTweets,
@@ -93,4 +112,17 @@ export {
   removeStatsServer,
   addUseStatUser,
   removeUseStatUser,
+  addGiftUser,
+  removeGiftUser,
+  isGiftUser,
+  isMessageRecipient,
+  addGiftMessage,
+  removeGiftMessage,
+  getGiftMessage,
+  addGiftSeparator,
+  addAlavirien,
+  removeAlavirien,
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
 };

@@ -14,6 +14,7 @@
       []
     ]
   },
+  "alavirien": [],
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "ignoredChannelIds": [],
@@ -32,6 +33,35 @@
       "total": 0
     }
   },
+  "concreteRecipients": [],
+  "eventRoles": [
+    {
+      "name": "test",
+      "guildId": "926909708072284170",
+      "roleMessageId": "1083472077497040947",
+      "baseRoleId": "959360675451383828",
+      "CDLRoleId": "1082032288398852156",
+      "tournamentRoleId": "1082033302325690408",
+      "voiceChannelRoleId": "1082033356256067634",
+      "miscRoleId": "1082033648003453051"
+    },
+    {
+      "name": "prod",
+      "guildId": "816961245743808582",
+      "roleMessageId": "",
+      "baseRoleId": "959085951559290882",
+      "CDLRoleId": "1082760577312620604",
+      "tournamentRoleId": "1082761295469748287",
+      "voiceChannelRoleId": "1082762918044639294",
+      "miscRoleId": "1082762246377181275"
+    }
+  ],
+  "gift": {
+    "users": [],
+    "messages": []
+  },
+  "messageCount": [],
+  "reminder": [],
   "twitter": {
     "users": [
       {
@@ -39,7 +69,7 @@
         "lastTweetId": "1563144877407277063"
       },
       {
-        "userId": "1032989926000939008", //La Quête d'Ewilan
+        "userId": "1032989926000939008", //La Quï¿½te d'Ewilan
         "lastTweetId": "1563149333641703425"
       }
     ],

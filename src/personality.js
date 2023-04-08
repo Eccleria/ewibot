@@ -1,14 +1,17 @@
 // jsons imports
 import { readFileSync } from "fs";
 const personalities = JSON.parse(readFileSync("static/personalities.json"));
+const colors = JSON.parse(readFileSync("static/colors.json"));
 
 //export var PERSONALITY = personalities.normal; // common var for all files
 
 class Personality {
-  constructor(name, personality, admin) {
+  constructor(name, personality, admin, announces, colors) {
     this.name = name;
     this.personality = personality;
     this.admin = admin;
+    this.announces = announces;
+    this.colors = colors;
   }
 
   set(name, personality) {
@@ -30,12 +33,20 @@ class Personality {
   getAdmin() {
     return this.admin;
   }
+  getAnnounces() {
+    return this.announces;
+  }
+  getColors() {
+    return this.colors;
+  }
 }
 
 export const PERSONALITY = new Personality(
   "normal",
   personalities.normal,
-  personalities.admin
+  personalities.admin,
+  personalities.announces,
+  colors
 );
 
 // coming soon, but not today

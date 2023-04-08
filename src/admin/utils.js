@@ -1,7 +1,13 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
-import { getAdminLogs, removeAdminLogs } from "../helpers/index.js";
+import {
+  getAdminLogs,
+  removeAdminLogs,
+  removeBirthday,
+  removeIgnoredUser,
+  removeAlavirien,
+} from "../helpers/index.js";
 
 // jsons import
 import { readFileSync } from "fs";
@@ -156,6 +162,8 @@ export const endCasesEmbed = async (
   text,
   diff
 ) => {
+  //if no AuditLog
+
   if (diff >= 5) {
     //if log too old
     const messageList = await finishEmbed(
@@ -231,9 +239,9 @@ export const generalEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  const channel = await getLogChannel(commons, obj); //get logChannel
-  if (process.env.DEBUG === "no" && checkProdTestMode(channel)) return; //if in prod && modif in test server
-  console.log("here");
+  const channel = await getLogChannel(obj); //get logChannel
+  if (process.env.DEBUG === "no" && isTestServer(channel)) return; //if in prod && modif in test server
+
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
@@ -244,12 +252,11 @@ export const generalEmbed = async (
 
 /**
  * Fetch Log Channel.
- * @param {object} commons commons.json file value.
  * @param {object} eventObject Object given by listener event.
  * @param {string} [type] String to ditinguish if returns channel or thread. "thread" for thread.
  * @returns {TextChannel}
  */
-export const getLogChannel = async (commons, eventObject, type) => {
+export const getLogChannel = async (eventObject, type) => {
   const currentServer = commons.find(
     ({ guildId }) => guildId === eventObject.guild.id
   ); //get server local data
@@ -601,6 +608,7 @@ export const logsRemover = async (client) => {
     process.env.DEBUG === "yes" ? name === "test" : name === "prod"
   );
 
+  // frequent logs remove
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
   const dbData = getAdminLogs(db);
   let data = dbData[type][0]; //get corresponding data
@@ -612,20 +620,24 @@ export const logsRemover = async (client) => {
       if (result.has(cur)) return acc; //if no diff
       else return [...acc, cur];
     }, []); //find diff for error check
-    console.log("diff", diff); //log for debug
+    console.log("frequent diff", diff); //log for debug
   }
   removeAdminLogs(db, type); //remove from db
-  //console.log("db", db.data.adminLogs.frequent);
 
-  /*
+  // userAD logs remove
   type = "userAD";
   data = dbData[type][0];
   if (data.length !== 0) {
     const logChannel = await client.channels.fetch(server.logChannelId);
     const result = await logChannel.bulkDelete(data);
-    //console.log("result2", result)
+
+    const diff = data.reduce((acc, cur) => {
+      if (result.has(cur)) return acc; //if no diff
+      else return [...acc, cur];
+    }, []); //find diff for error check
+    console.log("userAD diff", diff); //log for debug
   }
-  removeAdminLogs(db, type)*/
+  removeAdminLogs(db, type); //remove from db
 };
 
 export const initAdminLogClearing = (client, waitingTime) => {
@@ -654,7 +666,7 @@ export const octagonalLog = async (object, user) => {
   if (message.partial) await message.fetch();
 
   //basic operations
-  const logChannel = await getLogChannel(commons, message); //get logChannelId
+  const logChannel = await getLogChannel(message); //get logChannelId
   const embed = setupEmbed(
     "LUMINOUS_VIVID_PINK",
     octaPerso,
@@ -682,19 +694,22 @@ export const octagonalLog = async (object, user) => {
   finishEmbed(octaPerso, null, embed, logChannel);
 };
 
-export const checkProdTestMode = (logChannel) => {
+/**
+ * Check if is currently in test server
+ * @param {Object} logChannel LogChannel retrieved from currentServer
+ * @returns True if is test server
+ */
+export const isTestServer = (logChannel) => {
   const server = commons.find(({ name }) => name === "test");
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true
 };
 
-export const sliceAddString = (len, string) => {
-  const lenArray = Array.from(new Array(len));
-  const sliced = lenArray.reduce((acc, _cur, idx) => {
-    if (idx === len - 1) return [...acc, string.slice(idx * 1024)];
-    const sliced = string.slice(idx * 1024, (idx + 1) * 1024);
-    return [...acc, sliced];
-  }, []); //slice content in less than 1024 characters
-  return sliced;
+export const checkDB = (userId, client) => {
+  //check if user is in db for removal
+  const db = client.db;
+  removeBirthday(userId, db);
+  removeIgnoredUser(userId, db);
+  removeAlavirien(userId, db);
 };
