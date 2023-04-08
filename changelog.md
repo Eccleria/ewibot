@@ -1,4 +1,7 @@
-﻿## 4.9.3
+﻿## 4.9.4
+- Fix: filter channelLog channels without position change and not in bulk ([#180](https://github.com/Eccleria/ewibot/pull/180))
+
+## 4.9.3
 - Fix: missing frequency check for reducing April Fools react occurence
 
 ## 4.9.2
