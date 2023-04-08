@@ -153,7 +153,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       const name =
         oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
 
-      if (obj) embed.addFields({name: name, value: obj.toString()});
+      if (obj) embed.addFields({ name: name, value: obj.toString() });
       finishEmbed(chnUp, null, embed, logChannel);
       return;
     } else if (newDiffCol.size !== 0) {
@@ -166,7 +166,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
           : await newChannel.guild.roles.fetch(id);
       const name = newDiff.type === "member" ? perm.userAdded : perm.roleAdded;
 
-      embed.addFields({name: name, value: obj.toString()});
+      embed.addFields({ name: name, value: obj.toString() });
       finishEmbed(chnUp, null, embed, logChannel);
       return;
     }
@@ -229,7 +229,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     }, "");
 
     if (modifs.length !== 0) {
-      embed.addFields({name: chnUp.text, value: modifs}); //add modifs in embed
+      embed.addFields({ name: chnUp.text, value: modifs }); //add modifs in embed
       finishEmbed(chnUp, null, embed, logChannel);
     } else
       console.log(
@@ -462,8 +462,12 @@ export const onMessageDelete = async (message) => {
   }
 
   const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
-  embed.addFields({name: messageDel.date, value: `${dateStr}`, inline: true}); //date of message creation
-  embed.addFields({name: messageDel.channel, value: `<#${message.channelId}>`, inline: true}); //message channel
+  embed.addFields({ name: messageDel.date, value: `${dateStr}`, inline: true }); //date of message creation
+  embed.addFields({
+    name: messageDel.channel,
+    value: `<#${message.channelId}>`,
+    inline: true,
+  }); //message channel
   const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
 
   //test for system message
@@ -598,15 +602,27 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (oMessage.pinned && !nMessage.pinned) {
     const unpinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_UNPIN", 1); //get auditLog
     const unpinned = messageU.unpinned;
-    embed.addFields({name: unpinned.title, value: unpinned.text, inline: true}); //add unpinned text
-    embed.addFields({name: messageU.channel, value: `<#${oMessage.channelId}>`, inline: true}); //message channel
+    embed.addFields({
+      name: unpinned.title,
+      value: unpinned.text,
+      inline: true,
+    }); //add unpinned text
+    embed.addFields({
+      name: messageU.channel,
+      value: `<#${oMessage.channelId}>`,
+      inline: true,
+    }); //message channel
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
-    embed.addFields({name: messageU.linkName, value: link, inline: true});
+    embed.addFields({ name: messageU.linkName, value: link, inline: true });
 
     //add executor
-    embed.addFields({name: unpinned.executor, value: unpinLog.executor.toString(), inline: true})
+    embed.addFields({
+      name: unpinned.executor,
+      value: unpinLog.executor.toString(),
+      inline: true,
+    });
 
     const messageList = await endCasesEmbed(
       nMessage,
@@ -624,15 +640,23 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (!oMessage.pinned && nMessage.pinned) {
     const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN", 1); //get auditLog
     const pinned = messageU.pinned;
-    embed.addFields({name: pinned.title, value: pinned.text, inline: true}); //add unpinned text
-    embed.addFields({name: messageU.channel, value: `<#${oMessage.channelId}>`, inline: true}); //message channel
+    embed.addFields({ name: pinned.title, value: pinned.text, inline: true }); //add unpinned text
+    embed.addFields({
+      name: messageU.channel,
+      value: `<#${oMessage.channelId}>`,
+      inline: true,
+    }); //message channel
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
-    embed.addFields({name: messageU.linkName, value: link, inline: true});
+    embed.addFields({ name: messageU.linkName, value: link, inline: true });
 
     //add executor
-    embed.addFields({name: pinned.executor, value: pinLog.executor.toString(), inline: true})
+    embed.addFields({
+      name: pinned.executor,
+      value: pinLog.executor.toString(),
+      inline: true,
+    });
 
     const messageList = await endCasesEmbed(
       nMessage,
@@ -652,8 +676,12 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const uDate = new Date(oMessage.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
   const dateStr = uDate.toString().slice(4, 24); //slice date string
-  embed.addFields({name: messageU.date, value: `${dateStr}`, inline: true}); //date of message creation
-  embed.addFields({name: messageU.channel, value: `<#${oMessage.channelId}>`, inline: true}); //message channel
+  embed.addFields({ name: messageU.date, value: `${dateStr}`, inline: true }); //date of message creation
+  embed.addFields({
+    name: messageU.channel,
+    value: `<#${oMessage.channelId}>`,
+    inline: true,
+  }); //message channel
 
   //check for content modif
   const oldContent = oMessage.content;
@@ -725,7 +753,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
-  embed.addFields({name: messageU.linkName, value: link});
+  embed.addFields({ name: messageU.linkName, value: link });
 
   //send log
   const messageList = await finishEmbed(
@@ -779,7 +807,11 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
 
   const timeoutUntil = dayjs(newMember.communicationDisabledUntil);
   const timeoutDuration = timeoutUntil.diff(dayjs(), "s");
-  embed.addFields({name: timeout.duration, value: timeoutDuration.toString(), inline: true}); //date of message creation
+  embed.addFields({
+    name: timeout.duration,
+    value: timeoutDuration.toString(),
+    inline: true,
+  }); //date of message creation
 
   endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
 };
@@ -818,7 +850,12 @@ export const onGuildMemberRemove = async (memberKick) => {
     //no log or too old => not kicked but left
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
-    if (textRoles) embed.addFields({name: guildKick.roles, value: textRoles, inline: true}); //add user roles if any
+    if (textRoles)
+      embed.addFields({
+        name: guildKick.roles,
+        value: textRoles,
+        inline: true,
+      }); //add user roles if any
     const messageList = await endCasesEmbed(
       userKick,
       kickLog,
@@ -836,7 +873,8 @@ export const onGuildMemberRemove = async (memberKick) => {
 
   const guildKick = personality.guildKick.kick;
   const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
-  if (textRoles) embed.addFields({name: guildKick.roles, value: textRoles, inline: true}); //add user roles if any
+  if (textRoles)
+    embed.addFields({ name: guildKick.roles, value: textRoles, inline: true }); //add user roles if any
 
   endCasesEmbed(
     userKick,
