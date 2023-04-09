@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { Client, GatewayIntentBits, Partials, ChannelType } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
@@ -149,7 +149,7 @@ const onMessageHandler = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
 
-  if (channel.type === "DM") return;
+  if (channel.type === ChannelType.DM) return;
   else {
     const currentServer = COMMONS.fetchGuildId(channel.guildId);
     onPublicMessage(message, client, currentServer, self);

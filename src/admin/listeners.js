@@ -1,3 +1,4 @@
+import { ChannelType } from "discord.js";
 import {
   buttonHandler,
   interactionReply,
@@ -95,7 +96,7 @@ export const onInteractionCreate = (interaction) => {
 };
 
 export const onChannelCreate = async (channel) => {
-  if (channel.type === "DM") return;
+  if (channel.type === ChannelType.DM) return;
 
   const logType = "CHANNEL_CREATE";
   const perso = "channelCreate";
@@ -103,7 +104,7 @@ export const onChannelCreate = async (channel) => {
 };
 
 export const onChannelDelete = async (channel) => {
-  if (channel.type === "DM") return;
+  if (channel.type === ChannelType.DM) return;
 
   const logType = "CHANNEL_DELETE";
   const perso = "channelDelete";
