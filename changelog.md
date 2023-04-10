@@ -1,4 +1,4 @@
-﻿## 5.0.0
+## 5.0.0
 - New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
 - New: admin `/commands` `message send/reply` for dev usage ([#139](https://github.com/Eccleria/ewibot/pull/139))
 - Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll) ([#134](https://github.com/Eccleria/ewibot/pull/134), [#137](https://github.com/Eccleria/ewibot/pull/137))
@@ -17,6 +17,7 @@
 	- messageUpdate now with un/pinned author and message channel
 
 ## 4.9.4
+- Fix: filter ChannelLog channels without position change and not in bulk ([#180](https://github.com/Eccleria/ewibot/pull/180))
 - Fix: RoleLog filter roles with no position change ([#179](https://github.com/Eccleria/ewibot/pull/179))
 
 ## 4.9.3
