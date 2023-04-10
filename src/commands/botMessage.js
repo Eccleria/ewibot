@@ -10,6 +10,7 @@ const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
   .setName(PERSONALITY.getCommands().botMessage.name)
   .setDescription(PERSONALITY.getCommands().botMessage.description)
+  .setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) =>
     command //send
       .setName(PERSONALITY.getCommands().botMessage.send.name)
