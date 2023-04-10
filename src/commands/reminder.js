@@ -10,10 +10,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
 
-// jsons import
-import { readFileSync } from "fs";
 import { interactionReply } from "./utils.js";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 const sendDelayed = async (
   // Function sending the reminder to the user
@@ -34,20 +32,12 @@ const formatMs = (nbr) => {
   return dayjs.duration(nbr, "milliseconds").humanize();
 };
 
-const extractDuration = (interaction, type) => {
+const extractDuration = (interaction) => {
   // returns the waiting time in ms
-  let hours, minutes, seconds;
 
-  if (type === "/") {
-    hours = interaction.options.getNumber("heures");
-    minutes = interaction.options.getNumber("minutes");
-    seconds = interaction.options.getNumber("secondes");
-  } else if (type === "$") {
-    const lowerStr = interaction.toLowerCase();
-    hours = Number(lowerStr.slice(0, 2));
-    minutes = Number(lowerStr.slice(3, 5));
-    seconds = Number(lowerStr.slice(6, 8));
-  }
+  const hours = interaction.options.getNumber("heures");
+  const minutes = interaction.options.getNumber("minutes");
+  const seconds = interaction.options.getNumber("secondes");
 
   const durationMs =
     (isNaN(hours) ? 0 : hours * 3600) +
@@ -57,69 +47,43 @@ const extractDuration = (interaction, type) => {
   return durationMs * 1000;
 };
 
-const answerBot = async (interaction, currentServer, timing, type) => {
+const answerBot = async (interaction, cmnShared, timing) => {
   // Confirm or not the reminder to user
   const personality = PERSONALITY.getCommands().reminder;
-  let answer;
+  const { removeEmoji } = cmnShared;
 
-  if (type === "/") {
-    await interactionReply(
-      interaction,
-      personality.remind +
-        `${formatMs(timing)}` +
-        personality.react[0] +
-        `${currentServer.removeEmoji}` +
-        personality.react[1],
-      false
-    );
-    answer = await interaction.fetchReply();
-  } else
-    answer = await interaction.reply(
-      PERSONALITY.getCommands().reminder.remind +
-        `${formatMs(timing)}` +
-        PERSONALITY.getCommands().reminder.react[0] +
-        `${currentServer.removeEmoji}` +
-        PERSONALITY.getCommands().reminder.react[1]
-    );
+  await interactionReply(
+    interaction,
+    personality.remind +
+      `${formatMs(timing)}` +
+      personality.react[0] +
+      `${removeEmoji}` +
+      personality.react[1],
+    false
+  );
+  const answer = await interaction.fetchReply();
 
-  await answer.react(currentServer.removeEmoji);
+  await answer.react(removeEmoji);
   return answer;
 };
 
-const action = async (interaction, type) => {
-  const { channel, client } = interaction;
-  let timing, member, messageContent;
+const action = async (interaction) => {
+  const { client, member, channel } = interaction;
 
-  if (type === "$") {
-    member = interaction.author;
-
-    const args = interaction.content.split(" ");
-    const wordTiming = args[1];
-
-    messageContent = args.slice(2).join(" ");
-    timing = extractDuration(wordTiming, type);
-  } else if (type === "/") {
-    member = interaction.member;
-
-    //get interaction input
-    messageContent = interaction.options.getString("contenu");
-    timing = extractDuration(interaction, type); //waiting time in ms
-  }
+  //get interaction input
+  const messageContent = interaction.options.getString("contenu");
+  const timing = extractDuration(interaction); //waiting time in ms
 
   if (!timing) {
     //Checks for timing format
     const content = PERSONALITY.getCommands().reminder.error;
-    type === "/"
-      ? interactionReply(interaction, content)
-      : interaction.reply(content);
+    interactionReply(interaction, content);
   } else {
     console.log("reminder timing: ", timing);
 
-    const currentServer = commons.find(
-      ({ guildId }) => guildId === interaction.guildId
-    );
+    const cmnShared = COMMONS.getShared();
 
-    const answer = await answerBot(interaction, currentServer, timing, type);
+    const answer = await answerBot(interaction, cmnShared, timing);
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "test": {
     "name": "test",
     "guildId": "926909708072284170",
     "playlistThreadId": "926909785117429861",
@@ -47,13 +47,11 @@
     },
     "edouin": "😭",
     "eyeReactId": "👁️",
-    "helloEmoji": "👋",
     "hungryEmotes": {
       "jambonBeurre": "🥖",
       "jamBjornBeurre": "🧈"
     },
     "panDuomReactId": "😠",
-    "removeEmoji": "❌",
     "pronouns": {
       "pronouns": {
         "allP": "988481558325395567",
@@ -74,16 +72,10 @@
         "neutral": "988481811657142322"
       }
     },
-    "LuciferId": "657498573222576148",
     "twitter": {
       "prodChannelId": "935180557770448956",
       "testChannelId": "971866953859891220"
     },
-    "twitterUserIds": {
-      "laquetedewilan": "1032989926000939008",
-      "andartapictures": "1039418011260727296"
-    },
-    "octagonalSign": "🛑",
     "rudolphslichId": "1052970160903950346",
     "announce": {
       "giftChannelId": "935180557770448956"
@@ -91,7 +83,7 @@
     "giftButtonChannelId": "935180557770448956",
     "sentinelleRoleId": "1043971181461651506"
   },
-  {
+  "prod": {
     "name": "prod",
     "guildId": "816961245743808582",
     "playlistThreadId": "892785771541585980",
@@ -138,14 +130,12 @@
       "salimmdrReactId": "823904313792266250"
     },
     "edouin": "823872218928250890",
-    "eyeReactId": "822487568766730270", 
-    "helloEmoji": "👋",
+    "eyeReactId": "822487568766730270",
     "hungryEmotes": {
       "jambonBeurre": "823904010335158323",
       "jamBjornBeurre": "933464636223791144"
     },
     "panDuomReactId": "826036478672109588",
-    "removeEmoji": "❌",
     "pronouns": {
       "pronouns": {
         "allP": "1000807331908567160",
@@ -166,21 +156,26 @@
         "neutral": "1000807784738213918"
       }
     },
-    "LuciferId": "657498573222576148",
     "twitter": {
       "prodChannelId": "816986951021756446",
       "testChannelId": "1012365513676050462"
     },
-    "twitterUserIds": {
-      "laquetedewilan": "1032989926000939008",
-      "andartapictures": "1039418011260727296"
-    },
-    "octagonalSign": "🛑",
     "rudolphslichId": "1050186232547790848",
     "announce": {
       "giftChannelId": "973206750771687434"
     },
     "giftButtonChannelId": "973206750771687434",
     "sentinelleRoleId": "816975096518279188"
+  },
+  "shared": {
+    "helloEmoji": "👋",
+    "LuciferId": "657498573222576148",
+    "name": "shared",
+    "octagonalSignEmoji": "🛑",
+    "removeEmoji": "❌",
+    "twitterUserIds": {
+      "laquetedewilan": "1032989926000939008",
+      "andartapictures": "1039418011260727296"
+    }
   }
-]
+}

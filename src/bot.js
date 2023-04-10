@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime.js";
 import "dayjs/locale/fr.js";
@@ -24,7 +27,6 @@ import {
 
 // listeners imports
 import {
-  onPrivateMessage,
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
@@ -52,14 +54,14 @@ import {
 
 import { initAdminLogClearing } from "./admin/utils.js";
 
+// jsons import
+import { COMMONS } from "./commons.js";
+
 //alavirien import
 import { setupAlavirien } from "./admin/alavirien.js";
 
-// json import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
-
 // command import
+import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
 import { wishBirthday } from "./commands/birthday.js";
 import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
@@ -94,9 +96,9 @@ const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
 setTimeout(async () => {
   // init birthday check
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+
   const channel = await client.channels.fetch(server.randomfloodChannelId);
 
   console.log("hello, timeoutBirthday");
@@ -148,12 +150,9 @@ const onMessageHandler = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
 
-  if (channel.type === "DM") {
-    onPrivateMessage(message, client);
-  } else {
-    const currentServer = commons.find(
-      ({ guildId }) => guildId === channel.guild.id
-    );
+  if (channel.type === "DM") return;
+  else {
+    const currentServer = COMMONS.fetchGuildId(channel.guildId);
     onPublicMessage(message, client, currentServer, self);
   }
 };
@@ -162,16 +161,20 @@ const onMessageHandler = async (message) => {
 client.once("ready", async () => {
   // Bot init
   console.log("I am ready!");
-  setupAlavirien(client, commons, tomorrow, frequency);
-  roleInit(client, commons); //role handler init
+  roleInit(client); //role handler init
+  setupAlavirien(client, tomorrow, frequency);
+
+  //polls
+  client.voteBuffers = {}; //init poll votes buffer
+  initPollsCollector(client); //start db polls collectors
 
   //Ewibot activity
   setActivity(client);
   updateActivity(client);
 
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  //slash commands
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
   slashCommandsInit(self, guildId, client); //commands submit to API
 
@@ -184,19 +187,18 @@ client.once("ready", async () => {
     initTwitterLoop(client);
   }
 
-  // LOGS
-
+  //LOGS
   const tomorrow2Am = dayjs()
     .add(1, "day")
     .hour(2)
     .minute(0)
     .second(0)
     .millisecond(0); //tomorrow @ 2am
-
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 
-  setGiftTimeoutLoop(client, commons); //gift timeout loop init
+  //gift
+  setGiftTimeoutLoop(client); //gift timeout loop init
 });
 // Create an event listener for messages
 

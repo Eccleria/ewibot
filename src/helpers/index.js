@@ -1,23 +1,26 @@
 import {
-  addAdminLogs,
-  getAdminLogs,
-  removeAdminLogs,
-  addIgnoredUser,
-  removeIgnoredUser,
-  isIgnoredUser,
-  addBirthday,
-  removeBirthday,
-  isBirthdayDate,
   isApologyUser,
   addApologyCount,
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  removeAppologyCount,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
+  //removeApologyCount,
+} from "./db/dbApology.js";
+
+import { addAdminLogs, getAdminLogs, removeAdminLogs } from "./db/dbAdmin.js";
+
+import { addAlavirien, removeAlavirien } from "./db/dbAlavirien.js";
+
+import {
+  addBirthday,
+  isBirthdayDate,
+  removeBirthday,
+} from "./db/dbBirthday.js";
+
+import {
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
+} from "./db/dbEventRoles.js";
+
+import {
   addGiftUser,
   removeGiftUser,
   isGiftUser,
@@ -26,12 +29,41 @@ import {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
-  addAlavirien,
-  removeAlavirien,
-  getEventRoles,
-  addEventRole,
-  updateEventRoleMessageId,
-} from "./dbHelper.js";
+} from "./db/dbGift.js";
+
+import {
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+} from "./db/dbIgnore.js";
+
+import {
+  addPoll,
+  getPoll,
+  getPolls,
+  getPollFromTitle,
+  addPollChoices,
+  addPollVoter,
+  isThisChoicePollVoter,
+  getPollVoteIndexes,
+  getThisChoicePollIndex,
+  removePoll,
+  removePollChoice,
+  removePollIndex,
+  resetPollVoters,
+  updatePollParam,
+  updatePollButtonId,
+} from "./db/dbPolls.js";
+
+import {
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
+} from "./db/dbTwitter.js";
 
 import {
   generateSpotifyClient,
@@ -43,9 +75,7 @@ import {
   sanitizePunctuation,
   isAdmin,
   hasApology,
-  isCommand,
   reactionHandler,
-  checkIsOnThread,
   hasOctagonalSign,
   setActivity,
   updateActivity,
@@ -56,9 +86,7 @@ export {
   sanitizePunctuation,
   isAdmin,
   hasApology,
-  isCommand,
   reactionHandler,
-  checkIsOnThread,
   hasOctagonalSign,
   setActivity,
   updateActivity,
@@ -67,25 +95,26 @@ export {
   parseLink,
   deleteSongFromPlaylist,
   // dbHelper
+  //admin
   addAdminLogs,
   getAdminLogs,
   removeAdminLogs,
-  addIgnoredUser,
-  removeIgnoredUser,
-  isIgnoredUser,
-  addBirthday,
-  removeBirthday,
-  isBirthdayDate,
+  //alavirien
+  addAlavirien,
+  removeAlavirien,
+  //apology
   isApologyUser,
   addApologyCount,
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  removeAppologyCount,
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
+  //removeApologyCount,
+  //birthday
+  addBirthday,
+  isBirthdayDate,
+  removeBirthday,
+  //eventRoles
+  getEventRoles,
+  addEventRole,
+  updateEventRoleMessageId,
+  //gift
   addGiftUser,
   removeGiftUser,
   isGiftUser,
@@ -94,9 +123,32 @@ export {
   removeGiftMessage,
   getGiftMessage,
   addGiftSeparator,
-  addAlavirien,
-  removeAlavirien,
-  getEventRoles,
-  addEventRole,
-  updateEventRoleMessageId,
+  //ignore
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+  //polls
+  addPoll,
+  getPoll,
+  getPolls,
+  getPollFromTitle,
+  addPollChoices,
+  addPollVoter,
+  isThisChoicePollVoter,
+  getPollVoteIndexes,
+  getThisChoicePollIndex,
+  removePoll,
+  removePollChoice,
+  removePollIndex,
+  resetPollVoters,
+  updatePollParam,
+  updatePollButtonId,
+  //twitter
+  getTwitterUser,
+  updateLastTweetId,
+  addMissingTweets,
+  removeMissingTweets,
 };

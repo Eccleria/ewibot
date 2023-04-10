@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
 import { SlashCommandBuilder } from "@discordjs/builders";
@@ -22,6 +25,7 @@ import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
 import gift from "./gift.js";
+import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
 import twitter from "./twitter.js";
@@ -32,10 +36,7 @@ import spotify from "./spotify.js";
 import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
 
 import { PERSONALITY } from "../personality.js";
-
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -93,7 +94,7 @@ const roll = {
       ); //compute total + each dices values
 
       interactionReply(interaction, `${total} (${details.join(", ")})`);
-    }
+    } else interactionReply(interaction, personality.parsingError);
   },
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().roll;
@@ -114,11 +115,11 @@ const ignoreUser = {
     const iPerso = PERSONALITY.getCommands().ignoreUser;
 
     //check for command argument
-    if (isIgnoredUser(authorId, db)) {
-      removeIgnoredUser(authorId, db);
+    if (isIgnoredUser(db, authorId)) {
+      removeIgnoredUser(db, authorId);
       interactionReply(interaction, iPerso.notIgnored);
     } else {
-      addIgnoredUser(authorId, db);
+      addIgnoredUser(db, authorId);
       interactionReply(interaction, iPerso.ignored);
     }
   },
@@ -178,7 +179,6 @@ const ignoreChannel = {
 const contextCommands = [reverseTranslator, saveLog]; //context commands (message, channel, user)
 const slashCommands = [
   announce,
-  //botMessage,
   birthday,
   botMessage,
   concrete,
@@ -187,6 +187,7 @@ const slashCommands = [
   ignoreChannel,
   ignoreUser,
   ping,
+  polls,
   reminder,
   reverse,
   roll,
@@ -211,9 +212,7 @@ const help = {
     if (foundCommand) {
       const member = interaction.member;
 
-      const currentServer = commons.find(
-        (server) => server.guildId === interaction.guildId
-      );
+      const currentServer = COMMONS.fetchGuildId(interaction.guildId);
       const isModo = isSentinelle(interaction.member, currentServer);
       const isAdminUser = isAdmin(member.id);
 
@@ -234,9 +233,7 @@ const help = {
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const member = interaction.member;
-    const currentServer = commons.find(
-      (server) => server.guildId === interaction.guildId
-    );
+    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
 
     const isModo = isSentinelle(member, currentServer);
     const isDev = isAdmin(member.id);

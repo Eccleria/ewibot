@@ -6,10 +6,7 @@ import {
 } from "../helpers/index.js";
 import { interactionReply } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
-
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 export const fetchUserTimeline = async (client, userId, pageToken) => {
   const twitter = client.twitter;
@@ -43,16 +40,16 @@ export const tweetLink = (username, id) => {
 
 export const tweetCompare = async (client, interaction) => {
   const db = client.db;
-  const currentServer = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const currentServer =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+  const cmnShared = COMMONS.getShared();
 
   //compare tweets
-  const users = Object.entries(currentServer.twitterUserIds);
+  const users = Object.entries(cmnShared.twitterUserIds);
   let tLinks = [];
 
   for (const [username, userId] of users) {
-    const dbData = getTwitterUser(userId, client.db); //fetch corresponding data in db
+    const dbData = getTwitterUser(client.db, userId); //fetch corresponding data in db
     const fetchedTweets = await fetchUserTimeline(client, userId); //timeline
     const tweetIds = fetchedTweets.data.data
       ? fetchedTweets.data.data.map((obj) => obj.id)
@@ -78,8 +75,8 @@ export const tweetCompare = async (client, interaction) => {
       tLinks = [...tLinks, ...newTLinks]; //regroup links
 
       //update db
-      updateLastTweetId(userId, tweetIds[0], db); //update last tweet id
-      addMissingTweets(newTLinks, db); //tweets links
+      updateLastTweetId(db, userId, tweetIds[0]); //update last tweet id
+      addMissingTweets(db, newTLinks); //tweets links
     }
     //if idx === 0 => db up to date
     //if idx === -1 => too many retweets or issue
@@ -99,7 +96,7 @@ export const tweetCompare = async (client, interaction) => {
       const channel = await client.channels.fetch(channelId);
       tLinks.forEach(async (link) => await channel.send(link));
     }
-    removeMissingTweets(tLinks, db);
+    removeMissingTweets(db, tLinks);
   } else if (interaction)
     interaction.reply({
       content: PERSONALITY.getCommands().twitter.dbUpToDate,

@@ -1,6 +1,9 @@
 // jsons imports
 import { readFileSync } from "fs";
-const personalities = JSON.parse(readFileSync("static/personalities.json"));
+const path = "static/personalities/";
+const admin = JSON.parse(readFileSync(path + "admin.json"));
+const announces = JSON.parse(readFileSync(path + "announces.json"));
+const personalities = JSON.parse(readFileSync(path + "personalities.json"));
 const colors = JSON.parse(readFileSync("static/colors.json"));
 
 //export var PERSONALITY = personalities.normal; // common var for all files
@@ -44,8 +47,8 @@ class Personality {
 export const PERSONALITY = new Personality(
   "normal",
   personalities.normal,
-  personalities.admin,
-  personalities.announces,
+  admin,
+  announces,
   colors
 );
 

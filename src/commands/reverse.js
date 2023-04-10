@@ -5,9 +5,7 @@ import {
 } from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
-
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
 import { MessageEmbed } from "discord.js";
@@ -88,7 +86,7 @@ const contextAction = async (interaction) => {
   const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
   //if in log_channel => should handle embed contents + send as visible for anyone
-  const server = commons.find((obj) => obj.guildId === interaction.guildId);
+  const server = COMMONS.fetchGuildId(interaction.guildId);
   const channels = [server.logChannelId, server.logThreadId];
   let string;
   if (channels.includes(interaction.channelId)) {

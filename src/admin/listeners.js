@@ -1,5 +1,6 @@
 import {
   buttonHandler,
+  selectMenuHandler,
   interactionReply,
   isReleasedCommand,
   dispatchSlicedEmbedContent,
@@ -33,9 +34,7 @@ import { shuffleParam } from "../commands/shuffle.js";
 
 import dayjs from "dayjs";
 
-// jsons imports
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("./static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 //LISTENERS
 
@@ -44,6 +43,12 @@ export const onInteractionCreate = (interaction) => {
 
   if (interaction.isButton()) {
     buttonHandler(interaction);
+    return;
+  }
+
+  if (interaction.isSelectMenu()) {
+    console.log("selectMenu interaction detected");
+    selectMenuHandler(interaction);
     return;
   }
 
@@ -57,7 +62,7 @@ export const onInteractionCreate = (interaction) => {
       (cmd) => cmd.command.name === interaction.commandName
     );
 
-    if (foundCommand) foundCommand.action(interaction, commons); //if found command, execute its action
+    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
     return;
   }
 
@@ -437,9 +442,7 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === message.guildId
-  );
+  const currentServer = COMMONS.fetchGuildId(message.guildId);
 
   if (
     message.channelId === currentServer.logThreadId ||
@@ -584,9 +587,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (!oMessage.guild) return; //Ignore DM
   if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === newMessage.guildId
-  );
+  const currentServer = COMMONS.fetchGuildId(newMessage.guildId);
   if (newMessage.channelId === currentServer.logThreadId) return;
 
   //get personality
@@ -605,14 +606,18 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const unpinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_UNPIN", 1); //get auditLog
     const unpinned = messageU.unpinned;
     embed.addField(unpinned.title, unpinned.text, true); //add unpinned text
+    embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
-    embed.addField(messageU.linkName, link);
+    embed.addField(messageU.linkName, link, true);
+
+    //add executor
+    embed.addFields({name: unpinned.executor, value: unpinLog.executor.toString(), inline: true})
 
     const messageList = await endCasesEmbed(
       nMessage,
-      unpinLog,
+      null,
       messageU,
       auditLog,
       embed,
@@ -627,14 +632,18 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN", 1); //get auditLog
     const pinned = messageU.pinned;
     embed.addField(pinned.title, pinned.text, true); //add unpinned text
+    embed.addField(messageU.channel, `<#${oMessage.channelId}>`, true); //message channel
 
     //add message link
     const link = `[${messageU.linkMessage}](${nMessage.url})`;
     embed.addField(messageU.linkName, link, true);
 
+    //add executor
+    embed.addFields({name: pinned.executor, value: pinLog.executor.toString(), inline: true})
+
     const messageList = await endCasesEmbed(
       nMessage,
-      pinLog,
+      null,
       messageU,
       auditLog,
       embed,
@@ -684,10 +693,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       if (!hasApology(oSanitized) && hasApology(nSanitized)) {
         //in new message && not in old message
         const db = oMessage.client.db; //get db
-        const currentServer = commons.find(
-          ({ guildId }) => guildId === nMessage.guildId
-        ); //get commons.json data
-        addApologyCount(nMessage.author.id, db); //add data to db
+        const currentServer = COMMONS.fetchGuildId(nMessage.guildId); //get commons.json data
+        addApologyCount(db, nMessage.author.id); //add data to db
         await nMessage.react(currentServer.panDuomReactId); //add message reaction
       }
     }
@@ -851,9 +858,7 @@ export const onGuildMemberRemove = async (memberKick) => {
 };
 
 export const onGuildMemberAdd = async (guildMember) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === guildMember.guild.id
-  );
+  const currentServer = COMMONS.fetchGuildId(guildMember.guild.id);
 
   if (currentServer.name === "prod" && process.env.DEBUG === "no") {
     console.log("onGuildMemberAdd", guildMember.displayName);

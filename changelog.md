@@ -1,4 +1,22 @@
-﻿## 4.9.4
+## 5.0.0
+- New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
+- New: admin `/commands` `message send/reply` for dev usage ([#139](https://github.com/Eccleria/ewibot/pull/139))
+- Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll) ([#134](https://github.com/Eccleria/ewibot/pull/134), [#137](https://github.com/Eccleria/ewibot/pull/137))
+- Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify) ([#134](https://github.com/Eccleria/ewibot/pull/134), [#137](https://github.com/Eccleria/ewibot/pull/137))
+- Remove: `$commands` helpers (checkIsOnThread, isCommand) ([#134](https://github.com/Eccleria/ewibot/pull/134), [#137](https://github.com/Eccleria/ewibot/pull/137))
+- Remove: `onPrivateMessage` - dev ability to speak through Ewibot ([#139](https://github.com/Eccleria/ewibot/pull/139))
+- Update: files now use `COMMONS` object instead of commons.json parse ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
+- Update: personality organisation ([#140](https://github.com/Eccleria/ewibot/pull/140))
+	- explode personalities.json file into 3 files
+	- regroup files into personalities folder
+- Update dbHelper organisation ([#153](https://github.com/Eccleria/ewibot/pull/153))
+	- explode dbHelper.js into files
+	- regroup new files in new db folder
+	- every dbHelper function have `db` as first arg
+- Update AdminLogs: ([#159](https://github.com/Eccleria/ewibot/pull/159))
+	- messageUpdate now with un/pinned author and message channel
+
+## 4.9.4
 - Fix: filter ChannelLog channels without position change and not in bulk ([#180](https://github.com/Eccleria/ewibot/pull/180))
 - Fix: RoleLog filter roles with no position change ([#179](https://github.com/Eccleria/ewibot/pull/179))
 
@@ -9,10 +27,10 @@
 - Upgrade: discord.js to 13.14, fixing ([#173](https://github.com/Eccleria/ewibot/issues/173))
 
 ## 4.9.1
-- Update: `checkProdTestMode` now `isTestServer` for clarity
 - Feat: new emote reaction on `reactionHandler`
 - Fix: rare case when `AuditLog.executor` is not retrieved
 - Fix: pronouns rare case with missing json. Add log for monitoring.
+- Update: `checkProdTestMode` now `isTestServer` for clarity
 
 ## 4.9.0
 - Update: pronouns buttons with `pronouns_` prefix

@@ -1,6 +1,8 @@
 import { MessageEmbed } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../commons.js";
+
 import {
   getAdminLogs,
   removeAdminLogs,
@@ -8,10 +10,6 @@ import {
   removeIgnoredUser,
   removeAlavirien,
 } from "../helpers/index.js";
-
-// jsons import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
 
 /**
  * Fetch AuditLog from API.
@@ -82,7 +80,7 @@ export const finishEmbed = async (
   text,
   attachments
 ) => {
-  const currentServer = commons.find(({ name }) => name === "test"); //get test data
+  const currentServer = COMMONS.getTest(); //get test data
   if (
     process.env.DEBUG === "no" &&
     logChannel.guildId === currentServer.guildId
@@ -143,7 +141,7 @@ export const finishEmbed = async (
 /**
  * Differentiate finishEmbed cases.
  * @param {object} obj Object related to listened event.
- * @param {GuildAuditLogsEntry} log Audit log.
+ * @param {?object} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
  * @param {(MessageEmbed|MessageEmbed[])} embed Embed, or array of embeds with log at index 0.
@@ -257,9 +255,7 @@ export const generalEmbed = async (
  * @returns {TextChannel}
  */
 export const getLogChannel = async (eventObject, type) => {
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === eventObject.guild.id
-  ); //get server local data
+  const currentServer = COMMONS.fetchGuildId(eventObject.guild.id); //get server local data
   const id =
     type === "thread" ? currentServer.logThreadId : currentServer.logChannelId;
   return await eventObject.guild.channels.fetch(id); //return the log channel
@@ -522,7 +518,7 @@ const space2Strings = (str1, str2, dist, sep) => {
   return `${sliced1}${sep}${sliced2}`;
 };
 
-const removeEmote = (str) => {
+export const removeEmote = (str) => {
   //remove emote from the begining of a string
   let n = 0;
   for (const char of str) {
@@ -629,9 +625,8 @@ export const gifRecovery = (content) => {
 export const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
-  const server = commons.find(({ name }) =>
-    process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-  );
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
 
   // frequent logs remove
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
@@ -725,7 +720,7 @@ export const octagonalLog = async (object, user) => {
  * @returns True if is test server
  */
 export const isTestServer = (logChannel) => {
-  const server = commons.find(({ name }) => name === "test");
+  const server = COMMONS.getTest();
   const channels = [server.logChannelId, server.logThreadId];
 
   return channels.includes(logChannel.id); //if test, return true
@@ -734,7 +729,7 @@ export const isTestServer = (logChannel) => {
 export const checkDB = (userId, client) => {
   //check if user is in db for removal
   const db = client.db;
-  removeBirthday(userId, db);
-  removeIgnoredUser(userId, db);
-  removeAlavirien(userId, db);
+  removeBirthday(db, userId);
+  removeIgnoredUser(db, userId);
+  removeAlavirien(db, userId);
 };

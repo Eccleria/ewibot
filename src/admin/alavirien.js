@@ -4,6 +4,7 @@ import { removeAlavirien } from "../helpers/index.js";
 import { setupEmbed, finishEmbed } from "./utils.js";
 import { isSentinelle } from "../commands/utils.js";
 import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../commons.js";
 
 export const presentationHandler = async (
   server,
@@ -75,16 +76,15 @@ const checkAlavirien = async (client, server) => {
   });
 };
 
-export const setupAlavirien = async (client, commons, tomorrow, frequency) => {
+export const setupAlavirien = async (client, tomorrow, frequency) => {
   //init everyday Alavirien
   const timeToTomorrow = tomorrow.minute(5).diff(dayjs()); //time to tommorow in ms
 
   setTimeout(async () => {
     //timeout until tomorrow
 
-    const server = commons.find(({ name }) =>
-      process.env.DEBUG === "yes" ? name === "test" : name === "prod"
-    ); //get server data
+    const server =
+      process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get server data
     checkAlavirien(client, server); //check for alavirien role attribution
 
     setInterval(checkAlavirien, frequency, client, server);

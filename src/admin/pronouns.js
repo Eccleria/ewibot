@@ -1,15 +1,10 @@
-// jsons imports
-import { readFileSync } from "fs";
+import { COMMONS } from "../commons.js";
 import { interactionReply } from "../commands/utils.js";
-const commons = JSON.parse(readFileSync("static/commons.json"));
-
 import { PERSONALITY } from "../personality.js";
 
 export const pronounsButtonHandler = async (interaction) => {
   //get commons pronouns data
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === interaction.guildId
-  );
+  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
   const pronounsJson = Object.entries(currentServer.pronouns.pronouns);
   const agreementsJson = Object.entries(currentServer.pronouns.agreements);
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]

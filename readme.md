@@ -1,6 +1,6 @@
 # Ewibot
 
-[![Version badge](https://badgen.net/github/release/Titch88/ewibot)](https://github.com/Titch88/ewibot)
+[![Version badge](https://badgen.net/github/release/Titch88/ewibot)](https://github.com/Titch88/ewibot) [![Version badge](https://badgen.net/github/branches/Titch88/ewibot)](https://github.com/Titch88/ewibot)
 
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
 This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
@@ -13,7 +13,7 @@ Ewibot is written in Javascript. The tree is devided into 4 parts:
 - [source code](#source-code)
 	- [admin](./doc/admin.md)
 	- [twitter](./doc/twitter.md)
-	- [slash commands](./doc/slashCommands.md)
+	- [slash commands](./doc/commands/slashCommands.md)
 - [static code](#static-code)
 
 ### Concrete
@@ -41,7 +41,7 @@ See [Admin documentation](./doc/admin.md) for more details.
 
 #### Commands
 There are different commands available for the users. All are inside the files of the [commands folder](./src/commands). 
-See [Commands documentation](./doc/commands.md) for more details.
+See [Commands documentation](./doc/commands/commands.md) for more details.
 
 #### Helpers
 The [folder](./src/helpers) is dedicated to regroup every file having smaller functions or methods used in more important
