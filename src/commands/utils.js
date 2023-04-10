@@ -5,6 +5,10 @@ import { eventRolesButtonHandler } from "./eventRoles.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
+import {
+  settingsButtonHandler,
+  pollSelectMenuHandler,
+} from "./polls/pollsHandlers.js";
 
 /**
  * Reply to interaction function
@@ -41,13 +45,27 @@ export const createButton = (id, label, style, emoji) => {
  */
 export const buttonHandler = (interaction) => {
   const { customId } = interaction;
+  console.log("buttonHandler customId", customId)
   if (customId === "gift") giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
     eventRolesButtonHandler(interaction);
-  else if (interaction.customId.startsWith("pronouns"))
+  else if (customId.startsWith("polls_set")) settingsButtonHandler(interaction);
+  else if (customId.startsWith("polls")) return; //poll vote buttons, handled in pollsCollectors.js
+  else if (customId.startsWith("pronouns"))
     pronounsButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
+};
+
+/**
+ * Dispatch selectMenu interactions between corresponding functions
+ * @param {object} interaction
+ */
+export const selectMenuHandler = (interaction) => {
+  const { customId } = interaction;
+  console.log("menuHandler", customId);
+  if (customId.startsWith("polls_selectMenu"))
+    pollSelectMenuHandler(interaction);
 };
 
 /**

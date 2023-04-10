@@ -41,6 +41,24 @@ import {
 } from "./db/dbIgnore.js";
 
 import {
+  addPoll,
+  getPoll,
+  getPolls,
+  getPollFromTitle,
+  addPollChoices,
+  addPollVoter,
+  isThisChoicePollVoter,
+  getPollVoteIndexes,
+  getThisChoicePollIndex,
+  removePoll,
+  removePollChoice,
+  removePollIndex,
+  resetPollVoters,
+  updatePollParam,
+  updatePollButtonId,
+} from "./db/dbPolls.js";
+
+import {
   getTwitterUser,
   updateLastTweetId,
   addMissingTweets,
@@ -112,6 +130,22 @@ export {
   addIgnoredUser,
   isIgnoredUser,
   removeIgnoredUser,
+  //polls
+  addPoll,
+  getPoll,
+  getPolls,
+  getPollFromTitle,
+  addPollChoices,
+  addPollVoter,
+  isThisChoicePollVoter,
+  getPollVoteIndexes,
+  getThisChoicePollIndex,
+  removePoll,
+  removePollChoice,
+  removePollIndex,
+  resetPollVoters,
+  updatePollParam,
+  updatePollButtonId,
   //twitter
   getTwitterUser,
   updateLastTweetId,

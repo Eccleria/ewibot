@@ -310,6 +310,121 @@
         "nameList": "La liste des personalités est : ",
         "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
       },
+      "polls": {
+        "addChoice": {
+          "choiceOption": {
+            "description": "Choix à ajouter au sondage",
+            "name": "choix"
+          },
+          "description": "Ajouter un choix au sondage.",
+          "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
+          "help": "Cette commande permet d'ajouter un ou plusieurs choix à un sondage déjà envoyé. Il faut choisir le sondage via l'item `sondage`, puis remplir `choix` avec la même syntaxe que pour `/poll create`.",
+          "name": "nouveau-choix",
+          "pollOption": {
+            "description": "Choix du sondage auquel ajouter les options.",
+            "name": "sondage"
+          },
+          "updated": "Le sondage a été mis à jour."
+        },
+        "black": ":black_large_square:",
+        "counted": "Votre vote a été compté.",
+        "create": {
+          "choiceOption": {
+            "description": "Les choix du sondage",
+            "name": "choix"
+          },
+          "colorOption": {
+            "black": ":black_large_square:",
+            "description": "La couleur du bandeau et de la barre de progression.",
+            "name": "couleur"
+          },
+          "description": "Créer un nouveau sondage.",
+          "descOption": {
+            "description": "Texte de la description du sondage.",
+            "name": "description"
+          },
+          "footer": {
+            "options": " | ⚙️ options",
+            "multiple": "Vote multiple",
+            "unique": "Vote unique"
+          },
+          "help": "Cette commande permet de créer un sondage. Voici les paramètres :\n\n**Obligatoires**\n- `title` Titre du sondage. *Minimum 1 lettre, maximum 225.*\n- `choices` Choix du sondage. Vous devez **respecter la mise en forme** du texte suivante :\n  + Deux choix sont séparés par un point-virgule `;`.\n  + Si vous voulez personnaliser des émotes, vous devez la séparer du reste du choix avec une virgule `,`.\n  + Le dernier choix ne nécessite pas de point-virgule.\n  + Ex : `🥖, pain; 🧈, beurre`\n\n**Optionels**\n - `color` Couleur de la barre lattérale et de progression. _Vous pouvez la choisir via la liste, et filtrer la sélection en tapant les premières lettres. Par défaut: bleu._\n - `description` Description du sondage, _pour ajouter du contexte ou des détails._\n - `anonymous` Si vous voulez ou non les choix de chaque votant. _Par défaut : anonyme._\n - `max votes` Nombre maximal de votes. _Ne peux pas dépasser le nombre de choix. Par défaut : 1 choix max._",
+          "hideOption": {
+            "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
+            "name": "anonyme"
+          },
+          "maxOption": {
+            "description": "Si vote multiples, le nombre maximal de votes",
+            "name": "nombre-vote-max"
+          },
+          "name": "create",
+          "sent": "Le sondage a été envoyé.",
+          "titleOption": {
+            "description": "Titre du sondage.",
+            "name": "titre"
+          }        
+        },
+        "description": "Cette commande permet de créer des sondages.",
+        "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
+        "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
+        "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",
+        "errorNotAlavirien": "Vous n'êtes pas Alavirien.ne. Vous ne pouvez pas utiliser cette commande.",
+        "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
+        "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
+        "help": "Cette commande permet de créer des sondages.",
+        "name": "polls",
+        "settings": {
+          "buttons": {
+            "refresh": ["polls_set_refresh", "Actualiser"],
+            "remove": ["polls_set_remove", "Retirer"],
+            "reset": ["polls_set_reset", "RAZ"],
+            "stop": ["polls_set_disable", "Stop"],
+            "update": ["polls_set_update", "Modifier"]
+          },
+          "disable": {
+            "disabled": "Le sondage a bien été verrouillé.",
+            "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
+            "title": " - **Terminé**"
+          },
+          "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
+          "refresh" : {
+            "done": "L'actualisation du message est terminée",
+            "underRefresh": "Le sondage est en cours d'actualisation."
+          },
+          "remove": {
+            "customId": "polls_selectMenu_remove",
+            "errorNotEnoughToRemove": "Il n'y a pas assez de choix pour en retirer.",
+            "errorNotUpdated": "Le sondage n'a pas pu être mis à jour. Veuillez contacter une Sentinelle.",
+            "placeholder": "Choix des options à supprimer",
+            "removed": "Les choix de ce sondage ont été supprimés."
+          },
+          "reset": {
+            "reset": "Les votes du sondage ont bien été réinitialisés."
+          },
+          "update": {
+            "choices": [
+              { "label": "couleur", "value": "polls_selectMenu_update_color" }, 
+              { "label": "nombre de votes", "value": "polls_selectMenu_update_voteMax" } 
+            ],
+            "color": {
+              "baseValue": "polls_selectMenu_update_color_",
+              "customId": "polls_selectMenu_update_color",
+              "placeholder": "Nouvelle couleur."
+            },
+            "customId": "polls_selectMenu_update",
+            "placeholder": "Paramètre à modifier.",
+            "voteMax": {
+              "baseValue": "polls_selectMenu_update_voteMax_",
+              "customId": "polls_selectMenu_update_voteMax",
+              "errorShouldRAZBefore": "Veuillez remettre à 0 les votes avant de diminuer le nombre de vote possible.",
+              "errorTooManyVotesMax": "Vous ne pouvez pas voter plus de fois que le nombre de choix.",
+              "errorVoteUnique": "Vous ne pouvez pas changer le nombre de vote possible pour ce type. Veuillez passer à un vote multiple avant de changer le nombre de vote.",
+              "placeholder": "Nouveau nombre de vote maximal.",
+              "voteMaxChanged": "Le nombre de vote possible a bien été modifié."
+            }
+          }
+        }
+      },
       "pronouns": {
         "agreements": {
           "all": "Tous accords",

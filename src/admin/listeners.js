@@ -1,5 +1,6 @@
 import {
   buttonHandler,
+  selectMenuHandler,
   interactionReply,
   isReleasedCommand,
   dispatchSlicedEmbedContent,
@@ -42,6 +43,12 @@ export const onInteractionCreate = (interaction) => {
 
   if (interaction.isButton()) {
     buttonHandler(interaction);
+    return;
+  }
+
+  if (interaction.isSelectMenu()) {
+    console.log("selectMenu interaction detected");
+    selectMenuHandler(interaction);
     return;
   }
 

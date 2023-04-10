@@ -23,5 +23,30 @@
     { "name": "bleu_marine", "value": "NAVY" },
     { "name": "bleu_marine_foncé", "value": "DARK_NAVY" },
     { "name": "jaune", "value": "YELLOW" }
+  ],
+  "progressBar": [
+    ":blue_square:",
+    ":blue_square:",
+    ":green_square:",
+    ":green_square:",
+    ":blue_square:",
+    ":blue_square:",
+    ":purple_square:",
+    ":purple_square:",
+    ":red_square:",
+    ":red_square:",
+    ":yellow_square:",
+    ":yellow_square:",
+    ":orange_square:",
+    ":orange_square:",
+    ":red_square:",
+    ":red_square:",
+    ":white_large_square:",
+    ":white_large_square:",
+    ":white_large_square:",
+    ":white_large_square:",
+    ":blue_square:",
+    ":blue_square:",
+    ":yellow_square:"
   ]
 }

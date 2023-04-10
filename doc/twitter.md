@@ -3,7 +3,7 @@
 This doc covers all the part about Twitter-Discord links. This link was asked by Andarta Pictures for
 a communication purpose. It aims to send all tweets sent by 
 [Andarta Pictures](https://twitter.com/andartapictures) and
-[La Quête d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts on the appropriate Discord
+[La Quï¿½te d'Ewilan](https://twitter.com/laquetedewilan) Twitter accounts on the appropriate Discord
 channel. 
 
 This functionality uses the [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) library, 
@@ -45,7 +45,7 @@ There's 2 commands that have been implemented, with the same prefix "twitter":
 - `compare`
 - `share`
 
-> To understand how / commands are created, please refer to the [slash command](./slashCommands.md) doc.
+> To understand how / commands are created, please refer to the [slash command](./commands/slashCommands.md) doc.
 
 `compare` and `share` commands are useful if the bot went down and somme tweets were sent during
 the offline time. No user input is required. 

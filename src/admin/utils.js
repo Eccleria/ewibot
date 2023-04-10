@@ -508,7 +508,7 @@ const space2Strings = (str1, str2, dist, sep) => {
   return `${sliced1}${sep}${sliced2}`;
 };
 
-const removeEmote = (str) => {
+export const removeEmote = (str) => {
   //remove emote from the begining of a string
   let n = 0;
   for (const char of str) {

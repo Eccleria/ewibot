@@ -61,6 +61,7 @@ import { COMMONS } from "./commons.js";
 import { setupAlavirien } from "./admin/alavirien.js";
 
 // command import
+import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
 import { wishBirthday } from "./commands/birthday.js";
 import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
@@ -162,6 +163,10 @@ client.once("ready", async () => {
   console.log("I am ready!");
   roleInit(client); //role handler init
   setupAlavirien(client, tomorrow, frequency);
+
+  //polls
+  client.voteBuffers = {}; //init poll votes buffer
+  initPollsCollector(client); //start db polls collectors
 
   //Ewibot activity
   setActivity(client);

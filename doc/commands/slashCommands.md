@@ -1,5 +1,7 @@
 # Slash commands
 
+> For `polls`, please see [Polls Documentation](./polls.md).
+
 ```javascript
 const command = new SlashCommandBuilder()
   .setName("twitter")

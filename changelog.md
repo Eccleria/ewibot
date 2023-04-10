@@ -1,19 +1,19 @@
 ﻿## 5.0.0
 - New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
-- New: admin `/commands` `message send/reply` for dev usage
-- Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll)
-- Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify)
-- Remove: `$commands` helpers (checkIsOnThread, isCommand)
-- Remove: `onPrivateMessage` - dev ability to speak through Ewibot
+- New: admin `/commands` `message send/reply` for dev usage ([#139](https://github.com/Eccleria/ewibot/pull/139))
+- Remove: `$commands` (birthday, concrete, help, ignoreUser, ignoreChannel, ping, reminder, roll) ([#134](https://github.com/Eccleria/ewibot/pull/134), [#137](https://github.com/Eccleria/ewibot/pull/137))
+- Remove: $ access to remaining `$commands` (leadApo, pronouns, spotify) ([#134](https://github.com/Eccleria/ewibot/pull/134), [#137](https://github.com/Eccleria/ewibot/pull/137))
+- Remove: `$commands` helpers (checkIsOnThread, isCommand) ([#134](https://github.com/Eccleria/ewibot/pull/134), [#137](https://github.com/Eccleria/ewibot/pull/137))
+- Remove: `onPrivateMessage` - dev ability to speak through Ewibot ([#139](https://github.com/Eccleria/ewibot/pull/139))
 - Update: files now use `COMMONS` object instead of commons.json parse ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
-- Update: personality organisation 
+- Update: personality organisation ([#140](https://github.com/Eccleria/ewibot/pull/140))
 	- explode personalities.json file into 3 files
 	- regroup files into personalities folder
-- Update dbHelper organisation
+- Update dbHelper organisation ([#153](https://github.com/Eccleria/ewibot/pull/153))
 	- explode dbHelper.js into files
 	- regroup new files in new db folder
 	- every dbHelper function have `db` as first arg
-- Update AdminLogs:
+- Update AdminLogs: ([#159](https://github.com/Eccleria/ewibot/pull/159))
 	- messageUpdate now with un/pinned author and message channel
 
 ## 4.9.4
