@@ -1,3 +1,6 @@
+﻿## 5.0.1
+- Fix: botMessage missing setDefaultMemberPermission ([#184](https://github.com/Eccleria/ewibot/pull/184))
+
 ## 5.0.0
 - New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
 - New: admin `/commands` `message send/reply` for dev usage ([#139](https://github.com/Eccleria/ewibot/pull/139))
