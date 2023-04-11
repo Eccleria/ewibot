@@ -8,10 +8,7 @@ import {
   updateEventRoleMessageId,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-
-// json import
-import { readFileSync } from "fs";
-const commons = JSON.parse(readFileSync("static/commons.json"));
+import { COMMONS } from "../commons.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
@@ -26,7 +23,7 @@ export const eventRolesButtonHandler = async (interaction) => {
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
   //get alavirien role id
-  const currentServer = commons.find((obj) => obj.guildId === guildId);
+  const currentServer = COMMONS.fetchGuildId(guildId);
 
   //give requested role
   const guildMember = interaction.member;
@@ -89,9 +86,8 @@ const action = async (interaction) => {
   const options = interaction.options;
   const subcommand = options.getSubcommand();
 
-  const currentServer = commons.find(
-    ({ guildId }) => guildId === interaction.guildId
-  );
+  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+
   const db = interaction.client.db;
   const buttonType = "PRIMARY";
 
