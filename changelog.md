@@ -1,6 +1,7 @@
 ﻿## 5.0.1
 - Fix: botMessage missing setDefaultMemberPermission ([#184](https://github.com/Eccleria/ewibot/pull/184))
 - Fix: wrong commons usage from eventRoles buttons ([#190](https://github.com/Eccleria/ewibot/pull/190))
+- Fix: wrong arg order when using `removeAlavirien` ([#191](https://github.com/Eccleria/ewibot/pull/191))
 
 ## 5.0.0
 - New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
