@@ -1,4 +1,10 @@
 {
+  "alavirien": {
+    "author": "Membre :",
+    "description": "Un.e membre a reçu le rôle Alavirien·nes.",
+    "executor": "Ajouté par :",
+    "title": "Attribution du rôle Alavirien·nes"
+  },
   "auditLog": {
     "noExec": "Le propriétaire ou un bot.",
     "noLog": "Aucun log relatif n'a été trouvé.",
