@@ -60,8 +60,11 @@ export const sendSettingsButtons = async (interaction) => {
 
 export const disablePoll = async (interaction) => {
   console.log("disablePoll");
-  await interaction.deferUpdate();
-
+  try {
+    await interaction.deferUpdate();
+  } catch (e) {
+    return console.log(e)
+  }
   //get personality
   const perso = PERSONALITY.getCommands().polls.settings;
 
@@ -93,7 +96,11 @@ export const disablePoll = async (interaction) => {
 };
 
 export const removePollButtonAction = async (interaction) => {
-  await interaction.deferUpdate();
+  try {
+    await interaction.deferUpdate();
+  } catch (e) {
+    return console.log(e)
+  }
 
   const perso = PERSONALITY.getCommands().polls.settings.remove;
 
@@ -130,7 +137,11 @@ export const removePollButtonAction = async (interaction) => {
 };
 
 export const resetPollButtonAction = async (interaction) => {
-  await interaction.deferUpdate();
+  try {
+    await interaction.deferUpdate();
+  } catch (e) {
+    return console.log(e)
+  }
 
   //get data
   const personality = PERSONALITY.getCommands().polls;
@@ -164,7 +175,11 @@ export const resetPollButtonAction = async (interaction) => {
 
 export const updatePollButtonAction = async (interaction) => {
   console.log("updatePollButtonAction");
-  await interaction.deferUpdate();
+  try {
+    await interaction.deferUpdate();
+  } catch (e) {
+    return console.log(e)
+  }
 
   //get personality
   const perso = PERSONALITY.getCommands().polls.settings.update;
