@@ -2,7 +2,8 @@
 - Fix: botMessage missing setDefaultMemberPermission ([#184](https://github.com/Eccleria/ewibot/pull/184))
 - Fix: wrong commons usage from eventRoles buttons ([#190](https://github.com/Eccleria/ewibot/pull/190))
 - Fix: wrong arg order when using `removeAlavirien` ([#191](https://github.com/Eccleria/ewibot/pull/191))
-- Fix: missing alavirien personality since 5.0.0 ([#193](https://github.com/Eccleria/ewibot/pull/193)) 
+- Fix: missing alavirien personality since 5.0.0 ([#193](https://github.com/Eccleria/ewibot/pull/193))
+- Fix: rare `Unknown interaction` with poll settings buttons ([#195](https://github.com/Eccleria/ewibot/pull/195))
 
 ## 5.0.0
 - New: `commons.js` file - `Class Commons` with same behaviour as `Class Personality` ([#138](https://github.com/Eccleria/ewibot/pull/138), [#181](https://github.com/Eccleria/ewibot/pull/181))
