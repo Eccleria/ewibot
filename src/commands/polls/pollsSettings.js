@@ -11,7 +11,11 @@ import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
   console.log("sendSettingsButtons");
-  await interaction.deferReply({ ephemeral: true });
+  try {
+    await interaction.deferReply({ ephemeral: true });
+  } catch (e) {
+    return console.log(e)
+  }
 
   //get personality
   const perso = PERSONALITY.getCommands().polls.settings;
