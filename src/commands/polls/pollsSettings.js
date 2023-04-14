@@ -14,7 +14,7 @@ export const sendSettingsButtons = async (interaction) => {
   try {
     await interaction.deferReply({ ephemeral: true });
   } catch (e) {
-    return console.log(e)
+    return console.log(e);
   }
 
   //get personality
@@ -63,8 +63,9 @@ export const disablePoll = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return console.log(e)
+    return console.log(e);
   }
+
   //get personality
   const perso = PERSONALITY.getCommands().polls.settings;
 
@@ -99,7 +100,7 @@ export const removePollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return console.log(e)
+    return console.log(e);
   }
 
   const perso = PERSONALITY.getCommands().polls.settings.remove;
@@ -140,7 +141,7 @@ export const resetPollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return console.log(e)
+    return console.log(e);
   }
 
   //get data
@@ -178,7 +179,7 @@ export const updatePollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return console.log(e)
+    return console.log(e);
   }
 
   //get personality
