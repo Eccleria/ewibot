@@ -174,12 +174,24 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
   //get personality
   const personality = PERSONALITY.getCommands().polls;
-  if (toChange.includes("color")) {
+  if (toChange === "anonymous") {
+    //No need to select choice, apply modif
+    const perso = personality.settings.update.anonymous;
+    const anonymous = toChange.split("_").slice(1); //remove "color"
+    
+    //get embed
+    const pollMessage = await fetchPollMessage(interaction);
+    const embed = pollMessage.embeds[0];
+
+    //compare with db
+    const dbPoll = getPoll(db, pollMessage.id);
+
+  } else if (toChange.includes("color")) {
     const perso = personality.settings.update.color;
     const persoColors = PERSONALITY.getColors();
 
     if (toChange === "color") {
-      // create selectMenu to chose wich poll param to change
+      // create selectMenu to chose which poll color to change
       //create selectMenu
       const selectMenu = new MessageSelectMenu()
         .setCustomId(perso.customId)

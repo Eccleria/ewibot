@@ -402,7 +402,13 @@
             "reset": "Les votes du sondage ont bien été réinitialisés."
           },
           "update": {
+            "anonymous": {
+              "baseValue": "polls_selectMenu_update_anonymous_",
+              "customId": "polls_selectMenu_update_anonymous",
+              "placeholder": "Anonyme ?"
+            },
             "choices": [
+              { "label": "anonyme", "value": "polls_selectMenu_update_anonymous" },
               { "label": "couleur", "value": "polls_selectMenu_update_color" }, 
               { "label": "nombre de votes", "value": "polls_selectMenu_update_voteMax" } 
             ],
