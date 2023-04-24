@@ -131,7 +131,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
       black.repeat(10 - nb) +
       ` ${ratios[idx]}% (${values[idx]})\n`; //new colorBar
     console.log("newColorBar", newColorBar);
-    const votersEmbed = dbPoll.isAnonymous
+    const votersEmbed = dbPoll.anonymous
       ? ""
       : dbPoll.votes[idx].votes.map((userId) => ` <@${userId}>`).join("");
     console.log("votersEmbed", votersEmbed);
