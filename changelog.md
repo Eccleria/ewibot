@@ -1,4 +1,7 @@
-﻿## 5.0.1
+﻿## 5.0.2
+- Fix: typo on anonymous check during poll refresh ([#199](https://github.com/Eccleria/ewibot/pull/199))
+
+## 5.0.1
 - Fix: botMessage missing setDefaultMemberPermission ([#184](https://github.com/Eccleria/ewibot/pull/184))
 - Fix: wrong commons usage from eventRoles buttons ([#190](https://github.com/Eccleria/ewibot/pull/190))
 - Fix: wrong arg order when using `removeAlavirien` ([#191](https://github.com/Eccleria/ewibot/pull/191))
