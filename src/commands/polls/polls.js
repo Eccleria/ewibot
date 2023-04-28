@@ -70,6 +70,12 @@ const command = new SlashCommandBuilder()
           .setRequired(false)
           .setMinValue(1)
       )
+      .addUserOption((option) => 
+        option //author
+          .setName(PERSONALITY.getCommands().polls.create.authorOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.authorOption.description)
+          .setRequired(false)
+      )
   )
   .addSubcommand((command) =>
     command
@@ -128,6 +134,8 @@ const action = async (interaction) => {
     option = options.getString(perso.colorOption.name, false); //color
     const color = option == null ? pColors.choices[4].value : option;
 
+    const author = options.getUser(perso.authorOption.name, false); //author
+
     //check if not too many choices
     const splited = choices.split(";");
     if (splited.length > 10) {
@@ -140,6 +148,9 @@ const action = async (interaction) => {
       .setTitle(title)
       .setTimestamp()
       .setColor(color);
+
+    //add author if any
+    if (author) embed.setAuthor({name: author.username, iconURL: author.avatarURL()});
 
     //write footer according to voteMax
     const footerText =
