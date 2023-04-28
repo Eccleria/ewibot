@@ -11,6 +11,7 @@ import {
   fetchPollMessage,
   interactionEditReply,
   refreshPollFields,
+  pollRefreshEmbed,
 } from "./pollsUtils.js";
 import { pollVoteHandler } from "./pollsVote.js";
 import { interactionReply } from "../utils.js";
@@ -178,14 +179,22 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     //No need to select choice, apply modif
     const perso = personality.settings.update.anonymous;
     const anonymous = toChange.split("_").slice(1); //remove "color"
-    
+
     //get embed
     const pollMessage = await fetchPollMessage(interaction);
-    const embed = pollMessage.embeds[0];
 
-    //compare with db
+    //update db
     const dbPoll = getPoll(db, pollMessage.id);
+    const newAnonymous = !dbPoll.anonymous;
+    updatePollParam(db, pollMessage.id, anonymous, newAnonymous);
 
+    //update embed
+    await pollRefreshEmbed(pollMessage, dbPoll, perso);
+
+    interactionEditReply(interaction, {
+      content: "Le paramètre anonyme a bien été changé.",
+      components: [],
+    });
   } else if (toChange.includes("color")) {
     const perso = personality.settings.update.color;
     const persoColors = PERSONALITY.getColors();

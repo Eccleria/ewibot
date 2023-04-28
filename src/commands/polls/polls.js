@@ -70,10 +70,12 @@ const command = new SlashCommandBuilder()
           .setRequired(false)
           .setMinValue(1)
       )
-      .addUserOption((option) => 
+      .addUserOption((option) =>
         option //author
           .setName(PERSONALITY.getCommands().polls.create.authorOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.authorOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.authorOption.description
+          )
           .setRequired(false)
       )
   )
@@ -150,7 +152,8 @@ const action = async (interaction) => {
       .setColor(color);
 
     //add author if any
-    if (author) embed.setAuthor({name: author.username, iconURL: author.avatarURL()});
+    if (author)
+      embed.setAuthor({ name: author.username, iconURL: author.avatarURL() });
 
     //write footer according to voteMax
     const footerText =

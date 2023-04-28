@@ -150,4 +150,4 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll, perso) => {
   //update message
   embed.setFields(newFields);
   await pollMessage.edit({ embeds: [embed] });
-}
+};
