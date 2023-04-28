@@ -137,3 +137,17 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
     return { name: field.name, value: newColorBar + votersEmbed };
   });
 };
+
+export const pollRefreshEmbed = async (pollMessage, dbPoll, perso) => {
+  const embed = pollMessage.embeds[0];
+
+  //create new fields objects from pollMessage
+  const newFieldsInit = embed.fields.map((obj) => {
+    return { name: obj.name, value: "" };
+  }); //init with old names
+  const newFields = refreshPollFields(dbPoll, newFieldsInit, perso.create);
+
+  //update message
+  embed.setFields(newFields);
+  await pollMessage.edit({ embeds: [embed] });
+}

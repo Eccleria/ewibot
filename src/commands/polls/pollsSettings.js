@@ -2,7 +2,7 @@ import { MessageActionRow, MessageSelectMenu } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
-  refreshPollFields,
+  pollRefreshEmbed,
 } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
@@ -209,7 +209,6 @@ export const refreshPollButtonAction = async (interaction) => {
   const pollMessage = await fetchPollMessage(interaction);
   const embed = pollMessage.embeds[0];
   const db = interaction.client.db;
-  const dbPoll = getPoll(db, pollMessage.id);
 
   //disable actions during refresh
   const disabledComponents = pollMessage.components.reduce((acc, cur) => {
@@ -218,15 +217,9 @@ export const refreshPollButtonAction = async (interaction) => {
   }, []);
   await pollMessage.edit({ components: disabledComponents });
 
-  //create new fields objects from pollMessage
-  const newFieldsInit = embed.fields.map((obj) => {
-    return { name: obj.name, value: "" };
-  }); //init with old names
-  const newFields = refreshPollFields(dbPoll, newFieldsInit, perso.create);
-
-  //update message
-  embed.setFields(newFields);
-  await pollMessage.edit({ embeds: [embed] });
+  //update poll embed
+  const dbPoll = getPoll(db, pollMessage.id);
+  await pollRefreshEmbed(pollMessage, dbPoll, perso);
 
   //reply and enable votes
   interactionEditReply(interaction, {
@@ -234,9 +227,9 @@ export const refreshPollButtonAction = async (interaction) => {
     content: sPerso.refresh.done,
   });
 
-  //enable actions during refresh
+  //handle buttons
   if (!embed.title.includes(sPerso.disable.title)) {
-    //if not disabled, add again all buttons as enabled
+    //if poll not ended, add again all buttons as enabled
     const enabledComponents = pollMessage.components.reduce((acc, cur) => {
       cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
       return [...acc, cur];
