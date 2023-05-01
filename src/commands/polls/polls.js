@@ -5,7 +5,7 @@ import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
 import { parsePollFields } from "./pollsUtils.js";
-import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
+import { getPollFromTitle, getPollsTitles, removePoll } from "../../helpers/db/dbPolls.js";
 import { COMMONS } from "../../commons.js";
 
 const command = new SlashCommandBuilder()
@@ -101,6 +101,18 @@ const command = new SlashCommandBuilder()
           .setRequired(true)
           .setMinLength(4)
       )
+  )
+  .addSubcommand((command) => 
+		command
+			.setName(PERSONALITY.getCommands().polls.stop.name)
+			.setDescription(PERSONALITY.getCommands().polls.stop.description)
+			.addStringOption((option) => 
+				option
+					.setName(PERSONALITY.getCommands().polls.stop.pollOption.name)
+					.setDescription(PERSONALITY.getCommands().polls.stop.pollOption.description)
+					.setRequired(true)
+					.setAutocomplete(true)
+			)
   );
 
 const action = async (interaction) => {
@@ -343,7 +355,23 @@ const action = async (interaction) => {
       newComponents.dbVotes
     ); //edit db
     interactionReply(interaction, perso.updated);
-  }
+  } else if (subcommand === personality.stop.name) {
+		//addChoice poll subcommand
+		const perso = personality.addChoice;
+		const db = interaction.client.db;
+
+		//get options
+		const pollInput = options.getString(perso.pollOption.name);
+		
+		//fetch db data
+		const dbPoll = getPollFromTitle(db, pollInput);
+		if (!dbPoll) {
+			interactionReply(interaction, perso.errorNoPoll);
+			return;
+		}
+
+		removePoll(db, dbPoll.id);
+	}
 };
 
 const autocomplete = (interaction) => {
