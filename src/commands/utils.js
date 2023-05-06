@@ -45,7 +45,6 @@ export const createButton = (id, label, style, emoji) => {
  */
 export const buttonHandler = (interaction) => {
   const { customId } = interaction;
-  console.log("buttonHandler customId", customId)
   if (customId === "gift") giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
