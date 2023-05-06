@@ -50,9 +50,9 @@ export const buttonHandler = (interaction) => {
   else if (customId.startsWith("eventRole"))
     eventRolesButtonHandler(interaction);
   else if (customId.startsWith("polls_set")) settingsButtonHandler(interaction);
-  else if (customId.startsWith("polls")) return; //poll vote buttons, handled in pollsCollectors.js
-  else if (customId.startsWith("pronouns"))
-    pronounsButtonHandler(interaction);
+  else if (customId.startsWith("polls"))
+    return; //poll vote buttons, handled in pollsCollectors.js
+  else if (customId.startsWith("pronouns")) pronounsButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
 };
 
