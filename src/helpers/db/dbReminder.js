@@ -8,7 +8,7 @@ const isReminder = (db, botMessageId) => {
 
 const addReminder = (
   db,
-  message,
+  interaction,
   botMessage,
   endingTime,
   messageContent
@@ -17,9 +17,9 @@ const addReminder = (
     db.data.reminder = [
       ...db.data.reminder,
       {
-        authorId: message.author.id,
+        authorId: interaction.member.id,
         answerId: botMessage.id,
-        requestChannelId: message.channel.id,
+        requestChannelId: interaction.channelId,
         answerChannelId: botMessage.channel.id,
         reminderTime: endingTime,
         content: messageContent,
