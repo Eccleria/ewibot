@@ -59,6 +59,12 @@ import {
 } from "./db/dbPolls.js";
 
 import {
+  addReminder,
+  removeReminder,
+  updateReminder,
+} from "./db/dbReminder.js";
+
+import {
   getTwitterUser,
   updateLastTweetId,
   addMissingTweets,
@@ -146,6 +152,10 @@ export {
   resetPollVoters,
   updatePollParam,
   updatePollButtonId,
+  //reminder
+  addReminder,
+  removeReminder,
+  updateReminder,
   //twitter
   getTwitterUser,
   updateLastTweetId,
