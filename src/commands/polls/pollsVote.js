@@ -18,11 +18,10 @@ const pollVoteMultiple = (
   const userId = interaction.user.id;
 
   const voteCount = hasVotedIndexes.reduce((acc, cur) => {
-    console.log("cur", cur);
     if (cur) return acc + 1;
     else return acc;
   });
-  console.log("voteCount", voteCount);
+
   if (voteCount < dbPoll.voteMax)
     addPollVoter(db, dbPoll.pollId, userId, currentVoteIdx);
   else {
@@ -65,16 +64,13 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
     toRemoveVoteIdx = -1;
   if (oldVoteStatus) {
     //if already voted current vote, remove
-    console.log("already voted => remove");
     toRemoveVoteIdx = currentVoteIdx;
     toAddVoteIdx = null;
   } else if (hasVotedIndexes.every((bool) => !bool)) {
     //new vote
-    console.log("new vote");
     addPollVoter(db, pollId, userId, currentVoteIdx);
   } else {
     //modify vote
-    console.log("modify vote");
     if (dbPoll.voteMax > 1)
       pollVoteMultiple(
         interaction,
@@ -92,25 +88,12 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
       );
   }
 
-  console.log(
-    "hasVotedIndexes",
-    hasVotedIndexes,
-    "oldVoteStatus",
-    oldVoteStatus
-  );
-  console.log("toAddVoteIdx", toAddVoteIdx, "toRemoveVoteIdx", toRemoveVoteIdx);
-
   const oldVoteRemoveIdx =
     !isAnonymous && toRemoveVoteIdx !== -1
       ? getThisChoicePollIndex(db, pollId, userId, toRemoveVoteIdx)
       : -1; //get user embed position if not anonymous && has voted this choice
   if (toRemoveVoteIdx !== -1)
     removePollIndex(db, pollId, userId, toRemoveVoteIdx); //remove old vote
-  console.log(
-    "oldVoteRemoveIdx",
-    !isAnonymous && toRemoveVoteIdx !== -1,
-    oldVoteRemoveIdx
-  );
 
   //get fields
   const pollEmbed = message.embeds[0];
@@ -178,31 +161,9 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
       //merge text into future field value
       const newFieldValue = newColorBar + "\n" + updatedUsersEmbeds;
 
-      console.log("oldValue", [oldValue]);
-      console.log("oldVotersSplited", oldVoters.split(" "));
-      console.log(
-        "oldVoteRemoveIdx !== -1 && toRemoveVoteIdx === idx",
-        oldVoteRemoveIdx !== -1,
-        toRemoveVoteIdx === idx
-      );
-      console.log(
-        'oldVoters.split(" ").slice(1)',
-        oldVoters.split(" ").slice(1)
-      );
-      console.log(
-        "oldVotersSplitedFiltered",
-        oldVoters
-          .split(" ")
-          .slice(1)
-          .filter((voter) => voter !== user.toString())
-      );
-      console.log("filteredUsersEmbeds", [filteredUsersEmbeds]);
-      console.log("updatedUsersEmbeds", [updatedUsersEmbeds]);
-      console.log("newFieldValue", [newFieldValue]);
       return [...acc, { value: newFieldValue, name: oldField.name }];
     }
   }, []);
-  console.log("newFields", newFields);
 
   //update embed
   pollEmbed.setFields(...newFields);

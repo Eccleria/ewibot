@@ -10,7 +10,6 @@ import { getPoll, removePoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
-  console.log("sendSettingsButtons");
   try {
     await interaction.deferReply({ ephemeral: true });
   } catch (e) {
@@ -59,7 +58,6 @@ export const sendSettingsButtons = async (interaction) => {
 };
 
 export const disablePoll = async (interaction) => {
-  console.log("disablePoll");
   try {
     await interaction.deferUpdate();
   } catch (e) {
@@ -158,7 +156,6 @@ export const resetPollButtonAction = async (interaction) => {
   const newFields = embed.fields.map((field) => {
     return { name: field.name, value: black.repeat(10) + " 0% (0)\n" };
   });
-  console.log("newFields", newFields);
   embed.setFields(newFields);
 
   //update message
@@ -175,7 +172,6 @@ export const resetPollButtonAction = async (interaction) => {
 };
 
 export const updatePollButtonAction = async (interaction) => {
-  console.log("updatePollButtonAction");
   try {
     await interaction.deferUpdate();
   } catch (e) {

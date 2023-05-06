@@ -126,8 +126,7 @@ const action = async (interaction) => {
     const voteMax = option == null ? 1 : option;
 
     option = options.getString(perso.colorOption.name, false); //color
-    const color =
-      option == null ? pColors.choices[4].value : option;
+    const color = option == null ? pColors.choices[4].value : option;
 
     //check if not too many choices
     const splited = choices.split(";");
@@ -214,9 +213,7 @@ const action = async (interaction) => {
       interactionReply(interaction, perso.sent);
 
       //save poll
-      const colorIdx = pColors.choices.findIndex(
-        (obj) => obj.value === color
-      ); //find color index from personality
+      const colorIdx = pColors.choices.findIndex((obj) => obj.value === color); //find color index from personality
       addPoll(
         interaction.client.db,
         pollMsg.id,

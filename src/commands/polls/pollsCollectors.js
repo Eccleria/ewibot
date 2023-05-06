@@ -39,11 +39,9 @@ const pollVoteBuffer = (interaction) => {
   if (bufferData.timeout) clearTimeout(bufferData.timeout);
   const newTimeout = setTimeout(pollBufferLoop, 3000, client, pollMessageId);
   bufferData.timeout = newTimeout;
-  //console.log("bufferData", bufferData);
 
   //update client
   client.voteBuffers[pollMessageId] = bufferData;
-  console.log("client.voteBuffers", client.voteBuffers);
 };
 
 export const pollButtonCollector = (message) => {
@@ -60,8 +58,6 @@ export const pollButtonCollector = (message) => {
   });
 
   collector.on("collect", async (interaction) => {
-    console.log("interaction collected");
-
     await interaction.deferReply({ ephemeral: true }); //required because should be answered under 3s
     pollVoteBuffer(interaction);
   });

@@ -48,7 +48,6 @@ const addPollChoices = (db, pollId, choices) => {
 };
 
 const addPollVoter = (db, pollId, userId, choiceIdx) => {
-  console.log( pollId, userId, choiceIdx)
   const data = getPoll(db, pollId);
   data.votes[choiceIdx].votes.push(userId);
   db.wasUpdated = true;
@@ -74,11 +73,6 @@ const getPollVoteIndexes = (db, pollId, userId) => {
 
 const getThisChoicePollIndex = (db, pollId, userId, voteIdx) => {
   const { votes } = getPoll(db, pollId);
-  console.log(
-    "votes",
-    votes,
-    votes[voteIdx].votes.findIndex((id) => id === userId)
-  );
   return votes[voteIdx].votes.findIndex((id) => id === userId);
 };
 
@@ -119,9 +113,7 @@ const updatePollParam = (db, pollId, param, newValue) => {
 const updatePollButtonId = (db, pollId, oldId, newId) => {
   const data = getPoll(db, pollId);
   const idx = data.votes.findIndex((choice) => choice.buttonId === oldId);
-  console.log("oldId", oldId, "newId", newId);
-  console.log("data.votes", data.votes);
-  console.log("idx", idx);
+
   data.votes[idx].buttonId = newId;
   db.wasUpdated = true;
 };

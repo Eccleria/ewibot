@@ -1,4 +1,5 @@
 ﻿## 5.0.2
+- Debug: remove console.log for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))
 - Fix: typo on anonymous check during poll refresh ([#199](https://github.com/Eccleria/ewibot/pull/199))
 
 ## 5.0.1
