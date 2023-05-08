@@ -156,7 +156,7 @@ const activityList = [
   { name: "Adrien Sépulchre", type: "LISTENING" },
   { name: "JDR Ewilan par Charlie", type: "PLAYING" },
   { name: "Ewilan EP1", type: "WATCHING" },
-  { name: "l'affrontement contre Azan", type: "COMPETING" },
+  { name: "la bataille contre Azan", type: "COMPETING" },
 ];
 
 export const updateActivity = (client) => {
