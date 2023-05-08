@@ -159,6 +159,7 @@ const activityList = [
   { name: "JDR Ewilan par Charlie", type: "PLAYING" },
   { name: "Ewilan EP1", type: "WATCHING" },
   { name: "la bataille contre Azan", type: "COMPETING" },
+  { name: "la création d'Al-Jeit", type: "COMPETING" },
 ];
 
 /**
