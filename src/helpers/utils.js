@@ -150,6 +150,8 @@ export const reactionHandler = async (message, currentServer, client) => {
   }
 };
 
+// ACTIVITY
+
 // activity list
 const activityList = [
   { name: "La Quête d'Ewilan", type: "WATCHING" },
@@ -159,6 +161,10 @@ const activityList = [
   { name: "la bataille contre Azan", type: "COMPETING" },
 ];
 
+/**
+ * Set the timeout for bot activity update.
+ * @param {Object} client The bot Client.
+ */
 export const updateActivity = (client) => {
   // set random waiting time for updating Ewibot activity
 
@@ -169,6 +175,10 @@ export const updateActivity = (client) => {
   }, waitingTime);
 };
 
+/**
+ * Set the bot client activity with a random choice from activityList.
+ * @param {Object} client The bot Client.
+ */
 export const setActivity = (client) => {
   // randomise Ewibot activity
   const statusLen = activityList.length - 1;
