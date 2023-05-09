@@ -140,8 +140,6 @@ if (process.env.USE_SPOTIFY === "yes") {
   client.spotifyApi = spotifyApi;
 }
 
-const self = process.env.CLIENTID; // get self Discord Id
-
 // Bot event FUNCTIONS
 const onMessageHandler = async (message) => {
   // Function triggered for each message sent
@@ -150,7 +148,7 @@ const onMessageHandler = async (message) => {
   if (channel.type === "DM") return;
   else {
     const currentServer = COMMONS.fetchGuildId(channel.guildId);
-    onPublicMessage(message, client, currentServer, self);
+    onPublicMessage(message, client, currentServer);
   }
 };
 
@@ -173,7 +171,7 @@ client.once("ready", async () => {
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
-  slashCommandsInit(self, guildId, client); //commands submit to API
+  slashCommandsInit(guildId, client); //commands submit to API
 
   //TWITTER
   if (process.env.USE_TWITTER === "yes") {

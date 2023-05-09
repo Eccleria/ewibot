@@ -284,10 +284,11 @@ slashCommands.push(help);
 // API
 
 // COMMANDS SENDING TO API
-export const slashCommandsInit = async (self, guildId, client) => {
+export const slashCommandsInit = async (guildId, client) => {
   try {
     console.log("Started refreshing application (/) commands.");
 
+    const self = process.env.CLIENTID; //get self Discord Id
     await rest.put(Routes.applicationGuildCommands(self, guildId), {
       body: helpCommands.map((cmd) => cmd.command.toJSON()),
     }); //send commands jsons to API for command create/update
