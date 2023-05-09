@@ -18,6 +18,15 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 
+const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
+  //add the reminder in the client
+  client.remindme.push({
+    authorId: authorId,
+    botMessage: botMessage,
+    timeout: timeoutObj,
+  });
+};
+
 export const initReminder = async (client) => {
   //recover reminders from db
   const db = client.db;
@@ -49,6 +58,7 @@ export const initReminder = async (client) => {
         botMessage
       );
 
+      addClientReminder(client, author.id, botMessage, timeoutObj); //add to client
       updateReminder(
         db,
         botMessage.id,
@@ -141,6 +151,7 @@ const action = async (interaction) => {
     );
     
     addReminder(client.db, interaction, answer, reminderDate, messageContent);
+    addClientReminder(client, member.id, answer, timeoutObj);
   }
 };
 

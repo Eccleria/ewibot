@@ -57,6 +57,8 @@ import { COMMONS } from "./commons.js";
 // alavirien import
 import { setupAlavirien } from "./admin/alavirien.js";
 
+import { initReminder } from "./commands/reminder.js";
+
 // command import
 import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
 import { wishBirthday } from "./commands/birthday.js";
@@ -182,6 +184,9 @@ client.once("ready", async () => {
 
   //gift
   setGiftTimeoutLoop(client); //gift timeout loop init
+
+  //reminders
+  initReminder(client);
 });
 // Create an event listener for messages
 
