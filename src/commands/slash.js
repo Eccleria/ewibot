@@ -28,7 +28,6 @@ import gift from "./gift.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
-import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
@@ -193,7 +192,6 @@ const slashCommands = [
   roll,
   shuffle,
   spotify,
-  twitter,
 ]; //command + action
 
 // HELP

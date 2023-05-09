@@ -59,13 +59,6 @@ import {
 } from "./db/dbPolls.js";
 
 import {
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
-} from "./db/dbTwitter.js";
-
-import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
@@ -146,9 +139,4 @@ export {
   resetPollVoters,
   updatePollParam,
   updatePollButtonId,
-  //twitter
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
 };
