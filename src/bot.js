@@ -57,7 +57,7 @@ import { initAdminLogClearing } from "./admin/utils.js";
 // jsons import
 import { COMMONS } from "./commons.js";
 
-//alavirien import
+// alavirien import
 import { setupAlavirien } from "./admin/alavirien.js";
 
 // command import
@@ -72,9 +72,7 @@ const adapter = new JSONFile(file);
 const db = new Low(adapter);
 
 db.read(); // Read data from JSON file, this will set db.data content
-
 db.wasUpdated = false;
-db.birthdayInitiated = false;
 
 setInterval(async () => {
   // db updater loop, used to centralize db.write()
@@ -130,7 +128,6 @@ client.playlistCachedMessages = []; // Spotify messages cache
 
 client.db = db; // db cache
 client.remindme = []; // reminders cache
-client.guildUpdate = {}; // guildUpdate event handling
 
 if (process.env.USE_SPOTIFY === "yes") {
   // Spotify API cache
