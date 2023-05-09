@@ -159,6 +159,8 @@ const activityList = [
   { name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(), type: "WATCHING" },
   { name: "la bataille contre Azan", type: "COMPETING" },
   { name: "la création d'Al-Jeit", type: "COMPETING" },
+  { name: "épier les clochinettes", type: "PLAYING" },
+  { name: "compter les poêles", type: "PLAYING" },
 ];
 
 /**
