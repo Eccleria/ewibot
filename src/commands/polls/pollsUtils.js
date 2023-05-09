@@ -130,11 +130,10 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
       emoteColor.repeat(nb) +
       black.repeat(10 - nb) +
       ` ${ratios[idx]}% (${values[idx]})\n`; //new colorBar
-    console.log("newColorBar", newColorBar);
-    const votersEmbed = dbPoll.isAnonymous
+
+    const votersEmbed = dbPoll.anonymous
       ? ""
       : dbPoll.votes[idx].votes.map((userId) => ` <@${userId}>`).join("");
-    console.log("votersEmbed", votersEmbed);
     return { name: field.name, value: newColorBar + votersEmbed };
   });
 };

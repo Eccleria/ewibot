@@ -85,7 +85,6 @@ export const pollSelectMenuHandler = async (interaction) => {
 const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const selected = interaction.values; //get choices to remove
   const perso = PERSONALITY.getCommands().polls.settings.remove;
-  console.log("selected", selected);
 
   //get data
   const pollMessage = await fetchPollMessage(interaction);
@@ -99,12 +98,10 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   //remove in embed
   const fields = embed.fields;
   const selectedIndexes = selected.map((str) => Number(str.split("_")[1])); //"polls_id"
-  console.log("selectedIndexes", selectedIndexes);
   const filteredFields = fields.reduce((acc, cur, idx) => {
     if (selectedIndexes.includes(idx)) return acc; //to remove
     else return [...acc, cur];
   }, []);
-  console.log("filteredFields", filteredFields);
 
   //update fields values/ratios
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
@@ -124,7 +121,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
     if (selectedIndexes.includes(idx)) return acc;
     else return [...acc, cur];
   }, []);
-  console.log("filteredButtons", filteredButtons);
+
   const newComponents = filteredButtons.reduce((acc, cur, idx) => {
     //update buttons ids + db value
     if (idx !== filteredButtons.length - 1) {
@@ -172,10 +169,8 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
   //handle interaction
   const selected = interaction.values;
-  console.log("values", selected);
 
   const toChange = selected[0].split("update_")[1]; //get poll param to change
-  console.log("toChange", toChange);
 
   //get personality
   const personality = PERSONALITY.getCommands().polls;

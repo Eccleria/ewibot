@@ -150,15 +150,26 @@ export const reactionHandler = async (message, currentServer, client) => {
   }
 };
 
+// ACTIVITY
+
 // activity list
 const activityList = [
-  { name: "La Quête d'Ewilan", type: "WATCHING" },
   { name: "Adrien Sépulchre", type: "LISTENING" },
   { name: "JDR Ewilan par Charlie", type: "PLAYING" },
-  { name: "Ewilan EP1", type: "WATCHING" },
-  { name: "l'affrontement contre Azan", type: "COMPETING" },
+  {
+    name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(),
+    type: "WATCHING",
+  },
+  { name: "la bataille contre Azan", type: "COMPETING" },
+  { name: "la création d'Al-Jeit", type: "COMPETING" },
+  { name: "épier les clochinettes", type: "PLAYING" },
+  { name: "compter les poêles", type: "PLAYING" },
 ];
 
+/**
+ * Set the timeout for bot activity update.
+ * @param {Object} client The bot Client.
+ */
 export const updateActivity = (client) => {
   // set random waiting time for updating Ewibot activity
 
@@ -169,6 +180,10 @@ export const updateActivity = (client) => {
   }, waitingTime);
 };
 
+/**
+ * Set the bot client activity with a random choice from activityList.
+ * @param {Object} client The bot Client.
+ */
 export const setActivity = (client) => {
   // randomise Ewibot activity
   const statusLen = activityList.length - 1;
