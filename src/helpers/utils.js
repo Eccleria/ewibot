@@ -156,7 +156,10 @@ export const reactionHandler = async (message, currentServer, client) => {
 const activityList = [
   { name: "Adrien Sépulchre", type: "LISTENING" },
   { name: "JDR Ewilan par Charlie", type: "PLAYING" },
-  { name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(), type: "WATCHING" },
+  {
+    name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(),
+    type: "WATCHING",
+  },
   { name: "la bataille contre Azan", type: "COMPETING" },
   { name: "la création d'Al-Jeit", type: "COMPETING" },
   { name: "épier les clochinettes", type: "PLAYING" },
