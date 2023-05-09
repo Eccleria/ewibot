@@ -8,11 +8,11 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
 
-export const onPublicMessage = (message, client, currentServer, self) => {
+export const onPublicMessage = (message, client, currentServer) => {
   const { author } = message;
 
   if (
-    author.id === self || // ignoring message from himself
+    author.id === process.env.CLIENTID || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
     (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
   )

@@ -65,13 +65,6 @@ import {
 } from "./db/dbReminder.js";
 
 import {
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
-} from "./db/dbTwitter.js";
-
-import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
@@ -156,9 +149,4 @@ export {
   addReminder,
   removeReminder,
   updateReminder,
-  //twitter
-  getTwitterUser,
-  updateLastTweetId,
-  addMissingTweets,
-  removeMissingTweets,
 };

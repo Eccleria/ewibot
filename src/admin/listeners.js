@@ -613,7 +613,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     embed.addField(messageU.linkName, link, true);
 
     //add executor
-    embed.addFields({name: unpinned.executor, value: unpinLog.executor.toString(), inline: true})
+    embed.addFields({
+      name: unpinned.executor,
+      value: unpinLog.executor.toString(),
+      inline: true,
+    });
 
     const messageList = await endCasesEmbed(
       nMessage,
@@ -639,7 +643,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     embed.addField(messageU.linkName, link, true);
 
     //add executor
-    embed.addFields({name: pinned.executor, value: pinLog.executor.toString(), inline: true})
+    embed.addFields({
+      name: pinned.executor,
+      value: pinLog.executor.toString(),
+      inline: true,
+    });
 
     const messageList = await endCasesEmbed(
       nMessage,
