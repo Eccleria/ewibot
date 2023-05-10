@@ -12,9 +12,6 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
 
-import { TwitterApi } from "twitter-api-v2";
-import { initTwitterLoop } from "./admin/twitter.js";
-
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
@@ -57,7 +54,7 @@ import { initAdminLogClearing } from "./admin/utils.js";
 // jsons import
 import { COMMONS } from "./commons.js";
 
-//alavirien import
+// alavirien import
 import { setupAlavirien } from "./admin/alavirien.js";
 
 // command import
@@ -72,9 +69,7 @@ const adapter = new JSONFile(file);
 const db = new Low(adapter);
 
 db.read(); // Read data from JSON file, this will set db.data content
-
 db.wasUpdated = false;
-db.birthdayInitiated = false;
 
 setInterval(async () => {
   // db updater loop, used to centralize db.write()
@@ -130,7 +125,6 @@ client.playlistCachedMessages = []; // Spotify messages cache
 
 client.db = db; // db cache
 client.remindme = []; // reminders cache
-client.guildUpdate = {}; // guildUpdate event handling
 
 if (process.env.USE_SPOTIFY === "yes") {
   // Spotify API cache
@@ -143,8 +137,6 @@ if (process.env.USE_SPOTIFY === "yes") {
   client.spotifyApi = spotifyApi;
 }
 
-const self = process.env.CLIENTID; // get self Discord Id
-
 // Bot event FUNCTIONS
 const onMessageHandler = async (message) => {
   // Function triggered for each message sent
@@ -153,7 +145,7 @@ const onMessageHandler = async (message) => {
   if (channel.type === "DM") return;
   else {
     const currentServer = COMMONS.fetchGuildId(channel.guildId);
-    onPublicMessage(message, client, currentServer, self);
+    onPublicMessage(message, client, currentServer);
   }
 };
 
@@ -176,16 +168,7 @@ client.once("ready", async () => {
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
-  slashCommandsInit(self, guildId, client); //commands submit to API
-
-  //TWITTER
-  if (process.env.USE_TWITTER === "yes") {
-    const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN); //login app
-    const twitter = twitterClient.v2.readOnly; //setup client to v2 API - read only mode
-    client.twitter = twitter; //save twitter into client
-    client.twitter.isSending = false;
-    initTwitterLoop(client);
-  }
+  slashCommandsInit(guildId, client); //commands submit to API
 
   //LOGS
   const tomorrow2Am = dayjs()

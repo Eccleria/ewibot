@@ -28,7 +28,6 @@ import gift from "./gift.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
-import twitter from "./twitter.js";
 import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
@@ -193,7 +192,6 @@ const slashCommands = [
   roll,
   shuffle,
   spotify,
-  twitter,
 ]; //command + action
 
 // HELP
@@ -284,10 +282,11 @@ slashCommands.push(help);
 // API
 
 // COMMANDS SENDING TO API
-export const slashCommandsInit = async (self, guildId, client) => {
+export const slashCommandsInit = async (guildId, client) => {
   try {
     console.log("Started refreshing application (/) commands.");
 
+    const self = process.env.CLIENTID; //get self Discord Id
     await rest.put(Routes.applicationGuildCommands(self, guildId), {
       body: helpCommands.map((cmd) => cmd.command.toJSON()),
     }); //send commands jsons to API for command create/update

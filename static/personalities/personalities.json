@@ -551,24 +551,6 @@
       },
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
-      },
-      "twitter": {
-        "compare": {
-          "name": "compare",
-          "description": "Compare les 5 derniers tweets avec la base de donnée et envoie la différence."
-        },
-        "description": "Commandes de gestions du lien Twitter-Discord.",
-        "errorNoTwitter": "La fonctionnalité est désactivée.",
-        "name": "twitter",
-        "help": "Ensemble de commandes servant à contrôler le lien Twitter-Discord d'Ewibot.\n`- /twitter compare` pour forcer une comparaison entre la base de donnée et Twitter.\n- `/twitter share` envoie la différence de tweet dans le salon enregistré, avec un délai variable entre les tweets.",
-        "isSending": "Les Tweets sont en déjà en cours d'envoi.",
-        "noTweets": "Il n'y a aucun tweet de manqué.",
-        "sendInProgress": "Les tweets sont en cours d'envoi. Veuillez patienter.",
-        "share": {
-          "name": "share",
-          "description": "Partage les derniers tweets manquants au publique."
-        },
-        "dbUpToDate": "La db est à jour"
       }
     },
     "spotify": {
