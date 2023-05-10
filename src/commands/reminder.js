@@ -11,7 +11,61 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { PERSONALITY } from "../personality.js";
 
 import { interactionReply } from "./utils.js";
+import {
+  addReminder,
+  removeReminder,
+  updateReminder,
+} from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+
+const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
+  //add the reminder in the client
+  client.remindme.push({
+    authorId: authorId,
+    botMessage: botMessage,
+    timeout: timeoutObj,
+  });
+};
+
+export const initReminder = async (client) => {
+  //recover reminders from db
+  const db = client.db;
+  if (db.data && db.data.reminder.length > 0)
+    db.data.reminder.forEach(async (element) => {
+      const author = await client.users.fetch(element.authorId); // Find user
+      const requestChannel = await client.channels.fetch(
+        element.requestChannelId
+      ); //Find channel with user's request
+      const answerChannel = await client.channels.fetch(
+        element.answerChannelId
+      ); //Find channel with Ewibot answer
+      const botMessage = await answerChannel.messages.fetch(element.answerId); //Find bot response
+
+      //compute new reminder waiting time
+      const now = dayjs();
+      const difference = dayjs(element.reminderTime).diff(now);
+      const newTiming = difference > 0 ? difference : 10000; //if passed, waiting time of 10s
+      console.log("newTiming", newTiming);
+
+      const timeoutObj = setTimeout(
+        //set Timeout until reminder
+        sendDelayed,
+        newTiming,
+        client,
+        requestChannel,
+        author,
+        element.content,
+        botMessage
+      );
+
+      addClientReminder(client, author.id, botMessage, timeoutObj); //add to client
+      updateReminder(
+        db,
+        botMessage.id,
+        now.millisecond(newTiming).toISOString()
+      ); //modify db
+    });
+};
 
 const sendDelayed = async (
   // Function sending the reminder to the user
@@ -22,13 +76,12 @@ const sendDelayed = async (
   botMessage
 ) => {
   await channel.send(`${author.toString()} : ${messageContent}`);
-  client.remindme = client.remindme.filter(
-    // removes from cache
-    ({ botMessage: answer }) => answer.id !== botMessage.id
-  );
+
+  removeReminder(client.db, botMessage.id);
 };
 
 const formatMs = (nbr) => {
+  //get text from waiting time
   return dayjs.duration(nbr, "milliseconds").humanize();
 };
 
@@ -39,12 +92,13 @@ const extractDuration = (interaction) => {
   const minutes = interaction.options.getNumber("minutes");
   const seconds = interaction.options.getNumber("secondes");
 
+  //sum sec and hrs/mins converted in seconds
   const durationMs =
     (isNaN(hours) ? 0 : hours * 3600) +
     (isNaN(minutes) ? 0 : minutes * 60) +
     (isNaN(seconds) ? 0 : seconds);
 
-  return durationMs * 1000;
+  return durationMs * 1000; //convert in ms
 };
 
 const answerBot = async (interaction, cmnShared, timing) => {
@@ -80,10 +134,10 @@ const action = async (interaction) => {
     interactionReply(interaction, content);
   } else {
     console.log("reminder timing: ", timing);
-
     const cmnShared = COMMONS.getShared();
 
     const answer = await answerBot(interaction, cmnShared, timing);
+    const reminderDate = dayjs().millisecond(timing).toISOString(); //waiting time before reminder in ms
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user
@@ -95,13 +149,9 @@ const action = async (interaction) => {
       messageContent,
       answer
     );
-
-    client.remindme.push({
-      // Add request to cache
-      authorId: member.id,
-      botMessage: answer,
-      timeout: timeoutObj,
-    });
+    
+    addReminder(client.db, interaction, answer, reminderDate, messageContent);
+    addClientReminder(client, member.id, answer, timeoutObj);
   }
 };
 

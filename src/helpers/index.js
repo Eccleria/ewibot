@@ -59,6 +59,12 @@ import {
 } from "./db/dbPolls.js";
 
 import {
+  addReminder,
+  removeReminder,
+  updateReminder,
+} from "./db/dbReminder.js";
+
+import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
@@ -139,4 +145,8 @@ export {
   resetPollVoters,
   updatePollParam,
   updatePollButtonId,
+  //reminder
+  addReminder,
+  removeReminder,
+  updateReminder,
 };
