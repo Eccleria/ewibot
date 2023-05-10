@@ -1,6 +1,7 @@
 ﻿## 5.1.0
 - Debug: remove console.log for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))
 - Feat: refacto on activities ([#204](https://github.com/Eccleria/ewibot/pull/204))
+- Feat: add reminder storage in db to mitigate reminder lose on bot restart ([#206](https://github.com/Eccleria/ewibot/pull/206))
 - Fix: typo on anonymous check during poll refresh ([#199](https://github.com/Eccleria/ewibot/pull/199))
 - Remove: twitter unused code ([#205](https://github.com/Eccleria/ewibot/pull/205))
 - Remove: useless client attributes ([#205](https://github.com/Eccleria/ewibot/pull/205))
