@@ -20,7 +20,7 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
+const punctuation = new RegExp(/([!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…])|(\n)/gm);
 
 export const sanitizePunctuation = (messageContent) => {
   return messageContent.replaceAll(punctuation, "");
