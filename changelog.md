@@ -1,5 +1,5 @@
 ﻿## 5.2.0
-- Fix: `ChannelUpdate` log with incomplete text when position update is canceled by user ([#202](https://github.com/Eccleria/ewibot/pull/202))
+- Fix: `ChannelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))
 
 ## 5.1.0
 - Debug: remove `console.log` for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))
