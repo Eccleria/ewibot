@@ -32,7 +32,7 @@
     },
     "author": "Salon :",
     "executor": "Modifié par :",
-    "noModifs": "L'ordre des rôles a été modifié, mais la modification a été supprimée.",
+    "noModifs": "L'ordre des salons a été modifié, mais la modification a été annulée.",
     "text": "Modifications :\n",
     "title": "Salon modifié"
   },

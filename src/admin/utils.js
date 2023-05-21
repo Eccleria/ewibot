@@ -436,8 +436,14 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
   const oText = oldText.slice(first, last);
   const nText = newText.slice(first, last);
 
+  //check for empty modifs
+  console.log("oText", [oText]);
+  if (oText.length === 0) {
+    finishEmbed(chnUp, logPerso.noLog, embed, logChannel, chnUp.noModifs); //send embed
+    return;
+  }
+
   const space = 15;
-  //console.log("oText", [oText])
   const orderText = oText.reduce((acc, cur, idx) => {
     //console.log("acc", [acc], "cur", [cur]);
     //console.log("cur", [cur], "nCur", [nText[idx]]);
