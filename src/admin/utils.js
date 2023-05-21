@@ -378,7 +378,6 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
   const nRegrouped = regroup(parentIdOrder);
 
   //create old/new channel order
-  //console.log("oRegrouped.list", oRegrouped.list, "nRegrouped.list", nRegrouped.list);
   const oldOrder = oRegrouped.list.reduce((acc, cur) => {
     if (cur.length && cur.length > 1)
       return [...acc, cur.sort((a, b) => a.oldPos - b.oldPos).slice()];
@@ -392,7 +391,6 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //write text for embed
   const oLen = oldOrder.length;
-  //console.log("oldOrder", oldOrder)
   const oldText = oldOrder.reduce((acc, cur, idx) => {
     //cur = [x*{name, id, parent, old, new}]
     //write text for futur concatenation
@@ -425,7 +423,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     if (sep !== null) return [...acc, ...text, sep];
     return [...acc, ...text];
   }, []);
-  console.log("oldText", oldText, "newText", newText);
+  console.log("channelLog position update\n", "oldText", oldText, "newText", newText);
 
   //delete duplicate channels not in bulk of changes
   const isDuplicate = oldText.reduce((acc, cur, idx) => {
@@ -437,7 +435,6 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
   const nText = newText.slice(first, last);
 
   //check for empty modifs
-  console.log("oText", [oText]);
   if (oText.length === 0) {
     finishEmbed(chnUp, logPerso.noLog, embed, logChannel, chnUp.noModifs); //send embed
     return;
@@ -445,10 +442,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   const space = 15;
   const orderText = oText.reduce((acc, cur, idx) => {
-    //console.log("acc", [acc], "cur", [cur]);
-    //console.log("cur", [cur], "nCur", [nText[idx]]);
     const spaced = space2Strings(cur, nText[idx], space, " |");
-    //console.log("spaced", [spaced])
     if (idx === oText.length - 1) {
       //if last one
       return acc + spaced + "\n```"; //add end of code line code
