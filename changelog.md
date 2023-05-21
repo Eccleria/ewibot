@@ -1,5 +1,6 @@
 ﻿## 5.2.0
 - Fix: `ChannelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))
+- Fix: `apology` not detected because of `\n` character next to an apology ([#210](https://github.com/Eccleria/ewibot/pull/210))
 
 ## 5.1.0
 - Debug: remove `console.log` for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))
