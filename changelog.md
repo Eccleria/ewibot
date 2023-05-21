@@ -1,15 +1,18 @@
-﻿## 5.1.0
-- Debug: remove console.log for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))
-- Fix: typo on anonymous check during poll refresh ([#199](https://github.com/Eccleria/ewibot/pull/199))
-- Fix: missing role permission by upgrading discord.js to 13.16.0 ([#207](https://github.com/Eccleria/ewibot/pull/207))
-- New: refacto on activities ([#204](https://github.com/Eccleria/ewibot/pull/204))
-- New: add reminder storage in db to mitigate reminder lose on bot restart ([#206](https://github.com/Eccleria/ewibot/pull/206))
-- Remove: twitter unused code ([#205](https://github.com/Eccleria/ewibot/pull/205))
+﻿## 5.2.0
+- Fix: `ChannelUpdate` log with incomplete text when position update is canceled by user ([#202](https://github.com/Eccleria/ewibot/pull/202))
+
+## 5.1.0
+- Debug: remove `console.log` for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))
+- Fix: typo on `anonymous` check during poll refresh ([#199](https://github.com/Eccleria/ewibot/pull/199))
+- Fix: missing role permission by upgrading `discord.js` to 13.16.0 ([#207](https://github.com/Eccleria/ewibot/pull/207))
+- New: refacto on `activities` ([#204](https://github.com/Eccleria/ewibot/pull/204))
+- New: add `reminder` storage in db to mitigate `reminder` lose on bot restart ([#206](https://github.com/Eccleria/ewibot/pull/206))
+- Remove: `twitter` unused code ([#205](https://github.com/Eccleria/ewibot/pull/205))
 - Remove: useless client attributes ([#205](https://github.com/Eccleria/ewibot/pull/205))
 
 ## 5.0.1
-- Fix: botMessage missing setDefaultMemberPermission ([#184](https://github.com/Eccleria/ewibot/pull/184))
-- Fix: wrong commons usage from eventRoles buttons ([#190](https://github.com/Eccleria/ewibot/pull/190))
+- Fix: `botMessage` missing `setDefaultMemberPermission` ([#184](https://github.com/Eccleria/ewibot/pull/184))
+- Fix: wrong commons usage from `eventRoles` buttons ([#190](https://github.com/Eccleria/ewibot/pull/190))
 - Fix: wrong arg order when using `removeAlavirien` ([#191](https://github.com/Eccleria/ewibot/pull/191))
 - Fix: missing alavirien personality since 5.0.0 ([#193](https://github.com/Eccleria/ewibot/pull/193))
 - Fix: rare `Unknown interaction` with poll settings buttons ([#195](https://github.com/Eccleria/ewibot/pull/195))
