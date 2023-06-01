@@ -1,6 +1,10 @@
 import { PERSONALITY } from "./personality.js";
 
-import { reactionHandler, deleteSongFromPlaylist, removeReminder } from "./helpers/index.js";
+import {
+  reactionHandler,
+  deleteSongFromPlaylist,
+  removeReminder,
+} from "./helpers/index.js";
 
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";

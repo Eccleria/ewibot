@@ -421,18 +421,24 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
       const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
       return [...acc, indent];
     }, []);
-    console.log("text", text, [sep], len, lenNext, lenNext !== null, lenNext !== 1, len !== 1)
+
     if (sep !== null) return [...acc, ...text, sep];
     return [...acc, ...text];
   }, []);
-  console.log("channelLog position update\n", "oldText", oldText, "newText", newText);
+  console.log(
+    "channelLog position update\n",
+    "oldText",
+    oldText,
+    "newText",
+    newText
+  );
 
   //delete duplicate channels not in bulk of changes
   const isDuplicate = oldText.reduce((acc, cur, idx) => {
     //console.log([cur], [newText[idx]], "cur.slice(1)", [cur.slice(1)], "cur.split(' ')", [cur.split(" ")]);
     const nCur = newText[idx];
-    const o = cur.includes(' ') ? cur.split(' ')[2] : cur.slice(1);
-    const n = nCur.includes(' ') ? nCur.split(' ')[2] : nCur;
+    const o = cur.includes(" ") ? cur.split(" ")[2] : cur.slice(1);
+    const n = nCur.includes(" ") ? nCur.split(" ")[2] : nCur;
     //console.log("o", o, "n", n);
     return [...acc, o === n];
   }, []); //true if no change, false else
