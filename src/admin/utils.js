@@ -412,7 +412,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     //write text for futur concatenation
     //check length for separation
     const len = cur.length;
-    const lenNext = idx < oLen - 1 ? oldOrder[idx + 1].length : null;
+    const lenNext = idx < oLen - 1 ? newOrder[idx + 1].length : null;
     const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? ` ` : null;
     const text = cur.reduce((acc, cur) => {
       //get text from list
@@ -420,14 +420,25 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
       const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
       return [...acc, indent];
     }, []);
+
     if (sep !== null) return [...acc, ...text, sep];
     return [...acc, ...text];
   }, []);
-  console.log("channelLog position update\n", "oldText", oldText, "newText", newText);
+  console.log(
+    "channelLog position update\n",
+    "oldText",
+    oldText,
+    "newText",
+    newText
+  );
 
   //delete duplicate channels not in bulk of changes
   const isDuplicate = oldText.reduce((acc, cur, idx) => {
-    return [...acc, cur.slice(1) === newText[idx]];
+    const nCur = newText[idx];
+    const o = cur.includes(" ") ? cur.split(" ")[2] : cur.slice(1);
+    const n = nCur.includes(" ") ? nCur.split(" ")[2] : nCur;
+    
+    return [...acc, o === n];
   }, []); //true if no change, false else
   const first = isDuplicate.findIndex((bool) => !bool);
   const last = isDuplicate.lastIndexOf(false) + 1;
