@@ -388,7 +388,6 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
       return [...acc, cur.sort((a, b) => a.newPos - b.newPos).slice()];
     return [...acc, cur];
   }, []); //slice() for variable shallow copy
-  //console.log("newOrder", newOrder);
 
   //write text for embed
   const oLen = oldOrder.length;
@@ -435,11 +434,10 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //delete duplicate channels not in bulk of changes
   const isDuplicate = oldText.reduce((acc, cur, idx) => {
-    //console.log([cur], [newText[idx]], "cur.slice(1)", [cur.slice(1)], "cur.split(' ')", [cur.split(" ")]);
     const nCur = newText[idx];
     const o = cur.includes(" ") ? cur.split(" ")[2] : cur.slice(1);
     const n = nCur.includes(" ") ? nCur.split(" ")[2] : nCur;
-    //console.log("o", o, "n", n);
+    
     return [...acc, o === n];
   }, []); //true if no change, false else
   const first = isDuplicate.findIndex((bool) => !bool);
