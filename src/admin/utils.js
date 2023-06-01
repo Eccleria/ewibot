@@ -388,6 +388,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
       return [...acc, cur.sort((a, b) => a.newPos - b.newPos).slice()];
     return [...acc, cur];
   }, []); //slice() for variable shallow copy
+  //console.log("newOrder", newOrder);
 
   //write text for embed
   const oLen = oldOrder.length;
@@ -412,7 +413,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     //write text for futur concatenation
     //check length for separation
     const len = cur.length;
-    const lenNext = idx < oLen - 1 ? oldOrder[idx + 1].length : null;
+    const lenNext = idx < oLen - 1 ? newOrder[idx + 1].length : null;
     const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? ` ` : null;
     const text = cur.reduce((acc, cur) => {
       //get text from list
@@ -420,6 +421,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
       const indent = cur.parentId ? `  ${name}` : name; //if has parent, ident
       return [...acc, indent];
     }, []);
+    console.log("text", text, [sep], len, lenNext, lenNext !== null, lenNext !== 1, len !== 1)
     if (sep !== null) return [...acc, ...text, sep];
     return [...acc, ...text];
   }, []);
@@ -427,7 +429,12 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //delete duplicate channels not in bulk of changes
   const isDuplicate = oldText.reduce((acc, cur, idx) => {
-    return [...acc, cur.slice(1) === newText[idx]];
+    //console.log([cur], [newText[idx]], "cur.slice(1)", [cur.slice(1)], "cur.split(' ')", [cur.split(" ")]);
+    const nCur = newText[idx];
+    const o = cur.includes(' ') ? cur.split(' ')[2] : cur.slice(1);
+    const n = nCur.includes(' ') ? nCur.split(' ')[2] : nCur;
+    //console.log("o", o, "n", n);
+    return [...acc, o === n];
   }, []); //true if no change, false else
   const first = isDuplicate.findIndex((bool) => !bool);
   const last = isDuplicate.lastIndexOf(false) + 1;
