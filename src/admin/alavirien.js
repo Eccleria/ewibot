@@ -49,10 +49,12 @@ const checkAlavirien = async (client, server) => {
   //function to check every alavirien in db if they meet the requirements
   console.log("Alavirien check");
 
+  //get db data
   const db = client.db;
-  const dbUsers = db.data.alavirien;
-  console.log("alavirien dbUsers", dbUsers.length);
+  const data = db.data.alavirien;
+  const dbUsers = data.users;
   if (!dbUsers) return; //if no data in db, nothing to do
+  console.log("alavirien dbUsers", dbUsers.length);
 
   //get personality
   const personality = PERSONALITY.getAdmin(); //get personality
@@ -62,15 +64,18 @@ const checkAlavirien = async (client, server) => {
 
   dbUsers.forEach(async (cur) => {
     //db data format : { userId: authorId, messageNumber: number, joinAt: date}
-    const { userId, messageNumber, joinAt } = cur;
-    const day = dayjs(joinAt);
-    const deltaT = today.diff(day); //diff between joining date and now in ms
-
-    //check if 1 week + 20 messages : alavirien requirement
-    const isOneWeek = deltaT > 604800000; // 1week = 7*24*3600*1000 ms
-    const is20Messages = messageNumber >= 20;
-    if (isOneWeek && is20Messages) {
-      giveAlavirien(client, server, alavirien, userId);
+    if (data.toUpdateIds.includes(cur.userId)) {
+      //if did nothing today, no need to check
+      const { userId, messageNumber, joinAt } = cur;
+      const day = dayjs(joinAt);
+      const deltaT = today.diff(day); //diff between joining date and now in ms
+  
+      //check if 1 week + 20 messages : alavirien requirement
+      const isOneWeek = deltaT > 604800000; // 1week = 7*24*3600*1000 ms
+      const is20Messages = messageNumber >= 20;
+      if (isOneWeek && is20Messages) {
+        giveAlavirien(client, server, alavirien, userId);
+      }
     }
     //if doesn't respect requirements, nothing to do
   });
