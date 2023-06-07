@@ -51,7 +51,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-const action = (interaction) => {
+export const action = (interaction) => {
   const options = interaction.options;
   const personality = PERSONALITY.getCommands().reverse;
   const string = options.getString(personality.stringOption.name);

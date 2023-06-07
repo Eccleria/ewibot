@@ -7,8 +7,15 @@ const addAdminLogs = (db, messageId, type, index) => {
   db.wasUpdated = true;
 };
 
+/**
+ * get AdminLogs data from db
+ * @param {object} db Database object
+ * @returns {?object} null if wrong input, adminLogs otherwise
+ */
 const getAdminLogs = (db) => {
-  return db.data.adminLogs;
+  if (db === null || typeof db !== "object") return null;
+  else if (db.data === null || typeof db.data !== "object") return null;
+  else return db.data.adminLogs;
 };
 
 const removeAdminLogs = (db, type) => {
