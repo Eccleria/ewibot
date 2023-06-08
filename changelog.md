@@ -4,6 +4,7 @@
 - Fix: `channelUpdate` log ([#212](https://github.com/Eccleria/ewibot/pull/212))
 	- wrong log text with some channels order because of wrong variable usage
 	- wrong duplicates check because of indentation "  " and "\n"
+- Fix: adminLogs `banAdd` && `banRemove` : missing an argument, breaking `setupEmbed` ([#216](https://github.com/Eccleria/ewibot/pull/216))
 
 ## 5.1.0
 - Debug: remove `console.log` for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))
