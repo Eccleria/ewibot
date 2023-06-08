@@ -761,7 +761,7 @@ export const onGuildBanAdd = (userBan) => {
 
   const logType = "MEMBER_BAN_ADD";
   const perso = "guildBan";
-  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user", null, true);
+  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user", "user", true);
 };
 
 export const onGuildBanRemove = (userBan) => {
