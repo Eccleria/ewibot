@@ -149,7 +149,7 @@ const action = async (interaction) => {
       messageContent,
       answer
     );
-    
+
     addReminder(client.db, interaction, answer, reminderDate, messageContent);
     addClientReminder(client, member.id, answer, timeoutObj);
   }
