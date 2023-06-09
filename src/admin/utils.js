@@ -413,7 +413,8 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     //check length for separation
     const len = cur.length;
     const lenNext = idx < oLen - 1 ? newOrder[idx + 1].length : null;
-    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? ` ` : null;
+    const sep = lenNext !== null && lenNext !== 1 && len !== 1 ? "" : null;
+
     const text = cur.reduce((acc, cur) => {
       //get text from list
       const name = removeEmote(cur.name); //remove the emote if any
