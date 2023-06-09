@@ -299,8 +299,9 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     );
     return;
   }
+  //no audit log, then nothing can be done
   console.log("channelUpdate auditLog null");
-  endCasesEmbed(newChannel, chnLog, chnUp, auditLog, embed, logChannel);
+  return;
 };
 
 export const onThreadCreate = async (thread, newly) => {
