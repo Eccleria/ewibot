@@ -1,12 +1,12 @@
 export default class basicDiscordJs {
   constructor() {
     (this.guildMember = {
-      id: process.env.CLIENTID,
+      id: "931272900915372122",
       name: "Ewibot",
       nickname: "nickEwibot",
     }),
       (this.user = {
-        id: process.env.CLIENTID,
+        id: "931272900915372122",
         tag: "usernameEwibot#1234",
         username: "usernameEwibot",
       });
