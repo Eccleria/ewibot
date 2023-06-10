@@ -1,10 +1,11 @@
-﻿## 5.2.0
+## 5.2.0
 - Fix: `channelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))
 - Fix: `apology` not detected because of `\n` character next to an apology ([#210](https://github.com/Eccleria/ewibot/pull/210))
 - Fix: `channelUpdate` log
 	- wrong log text with some channels order because of wrong variable usage ([#212](https://github.com/Eccleria/ewibot/pull/212))
 	- wrong duplicates check because of indentation "  " and "\n" ([#212](https://github.com/Eccleria/ewibot/pull/212))
 	- remove embed sending if no ChannelUpdate AuditLog ([#214](https://github.com/Eccleria/ewibot/pull/214))
+- Fix: adminLogs `banAdd` && `banRemove` : missing an argument, breaking `setupEmbed` ([#216](https://github.com/Eccleria/ewibot/pull/216))
 
 ## 5.1.0
 - Debug: remove `console.log` for polls monitoring ([#202](https://github.com/Eccleria/ewibot/pull/202))

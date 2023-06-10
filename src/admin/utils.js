@@ -438,7 +438,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     const nCur = newText[idx];
     const o = cur.includes(" ") ? cur.split(" ")[2] : cur.slice(1);
     const n = nCur.includes(" ") ? nCur.split(" ")[2] : nCur;
-    
+
     return [...acc, o === n];
   }, []); //true if no change, false else
   const first = isDuplicate.findIndex((bool) => !bool);
