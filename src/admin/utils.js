@@ -44,9 +44,10 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
  */
 export const setupEmbed = (color, personality, object, type) => {
   const embed = new MessageEmbed()
+    .setTimestamp()
     .setColor(color)
-    .setTitle(personality.title)
-    .setTimestamp();
+    .setTitle(personality.title);
+    
 
   if (personality.description) embed.setDescription(personality.description);
 

@@ -21,7 +21,6 @@
     "ytdl-core": "^4.11.0"
   },
   "devDependencies": {
-    "babel-jest": "^29.5.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-node": "^11.1.0",

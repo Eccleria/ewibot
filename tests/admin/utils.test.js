@@ -15,8 +15,31 @@ test("setupEmbed correct input", () => {
   const correctEmbed = new MessageEmbed()
     .setColor(color)
     .setTitle(perso.title)
-    .setTimestamp()
-    .addFields({ name: perso.author, value: user.username, inline: true });
+    .setTimestamp();
 
+  //skip
+  correctEmbed.setTimestamp();
+  expect(setupEmbed(color, perso, null, "skip")).toStrictEqual(correctEmbed);
+
+  //tag
+  correctEmbed.setFields({ name: perso.author, value: user.userEmbed, inline: true });
+  correctEmbed.setTimestamp();
+  expect(setupEmbed(color, perso, user.userEmbed, "tag")).toStrictEqual(correctEmbed);
+  
+  //else
+  const channel = BDJ.getChannel();
+  correctEmbed.setFields({ name: perso.author, value: channel.name, inline: true });
+  correctEmbed.setTimestamp();
+  expect(setupEmbed(color, perso, channel)).toStrictEqual(correctEmbed);
+  
+  //user
+  correctEmbed.setFields({ name: perso.author, value: user.username, inline: true });
+  correctEmbed.setTimestamp();
+  expect(setupEmbed(color, perso, user, "user")).toStrictEqual(correctEmbed);
+  
+  //user + desc
+  perso.description = "description";
+  correctEmbed.setDescription("description");
+  correctEmbed.setTimestamp();
   expect(setupEmbed(color, perso, user, "user")).toStrictEqual(correctEmbed);
 });

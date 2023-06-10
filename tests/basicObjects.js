@@ -9,6 +9,11 @@ export default class basicDiscordJs {
         id: "931272900915372122",
         tag: "usernameEwibot#1234",
         username: "usernameEwibot",
+        userEmbed: "<@931272900915372122>"
+      }),
+      (this.channel = {
+        id: "123456",
+        name: "testChannel"
       });
   }
 
@@ -26,5 +31,13 @@ export default class basicDiscordJs {
    */
   getUser() {
     return this.user;
+  }
+
+  /**
+   * basic discord channel object
+   * @returns {object} channel object
+   */
+  getChannel() {
+    return this.channel;
   }
 }
