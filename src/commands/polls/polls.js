@@ -116,6 +116,7 @@ const command = new SlashCommandBuilder()
   );
 
 const action = async (interaction) => {
+  console.log("polls command")
   const options = interaction.options;
   const personality = PERSONALITY.getCommands().polls;
   const subcommand = options.getSubcommand();
@@ -356,13 +357,14 @@ const action = async (interaction) => {
     ); //edit db
     interactionReply(interaction, perso.updated);
   } else if (subcommand === personality.stop.name) {
-		//addChoice poll subcommand
-		const perso = personality.addChoice;
+    console.log("stop poll")
+		//stop poll subcommand
+		const perso = personality.stop;
 		const db = interaction.client.db;
 
 		//get options
 		const pollInput = options.getString(perso.pollOption.name);
-		
+
 		//fetch db data
 		const dbPoll = getPollFromTitle(db, pollInput);
 		if (!dbPoll) {
@@ -370,7 +372,20 @@ const action = async (interaction) => {
 			return;
 		}
 
-		removePoll(db, dbPoll.id);
+    //get pollMessage
+    const channel = await interaction.client.channels.fetch(dbPoll.channelId);
+    const pollMessage = await channel.messages.fetch(dbPoll.pollId);
+
+    //update message
+    const newEmbed = pollMessage.embeds[0];
+    newEmbed.setTitle(newEmbed.title + perso.title);
+    pollMessage.edit({embeds: [newEmbed], components: []});
+    
+    //update db
+		removePoll(db, dbPoll.pollId);
+
+    //return
+    interactionReply(interaction, perso.stopped);
 	}
 };
 

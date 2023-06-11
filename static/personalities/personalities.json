@@ -435,12 +435,15 @@
           }
         },
         "stop": {
-          "description": "Permet d'arrêter un sondage en cours",
+          "description": "Permet d'arrêter un sondage en cours.",
+          "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
           "name": "stop",
           "pollOption": {
-            "description": "Le sondage à arrêter",
+            "description": "Le sondage à arrêter.",
             "name": "sondage"
-          }
+          },
+          "stopped": "Le sondage a bien été arrêté.",
+          "title": " - **Terminé**"
         }
       },
       "pronouns": {
