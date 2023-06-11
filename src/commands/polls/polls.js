@@ -5,7 +5,11 @@ import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
 import { parsePollFields } from "./pollsUtils.js";
-import { getPollFromTitle, getPollsTitles, removePoll } from "../../helpers/db/dbPolls.js";
+import {
+  getPollFromTitle,
+  getPollsTitles,
+  removePoll,
+} from "../../helpers/db/dbPolls.js";
 import { COMMONS } from "../../commons.js";
 
 const command = new SlashCommandBuilder()
@@ -102,21 +106,23 @@ const command = new SlashCommandBuilder()
           .setMinLength(4)
       )
   )
-  .addSubcommand((command) => 
-		command //stop poll
-			.setName(PERSONALITY.getCommands().polls.stop.name)
-			.setDescription(PERSONALITY.getCommands().polls.stop.description)
-			.addStringOption((option) => 
-				option
-					.setName(PERSONALITY.getCommands().polls.stop.pollOption.name)
-					.setDescription(PERSONALITY.getCommands().polls.stop.pollOption.description)
-					.setRequired(true)
-					.setAutocomplete(true)
-			)
+  .addSubcommand((command) =>
+    command //stop poll
+      .setName(PERSONALITY.getCommands().polls.stop.name)
+      .setDescription(PERSONALITY.getCommands().polls.stop.description)
+      .addStringOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().polls.stop.pollOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().polls.stop.pollOption.description
+          )
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
   );
 
 const action = async (interaction) => {
-  console.log("polls command")
+  console.log("polls command");
   const options = interaction.options;
   const personality = PERSONALITY.getCommands().polls;
   const subcommand = options.getSubcommand();
@@ -357,20 +363,20 @@ const action = async (interaction) => {
     ); //edit db
     interactionReply(interaction, perso.updated);
   } else if (subcommand === personality.stop.name) {
-    console.log("stop poll")
-		//stop poll subcommand
-		const perso = personality.stop;
-		const db = interaction.client.db;
+    console.log("stop poll");
+    //stop poll subcommand
+    const perso = personality.stop;
+    const db = interaction.client.db;
 
-		//get options
-		const pollInput = options.getString(perso.pollOption.name);
+    //get options
+    const pollInput = options.getString(perso.pollOption.name);
 
-		//fetch db data
-		const dbPoll = getPollFromTitle(db, pollInput);
-		if (!dbPoll) {
-			interactionReply(interaction, perso.errorNoPoll);
-			return;
-		}
+    //fetch db data
+    const dbPoll = getPollFromTitle(db, pollInput);
+    if (!dbPoll) {
+      interactionReply(interaction, perso.errorNoPoll);
+      return;
+    }
 
     //get pollMessage
     const channel = await interaction.client.channels.fetch(dbPoll.channelId);
@@ -379,14 +385,14 @@ const action = async (interaction) => {
     //update message
     const newEmbed = pollMessage.embeds[0];
     newEmbed.setTitle(newEmbed.title + perso.title);
-    pollMessage.edit({embeds: [newEmbed], components: []});
-    
+    pollMessage.edit({ embeds: [newEmbed], components: [] });
+
     //update db
-		removePoll(db, dbPoll.pollId);
+    removePoll(db, dbPoll.pollId);
 
     //return
     interactionReply(interaction, perso.stopped);
-	}
+  }
 };
 
 const autocomplete = (interaction) => {
