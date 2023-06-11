@@ -4,7 +4,7 @@ import {
   interactionEditReply,
   pollRefreshEmbed,
 } from "./pollsUtils.js";
-import { createButton, isSentinelle } from "../utils.js";
+import { createButton, interactionReply, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll, removePoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
@@ -22,6 +22,12 @@ export const sendSettingsButtons = async (interaction) => {
   //check for Sentinelle or author
   const pollMessage = interaction.message;
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  if (!dbPoll) {
+    interactionEditReply(interaction, perso.errorNoPoll);
+    console.log(`Error poll not found : ${pollMessage.id}`);
+    return;
+  }
+
   if (interaction.user.id !== dbPoll.authorId) {
     //if not poll author, check is sentinelle
     const currentServer = COMMONS.fetchGuildId(interaction.guildId);

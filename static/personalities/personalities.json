@@ -390,6 +390,7 @@
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
             "title": " - **Terminé**"
           },
+          "errorNoPoll": "Le sondage associé à ces boutons n'a été trouvé.",
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
           "refresh" : {
             "done": "L'actualisation du message est terminée",
