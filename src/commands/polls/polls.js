@@ -80,7 +80,7 @@ const command = new SlashCommandBuilder()
       )
   )
   .addSubcommand((command) =>
-    command
+    command //add choice
       .setName(PERSONALITY.getCommands().polls.addChoice.name)
       .setDescription(PERSONALITY.getCommands().polls.addChoice.description)
       .addStringOption((option) =>
@@ -103,7 +103,7 @@ const command = new SlashCommandBuilder()
       )
   )
   .addSubcommand((command) => 
-		command
+		command //stop poll
 			.setName(PERSONALITY.getCommands().polls.stop.name)
 			.setDescription(PERSONALITY.getCommands().polls.stop.description)
 			.addStringOption((option) => 

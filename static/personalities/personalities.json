@@ -433,6 +433,14 @@
               "voteMaxChanged": "Le nombre de vote possible a bien été modifié."
             }
           }
+        },
+        "stop": {
+          "description": "Permet d'arrêter un sondage en cours",
+          "name": "stop",
+          "pollOption": {
+            "description": "Le sondage à arrêter",
+            "name": "sondage"
+          }
         }
       },
       "pronouns": {
