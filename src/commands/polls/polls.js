@@ -4,7 +4,7 @@ import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
-import { parsePollFields } from "./pollsUtils.js";
+import { parsePollFields, refreshPollFields } from "./pollsUtils.js";
 import {
   getPollFromTitle,
   getPollsTitles,
@@ -385,6 +385,11 @@ const action = async (interaction) => {
     //update message
     const newEmbed = pollMessage.embeds[0];
     newEmbed.setTitle(newEmbed.title + perso.title);
+    const newFieldsInit = newEmbed.fields.map((obj) => {
+      return { name: obj.name, value: "" };
+    }); //init with old names
+    const newFields = refreshPollFields(dbPoll, newFieldsInit, personality.create);
+    newEmbed.setFields(newFields);
     pollMessage.edit({ embeds: [newEmbed], components: [] });
 
     //update db
