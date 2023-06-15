@@ -4,7 +4,7 @@ import {
   interactionEditReply,
   pollRefreshEmbed,
 } from "./pollsUtils.js";
-import { createButton, interactionReply, isSentinelle } from "../utils.js";
+import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll, removePoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
