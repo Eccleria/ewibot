@@ -52,9 +52,13 @@ const checkAlavirien = async (client, server) => {
   //get db data
   const db = client.db;
   const data = db.data.alavirien;
-  const dbUsers = data.users;
-  if (!dbUsers) return; //if no data in db, nothing to do
-  console.log("alavirien dbUsers", dbUsers.length);
+  const dbIds = data.toUpdateIds;
+  if (!dbIds) {
+    //if no data in db, nothing to do
+    console.log("no data in db.data.alavirien.toUpdateIds");
+    return;
+  }
+  console.log("alavirien toUpdateIds", dbIds.length);
 
   //get personality
   const personality = PERSONALITY.getAdmin(); //get personality
@@ -62,23 +66,25 @@ const checkAlavirien = async (client, server) => {
 
   const today = dayjs(); //get today date
 
-  dbUsers.forEach(async (cur) => {
+  for (id of dbIds) {
     //db data format : { userId: authorId, messageNumber: number, joinAt: date}
-    if (data.toUpdateIds.includes(cur.userId)) {
-      //if did nothing today, no need to check
-      const { userId, messageNumber, joinAt } = cur;
-      const day = dayjs(joinAt);
-      const deltaT = today.diff(day); //diff between joining date and now in ms
-  
-      //check if 1 week + 20 messages : alavirien requirement
-      const isOneWeek = deltaT > 604800000; // 1week = 7*24*3600*1000 ms
-      const is20Messages = messageNumber >= 20;
-      if (isOneWeek && is20Messages) {
-        giveAlavirien(client, server, alavirien, userId);
-      }
+    const curDbData = data.dbUsers.find(({ userId }) => userId === cur);
+    if (!curDbData) {
+      //if no db data, log and skip
+      console.log(`Unable to find alavirien data from toUpdateId ${cur}`);
+      continue;
     }
+    const { userId, messageNumber, joinAt } = curDbData;
+    const day = dayjs(joinAt);
+    const deltaT = today.diff(day); //diff between joining date and now in ms
+
+    //check if 1 week + 20 messages : alavirien requirement
+    const isOneWeek = deltaT > 604800000; // 1week = 7*24*3600*1000 ms
+    const is20Messages = messageNumber >= 20;
+    if (isOneWeek && is20Messages)
+      giveAlavirien(client, server, alavirien, userId);
     //if doesn't respect requirements, nothing to do
-  });
+  }
 };
 
 export const setupAlavirien = async (client, tomorrow, frequency) => {

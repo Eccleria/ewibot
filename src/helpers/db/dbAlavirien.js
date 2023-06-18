@@ -33,12 +33,8 @@ const addAlavirien = (db, authorId, number, date) => {
 const removeAlavirien = (db, authorId) => {
   if (isAlavirien(db, authorId)) {
     const data = db.data.alavirien;
-    data.users = data.users.filter(
-      ({ userId }) => userId !== authorId
-    );
-    data.toUpdateIds = data.toUpdateIds.filter(
-      (id) => id !== authorId
-    )
+    data.users = data.users.filter(({ userId }) => userId !== authorId);
+    data.toUpdateIds = data.toUpdateIds.filter((id) => id !== authorId);
     db.wasUpdated = true;
   }
 };
