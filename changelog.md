@@ -1,3 +1,6 @@
+## 5.3.0
+-Fix: `eventRoles` attribution that unexpectedly worked for a new user, no satisfying explanation found ([#198](https://github.com/Eccleria/ewibot/pull/198))
+
 ## 5.2.0
 - Fix: `channelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))
 - Fix: `apology` not detected because of `\n` character next to an apology ([#210](https://github.com/Eccleria/ewibot/pull/210))
