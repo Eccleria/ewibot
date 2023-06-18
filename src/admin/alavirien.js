@@ -66,12 +66,12 @@ const checkAlavirien = async (client, server) => {
 
   const today = dayjs(); //get today date
 
-  for (id of dbIds) {
+  for (const id of dbIds) {
     //db data format : { userId: authorId, messageNumber: number, joinAt: date}
-    const curDbData = data.dbUsers.find(({ userId }) => userId === cur);
+    const curDbData = data.dbUsers.find(({ userId }) => userId === id);
     if (!curDbData) {
       //if no db data, log and skip
-      console.log(`Unable to find alavirien data from toUpdateId ${cur}`);
+      console.log(`Unable to find alavirien data from toUpdateId ${id}`);
       continue;
     }
     const { userId, messageNumber, joinAt } = curDbData;
