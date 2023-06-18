@@ -20,6 +20,7 @@ import {
   octagonalLog,
   setupEmbed,
   checkDB,
+  filterAttachmentFromSize,
 } from "./utils.js";
 import {
   addAlavirien,
@@ -715,6 +716,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       return [...acc, cur.attachment];
     return acc;
   }, []); //check for attachments
+  /*const sizes = attachments.map((att) => att.size);
+  const totSize = sizes.reduce((acc, cur) => (acc += cur));*/
+  const filteredAttachments = filterAttachmentSize(attachments);
+  console.log("filteredAttachments", filteredAttachments);
 
   const oldEmbeds = oMessage.embeds;
   const newEmbeds = nMessage.embeds;

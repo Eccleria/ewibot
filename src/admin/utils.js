@@ -745,3 +745,30 @@ export const checkDB = (userId, client) => {
   removeIgnoredUser(db, userId);
   removeAlavirien(db, userId);
 };
+
+/**
+ * Filter attachment sizes. If too big (>8Mo), removed. If list is too
+ * important, regroup to respect the 8Mo limit.
+ * @param {list} attachments
+ * @returns {list} attachments according to sizes requirements
+ */
+export const filterAttachmentFromSize = (attachments) => {
+  const limit = 8300000; //8Mo minus epsilon for security
+  const results = attachments.reduce(
+    (acc, cur) => {
+      if (cur.size > limit) return acc; //too big
+      else if (cur.size + acc.grpSize > limit)
+        return { rslt: [...acc.rslt, acc.grp], grp: [cur], grpSize: cur.size };
+      //size is okay
+      else
+        return {
+          rslt: acc.rslt,
+          grp: [...acc.grp, cur],
+          grpSize: cur.size + acc.grpSize,
+        };
+    },
+    { rslt: [], grp: [], grpSize: 0 }
+  );
+  console.log("results", results);
+  return [...results.rslt, results.grp];
+};
