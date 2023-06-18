@@ -26,8 +26,13 @@ export const eventRolesButtonHandler = async (interaction) => {
   const currentServer = COMMONS.fetchGuildId(guildId);
 
   //give requested role
-  const guildMember = !interaction.member ? await interaction.member.fetch() : null; //get in cache new members
-  if (guildMember && guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
+  const guildMember = !interaction.member
+    ? await interaction.member.fetch()
+    : null; //get in cache new members
+  if (
+    guildMember &&
+    guildMember.roles.cache.has(currentServer.alavirienRoleId)
+  ) {
     if (!guildMember.roles.cache.has(eventRoleId)) {
       await guildMember.roles.add(eventRoleId);
       interactionReply(interaction, personality.role.added);
