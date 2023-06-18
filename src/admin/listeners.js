@@ -718,7 +718,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   }, []); //check for attachments
   /*const sizes = attachments.map((att) => att.size);
   const totSize = sizes.reduce((acc, cur) => (acc += cur));*/
-  const filteredAttachments = filterAttachmentSize(attachments);
+  const filteredAttachments = filterAttachmentFromSize(attachments);
   console.log("filteredAttachments", filteredAttachments);
 
   const oldEmbeds = oMessage.embeds;
