@@ -1,3 +1,8 @@
+## 5.3.0
+- Update: `alavirien` check using a `toUpdate` list ([#211](https://github.com/Eccleria/ewibot/pull/211))
+	- minimize checkAlavirien process
+	- **WARNING** breaking changes to `db`, please update the file
+
 ## 5.2.0
 - Fix: `channelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))
 - Fix: `apology` not detected because of `\n` character next to an apology ([#210](https://github.com/Eccleria/ewibot/pull/210))
