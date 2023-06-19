@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, Intents } from "discord.js";
+import { Client, GatewayIntentBits, Partials } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
@@ -108,18 +108,18 @@ setTimeout(async () => {
 // Discord CLIENT
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_MESSAGE_TYPING,
-    Intents.FLAGS.DIRECT_MESSAGES,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_BANS,
+    GatewayIntentBits.GUILDS,
+    GatewayIntentBits.GUILD_MESSAGES,
+    GatewayIntentBits.GUILD_MESSAGE_REACTIONS,
+    GatewayIntentBits.GUILD_MESSAGE_TYPING,
+    GatewayIntentBits.DIRECT_MESSAGES,
+    GatewayIntentBits.GUILD_MEMBERS,
+    GatewayIntentBits.GUILD_BANS,
   ],
   partials: [
-    "CHANNEL", // Required to receive DMs
-    "MESSAGE", // MESSAGE && REACTION for role handling
-    "REACTION",
+    Partials.channel, // Required to receive DMs
+    Partials.message, // MESSAGE && REACTION for role handling
+    Partials.reaction,
   ],
 });
 
