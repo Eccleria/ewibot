@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageEmbed, ButtonStyle } from "discord.js";
 import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
@@ -165,7 +165,7 @@ const action = async (interaction) => {
       (acc, cur, idx) => {
         //create button
         const buttonId = "polls_" + idx.toString();
-        const button = createButton(buttonId, null, "SECONDARY", cur);
+        const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
         const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
         //handle actionRow maxe size of 5 components.
@@ -193,7 +193,7 @@ const action = async (interaction) => {
 
     //add setting button
     const settingId = "polls_" + "settings";
-    const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
+    const settingButton = createButton(settingId, null, ButtonStyle.Secondary, "⚙️");
     if (components.size === 5) {
       //if actionRow is full, create one more
       const newRow = new MessageActionRow().addComponents(settingButton);
@@ -288,7 +288,7 @@ const action = async (interaction) => {
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
       const buttonId = "polls_" + totalIdx.toString();
-      const button = createButton(buttonId, null, "SECONDARY", cur);
+      const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
       const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
       if (acc.size === 5) {

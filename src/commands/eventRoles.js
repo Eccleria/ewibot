@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageEmbed, ButtonStyle } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import {
@@ -94,7 +94,7 @@ const action = async (interaction) => {
   const currentServer = COMMONS.fetchGuildId(interaction.guildId);
 
   const db = interaction.client.db;
-  const buttonType = "PRIMARY";
+  const buttonType = ButtonStyle.Primary;
 
   if (subcommand === personality.send.name) {
     //send subcommand

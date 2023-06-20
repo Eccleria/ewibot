@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import { MessageActionRow, MessageSelectMenu, ButtonStyle } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -37,11 +37,13 @@ export const sendSettingsButtons = async (interaction) => {
 
   //create buttons
   const bPerso = perso.buttons;
-  const refreshButton = createButton(...bPerso.refresh, "PRIMARY"); // refresh poll embed
-  const updateButton = createButton(...bPerso.update, "PRIMARY"); // update poll parameters
-  const removeButton = createButton(...bPerso.remove, "PRIMARY"); // remove poll choices
-  const resetButton = createButton(...bPerso.reset, "DANGER"); // reset poll votes
-  const stopButton = createButton(...bPerso.stop, "DANGER"); //stop poll
+  const pStyle = ButtonStyle.Primary;
+  const dStyle = ButtonStyle.Danger;
+  const refreshButton = createButton(...bPerso.refresh, pStyle); // refresh poll embed
+  const updateButton = createButton(...bPerso.update, pStyle); // update poll parameters
+  const removeButton = createButton(...bPerso.remove, pStyle); // remove poll choices
+  const resetButton = createButton(...bPerso.reset, dStyle); // reset poll votes
+  const stopButton = createButton(...bPerso.stop, dStyle); //stop poll
 
   const firstButton = [updateButton, removeButton, resetButton, stopButton];
 
