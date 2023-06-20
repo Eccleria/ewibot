@@ -35,6 +35,7 @@ import { shuffleParam } from "../commands/shuffle.js";
 import dayjs from "dayjs";
 
 import { COMMONS } from "../commons.js";
+import { ChannelType } from "discord.js";
 
 //LISTENERS
 
@@ -102,7 +103,7 @@ export const onInteractionCreate = (interaction) => {
 };
 
 export const onChannelCreate = async (channel) => {
-  if (channel.type === "DM") return;
+  if (channel.type === ChannelType.DM) return;
 
   const logType = "CHANNEL_CREATE";
   const perso = "channelCreate";
@@ -110,7 +111,7 @@ export const onChannelCreate = async (channel) => {
 };
 
 export const onChannelDelete = async (channel) => {
-  if (channel.type === "DM") return;
+  if (channel.type === ChannelType.DM) return;
 
   const logType = "CHANNEL_DELETE";
   const perso = "channelDelete";
