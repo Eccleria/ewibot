@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { MessageButton } from "discord.js";
+import { ButtonBuilder } from "discord.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
@@ -25,15 +25,15 @@ export const interactionReply = async (
 };
 
 /**
- * Create a button from MessageButton
+ * Create a button from ButtonBuilder
  * @param {string} id Button id for recognition
  * @param {?string} label Button label shown to user
  * @param {string} style Button style
  * @param {?string} emoji Emoji to add to button label
- * @returns {MessageButton}
+ * @returns {ButtonBuilder}
  */
 export const createButton = (id, label, style, emoji) => {
-  const button = new MessageButton().setCustomId(id).setStyle(style);
+  const button = new ButtonBuilder().setCustomId(id).setStyle(style);
   if (label) button.setLabel(label);
   if (emoji) button.setEmoji(emoji);
   return button;
