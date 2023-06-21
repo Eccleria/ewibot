@@ -51,14 +51,14 @@ export const setupEmbed = (color, personality, object, type) => {
   if (personality.description) embed.setDescription(personality.description);
 
   if (type === "tag")
-    embed.addField(personality.author, object.toString(), true);
+    embed.addFields({name: personality.author, value: object.toString(), inline: true});
   //add user as embed if required
   else if (type === "skip") return embed;
   //allows to skip the 3rd field
   else if (type === "user")
-    embed.addField(personality.author, object.username, true);
+    embed.addFields({name: personality.author, value: object.username, inline: true});
   //add user if required
-  else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name as embed (for channels, roles, ...)
+  else embed.addFields({name: personality.author, value: object.name.toString(), inline: true}); //otherwise, add the object name as embed (for channels, roles, ...)
   return embed;
 };
 
@@ -94,8 +94,8 @@ export const finishEmbed = async (
     //if is an array, embed.author is undefined !== null
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
-      embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
-    if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+      embed[0].addFields({name: personalityEvent.executor, value: executor.toString(), inline: true}); //add the executor section
+    if (text) embed[0].addFields({name: personalityEvent.text, value: text, inline: false}); //if any text (reason or content), add it
 
     try {
       const message = await logChannel.send({
@@ -119,8 +119,8 @@ export const finishEmbed = async (
   }
 
   if (personalityEvent.executor && executor !== null)
-    embed.addField(personalityEvent.executor, executor.toString(), true);
-  if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+    embed.addFields({name: personalityEvent.executor, value: executor.toString(), inline: true});
+  if (text) embed.addFields({name: personalityEvent.text, value: text, inline: false}); //if any text (reason or content), add it
 
   try {
     const message = await logChannel.send({
