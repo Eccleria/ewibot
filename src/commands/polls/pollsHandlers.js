@@ -1,4 +1,4 @@
-import { StringSelectMenuBuilder, MessageActionRow } from "discord.js";
+import { StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
 import {
   sendSettingsButtons,
   disablePoll,
@@ -139,7 +139,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
     //handle MessageActionRows
     if (idx === 0 || acc[acc.length - 1].components.length === 5) {
       //if first or last AR is full
-      const newAR = new MessageActionRow().addComponents(cur);
+      const newAR = new ActionRowBuilder().addComponents(cur);
       return [...acc, newAR];
     } else {
       acc[acc.length - 1].addComponents(cur);
@@ -194,7 +194,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       selectMenu.addOptions(choices);
 
       //send message
-      const actionRow = new MessageActionRow().addComponents(selectMenu);
+      const actionRow = new ActionRowBuilder().addComponents(selectMenu);
       const payload = { components: [actionRow], ephemeral: true };
       interactionEditReply(interaction, payload);
     } else {
@@ -271,7 +271,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       selectMenu.addOptions(choices);
 
       //send message
-      const actionRow = new MessageActionRow().addComponents(selectMenu);
+      const actionRow = new ActionRowBuilder().addComponents(selectMenu);
       const payload = { components: [actionRow], ephemeral: true };
       interactionEditReply(interaction, payload);
     } else {

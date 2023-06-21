@@ -1,4 +1,4 @@
-import { MessageActionRow, StringSelectMenuBuilder, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder, ButtonStyle } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -53,7 +53,7 @@ export const sendSettingsButtons = async (interaction) => {
   const settingsButton = [refreshButton, ...firstButton];
 
   //create ActionRows
-  const actionRow = new MessageActionRow().addComponents(settingsButton);
+  const actionRow = new ActionRowBuilder().addComponents(settingsButton);
 
   //send buttons
   interactionEditReply(interaction, { components: [actionRow] });
@@ -83,7 +83,7 @@ export const disablePoll = async (interaction) => {
   const lastActionRow = components[components.length - 1];
   const settingButton =
     lastActionRow.components[lastActionRow.components.length - 1];
-  const newActionRow = new MessageActionRow().addComponents(settingButton);
+  const newActionRow = new ActionRowBuilder().addComponents(settingButton);
   editedPollMessage.components = [newActionRow];
 
   //edit poll message
@@ -132,7 +132,7 @@ export const removePollButtonAction = async (interaction) => {
   menu.addOptions(choices);
 
   //send message
-  const actionRow = new MessageActionRow().addComponents(menu);
+  const actionRow = new ActionRowBuilder().addComponents(menu);
   const payload = { components: [actionRow] };
   interactionEditReply(interaction, payload);
 };
@@ -194,7 +194,7 @@ export const updatePollButtonAction = async (interaction) => {
   selectMenu.addOptions(choices);
 
   //send message
-  const actionRow = new MessageActionRow().addComponents(selectMenu);
+  const actionRow = new ActionRowBuilder().addComponents(selectMenu);
   const payload = { components: [actionRow], ephemeral: true };
   interactionEditReply(interaction, payload);
 };
