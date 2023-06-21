@@ -1,7 +1,7 @@
-import { 
-  ActionRowBuilder, 
-  StringSelectMenuBuilder, 
-  ButtonStyle, 
+import {
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  ButtonStyle,
   ButtonBuilder,
   EmbedBuilder,
 } from "discord.js";
@@ -55,8 +55,7 @@ export const sendSettingsButtons = async (interaction) => {
 
   //If stoped poll, disable most buttons
   if (pollEmbed.title.includes(perso.disable.title))
-    firstButton.forEach((btn) => ButtonBuilder.from(btn)
-      .setDisabled(true));
+    firstButton.forEach((btn) => ButtonBuilder.from(btn).setDisabled(true));
   const settingsButton = [refreshButton, ...firstButton];
 
   //create ActionRows
@@ -222,8 +221,9 @@ export const refreshPollButtonAction = async (interaction) => {
 
   //disable actions during refresh
   const disabledComponents = pollMessage.components.reduce((acc, cur) => {
-    cur.components.forEach((button) => ButtonBuilder.from(button)
-      .setDisabled(true)); //disable buttons of cur actionRow
+    cur.components.forEach((button) =>
+      ButtonBuilder.from(button).setDisabled(true)
+    ); //disable buttons of cur actionRow
     return [...acc, cur];
   }, []);
   await pollMessage.edit({ components: disabledComponents });
@@ -248,8 +248,9 @@ export const refreshPollButtonAction = async (interaction) => {
   if (!embed.title.includes(sPerso.disable.title)) {
     //if not disabled, add again all buttons as enabled
     const enabledComponents = pollMessage.components.reduce((acc, cur) => {
-      cur.components.forEach((button) => ButtonBuilder.from(button)
-        .setDisabled(false)); //disable buttons of cur actionRow
+      cur.components.forEach((button) =>
+        ButtonBuilder.from(button).setDisabled(false)
+      ); //disable buttons of cur actionRow
       return [...acc, cur];
     }, []);
     pollMessage.edit({ components: enabledComponents });

@@ -193,7 +193,12 @@ const action = async (interaction) => {
 
     //add setting button
     const settingId = "polls_" + "settings";
-    const settingButton = createButton(settingId, null, ButtonStyle.Secondary, "⚙️");
+    const settingButton = createButton(
+      settingId,
+      null,
+      ButtonStyle.Secondary,
+      "⚙️"
+    );
     if (components.size === 5) {
       //if actionRow is full, create one more
       const newRow = new ActionRowBuilder().addComponents(settingButton);
