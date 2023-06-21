@@ -88,7 +88,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //get data
   const pollMessage = await fetchPollMessage(interaction);
-  const embed = pollMessage.embeds[0];
+  const embed = EmbedBuilder.from(pollMessage.embeds[0]);
 
   //remove in db
   selected.forEach((buttonId) =>
@@ -206,7 +206,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //get embed
       const pollMessage = await fetchPollMessage(interaction);
-      const embed = pollMessage.embeds[0];
+      const embed = EmbedBuilder.from(pollMessage.embeds[0]);
 
       //update fields color
       const emoteColor = persoColors.progressBar[colorIdx];
@@ -305,7 +305,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
           newVoteMax !== 1
             ? fPerso.multiple + ` (${newVoteMax})`
             : fPerso.unique;
-        const embed = pollMessage.embeds[0];
+        const embed = EmbedBuilder.from(pollMessage.embeds[0]);
         embed.setFooter({ text: newFooter + fPerso.options });
 
         //send

@@ -8,7 +8,7 @@ import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
 import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { getLogChannel } from "../admin/utils.js";
 
 const reverseStr = (string) => {
@@ -107,7 +107,7 @@ const contextAction = async (interaction) => {
       return;
     }
 
-    const embedTr = new MessageEmbed().setTitle(rTPerso.title).setTimestamp();
+    const embedTr = new EmbedBuilder().setTitle(rTPerso.title).setTimestamp();
 
     if (title === adminPerso.messageDelete.title) {
       const mDPerso = adminPerso.messageDelete;

@@ -1,4 +1,10 @@
-import { ActionRowBuilder, StringSelectMenuBuilder, ButtonStyle, ButtonBuilder } from "discord.js";
+import { 
+  ActionRowBuilder, 
+  StringSelectMenuBuilder, 
+  ButtonStyle, 
+  ButtonBuilder,
+  EmbedBuilder,
+} from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -149,7 +155,7 @@ export const resetPollButtonAction = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   const perso = personality.settings.reset; //personality
   const pollMessage = await fetchPollMessage(interaction); //db data
-  const embed = pollMessage.embeds[0];
+  const embed = EmbedBuilder.from(pollMessage.embeds[0]);
 
   //reset db
   resetPollVoters(interaction.client.db, pollMessage.id);
@@ -210,7 +216,7 @@ export const refreshPollButtonAction = async (interaction) => {
   });
 
   const pollMessage = await fetchPollMessage(interaction);
-  const embed = pollMessage.embeds[0];
+  const embed = EmbedBuilder.from(pollMessage.embeds[0]);
   const db = interaction.client.db;
   const dbPoll = getPoll(db, pollMessage.id);
 

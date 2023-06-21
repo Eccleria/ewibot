@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, MessageEmbed, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import {
@@ -101,7 +101,7 @@ const action = async (interaction) => {
     const perso = personality.send; //get personality
 
     //setup embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(perso.embed.title)
       .setDescription(perso.embed.description)
       .setColor("NAVY")
@@ -194,7 +194,7 @@ const action = async (interaction) => {
 
     //update embed
     const newField = { name: name, value: embedValue, inline: true };
-    const embed = roleMessage.embeds[0];
+    const embed = EmbedBuilder.from(roleMessage.embeds[0]);
     const fields = embed.fields;
     const blankNumber = embed.fields.reduce(
       (acc, cur) => acc + Number(cur.name === "\u200b"),

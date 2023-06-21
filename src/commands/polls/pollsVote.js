@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js"
 import { getFieldNumbers, interactionEditReply } from "./pollsUtils.js";
 import {
   addPollVoter,
@@ -96,7 +97,7 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
     removePollIndex(db, pollId, userId, toRemoveVoteIdx); //remove old vote
 
   //get fields
-  const pollEmbed = message.embeds[0];
+  const pollEmbed = EmbedBuilder.from(message.embeds[0]);
   const fields = pollEmbed.fields; //get embed fields
 
   //get new values and old ratios for each field

@@ -1,4 +1,4 @@
-/*import { MessageEmbed } from "discord.js";
+/*import { EmbedBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { removeApologyCount } from "../helpers/index.js";
 
@@ -63,7 +63,7 @@ const action = async (message, client) => {
   const personality = PERSONALITY.getCommands();
   const leadApo = personality.leaderboardApology;
 
-  const embed = new MessageEmbed() //create embed
+  const embed = new EmbedBuilder() //create embed
     .setColor("ORANGE")
     .setTimestamp()
     .setTitle(leadApo.title)

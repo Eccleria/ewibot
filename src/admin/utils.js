@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
@@ -35,15 +35,15 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
 };
 
 /**
- * Create and setup a MessageEmbed with common properties.
+ * Create and setup a EmbedBuilder with common properties.
  * @param {string} color The color of the embed.
  * @param {object} personality The personality object of the embed.
  * @param {object} [object] Object containing or not the author.
  * @param {string} [type] Differentiate object use case.
- * @returns {MessageEmbed} Embed with basic properties.
+ * @returns {EmbedBuilder} Embed with basic properties.
  */
 export const setupEmbed = (color, personality, object, type) => {
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setColor(color)
     .setTitle(personality.title)
     .setTimestamp();
@@ -66,7 +66,7 @@ export const setupEmbed = (color, personality, object, type) => {
  * Finish embeds and send them in the logChannel.
  * @param {object} personalityEvent The personality related to the triggered event.
  * @param {object} [executor] Object containing or not the executor, if any.
- * @param {(MessageEmbed|MessageEmbed[])} embed Log embed, or array of embeds with log at index 0.
+ * @param {(EmbedBuilder|EmbedBuilder[])} embed Log embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Additional text to add.
  * @param {Attachment[]} [attachments] Message attachments.
@@ -144,7 +144,7 @@ export const finishEmbed = async (
  * @param {?object} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
- * @param {(MessageEmbed|MessageEmbed[])} embed Embed, or array of embeds with log at index 0.
+ * @param {(EmbedBuilder|EmbedBuilder[])} embed Embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.

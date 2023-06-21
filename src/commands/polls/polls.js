@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, MessageEmbed, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
 import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
@@ -136,7 +136,7 @@ const action = async (interaction) => {
     }
 
     //create embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(title)
       .setTimestamp()
       .setColor(color);
@@ -252,7 +252,7 @@ const action = async (interaction) => {
 
     //get pollMessage
     const pollMessage = await interaction.channel.messages.fetch(dbPoll.pollId);
-    const embed = pollMessage.embeds[0];
+    const embed = EmbedBuilder.from(pollMessage.embeds[0]);
     const fields = embed.fields;
 
     //check for choices number
