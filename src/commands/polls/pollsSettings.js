@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu, ButtonStyle } from "discord.js";
+import { MessageActionRow, StringSelectMenuBuilder, ButtonStyle } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -117,7 +117,7 @@ export const removePollButtonAction = async (interaction) => {
     });
 
   //create selectMenu
-  const menu = new MessageSelectMenu()
+  const menu = new StringSelectMenuBuilder()
     .setCustomId(perso.customId)
     .setPlaceholder(perso.placeholder)
     .setMinValues(1)
@@ -184,7 +184,7 @@ export const updatePollButtonAction = async (interaction) => {
   const perso = PERSONALITY.getCommands().polls.settings.update;
 
   //create selectMenu
-  const selectMenu = new MessageSelectMenu()
+  const selectMenu = new StringSelectMenuBuilder()
     .setCustomId(perso.customId)
     .setPlaceholder(perso.placeholder)
     .setMaxValues(1);

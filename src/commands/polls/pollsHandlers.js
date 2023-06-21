@@ -1,4 +1,4 @@
-import { MessageSelectMenu, MessageActionRow } from "discord.js";
+import { StringSelectMenuBuilder, MessageActionRow } from "discord.js";
 import {
   sendSettingsButtons,
   disablePoll,
@@ -181,7 +181,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     if (toChange === "color") {
       // create selectMenu to chose wich poll param to change
       //create selectMenu
-      const selectMenu = new MessageSelectMenu()
+      const selectMenu = new StringSelectMenuBuilder()
         .setCustomId(perso.customId)
         .setPlaceholder(perso.placeholder)
         .setMaxValues(1);
@@ -251,7 +251,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       //chose which is new voteMax value
 
       //create selectMenu
-      const selectMenu = new MessageSelectMenu()
+      const selectMenu = new StringSelectMenuBuilder()
         .setCustomId(perso.customId)
         .setPlaceholder(perso.placeholder)
         .setMaxValues(1);
