@@ -47,7 +47,7 @@ export const onInteractionCreate = (interaction) => {
     return;
   }
 
-  if (interaction.isSelectMenu()) {
+  if (interaction.isMentionableSelectMenu()) {
     console.log("selectMenu interaction detected");
     selectMenuHandler(interaction);
     return;
@@ -55,7 +55,7 @@ export const onInteractionCreate = (interaction) => {
 
   const client = interaction.client; //get client
 
-  if (interaction.isContextMenu()) {
+  if (interaction.isContextMenuCommand()) {
     //context commands
     const contextCommands = client.contextCommands; //get commands
 
@@ -107,7 +107,7 @@ export const onChannelCreate = async (channel) => {
 
   const logType = "CHANNEL_CREATE";
   const perso = "channelCreate";
-  generalEmbed(perso, channel, "DARK_AQUA", logType, 1, null, "tag");
+  generalEmbed(perso, channel, "DarkAqua", logType, 1, null, "tag");
 };
 
 export const onChannelDelete = async (channel) => {
@@ -115,7 +115,7 @@ export const onChannelDelete = async (channel) => {
 
   const logType = "CHANNEL_DELETE";
   const perso = "channelDelete";
-  generalEmbed(perso, channel, "DARK_AQUA", logType, 1);
+  generalEmbed(perso, channel, "DarkAqua", logType, 1);
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
@@ -130,7 +130,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   //basic operations
   const logChannel = await getLogChannel(newChannel); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
-  const embed = setupEmbed("DARK_AQUA", chnUp, newChannel, "tag"); //setup embed
+  const embed = setupEmbed("DarkAqua", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
 
   //check for permission overwrite
@@ -320,7 +320,7 @@ export const onThreadCreate = async (thread, newly) => {
     const executor = log.executor
       ? log.executor
       : await thread.guild.members.fetch(thread.ownerId);
-    const embed = setupEmbed("DARK_GREY", perso, thread, "tag"); //setup embed
+    const embed = setupEmbed("DarkGrey", perso, thread, "tag"); //setup embed
     console.log("log.executor", log.executor.id);
 
     finishEmbed(perso, executor, embed, logChannel);
@@ -331,7 +331,7 @@ export const onThreadDelete = async (thread) => {
   //handle thread deletion
   const logType = "THREAD_DELETE";
   const perso = "threadDelete";
-  generalEmbed(perso, thread, "DARK_GREY", logType, 1);
+  generalEmbed(perso, thread, "DarkGrey", logType, 1);
 };
 
 export const onThreadUpdate = async (oldThread, newThread) => {
@@ -340,19 +340,19 @@ export const onThreadUpdate = async (oldThread, newThread) => {
   //console.log("oldThread", oldThread, "newThread", newThread)
   const logType = "THREAD_UPDATE";
   const perso = "threadUpdate";
-  generalEmbed(perso, newThread, "DARK_GREY", logType, 1);
+  generalEmbed(perso, newThread, "DarkGrey", logType, 1);
 };
 
 export const onRoleCreate = async (role) => {
   const logType = "ROLE_CREATE";
   const perso = "roleCreate";
-  generalEmbed(perso, role, "DARK_GOLD", logType, 1);
+  generalEmbed(perso, role, "DarkGold", logType, 1);
 };
 
 export const onRoleDelete = (role) => {
   const logType = "ROLE_DELETE";
   const perso = "roleDelete";
-  generalEmbed(perso, role, "DARK_GOLD", logType, 1);
+  generalEmbed(perso, role, "DarkGold", logType, 1);
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
@@ -470,7 +470,7 @@ export const onMessageDelete = async (message) => {
     return;
   }
 
-  const embed = setupEmbed("DARK_RED", messageDel, message.author, "tag"); //setup embed
+  const embed = setupEmbed("DarkRed", messageDel, message.author, "tag"); //setup embed
   embed.addFields(
     { name: messageDel.date, value: `${dateStr}`, inline: true }, //date of message creation
     { name: messageDel.channel, value: `<#${message.channelId}>`, inline: true } //message channel
@@ -602,7 +602,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const logChannel = await getLogChannel(nMessage, "thread"); //get logChannel
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
 
-  const embed = setupEmbed("DARK_GREEN", messageU, nMessage.author, "tag"); //setup embed
+  const embed = setupEmbed("DarkGreen", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
 
   //check for un/pinned
@@ -779,7 +779,7 @@ export const onGuildBanAdd = (userBan) => {
 
   const logType = "MEMBER_BAN_ADD";
   const perso = "guildBan";
-  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user", "user", true);
+  generalEmbed(perso, userBan, "DarkNavy", logType, 1, "user", "user", true);
 };
 
 export const onGuildBanRemove = (userBan) => {
@@ -787,7 +787,7 @@ export const onGuildBanRemove = (userBan) => {
 
   const logType = "MEMBER_BAN_REMOVE";
   const perso = "guildUnban";
-  generalEmbed(perso, userBan, "DARK_NAVY", logType, 1, "user", "user");
+  generalEmbed(perso, userBan, "DarkNavy", logType, 1, "user", "user");
 };
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {
@@ -806,7 +806,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
 
   const logChannel = await getLogChannel(newMember); //get logChannel
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
-  const embed = setupEmbed("ORANGE", timeout, user, "tag"); //setup embed
+  const embed = setupEmbed("Orange", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
 
@@ -854,7 +854,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     // diff can be null or float
     //no log or too old => not kicked but left
     const guildKick = personality.guildKick.leave;
-    const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
+    const embed = setupEmbed("DarkPurple", guildKick, userKick, "user"); //setup embed
     if (textRoles)
       embed.addFields({
         name: guildKick.roles,
@@ -877,7 +877,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   }
 
   const guildKick = personality.guildKick.kick;
-  const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
+  const embed = setupEmbed("DarkPurple", guildKick, userKick, "user"); //setup embed
   if (textRoles)
     embed.addFields({ name: guildKick.roles, value: textRoles, inline: true }); //add user roles if any
 
