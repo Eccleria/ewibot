@@ -27,11 +27,12 @@ export const eventRolesButtonHandler = async (interaction) => {
 
   //give requested role
   const guildMember = !interaction.member
-    ? await interaction.member.fetch()
-    : null; //get in cache new members
+    ? interaction.member
+    : await interaction.member.fetch(); //get in cache new members
+
   if (
     guildMember &&
-    guildMember.roles.cache.has(currentServer.alavirienRoleId)
+    guildMember.roles.cache.hasAll(currentServer.alavirienRoleId)
   ) {
     if (!guildMember.roles.cache.has(eventRoleId)) {
       await guildMember.roles.add(eventRoleId);
