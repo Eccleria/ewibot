@@ -118,9 +118,9 @@ const client = new Client({
     GatewayIntentBits.GuildModeration,
   ],
   partials: [
-    Partials.channel, // Required to receive DMs
-    Partials.message, // MESSAGE && REACTION for role handling
-    Partials.reaction,
+    Partials.Channel, // Required to receive DMs
+    Partials.Message, // MESSAGE && REACTION for role handling
+    Partials.Reaction,
   ],
 });
 
