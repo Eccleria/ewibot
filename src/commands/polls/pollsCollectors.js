@@ -1,4 +1,4 @@
-import { ComponentType } from "discord.js"
+import { ComponentType } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { getPolls } from "../../helpers/index.js";
 
