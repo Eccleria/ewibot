@@ -108,13 +108,13 @@ setTimeout(async () => {
 // Discord CLIENT
 const client = new Client({
   intents: [
-    GatewayIntentBits.GUILDS,
-    GatewayIntentBits.GUILD_MESSAGES,
-    GatewayIntentBits.GUILD_MESSAGE_REACTIONS,
-    GatewayIntentBits.GUILD_MESSAGE_TYPING,
-    GatewayIntentBits.DIRECT_MESSAGES,
-    GatewayIntentBits.GUILD_MEMBERS,
-    GatewayIntentBits.GUILD_BANS,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildModeration,
   ],
   partials: [
     Partials.channel, // Required to receive DMs
