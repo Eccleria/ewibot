@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { ChannelType, Client, GatewayIntentBits, Partials, Events } from "discord.js";
+import { ChannelType, Client, GatewayIntentBits, Partials } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
