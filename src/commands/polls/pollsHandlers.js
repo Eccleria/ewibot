@@ -1,4 +1,4 @@
-import { StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
+import { StringSelectMenuBuilder, EmbedBuilder, ActionRowBuilder } from "discord.js";
 import {
   sendSettingsButtons,
   disablePoll,
