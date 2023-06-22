@@ -1,3 +1,4 @@
+import { ComponentType } from "discord.js"
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { getPolls } from "../../helpers/index.js";
 
@@ -53,7 +54,7 @@ export const pollButtonCollector = (message) => {
 
   const collector = message.createMessageComponentCollector({
     filter,
-    componentType: "BUTTON",
+    componentType: ComponentType.Button,
     time: 2147483647,
   });
 
