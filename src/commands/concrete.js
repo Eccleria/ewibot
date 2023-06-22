@@ -88,7 +88,7 @@ const action = async (object) => {
 
     const avatar = await Canvas.loadImage(
       // Load recipient avatar
-      recipient.displayAvatarURL({ format: "jpg" })
+      recipient.displayAvatarURL({ extension: "jpg" })
     );
 
     for (let i = 100; i < 150; i++) {
@@ -117,7 +117,7 @@ const action = async (object) => {
     fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
   } else buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
 
-  const attachment = new AttachmentBuilder(buffer, cPerso.fileName);
+  const attachment = new AttachmentBuilder(buffer, {name: cPerso.fileName});
   const sentMessage = await object.editReply({ files: [attachment] });
 
   if (recipient.id === self) await sentMessage.react(currentServer.edouin);
