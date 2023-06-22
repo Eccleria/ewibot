@@ -104,8 +104,7 @@ export const finishEmbed = async (
     return;
   }
 
-  if (embed.author !== null) {
-    //if is an array, embed.author is undefined !== null
+  if (embed.length >= 0) {
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
       embed[0].addFields({
