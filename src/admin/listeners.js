@@ -131,7 +131,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const logChannel = await getLogChannel(newChannel); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DarkAqua", chnUp, newChannel, "tag"); //setup embed
-  const chnLog = await fetchAuditLog(oldChannel.guild, "CHANNEL_UPDATE", 1); //get auditLog
+  const chnLog = await fetchAuditLog(oldChannel.guild, "ChannelUpdate", 1); //get auditLog
 
   //check for permission overwrite
   const oldOverwrite = oldChannel.permissionOverwrites.cache;
@@ -316,7 +316,7 @@ export const onThreadCreate = async (thread, newly) => {
     if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
 
     const perso = PERSONALITY.getAdmin().threadCreate;
-    const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
+    const log = await fetchAuditLog(thread.guild, "ThreadCreate", 1); //get auditLog
     const executor = log.executor
       ? log.executor
       : await thread.guild.members.fetch(thread.ownerId);
@@ -394,7 +394,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     return;
   }
 
-  const roleLog = await fetchAuditLog(newRole.guild, "ROLE_UPDATE", 1); //get auditLog
+  const roleLog = await fetchAuditLog(newRole.guild, "RoleUpdate", 1); //get auditLog
 
   if (roleLog !== null) {
     //get all data to compare
@@ -475,7 +475,7 @@ export const onMessageDelete = async (message) => {
     { name: messageDel.date, value: `${dateStr}`, inline: true }, //date of message creation
     { name: messageDel.channel, value: `<#${message.channelId}>`, inline: true } //message channel
   );
-  const deletionLog = await fetchAuditLog(message.guild, "MESSAGE_DELETE", 1); //get auditLog
+  const deletionLog = await fetchAuditLog(message.guild, "MessageDelete", 1); //get auditLog
 
   //test for system message
   if (message.type === "CHANNEL_PINNED_MESSAGE") {
@@ -607,7 +607,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //check for un/pinned
   if (oMessage.pinned && !nMessage.pinned) {
-    const unpinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_UNPIN", 1); //get auditLog
+    const unpinLog = await fetchAuditLog(nMessage.guild, "MessageUnpin", 1); //get auditLog
     const unpinned = messageU.unpinned;
     embed.addFields(
       { name: unpinned.title, value: unpinned.text, inline: true }, //add unpinned text
@@ -643,7 +643,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
-    const pinLog = await fetchAuditLog(nMessage.guild, "MESSAGE_PIN", 1); //get auditLog
+    const pinLog = await fetchAuditLog(nMessage.guild, "MessagePin", 1); //get auditLog
     const pinned = messageU.pinned;
     embed.addFields(
       { name: pinned.title, value: pinned.text, inline: true }, //add unpinned text
@@ -807,7 +807,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const logChannel = await getLogChannel(newMember); //get logChannel
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("Orange", timeout, user, "tag"); //setup embed
-  const timeoutLog = await fetchAuditLog(newMember.guild, "MEMBER_UPDATE", 1); //get auditLog
+  const timeoutLog = await fetchAuditLog(newMember.guild, "MemberUpdate", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
 
   const timeoutUntil = dayjs(newMember.communicationDisabledUntil);
@@ -834,7 +834,7 @@ export const onGuildMemberRemove = async (memberKick) => {
 
   const logChannel = await getLogChannel(memberKick); //get logChannel
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
-  const kickLog = await fetchAuditLog(memberKick.guild, "MEMBER_KICK", 1); //get auditLog
+  const kickLog = await fetchAuditLog(memberKick.guild, "MemberKick", 1); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get kick reason
 
   //get log creation date and compare to now

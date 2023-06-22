@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, AuditLogEvent } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
@@ -14,16 +14,17 @@ import {
 /**
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
- * @param {string} auditType String for audit type request.
+ * @param {string|AuditLogEvent} auditType String|AuditLogEvent for audit type request.
  * @param {number} limit Number of auditLogs fetched.
  * @param {string} [type] String for audit type request.
  * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
+  const aType = typeof auditType === "string" ? AuditLogEvent[auditType] : auditType;
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
       limit: limit,
-      type: auditType,
+      type: aType,
     }); //fetch logs
     if (type === "list") return fetchedLogs.entries; //return all entries
     return fetchedLogs.entries.first(); //return the first
