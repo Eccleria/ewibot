@@ -368,7 +368,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
 
   const logChannel = await getLogChannel(newRole); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
-  const embed = setupEmbed("DARK_GOLD", roleUp, newRole); //setup embed
+  const embed = setupEmbed("DarkGold", roleUp, newRole); //setup embed
 
   //get client
   const client = newRole.client;
