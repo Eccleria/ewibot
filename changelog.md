@@ -1,5 +1,8 @@
 ## 5.3.0
 -Fix: `eventRoles` attribution that unexpectedly worked for a new user, no satisfying explanation found ([#198](https://github.com/Eccleria/ewibot/pull/198))
+- Update: `alavirien` check using a `toUpdate` list ([#211](https://github.com/Eccleria/ewibot/pull/211))
+	- minimize checkAlavirien process
+	- **WARNING** breaking changes to `db`, please update the file
 
 ## 5.2.0
 - Fix: `channelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))
