@@ -29,7 +29,7 @@ export const eventRolesButtonHandler = async (interaction) => {
   const guildMember = !interaction.member
     ? interaction.member
     : await interaction.member.fetch(); //get in cache new members
-    
+
   if (
     guildMember &&
     guildMember.roles.cache.has(currentServer.alavirienRoleId)
