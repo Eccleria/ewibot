@@ -1,5 +1,5 @@
 const isAlavirien = (db, authorId) => {
-  return db.data.alavirien
+  return db.data.alavirien.users
     .map((obj) => {
       return obj.userId;
     })
@@ -7,9 +7,11 @@ const isAlavirien = (db, authorId) => {
 };
 
 const addAlavirienNumber = (db, authorId, number) => {
-  db.data.alavirien.forEach((user) => {
+  const data = db.data.alavirien;
+  data.users.forEach((user) => {
     if (user.userId === authorId) {
       user.messageNumber += number;
+      data.toUpdateIds.push(authorId);
       db.wasUpdated = true;
     }
   });
@@ -17,7 +19,7 @@ const addAlavirienNumber = (db, authorId, number) => {
 
 const addAlavirien = (db, authorId, number, date) => {
   if (!isAlavirien(db, authorId)) {
-    db.data.alavirien.push({
+    db.data.alavirien.users.push({
       userId: authorId,
       messageNumber: number,
       joinAt: date,
@@ -30,9 +32,9 @@ const addAlavirien = (db, authorId, number, date) => {
 
 const removeAlavirien = (db, authorId) => {
   if (isAlavirien(db, authorId)) {
-    db.data.alavirien = db.data.alavirien.filter(
-      ({ userId }) => userId !== authorId
-    );
+    const data = db.data.alavirien;
+    data.users = data.users.filter(({ userId }) => userId !== authorId);
+    data.toUpdateIds = data.toUpdateIds.filter((id) => id !== authorId);
     db.wasUpdated = true;
   }
 };
