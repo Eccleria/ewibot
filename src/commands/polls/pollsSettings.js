@@ -51,8 +51,8 @@ export const sendSettingsButtons = async (interaction) => {
 
   const firstButton = [updateButton, removeButton, resetButton, stopButton];
 
-  //If stoped poll, disable most buttons
-  if (pollEmbed.title.includes(perso.disable.title))
+  //If stopped poll, disable most buttons
+  if (pollEmbed.title.includes(perso.stop.title))
     firstButton.forEach((btn) => btn.setDisabled(true));
   const settingsButton = [refreshButton, ...firstButton];
 
@@ -63,7 +63,7 @@ export const sendSettingsButtons = async (interaction) => {
   interactionEditReply(interaction, { components: [actionRow] });
 };
 
-export const disablePoll = async (interaction) => {
+export const stopPoll = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
@@ -79,20 +79,15 @@ export const disablePoll = async (interaction) => {
 
   //edit title
   const pollEmbed = pollMessage.embeds[0];
-  pollEmbed.title = pollEmbed.title + perso.disable.title;
+  pollEmbed.title = pollEmbed.title + perso.stop.title;
   editedPollMessage.embeds = [pollEmbed];
 
-  //edit poll buttons
-  const components = pollMessage.components;
-  const lastActionRow = components[components.length - 1];
-  const settingButton =
-    lastActionRow.components[lastActionRow.components.length - 1];
-  const newActionRow = new MessageActionRow().addComponents(settingButton);
-  editedPollMessage.components = [newActionRow];
+  //remove polls buttons
+  editedPollMessage.components = [];
 
   //edit poll message
   const editedStopMessage = {
-    content: perso.disable.disabled,
+    content: perso.stop.stopped,
     components: [],
     ephemeral: true,
   };
@@ -234,7 +229,7 @@ export const refreshPollButtonAction = async (interaction) => {
   });
 
   //handle buttons
-  if (!embed.title.includes(sPerso.disable.title)) {
+  if (!embed.title.includes(sPerso.stop.title)) {
     //if poll not ended, add again all buttons as enabled
     const enabledComponents = pollMessage.components.reduce((acc, cur) => {
       cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow

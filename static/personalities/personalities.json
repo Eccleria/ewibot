@@ -382,11 +382,11 @@
             "refresh": ["polls_set_refresh", "Actualiser"],
             "remove": ["polls_set_remove", "Retirer"],
             "reset": ["polls_set_reset", "RAZ"],
-            "stop": ["polls_set_disable", "Stop"],
+            "stop": ["polls_set_stop", "Stop"],
             "update": ["polls_set_update", "Modifier"]
           },
-          "disable": {
-            "disabled": "Le sondage a bien été verrouillé.",
+          "stop": {
+            "stopped": "Le sondage a bien été verrouillé.",
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
             "title": " - **Terminé**"
           },

@@ -100,10 +100,10 @@ export const parsePollFields = (content, totalSize = 0) => {
 
 /**
  *
- * @param {*} dbPoll poll message data from db
- * @param {*} newFieldsInit init value for new fields
- * @param {*} perso Color personality
- * @returns List of new fields objects
+ * @param {object} dbPoll poll message data from db
+ * @param {list} newFieldsInit init value for new fields
+ * @param {object} perso Color personality
+ * @returns {list} List of new fields objects [{name: , value: }, ...]
  */
 export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
   //compute ratios

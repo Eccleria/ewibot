@@ -1,7 +1,7 @@
 import { MessageSelectMenu, MessageActionRow } from "discord.js";
 import {
   sendSettingsButtons,
-  disablePoll,
+  stopPoll,
   removePollButtonAction,
   resetPollButtonAction,
   updatePollButtonAction,
@@ -58,7 +58,7 @@ export const settingsButtonHandler = async (interaction) => {
   // handle settings button
   const { customId } = interaction;
   if (customId.includes("settings")) sendSettingsButtons(interaction);
-  else if (customId.includes("set_disable")) disablePoll(interaction);
+  else if (customId.includes("set_stop")) stopPoll(interaction);
   else if (customId.includes("set_remove")) removePollButtonAction(interaction);
   else if (customId.includes("set_reset")) resetPollButtonAction(interaction);
   else if (customId.includes("set_update")) updatePollButtonAction(interaction);
