@@ -85,6 +85,9 @@ export const stopPoll = async (interaction) => {
   //remove polls buttons
   editedPollMessage.components = [];
 
+  //remove from db
+  removePoll(interaction.client.db, pollMessage.id);
+
   //edit poll message
   const editedStopMessage = {
     content: perso.stop.stopped,
