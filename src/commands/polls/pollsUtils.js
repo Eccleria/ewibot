@@ -99,7 +99,7 @@ export const parsePollFields = (content, totalSize = 0) => {
 };
 
 /**
- *
+ * Compute each of poll embed fields according to db data
  * @param {object} dbPoll poll message data from db
  * @param {list} newFieldsInit init value for new fields
  * @param {object} perso Color personality

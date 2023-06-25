@@ -3,6 +3,7 @@ import {
   fetchPollMessage,
   interactionEditReply,
   pollRefreshEmbed,
+  refreshPollFields,
 } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
@@ -69,6 +70,7 @@ export const stopPoll = async (interaction) => {
   } catch (e) {
     return console.log(e);
   }
+  const db = interaction.client.db;
 
   //get personality
   const perso = PERSONALITY.getCommands().polls.settings;
@@ -80,13 +82,21 @@ export const stopPoll = async (interaction) => {
   //edit title
   const pollEmbed = pollMessage.embeds[0];
   pollEmbed.title = pollEmbed.title + perso.stop.title;
+
+  //refresh fields
+  const dbPoll = getPoll(db, pollMessage.id);
+  const newFieldsInit = pollEmbed.fields.map((obj) => {
+    return { name: obj.name, value: "" };
+  }); //init with old names
+  const newFields = refreshPollFields(dbPoll, newFieldsInit, PERSONALITY.getCommands().polls.create);
+  pollEmbed.setFields(newFields);
   editedPollMessage.embeds = [pollEmbed];
 
   //remove polls buttons
   editedPollMessage.components = [];
 
   //remove from db
-  removePoll(interaction.client.db, pollMessage.id);
+  removePoll(db, pollMessage.id);
 
   //edit poll message
   const editedStopMessage = {
