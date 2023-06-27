@@ -221,7 +221,6 @@ export const refreshPollButtonAction = async (interaction) => {
   });
 
   const pollMessage = await fetchPollMessage(interaction);
-  const embed = pollMessage.embeds[0];
   const db = interaction.client.db;
 
   //disable actions during refresh
@@ -242,15 +241,10 @@ export const refreshPollButtonAction = async (interaction) => {
   });
 
   //handle buttons
-  if (!embed.title.includes(sPerso.stop.title)) {
-    //if poll not ended, add again all buttons as enabled
-    const enabledComponents = pollMessage.components.reduce((acc, cur) => {
-      cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
-      return [...acc, cur];
-    }, []);
-    pollMessage.edit({ components: enabledComponents });
-  } else {
-    pollMessage.edit({ components: [] }); //else remove every button
-    removePoll(db, pollMessage.id); //remove data from db
-  }
+  const enabledComponents = pollMessage.components.reduce((acc, cur) => {
+    cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
+    return [...acc, cur];
+  }, []);
+  
+  pollMessage.edit({ components: enabledComponents });
 };
