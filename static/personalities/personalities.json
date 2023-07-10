@@ -299,9 +299,14 @@
         "notIgnored": "Je vais de nouveau réagir à vos messages."
       },
       "leaderboardApology": {
-        "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
-        "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
-        "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        "description": "Cette commande permet d'envoyer le classement des excuses",
+        "embed": {
+          "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
+          "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
+          "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        },
+        "errorNotAllowed": "Vous n'avez pas le droit d'utiliser cette commande",
+        "name": "lead-apo"
       },
       "personality": {
         "change": "Dorénavant, j'aurai la personalité ",
