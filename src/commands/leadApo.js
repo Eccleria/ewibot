@@ -58,13 +58,14 @@ const action = async (interaction) => {
       const line = `${nickSliced}: ${cur.counter}`; // add count to the line
 
       //separate data
-      if (cur.counter < 20) fields[0].value = `${fields[0].value}${line}\n`;
-      else if (cur.counter < 30)
-        fields[1].value = `${fields[1].value}${line}\n`;
-      else if (count >= sorted.length - 3) {
+      if (count >= sorted.length - 3) {
         //if top3
         fields[3].value = `${fields[3].value}${line}\n`;
-      } else fields[2].value = `${fields[2].value}${line}\n`;
+      }
+      else if (cur.counter < 20) fields[0].value = `${fields[0].value}${line}\n`;
+      else if (cur.counter < 30)
+        fields[1].value = `${fields[1].value}${line}\n`;
+      else fields[2].value = `${fields[2].value}${line}\n`;
     }
     count = count + 1; //for find top3
   }
