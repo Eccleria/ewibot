@@ -33,7 +33,7 @@ const action = async (interaction) => {
   let fields = [
     { name: "10-75", value: "```md\n", max: 75, min: 10 },
     { name: "76-150", value: "```md\n", max: 150, min: 76 },
-    { name: ">150", value: "```md\n", min: 151 },
+    { name: ">150", value: "```md\n", max: -1, min: 151 },
     { name: "top 3", value: "```md\n" },
   ]; //initiate future embed fields
 
@@ -55,7 +55,9 @@ const action = async (interaction) => {
         "nickname",
         guildMember.nickname,
         "username",
-        guildMember.user.username
+        guildMember.user.username,
+        "counter",
+        cur.counter
       );
       const userNickname = guildMember.nickname
         ? guildMember.nickname
