@@ -30,12 +30,12 @@ const action = async (interaction) => {
   console.log("sorted", sorted);
 
   const guildMembers = interaction.guild.members;
-
+  const baseValue = "```\n";
   let fields = [
-    { name: "10-75", value: "```md\n", max: 75, min: 10 },
-    { name: "76-150", value: "```md\n", max: 150, min: 76 },
-    { name: ">150", value: "```md\n", max: -1, min: 151 },
-    { name: "top 3", value: "```md\n" },
+    { name: "10-75", value: baseValue, max: 75, min: 10 },
+    { name: "76-150", value: baseValue, max: 150, min: 76 },
+    { name: ">150", value: baseValue, max: -1, min: 151 },
+    { name: "top 3", value: baseValue },
   ]; //initiate future embed fields
 
   let count = 0;
