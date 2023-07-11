@@ -11,7 +11,7 @@ const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0x0000010000000000);
 
 const action = async (interaction) => {
-  await interaction.deferReply({ephemeral: true});
+  await interaction.deferReply({ ephemeral: true });
   const perso = PERSONALITY.getCommands().leaderboardApology;
 
   if (!isAdmin(interaction.user.id)) {
