@@ -301,12 +301,14 @@
       "leaderboardApology": {
         "description": "Cette commande permet d'envoyer le classement des excuses",
         "embed": {
-          "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
+          "description": "YOOOOOOOOOOOOOOOOOOOOO ! <:Ewiyay:918249094391144469>\n Eccléria l'a teasé hier, voici aujourd'hui mon grand retour ! Et oui, ça fait littérallement 1 an que l'on a eu le premier classement des excuses. Le rush de fonctionnalité s'imposait pour ne pas rater l'anniversaire <:Ewinklan:841675143596212267> !\nEt sans plus attendre, voici les résultats :",
           "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
           "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
         },
         "errorNotAllowed": "Vous n'avez pas le droit d'utiliser cette commande",
-        "name": "lead-apo"
+        "errorNotSent": "Le message de classement des excuses n'a pas pu être envoyé",
+        "name": "lead-apo",
+        "sent": "Le message de classement des excuses a bien été envoyé"
       },
       "personality": {
         "change": "Dorénavant, j'aurai la personalité ",

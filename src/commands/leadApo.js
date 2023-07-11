@@ -32,10 +32,10 @@ const action = async (interaction) => {
   const guildMembers = interaction.guild.members;
 
   let fields = [
-    { name: "10-19", value: "```md\n" },
-    { name: "20-29", value: "```md\n" },
-    { name: ">29", value: "```md\n" },
-    { name: "top 3", value: "```md\n" },
+    { name: "10-19", value: "```md\n", max: 19, min: 10 },
+    { name: "20-29", value: "```md\n", max: 29, min: 20 },
+    { name: ">29", value: "```md\n", max: -1, min: 30 },
+    { name: "top 3", value: "```md\n", max: 3, min: 3 },
   ]; //initiate future embed fields
 
   let count = 0;
@@ -60,12 +60,18 @@ const action = async (interaction) => {
       //separate data
       if (count >= sorted.length - 3) {
         //if top3
-        fields[3].value = `${fields[3].value}${line}\n`;
+        fields[fields.length - 1].value = `${fields[fields.length - 1].value}${line}\n`;
       }
-      else if (cur.counter < 20) fields[0].value = `${fields[0].value}${line}\n`;
-      else if (cur.counter < 30)
-        fields[1].value = `${fields[1].value}${line}\n`;
-      else fields[2].value = `${fields[2].value}${line}\n`;
+      else {
+        const isInRange = fields
+          .slice(0, fields.length - 1)
+          .reduce((acc, fld) => {
+            if (fld.max === -1) return [...acc, fld.min <= cur.counter]
+            else return [...acc, fld.min <= cur.counter && cur.counter <= fld.max]
+          }, []); //find which field where counter is in range, return bool
+        const idx = isInRange.findIndex((bool) => bool); //get field index where value is true
+        if (idx !== -1) fields[idx].value = `${fields[idx].value}${line}\n`; //update field for any idx correct value
+      }
     }
     count = count + 1; //for find top3
   }
@@ -82,7 +88,11 @@ const action = async (interaction) => {
     .addFields(fields.slice(0, 3))
     .addFields({name: fields[3].name, value: `${ePerso.top3} ${fields[3].value}`});
 
-  interaction.channel.send({ embeds: [embed] });
+  const message = await interaction.channel.send({ embeds: [embed] });
+  if (message) 
+    interactionReply(interaction, perso.sent);
+  else
+    interactionReply(interaction, perso.errorNotSent);
 };
 
 const leaderboardApology = {
