@@ -32,10 +32,10 @@ const action = async (interaction) => {
   const guildMembers = interaction.guild.members;
 
   let fields = [
-    { name: "10-19", value: "```md\n", max: 19, min: 10 },
-    { name: "20-29", value: "```md\n", max: 29, min: 20 },
-    { name: ">29", value: "```md\n", max: -1, min: 30 },
-    { name: "top 3", value: "```md\n", max: 3, min: 3 },
+    { name: "10-75", value: "```md\n", max: 75, min: 10 },
+    { name: "76-150", value: "```md\n", max: 150, min: 76 },
+    { name: ">150", value: "```md\n", min: 151 },
+    { name: "top 3", value: "```md\n" },
   ]; //initiate future embed fields
 
   let count = 0;
