@@ -10,7 +10,6 @@ const command = new SlashCommandBuilder()
   .setDescription(PERSONALITY.getCommands().leaderboardApology.description)
   .setDefaultMemberPermissions(0x0000010000000000);
 
-
 const action = async (interaction) => {
   const perso = PERSONALITY.getCommands().leaderboardApology;
 
@@ -52,22 +51,31 @@ const action = async (interaction) => {
 
     if (guildMember && cur.counter >= 10) {
       //if found && enough apologies
-      console.log("nickname", guildMember.nickname, "username", guildMember.user.username)
-      const userNickname = guildMember.nickname ? guildMember.nickname : guildMember.user.username; //get nickname
+      console.log(
+        "nickname",
+        guildMember.nickname,
+        "username",
+        guildMember.user.username
+      );
+      const userNickname = guildMember.nickname
+        ? guildMember.nickname
+        : guildMember.user.username; //get nickname
       const nickSliced = userNickname.slice(0, 25).padEnd(25, " ");
       const line = `${nickSliced}: ${cur.counter}`; // add count to the line
 
       //separate data
       if (count >= sorted.length - 3) {
         //if top3
-        fields[fields.length - 1].value = `${fields[fields.length - 1].value}${line}\n`;
-      }
-      else {
+        fields[fields.length - 1].value = `${
+          fields[fields.length - 1].value
+        }${line}\n`;
+      } else {
         const isInRange = fields
           .slice(0, fields.length - 1)
           .reduce((acc, fld) => {
-            if (fld.max === -1) return [...acc, fld.min <= cur.counter]
-            else return [...acc, fld.min <= cur.counter && cur.counter <= fld.max]
+            if (fld.max === -1) return [...acc, fld.min <= cur.counter];
+            else
+              return [...acc, fld.min <= cur.counter && cur.counter <= fld.max];
           }, []); //find which field where counter is in range, return bool
         const idx = isInRange.findIndex((bool) => bool); //get field index where value is true
         if (idx !== -1) fields[idx].value = `${fields[idx].value}${line}\n`; //update field for any idx correct value
@@ -86,13 +94,14 @@ const action = async (interaction) => {
     .setTitle(ePerso.title)
     .setDescription(ePerso.description)
     .addFields(fields.slice(0, 3))
-    .addFields({name: fields[3].name, value: `${ePerso.top3} ${fields[3].value}`});
+    .addFields({
+      name: fields[3].name,
+      value: `${ePerso.top3} ${fields[3].value}`,
+    });
 
   const message = await interaction.channel.send({ embeds: [embed] });
-  if (message) 
-    interactionReply(interaction, perso.sent);
-  else
-    interactionReply(interaction, perso.errorNotSent);
+  if (message) interactionReply(interaction, perso.sent);
+  else interactionReply(interaction, perso.errorNotSent);
 };
 
 const leaderboardApology = {
