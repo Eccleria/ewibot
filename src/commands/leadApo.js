@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
 import { isAdmin, removeApologyCount } from "../helpers/index.js";
-import { interactionReply } from "./utils.js";
+import { interactionEditReply } from "./polls/pollsUtils.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().leaderboardApology.name)
@@ -11,11 +11,12 @@ const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0x0000010000000000);
 
 const action = async (interaction) => {
+  await interaction.deferReply({ephemeral: true});
   const perso = PERSONALITY.getCommands().leaderboardApology;
 
   if (!isAdmin(interaction.user.id)) {
     console.log(`${interaction.user.id} tryed to use /leadApo`);
-    interactionReply(interaction, perso.errorNotAllowed);
+    interactionEditReply(interaction, perso.errorNotAllowed);
     return;
   }
 
@@ -102,8 +103,8 @@ const action = async (interaction) => {
     });
 
   const message = await interaction.channel.send({ embeds: [embed] });
-  if (message) interactionReply(interaction, perso.sent);
-  else interactionReply(interaction, perso.errorNotSent);
+  if (message) interactionEditReply(interaction, perso.sent);
+  else interactionEditReply(interaction, perso.errorNotSent);
 };
 
 const leaderboardApology = {
