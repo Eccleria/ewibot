@@ -46,8 +46,7 @@ export const pollSelectMenuHandler = async (interaction) => {
     const dbPoll = getPoll(interaction.client.db, pollMessage.id);
     const updatedFields = refreshPollFields(
       dbPoll,
-      filteredFields,
-      PERSONALITY.getCommands().polls.create
+      filteredFields
     );
     embed.setFields(updatedFields);
   
@@ -115,19 +114,17 @@ export const pollSelectMenuHandler = async (interaction) => {
     const personality = PERSONALITY.getCommands().polls;
     if (toChange === "anonymous") {
       //No need to select choice, apply modif
-      const perso = personality.settings.update.anonymous;
-      const anonymous = toChange.split("_").slice(1); //remove "color"
-  
+
       //get embed
       const pollMessage = await fetchPollMessage(interaction);
   
       //update db
       const dbPoll = getPoll(db, pollMessage.id);
       const newAnonymous = !dbPoll.anonymous;
-      updatePollParam(db, pollMessage.id, anonymous, newAnonymous);
+      updatePollParam(db, pollMessage.id, toChange, newAnonymous);
   
       //update embed
-      await pollRefreshEmbed(pollMessage, dbPoll, perso);
+      await pollRefreshEmbed(pollMessage, dbPoll);
   
       interactionEditReply(interaction, {
         content: "Le paramètre anonyme a bien été changé.",

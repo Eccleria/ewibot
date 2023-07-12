@@ -388,7 +388,7 @@ const action = async (interaction) => {
     const newFieldsInit = newEmbed.fields.map((obj) => {
       return { name: obj.name, value: "" };
     }); //init with old names
-    const newFields = refreshPollFields(dbPoll, newFieldsInit, personality.create);
+    const newFields = refreshPollFields(dbPoll, newFieldsInit);
     newEmbed.setFields(newFields);
     pollMessage.edit({ embeds: [newEmbed], components: [] });
 

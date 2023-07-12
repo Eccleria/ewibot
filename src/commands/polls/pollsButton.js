@@ -88,7 +88,7 @@ export const stopPoll = async (interaction) => {
   const newFieldsInit = pollEmbed.fields.map((obj) => {
     return { name: obj.name, value: "" };
   }); //init with old names
-  const newFields = refreshPollFields(dbPoll, newFieldsInit, PERSONALITY.getCommands().polls.create);
+  const newFields = refreshPollFields(dbPoll, newFieldsInit);
   pollEmbed.setFields(newFields);
   editedPollMessage.embeds = [pollEmbed];
 
@@ -232,7 +232,7 @@ export const refreshPollButtonAction = async (interaction) => {
 
   //update poll embed
   const dbPoll = getPoll(db, pollMessage.id);
-  await pollRefreshEmbed(pollMessage, dbPoll, perso);
+  await pollRefreshEmbed(pollMessage, dbPoll);
 
   //reply and enable votes
   interactionEditReply(interaction, {

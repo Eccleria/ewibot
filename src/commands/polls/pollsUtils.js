@@ -102,10 +102,9 @@ export const parsePollFields = (content, totalSize = 0) => {
  * Compute each of poll embed fields according to db data
  * @param {object} dbPoll poll message data from db
  * @param {list} newFieldsInit init value for new fields
- * @param {object} perso Color personality
  * @returns {list} List of new fields objects [{name: , value: }, ...]
  */
-export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
+export const refreshPollFields = (dbPoll, newFieldsInit) => {
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
   const totalValues = values.reduce((acc, cur) => acc + cur, 0);
@@ -120,7 +119,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
   const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
-  const black = perso.colorOption.black; //empty bar color
+  const black = PERSONALITY.getCommands().polls.black; //empty bar color
 
   //return new fields
   return newFieldsInit.map((field, idx) => {
@@ -138,14 +137,14 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
   });
 };
 
-export const pollRefreshEmbed = async (pollMessage, dbPoll, perso) => {
+export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
   const embed = pollMessage.embeds[0];
 
   //create new fields objects from pollMessage
   const newFieldsInit = embed.fields.map((obj) => {
     return { name: obj.name, value: "" };
   }); //init with old names
-  const newFields = refreshPollFields(dbPoll, newFieldsInit, perso.create);
+  const newFields = refreshPollFields(dbPoll, newFieldsInit);
 
   //update message
   embed.setFields(newFields);
