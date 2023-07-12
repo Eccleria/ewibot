@@ -2,6 +2,7 @@
 - Fix: `eventRoles` attribution that unexpectedly worked for a new user
 	- no satisfying explanation found ([#198](https://github.com/Eccleria/ewibot/pull/198))
 	- wrong order in #198 fix ([#222](https://github.com/Eccleria/ewibot/pull/222))
+- New: add `/lead-apo` admin only command to send apologies leaderboard ([#223](https://github.com/Eccleria/ewibot/pull/223))
 - Update: `alavirien` check using a `toUpdate` list ([#211](https://github.com/Eccleria/ewibot/pull/211))
 	- minimize checkAlavirien process
 	- **WARNING** breaking changes to `db`, please update the file

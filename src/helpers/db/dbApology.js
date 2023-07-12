@@ -1,9 +1,5 @@
 const isApologyUser = (db, authorId) => {
-  return db.data.apologiesCounting
-    .map((obj) => {
-      return obj.userId;
-    })
-    .includes(authorId);
+  return db.data.apologiesCounting.map((obj) => obj.userId).includes(authorId);
 };
 
 const addApologyCount = (db, authorId) => {
@@ -26,7 +22,6 @@ const addApologyCount = (db, authorId) => {
   db.wasUpdated = true;
 };
 
-/*
 const removeApologyCount = (db, authorId) => {
   if (isApologyUser(db, authorId)) {
     db.data.apologiesCounting = db.data.apologiesCounting.filter(
@@ -35,6 +30,5 @@ const removeApologyCount = (db, authorId) => {
     db.wasUpdated = true;
   }
 };
-*/
 
-export { isApologyUser, addApologyCount }; //, removeApologyCount };
+export { isApologyUser, addApologyCount, removeApologyCount };
