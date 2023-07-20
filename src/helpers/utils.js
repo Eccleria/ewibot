@@ -20,10 +20,11 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-const punctuation = new RegExp(/([!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…])|(\n)/gm);
+const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 
 export const sanitizePunctuation = (messageContent) => {
-  return messageContent.replaceAll(punctuation, "");
+  const lineBreakRemoved = messageContent.replaceAll("\n", " ")
+  return lineBreakRemoved.replaceAll(punctuation, "");
 };
 
 export const isAdmin = (authorId) => {
