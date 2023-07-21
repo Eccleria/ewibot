@@ -238,7 +238,7 @@ export const generalEmbed = async (
   const aLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(obj)) return; //if in prod && modif in test server
-  
+
   const channel = await getLogChannel(obj); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
@@ -256,7 +256,7 @@ export const generalEmbed = async (
  */
 export const getLogChannel = async (eventObject, type) => {
   const currentServer = COMMONS.fetchGuildId(eventObject.guild.id); //get server local data
-  
+
   let id;
   switch (type) {
     case "thread":
@@ -266,10 +266,10 @@ export const getLogChannel = async (eventObject, type) => {
       id = currentServer.inAndOutLogChannelId;
       break;
     default:
-      id = currentServer.logChannelId
-    }
+      id = currentServer.logChannelId;
+  }
 
-    return await eventObject.guild.channels.fetch(id); //return the log channel
+  return await eventObject.guild.channels.fetch(id); //return the log channel
 };
 
 export const clientEventUpdateProcess = (
