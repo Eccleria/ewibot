@@ -264,6 +264,7 @@ export const getLogChannel = async (eventObject, type) => {
       break;
     case "inAndOut":
       id = currentServer.inAndOutLogChannelId;
+      break;
     default:
       id = currentServer.logChannelId
     }
