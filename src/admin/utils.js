@@ -738,14 +738,13 @@ export const octagonalLog = async (object, user) => {
 
 /**
  * Check if is currently in test server
- * @param {Object} logChannel LogChannel retrieved from currentServer
+ * @param {Object} eventObject eventObject given to listener from API
  * @returns True if is test server
  */
-export const isTestServer = (logChannel) => {
-  const server = COMMONS.getTest();
-  const channels = [server.logChannelId, server.logThreadId];
-
-  return channels.includes(logChannel.id); //if test, return true
+export const isTestServer = (eventObject) => {
+  const testServer = COMMONS.getTest();
+  const test = testServer.guildId === eventObject.guild.id;
+  return test; //if test, return true
 };
 
 export const checkDB = (userId, client) => {
