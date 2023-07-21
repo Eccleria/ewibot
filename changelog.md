@@ -6,6 +6,7 @@
 - Update: `alavirien` check using a `toUpdate` list ([#211](https://github.com/Eccleria/ewibot/pull/211))
 	- minimize checkAlavirien process
 	- **WARNING** breaking changes to `db`, please update the file
+- Update: `adminLogs` for leaving members now sent in new log channel ([#227](https://github.com/Eccleria/ewibot/pull/227))
 
 ## 5.2.0
 - Fix: `channelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))
