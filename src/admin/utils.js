@@ -251,14 +251,24 @@ export const generalEmbed = async (
 /**
  * Fetch Log Channel.
  * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish if returns channel or thread. "thread" for thread.
+ * @param {string} [type] String to ditinguish which channel/thread to return.
  * @returns {TextChannel}
  */
 export const getLogChannel = async (eventObject, type) => {
   const currentServer = COMMONS.fetchGuildId(eventObject.guild.id); //get server local data
-  const id =
-    type === "thread" ? currentServer.logThreadId : currentServer.logChannelId;
-  return await eventObject.guild.channels.fetch(id); //return the log channel
+  
+  let id;
+  switch (type) {
+    case "thread":
+      id = currentServer.logThreadId;
+      break;
+    case "inAndOut":
+      id = currentServer.inAndOutLogChannelId;
+    default:
+      id = currentServer.logChannelId
+    }
+
+    return await eventObject.guild.channels.fetch(id); //return the log channel
 };
 
 export const clientEventUpdateProcess = (
