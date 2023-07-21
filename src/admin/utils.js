@@ -237,9 +237,9 @@ export const generalEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
+  if (process.env.DEBUG === "no" && isTestServer(obj)) return; //if in prod && modif in test server
+  
   const channel = await getLogChannel(obj); //get logChannel
-  if (process.env.DEBUG === "no" && isTestServer(channel)) return; //if in prod && modif in test server
-
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
@@ -251,7 +251,7 @@ export const generalEmbed = async (
 /**
  * Fetch Log Channel.
  * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return.
+ * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut"
  * @returns {TextChannel}
  */
 export const getLogChannel = async (eventObject, type) => {
