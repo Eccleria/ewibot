@@ -7,6 +7,7 @@
     "randomfloodChannelId": "935180557770448956",
     "logChannelId": "981478339439104090",
     "logThreadId": "1017080172677177345",
+    "inAndOutLogChannelId": "981478339439104090",
     "cosmeticRoleHandle": {
       "channelId": "967059786644488192",
       "messageId": "973889029969936406"
@@ -87,6 +88,7 @@
     "randomfloodChannelId": "822132004581408828",
     "logChannelId": "959168176908804106",
     "logThreadId": "1012365101594058762",
+    "inAndOutLogChannelId": "1131895386626326649",
     "cosmeticRoleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"
