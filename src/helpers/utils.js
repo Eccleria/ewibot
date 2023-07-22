@@ -23,7 +23,7 @@ const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' I
 const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 
 export const sanitizePunctuation = (messageContent) => {
-  const lineBreakRemoved = messageContent.replaceAll("\n", " ")
+  const lineBreakRemoved = messageContent.replaceAll("\n", " ");
   return lineBreakRemoved.replaceAll(punctuation, "");
 };
 
@@ -63,27 +63,24 @@ export const hasOctagonalSign = (content, cmnShared) => {
 
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  if (process.env.DEBUG === "yes") 
-    console.log("apologyResult", apologyResult);
+  if (process.env.DEBUG === "yes") console.log("apologyResult", apologyResult);
 
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
     if (process.env.DEBUG === "yes")
-      console.log(
-        "apologyResult.input split", 
-        apologyResult.input.split(" ")
-      )
+      console.log("apologyResult.input split", apologyResult.input.split(" "));
 
     const splited = apologyResult.input.split(" "); //split words
-    let wordFound = null, i = 0, len = 0;
-    while(!wordFound) {
+    let wordFound = null,
+      i = 0,
+      len = 0;
+    while (!wordFound) {
       len = len + splited[i].length; //increment counted length
       wordFound = len >= apologyResult.index ? splited[i] : null;
       i = i + 1;
     }
-    if (process.env.DEBUG === "yes") 
-      console.log("wordFound", [wordFound])
+    if (process.env.DEBUG === "yes") console.log("wordFound", [wordFound]);
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;
@@ -104,9 +101,9 @@ export const reactionHandler = async (message, currentServer, client) => {
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
-  console.log("loweredContent", [loweredContent])
+  console.log("loweredContent", [loweredContent]);
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
-  console.log("sanitizedContent", [sanitizedContent])
+  console.log("sanitizedContent", [sanitizedContent]);
 
   if (hasApology(sanitizedContent)) {
     addApologyCount(db, authorId); //add data to db
