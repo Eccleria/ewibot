@@ -68,9 +68,6 @@ export const hasApology = (sanitizedContent) => {
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
-    if (process.env.DEBUG === "yes")
-      console.log("apologyResult.input split", apologyResult.input.split(" "));
-
     const splited = apologyResult.input.split(" "); //split words
     let wordFound = null,
       i = 0,
