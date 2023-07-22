@@ -63,14 +63,17 @@ export const hasOctagonalSign = (content, cmnShared) => {
 
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  console.log("apologyResult", apologyResult)
+  if (process.env.DEBUG === "yes") 
+    console.log("apologyResult", apologyResult);
+
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
-    console.log(
-      "apologyResult.input split", 
-      apologyResult.input.split(" ")
-    )
+    if (process.env.DEBUG === "yes")
+      console.log(
+        "apologyResult.input split", 
+        apologyResult.input.split(" ")
+      )
 
     const splited = apologyResult.input.split(" "); //split words
     let wordFound = null, i = 0, len = 0;
@@ -79,7 +82,8 @@ export const hasApology = (sanitizedContent) => {
       wordFound = len >= apologyResult.index ? splited[i] : null;
       i = i + 1;
     }
-    console.log("wordFound", [wordFound])
+    if (process.env.DEBUG === "yes") 
+      console.log("wordFound", [wordFound])
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;
