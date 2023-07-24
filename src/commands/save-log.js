@@ -29,8 +29,11 @@ const action = async (interaction) => {
   //check if is only attachment message
   if (message.attachments.size !== 0) {
     const logChannel = await getLogChannel(interaction); //get logChannel
-    const attachments = message.attachments.reduce((acc, cur) => [...acc, cur], []);
-    logChannel.send({files: attachments});
+    const attachments = message.attachments.reduce(
+      (acc, cur) => [...acc, cur],
+      []
+    );
+    logChannel.send({ files: attachments });
 
     interactionReply(interaction, saveLogP.sent); //reply to interaction
     return;
