@@ -1,3 +1,6 @@
+## 5.4.0
+- Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
+
 ## 5.3.0
 - Fix: `eventRoles` attribution that unexpectedly worked for a new user
 	- no satisfying explanation found ([#198](https://github.com/Eccleria/ewibot/pull/198))
