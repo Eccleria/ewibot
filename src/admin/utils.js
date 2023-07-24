@@ -103,7 +103,7 @@ export const finishEmbed = async (
         allowed_mentions: { parse: [] },
       }); //send
       if (attachments && attachments.length !== 0) {
-        const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+        const gifMessage = await message.reply({ files: attachments }); //if attachments, send new message
         return [message, gifMessage];
       }
       return [message];
@@ -128,7 +128,7 @@ export const finishEmbed = async (
       allowed_mentions: { parse: [] },
     }); //send
     if (attachments && attachments.length !== 0) {
-      const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
+      const gifMessage = await message.reply({ files: attachments }); //if attachments, send new message
       return [message, gifMessage];
     }
     return [message];

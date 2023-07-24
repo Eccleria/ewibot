@@ -1,5 +1,8 @@
 ## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
+- Update: `adminLogs` `attachments` ([#231](https://github.com/Eccleria/ewibot/pull/231))
+	- attachments are now sent as replies to main log message
+	- `save-log` now is able to save attachment messages
 
 ## 5.3.0
 - Fix: `eventRoles` attribution that unexpectedly worked for a new user
