@@ -110,6 +110,10 @@ export const reactionHandler = async (message, currentServer, client) => {
   const words = loweredContent.split(" "); //split message content into a list of words
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
+  //if ewibot is mentionned, react 
+  if(message.mentions.has(process.env.CLIENTID)) 
+    await message.react(currentServer.rudolphslichId);
+  
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
   //Ewibot wave to user
