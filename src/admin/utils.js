@@ -237,9 +237,9 @@ export const generalEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  const channel = await getLogChannel(obj); //get logChannel
-  if (process.env.DEBUG === "no" && isTestServer(channel)) return; //if in prod && modif in test server
+  if (process.env.DEBUG === "no" && isTestServer(obj)) return; //if in prod && modif in test server
 
+  const channel = await getLogChannel(obj); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
@@ -251,13 +251,24 @@ export const generalEmbed = async (
 /**
  * Fetch Log Channel.
  * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish if returns channel or thread. "thread" for thread.
+ * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut"
  * @returns {TextChannel}
  */
 export const getLogChannel = async (eventObject, type) => {
   const currentServer = COMMONS.fetchGuildId(eventObject.guild.id); //get server local data
-  const id =
-    type === "thread" ? currentServer.logThreadId : currentServer.logChannelId;
+
+  let id;
+  switch (type) {
+    case "thread":
+      id = currentServer.logThreadId;
+      break;
+    case "inAndOut":
+      id = currentServer.inAndOutLogChannelId;
+      break;
+    default:
+      id = currentServer.logChannelId;
+  }
+
   return await eventObject.guild.channels.fetch(id); //return the log channel
 };
 
@@ -728,14 +739,13 @@ export const octagonalLog = async (object, user) => {
 
 /**
  * Check if is currently in test server
- * @param {Object} logChannel LogChannel retrieved from currentServer
+ * @param {Object} eventObject eventObject given to listener from API
  * @returns True if is test server
  */
-export const isTestServer = (logChannel) => {
-  const server = COMMONS.getTest();
-  const channels = [server.logChannelId, server.logThreadId];
-
-  return channels.includes(logChannel.id); //if test, return true
+export const isTestServer = (eventObject) => {
+  const testServer = COMMONS.getTest();
+  const test = testServer.guildId === eventObject.guild.id;
+  return test; //if test, return true
 };
 
 export const checkDB = (userId, client) => {
