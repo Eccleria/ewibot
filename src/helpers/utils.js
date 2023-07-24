@@ -68,11 +68,11 @@ export const hasApology = (sanitizedContent) => {
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
-    const splited = apologyResult.input.split(" "); //split words
+    const splited = sanitizedContent.split(" "); //split words
     let wordFound = null,
       i = 0,
       len = 0;
-    while (!wordFound) {
+    while (!wordFound && i < splited.length) {
       len = len + splited[i].length; //increment counted length
       wordFound = len >= apologyResult.index ? splited[i] : null;
       i = i + 1;
