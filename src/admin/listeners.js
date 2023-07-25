@@ -833,6 +833,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     //no log or too old => not kicked but left
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
+    embed.addFields({ name: guildKick.id, value: memberKick.id, inline: true }); //add user id
     if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
     const logChannel = await getLogChannel(memberKick, "inAndOut"); //get logChannel
     const messageList = await endCasesEmbed(
@@ -852,6 +853,7 @@ export const onGuildMemberRemove = async (memberKick) => {
 
   const guildKick = personality.guildKick.kick;
   const embed = setupEmbed("DARK_PURPLE", guildKick, userKick, "user"); //setup embed
+  embed.addFields({ name: guildKick.id, value: memberKick.id, inline: true }); //add user id
   if (textRoles) embed.addField(guildKick.roles, textRoles, true); //add user roles if any
   const logChannel = await getLogChannel(memberKick); //get logChannel
 
