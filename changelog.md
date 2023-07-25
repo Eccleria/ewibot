@@ -3,6 +3,7 @@
 - Update: `adminLogs` `attachments` ([#231](https://github.com/Eccleria/ewibot/pull/231))
 	- attachments are now sent as replies to main log message
 	- `save-log` now is able to save attachment messages
+- Update: `adminLogs` memberKick embed now has user id ([#232](https://github.com/Eccleria/ewibot/pull/232))
 
 ## 5.3.0
 - Fix: `eventRoles` attribution that unexpectedly worked for a new user
