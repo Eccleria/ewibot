@@ -21,7 +21,6 @@
     "ytdl-core": "^4.11.0"
   },
   "devDependencies": {
-    "babel-jest": "^29.5.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-node": "^11.1.0",
@@ -30,7 +29,7 @@
   },
   "scripts": {
     "start": "node --experimental-json-modules src/bot.js",
-    "dev": "nodemon --ignore ./db/ --exec node --experimental-json-modules src/bot.js",
+    "dev": "nodemon --ignore ./db/ --ignore ./tests/ --exec node --experimental-json-modules src/bot.js",
     "lint": "eslint src",
     "prettier": "prettier --write src && prettier --write tests",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"

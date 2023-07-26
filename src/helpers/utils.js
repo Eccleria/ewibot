@@ -92,6 +92,11 @@ export const parseEmoji = (content) => {
   return sliced;
 };
 
+/**
+ * check if given string has apology - use regex detection
+ * @param {string} sanitizedContent Message content sanitized: punctuation removed
+ * @returns boolean - true if found, false if not found or error
+ */
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   if (process.env.DEBUGLOGS === "yes")
