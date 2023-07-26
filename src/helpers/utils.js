@@ -9,6 +9,7 @@ import { octagonalLog } from "../admin/utils.js";
 import { COMMONS } from "../commons.js";
 import { dbReturnType, statsKeys } from "./index.js";
 
+//#region apologies
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
 );
@@ -29,6 +30,11 @@ const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' I
 
 const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 
+/**
+ * Remove puntuation and line breaks from user message
+ * @param {string} messageContent Content from user message
+ * @returns {string} message content sanitized
+ */
 export const sanitizePunctuation = (messageContent) => {
   const lineBreakRemoved = messageContent.replaceAll("\n", " ");
   return lineBreakRemoved.replaceAll(punctuation, "");
@@ -95,7 +101,7 @@ export const parseEmoji = (content) => {
 /**
  * check if given string has apology - use regex detection
  * @param {string} sanitizedContent Message content sanitized: punctuation removed
- * @returns boolean - true if found, false if not found or error
+ * @returns {boolean} true if found, false if not found or error
  */
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
@@ -134,6 +140,7 @@ export const hasApology = (sanitizedContent) => {
   }
   return false;
 };
+//#endregion
 
 export const reactionHandler = async (message, currentServer, client) => {
   const db = client.db;
@@ -231,7 +238,7 @@ export const reactionHandler = async (message, currentServer, client) => {
   }
 };
 
-// ACTIVITY
+//#region ACTIVITY
 
 const optionalActivities = () => {
   let activities = [];
@@ -287,3 +294,5 @@ export const setActivity = (client) => {
   //set client activity
   client.user.setActivity(whichStatus);
 };
+
+//#endregion
