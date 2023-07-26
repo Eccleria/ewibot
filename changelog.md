@@ -1,5 +1,6 @@
-## 5.4.0
+﻿## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
+- Fix: wrong `apology` detection - missing " " count during word detection ([#233](https://github.com/Eccleria/ewibot/pull/233))
 - Update: `adminLogs` `attachments` ([#231](https://github.com/Eccleria/ewibot/pull/231))
 	- attachments are now sent as replies to main log message
 	- `save-log` now is able to save attachment messages
