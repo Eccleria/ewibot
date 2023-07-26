@@ -73,9 +73,9 @@ export const hasApology = (sanitizedContent) => {
       i = 0,
       len = 0;
     while (!wordFound && i < splited.length) {
-      len = len + splited[i].length; //increment counted length
       wordFound = len >= apologyResult.index ? splited[i] : null;
       i = i + 1;
+      len = len + splited[i].length + 1; //increment counted length
     }
     if (process.env.DEBUG === "yes") console.log("wordFound", [wordFound]);
 
