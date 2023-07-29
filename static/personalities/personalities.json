@@ -558,6 +558,16 @@
       },
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+      },
+      "stats": {
+        "description": "Cette commande regroupe toutes les commandes associées aux stats",
+        "name": "stats",
+        "use": {
+          "description": "Cette commande vous permet de choisir si vous souhaitez avoir des stats",
+          "isUser": "Ewibot stocke dorénavant des statistiques sur vous.",
+          "isNotUser": "Ewibot ne stocke plus de statistiques sur vous. Elles ont été instantanément supprimées.",
+          "name": "use"
+        }
       }
     },
     "spotify": {
