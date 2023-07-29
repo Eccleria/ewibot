@@ -17,7 +17,8 @@ export const dbReturnType = Object.freeze({
  * @returns {dbReturnType} isIn if is in database, isNotIn otherwise
  */
 const isStatsUser = (db, userId) => {
-  if (db.data.stats.users.includes(userId)) return dbReturnType.isIn;
+  const userIds = db.data.stats.map((obj) => obj.userId);
+  if (userIds.includes(userId)) return dbReturnType.isIn;
   else return dbReturnType.isNotIn;
 };
 
@@ -29,12 +30,10 @@ const isStatsUser = (db, userId) => {
  */
 const addStatsUser = (db, userId) => {
   const data = db.data.stats;
-  if (data.stats.map((obj) => obj.userId).includes(userId))
-    return dbReturnType.isIn;
+  if (isStatsUser(userId)) return dbReturnType.isIn;
   else {
-    db.data.stats.users = [...data.users, userId];
-    db.data.stats.stats = [
-      ...data.stats,
+    db.data.stats = [
+      ...data,
       {
         userId: userId,
         gifs: 0,
@@ -58,8 +57,7 @@ const addStatsUser = (db, userId) => {
 const removeStatsUser = (db, userId) => {
   if (!isStatsUser(db, userId)) return dbReturnType.isNotIn;
   else {
-    db.data.stats.users = db.data.stats.users.filter((id) => id !== userId);
-    db.data.stats.stats = db.data.stats.stats.filter(
+    db.data.stats = db.data.stats.filter(
       (obj) => obj.userId !== userId
     );
     db.wasUpdated = true;
@@ -84,7 +82,7 @@ const addStatsData = (db, userId, whichStat) => {
   const data = db.data.stats;
   //check if is in db
   if (isStatsUser(db, userId)) {
-    for (const obj of data.stats) {
+    for (const obj of data) {
       if (obj.userId === userId) {
         if (obj[whichStat] !== undefined) obj[whichStat]++;
         else obj[whichStat] = 1;

@@ -52,8 +52,5 @@
   "messageCount": [],
   "polls": [],
   "reminder": [],
-  "stats": {
-    "users": [],
-    "stats": []
-  }
+  "stats": []
 }
