@@ -65,6 +65,12 @@ import {
 } from "./db/dbReminder.js";
 
 import {
+  isStatsUser, 
+  addStatsUser, 
+  removeStatsUser,
+} from "./db/dbStats.js";
+
+import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
@@ -149,4 +155,8 @@ export {
   addReminder,
   removeReminder,
   updateReminder,
+  //stats
+  isStatsUser, 
+  addStatsUser, 
+  removeStatsUser,
 };
