@@ -59,8 +59,14 @@ const isAbcd = (words) => {
   return false;
 };
 
+/**
+ * Check if message content has any "eating" related words
+ * @param {string} loweredContent Message content with only lawercase characters
+ * @returns {boolean} True if any hungriness is found, False otherwise
+ */
 const isHungry = (loweredContent) => {
-  return loweredContent.includes("faim");
+  const ret = loweredContent.includes("faim");
+  return ret || loweredContent.includes("manger"); //boolean OR
 };
 
 export const hasOctagonalSign = (content, cmnShared) => {
