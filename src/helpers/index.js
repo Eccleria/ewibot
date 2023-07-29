@@ -65,9 +65,9 @@ import {
 } from "./db/dbReminder.js";
 
 import {
-  isStatsUser, 
+  isStatsUser,
   addStatsData,
-  addStatsUser, 
+  addStatsUser,
   removeStatsUser,
 } from "./db/dbStats.js";
 
@@ -157,8 +157,8 @@ export {
   removeReminder,
   updateReminder,
   //stats
-  isStatsUser, 
-  addStatsUser, 
+  isStatsUser,
+  addStatsUser,
   removeStatsUser,
   addStatsData,
 };

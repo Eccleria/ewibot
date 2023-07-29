@@ -1,9 +1,9 @@
-import { 
-  isIgnoredUser, 
-  addApologyCount, 
-  isIgnoredChannel, 
-  isStatsUser, 
-  addStatsData, 
+import {
+  isIgnoredUser,
+  addApologyCount,
+  isIgnoredChannel,
+  isStatsUser,
+  addStatsData,
 } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 import { COMMONS } from "../commons.js";
