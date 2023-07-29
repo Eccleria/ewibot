@@ -1,4 +1,10 @@
-import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
+import { 
+  isIgnoredUser, 
+  addApologyCount, 
+  isIgnoredChannel, 
+  isStatsUser, 
+  addStatsData, 
+} from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 import { COMMONS } from "../commons.js";
 
@@ -153,6 +159,8 @@ export const reactionHandler = async (message, currentServer, client) => {
     const reaction = Object.values(currentServer.hungryEmotes);
     const random = Math.round(Math.random()); // 0 or 1
     if (frequency) message.react(reaction[random]);
+
+    if (isStatsUser(db, authorId)) addStatsData(db, authorId, "hungry"); //add to db
   }
 
   if (authorId === cmnShared.LuciferId) {

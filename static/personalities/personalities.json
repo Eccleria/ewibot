@@ -564,6 +564,7 @@
         "name": "stats",
         "use": {
           "description": "Cette commande vous permet de choisir si vous souhaitez avoir des stats",
+          "errorDb": "Une erreur s'est produite avec la base de donnée. Veuillez le signaler à <@290505766631112714>, s'il vous plaît.",
           "isUser": "Ewibot stocke dorénavant des statistiques sur vous.",
           "isNotUser": "Ewibot ne stocke plus de statistiques sur vous. Elles ont été instantanément supprimées.",
           "name": "use"
