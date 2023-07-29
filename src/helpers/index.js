@@ -66,6 +66,7 @@ import {
 
 import {
   isStatsUser, 
+  addStatsData,
   addStatsUser, 
   removeStatsUser,
 } from "./db/dbStats.js";
@@ -159,4 +160,5 @@ export {
   isStatsUser, 
   addStatsUser, 
   removeStatsUser,
+  addStatsData,
 };

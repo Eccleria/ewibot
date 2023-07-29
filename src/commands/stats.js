@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "./utils.js";
+import { isStatsUser, addStatsUser, removeStatsUser } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
+import { dbReturnType } from "../helpers/db/dbStats.js";
 
 const command = new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().stats.name)
@@ -21,16 +23,21 @@ const action = (interaction) => {
 
     if (subcommand === "use") {
         const userId = interaction.member.id;
-        if (isStatsUser(userId, db)) {
+        let ret = isStatsUser(db, userId);
+        if (ret === dbReturnType.isIn) {
           //if already user, remove
-          removeStatsUser(userId, db);
+          removeStatsUser(db, userId);
           interactionReply(interaction, useP.isNotUser);
-        } else {
+        } else if (ret === dbReturnType.isNotIn) {
           //if not user, add
-          addStatsUser(userId, db);
+          ret = addStatsUser(db, userId);
+          console.log(ret);
           interactionReply(interaction, useP.isUser);
         }
-        return;
+        else {
+          console.log("Invalid isStatsUser returned value: ", ret)
+          interactionReply(interaction, useP.errorDb);
+        }
     }
 }
 
