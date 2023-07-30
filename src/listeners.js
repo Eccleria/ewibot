@@ -4,6 +4,7 @@ import {
   reactionHandler,
   deleteSongFromPlaylist,
   removeReminder,
+  addStatsData,
 } from "./helpers/index.js";
 
 import { presentationHandler } from "./admin/alavirien.js";
@@ -106,6 +107,16 @@ export const onReactionAdd = async (messageReaction, user) => {
     messageReaction.message.channel.guild.id
   );
   const cmnShared = COMMONS.getShared();
+
+  //stats
+  const emote = messageReaction.emoji; //get emote
+  const emoteGuild = emote.guild ? emote.guild : null; //get emote guild if any
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) {
+    //if is a guildEmote and belongs to current server, count
+    const db = messageReaction.client.db;
+    addStatsData(db, user.id, "reactions");
+    return;
+  }
 
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
