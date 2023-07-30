@@ -57,9 +57,7 @@ const addStatsUser = (db, userId) => {
 const removeStatsUser = (db, userId) => {
   if (!isStatsUser(db, userId)) return dbReturnType.isNotIn;
   else {
-    db.data.stats = db.data.stats.filter(
-      (obj) => obj.userId !== userId
-    );
+    db.data.stats = db.data.stats.filter((obj) => obj.userId !== userId);
     db.wasUpdated = true;
     return dbReturnType.isOk;
   }
@@ -76,7 +74,7 @@ export { isStatsUser, addStatsUser, removeStatsUser };
  * @param {object} db Database object
  * @param {string} userId User id which require stat change
  * @param {string} whichStat Which stat to add +1
- * @returns {dbReturnType} isOk if is ok
+ * @returns {dbReturnType} isOk if is ok, isNotIn if user isn't stats user
  */
 const addStatsData = (db, userId, whichStat) => {
   const data = db.data.stats;
@@ -86,21 +84,12 @@ const addStatsData = (db, userId, whichStat) => {
       if (obj.userId === userId) {
         if (obj[whichStat] !== undefined) obj[whichStat]++;
         else obj[whichStat] = 1;
+
         db.wasUpdated = true;
-        return dbReturnType.isOk;
+        return dbReturnType.isOk; //stop loop here, job is done
       }
     }
-    {
-      //pass
-      //is in stats.user but not in stats.whichStat => add again and recursive
-      /*
-            removeStatsUser(db, userId);
-            addStatsUser(db, userId);
-            //refreshStatUser(db, userId);
-            if(addStatData(db, userId, whichStat) !== dbReturnType.isOk) 
-            return dbReturnType.isNotOk;
-            */
-    }
+    return dbReturnType.isNotOk; //should not happen but anyway
   } else return dbReturnType.isNotIn;
 };
 

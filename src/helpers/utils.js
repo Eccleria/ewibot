@@ -7,6 +7,7 @@ import {
 } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 import { COMMONS } from "../commons.js";
+import { dbReturnType } from "./db/dbStats.js";
 
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
@@ -128,9 +129,19 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
-  //Ewibot wave to user
-  if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
-    await message.react(cmnShared.helloEmoji);
+  //Ewibot waves to user
+  if (
+    hello.some((helloMessage) => words[0] === helloMessage) || //words
+    words[0] === cmnShared.helloEmoji //wave emote
+  ) {
+    if (addStatsData(db, authorId, "hello") === dbReturnType.isNotOk)
+      console.log(
+        `addStatsData isNotOk with isStatsUser ${isStatsUser(
+          db,
+          authorId
+        )}, userID ${authorId}, whichStat "hello"`
+      );
+    if (frequency) await message.react(cmnShared.helloEmoji);
   }
 
   //April
