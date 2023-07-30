@@ -69,14 +69,23 @@ export const hasApology = (sanitizedContent) => {
   if (apologyResult !== null) {
     //if found apology
     const splited = sanitizedContent.split(" "); //split words
-    let wordFound = null,
-      i = 0,
-      len = 0;
-    while (!wordFound && i < splited.length) {
-      wordFound = len >= apologyResult.index ? splited[i] : null;
-      i = i + 1;
-      len = len + splited[i].length + 1; //increment counted length
-    }
+    const idx = apologyResult.index;
+
+    if (process.env.DEBUG === "yes") 
+      console.log("splited.length", splited.length, "apologyResult.index", idx);
+
+    const result = splited.reduce((acc, cur) => {
+      const newLen = acc.len + cur.length + 1;
+      if (process.env.DEBUG === "yes") 
+        console.log("len", acc.len, "newLen", newLen, "cur", [cur], cur.length, sanitizedContent[newLen], "word", acc.word)
+      if (acc.len <= idx && idx < newLen) {
+        if (process.env.DEBUG === "yes") console.log("found")
+        return {word: acc.word || cur, len: newLen, nb: acc.nb + 1};
+      }
+      else return {word: acc.word, len: newLen, nb: acc.nb};
+    }, {word: null, len: 0, nb: 0})
+    const wordFound = result.word;
+
     if (process.env.DEBUG === "yes") console.log("wordFound", [wordFound]);
 
     //verify correspondance between trigerring & full word for error mitigation
@@ -98,9 +107,9 @@ export const reactionHandler = async (message, currentServer, client) => {
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
-  console.log("loweredContent", [loweredContent]);
+  if (process.env.DEBUG === "yes") console.log("loweredContent", [loweredContent]);
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
-  console.log("sanitizedContent", [sanitizedContent]);
+  if (process.env.DEBUG === "yes") console.log("sanitizedContent", [sanitizedContent]);
 
   if (hasApology(sanitizedContent)) {
     addApologyCount(db, authorId); //add data to db
