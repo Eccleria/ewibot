@@ -7,6 +7,8 @@ import {
   addStatsData,
 } from "./helpers/index.js";
 
+import { statsGifCount } from "./stats.js";
+
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 
@@ -24,6 +26,7 @@ export const onPublicMessage = (message, client, currentServer) => {
     return;
 
   reactionHandler(message, currentServer, client);
+  statsGifCount(message);
 };
 
 export const onRemoveReminderReaction = (

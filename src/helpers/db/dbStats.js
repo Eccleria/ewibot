@@ -77,7 +77,7 @@ export { isStatsUser, addStatsUser, removeStatsUser };
  * @param {?number} value The number to add to stat. 1 by default
  * @returns {dbReturnType} isOk if is ok, isNotIn if user isn't stats user
  */
-const addStatsData = (db, userId, whichStat, value=1) => {
+const addStatsData = (db, userId, whichStat, value = 1) => {
   const data = db.data.stats;
   //check if is in db
   if (isStatsUser(db, userId)) {
