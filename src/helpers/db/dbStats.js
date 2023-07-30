@@ -74,15 +74,16 @@ export { isStatsUser, addStatsUser, removeStatsUser };
  * @param {object} db Database object
  * @param {string} userId User id which require stat change
  * @param {string} whichStat Which stat to add +1
+ * @param {?number} value The number to add to stat. 1 by default
  * @returns {dbReturnType} isOk if is ok, isNotIn if user isn't stats user
  */
-const addStatsData = (db, userId, whichStat) => {
+const addStatsData = (db, userId, whichStat, value=1) => {
   const data = db.data.stats;
   //check if is in db
   if (isStatsUser(db, userId)) {
     for (const obj of data) {
       if (obj.userId === userId) {
-        if (obj[whichStat] !== undefined) obj[whichStat]++;
+        if (obj[whichStat] !== undefined) obj[whichStat] += value;
         else obj[whichStat] = 1;
 
         db.wasUpdated = true;
