@@ -1,6 +1,6 @@
 import {
   sendSettingsButtons,
-  stopPoll,
+  stopPollButtonAction,
   removePollButtonAction,
   resetPollButtonAction,
   updatePollButtonAction,
@@ -9,11 +9,8 @@ import {
 
 import { pollVoteHandler } from "./pollsVote.js";
 import { interactionReply } from "../utils.js";
-import {
-  getPoll,
-} from "../../helpers/index.js";
+import { getPoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
-
 
 export const pollsButtonHandler = async (interaction) => {
   // Dispatch button action to corresponding functions
@@ -47,7 +44,7 @@ export const settingsButtonHandler = async (interaction) => {
   // handle settings button
   const { customId } = interaction;
   if (customId.includes("settings")) sendSettingsButtons(interaction);
-  else if (customId.includes("set_stop")) stopPoll(interaction);
+  else if (customId.includes("set_stop")) stopPollButtonAction(interaction);
   else if (customId.includes("set_remove")) removePollButtonAction(interaction);
   else if (customId.includes("set_reset")) resetPollButtonAction(interaction);
   else if (customId.includes("set_update")) updatePollButtonAction(interaction);

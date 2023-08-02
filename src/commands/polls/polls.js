@@ -4,12 +4,8 @@ import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
-import { parsePollFields, refreshPollFields } from "./pollsUtils.js";
-import {
-  getPollFromTitle,
-  getPollsTitles,
-  removePoll,
-} from "../../helpers/db/dbPolls.js";
+import { parsePollFields, stopPoll } from "./pollsUtils.js";
+import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 import { COMMONS } from "../../commons.js";
 
 const command = new SlashCommandBuilder()
@@ -363,7 +359,6 @@ const action = async (interaction) => {
     ); //edit db
     interactionReply(interaction, perso.updated);
   } else if (subcommand === personality.stop.name) {
-    console.log("stop poll");
     //stop poll subcommand
     const perso = personality.stop;
     const db = interaction.client.db;
@@ -382,18 +377,7 @@ const action = async (interaction) => {
     const channel = await interaction.client.channels.fetch(dbPoll.channelId);
     const pollMessage = await channel.messages.fetch(dbPoll.pollId);
 
-    //update message
-    const newEmbed = pollMessage.embeds[0];
-    newEmbed.setTitle(newEmbed.title + perso.title);
-    const newFieldsInit = newEmbed.fields.map((obj) => {
-      return { name: obj.name, value: "" };
-    }); //init with old names
-    const newFields = refreshPollFields(dbPoll, newFieldsInit);
-    newEmbed.setFields(newFields);
-    pollMessage.edit({ embeds: [newEmbed], components: [] });
-
-    //update db
-    removePoll(db, dbPoll.pollId);
+    await stopPoll(dbPoll, pollMessage, personality);
 
     //return
     interactionReply(interaction, perso.stopped);

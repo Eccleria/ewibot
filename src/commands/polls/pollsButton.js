@@ -3,11 +3,11 @@ import {
   fetchPollMessage,
   interactionEditReply,
   pollRefreshEmbed,
-  refreshPollFields,
+  stopPoll,
 } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
-import { getPoll, removePoll, resetPollVoters } from "../../helpers/index.js";
+import { getPoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
@@ -64,7 +64,7 @@ export const sendSettingsButtons = async (interaction) => {
   interactionEditReply(interaction, { components: [actionRow] });
 };
 
-export const stopPoll = async (interaction) => {
+export const stopPollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
@@ -72,31 +72,12 @@ export const stopPoll = async (interaction) => {
   }
   const db = interaction.client.db;
 
-  //get personality
+  //get data
   const perso = PERSONALITY.getCommands().polls.settings;
-
-  //fetch pollMessage
   const pollMessage = await fetchPollMessage(interaction);
-  const editedPollMessage = {};
-
-  //edit title
-  const pollEmbed = pollMessage.embeds[0];
-  pollEmbed.title = pollEmbed.title + perso.stop.title;
-
-  //refresh fields
   const dbPoll = getPoll(db, pollMessage.id);
-  const newFieldsInit = pollEmbed.fields.map((obj) => {
-    return { name: obj.name, value: "" };
-  }); //init with old names
-  const newFields = refreshPollFields(dbPoll, newFieldsInit);
-  pollEmbed.setFields(newFields);
-  editedPollMessage.embeds = [pollEmbed];
 
-  //remove polls buttons
-  editedPollMessage.components = [];
-
-  //remove from db
-  removePoll(db, pollMessage.id);
+  await stopPoll(dbPoll, pollMessage, perso);
 
   //edit poll message
   const editedStopMessage = {
@@ -105,7 +86,6 @@ export const stopPoll = async (interaction) => {
     ephemeral: true,
   };
   interactionEditReply(interaction, editedStopMessage);
-  pollMessage.edit(editedPollMessage);
 };
 
 export const removePollButtonAction = async (interaction) => {
@@ -245,6 +225,6 @@ export const refreshPollButtonAction = async (interaction) => {
     cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
     return [...acc, cur];
   }, []);
-  
+
   pollMessage.edit({ components: enabledComponents });
 };

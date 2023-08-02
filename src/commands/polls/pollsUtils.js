@@ -1,4 +1,5 @@
 import { PERSONALITY } from "../../personality.js";
+import { removePoll } from "../../helpers/index.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -149,4 +150,34 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
   //update message
   embed.setFields(newFields);
   await pollMessage.edit({ embeds: [embed] });
+};
+
+/**
+ * Stop poll
+ * @param {*} dbPoll poll data from db
+ * @param {*} pollMessage Message with poll embed
+ * @param {*} perso personality
+ */
+export const stopPoll = async (dbPoll, pollMessage, perso) => {
+  console.log("stop poll");
+
+  const db = pollMessage.client.db;
+  const editedPollMessage = {};
+
+  //edit title
+  const pollEmbed = pollMessage.embeds[0];
+  pollEmbed.setTitle(pollEmbed.title + perso.stop.title);
+
+  //refresh fields
+  const newFieldsInit = pollEmbed.fields.map((obj) => {
+    return { name: obj.name, value: "" };
+  }); //init with old names
+  const newFields = refreshPollFields(dbPoll, newFieldsInit);
+  pollEmbed.setFields(newFields);
+  editedPollMessage.embeds = [pollEmbed];
+  editedPollMessage.components = []; //remove polls buttons
+
+  removePoll(db, pollMessage.id); //remove from db
+
+  pollMessage.edit(editedPollMessage); //edit poll message
 };
