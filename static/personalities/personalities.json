@@ -364,9 +364,17 @@
             "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
             "name": "anonyme"
           },
+          "hourOption": {
+            "description": "La durée en heures du sondage.",
+            "name": "heures"
+          },
           "maxOption": {
             "description": "Si vote multiples, le nombre maximal de votes",
             "name": "nombre-vote-max"
+          },
+          "minuteOption": {
+            "description": "La durée en minutes du sondage.",
+            "name": "minutes"
           },
           "name": "create",
           "sent": "Le sondage a été envoyé.",

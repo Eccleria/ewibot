@@ -7,6 +7,7 @@ import { createButton, interactionReply } from "../utils.js";
 import { parsePollFields, stopPoll } from "./pollsUtils.js";
 import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 import { COMMONS } from "../../commons.js";
+import dayjs from "dayjs";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
@@ -78,6 +79,22 @@ const command = new SlashCommandBuilder()
           )
           .setRequired(false)
       )
+      .addNumberOption((option) => 
+        option
+          .setName(PERSONALITY.getCommands().polls.create.hourOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.hourOption.description)
+          .setRequired(false)
+          .setMaxValue(48)
+          .setMinValue(0)
+      )
+      .addNumberOption((option) => 
+        option
+          .setName(PERSONALITY.getCommands().polls.create.minuteOption.name)
+          .setDescription(PERSONALITY.getCommands().polls.create.minuteOption.description)
+          .setRequired(false)
+          .setMaxValue(59)
+          .setMinValue(0)
+      )
   )
   .addSubcommand((command) =>
     command //add choice
@@ -139,7 +156,6 @@ const action = async (interaction) => {
     //get options
     const title = options.getString(perso.titleOption.name);
     const choices = options.getString(perso.choiceOption.name);
-
     const description = options.getString(perso.descOption.name, false);
 
     let option = options.getBoolean(perso.hideOption.name, false); //anonymous
@@ -152,6 +168,13 @@ const action = async (interaction) => {
     const color = option == null ? pColors.choices[4].value : option;
 
     const author = options.getUser(perso.authorOption.name, false); //author
+
+    option = options.getNumber(perso.hourOption.name, false); //hours
+    const hours = option == null ? 48 : option;
+    option = options.getNumber(perso.minuteOption.name, false); //minutes
+    const minutes = option == null ? 59 : option;
+    const timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    const pollDate = dayjs().millisecond(timeout).toISOString();
 
     //check if not too many choices
     const splited = choices.split(";");
@@ -238,7 +261,7 @@ const action = async (interaction) => {
         embeds: [embed],
         components: components.actionRows,
       });
-      pollButtonCollector(pollMsg); //start listening to interactions
+      pollButtonCollector(pollMsg, timeout); //start listening to interactions
       interactionReply(interaction, perso.sent);
 
       //save poll
@@ -252,7 +275,8 @@ const action = async (interaction) => {
         anonymous,
         colorIdx,
         voteMax,
-        title
+        title,
+        pollDate
       ); //add to db
     } catch (e) {
       console.log("/polls create error\n", e);
