@@ -153,7 +153,7 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
 };
 
 /**
- * Stop poll
+ * Stop poll and send confirmation in channel
  * @param {*} dbPoll poll data from db
  * @param {*} pollMessage Message with poll embed
  * @param {*} perso personality
@@ -180,4 +180,10 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
   removePoll(db, pollMessage.id); //remove from db
 
   pollMessage.edit(editedPollMessage); //edit poll message
+
+  //build message content
+  const mPerso = perso.stop.message;
+  const len = pollEmbed.title.length;
+  const content = mPerso[0] + pollEmbed.title.slice(0, len - 14) + mPerso[1];
+  pollMessage.reply(content);
 };

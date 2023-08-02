@@ -393,8 +393,9 @@
             "update": ["polls_set_update", "Modifier"]
           },
           "stop": {
-            "stopped": "Le sondage a bien été verrouillé.",
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
+            "message": ["Le sondage ", " a été stoppé !"],
+            "stopped": "Le sondage a bien été verrouillé.",
             "title": " - **Terminé**"
           },
           "errorNoPoll": "Le sondage associé à ces boutons n'a été trouvé.",
@@ -445,6 +446,7 @@
         "stop": {
           "description": "Permet d'arrêter un sondage en cours.",
           "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
+          "message": ["Le sondage ", " a été stoppé !"],
           "name": "stop",
           "pollOption": {
             "description": "Le sondage à arrêter.",
