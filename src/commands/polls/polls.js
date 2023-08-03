@@ -79,18 +79,22 @@ const command = new SlashCommandBuilder()
           )
           .setRequired(false)
       )
-      .addNumberOption((option) => 
+      .addNumberOption((option) =>
         option
           .setName(PERSONALITY.getCommands().polls.create.hourOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.hourOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.hourOption.description
+          )
           .setRequired(false)
           .setMaxValue(48)
           .setMinValue(0)
       )
-      .addNumberOption((option) => 
+      .addNumberOption((option) =>
         option
           .setName(PERSONALITY.getCommands().polls.create.minuteOption.name)
-          .setDescription(PERSONALITY.getCommands().polls.create.minuteOption.description)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.minuteOption.description
+          )
           .setRequired(false)
           .setMaxValue(59)
           .setMinValue(0)

@@ -20,7 +20,7 @@ const addPoll = (
     voteMax: voteMax,
     votes: votes,
     title: title,
-    pollDate: pollDate
+    pollDate: pollDate,
   };
 
   db.data.polls.push(poll);

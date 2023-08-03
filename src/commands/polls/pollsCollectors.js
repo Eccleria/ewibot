@@ -19,7 +19,7 @@ export const initPollsCollector = (client) => {
   polls.forEach(async (poll) => {
     const channel = await client.channels.fetch(poll.channelId);
     const message = await channel.messages.fetch(poll.pollId);
-    
+
     //compute new reminder waiting time
     const now = dayjs();
     const difference = dayjs(poll.pollDate).diff(now);
