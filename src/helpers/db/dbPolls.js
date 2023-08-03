@@ -50,7 +50,6 @@ const addPollChoices = (db, pollId, choices) => {
 };
 
 const addPollVoter = (db, pollId, userId, choiceIdx) => {
-  console.log(pollId, userId, choiceIdx);
   const data = getPoll(db, pollId);
   data.votes[choiceIdx].votes.push(userId);
   db.wasUpdated = true;

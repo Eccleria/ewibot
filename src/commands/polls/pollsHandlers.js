@@ -34,14 +34,14 @@ export const voteButtonHandler = async (interaction) => {
   const pollId = message.id;
   const dbPoll = getPoll(db, pollId); //get poll from db
   if (!dbPoll) {
-    interactionReply(perso.stopped);
+    await interactionReply(perso.stopped);
     return;
   }
   const { voteMax } = dbPoll;
 
   if (voteMax > 1 || voteMax === 1)
-    pollVoteHandler(interaction, dbPoll, perso, cPerso);
-  else interactionReply(interaction, perso.errorUnknownChoice);
+    await pollVoteHandler(interaction, dbPoll, perso, cPerso);
+  else await interactionReply(interaction, perso.errorUnknownChoice);
 };
 
 export const settingsButtonHandler = async (interaction) => {

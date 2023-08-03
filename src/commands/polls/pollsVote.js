@@ -22,11 +22,12 @@ const pollVoteMultiple = (
     else return acc;
   });
 
-  if (voteCount < dbPoll.voteMax)
+  if (voteCount < dbPoll.voteMax) {
     addPollVoter(db, dbPoll.pollId, userId, currentVoteIdx);
-  else {
+    return true;
+  } else {
     interactionEditReply(interaction, perso.errorMaxVote);
-    return;
+    return null;
   }
 };
 
@@ -71,14 +72,15 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
     addPollVoter(db, pollId, userId, currentVoteIdx);
   } else {
     //modify vote
-    if (dbPoll.voteMax > 1)
-      pollVoteMultiple(
+    if (dbPoll.voteMax > 1) {
+      if (!pollVoteMultiple(
         interaction,
         hasVotedIndexes,
         dbPoll,
         currentVoteIdx,
         perso
-      );
+      )) return;
+    }
     else if (dbPoll.voteMax === 1)
       toRemoveVoteIdx = pollVoteUnique(
         interaction,
@@ -168,5 +170,5 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
   //update embed
   pollEmbed.setFields(...newFields);
   await message.edit({ embeds: [pollEmbed], components: message.components });
-  interactionEditReply(interaction, perso.counted);
+  await interactionEditReply(interaction, perso.counted);
 };
