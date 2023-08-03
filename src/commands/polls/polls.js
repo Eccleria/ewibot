@@ -435,9 +435,9 @@ const polls = {
       : personality;
     interactionReply(interaction, helpToUse.help);
   },
-  admin: true,
+  admin: false,
   releaseDate: null,
-  sentinelle: true,
+  sentinelle: false,
   subcommands: ["polls", "polls create", "polls addChoice"],
 };
 
