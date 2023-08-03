@@ -33,6 +33,10 @@ export const voteButtonHandler = async (interaction) => {
   const db = client.db;
   const pollId = message.id;
   const dbPoll = getPoll(db, pollId); //get poll from db
+  if (!dbPoll) {
+    interactionReply(perso.stopped);
+    return;
+  }
   const { voteMax } = dbPoll;
 
   if (voteMax > 1 || voteMax === 1)

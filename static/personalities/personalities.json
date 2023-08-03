@@ -402,7 +402,7 @@
           },
           "stop": {
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
-            "message": ["Le sondage ", " a été stoppé !"],
+            "message": ["Le sondage ", " est terminé !"],
             "stopped": "Le sondage a bien été verrouillé.",
             "title": " - **Terminé**"
           },
@@ -454,7 +454,7 @@
         "stop": {
           "description": "Permet d'arrêter un sondage en cours.",
           "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
-          "message": ["Le sondage ", " a été stoppé !"],
+          "message": ["Le sondage ", " est terminé !"],
           "name": "stop",
           "pollOption": {
             "description": "Le sondage à arrêter.",
@@ -462,7 +462,8 @@
           },
           "stopped": "Le sondage a bien été arrêté.",
           "title": " - **Terminé**"
-        }
+        },
+        "stopped": "Le sondage est déjà terminé. Votre vote n'a pas été pris en compte"
       },
       "pronouns": {
         "agreements": {
