@@ -73,15 +73,17 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
   } else {
     //modify vote
     if (dbPoll.voteMax > 1) {
-      if (!pollVoteMultiple(
-        interaction,
-        hasVotedIndexes,
-        dbPoll,
-        currentVoteIdx,
-        perso
-      )) return;
-    }
-    else if (dbPoll.voteMax === 1)
+      if (
+        !pollVoteMultiple(
+          interaction,
+          hasVotedIndexes,
+          dbPoll,
+          currentVoteIdx,
+          perso
+        )
+      )
+        return;
+    } else if (dbPoll.voteMax === 1)
       toRemoveVoteIdx = pollVoteUnique(
         interaction,
         hasVotedIndexes,
