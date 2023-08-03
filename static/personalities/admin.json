@@ -50,12 +50,14 @@
       "author": "Membre :",
       "duration": "Durée :",
       "executor": "Kick par :",
+      "id": "Id de l'utilisateurice :",
       "roles": "Roles",
       "text": "Raison du kick :",
       "title": "Membre expulsé"
     },
     "leave": {
       "author": "Membre :",
+      "id": "Id de l'utilisateurice :",
       "roles": "Roles",
       "title": "Membre ayant quitté le serveur"
     }

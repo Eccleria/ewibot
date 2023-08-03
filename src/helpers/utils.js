@@ -20,10 +20,11 @@ const hello = [
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 
-const punctuation = new RegExp(/([!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…])|(\n)/gm);
+const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 
 export const sanitizePunctuation = (messageContent) => {
-  return messageContent.replaceAll(punctuation, "");
+  const lineBreakRemoved = messageContent.replaceAll("\n", " ");
+  return lineBreakRemoved.replaceAll(punctuation, "");
 };
 
 export const isAdmin = (authorId) => {
@@ -62,12 +63,21 @@ export const hasOctagonalSign = (content, cmnShared) => {
 
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
+  if (process.env.DEBUG === "yes") console.log("apologyResult", apologyResult);
+
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
     //if found apology
-    const wordFound = apologyResult.input //get triggering word
-      .slice(apologyResult.index) //remove everything before word detected
-      .split(" ")[0]; //split words and get the first
+    const splited = sanitizedContent.split(" "); //split words
+    let wordFound = null,
+      i = 0,
+      len = 0;
+    while (!wordFound && i < splited.length) {
+      wordFound = len >= apologyResult.index ? splited[i] : null;
+      i = i + 1;
+      len = len + splited[i].length + 1; //increment counted length
+    }
+    if (process.env.DEBUG === "yes") console.log("wordFound", [wordFound]);
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;
@@ -88,7 +98,10 @@ export const reactionHandler = async (message, currentServer, client) => {
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
+  console.log("loweredContent", [loweredContent]);
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
+  console.log("sanitizedContent", [sanitizedContent]);
+
   if (hasApology(sanitizedContent)) {
     addApologyCount(db, authorId); //add data to db
     await message.react(currentServer.panDuomReactId); //add message reaction
@@ -96,6 +109,10 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   const words = loweredContent.split(" "); //split message content into a list of words
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
+
+  //if ewibot is mentionned, react
+  if (message.mentions.has(process.env.CLIENTID))
+    await message.react(currentServer.rudolphslichId);
 
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 

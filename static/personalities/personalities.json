@@ -561,7 +561,7 @@
       "saveLog": {
         "author": "Logué par :",
         "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
-        "noEmbed": "Le message ne contient pas d'embed.",
+        "noEmbed": "Le message ne contient pas d'embed ou de pièce jointe.",
         "sent": "Le log est archivé.",
         "wrongChannel": "A n'utiliser que sur les logs fréquents.",
         "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
