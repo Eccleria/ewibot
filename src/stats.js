@@ -9,5 +9,5 @@ export const statsGifCount = (message) => {
   const { content, author } = message;
 
   const gifs = gifRecovery(content);
-  if (gifs) addStatsData(message.client.db, author.id, "gif", gifs.length);
+  if (gifs) addStatsData(message.client.db, author.id, "gifs", gifs.length);
 };
