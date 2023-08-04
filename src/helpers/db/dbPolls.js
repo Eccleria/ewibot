@@ -8,7 +8,8 @@ const addPoll = (
   anonymous,
   colorIdx,
   voteMax,
-  title
+  title,
+  pollDate
 ) => {
   const poll = {
     pollId: id,
@@ -19,6 +20,7 @@ const addPoll = (
     voteMax: voteMax,
     votes: votes,
     title: title,
+    pollDate: pollDate,
   };
 
   db.data.polls.push(poll);

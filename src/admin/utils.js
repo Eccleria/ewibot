@@ -671,7 +671,7 @@ export const logsRemover = async (client) => {
   type = "userAD";
   data = dbData[type][0];
   if (data.length !== 0) {
-    const logChannel = await client.channels.fetch(server.logChannelId);
+    const logChannel = await client.channels.fetch(server.inAndOutLogChannelId);
     const result = await logChannel.bulkDelete(data);
 
     const diff = data.reduce((acc, cur) => {

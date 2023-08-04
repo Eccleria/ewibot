@@ -4,9 +4,10 @@ import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { createButton, interactionReply } from "../utils.js";
-import { parsePollFields } from "./pollsUtils.js";
+import { parsePollFields, stopPoll } from "./pollsUtils.js";
 import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 import { COMMONS } from "../../commons.js";
+import dayjs from "dayjs";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
@@ -70,9 +71,37 @@ const command = new SlashCommandBuilder()
           .setRequired(false)
           .setMinValue(1)
       )
+      .addUserOption((option) =>
+        option //author
+          .setName(PERSONALITY.getCommands().polls.create.authorOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.authorOption.description
+          )
+          .setRequired(false)
+      )
+      .addNumberOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().polls.create.hourOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.hourOption.description
+          )
+          .setRequired(false)
+          .setMaxValue(48)
+          .setMinValue(0)
+      )
+      .addNumberOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().polls.create.minuteOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().polls.create.minuteOption.description
+          )
+          .setRequired(false)
+          .setMaxValue(59)
+          .setMinValue(0)
+      )
   )
   .addSubcommand((command) =>
-    command
+    command //add choice
       .setName(PERSONALITY.getCommands().polls.addChoice.name)
       .setDescription(PERSONALITY.getCommands().polls.addChoice.description)
       .addStringOption((option) =>
@@ -93,9 +122,24 @@ const command = new SlashCommandBuilder()
           .setRequired(true)
           .setMinLength(4)
       )
+  )
+  .addSubcommand((command) =>
+    command //stop poll
+      .setName(PERSONALITY.getCommands().polls.stop.name)
+      .setDescription(PERSONALITY.getCommands().polls.stop.description)
+      .addStringOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().polls.stop.pollOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().polls.stop.pollOption.description
+          )
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
   );
 
 const action = async (interaction) => {
+  console.log("polls command");
   const options = interaction.options;
   const personality = PERSONALITY.getCommands().polls;
   const subcommand = options.getSubcommand();
@@ -116,7 +160,6 @@ const action = async (interaction) => {
     //get options
     const title = options.getString(perso.titleOption.name);
     const choices = options.getString(perso.choiceOption.name);
-
     const description = options.getString(perso.descOption.name, false);
 
     let option = options.getBoolean(perso.hideOption.name, false); //anonymous
@@ -127,6 +170,15 @@ const action = async (interaction) => {
 
     option = options.getString(perso.colorOption.name, false); //color
     const color = option == null ? pColors.choices[4].value : option;
+
+    const author = options.getUser(perso.authorOption.name, false); //author
+
+    option = options.getNumber(perso.hourOption.name, false); //hours
+    const hours = option == null ? 48 : option;
+    option = options.getNumber(perso.minuteOption.name, false); //minutes
+    const minutes = option == null ? 59 : option;
+    const timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    const pollDate = dayjs().millisecond(timeout).toISOString();
 
     //check if not too many choices
     const splited = choices.split(";");
@@ -140,6 +192,10 @@ const action = async (interaction) => {
       .setTitle(title)
       .setTimestamp()
       .setColor(color);
+
+    //add author if any
+    if (author)
+      embed.setAuthor({ name: author.username, iconURL: author.avatarURL() });
 
     //write footer according to voteMax
     const footerText =
@@ -209,7 +265,7 @@ const action = async (interaction) => {
         embeds: [embed],
         components: components.actionRows,
       });
-      pollButtonCollector(pollMsg); //start listening to interactions
+      pollButtonCollector(pollMsg, timeout); //start listening to interactions
       interactionReply(interaction, perso.sent);
 
       //save poll
@@ -223,7 +279,8 @@ const action = async (interaction) => {
         anonymous,
         colorIdx,
         voteMax,
-        title
+        title,
+        pollDate
       ); //add to db
     } catch (e) {
       console.log("/polls create error\n", e);
@@ -329,6 +386,29 @@ const action = async (interaction) => {
       newComponents.dbVotes
     ); //edit db
     interactionReply(interaction, perso.updated);
+  } else if (subcommand === personality.stop.name) {
+    //stop poll subcommand
+    const perso = personality.stop;
+    const db = interaction.client.db;
+
+    //get options
+    const pollInput = options.getString(perso.pollOption.name);
+
+    //fetch db data
+    const dbPoll = getPollFromTitle(db, pollInput);
+    if (!dbPoll) {
+      interactionReply(interaction, perso.errorNoPoll);
+      return;
+    }
+
+    //get pollMessage
+    const channel = await interaction.client.channels.fetch(dbPoll.channelId);
+    const pollMessage = await channel.messages.fetch(dbPoll.pollId);
+
+    await stopPoll(dbPoll, pollMessage, personality);
+
+    //return
+    interactionReply(interaction, perso.stopped);
   }
 };
 
@@ -355,9 +435,9 @@ const polls = {
       : personality;
     interactionReply(interaction, helpToUse.help);
   },
-  admin: true,
+  admin: false,
   releaseDate: null,
-  sentinelle: true,
+  sentinelle: false,
   subcommands: ["polls", "polls create", "polls addChoice"],
 };
 

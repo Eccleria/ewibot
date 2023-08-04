@@ -1,10 +1,21 @@
 ﻿## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
-- Fix: wrong `apology` detection - missing " " count during word detection ([#233](https://github.com/Eccleria/ewibot/pull/233))
+- Feat: add `DEBUGLOGS` .env attribute - this add console.logs when switched to "yes"
+- Fix: wrong `apology` detection 
+	- missing " " count during word detection ([#233](https://github.com/Eccleria/ewibot/pull/233))
+	- issue with last word detection - now use `reduce` for easier implementation ([#235](https://github.com/Eccleria/ewibot/pull/235))
+- Fix: `help` for `polls` was inaccessible for users ([#220](https://github.com/Eccleria/ewibot/pull/220))
 - Update: `adminLogs` `attachments` ([#231](https://github.com/Eccleria/ewibot/pull/231))
 	- attachments are now sent as replies to main log message
 	- `save-log` now is able to save attachment messages
-- Update: `adminLogs` memberKick embed now has user id ([#232](https://github.com/Eccleria/ewibot/pull/232))
+- Update: `adminLogs` `memberKick` embed now has user id ([#232](https://github.com/Eccleria/ewibot/pull/232))
+- Update: `polls` ([#220](https://github.com/Eccleria/ewibot/pull/220))
+	- add `anonymous` option for `update` button
+	- add `/poll stop` command - usefull if buttons are not sent by Discord
+	- add `author` optional option for `/poll create`
+	- `refresh` poll is now fired along with `stop`
+	- `reply` to poll to announce poll stop
+	- add `heures`, `minutes` optional options for poll lifespan
 
 ## 5.3.0
 - Fix: `eventRoles` attribution that unexpectedly worked for a new user
