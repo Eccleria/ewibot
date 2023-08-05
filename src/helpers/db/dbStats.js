@@ -11,6 +11,17 @@ export const dbReturnType = Object.freeze({
 });
 
 /**
+ * @enum {string} user's stats attibutes 
+ */
+export const statsKeys = Object.freeze({
+  gifs: "gifs",
+  hello: "hello",
+  hungry: "hungry",
+  reactions: "reactions",
+  rolling: "rolling"
+})
+
+/**
  * Check if the user is in "accepting stats" user list
  * @param {object} db Database object
  * @param {string} userId User id to verify
@@ -30,18 +41,16 @@ const isStatsUser = (db, userId) => {
  */
 const addStatsUser = (db, userId) => {
   const data = db.data.stats;
-  if (isStatsUser(userId)) return dbReturnType.isIn;
+  if (isStatsUser(db, userId) === dbReturnType.isIn) return dbReturnType.isIn;
   else {
     db.data.stats = [
       ...data,
-      {
-        userId: userId,
-        gifs: 0,
-        hello: 0,
-        hungry: 0,
-        reactions: 0,
-        rolling: 0,
-      },
+        Object.fromEntries(
+        [
+          ["userId", userId],
+          ...Object.entries(statsKeys).map(([, val]) => [val, 0])
+        ]
+      )
     ];
     db.wasUpdated = true;
     return dbReturnType.isOk;
@@ -73,7 +82,7 @@ export { isStatsUser, addStatsUser, removeStatsUser };
  * Add +1 to corresponding stat and user
  * @param {object} db Database object
  * @param {string} userId User id which require stat change
- * @param {string} whichStat Which stat to add +1
+ * @param {statsKeys} whichStat Which stat to add +1
  * @param {?number} value The number to add to stat. 1 by default
  * @returns {dbReturnType} isOk if is ok, isNotIn if user isn't stats user
  */

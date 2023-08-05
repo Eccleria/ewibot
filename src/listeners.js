@@ -14,6 +14,7 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
+import { statsKeys } from "./helpers/db/dbStats.js";
 
 export const onPublicMessage = (message, client, currentServer) => {
   const { author } = message;
@@ -117,7 +118,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server, count
     const db = messageReaction.client.db;
-    addStatsData(db, user.id, "reactions");
+    addStatsData(db, user.id, statsKeys.reactions);
     return;
   }
 

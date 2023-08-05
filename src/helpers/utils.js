@@ -7,7 +7,7 @@ import {
 } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 import { COMMONS } from "../commons.js";
-import { dbReturnType } from "./db/dbStats.js";
+import { dbReturnType, statsKeys } from "./db/dbStats.js";
 
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
@@ -192,7 +192,7 @@ export const reactionHandler = async (message, currentServer, client) => {
     const random = Math.round(Math.random()); // 0 or 1
     if (frequency) message.react(reaction[random]);
 
-    if (isStatsUser(db, authorId)) addStatsData(db, authorId, "hungry"); //add to db
+    if (isStatsUser(db, authorId)) addStatsData(db, authorId, statsKeys.hungry); //add to db
   }
 
   if (authorId === cmnShared.LuciferId) {
