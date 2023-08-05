@@ -7,7 +7,7 @@ import {
 } from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 import { COMMONS } from "../commons.js";
-import { dbReturnType, statsKeys } from "./db/dbStats.js";
+import { dbReturnType, statsKeys } from "./index.js";
 
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm

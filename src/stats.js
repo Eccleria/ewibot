@@ -1,5 +1,5 @@
 import { gifRecovery } from "./admin/utils.js";
-import { statsKeys } from "./helpers/db/dbStats.js";
+import { statsKeys } from "./helpers/index.js";
 import { addStatsData } from "./helpers/index.js";
 
 /**

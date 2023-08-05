@@ -14,7 +14,7 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
-import { statsKeys } from "./helpers/db/dbStats.js";
+import { statsKeys } from "./helpers/index.js";
 
 export const onPublicMessage = (message, client, currentServer) => {
   const { author } = message;
