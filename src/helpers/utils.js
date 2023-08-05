@@ -87,7 +87,7 @@ export const parseEmoji = (content) => {
   const id = splited[splited.length - 1];
   if (id.includes(">")) return id.slice(0, id.length - 1);
   return id;
-}
+};
 
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology

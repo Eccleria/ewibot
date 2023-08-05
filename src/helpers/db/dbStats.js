@@ -11,15 +11,15 @@ export const dbReturnType = Object.freeze({
 });
 
 /**
- * @enum {string} user's stats attibutes 
+ * @enum {string} user's stats attibutes
  */
 export const statsKeys = Object.freeze({
   gifs: "gifs",
   hello: "hello",
   hungry: "hungry",
   reactions: "reactions",
-  rolling: "rolling"
-})
+  rolling: "rolling",
+});
 
 //#endregion
 
@@ -49,12 +49,10 @@ const addStatsUser = (db, userId) => {
   else {
     db.data.stats = [
       ...data,
-        Object.fromEntries(
-        [
-          ["userId", userId],
-          ...Object.entries(statsKeys).map(([, val]) => [val, 0])
-        ]
-      )
+      Object.fromEntries([
+        ["userId", userId],
+        ...Object.entries(statsKeys).map(([, val]) => [val, 0]),
+      ]),
     ];
     db.wasUpdated = true;
     return dbReturnType.isOk;
@@ -123,13 +121,13 @@ const isEmojiCounted = (db, emojiID) => {
   const data = db.data.serverStats;
   if (data[emojiID] !== undefined) return dbReturnType.isIn;
   else return dbReturnType.isNotIn;
-}
+};
 
 export const addServerEmojiCount = (db, emojiID) => {
   if (!db || !emojiID) return dbReturnType.isNotOk;
 
-  db.wasUpdated = true
-  const data = db.data.serverStats;  
+  db.wasUpdated = true;
+  const data = db.data.serverStats;
 
   if (isEmojiCounted(db, emojiID) === dbReturnType.isIn) data[emojiID] += 1;
   else {
@@ -137,6 +135,6 @@ export const addServerEmojiCount = (db, emojiID) => {
     data[emojiID] = 1;
   }
   return dbReturnType.isOk;
-}
+};
 
 //#endregion
