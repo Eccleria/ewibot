@@ -53,6 +53,7 @@
   "polls": [],
   "reminder": [],
   "serverStats": {
+    "cats": 0,
     "emojis": {}
   }
   "stats": []

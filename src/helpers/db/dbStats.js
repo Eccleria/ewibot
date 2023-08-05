@@ -84,7 +84,7 @@ export { isStatsUser, addStatsUser, removeStatsUser };
  * Add +1 to corresponding stat and user
  * @param {object} db Database object
  * @param {string} userId User id which require stat change
- * @param {statsKeys} whichStat Which stat to add +1
+ * @param {statsKeys} whichStat Which stat to add value
  * @param {?number} value The number to add to stat. 1 by default
  * @returns {dbReturnType} isOk if is ok, isNotIn if user isn't stats user
  */
@@ -136,5 +136,23 @@ export const addServerEmojiCount = (db, emojiID) => {
   }
   return dbReturnType.isOk;
 };
+
+/**
+ * Add +1 to requested server stat value in db
+ * @param {object} db Database object
+ * @param {*} whichStat Which stat to add +1
+ * @returns {dbReturnType} `isNotOk` if any input issue, `isOk` if no issue
+ */
+export const addServerStatsData = (db, whichStat) => {
+  if (!db || !whichStat) return dbReturnType.isNotOk;
+
+  const data = db.data.serverStats;
+
+  if (data[whichStat] !== undefined) data[whichStat] += 1;
+  else data[whichStat] = 1;
+  
+  db.wasUpdated = true;
+  return dbReturnType.isOk;
+}
 
 //#endregion

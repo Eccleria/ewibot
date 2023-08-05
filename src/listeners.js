@@ -5,6 +5,7 @@ import {
   deleteSongFromPlaylist,
   removeReminder,
   addStatsData,
+  addServerStatsData,
 } from "./helpers/index.js";
 
 import { statsGifCount } from "./stats.js";
@@ -33,6 +34,9 @@ export const onPublicMessage = async (message, client, currentServer) => {
     (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
   )
     return;
+
+  if (message.attachments && message.channel.id === currentServer.catsThreadId)
+    console.log(addServerStatsData(client.db, "cats"));
 
   reactionHandler(message, currentServer, client);
   statsGifCount(message);

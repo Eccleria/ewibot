@@ -72,6 +72,7 @@ import {
   removeStatsUser,
   statsKeys,
   dbReturnType,
+  addServerStatsData,
 } from "./db/dbStats.js";
 
 import {
@@ -169,4 +170,5 @@ export {
   addStatsData,
   statsKeys,
   dbReturnType,
+  addServerStatsData,
 };
