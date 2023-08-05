@@ -88,6 +88,7 @@ import {
   hasOctagonalSign,
   setActivity,
   updateActivity,
+  parseEmoji,
 } from "./utils.js";
 
 export {
@@ -99,6 +100,7 @@ export {
   hasOctagonalSign,
   setActivity,
   updateActivity,
+  parseEmoji,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,

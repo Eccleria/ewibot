@@ -74,6 +74,21 @@ export const hasOctagonalSign = (content, cmnShared) => {
   return content.includes(cmnShared.octagonalSignEmoji);
 };
 
+/**
+ * Parse a string emoji into its id.
+ * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
+ * @returns {string} Emoji id
+ */
+export const parseEmoji = (content) => {
+  //id is always last of content.split(":")
+  if (!content.includes(":")) return null;
+
+  const splited = content.split(":");
+  const id = splited[splited.length - 1];
+  if (id.includes(">")) return id.slice(0, id.length - 1);
+  return id;
+}
+
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   if (process.env.DEBUG === "yes") console.log("apologyResult", apologyResult);
