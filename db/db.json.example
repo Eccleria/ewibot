@@ -52,5 +52,8 @@
   "messageCount": [],
   "polls": [],
   "reminder": [],
+  "serverStats": {
+    "emojis": {}
+  }
   "stats": []
 }

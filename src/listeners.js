@@ -16,8 +16,16 @@ import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
 import { statsKeys } from "./helpers/index.js";
 
-export const onPublicMessage = (message, client, currentServer) => {
-  const { author } = message;
+export const onPublicMessage = async (message, client, currentServer) => {
+  const { author, content, guild } = message;
+
+  console.log(content);
+  console.log([client.emojis.resolve(content)]);
+  const gEmojis = guild.emojis
+  console.log("gEmojis", gEmojis);
+  console.log("cache", gEmojis.cache);
+  console.log("resolevID", gEmojis.resolveId(content));
+  console.log("fetch", await gEmojis.fetch(gEmojis.resolveId(content)))
 
   if (
     author.id === process.env.CLIENTID || // ignoring message from himself

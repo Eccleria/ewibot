@@ -1,4 +1,4 @@
-//#region stats users
+//#region enums
 
 /**
  * @enum {number} return values for most db helper functions
@@ -20,6 +20,10 @@ export const statsKeys = Object.freeze({
   reactions: "reactions",
   rolling: "rolling"
 })
+
+//#endregion
+
+//#region use command
 
 /**
  * Check if the user is in "accepting stats" user list
@@ -76,7 +80,7 @@ export { isStatsUser, addStatsUser, removeStatsUser };
 
 //#endregion
 
-//#region stats
+//#region user stats
 
 /**
  * Add +1 to corresponding stat and user
@@ -104,5 +108,35 @@ const addStatsData = (db, userId, whichStat, value = 1) => {
 };
 
 export { addStatsData };
+
+//#endregion
+
+//#region server stats
+
+/**
+ * Check if emoji is server counted or not
+ * @param {object} db Database object
+ * @param {string} emojiID emoji string id
+ * @returns {dbReturnType} `isIn` if emoji is counted, `isNotIn` otherwise
+ */
+const isEmojiCounted = (db, emojiID) => {
+  const data = db.data.serverStats;
+  if (data[emojiID] !== undefined) return dbReturnType.isIn;
+  else return dbReturnType.isNotIn;
+}
+
+export const addServerEmojiCount = (db, emojiID) => {
+  if (!db || !emojiID) return dbReturnType.isNotOk;
+
+  db.wasUpdated = true
+  const data = db.data.serverStats;  
+
+  if (isEmojiCounted(db, emojiID) === dbReturnType.isIn) data[emojiID] += 1;
+  else {
+    console.log(`Add ${emojiID} in serverStats`);
+    data[emojiID] = 1;
+  }
+  return dbReturnType.isOk;
+}
 
 //#endregion
