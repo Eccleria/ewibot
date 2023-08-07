@@ -118,16 +118,22 @@ export { addStatsData };
  * @returns {dbReturnType} `isIn` if emoji is counted, `isNotIn` otherwise
  */
 const isEmojiCounted = (db, emojiID) => {
-  const data = db.data.serverStats;
+  const data = db.data.serverStats.emojis;
   if (data[emojiID] !== undefined) return dbReturnType.isIn;
   else return dbReturnType.isNotIn;
 };
 
+/**
+ * Add emoji count to server stats
+ * @param {object} db Database object
+ * @param {string} emojiID 
+ * @returns {dbReturnType} isOk if is ok, isNotOk else
+ */
 export const addServerEmojiCount = (db, emojiID) => {
   if (!db || !emojiID) return dbReturnType.isNotOk;
 
   db.wasUpdated = true;
-  const data = db.data.serverStats;
+  const data = db.data.serverStats.emojis;
 
   if (isEmojiCounted(db, emojiID) === dbReturnType.isIn) data[emojiID] += 1;
   else {

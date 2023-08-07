@@ -8,25 +8,17 @@ import {
   addServerStatsData,
 } from "./helpers/index.js";
 
-import { statsGifCount } from "./stats.js";
+import { emojiInContentHandler, statsGifCount } from "./stats.js";
 
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
-import { statsKeys } from "./helpers/index.js";
+import { statsKeys, addServerEmojiCount } from "./helpers/index.js";
 
 export const onPublicMessage = async (message, client, currentServer) => {
-  const { author, content, guild } = message;
-
-  console.log(content);
-  console.log([client.emojis.resolve(content)]);
-  const gEmojis = guild.emojis;
-  console.log("gEmojis", gEmojis);
-  console.log("cache", gEmojis.cache);
-  console.log("resolevID", gEmojis.resolveId(content));
-  console.log("fetch", await gEmojis.fetch(gEmojis.resolveId(content)));
+  const { author } = message;
 
   if (
     author.id === process.env.CLIENTID || // ignoring message from himself
@@ -40,6 +32,7 @@ export const onPublicMessage = async (message, client, currentServer) => {
 
   reactionHandler(message, currentServer, client);
   statsGifCount(message);
+  emojiInContentHandler(message);
 };
 
 export const onRemoveReminderReaction = (
@@ -130,7 +123,8 @@ export const onReactionAdd = async (messageReaction, user) => {
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server, count
     const db = messageReaction.client.db;
-    addStatsData(db, user.id, statsKeys.reactions);
+    addStatsData(db, user.id, statsKeys.reactions); //user stat
+    addServerEmojiCount(db, emote.id); //server stat
     return;
   }
 

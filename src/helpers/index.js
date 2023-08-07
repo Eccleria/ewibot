@@ -73,6 +73,7 @@ import {
   statsKeys,
   dbReturnType,
   addServerStatsData,
+  addServerEmojiCount,
 } from "./db/dbStats.js";
 
 import {
@@ -171,4 +172,5 @@ export {
   statsKeys,
   dbReturnType,
   addServerStatsData,
+  addServerEmojiCount,
 };
