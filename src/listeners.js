@@ -8,7 +8,7 @@ import {
   addServerStatsData,
 } from "./helpers/index.js";
 
-import { emojiInContentHandler, statsGifCount } from "./stats.js";
+import { checkRollingGif, emojiInContentHandler, statsGifCount } from "./stats.js";
 
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
@@ -33,6 +33,7 @@ export const onPublicMessage = async (message, client, currentServer) => {
   reactionHandler(message, currentServer, client);
   statsGifCount(message);
   emojiInContentHandler(message);
+  checkRollingGif(message);
 };
 
 export const onRemoveReminderReaction = (

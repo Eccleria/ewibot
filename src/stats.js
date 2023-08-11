@@ -16,7 +16,7 @@ export const statsGifCount = (message) => {
 
 /**
  * Iterate over message content to find emojis and add them to db
- * @param {string} message Message
+ * @param {object} message Message object
  */
 export const emojiInContentHandler = (message) => {
   const { author, client, content } = message;
@@ -31,4 +31,49 @@ export const emojiInContentHandler = (message) => {
       }
     }
   }
-}
+};
+
+//#region rolling gifs
+
+const rollingGifContent = [
+  "cartwheel",
+  "roll",
+  "bus",
+  "tumbling",
+  "driving",
+  "motorcycle",
+  "flip"
+];
+
+/**s
+ * Check if gif url includes any of rollingGifContent.
+ * @param {string} content Message content.
+ * @returns {boolean} true if gif contains any rollingGifContent string
+ */
+const isRollingGif = (content) => {
+  console.log("isRollingGif", content)
+  let found = false, i = 0; 
+  const len = content.length;
+  while (!found && i < len) {
+    found = content.includes(rollingGifContent[i]);
+    i += 1;
+  }
+  console.log("found", found)
+  return found;
+};
+
+/**
+ * Check if message content include rolling gif and update db stats accordingly.
+ * @param {object} message Message object
+ */
+export const checkRollingGif = (message) => {
+  const { author, client, content } = message;
+  const gifs = gifRecovery(content);
+  if (!gifs) return;
+  console.log("gifs", gifs);
+  const result = gifs.reduce((acc, cur) => isRollingGif(cur) ? acc + 1 : acc, 0);
+  console.log("result", result);
+  if (result) addStatsData(client.db, author.id, statsKeys.rolling, result);
+};
+
+//#endregion
