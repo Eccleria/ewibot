@@ -42,7 +42,7 @@ const rollingGifContent = [
   "tumbling",
   "driving",
   "motorcycle",
-  "flip"
+  "flip",
 ];
 
 /**s
@@ -51,14 +51,14 @@ const rollingGifContent = [
  * @returns {boolean} true if gif contains any rollingGifContent string
  */
 const isRollingGif = (content) => {
-  console.log("isRollingGif", content)
-  let found = false, i = 0; 
+  let found = false,
+    i = 0;
   const len = content.length;
   while (!found && i < len) {
     found = content.includes(rollingGifContent[i]);
     i += 1;
   }
-  console.log("found", found)
+
   return found;
 };
 
@@ -70,9 +70,12 @@ export const checkRollingGif = (message) => {
   const { author, client, content } = message;
   const gifs = gifRecovery(content);
   if (!gifs) return;
-  console.log("gifs", gifs);
-  const result = gifs.reduce((acc, cur) => isRollingGif(cur) ? acc + 1 : acc, 0);
-  console.log("result", result);
+
+  const result = gifs.reduce(
+    (acc, cur) => (isRollingGif(cur) ? acc + 1 : acc),
+    0
+  );
+
   if (result) addStatsData(client.db, author.id, statsKeys.rolling, result);
 };
 

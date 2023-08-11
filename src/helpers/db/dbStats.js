@@ -126,7 +126,7 @@ const isEmojiCounted = (db, emojiID) => {
 /**
  * Add emoji count to server stats
  * @param {object} db Database object
- * @param {string} emojiID 
+ * @param {string} emojiID
  * @returns {dbReturnType} isOk if is ok, isNotOk else
  */
 export const addServerEmojiCount = (db, emojiID) => {
@@ -156,9 +156,9 @@ export const addServerStatsData = (db, whichStat) => {
 
   if (data[whichStat] !== undefined) data[whichStat] += 1;
   else data[whichStat] = 1;
-  
+
   db.wasUpdated = true;
   return dbReturnType.isOk;
-}
+};
 
 //#endregion

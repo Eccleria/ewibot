@@ -8,7 +8,11 @@ import {
   addServerStatsData,
 } from "./helpers/index.js";
 
-import { checkRollingGif, emojiInContentHandler, statsGifCount } from "./stats.js";
+import {
+  checkRollingGif,
+  emojiInContentHandler,
+  statsGifCount,
+} from "./stats.js";
 
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
