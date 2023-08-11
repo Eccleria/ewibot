@@ -1,4 +1,9 @@
-﻿## 5.4.0
+﻿## 5.5.0
+- Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
+	- add `/stats use` command to dis/enable Ewibot stats for requesting user
+	- count `gifs`, `hello` words, `hungry` words, `reactions` and `rolling` gifs
+
+## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
 - Feat: add `DEBUGLOGS` .env attribute - this add console.logs when switched to "yes"
 - Fix: wrong `apology` detection 
