@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
 import {
   interactionEditReply,
   fetchPollMessage,
@@ -82,10 +82,10 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
       cur.setCustomId(newId);
     }
 
-    //handle MessageActionRows
+    //handle ActionRowBuilders
     if (idx === 0 || acc[acc.length - 1].components.length === 5) {
       //if first or last AR is full
-      const newAR = new MessageActionRow().addComponents(cur);
+      const newAR = new ActionRowBuilder().addComponents(cur);
       return [...acc, newAR];
     } else {
       acc[acc.length - 1].addComponents(cur);
@@ -145,7 +145,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     if (toChange === "color") {
       // create selectMenu to chose which poll color to change
       //create selectMenu
-      const selectMenu = new MessageSelectMenu()
+      const selectMenu = new StringSelectMenuBuilder()
         .setCustomId(perso.customId)
         .setPlaceholder(perso.placeholder)
         .setMaxValues(1);
@@ -158,7 +158,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       selectMenu.addOptions(choices);
 
       //send message
-      const actionRow = new MessageActionRow().addComponents(selectMenu);
+      const actionRow = new ActionRowBuilder().addComponents(selectMenu);
       const payload = { components: [actionRow], ephemeral: true };
       interactionEditReply(interaction, payload);
     } else {
@@ -215,7 +215,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       //chose which is new voteMax value
 
       //create selectMenu
-      const selectMenu = new MessageSelectMenu()
+      const selectMenu = new StringSelectMenuBuilder()
         .setCustomId(perso.customId)
         .setPlaceholder(perso.placeholder)
         .setMaxValues(1);
@@ -235,7 +235,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       selectMenu.addOptions(choices);
 
       //send message
-      const actionRow = new MessageActionRow().addComponents(selectMenu);
+      const actionRow = new ActionRowBuilder().addComponents(selectMenu);
       const payload = { components: [actionRow], ephemeral: true };
       interactionEditReply(interaction, payload);
     } else {

@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -58,7 +58,7 @@ export const sendSettingsButtons = async (interaction) => {
   const settingsButton = [refreshButton, ...firstButton];
 
   //create ActionRows
-  const actionRow = new MessageActionRow().addComponents(settingsButton);
+  const actionRow = new ActionRowBuilder().addComponents(settingsButton);
 
   //send buttons
   interactionEditReply(interaction, { components: [actionRow] });
@@ -109,7 +109,7 @@ export const removePollButtonAction = async (interaction) => {
     });
 
   //create selectMenu
-  const menu = new MessageSelectMenu()
+  const menu = new StringSelectMenuBuilder()
     .setCustomId(perso.customId)
     .setPlaceholder(perso.placeholder)
     .setMinValues(1)
@@ -124,7 +124,7 @@ export const removePollButtonAction = async (interaction) => {
   menu.addOptions(choices);
 
   //send message
-  const actionRow = new MessageActionRow().addComponents(menu);
+  const actionRow = new ActionRowBuilder().addComponents(menu);
   const payload = { components: [actionRow] };
   interactionEditReply(interaction, payload);
 };
@@ -176,7 +176,7 @@ export const updatePollButtonAction = async (interaction) => {
   const perso = PERSONALITY.getCommands().polls.settings.update;
 
   //create selectMenu
-  const selectMenu = new MessageSelectMenu()
+  const selectMenu = new StringSelectMenuBuilder()
     .setCustomId(perso.customId)
     .setPlaceholder(perso.placeholder)
     .setMaxValues(1);
@@ -186,7 +186,7 @@ export const updatePollButtonAction = async (interaction) => {
   selectMenu.addOptions(choices);
 
   //send message
-  const actionRow = new MessageActionRow().addComponents(selectMenu);
+  const actionRow = new ActionRowBuilder().addComponents(selectMenu);
   const payload = { components: [actionRow], ephemeral: true };
   interactionEditReply(interaction, payload);
 };
