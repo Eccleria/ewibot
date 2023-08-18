@@ -66,8 +66,8 @@ export const checkRollingGif = (message) => {
   const { author, client, content } = message;
   const gifs = gifRecovery(content);
   if (!gifs) return;
-    const result = gifs.reduce(
-    (acc, cur) => isRollingGif(cur) ? acc + 1 : acc,
+  const result = gifs.reduce(
+    (acc, cur) => (isRollingGif(cur) ? acc + 1 : acc),
     0
   );
 

@@ -91,7 +91,8 @@ export const parseEmoji = (content) => {
 
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  if (process.env.DEBUGLOGS === "yes") console.log("apologyResult", apologyResult);
+  if (process.env.DEBUGLOGS === "yes")
+    console.log("apologyResult", apologyResult);
 
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
