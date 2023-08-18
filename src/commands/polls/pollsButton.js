@@ -1,4 +1,4 @@
-import { ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder, ButtonStyle } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -9,6 +9,7 @@ import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
+import { ButtonBuilder } from "@discordjs/builders";
 
 export const sendSettingsButtons = async (interaction) => {
   try {
@@ -44,11 +45,13 @@ export const sendSettingsButtons = async (interaction) => {
 
   //create buttons
   const bPerso = perso.buttons;
-  const refreshButton = createButton(...bPerso.refresh, "PRIMARY"); // refresh poll embed
-  const updateButton = createButton(...bPerso.update, "PRIMARY"); // update poll parameters
-  const removeButton = createButton(...bPerso.remove, "PRIMARY"); // remove poll choices
-  const resetButton = createButton(...bPerso.reset, "DANGER"); // reset poll votes
-  const stopButton = createButton(...bPerso.stop, "DANGER"); //stop poll
+  const pStyle = ButtonStyle.Primary;
+  const dStyle = ButtonStyle.Danger;
+  const refreshButton = createButton(...bPerso.refresh, pStyle); // refresh poll embed
+  const updateButton = createButton(...bPerso.update, pStyle); // update poll parameters
+  const removeButton = createButton(...bPerso.remove, pStyle); // remove poll choices
+  const resetButton = createButton(...bPerso.reset, dStyle); // reset poll votes
+  const stopButton = createButton(...bPerso.stop, dStyle); //stop poll
 
   const firstButton = [updateButton, removeButton, resetButton, stopButton];
 
@@ -204,10 +207,7 @@ export const refreshPollButtonAction = async (interaction) => {
   const db = interaction.client.db;
 
   //disable actions during refresh
-  const disabledComponents = pollMessage.components.reduce((acc, cur) => {
-    cur.components.forEach((button) => button.setDisabled(true)); //disable buttons of cur actionRow
-    return [...acc, cur];
-  }, []);
+  const disabledComponents = enableDisableButtons(pollMessage.components, false);
   await pollMessage.edit({ components: disabledComponents });
 
   //update poll embed
@@ -221,10 +221,22 @@ export const refreshPollButtonAction = async (interaction) => {
   });
 
   //handle buttons
-  const enabledComponents = pollMessage.components.reduce((acc, cur) => {
-    cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
-    return [...acc, cur];
-  }, []);
+  const enabledComponents = enableDisableButtons(pollMessage.components, false); //enable buttons of cur ActionRowBuilder
 
   pollMessage.edit({ components: enabledComponents });
 };
+
+const enableDisableButtons = (MActionRow, status) => {
+  return MActionRow.reduce((acc, cur) => {
+    //disable buttons of cur ActionRowBuilder
+    const buttons = cur.components.reduce((button) => {
+      const newButton = ButtonBuilder.from(button);
+      newButton.setDisabled(status);
+      return [...acc, cur];
+    }, []); 
+
+    //build new ActionRowBuilder
+    const newActionRow = new ActionRowBuilder().addComponents(buttons);
+    return [...acc, newActionRow];
+  }, []);
+}
