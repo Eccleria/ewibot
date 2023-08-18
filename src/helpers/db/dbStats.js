@@ -47,12 +47,10 @@ const addStatsUser = (db, userId) => {
   const data = db.data.stats;
   if (isStatsUser(db, userId) === dbReturnType.isIn) return dbReturnType.isIn;
   else {
+    const statsInit = Object.values(statsKeys).map((val) => [val, 0]);
     db.data.stats = [
       ...data,
-      Object.fromEntries([
-        ["userId", userId],
-        ...Object.entries(statsKeys).map(([, val]) => [val, 0]),
-      ]),
+      Object.fromEntries([["userId", userId], ...statsInit]),
     ];
     db.wasUpdated = true;
     return dbReturnType.isOk;

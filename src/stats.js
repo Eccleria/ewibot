@@ -51,14 +51,10 @@ const rollingGifContent = [
  * @returns {boolean} true if gif contains any rollingGifContent string
  */
 const isRollingGif = (content) => {
-  let found = false,
-    i = 0;
-  const len = content.length;
-  while (!found && i < len) {
-    found = content.includes(rollingGifContent[i]);
-    i += 1;
-  }
-
+  const found = rollingGifContent.reduce(
+    (acc, cur) => acc || content.includes(cur),
+    false
+  );
   return found;
 };
 
@@ -70,9 +66,8 @@ export const checkRollingGif = (message) => {
   const { author, client, content } = message;
   const gifs = gifRecovery(content);
   if (!gifs) return;
-
-  const result = gifs.reduce(
-    (acc, cur) => (isRollingGif(cur) ? acc + 1 : acc),
+    const result = gifs.reduce(
+    (acc, cur) => isRollingGif(cur) ? acc + 1 : acc,
     0
   );
 
