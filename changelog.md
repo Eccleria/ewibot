@@ -1,7 +1,8 @@
 ﻿## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
 	- add `/stats use` command to dis/enable Ewibot stats for requesting user
-	- count `gifs`, `hello` words, `hungry` words, `reactions` and `rolling` gifs
+	- count `gifs`, `hello` words, `hungry` words, `reactions` and `rolling` gifs for accepting users
+	- count `emotes` occurences and `cats` pictures sent for whole guild
 
 ## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
