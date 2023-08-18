@@ -84,9 +84,12 @@ export const parseEmoji = (content) => {
   if (!content.includes(":")) return null;
 
   const splited = content.split(":");
-  const id = splited[splited.length - 1];
-  if (id.includes(">")) return id.slice(0, id.length - 1);
-  return id;
+  const sliced = splited[splited.length - 1];
+  if (sliced.includes(">")) {
+    const id = sliced.split(">")[0];
+    return id;
+  }
+  return sliced;
 };
 
 export const hasApology = (sanitizedContent) => {
