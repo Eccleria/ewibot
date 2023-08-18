@@ -5,10 +5,8 @@ import { eventRolesButtonHandler } from "./eventRoles.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { announceButtonHandler } from "./announce.js";
 import { giftButtonHandler } from "./gift.js";
-import {
-  settingsButtonHandler,
-  pollSelectMenuHandler,
-} from "./polls/pollsHandlers.js";
+import { settingsButtonHandler } from "./polls/pollsHandlers.js";
+import { pollSelectMenuHandler } from "./polls/pollsSelectMenu.js";
 
 /**
  * Reply to interaction function

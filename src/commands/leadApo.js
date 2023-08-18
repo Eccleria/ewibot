@@ -1,30 +1,41 @@
-/*import { EmbedBuilder } from "discord.js";
-import { PERSONALITY } from "../personality.js";
-import { removeApologyCount } from "../helpers/index.js";
+import { EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
-const action = async (message, client) => {
+import { PERSONALITY } from "../personality.js";
+import { isAdmin, removeApologyCount } from "../helpers/index.js";
+import { interactionEditReply } from "./polls/pollsUtils.js";
+
+const command = new SlashCommandBuilder()
+  .setName(PERSONALITY.getCommands().leaderboardApology.name)
+  .setDescription(PERSONALITY.getCommands().leaderboardApology.description)
+  .setDefaultMemberPermissions(0x0000010000000000);
+
+const action = async (interaction) => {
+  await interaction.deferReply({ ephemeral: true });
+  const perso = PERSONALITY.getCommands().leaderboardApology;
+
+  if (!isAdmin(interaction.user.id)) {
+    console.log(`${interaction.user.id} tryed to use /leadApo`);
+    interactionEditReply(interaction, perso.errorNotAllowed);
+    return;
+  }
+
+  const client = interaction.client;
   const db = client.db;
   const dbData = db.data.apologiesCounting; //array of {userId, counter}
 
-  message.channel.sendTyping();
+  interaction.channel.sendTyping();
 
-  const sorted = dbData.sort((a, b) => {
-    if (a.counter < b.counter) {
-      return -1;
-    }
-    if (a.counter > b.counter) {
-      return 1;
-    }
-    return 0;
-  }); // sort users by counters
+  const sorted = dbData.sort((a, b) => a.counter - b.counter); // sort users by counters
+  console.log("sorted", sorted);
 
-  const guildMembers = message.guild.members;
-
+  const guildMembers = interaction.guild.members;
+  const baseValue = "```\n";
   let fields = [
-    { name: "10-19", value: "```md\n" },
-    { name: "20-29", value: "```md\n" },
-    { name: ">29", value: "```md\n" },
-    { name: "top 3", value: "```md\n" },
+    { name: "10-75", value: baseValue, max: 75, min: 10 },
+    { name: "76-150", value: baseValue, max: 150, min: 76 },
+    { name: ">150", value: baseValue, max: -1, min: 151 },
+    { name: "top 3", value: baseValue },
   ]; //initiate future embed fields
 
   let count = 0;
@@ -41,42 +52,63 @@ const action = async (message, client) => {
 
     if (guildMember && cur.counter >= 10) {
       //if found && enough apologies
-      const userNickname = guildMember.nickname || guildMember.user.username; //get nickname
+      console.log(
+        "nickname",
+        guildMember.nickname,
+        "username",
+        guildMember.user.username,
+        "counter",
+        cur.counter
+      );
+      const userNickname = guildMember.nickname
+        ? guildMember.nickname
+        : guildMember.user.username; //get nickname
       const nickSliced = userNickname.slice(0, 25).padEnd(25, " ");
       const line = `${nickSliced}: ${cur.counter}`; // add count to the line
 
       //separate data
-      if (cur.counter < 20) fields[0].value = `${fields[0].value}${line}\n`;
-      else if (cur.counter < 30)
-        fields[1].value = `${fields[1].value}${line}\n`;
-      else if (count >= sorted.length - 3) {
+      if (count >= sorted.length - 3) {
         //if top3
-        fields[3].value = `${fields[3].value}${line}\n`;
-      } else fields[2].value = `${fields[2].value}${line}\n`;
+        fields[fields.length - 1].value = `${
+          fields[fields.length - 1].value
+        }${line}\n`;
+      } else {
+        const isInRange = fields
+          .slice(0, fields.length - 1)
+          .reduce((acc, fld) => {
+            if (fld.max === -1) return [...acc, fld.min <= cur.counter];
+            else
+              return [...acc, fld.min <= cur.counter && cur.counter <= fld.max];
+          }, []); //find which field where counter is in range, return bool
+        const idx = isInRange.findIndex((bool) => bool); //get field index where value is true
+        if (idx !== -1) fields[idx].value = `${fields[idx].value}${line}\n`; //update field for any idx correct value
+      }
     }
     count = count + 1; //for find top3
   }
 
   fields.forEach((cur) => (cur.value = cur.value + "```"));
 
-  //get personality
-  const personality = PERSONALITY.getCommands();
-  const leadApo = personality.leaderboardApology;
-
+  //build embed
+  const ePerso = perso.embed; //get embed personality
   const embed = new EmbedBuilder() //create embed
     .setColor("ORANGE")
     .setTimestamp()
-    .setTitle(leadApo.title)
-    .setDescription(leadApo.description)
-    .addFields(
-      fields.slice(0, 3),
-      {name: fields[3].name, value: `${leadApo.top3} ${fields[3].value}`}
-    );
+    .setTitle(ePerso.title)
+    .setDescription(ePerso.description)
+    .addFields(fields.slice(0, 3))
+    .addFields({
+      name: fields[3].name,
+      value: `${ePerso.top3} ${fields[3].value}`,
+    });
 
-  message.reply({ embeds: [embed] });
+  const message = await interaction.channel.send({ embeds: [embed] });
+  if (message) interactionEditReply(interaction, perso.sent);
+  else interactionEditReply(interaction, perso.errorNotSent);
 };
 
 const leaderboardApology = {
+  command,
   name: "leadApo",
   action,
   help: () => {
@@ -88,4 +120,3 @@ const leaderboardApology = {
 };
 
 export default leaderboardApology;
-*/

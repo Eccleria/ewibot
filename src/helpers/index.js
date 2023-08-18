@@ -1,7 +1,7 @@
 import {
   isApologyUser,
   addApologyCount,
-  //removeApologyCount,
+  removeApologyCount,
 } from "./db/dbApology.js";
 
 import { addAdminLogs, getAdminLogs, removeAdminLogs } from "./db/dbAdmin.js";
@@ -47,6 +47,7 @@ import {
   getPollFromTitle,
   addPollChoices,
   addPollVoter,
+  isPollEmptyVotes,
   isThisChoicePollVoter,
   getPollVoteIndexes,
   getThisChoicePollIndex,
@@ -104,7 +105,7 @@ export {
   //apology
   isApologyUser,
   addApologyCount,
-  //removeApologyCount,
+  removeApologyCount,
   //birthday
   addBirthday,
   isBirthdayDate,
@@ -136,6 +137,7 @@ export {
   getPollFromTitle,
   addPollChoices,
   addPollVoter,
+  isPollEmptyVotes,
   isThisChoicePollVoter,
   getPollVoteIndexes,
   getThisChoicePollIndex,

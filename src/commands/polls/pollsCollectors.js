@@ -1,6 +1,16 @@
+import dayjs from "dayjs";
+import "dayjs/locale/fr.js";
+import Duration from "dayjs/plugin/duration.js";
+import relativeTime from "dayjs/plugin/relativeTime.js";
+dayjs.locale("fr");
+dayjs.extend(Duration);
+dayjs.extend(relativeTime);
+
 import { ComponentType } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
-import { getPolls } from "../../helpers/index.js";
+import { getPoll, getPolls } from "../../helpers/index.js";
+import { stopPoll } from "./pollsUtils.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const initPollsCollector = (client) => {
   // once startup, init polls lookup
@@ -11,7 +21,12 @@ export const initPollsCollector = (client) => {
     const channel = await client.channels.fetch(poll.channelId);
     const message = await channel.messages.fetch(poll.pollId);
 
-    pollButtonCollector(message);
+    //compute new reminder waiting time
+    const now = dayjs();
+    const difference = dayjs(poll.pollDate).diff(now);
+    const newTiming = difference > 0 ? difference : 10000; //if passed, waiting time of 10s
+
+    pollButtonCollector(message, newTiming);
   });
 };
 
@@ -45,17 +60,18 @@ const pollVoteBuffer = (interaction) => {
   client.voteBuffers[pollMessageId] = bufferData;
 };
 
-export const pollButtonCollector = (message) => {
+export const pollButtonCollector = (message, timeout) => {
   const filter = ({ customId }) => {
     return (
       !isNaN(Number(customId[6])) && typeof Number(customId[6]) == "number"
     );
   };
 
+  console.log(timeout);
   const collector = message.createMessageComponentCollector({
     filter,
     componentType: ComponentType.Button,
-    time: 2147483647,
+    time: timeout,
   });
 
   collector.on("collect", async (interaction) => {
@@ -65,5 +81,10 @@ export const pollButtonCollector = (message) => {
 
   collector.on("end", (collected) => {
     console.log(`Collected ${collected.size} interactions.`);
+    const dbPoll = getPoll(message.client.db, message.id);
+    if (dbPoll) {
+      const perso = PERSONALITY.getCommands().polls;
+      stopPoll(dbPoll, message, perso);
+    }
   });
 };

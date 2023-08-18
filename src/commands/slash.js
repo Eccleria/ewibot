@@ -25,6 +25,7 @@ import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
 import gift from "./gift.js";
+import leaderboardApology from "./leadApo.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
@@ -185,6 +186,7 @@ const slashCommands = [
   gift,
   ignoreChannel,
   ignoreUser,
+  leaderboardApology,
   ping,
   polls,
   reminder,

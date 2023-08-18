@@ -14,7 +14,10 @@
       []
     ]
   },
-  "alavirien": [],
+  "alavirien": {
+    "toUpdateIds": [],
+    "users": []
+  },
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "concreteRecipients": [],

@@ -299,9 +299,16 @@
         "notIgnored": "Je vais de nouveau réagir à vos messages."
       },
       "leaderboardApology": {
-        "description": "Salut les Ewinautes, c'est l'heure de s'amuser ! <:DuomFetard:822479563077976065>\n Comme beaucoup d'entre vous le savent, j'adore poêler les gens qui s'excusent. ~~Non je ne cuisine pas les gens ...~~ Depuis quelques semaines, mes merveilleux développeurs ont décidé de compter le nombre de fois que vous vous excusez, dans l'espoir que ça donnerait quelque chose de drôle à l'avenir. Et bien l'avenir, nous y voici ! <:Bjornskiss:823880259040313376>\n\n Sans plus attendre, voici le classement <:Ewiyay:918249094391144469> :",
-        "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
-        "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        "description": "Cette commande permet d'envoyer le classement des excuses",
+        "embed": {
+          "description": "YOOOOOOOOOOOOOOOOOOOOO ! <:Ewiyay:918249094391144469>\n Eccléria l'a teasé hier, voici aujourd'hui mon grand retour ! Et oui, ça fait littérallement 1 an que l'on a eu le premier classement des excuses. Le rush de fonctionnalité s'imposait pour ne pas rater l'anniversaire <:Ewinklan:841675143596212267> !\nEt sans plus attendre, voici les résultats :",
+          "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
+          "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        },
+        "errorNotAllowed": "Vous n'avez pas le droit d'utiliser cette commande",
+        "errorNotSent": "Le message de classement des excuses n'a pas pu être envoyé",
+        "name": "lead-apo",
+        "sent": "Le message de classement des excuses a bien été envoyé"
       },
       "personality": {
         "change": "Dorénavant, j'aurai la personalité ",
@@ -329,6 +336,10 @@
         "black": ":black_large_square:",
         "counted": "Votre vote a été compté.",
         "create": {
+          "authorOption": {
+            "description": "L'auteurice du sondage.",
+            "name": "auteurice"
+          },
           "choiceOption": {
             "description": "Les choix du sondage",
             "name": "choix"
@@ -348,14 +359,22 @@
             "multiple": "Vote multiple",
             "unique": "Vote unique"
           },
-          "help": "Cette commande permet de créer un sondage. Voici les paramètres :\n\n**Obligatoires**\n- `title` Titre du sondage. *Minimum 1 lettre, maximum 225.*\n- `choices` Choix du sondage. Vous devez **respecter la mise en forme** du texte suivante :\n  + Deux choix sont séparés par un point-virgule `;`.\n  + Si vous voulez personnaliser des émotes, vous devez la séparer du reste du choix avec une virgule `,`.\n  + Le dernier choix ne nécessite pas de point-virgule.\n  + Ex : `🥖, pain; 🧈, beurre`\n\n**Optionels**\n - `color` Couleur de la barre lattérale et de progression. _Vous pouvez la choisir via la liste, et filtrer la sélection en tapant les premières lettres. Par défaut: bleu._\n - `description` Description du sondage, _pour ajouter du contexte ou des détails._\n - `anonymous` Si vous voulez ou non les choix de chaque votant. _Par défaut : anonyme._\n - `max votes` Nombre maximal de votes. _Ne peux pas dépasser le nombre de choix. Par défaut : 1 choix max._",
+          "help": "Cette commande permet de créer un sondage. Voici les paramètres :\n\n**Obligatoires**\n- `title` Titre du sondage. *Minimum 1 lettre, maximum 225.*\n- `choices` Choix du sondage. *Attention, les choix ne peuvent pas faire plus de 256 charactères.* Vous devez **respecter la mise en forme** du texte suivante :\n - Deux choix sont séparés par un point-virgule `;`.\n - Si vous voulez personnaliser des émotes, vous devez la séparer du reste du choix avec une virgule `,`.\n - Le dernier choix ne nécessite pas de point-virgule.\n - Ex : `🥖, pain; 🧈, beurre`\n\n**Optionels**\n- `color` Couleur de la barre lattérale et de progression. _Vous pouvez la choisir via la liste, et filtrer la sélection en tapant les premières lettres. Par défaut: bleu._\n- `description` Description du sondage, _pour ajouter du contexte ou des détails._\n- `anonymous` Si vous voulez ou non les choix de chaque votant. _Par défaut : anonyme._\n- `max votes` Nombre maximal de votes. _Ne peux pas dépasser le nombre de choix. Par défaut : 1 choix max._\n- `auteurice` Auteurice du sondage. _Attention, vous pouvez indiquer n'importe qui comme auteurice._\n- `heures` Durée de vie en heures du sondage. _Entre 0 et 48._\n- `minutes` Durée de vie en minutes du sondage. _Entre 0 et 59._ **Note : si jamais `heures` et `minutes` ne sont pas renseignés, la durée de vie est la plus longue possible (~49h).**",
           "hideOption": {
             "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
             "name": "anonyme"
           },
+          "hourOption": {
+            "description": "La durée en heures du sondage.",
+            "name": "heures"
+          },
           "maxOption": {
             "description": "Si vote multiples, le nombre maximal de votes",
             "name": "nombre-vote-max"
+          },
+          "minuteOption": {
+            "description": "La durée en minutes du sondage.",
+            "name": "minutes"
           },
           "name": "create",
           "sent": "Le sondage a été envoyé.",
@@ -378,14 +397,16 @@
             "refresh": ["polls_set_refresh", "Actualiser"],
             "remove": ["polls_set_remove", "Retirer"],
             "reset": ["polls_set_reset", "RAZ"],
-            "stop": ["polls_set_disable", "Stop"],
+            "stop": ["polls_set_stop", "Stop"],
             "update": ["polls_set_update", "Modifier"]
           },
-          "disable": {
-            "disabled": "Le sondage a bien été verrouillé.",
+          "stop": {
             "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
+            "message": ["Le sondage ", " est terminé !"],
+            "stopped": "Le sondage a bien été verrouillé.",
             "title": " - **Terminé**"
           },
+          "errorNoPoll": "Le sondage associé à ces boutons n'a été trouvé.",
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
           "refresh" : {
             "done": "L'actualisation du message est terminée",
@@ -402,7 +423,13 @@
             "reset": "Les votes du sondage ont bien été réinitialisés."
           },
           "update": {
+            "anonymous": {
+              "baseValue": "polls_selectMenu_update_anonymous_",
+              "customId": "polls_selectMenu_update_anonymous",
+              "placeholder": "Anonyme ?"
+            },
             "choices": [
+              { "label": "anonyme", "value": "polls_selectMenu_update_anonymous" },
               { "label": "couleur", "value": "polls_selectMenu_update_color" }, 
               { "label": "nombre de votes", "value": "polls_selectMenu_update_voteMax" } 
             ],
@@ -423,7 +450,20 @@
               "voteMaxChanged": "Le nombre de vote possible a bien été modifié."
             }
           }
-        }
+        },
+        "stop": {
+          "description": "Permet d'arrêter un sondage en cours.",
+          "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
+          "message": ["Le sondage ", " est terminé !"],
+          "name": "stop",
+          "pollOption": {
+            "description": "Le sondage à arrêter.",
+            "name": "sondage"
+          },
+          "stopped": "Le sondage a bien été arrêté.",
+          "title": " - **Terminé**"
+        },
+        "stopped": "Le sondage est déjà terminé. Votre vote n'a pas été pris en compte"
       },
       "pronouns": {
         "agreements": {
@@ -522,7 +562,7 @@
       "saveLog": {
         "author": "Logué par :",
         "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
-        "noEmbed": "Le message ne contient pas d'embed.",
+        "noEmbed": "Le message ne contient pas d'embed ou de pièce jointe.",
         "sent": "Le log est archivé.",
         "wrongChannel": "A n'utiliser que sur les logs fréquents.",
         "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."

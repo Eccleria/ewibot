@@ -1,4 +1,5 @@
 import { PERSONALITY } from "../../personality.js";
+import { removePoll } from "../../helpers/index.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -99,13 +100,12 @@ export const parsePollFields = (content, totalSize = 0) => {
 };
 
 /**
- *
- * @param {*} dbPoll poll message data from db
- * @param {*} newFieldsInit init value for new fields
- * @param {*} perso Color personality
- * @returns List of new fields objects
+ * Compute each of poll embed fields according to db data
+ * @param {object} dbPoll poll message data from db
+ * @param {list} newFieldsInit init value for new fields
+ * @returns {list} List of new fields objects [{name: , value: }, ...]
  */
-export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
+export const refreshPollFields = (dbPoll, newFieldsInit) => {
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
   const totalValues = values.reduce((acc, cur) => acc + cur, 0);
@@ -120,7 +120,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
   const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
-  const black = perso.colorOption.black; //empty bar color
+  const black = PERSONALITY.getCommands().polls.black; //empty bar color
 
   //return new fields
   return newFieldsInit.map((field, idx) => {
@@ -136,4 +136,54 @@ export const refreshPollFields = (dbPoll, newFieldsInit, perso) => {
       : dbPoll.votes[idx].votes.map((userId) => ` <@${userId}>`).join("");
     return { name: field.name, value: newColorBar + votersEmbed };
   });
+};
+
+export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
+  const embed = pollMessage.embeds[0];
+
+  //create new fields objects from pollMessage
+  const newFieldsInit = embed.fields.map((obj) => {
+    return { name: obj.name, value: "" };
+  }); //init with old names
+  const newFields = refreshPollFields(dbPoll, newFieldsInit);
+
+  //update message
+  embed.setFields(newFields);
+  await pollMessage.edit({ embeds: [embed] });
+};
+
+/**
+ * Stop poll and send confirmation in channel
+ * @param {*} dbPoll poll data from db
+ * @param {*} pollMessage Message with poll embed
+ * @param {*} perso personality
+ */
+export const stopPoll = async (dbPoll, pollMessage, perso) => {
+  console.log("stop poll");
+
+  const db = pollMessage.client.db;
+  const editedPollMessage = {};
+
+  //edit title
+  const pollEmbed = pollMessage.embeds[0];
+  pollEmbed.setTitle(pollEmbed.title + perso.stop.title);
+
+  //refresh fields
+  const newFieldsInit = pollEmbed.fields.map((obj) => {
+    return { name: obj.name, value: "" };
+  }); //init with old names
+  const newFields = refreshPollFields(dbPoll, newFieldsInit);
+  pollEmbed.setFields(newFields);
+  editedPollMessage.embeds = [pollEmbed];
+  editedPollMessage.components = []; //remove polls buttons
+
+  removePoll(db, pollMessage.id); //remove from db
+
+  pollMessage.edit(editedPollMessage); //edit poll message
+
+  //build message content
+  const mPerso = perso.stop.message;
+  const len = pollEmbed.title.length;
+  const content = mPerso[0] + pollEmbed.title.slice(0, len - 14) + mPerso[1];
+  pollMessage.reply(content);
 };

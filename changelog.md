@@ -1,5 +1,35 @@
+﻿## 5.4.0
+- Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
+- Feat: add `DEBUGLOGS` .env attribute - this add console.logs when switched to "yes"
+- Fix: wrong `apology` detection 
+	- missing " " count during word detection ([#233](https://github.com/Eccleria/ewibot/pull/233))
+	- issue with last word detection - now use `reduce` for easier implementation ([#235](https://github.com/Eccleria/ewibot/pull/235))
+- Fix: `help` for `polls` was inaccessible for users ([#220](https://github.com/Eccleria/ewibot/pull/220))
+- Update: `adminLogs` `attachments` ([#231](https://github.com/Eccleria/ewibot/pull/231))
+	- attachments are now sent as replies to main log message
+	- `save-log` now is able to save attachment messages
+- Update: `adminLogs` `memberKick` embed now has user id ([#232](https://github.com/Eccleria/ewibot/pull/232))
+- Update: `polls` ([#220](https://github.com/Eccleria/ewibot/pull/220))
+	- add `anonymous` option for `update` button
+	- add `/poll stop` command - usefull if buttons are not sent by Discord
+	- add `author` optional option for `/poll create`
+	- `refresh` poll is now fired along with `stop`
+	- `reply` to poll to announce poll stop
+	- add `heures`, `minutes` optional options for poll lifespan
+
 ## 5.3.0
--Fix: `eventRoles` attribution that unexpectedly worked for a new user, no satisfying explanation found ([#198](https://github.com/Eccleria/ewibot/pull/198))
+- Fix: `eventRoles` attribution that unexpectedly worked for a new user
+	- no satisfying explanation found ([#198](https://github.com/Eccleria/ewibot/pull/198))
+	- wrong order in #198 fix ([#222](https://github.com/Eccleria/ewibot/pull/222))
+- Fix: `apologies` multiple issues ([#225](https://github.com/Eccleria/ewibot/pull/225))
+	- wrong word detection brecause of word prefix sliced in some cases
+	- `\n` 5.2.0 fix was creating unexpected words - is now replaced by " "
+	- missing stopping condition for while loop ([#229](https://github.com/Eccleria/ewibot/pull/229))
+- New: add `/lead-apo` admin only command to send apologies leaderboard ([#223](https://github.com/Eccleria/ewibot/pull/223))
+- Update: `alavirien` check using a `toUpdate` list ([#211](https://github.com/Eccleria/ewibot/pull/211))
+	- minimize checkAlavirien process
+	- **WARNING** breaking changes to `db`, please update the file
+- Update: `adminLogs` for leaving members now sent in new log channel ([#227](https://github.com/Eccleria/ewibot/pull/227))
 
 ## 5.2.0
 - Fix: `channelUpdate` log with incomplete text when position update is canceled by user ([#209](https://github.com/Eccleria/ewibot/pull/209))

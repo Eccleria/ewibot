@@ -1,18 +1,13 @@
-import {
-  ActionRowBuilder,
-  StringSelectMenuBuilder,
-  ButtonStyle,
-  ButtonBuilder,
-  EmbedBuilder,
-} from "discord.js";
+import { MessageActionRow, MessageSelectMenu } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
-  refreshPollFields,
+  pollRefreshEmbed,
+  stopPoll,
 } from "./pollsUtils.js";
 import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
-import { getPoll, removePoll, resetPollVoters } from "../../helpers/index.js";
+import { getPoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {
@@ -28,6 +23,12 @@ export const sendSettingsButtons = async (interaction) => {
   //check for Sentinelle or author
   const pollMessage = interaction.message;
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  if (!dbPoll) {
+    interactionEditReply(interaction, perso.errorNoPoll);
+    console.log(`Error poll not found : ${pollMessage.id}`);
+    return;
+  }
+
   if (interaction.user.id !== dbPoll.authorId) {
     //if not poll author, check is sentinelle
     const currentServer = COMMONS.fetchGuildId(interaction.guildId);
@@ -43,63 +44,48 @@ export const sendSettingsButtons = async (interaction) => {
 
   //create buttons
   const bPerso = perso.buttons;
-  const pStyle = ButtonStyle.Primary;
-  const dStyle = ButtonStyle.Danger;
-  const refreshButton = createButton(...bPerso.refresh, pStyle); // refresh poll embed
-  const updateButton = createButton(...bPerso.update, pStyle); // update poll parameters
-  const removeButton = createButton(...bPerso.remove, pStyle); // remove poll choices
-  const resetButton = createButton(...bPerso.reset, dStyle); // reset poll votes
-  const stopButton = createButton(...bPerso.stop, dStyle); //stop poll
+  const refreshButton = createButton(...bPerso.refresh, "PRIMARY"); // refresh poll embed
+  const updateButton = createButton(...bPerso.update, "PRIMARY"); // update poll parameters
+  const removeButton = createButton(...bPerso.remove, "PRIMARY"); // remove poll choices
+  const resetButton = createButton(...bPerso.reset, "DANGER"); // reset poll votes
+  const stopButton = createButton(...bPerso.stop, "DANGER"); //stop poll
 
   const firstButton = [updateButton, removeButton, resetButton, stopButton];
 
-  //If stoped poll, disable most buttons
-  if (pollEmbed.title.includes(perso.disable.title))
-    firstButton.forEach((btn) => ButtonBuilder.from(btn).setDisabled(true));
+  //If stopped poll, disable most buttons
+  if (pollEmbed.title.includes(perso.stop.title))
+    firstButton.forEach((btn) => btn.setDisabled(true));
   const settingsButton = [refreshButton, ...firstButton];
 
   //create ActionRows
-  const actionRow = new ActionRowBuilder().addComponents(settingsButton);
+  const actionRow = new MessageActionRow().addComponents(settingsButton);
 
   //send buttons
   interactionEditReply(interaction, { components: [actionRow] });
 };
 
-export const disablePoll = async (interaction) => {
+export const stopPollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
     return console.log(e);
   }
+  const db = interaction.client.db;
 
-  //get personality
+  //get data
   const perso = PERSONALITY.getCommands().polls.settings;
-
-  //fetch pollMessage
   const pollMessage = await fetchPollMessage(interaction);
-  const editedPollMessage = {};
+  const dbPoll = getPoll(db, pollMessage.id);
 
-  //edit title
-  const pollEmbed = pollMessage.embeds[0];
-  pollEmbed.title = pollEmbed.title + perso.disable.title;
-  editedPollMessage.embeds = [pollEmbed];
-
-  //edit poll buttons
-  const components = pollMessage.components;
-  const lastActionRow = components[components.length - 1];
-  const settingButton =
-    lastActionRow.components[lastActionRow.components.length - 1];
-  const newActionRow = new ActionRowBuilder().addComponents(settingButton);
-  editedPollMessage.components = [newActionRow];
+  await stopPoll(dbPoll, pollMessage, perso);
 
   //edit poll message
   const editedStopMessage = {
-    content: perso.disable.disabled,
+    content: perso.stop.stopped,
     components: [],
     ephemeral: true,
   };
   interactionEditReply(interaction, editedStopMessage);
-  pollMessage.edit(editedPollMessage);
 };
 
 export const removePollButtonAction = async (interaction) => {
@@ -123,7 +109,7 @@ export const removePollButtonAction = async (interaction) => {
     });
 
   //create selectMenu
-  const menu = new StringSelectMenuBuilder()
+  const menu = new MessageSelectMenu()
     .setCustomId(perso.customId)
     .setPlaceholder(perso.placeholder)
     .setMinValues(1)
@@ -138,7 +124,7 @@ export const removePollButtonAction = async (interaction) => {
   menu.addOptions(choices);
 
   //send message
-  const actionRow = new ActionRowBuilder().addComponents(menu);
+  const actionRow = new MessageActionRow().addComponents(menu);
   const payload = { components: [actionRow] };
   interactionEditReply(interaction, payload);
 };
@@ -154,7 +140,7 @@ export const resetPollButtonAction = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   const perso = personality.settings.reset; //personality
   const pollMessage = await fetchPollMessage(interaction); //db data
-  const embed = EmbedBuilder.from(pollMessage.embeds[0]);
+  const embed = pollMessage.embeds[0];
 
   //reset db
   resetPollVoters(interaction.client.db, pollMessage.id);
@@ -190,7 +176,7 @@ export const updatePollButtonAction = async (interaction) => {
   const perso = PERSONALITY.getCommands().polls.settings.update;
 
   //create selectMenu
-  const selectMenu = new StringSelectMenuBuilder()
+  const selectMenu = new MessageSelectMenu()
     .setCustomId(perso.customId)
     .setPlaceholder(perso.placeholder)
     .setMaxValues(1);
@@ -200,7 +186,7 @@ export const updatePollButtonAction = async (interaction) => {
   selectMenu.addOptions(choices);
 
   //send message
-  const actionRow = new ActionRowBuilder().addComponents(selectMenu);
+  const actionRow = new MessageActionRow().addComponents(selectMenu);
   const payload = { components: [actionRow], ephemeral: true };
   interactionEditReply(interaction, payload);
 };
@@ -215,28 +201,18 @@ export const refreshPollButtonAction = async (interaction) => {
   });
 
   const pollMessage = await fetchPollMessage(interaction);
-  const embed = EmbedBuilder.from(pollMessage.embeds[0]);
   const db = interaction.client.db;
-  const dbPoll = getPoll(db, pollMessage.id);
 
   //disable actions during refresh
   const disabledComponents = pollMessage.components.reduce((acc, cur) => {
-    cur.components.forEach((button) =>
-      ButtonBuilder.from(button).setDisabled(true)
-    ); //disable buttons of cur actionRow
+    cur.components.forEach((button) => button.setDisabled(true)); //disable buttons of cur actionRow
     return [...acc, cur];
   }, []);
   await pollMessage.edit({ components: disabledComponents });
 
-  //create new fields objects from pollMessage
-  const newFieldsInit = embed.fields.map((obj) => {
-    return { name: obj.name, value: "" };
-  }); //init with old names
-  const newFields = refreshPollFields(dbPoll, newFieldsInit, perso.create);
-
-  //update message
-  embed.setFields(newFields);
-  await pollMessage.edit({ embeds: [embed] });
+  //update poll embed
+  const dbPoll = getPoll(db, pollMessage.id);
+  await pollRefreshEmbed(pollMessage, dbPoll);
 
   //reply and enable votes
   interactionEditReply(interaction, {
@@ -244,18 +220,11 @@ export const refreshPollButtonAction = async (interaction) => {
     content: sPerso.refresh.done,
   });
 
-  //enable actions during refresh
-  if (!embed.title.includes(sPerso.disable.title)) {
-    //if not disabled, add again all buttons as enabled
-    const enabledComponents = pollMessage.components.reduce((acc, cur) => {
-      cur.components.forEach((button) =>
-        ButtonBuilder.from(button).setDisabled(false)
-      ); //disable buttons of cur actionRow
-      return [...acc, cur];
-    }, []);
-    pollMessage.edit({ components: enabledComponents });
-  } else {
-    pollMessage.edit({ components: [] }); //else remove every button
-    removePoll(db, pollMessage.id); //remove data from db
-  }
+  //handle buttons
+  const enabledComponents = pollMessage.components.reduce((acc, cur) => {
+    cur.components.forEach((button) => button.setDisabled(false)); //disable buttons of cur actionRow
+    return [...acc, cur];
+  }, []);
+
+  pollMessage.edit({ components: enabledComponents });
 };
