@@ -32,7 +32,7 @@ export const onPublicMessage = async (message, client, currentServer) => {
     return;
 
   if (message.attachments && message.channel.id === currentServer.catsThreadId)
-    console.log(addServerStatsData(client.db, "cats"));
+    addServerStatsData(client.db, "cats");
 
   reactionHandler(message, currentServer, client);
   statsGifCount(message);
