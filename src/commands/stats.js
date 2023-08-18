@@ -48,13 +48,17 @@ const stats = {
   name: "stats",
   command: command,
   action,
-  help: (interaction) => {
-    const content = PERSONALITY.getCommands().stats.help;
-    interactionReply(interaction, content);
+  help: (interaction, userOption) => {
+    const personality = PERSONALITY.getCommands().stats;
+    const helpToUse = userOption.includes(" ")
+      ? personality[userOption.split(" ")[1]]
+      : personality;
+    interactionReply(interaction, helpToUse.help);
   },
   admin: false,
   releaseDate: null,
   sentinelle: false,
+  subcommands: ["stats", "stats use"],
 };
 
 export default stats;
