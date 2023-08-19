@@ -21,6 +21,13 @@ export const statsKeys = Object.freeze({
   rolling: "rolling",
 });
 
+/**
+ * Simplify userStatsInit with this global const
+ */
+const userStatsInit = Object.values(statsKeys).reduce((acc, val) => {
+  return { ...acc, [val]: 0 };
+}, {});
+
 //#endregion
 
 //#region use command
@@ -47,11 +54,7 @@ const addStatsUser = (db, userId) => {
   const data = db.data.stats;
   if (isStatsUser(db, userId) === dbReturnType.isIn) return dbReturnType.isIn;
   else {
-    const statsInit = Object.values(statsKeys).map((val) => [val, 0]);
-    db.data.stats = [
-      ...data,
-      Object.fromEntries([["userId", userId], ...statsInit]),
-    ];
+    db.data.stats = [...data, { userId, ...userStatsInit }];
     db.wasUpdated = true;
     return dbReturnType.isOk;
   }
