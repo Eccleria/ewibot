@@ -30,8 +30,11 @@ export const onPublicMessage = async (message, client, currentServer) => {
     (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
   )
     return;
-    
-  if (message.attachments.size && message.channel.id === currentServer.catsThreadId)
+
+  if (
+    message.attachments.size &&
+    message.channel.id === currentServer.catsThreadId
+  )
     addServerStatsData(client.db, "cats");
 
   reactionHandler(message, currentServer, client);
