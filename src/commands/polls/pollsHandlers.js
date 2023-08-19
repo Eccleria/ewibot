@@ -34,7 +34,7 @@ export const voteButtonHandler = async (interaction) => {
   const pollId = message.id;
   const dbPoll = getPoll(db, pollId); //get poll from db
   if (!dbPoll) {
-    await interactionReply(perso.stopped);
+    await interactionReply(interaction, perso.stopped);
     return;
   }
   const { voteMax } = dbPoll;
