@@ -315,7 +315,7 @@ const action = async (interaction) => {
     //get pollMessage
     const pollMessage = await interaction.channel.messages.fetch(dbPoll.pollId);
     const embed = EmbedBuilder.from(pollMessage.embeds[0]);
-    const fields = embed.fields;
+    const fields = embed.data.fields;
 
     //check for choices number
     if (fields.length + splited.length > 10) {

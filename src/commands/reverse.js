@@ -95,7 +95,7 @@ const contextAction = async (interaction) => {
 
     //get embed data
     const embeds = message.embeds;
-    const fields = embeds.length !== 0 ? embeds[0].fields : null;
+    const fields = embeds.length !== 0 ? embeds[0].data.fields : null;
     const title = embeds[0].title;
 
     //check for precedent translation

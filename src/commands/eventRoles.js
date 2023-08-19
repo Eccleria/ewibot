@@ -196,8 +196,8 @@ const action = async (interaction) => {
     //update embed
     const newField = { name: name, value: embedValue, inline: true };
     const embed = EmbedBuilder.from(roleMessage.embeds[0]);
-    const fields = embed.fields;
-    const blankNumber = embed.fields.reduce(
+    const fields = embed.data.fields;
+    const blankNumber = fields.reduce(
       (acc, cur) => acc + Number(cur.name === "\u200b"),
       0
     );

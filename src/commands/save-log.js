@@ -68,7 +68,7 @@ const action = async (interaction) => {
 
   //handle gifs
   const contentTest = [messageDe.text, messageDe.textAgain]; //get text field names
-  const fields = embeds[0].fields; //get embed fields
+  const fields = embeds[0].data.fields; //get embed fields
   const foundFields = fields.filter((obj) => contentTest.includes(obj.name)); //get corresponding fields
 
   let gifs = [];

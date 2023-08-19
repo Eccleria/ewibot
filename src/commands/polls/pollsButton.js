@@ -1,4 +1,4 @@
-import { ActionRowBuilder, StringSelectMenuBuilder, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder, ButtonStyle, EmbedBuilder, ButtonBuilder } from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -9,7 +9,6 @@ import { createButton, isSentinelle } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { getPoll, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
-import { ButtonBuilder } from "@discordjs/builders";
 
 export const sendSettingsButtons = async (interaction) => {
   try {
@@ -56,7 +55,7 @@ export const sendSettingsButtons = async (interaction) => {
   const firstButton = [updateButton, removeButton, resetButton, stopButton];
 
   //If stopped poll, disable most buttons
-  if (pollEmbed.title.includes(perso.stop.title))
+  if (pollEmbed.data.title.includes(perso.stop.title))
     firstButton.forEach((btn) => btn.setDisabled(true));
   const settingsButton = [refreshButton, ...firstButton];
 
@@ -119,7 +118,7 @@ export const removePollButtonAction = async (interaction) => {
     .setMaxValues(maxToRemove);
 
   //parse choices
-  const fields = pollMessage.embeds[0].fields;
+  const fields = pollMessage.embeds[0].data.fields;
   const choices = fields.reduce((acc, cur, idx) => {
     const curChoice = { label: cur.name, value: "polls_" + idx.toString() }; // description: "Choix_" + idx.toString(),
     return [...acc, curChoice];
@@ -143,14 +142,15 @@ export const resetPollButtonAction = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   const perso = personality.settings.reset; //personality
   const pollMessage = await fetchPollMessage(interaction); //db data
-  const embed = pollMessage.embeds[0];
+  const pollEmbed = pollMessage.embeds[0];
+  const embed = EmbedBuilder.from(pollEmbed);
 
   //reset db
   resetPollVoters(interaction.client.db, pollMessage.id);
 
   //reset embed
   const black = personality.black;
-  const newFields = embed.fields.map((field) => {
+  const newFields = embed.data.fields.map((field) => {
     return { name: field.name, value: black.repeat(10) + " 0% (0)\n" };
   });
   embed.setFields(newFields);
@@ -229,10 +229,10 @@ export const refreshPollButtonAction = async (interaction) => {
 const enableDisableButtons = (MActionRow, status) => {
   return MActionRow.reduce((acc, cur) => {
     //disable buttons of cur ActionRowBuilder
-    const buttons = cur.components.reduce((button) => {
+    const buttons = cur.components.reduce((acc, button) => {
       const newButton = ButtonBuilder.from(button);
       newButton.setDisabled(status);
-      return [...acc, cur];
+      return [...acc, newButton];
     }, []); 
 
     //build new ActionRowBuilder

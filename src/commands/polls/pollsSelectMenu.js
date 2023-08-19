@@ -1,4 +1,4 @@
-import { ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder } from "discord.js";
 import {
   interactionEditReply,
   fetchPollMessage,
@@ -17,7 +17,6 @@ import { PERSONALITY } from "../../personality.js";
 
 export const pollSelectMenuHandler = async (interaction) => {
   const { customId } = interaction;
-
   const personality = PERSONALITY.getCommands().polls;
   await interaction.deferUpdate({ ephemeral: true });
 
@@ -38,7 +37,8 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //get data
   const pollMessage = await fetchPollMessage(interaction);
-  const embed = pollMessage.embeds[0];
+  const pollEmbed = pollMessage.embeds[0];
+  const embed = EmbedBuilder.from(pollEmbed);
 
   //remove in db
   selected.forEach((buttonId) =>
@@ -46,7 +46,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   );
 
   //remove in embed
-  const fields = embed.fields;
+  const fields = embed.data.fields;
   const selectedIndexes = selected.map((str) => Number(str.split("_")[1])); //"polls_id"
   const filteredFields = fields.reduce((acc, cur, idx) => {
     if (selectedIndexes.includes(idx)) return acc; //to remove
@@ -170,12 +170,13 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //get embed
       const pollMessage = await fetchPollMessage(interaction);
-      const embed = pollMessage.embeds[0];
+      const pollEmbed = pollMessage.embeds[0];
+      const embed = EmbedBuilder.from(pollEmbed);
 
       //update fields color
       const emoteColor = persoColors.progressBar[colorIdx];
       const black = personality.create.colorOption.black;
-      const newFields = embed.fields.reduce((acc, cur) => {
+      const newFields = embed.data.fields.reduce((acc, cur) => {
         //get ratio
         const splited = cur.value.split(" ");
         const ratio = Number(splited[1].slice(0, -1));
@@ -269,7 +270,8 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
           newVoteMax !== 1
             ? fPerso.multiple + ` (${newVoteMax})`
             : fPerso.unique;
-        const embed = pollMessage.embeds[0];
+        const pollEmbed = pollMessage.embeds[0];
+        const embed = EmbedBuilder.from(pollEmbed);
         embed.setFooter({ text: newFooter + fPerso.options });
 
         //send

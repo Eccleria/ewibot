@@ -40,14 +40,12 @@ import { ChannelType } from "discord.js";
 //LISTENERS
 
 export const onInteractionCreate = (interaction) => {
-  //console.log(interaction);
-
   if (interaction.isButton()) {
     buttonHandler(interaction);
     return;
   }
 
-  if (interaction.isMentionableSelectMenu()) {
+  if (interaction.isStringSelectMenu()) {
     console.log("selectMenu interaction detected");
     selectMenuHandler(interaction);
     return;

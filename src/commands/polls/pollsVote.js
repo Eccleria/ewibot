@@ -102,7 +102,7 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
 
   //get fields
   const pollEmbed = EmbedBuilder.from(message.embeds[0]);
-  const fields = pollEmbed.fields; //get embed fields
+  const fields = pollEmbed.data.fields; //get embed fields
 
   //get new values and old ratios for each field
   const fieldNumbers = getFieldNumbers(fields, toAddVoteIdx, toRemoveVoteIdx);

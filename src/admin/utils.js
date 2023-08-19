@@ -517,7 +517,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
 
   //change embed
   embed.setTitle(roleUp.titleRoles); //change title
-  embed.setFields(embed.fields.slice(1)); //remove author field
+  embed.setFields(embed.data.fields.slice(1)); //remove author field
 
   //create old/new channel order
   const oldSortedOrder = roles.sort((a, b) => b.oldPos - a.oldPos).slice(); //sort channels with oldPosition

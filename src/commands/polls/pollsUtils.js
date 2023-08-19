@@ -1,5 +1,6 @@
 import { PERSONALITY } from "../../personality.js";
 import { removePoll } from "../../helpers/index.js";
+import { EmbedBuilder } from "discord.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -139,10 +140,11 @@ export const refreshPollFields = (dbPoll, newFieldsInit) => {
 };
 
 export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
-  const embed = pollMessage.embeds[0];
+  const pollEmbed = pollMessage.embeds[0];
+  const embed = EmbedBuilder.from(pollEmbed);
 
   //create new fields objects from pollMessage
-  const newFieldsInit = embed.fields.map((obj) => {
+  const newFieldsInit = pollEmbed.data.fields.map((obj) => {
     return { name: obj.name, value: "" };
   }); //init with old names
   const newFields = refreshPollFields(dbPoll, newFieldsInit);
@@ -165,11 +167,12 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
   const editedPollMessage = {};
 
   //edit title
-  const pollEmbed = pollMessage.embeds[0];
-  pollEmbed.setTitle(pollEmbed.title + perso.stop.title);
+  const fetchedPollEmbed = pollMessage.embeds[0];
+  const pollEmbed = EmbedBuilder.from(fetchedPollEmbed);
+  pollEmbed.setTitle(pollEmbed.data.title + perso.stop.title);
 
   //refresh fields
-  const newFieldsInit = pollEmbed.fields.map((obj) => {
+  const newFieldsInit = pollEmbed.data.fields.map((obj) => {
     return { name: obj.name, value: "" };
   }); //init with old names
   const newFields = refreshPollFields(dbPoll, newFieldsInit);
@@ -183,7 +186,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
 
   //build message content
   const mPerso = perso.stop.message;
-  const len = pollEmbed.title.length;
-  const content = mPerso[0] + pollEmbed.title.slice(0, len - 14) + mPerso[1];
+  const len = pollEmbed.data.title.length;
+  const content = mPerso[0] + pollEmbed.data.title.slice(0, len - 14) + mPerso[1];
   pollMessage.reply(content);
 };
