@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
@@ -16,7 +16,7 @@ const giftAction = async (interaction) => {
   //create announce
   const fields = personality.fields;
   const embed = new EmbedBuilder()
-    .setColor("DARK_GREEN")
+    .setColor(Colors.DarkGreen)
     .setTimestamp()
     .setTitle(personality.title)
     .setDescription(personality.description)
@@ -68,7 +68,7 @@ const action = (interaction) => {
   const whichAnnounceP = PERSONALITY.getAnnounces()[whichAnnounce];
   //create confirm button
   const actionRow = new ActionRowBuilder().addComponents(
-    createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Primary)
+    createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger)
   );
 
   interaction.reply({
