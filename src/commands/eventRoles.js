@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import {
@@ -105,7 +105,7 @@ const action = async (interaction) => {
     const embed = new EmbedBuilder()
       .setTitle(perso.embed.title)
       .setDescription(perso.embed.description)
-      .setColor("NAVY")
+      .setColor(Colors.Navy)
       .addFields(perso.embed.fields);
 
     //setup buttons
@@ -219,14 +219,15 @@ const action = async (interaction) => {
 
     //create new vote buttons + regroup with olders
     const oldComponents = roleMessage.components;
+    const oComponents = oldComponents.reduce((acc, cur) => [...acc, ActionRowBuilder.from(cur)], []);
     const lastARSize =
-      oldComponents[oldComponents.length - 1].components.length;
+      oComponents[oComponents.length - 1].components.length;
     const newComponents =
       lastARSize === 5
-        ? [...oldComponents, new ActionRowBuilder().addComponents(newButton)]
+        ? [...oComponents, new ActionRowBuilder().addComponents(newButton)]
         : [
-            ...oldComponents.slice(0, -1),
-            oldComponents[oldComponents.length - 1].addComponents(newButton),
+            ...oComponents.slice(0, -1),
+            ActionRowBuilder.from(oComponents[oComponents.length - 1]).addComponents(newButton),
           ];
 
     //edit message
