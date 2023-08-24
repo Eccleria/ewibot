@@ -25,13 +25,29 @@ export const emojiInContentHandler = (message) => {
     const splited = content.split(" ");
     for (const word of splited) {
       const emojiId = parseEmoji(word);
-      if (emojiId) {
+
+      //check if there is any emoji, and if this is a server emoji
+      const test = emojiId ? isServerEmoji(message, emojiId) : emojiId;
+      if (test) {
         addStatsData(client.db, author.id, statsKeys.reactions);
         addServerEmojiCount(client.db, emojiId);
       }
     }
   }
 };
+
+/**
+ * Check if emoji is in the server of the message
+ * @param {object} message Message with emoji or reaction to check
+ * @param {string} emojiId Emoji id to check
+ * @returns {boolean}
+ */
+const isServerEmoji = (message, emojiId) => {
+  const { guild } = message;
+
+  const guildEmojiManager = guild.emojis;
+  return guildEmojiManager.cache.hasAll(emojiId);
+}
 
 //#region rolling gifs
 
