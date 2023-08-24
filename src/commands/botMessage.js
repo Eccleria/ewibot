@@ -5,6 +5,7 @@ import { isAdmin } from "../helpers/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import { interactionReply } from "./utils.js";
+import { AttachmentBuilder } from "discord.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
@@ -122,10 +123,12 @@ const action = async (interaction) => {
 
     //get interaction options
     const content = options.getString(sPerso.stringOption.name, false);
-    const attachment = options.getAttachment(
+    const foundAttachment = options.getAttachment(
       sPerso.attachmentOption.name,
       false
     );
+    const attachment = foundAttachment ? AttachmentBuilder.from(foundAttachment) : null;
+    
     const fetchedChannel = options.getChannel(sPerso.channelOption.name, false);
     const toSpoil = options.getBoolean(sPerso.booleanOption.name, false);
 
