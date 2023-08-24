@@ -1,4 +1,4 @@
-import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder } from "discord.js";
 import {
   interactionEditReply,
   fetchPollMessage,
@@ -70,25 +70,27 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   const newComponents = filteredButtons.reduce((acc, cur, idx) => {
     //update buttons ids + db value
+    const newButton = ButtonBuilder.from(cur);
+
     if (idx !== filteredButtons.length - 1) {
       //do not change polls_settings button
       const newId = "polls_" + idx.toString();
       updatePollButtonId(
         interaction.client.db,
         pollMessage.id,
-        cur.customId,
+        newButton.data.custom_id,
         newId
       );
-      cur.setCustomId(newId);
+      newButton.setCustomId(newId);
     }
 
     //handle ActionRowBuilders
     if (idx === 0 || acc[acc.length - 1].components.length === 5) {
       //if first or last AR is full
-      const newAR = new ActionRowBuilder().addComponents(cur);
+      const newAR = new ActionRowBuilder().addComponents(newButton);
       return [...acc, newAR];
     } else {
-      acc[acc.length - 1].addComponents(cur);
+      acc[acc.length - 1].addComponents(newButton);
       return acc;
     }
   }, []);
