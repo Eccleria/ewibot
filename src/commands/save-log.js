@@ -4,6 +4,7 @@ import { getLogChannel, gifRecovery } from "../admin/utils.js";
 import { interactionReply } from "./utils.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
+import { EmbedBuilder } from "discord.js";
 
 const command = new ContextMenuCommandBuilder()
   .setName("save-log")
@@ -12,7 +13,7 @@ const command = new ContextMenuCommandBuilder()
 
 const action = async (interaction) => {
   const message = interaction.targetMessage; //get message
-  const embeds = message.embeds; //get embeds
+  const mEmbeds = message.embeds; //get embeds
 
   const personality = PERSONALITY.getCommands(); //get personality
   const admin = PERSONALITY.getAdmin();
@@ -40,14 +41,14 @@ const action = async (interaction) => {
   }
 
   //check for containing embeds
-  if (embeds.length === 0) {
+  if (mEmbeds.length === 0) {
     interactionReply(interaction, saveLogP.noEmbed);
     return;
   }
 
   //check for messageUpdate/Delete log
   const titleTest = [messageDe.title, admin.messageUpdate.title];
-  const isCorrectEmbed = titleTest.includes(embeds[0].title);
+  const isCorrectEmbed = titleTest.includes(mEmbeds[0].title);
   if (!isCorrectEmbed) {
     interactionReply(interaction, saveLogP.wrongMessage);
     return;
@@ -57,6 +58,7 @@ const action = async (interaction) => {
 
   //add executor of saveLog
   const member = interaction.member;
+  const embeds = mEmbeds.map((cur) => EmbedBuilder.from(cur));
   embeds[0].addFields({
     name: saveLogP.author,
     value: member.toString(),

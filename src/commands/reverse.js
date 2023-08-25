@@ -8,7 +8,7 @@ import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
 import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
-import { EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import { getLogChannel } from "../admin/utils.js";
 
 const reverseStr = (string) => {
@@ -123,7 +123,7 @@ const contextAction = async (interaction) => {
         ? reversed.slice(2, -2)
         : reversed;
 
-      embedTr.setColor("DARK_RED");
+      embedTr.setColor(Colors.DarkRed);
 
       dispatchSlicedEmbedContent(content, embedTr, mDPerso);
     } else if (title === adminPerso.messageUpdate.title) {

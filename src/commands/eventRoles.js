@@ -244,16 +244,19 @@ const action = async (interaction) => {
 
 const eventRoles = {
   // Allows Ewibot to send event roles message and update it
-  name: "eventRoles",
   command: command,
   action,
-  help: (interaction) => {
-    interactionReply(interaction, PERSONALITY.getCommands().eventRoles.help);
+  help: (interaction, userOption) => {
+    const personality = PERSONALITY.getCommands().eventRoles;
+    const helpToUse = userOption.includes(" ")
+      ? personality[userOption.split(" ")[1]]
+      : personality;
+    interactionReply(interaction, helpToUse.help);
   },
   admin: true,
   releaseDate: null,
   sentinelle: false,
-  subcommands: [],
+  subcommands: ["event-roles", "event-roles create", "event-roles send"],
 };
 
 export default eventRoles;

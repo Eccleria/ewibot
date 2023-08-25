@@ -1,9 +1,10 @@
-import { EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
 import { isAdmin, removeApologyCount } from "../helpers/index.js";
 import { interactionEditReply } from "./polls/pollsUtils.js";
+import { interactionReply } from "./utils.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().leaderboardApology.name)
@@ -92,7 +93,7 @@ const action = async (interaction) => {
   //build embed
   const ePerso = perso.embed; //get embed personality
   const embed = new EmbedBuilder() //create embed
-    .setColor("ORANGE")
+    .setColor(Colors.Orange)
     .setTimestamp()
     .setTitle(ePerso.title)
     .setDescription(ePerso.description)
@@ -111,8 +112,9 @@ const leaderboardApology = {
   command,
   name: "leadApo",
   action,
-  help: () => {
-    return PERSONALITY.getCommands().leaderboardApology.help;
+  help: (interaction) => {
+    const perso = PERSONALITY.getCommands().leaderboardApology
+    interactionReply(interaction, perso.help);
   },
   admin: true,
   releaseDate: null,

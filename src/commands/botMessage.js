@@ -203,8 +203,9 @@ const action = async (interaction) => {
 const botMessage = {
   command,
   action,
-  help: () => {
-    return PERSONALITY.getCommands().botMessage.help;
+  help: (interaction) => {
+    const perso = PERSONALITY.getCommands().botMessage
+    interactionReply(interaction, perso.help);
   },
   admin: true,
   sentinelle: false,
