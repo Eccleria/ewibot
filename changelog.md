@@ -1,4 +1,6 @@
-﻿## 5.4.0
+﻿## 6.0.0
+
+## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
 - Feat: add `DEBUGLOGS` .env attribute - this add console.logs when switched to "yes"
 - Fix: wrong `apology` detection 
