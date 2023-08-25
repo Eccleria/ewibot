@@ -13,9 +13,8 @@ const hello = [
   "salut",
   "bonsoir",
   "coucou",
-  "bijour",
-  "bonjoir",
   "hey",
+  "👋",
 ];
 
 const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
