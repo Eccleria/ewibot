@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
 import { addPoll, addPollChoices } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
@@ -188,7 +188,7 @@ const action = async (interaction) => {
     }
 
     //create embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(title)
       .setTimestamp()
       .setColor(color);
@@ -221,13 +221,13 @@ const action = async (interaction) => {
       (acc, cur, idx) => {
         //create button
         const buttonId = "polls_" + idx.toString();
-        const button = createButton(buttonId, null, "SECONDARY", cur);
+        const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
         const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
         //handle actionRow maxe size of 5 components.
         if (idx === 0 || acc.size === 5) {
           //if first button or last AR is full
-          const newRow = new MessageActionRow().addComponents(button);
+          const newRow = new ActionRowBuilder().addComponents(button);
           return {
             actionRows: [...acc.actionRows, newRow],
             size: 1,
@@ -249,10 +249,15 @@ const action = async (interaction) => {
 
     //add setting button
     const settingId = "polls_" + "settings";
-    const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
+    const settingButton = createButton(
+      settingId,
+      null,
+      ButtonStyle.Secondary,
+      "⚙️"
+    );
     if (components.size === 5) {
       //if actionRow is full, create one more
-      const newRow = new MessageActionRow().addComponents(settingButton);
+      const newRow = new ActionRowBuilder().addComponents(settingButton);
       components.actionRows.push(newRow);
     } else
       components.actionRows[components.actionRows.length - 1].addComponents(
@@ -309,8 +314,8 @@ const action = async (interaction) => {
 
     //get pollMessage
     const pollMessage = await interaction.channel.messages.fetch(dbPoll.pollId);
-    const embed = pollMessage.embeds[0];
-    const fields = embed.fields;
+    const embed = EmbedBuilder.from(pollMessage.embeds[0]);
+    const fields = embed.data.fields;
 
     //check for choices number
     if (fields.length + splited.length > 10) {
@@ -345,11 +350,11 @@ const action = async (interaction) => {
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
       const buttonId = "polls_" + totalIdx.toString();
-      const button = createButton(buttonId, null, "SECONDARY", cur);
+      const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
       const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
       if (acc.size === 5) {
-        const newRow = new MessageActionRow().addComponents(button);
+        const newRow = new ActionRowBuilder().addComponents(button);
         return {
           actionRows: [...acc.actionRows, newRow],
           size: 1,
@@ -369,7 +374,7 @@ const action = async (interaction) => {
     //add again settingsButton
     if (newComponents.size === 5) {
       //if actionRow is full, create one more
-      const newRow = new MessageActionRow().addComponents(settingButton);
+      const newRow = new ActionRowBuilder().addComponents(settingButton);
       newComponents.actionRows.push(newRow);
     } else
       newComponents.actionRows[

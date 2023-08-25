@@ -20,7 +20,7 @@
             "name": "jour"
           },
           "description": "Ajouter/modifier votre date de naissance.",
-          "help": "Via cette commande, vous pouvez enregistrer votre date de naissance pour qu'Ewibot vous souhaite votre anniversaire. Il existe 2 versions :\n- Si vous utilisez la commande `$birthday add`, vous devez écrire votre date de naissance sous la forme **DD/MM** ou **DD/MM/AAAA**.\n- Si vous utilisez la commande `/birthday add`, vous devez remplir les champs `jour` et `mois`. Le champ `année` est optionnel.\n\nLe jour J, Ewibot vous enverra une notification d'anniversaire.",
+          "help": "Via cette commande, vous pouvez enregistrer votre date de naissance pour qu'Ewibot vous souhaite votre anniversaire.\nVous devez remplir les champs `jour` et `mois`. Le champ `année` est optionnel.\n\nLe jour J, Ewibot vous enverra une notification d'anniversaire, qui sera visible par tout le monde.",
           "name": "ajouter",
           "monthOption": {
             "description": "Votre mois de naissance.",
@@ -59,7 +59,7 @@
         },
         "description": "Envoyer un message à la place d'Ewibot.",
         "empty": "Le message ne peut pas être vide.",
-        "help": "**WIP**\nCette commande permet d'envoyer des messages à travers Ewibot.",
+        "help": "Cette commande permet d'envoyer des messages à travers Ewibot.",
         "name": "message",
         "reply":{
           "attachmentOption":{
@@ -138,6 +138,7 @@
           },
           "errorGeneral": "Erreur - mise à jour du message ou création du rôle",
           "errorNoRoleMessage": "Aucun message de choix de rôle d'évènement n'a été envoyé. Impossible de le mettre à jour.",
+          "help": "Cette commande permet de créer dynamiquement un nouveau rôle d'évènements, sans avoir à mettre à jour manuellement Ewibot. Il suffit d'indiquer le `nom` et la `description` du nouveau role.\n\nLe `nom` sera utilisé pour créer le rôle.\nLa `description` sera ajoutée au message de présentation des rôles d'évènements envoyé dans le salon <#974735995872350208>.",
           "name": "create",
           "nameOption": {
             "description": "Le nom du futur rôle d'évènements.",
@@ -172,6 +173,7 @@
             ],
             "title": "Choix des rôles d'évènements"
           },
+          "help": "Cette commande permet d'envoyer le message contenant l'explication des rôles.\n**ATTENTION, le message envoyé est l'original et ne contiendra pas les éventuels rôles ajoutés en cours de route !**",
           "name": "send",
           "sent": "Le message de sélection des rôles a bien été envoyé."
         }
@@ -180,7 +182,7 @@
         "accepting": {
           "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
           "description": "Pour savoir si un.e utilisateurice accepte les messages de Noël",
-          "help": "Cette commande permet de vérifier si lea utilisateurice que vous mentionnez accepte ou non les messages de Noël.\nPour l'utiliser, tapez `gift accepting @utilisateurice`.",
+          "help": "Cette commande permet de vérifier si lea utilisateurice que vous mentionnez accepte ou non les messages de Noël.\nPour l'utiliser, tapez `/gift accepting @utilisateurice`.",
           "name": "accepting",
           "notAccept": " n'accepte pas de recevoir les messages de Noël.",
           "user": "L'utilisateurice ",
@@ -198,7 +200,7 @@
           "description": "Permet d'obtenir vos messages déjà programmés.",
           "for": "Destiné.s à ",
           "hasMessages": "Vous avez envoyé des messages de Noël, les voici :",
-          "help": "Cette commande vous permet de voir les messages que vous avez déjà prévu d'envoyer. Vous avez 2 possibilités d'utilisation :\n- `gift get` récupère tous vos messages prévus et vous les transmet.\n- `gift get @utilisateurice` vous permet de voir les messages destinés à une personne que vous choisissez.",
+          "help": "Cette commande vous permet de voir les messages que vous avez déjà prévu d'envoyer. Vous avez 2 possibilités d'utilisation :\n- `/gift get` récupère tous vos messages prévus et vous les transmet.\n- `/gift get @utilisateurice` vous permet de voir les messages destinés à une personne que vous choisissez.",
           "name": "get",
           "noMessage": "Vous n'avez aucun message d'enregistré.",
           "notAccept": " (qui **n'accepte plus** les messages de Noël)",
@@ -208,7 +210,7 @@
             "name": "destinateurice"
           }
         },
-        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `gift remove` pour supprimer les messages destinés à une personne.\n- `gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `gift use` pour accepter ou non les messages.",
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `/gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `/gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `/gift remove` pour supprimer les messages destinés à une personne.\n- `/gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `/gift use` pour accepter ou non les messages.",
         "name": "gift",
         "nDayEmbed": {
           "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469>\n Joyeux Noël <:DuomFetard:822479563077976065> !!\n\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
@@ -228,7 +230,7 @@
           "accept": " (qui accepte les messages de Noël) :\n",
           "description": "Permet de supprimer un message de Noël.",
           "for": "Destiné.s à ",
-          "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime tous les messages prévus.",
+          "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime **tous** les messages prévus.",
           "name": "remove",
           "noMessage": "Vous n'avez aucun message d'enregistré.",
           "notAccept": " (qui **n'accepte plus** les messages de Noël) :\n",
@@ -259,7 +261,7 @@
         "tooLate": "Désolé ! La fonctionnalité reviendra pour Noël prochain.",
         "use": {
           "description": "Pour accepter ou non de recevoir les messages de Noël.",
-          "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `gift use`",
+          "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `/gift use`",
           "isAccepting": "Vous acceptez maintenant les messages de Noël.",
           "isNotAccepting": "Dorénavant, vous refusez de recevoir les messages de Noël",
           "name": "use"
@@ -307,6 +309,7 @@
         },
         "errorNotAllowed": "Vous n'avez pas le droit d'utiliser cette commande",
         "errorNotSent": "Le message de classement des excuses n'a pas pu être envoyé",
+        "help": "Cette commande me permet d'envoyer le classement des excuses.",
         "name": "lead-apo",
         "sent": "Le message de classement des excuses a bien été envoyé"
       },
@@ -406,7 +409,7 @@
             "stopped": "Le sondage a bien été verrouillé.",
             "title": " - **Terminé**"
           },
-          "errorNoPoll": "Le sondage associé à ces boutons n'a été trouvé.",
+          "errorNoPoll": "Le sondage associé à ces boutons n'a pas été trouvé.",
           "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
           "refresh" : {
             "done": "L'actualisation du message est terminée",
@@ -527,7 +530,7 @@
           "name": "barrer"
         },
         "description": "Permet d'inverser le texte du message que vous souhaitez.",
-        "help": "Cette commande permet d'inverser le texte que vous donnez en entrée.",
+        "help": "Cette commande permet d'inverser le texte que vous donnez en entrée.\nExemple : `Message` devient `egasseM`.",
         "name": "reverse",
         "stringOption": {
           "description": "Contenu du message à inverser.",
@@ -538,7 +541,7 @@
         "alreadyTranslated": "Le log est une traduction ou a déjà été traduit.",
         "embedName": "Traduction",
         "executor": "Traduit par :",
-        "help": "Cette commande permet d'inverse le contenu du message sur lequel vous cliquez.",
+        "help": "Cette commande contextuelle permet d'inverser le contenu du message sur lequel vous cliquez.",
         "name": "reverse-translator",
         "noContent": "Le message ne contient aucun contenu à inverser.",
         "title": "Reverse Translation",
@@ -569,14 +572,14 @@
       },
       "shuffle": {
         "description": "Permet de lancer le mode anniversaire d'Ewibot.",
-        "help": "Commande du mode anniversaire pour alterner les couleurs des roles cosmétiques.\n- `startstop` pour démarrer/arrêter le mode anniversaire.\n- `set` pour éditer la valeur du timeout.",
+        "help": "Commande du mode anniversaire pour alterner les couleurs des roles cosmétiques.\n- `startstop` pour démarrer/arrêter le mode anniversaire.\n- `set` pour éditer la valeur du timeout **en ms**.",
         "name": "shuffle",
         "set": {
           "changed": "Le waitingTime a bien été changé.",
           "description": "Permet de modifier la valeur du temps d'attente.",
           "name": "set",
           "numberOption": {
-            "description": "Temps d'attente avant l'éxecution suivante de la boucle.",
+            "description": "Temps d'attente en ms avant l'éxecution suivante de la boucle.",
             "name": "waiting-time"
           }
         },

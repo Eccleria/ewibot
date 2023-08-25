@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder } from "discord.js";
 import {
   interactionEditReply,
   fetchPollMessage,
@@ -17,7 +17,6 @@ import { PERSONALITY } from "../../personality.js";
 
 export const pollSelectMenuHandler = async (interaction) => {
   const { customId } = interaction;
-
   const personality = PERSONALITY.getCommands().polls;
   await interaction.deferUpdate({ ephemeral: true });
 
@@ -38,7 +37,8 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //get data
   const pollMessage = await fetchPollMessage(interaction);
-  const embed = pollMessage.embeds[0];
+  const pollEmbed = pollMessage.embeds[0];
+  const embed = EmbedBuilder.from(pollEmbed);
 
   //remove in db
   selected.forEach((buttonId) =>
@@ -46,7 +46,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   );
 
   //remove in embed
-  const fields = embed.fields;
+  const fields = embed.data.fields;
   const selectedIndexes = selected.map((str) => Number(str.split("_")[1])); //"polls_id"
   const filteredFields = fields.reduce((acc, cur, idx) => {
     if (selectedIndexes.includes(idx)) return acc; //to remove
@@ -70,25 +70,27 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   const newComponents = filteredButtons.reduce((acc, cur, idx) => {
     //update buttons ids + db value
+    const newButton = ButtonBuilder.from(cur);
+
     if (idx !== filteredButtons.length - 1) {
       //do not change polls_settings button
       const newId = "polls_" + idx.toString();
       updatePollButtonId(
         interaction.client.db,
         pollMessage.id,
-        cur.customId,
+        newButton.data.custom_id,
         newId
       );
-      cur.setCustomId(newId);
+      newButton.setCustomId(newId);
     }
 
-    //handle MessageActionRows
+    //handle ActionRowBuilders
     if (idx === 0 || acc[acc.length - 1].components.length === 5) {
       //if first or last AR is full
-      const newAR = new MessageActionRow().addComponents(cur);
+      const newAR = new ActionRowBuilder().addComponents(newButton);
       return [...acc, newAR];
     } else {
-      acc[acc.length - 1].addComponents(cur);
+      acc[acc.length - 1].addComponents(newButton);
       return acc;
     }
   }, []);
@@ -145,7 +147,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     if (toChange === "color") {
       // create selectMenu to chose which poll color to change
       //create selectMenu
-      const selectMenu = new MessageSelectMenu()
+      const selectMenu = new StringSelectMenuBuilder()
         .setCustomId(perso.customId)
         .setPlaceholder(perso.placeholder)
         .setMaxValues(1);
@@ -158,7 +160,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       selectMenu.addOptions(choices);
 
       //send message
-      const actionRow = new MessageActionRow().addComponents(selectMenu);
+      const actionRow = new ActionRowBuilder().addComponents(selectMenu);
       const payload = { components: [actionRow], ephemeral: true };
       interactionEditReply(interaction, payload);
     } else {
@@ -170,12 +172,13 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //get embed
       const pollMessage = await fetchPollMessage(interaction);
-      const embed = pollMessage.embeds[0];
+      const pollEmbed = pollMessage.embeds[0];
+      const embed = EmbedBuilder.from(pollEmbed);
 
       //update fields color
       const emoteColor = persoColors.progressBar[colorIdx];
       const black = personality.create.colorOption.black;
-      const newFields = embed.fields.reduce((acc, cur) => {
+      const newFields = embed.data.fields.reduce((acc, cur) => {
         //get ratio
         const splited = cur.value.split(" ");
         const ratio = Number(splited[1].slice(0, -1));
@@ -215,7 +218,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       //chose which is new voteMax value
 
       //create selectMenu
-      const selectMenu = new MessageSelectMenu()
+      const selectMenu = new StringSelectMenuBuilder()
         .setCustomId(perso.customId)
         .setPlaceholder(perso.placeholder)
         .setMaxValues(1);
@@ -235,7 +238,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       selectMenu.addOptions(choices);
 
       //send message
-      const actionRow = new MessageActionRow().addComponents(selectMenu);
+      const actionRow = new ActionRowBuilder().addComponents(selectMenu);
       const payload = { components: [actionRow], ephemeral: true };
       interactionEditReply(interaction, payload);
     } else {
@@ -269,7 +272,8 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
           newVoteMax !== 1
             ? fPerso.multiple + ` (${newVoteMax})`
             : fPerso.unique;
-        const embed = pollMessage.embeds[0];
+        const pollEmbed = pollMessage.embeds[0];
+        const embed = EmbedBuilder.from(pollEmbed);
         embed.setFooter({ text: newFooter + fPerso.options });
 
         //send

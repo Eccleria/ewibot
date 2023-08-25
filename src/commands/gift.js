@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
 
 import { interactionReply, createButton } from "./utils.js";
 import {
@@ -70,13 +70,13 @@ const giftInteractionCreation = async (client, type) => {
   const personality = PERSONALITY.getCommands().gift;
 
   //create button
-  const actionRow = new MessageActionRow().addComponents(
-    createButton("gift", personality.buttonLabel, "PRIMARY")
+  const actionRow = new ActionRowBuilder().addComponents(
+    createButton("gift", personality.buttonLabel, ButtonStyle.Primary)
   );
 
   if (type === "xmas") {
     const nDayEmbed = personality.nDayEmbed;
-    const embed = new MessageEmbed() //create embed
+    const embed = new EmbedBuilder() //create embed
       .setColor("DARK_GREEN")
       .setTimestamp()
       .setTitle(personality.nDayEmbed.title)
@@ -92,7 +92,7 @@ const giftInteractionCreation = async (client, type) => {
   } else if (type === "ny") {
     const newYear = personality.newYear;
 
-    const embed = new MessageEmbed() //create embed
+    const embed = new EmbedBuilder() //create embed
       .setColor("DARK_GREEN")
       .setTimestamp()
       .setTitle(newYear.title)

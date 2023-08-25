@@ -40,7 +40,7 @@ const giveAlavirien = async (client, server, personality, userId) => {
     removeAlavirien(client.db, userId); //remove from db
 
     //send log
-    const embed = setupEmbed("DARK_GREY", personality, guildMember.user, "tag"); //create log
+    const embed = setupEmbed("DarkGrey", personality, guildMember.user, "tag"); //create log
     finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
   }
 };

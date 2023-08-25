@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, AuditLogEvent } from "discord.js";
 
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
@@ -14,16 +14,17 @@ import {
 /**
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
- * @param {string} auditType String for audit type request.
+ * @param {string|AuditLogEvent} auditType String|AuditLogEvent for audit type request.
  * @param {number} limit Number of auditLogs fetched.
  * @param {string} [type] String for audit type request.
  * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
+  const aType = typeof auditType === "string" ? AuditLogEvent[auditType] : auditType;
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
       limit: limit,
-      type: auditType,
+      type: aType,
     }); //fetch logs
     if (type === "list") return fetchedLogs.entries; //return all entries
     return fetchedLogs.entries.first(); //return the first
@@ -35,15 +36,15 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
 };
 
 /**
- * Create and setup a MessageEmbed with common properties.
+ * Create and setup a EmbedBuilder with common properties.
  * @param {string} color The color of the embed.
  * @param {object} personality The personality object of the embed.
  * @param {object} [object] Object containing or not the author.
  * @param {string} [type] Differentiate object use case.
- * @returns {MessageEmbed} Embed with basic properties.
+ * @returns {EmbedBuilder} Embed with basic properties.
  */
 export const setupEmbed = (color, personality, object, type) => {
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setColor(color)
     .setTitle(personality.title)
     .setTimestamp();
@@ -51,14 +52,27 @@ export const setupEmbed = (color, personality, object, type) => {
   if (personality.description) embed.setDescription(personality.description);
 
   if (type === "tag")
-    embed.addField(personality.author, object.toString(), true);
+    embed.addFields({
+      name: personality.author,
+      value: object.toString(),
+      inline: true,
+    });
   //add user as embed if required
   else if (type === "skip") return embed;
   //allows to skip the 3rd field
   else if (type === "user")
-    embed.addField(personality.author, object.username, true);
+    embed.addFields({
+      name: personality.author,
+      value: object.username,
+      inline: true,
+    });
   //add user if required
-  else embed.addField(personality.author, object.name.toString(), true); //otherwise, add the object name as embed (for channels, roles, ...)
+  else
+    embed.addFields({
+      name: personality.author,
+      value: object.name.toString(),
+      inline: true,
+    }); //otherwise, add the object name as embed (for channels, roles, ...)
   return embed;
 };
 
@@ -66,7 +80,7 @@ export const setupEmbed = (color, personality, object, type) => {
  * Finish embeds and send them in the logChannel.
  * @param {object} personalityEvent The personality related to the triggered event.
  * @param {object} [executor] Object containing or not the executor, if any.
- * @param {(MessageEmbed|MessageEmbed[])} embed Log embed, or array of embeds with log at index 0.
+ * @param {(EmbedBuilder|EmbedBuilder[])} embed Log embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Additional text to add.
  * @param {Attachment[]} [attachments] Message attachments.
@@ -90,12 +104,20 @@ export const finishEmbed = async (
     return;
   }
 
-  if (embed.author !== null) {
-    //if is an array, embed.author is undefined !== null
+  if (embed.length >= 0) {
     //if contains multiple embeds, the 1st is the log
     if (personalityEvent.executor && executor !== null)
-      embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
-    if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+      embed[0].addFields({
+        name: personalityEvent.executor,
+        value: executor.toString(),
+        inline: true,
+      }); //add the executor section
+    if (text)
+      embed[0].addFields({
+        name: personalityEvent.text,
+        value: text,
+        inline: false,
+      }); //if any text (reason or content), add it
 
     try {
       const message = await logChannel.send({
@@ -119,8 +141,17 @@ export const finishEmbed = async (
   }
 
   if (personalityEvent.executor && executor !== null)
-    embed.addField(personalityEvent.executor, executor.toString(), true);
-  if (text) embed.addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+    embed.addFields({
+      name: personalityEvent.executor,
+      value: executor.toString(),
+      inline: true,
+    });
+  if (text)
+    embed.addFields({
+      name: personalityEvent.text,
+      value: text,
+      inline: false,
+    }); //if any text (reason or content), add it
 
   try {
     const message = await logChannel.send({
@@ -144,7 +175,7 @@ export const finishEmbed = async (
  * @param {?object} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
- * @param {(MessageEmbed|MessageEmbed[])} embed Embed, or array of embeds with log at index 0.
+ * @param {(EmbedBuilder|EmbedBuilder[])} embed Embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
@@ -486,7 +517,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
 
   //change embed
   embed.setTitle(roleUp.titleRoles); //change title
-  embed.setFields(embed.fields.slice(1)); //remove author field
+  embed.setFields(embed.data.fields.slice(1)); //remove author field
 
   //create old/new channel order
   const oldSortedOrder = roles.sort((a, b) => b.oldPos - a.oldPos).slice(); //sort channels with oldPosition

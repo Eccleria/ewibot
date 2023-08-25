@@ -8,7 +8,7 @@ import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
 import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
-import { MessageEmbed } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import { getLogChannel } from "../admin/utils.js";
 
 const reverseStr = (string) => {
@@ -95,7 +95,7 @@ const contextAction = async (interaction) => {
 
     //get embed data
     const embeds = message.embeds;
-    const fields = embeds.length !== 0 ? embeds[0].fields : null;
+    const fields = embeds.length !== 0 ? embeds[0].data.fields : null;
     const title = embeds[0].title;
 
     //check for precedent translation
@@ -107,7 +107,7 @@ const contextAction = async (interaction) => {
       return;
     }
 
-    const embedTr = new MessageEmbed().setTitle(rTPerso.title).setTimestamp();
+    const embedTr = new EmbedBuilder().setTitle(rTPerso.title).setTimestamp();
 
     if (title === adminPerso.messageDelete.title) {
       const mDPerso = adminPerso.messageDelete;
@@ -123,7 +123,7 @@ const contextAction = async (interaction) => {
         ? reversed.slice(2, -2)
         : reversed;
 
-      embedTr.setColor("DARK_RED");
+      embedTr.setColor(Colors.DarkRed);
 
       dispatchSlicedEmbedContent(content, embedTr, mDPerso);
     } else if (title === adminPerso.messageUpdate.title) {

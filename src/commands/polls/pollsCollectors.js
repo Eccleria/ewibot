@@ -6,6 +6,7 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
+import { ComponentType } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { getPoll, getPolls } from "../../helpers/index.js";
 import { stopPoll } from "./pollsUtils.js";
@@ -69,7 +70,7 @@ export const pollButtonCollector = (message, timeout) => {
   console.log(timeout);
   const collector = message.createMessageComponentCollector({
     filter,
-    componentType: "BUTTON",
+    componentType: ComponentType.Button,
     time: timeout,
   });
 
