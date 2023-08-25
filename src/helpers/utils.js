@@ -171,8 +171,8 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   if (authorId === cmnShared.LuciferId) {
     //if Lucifer
-    const presqueRegex = new RegExp(/pres(qu|k)e *(16|seize)/gim); //regex for presque 16 detection
-    const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 16
+    const presqueRegex = new RegExp(/pres(qu|k)e *(17|dix( |-)*sept)/gim); //regex for presque 17 detection
+    const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 17
 
     presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
 
