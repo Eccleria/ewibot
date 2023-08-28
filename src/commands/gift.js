@@ -156,19 +156,13 @@ export const setGiftTimeoutLoop = (client) => {
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().gift.name)
   .setDescription(PERSONALITY.getCommands().gift.description)
-  .addSubcommand(
-    (
+  .addSubcommand((subcommand) =>
       subcommand //user authorisation command
-    ) =>
-      subcommand
         .setName(PERSONALITY.getCommands().gift.use.name)
         .setDescription(PERSONALITY.getCommands().gift.use.description)
   )
-  .addSubcommand(
-    (
+  .addSubcommand((subcommand) =>
       subcommand //send message command
-    ) =>
-      subcommand
         .setName(PERSONALITY.getCommands().gift.send.name)
         .setDescription(PERSONALITY.getCommands().gift.send.description)
         .addUserOption((option) =>

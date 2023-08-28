@@ -126,7 +126,6 @@ const command = new SlashCommandBuilder()
   );
 
 const shuffle = {
-  name: "shuffle",
   command: command,
   action,
   help: (interaction) => {
