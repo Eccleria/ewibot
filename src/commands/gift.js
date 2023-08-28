@@ -157,30 +157,30 @@ const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().gift.name)
   .setDescription(PERSONALITY.getCommands().gift.description)
   .addSubcommand((subcommand) =>
-      subcommand //user authorisation command
-        .setName(PERSONALITY.getCommands().gift.use.name)
-        .setDescription(PERSONALITY.getCommands().gift.use.description)
+    subcommand //user authorisation command
+      .setName(PERSONALITY.getCommands().gift.use.name)
+      .setDescription(PERSONALITY.getCommands().gift.use.description)
   )
   .addSubcommand((subcommand) =>
-      subcommand //send message command
-        .setName(PERSONALITY.getCommands().gift.send.name)
-        .setDescription(PERSONALITY.getCommands().gift.send.description)
-        .addUserOption((option) =>
-          option
-            .setName(PERSONALITY.getCommands().gift.send.userOption.name)
-            .setDescription(
-              PERSONALITY.getCommands().gift.send.userOption.description
-            )
-            .setRequired(true)
-        )
-        .addStringOption((option) =>
-          option
-            .setName(PERSONALITY.getCommands().gift.send.textOption.name)
-            .setDescription(
-              PERSONALITY.getCommands().gift.send.textOption.description
-            )
-            .setRequired(true)
-        )
+    subcommand //send message command
+      .setName(PERSONALITY.getCommands().gift.send.name)
+      .setDescription(PERSONALITY.getCommands().gift.send.description)
+      .addUserOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.send.userOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().gift.send.userOption.description
+          )
+          .setRequired(true)
+      )
+      .addStringOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.send.textOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().gift.send.textOption.description
+          )
+          .setRequired(true)
+      )
   )
   .addSubcommand((subcommand) =>
     subcommand //remove

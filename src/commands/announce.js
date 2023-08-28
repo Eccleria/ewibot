@@ -1,5 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } from "discord.js";
+import {
+  ActionRowBuilder,
+  EmbedBuilder,
+  ButtonStyle,
+  Colors,
+} from "discord.js";
 
 import { createButton, interactionReply } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";

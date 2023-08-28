@@ -113,7 +113,7 @@ const leaderboardApology = {
   name: "leadApo",
   action,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().leaderboardApology
+    const perso = PERSONALITY.getCommands().leaderboardApology;
     interactionReply(interaction, perso.help);
   },
   admin: true,
