@@ -1,0 +1,608 @@
+{
+  "normal": {
+    "name": "normal",
+    "commands": {
+      "announce": {
+        "buttonLabel": "Confirmer",
+        "description": "Permet d'envoyer des annonces enregistrées.",
+        "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Ewibot. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
+        "name": "announce",
+        "notAdmin": "Cette commande est réservée à mes développeurs.",
+        "stringOption": {
+          "description": "Quelle annonce à envoyer",
+          "name": "which"
+        }
+      },
+      "birthday": {
+        "add": {
+          "dayOption": {
+            "description": "Votre jour de naissance.",
+            "name": "jour"
+          },
+          "description": "Ajouter/modifier votre date de naissance.",
+          "help": "Via cette commande, vous pouvez enregistrer votre date de naissance pour qu'Ewibot vous souhaite votre anniversaire.\nVous devez remplir les champs `jour` et `mois`. Le champ `année` est optionnel.\n\nLe jour J, Ewibot vous enverra une notification d'anniversaire, qui sera visible par tout le monde.",
+          "name": "ajouter",
+          "monthOption": {
+            "description": "Votre mois de naissance.",
+            "name": "mois"
+          },
+          "yearOption": {
+            "description": "Votre année de naissance.",
+            "name": "année"
+          }
+        },
+        "addUser": "Je te souhaiterai ton anniversaire.",
+        "birthday": "OWH ! Aujourd'hui on fête l'anniversaire de : \n",
+        "birthdays": "OWH ! Aujourd'hui on fête les anniversaires de : \n",
+        "description": "Permet de modifier votre profil d'anniversaire.",
+        "get": {
+          "description": "Pour voir votre date d'anniversaire enregistrée.",
+          "help": "Cette commande vous permet de vérifier si vous avez enregistré une date de naissance et sa valeur si elle existe.",
+          "name": "get"
+        },
+        "getUser": "Ton anniversaire est le ",
+        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday get` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
+        "name": "birthday",
+        "parsingError": "Erreur de parsing dans la date.",
+        "remove": {
+          "description": "Pour retirer votre date de naissance.",
+          "help": "Via cette commande, vous pouvez supprimer votre date de naissance, si elle est enregistrée.",
+          "name": "remove"
+        },
+        "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
+        "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
+      },
+      "botMessage": {
+        "attachmentOption":{
+          "description":"Pièce-jointe a transmettre avec le message",
+          "name":"piece-jointe"
+        },
+        "description": "Envoyer un message à la place d'Ewibot.",
+        "empty": "Le message ne peut pas être vide.",
+        "help": "Cette commande permet d'envoyer des messages à travers Ewibot.",
+        "name": "message",
+        "reply":{
+          "attachmentOption":{
+            "description":"Pièce-jointe a transmettre avec le message",
+            "name":"piece-jointe"
+          },          
+          "spoilOption":{
+            "description": "Si la pièce-jointe doit être mise en spoiler.",
+            "name": "to-spoil"
+          },
+          "description": "Pour répondre à un message à travers Ewibot.",
+          "name": "reply",
+          "pingOption":{
+            "description": "Si l'utilisateurice doit être mentionné.",
+            "name": "to-ping"
+          },
+          "sent": "Le message est envoyé.",
+          "stringOption":{
+            "description": "Contenu du message d'Ewibot",
+            "name": "message"
+          },
+          "urlOption":{
+            "description": "Le lien du message auquel répondre.",
+            "name": "url"
+          }
+        },
+        "send":{
+          "attachmentOption":{
+            "description":"Pièce-jointe a transmettre avec le message",
+            "name":"piece-jointe"
+          },
+          "booleanOption":{
+            "description": "Si la pièce-jointe doit être mise en spoiler.",
+            "name": "to-spoil"
+          },
+          "channelOption":{
+            "description": "Salon de destination",
+            "name": "salon"
+          },
+          "description": "Pour envoyer un message à travers Ewibot.",
+          "name": "send",
+          "sent": "Le message est envoyé.",
+          "stringOption":{
+            "description": "Contenu du message d'Ewibot",
+            "name": "message"
+          }
+        },
+        "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
+        "wrongUser": "Vous n'avez pas accès à cette commande."
+      },
+      "concrete": {
+        "booleanOption": {
+          "description": "S'il faut actualiser la pp utilisée",
+          "name": "actualisation"
+        },
+        "description": "Choisissez qui vous souhaitez bétonner.",
+        "fileName": "concrete.gif",
+        "help": "Cette commande permet de bétonner une personne, grâce au don du gif réalisé par <@693830441660317726>. Utilisation :\n- `/concrete @cible` pour bétonner la cible.\n- `/concrete @cible true` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "name": "concrete",
+        "userOption": {
+          "description": "La personne que vous souhaitez bétonner.",
+          "name": "cible"
+        },
+        "errorMention": "Il faut une seule mention."
+      },
+      "eventRoles": {
+        "create": {
+          "colorOption": {
+            "description": "Couleur du rôle.",
+            "name": "couleur"
+          },
+          "description": "Pour créer un nouveau rôle d'évènement.",
+          "embedOption": {
+            "description": "Description du rôle à ajouter à l'embed du message.",
+            "name": "role-description"
+          },
+          "errorGeneral": "Erreur - mise à jour du message ou création du rôle",
+          "errorNoRoleMessage": "Aucun message de choix de rôle d'évènement n'a été envoyé. Impossible de le mettre à jour.",
+          "help": "Cette commande permet de créer dynamiquement un nouveau rôle d'évènements, sans avoir à mettre à jour manuellement Ewibot. Il suffit d'indiquer le `nom` et la `description` du nouveau role.\n\nLe `nom` sera utilisé pour créer le rôle.\nLa `description` sera ajoutée au message de présentation des rôles d'évènements envoyé dans le salon <#974735995872350208>.",
+          "name": "create",
+          "nameOption": {
+            "description": "Le nom du futur rôle d'évènements.",
+            "name": "nom"
+          }          
+        },
+        "description": "Commandes de gestions des roles associés aux évènements.",
+        "help": "Cette commande permet de gérer les roles associés aux évènements.",
+        "name": "event-roles",
+        "role": {
+          "added": "Le rôle vous a bien été attribué.",
+          "errorNotAlavirien":"Désolé, vous n'êtes pas Alavirien·nes. Vous n'avez pas accès à cette fonctionnalité.",
+          "removed": "Le rôle vous a bien été retiré."
+        },
+        "send": {
+          "button": {
+            "CDL": ["eventRole_CDL", "CDL"],
+            "misc": ["eventRole_misc", "Divers"],
+            "tournament": ["eventRole_tournament", "Tournois"],
+            "voice": ["eventRole_voiceChannel", "Vocal"]
+          },
+          "description": "Envoie le message de sélection des roles.",
+          "embed": {
+            "description": "**Note : Ces rôles sont réservés aux Alavirien•nes.**\n\nIci, vous pouvez choisir un ou plusieurs rôles, associés à certains évènements du serveur. Cela vous permettra d'être notifié.e lorsque le ou les évènements qui vous intéressent auront lieu.\n Pour ne plus être notifié, vous pouvez retirer le rôle en cliquant sur le bouton du rôle.",
+            "fields": [
+              {"name": "\u200b", "value": "\u200b"},
+              {"name": "<:lecture:822489141312618507> Club de Lecture - CDL", "value": "Le Club de Lecture réunit les passionné.e.s de la lecture. A chaque cycle, un thème est voté parmi une liste proposée par vous. Après votre lecture, une session de partage est programmée en fonction des disponibilités de chacun.e. Tout se passe dans les fils du salon <#959109916516294757>.", "inline": true},
+              {"name": "⚔️ Tournois", "value": "Des tournois sont régulièrement organisés. Ils peuvent porter sur tous les sujets : Meilleur personnage du Botteroverse, couleur, pates, musique de jeux vidéos, ...\n Cela mène à des discussions passionnées sur des sujets improbables, mais laissent toujours des souvenirs mémorables ! <:Ewinklan:841675143596212267>", "inline": true},
+              {"name": "\u200b", "value": "\u200b"},
+              {"name": "<:CelineDuom:841651539662995466> Vocal", "value": "Si jamais vous souhaitez participer aux vocaux, c'est par ici ! Cela peut être pour seulement discuter, comme jouer à Geoguessr, au Solo, etc.", "inline": true},
+              {"name": "<:DuomFetard:822479563077976065> Divers", "value": "Pour tous les autres évènements proposés, vous pouvez rejoindre ce rôle. Que ce soit des évènements uniques ou réguliers, comme le jeu du mouton, un blind-test, un Père Noël secret...", "inline": true}
+            ],
+            "title": "Choix des rôles d'évènements"
+          },
+          "help": "Cette commande permet d'envoyer le message contenant l'explication des rôles.\n**ATTENTION, le message envoyé est l'original et ne contiendra pas les éventuels rôles ajoutés en cours de route !**",
+          "name": "send",
+          "sent": "Le message de sélection des rôles a bien été envoyé."
+        }
+      },
+      "gift": {
+        "accepting": {
+          "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
+          "description": "Pour savoir si un.e utilisateurice accepte les messages de Noël",
+          "help": "Cette commande permet de vérifier si lea utilisateurice que vous mentionnez accepte ou non les messages de Noël.\nPour l'utiliser, tapez `/gift accepting @utilisateurice`.",
+          "name": "accepting",
+          "notAccept": " n'accepte pas de recevoir les messages de Noël.",
+          "user": "L'utilisateurice ",
+          "userOption": {
+            "description": "La personne acceptant ou non de reçevoir les messages.",
+            "name": "destinateurice"
+          }
+        },
+        "buttonLabel": "Recevoir",
+        "compensation": "Je te souhaite un merveilleux Noël ! 🎁 <:DuomFetard:822479563077976065>",
+        "delivery": "Joyeux Noël ! <:DuomFetard:822479563077976065>\n Voici venir vos messages de Noël 🎁",
+        "description": "Pour envoyer un message anonyme de Noël.",
+        "get": {
+          "accept": " (qui accepte les messages de Noël)",
+          "description": "Permet d'obtenir vos messages déjà programmés.",
+          "for": "Destiné.s à ",
+          "hasMessages": "Vous avez envoyé des messages de Noël, les voici :",
+          "help": "Cette commande vous permet de voir les messages que vous avez déjà prévu d'envoyer. Vous avez 2 possibilités d'utilisation :\n- `/gift get` récupère tous vos messages prévus et vous les transmet.\n- `/gift get @utilisateurice` vous permet de voir les messages destinés à une personne que vous choisissez.",
+          "name": "get",
+          "noMessage": "Vous n'avez aucun message d'enregistré.",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël)",
+          "separator": "\n-----\n",
+          "userOption": {
+            "description": "La personne devant reçevoir les messages.",
+            "name": "destinateurice"
+          }
+        },
+        "help": "Cette commande vous permet d'envoyer un message anonyme à toute personne ayant autorisé leur réception. Les destinateurices possibles peuvent être connus via une commande. Si jamais votre destinateurice n'en fait pas partie, vous ne pourrez pas envoyer de message de Noël. Sauf si vous arrivez à convaincre subtilement cette personne de l'utiliser <:Ewinklan:841675143596212267>.\n\n **Note : Aucune Sentinelle ne lira les messages, sauf en cas de signalement !**\n\n Liste des commandes :\n- `/gift accepting` pour vérifier si lea destinateurice que vous indiquez accepte ou non les messages de Noël.\n- `/gift get` pour récupérer les messages que vous souhaitez envoyer.\n- `/gift remove` pour supprimer les messages destinés à une personne.\n- `/gift send` pour envoyer un message à une personne. Note : le message ne peut contenir que du texte ou des liens. **Aucune pièce jointe**.\n- `/gift use` pour accepter ou non les messages.",
+        "name": "gift",
+        "nDayEmbed": {
+          "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469>\n Joyeux Noël <:DuomFetard:822479563077976065> !!\n\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
+          "imageURL": "https://cdn.discordapp.com/attachments/1040335601330831420/1056257880174624768/Ewilan_Noel_crop.png",
+          "imageName": "Fan-art",
+          "imageText": "Un immense merci à <@705869091986210826> et <@693830441660317726> pour ce magnifique fan-art de notre groupe préféré, fêtant Noël ensemble ! <:DuomNoelErg:1048916483490717727>",
+          "noteName": "Rappel",
+          "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.\n",
+          "title": "Surprise de Noël"
+        },
+        "newYear": {
+          "description": "Bonjour ! Bonnée année ! <:DuomNoelErg:1048916483490717727>\n Et c'est reparti pour un tour, vous pouvez recevoir une nouvelle fois les messages cadeaux <:Ewiyay:918249094391144469>. Cette fois-ci, vous aurez l'ensemble des messages envoyés. Une séparation vous indiquera la position des nouveaux messages.",
+          "separator": "----\n**Les messages suivants datent d'après Noël. Ce sont vos voeux du Nouvel An.**\n----",
+          "title": "Messages de Fin d'Année"
+        },
+        "remove": {
+          "accept": " (qui accepte les messages de Noël) :\n",
+          "description": "Permet de supprimer un message de Noël.",
+          "for": "Destiné.s à ",
+          "help": "Cette commande vous permet de supprimer les messages de Noël que vous souhaitiez envoyer, et vous les renvoie. Ainsi, en cas de fausse manipulation, vous n'avez pas besoin d'essayer de vous rappeler de vos précédents messages.\n- `gift remove @utilisateurice` supprime les messages destinés à lea utilisateurice.\n- `gift remove` supprime **tous** les messages prévus.",
+          "name": "remove",
+          "noMessage": "Vous n'avez aucun message d'enregistré.",
+          "notAccept": " (qui **n'accepte plus** les messages de Noël) :\n",
+          "separator": "\n-----\n",
+          "removed": "Les messages pour ce destinataire ont été supprimés. Pour rappel, les messages sont les suivants :",
+          "sendAgain": "Maintenant vous pouvez éventuellement récupérer les messages précédemment envoyés pour les modifier.",
+          "userOption": {
+            "description": "La personne qui recevra le message.",
+            "name": "destinateurice"
+          }
+        },
+        "send": {
+          "confirmed": "Votre message est enregistré ! Il sera envoyé à Noël <:DuomFetard:822479563077976065>",
+          "description": "Pour envoyer un message de Noël.",
+          "help": "Cette commande vous permet d'envoyer un message de Noël. \n*Attention, le message à envoyer ne peut pas contenir de pièces jointes. Seulement du texte et des liens.*\n`gift send @utilisateurice 'message'` envoie le contenu `message` à l'utilisateurice mentionné.",
+          "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
+          "name": "send",
+          "saved": "Le message a été sauvegardé.",
+          "textOption": {
+            "description": "Le message à envoyer.",
+            "name": "message"
+          },
+          "userOption": {
+            "description": "La personne qui recevra le message.",
+            "name": "destinateurice"
+          }
+        },
+        "tooLate": "Désolé ! La fonctionnalité reviendra pour Noël prochain.",
+        "use": {
+          "description": "Pour accepter ou non de recevoir les messages de Noël.",
+          "help": "Cette commande vous permet de m'indiquer si vous souhaitez recevoir ou non des messages de Noël. **Par défaut, je considère que vous REFUSEZ.**\nUtilisation : `/gift use`",
+          "isAccepting": "Vous acceptez maintenant les messages de Noël.",
+          "isNotAccepting": "Dorénavant, vous refusez de recevoir les messages de Noël",
+          "name": "use"
+        }
+      },
+      "helloWorld": {
+        "help": "Cette commande n'a pas besoin de description.",
+        "pong": "pong !"
+      },
+      "help": {
+        "description": "Cette commande permet d'afficher l'aide d'une commande.",
+        "help": "Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.",
+        "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n",
+        "name": "help",
+        "notFound": "La commande dont vous cherchez l'aide n'existe pas.",
+        "stringOption": {
+          "description": "Nom de la commande",
+          "name": "which_command"
+        }
+      },
+      "ignoreChannel": {
+        "channelOption": {
+          "description": "Salon concerné",
+          "name": "salon"
+        },
+        "description": "Ewibot ignore ou non le channel.",
+        "ignored": "Je vais ignorer les messages de ",
+        "name": "ignore_channel",
+        "notIgnored": "Je n'ignorerai plus les messages de ",
+        "help": "Ewibot ignore ou non le channel. Utilisation :\n- `/ignoreChannel #channel` dans n'importe quel channel.\n- `/ignoreChannel` dans le channel concerné."
+      },
+      "ignoreUser": {
+        "description": "Permet de choisir si je réagirai à vos messages ou non.",
+        "help": "Cette commande m'empêche ou non de réagir à vos messages.",
+        "name": "ignore_user",
+        "ignored": "Dorénavant je ne réagirai plus à vos messages.",
+        "notIgnored": "Je vais de nouveau réagir à vos messages."
+      },
+      "leaderboardApology": {
+        "description": "Cette commande permet d'envoyer le classement des excuses",
+        "embed": {
+          "description": "YOOOOOOOOOOOOOOOOOOOOO ! <:Ewiyay:918249094391144469>\n Eccléria l'a teasé hier, voici aujourd'hui mon grand retour ! Et oui, ça fait littérallement 1 an que l'on a eu le premier classement des excuses. Le rush de fonctionnalité s'imposait pour ne pas rater l'anniversaire <:Ewinklan:841675143596212267> !\nEt sans plus attendre, voici les résultats :",
+          "title": "Classements des excuses ! <:Ewiyay:918249094391144469>",
+          "top3": "Et voici notre top 3 des personnes s'excusant le plus !\n"
+        },
+        "errorNotAllowed": "Vous n'avez pas le droit d'utiliser cette commande",
+        "errorNotSent": "Le message de classement des excuses n'a pas pu être envoyé",
+        "help": "Cette commande me permet d'envoyer le classement des excuses.",
+        "name": "lead-apo",
+        "sent": "Le message de classement des excuses a bien été envoyé"
+      },
+      "personality": {
+        "change": "Dorénavant, j'aurai la personalité ",
+        "currentName": "Actuellement, j'ai la personalité ",
+        "nameError": "Erreur d'argument.",
+        "nameList": "La liste des personalités est : ",
+        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
+      },
+      "polls": {
+        "addChoice": {
+          "choiceOption": {
+            "description": "Choix à ajouter au sondage",
+            "name": "choix"
+          },
+          "description": "Ajouter un choix au sondage.",
+          "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
+          "help": "Cette commande permet d'ajouter un ou plusieurs choix à un sondage déjà envoyé. Il faut choisir le sondage via l'item `sondage`, puis remplir `choix` avec la même syntaxe que pour `/poll create`.",
+          "name": "nouveau-choix",
+          "pollOption": {
+            "description": "Choix du sondage auquel ajouter les options.",
+            "name": "sondage"
+          },
+          "updated": "Le sondage a été mis à jour."
+        },
+        "black": ":black_large_square:",
+        "counted": "Votre vote a été compté.",
+        "create": {
+          "authorOption": {
+            "description": "L'auteurice du sondage.",
+            "name": "auteurice"
+          },
+          "choiceOption": {
+            "description": "Les choix du sondage",
+            "name": "choix"
+          },
+          "colorOption": {
+            "black": ":black_large_square:",
+            "description": "La couleur du bandeau et de la barre de progression.",
+            "name": "couleur"
+          },
+          "description": "Créer un nouveau sondage.",
+          "descOption": {
+            "description": "Texte de la description du sondage.",
+            "name": "description"
+          },
+          "footer": {
+            "options": " | ⚙️ options",
+            "multiple": "Vote multiple",
+            "unique": "Vote unique"
+          },
+          "help": "Cette commande permet de créer un sondage. Voici les paramètres :\n\n**Obligatoires**\n- `title` Titre du sondage. *Minimum 1 lettre, maximum 225.*\n- `choices` Choix du sondage. *Attention, les choix ne peuvent pas faire plus de 256 charactères.* Vous devez **respecter la mise en forme** du texte suivante :\n - Deux choix sont séparés par un point-virgule `;`.\n - Si vous voulez personnaliser des émotes, vous devez la séparer du reste du choix avec une virgule `,`.\n - Le dernier choix ne nécessite pas de point-virgule.\n - Ex : `🥖, pain; 🧈, beurre`\n\n**Optionels**\n- `color` Couleur de la barre lattérale et de progression. _Vous pouvez la choisir via la liste, et filtrer la sélection en tapant les premières lettres. Par défaut: bleu._\n- `description` Description du sondage, _pour ajouter du contexte ou des détails._\n- `anonymous` Si vous voulez ou non les choix de chaque votant. _Par défaut : anonyme._\n- `max votes` Nombre maximal de votes. _Ne peux pas dépasser le nombre de choix. Par défaut : 1 choix max._\n- `auteurice` Auteurice du sondage. _Attention, vous pouvez indiquer n'importe qui comme auteurice._\n- `heures` Durée de vie en heures du sondage. _Entre 0 et 48._\n- `minutes` Durée de vie en minutes du sondage. _Entre 0 et 59._ **Note : si jamais `heures` et `minutes` ne sont pas renseignés, la durée de vie est la plus longue possible (~49h).**",
+          "hideOption": {
+            "description": "Cache (true) ou révèle (false) les votes des utilisateurices",
+            "name": "anonyme"
+          },
+          "hourOption": {
+            "description": "La durée en heures du sondage.",
+            "name": "heures"
+          },
+          "maxOption": {
+            "description": "Si vote multiples, le nombre maximal de votes",
+            "name": "nombre-vote-max"
+          },
+          "minuteOption": {
+            "description": "La durée en minutes du sondage.",
+            "name": "minutes"
+          },
+          "name": "create",
+          "sent": "Le sondage a été envoyé.",
+          "titleOption": {
+            "description": "Titre du sondage.",
+            "name": "titre"
+          }        
+        },
+        "description": "Cette commande permet de créer des sondages.",
+        "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
+        "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
+        "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",
+        "errorNotAlavirien": "Vous n'êtes pas Alavirien.ne. Vous ne pouvez pas utiliser cette commande.",
+        "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
+        "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
+        "help": "Cette commande permet de créer des sondages.",
+        "name": "polls",
+        "settings": {
+          "buttons": {
+            "refresh": ["polls_set_refresh", "Actualiser"],
+            "remove": ["polls_set_remove", "Retirer"],
+            "reset": ["polls_set_reset", "RAZ"],
+            "stop": ["polls_set_stop", "Stop"],
+            "update": ["polls_set_update", "Modifier"]
+          },
+          "stop": {
+            "errorAlreadyStoped": "Ce sondage a déjà été interrompu.",
+            "message": ["Le sondage ", " est terminé !"],
+            "stopped": "Le sondage a bien été verrouillé.",
+            "title": " - **Terminé**"
+          },
+          "errorNoPoll": "Le sondage associé à ces boutons n'a pas été trouvé.",
+          "errorNotAuthor": "Vous n'avez pas le droit d'éditer ce sondage.",
+          "refresh" : {
+            "done": "L'actualisation du message est terminée",
+            "underRefresh": "Le sondage est en cours d'actualisation."
+          },
+          "remove": {
+            "customId": "polls_selectMenu_remove",
+            "errorNotEnoughToRemove": "Il n'y a pas assez de choix pour en retirer.",
+            "errorNotUpdated": "Le sondage n'a pas pu être mis à jour. Veuillez contacter une Sentinelle.",
+            "placeholder": "Choix des options à supprimer",
+            "removed": "Les choix de ce sondage ont été supprimés."
+          },
+          "reset": {
+            "reset": "Les votes du sondage ont bien été réinitialisés."
+          },
+          "update": {
+            "anonymous": {
+              "baseValue": "polls_selectMenu_update_anonymous_",
+              "customId": "polls_selectMenu_update_anonymous",
+              "placeholder": "Anonyme ?"
+            },
+            "choices": [
+              { "label": "anonyme", "value": "polls_selectMenu_update_anonymous" },
+              { "label": "couleur", "value": "polls_selectMenu_update_color" }, 
+              { "label": "nombre de votes", "value": "polls_selectMenu_update_voteMax" } 
+            ],
+            "color": {
+              "baseValue": "polls_selectMenu_update_color_",
+              "customId": "polls_selectMenu_update_color",
+              "placeholder": "Nouvelle couleur."
+            },
+            "customId": "polls_selectMenu_update",
+            "placeholder": "Paramètre à modifier.",
+            "voteMax": {
+              "baseValue": "polls_selectMenu_update_voteMax_",
+              "customId": "polls_selectMenu_update_voteMax",
+              "errorShouldRAZBefore": "Veuillez remettre à 0 les votes avant de diminuer le nombre de vote possible.",
+              "errorTooManyVotesMax": "Vous ne pouvez pas voter plus de fois que le nombre de choix.",
+              "errorVoteUnique": "Vous ne pouvez pas changer le nombre de vote possible pour ce type. Veuillez passer à un vote multiple avant de changer le nombre de vote.",
+              "placeholder": "Nouveau nombre de vote maximal.",
+              "voteMaxChanged": "Le nombre de vote possible a bien été modifié."
+            }
+          }
+        },
+        "stop": {
+          "description": "Permet d'arrêter un sondage en cours.",
+          "errorNoPoll": "Aucun sondage n'a été trouvé avec ce titre.",
+          "message": ["Le sondage ", " est terminé !"],
+          "name": "stop",
+          "pollOption": {
+            "description": "Le sondage à arrêter.",
+            "name": "sondage"
+          },
+          "stopped": "Le sondage a bien été arrêté.",
+          "title": " - **Terminé**"
+        },
+        "stopped": "Le sondage est déjà terminé. Votre vote n'a pas été pris en compte"
+      },
+      "pronouns": {
+        "agreements": {
+          "all": "Tous accords",
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos accords en utilisant les boutons ci-dessous. Les accords seront affichés sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "female": "Féminins",
+          "male": "Masculins",
+          "neutral": "Neutres",
+          "title": "Rôles accords"
+        },
+        "help": "Permet d'envoyer les 2 messages associés aux choix de pronoms et d'accords dans le salon rôle.",
+        "pronouns": {
+          "all": "Tous pronoms",
+          "ael": "Æl",
+          "ask": "Demandez",
+          "cancel": "Annuler",
+          "description": "Ici, vous pouvez choisir ou non vos pronoms en utilisant les boutons ci-dessous. Cela sera affiché sous la forme d'un rôle.\n\nPour retirer votre choix, cliquez sur le bouton Annuler.",
+          "he": "Il",
+          "no": "Pas de pronom",
+          "she": "Elle",
+          "they": "Iel",
+          "title": "Rôles pronoms"
+        },
+        "text": {
+          "error": "Une erreur est arrivée. Si cela persiste, signalez le dans le salon <#975315013206171738>.",
+          "replyAdd": "Le rôle a bien été attribué ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyAlreadyHave": "Vous possédez déjà le rôle ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*.",
+          "replyRemove": "Le rôle a bien été retiré ! Vous pouvez supprimer ce message en cliquant sur *Rejeter le message*."
+        }
+      },
+      "reminder": {
+        "delete": "Le reminder a bien été supprimé.",
+        "description": "Une commande alarme pense-bête.",
+        "error": "Il faut une durée.",
+        "help": "Tapez `/reminder 'contenu'` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, indiquez `10` dans l'option `secondes`.",
+        "hourOption": {
+          "description": "Le nombre d'heure d'attente.",
+          "name": "heures"
+        },
+        "minuteOption": {
+          "description": "Le nombre de minutes d'attente.",
+          "name": "minutes"
+        },
+        "name": "reminder",
+        "react": [". Tu peux react avec ", " pour annuler ce reminder !"],
+        "remind": "Je te rappelerai ça dans environ ",
+        "secondOption": {
+          "description": "Le nombre de secondes d'attente.",
+          "name": "secondes"
+        },
+        "stringOption": {
+          "description": "Contenu du pense-bête.",
+          "name": "contenu"
+        }
+      },
+      "reverse": {
+        "booleanOption": {
+          "description": "True si vous voulez barrer le message complet",
+          "name": "barrer"
+        },
+        "description": "Permet d'inverser le texte du message que vous souhaitez.",
+        "help": "Cette commande permet d'inverser le texte que vous donnez en entrée.\nExemple : `Message` devient `egasseM`.",
+        "name": "reverse",
+        "stringOption": {
+          "description": "Contenu du message à inverser.",
+          "name": "contenu"
+        }
+      },
+      "reverseTranslator": {
+        "alreadyTranslated": "Le log est une traduction ou a déjà été traduit.",
+        "embedName": "Traduction",
+        "executor": "Traduit par :",
+        "help": "Cette commande contextuelle permet d'inverser le contenu du message sur lequel vous cliquez.",
+        "name": "reverse-translator",
+        "noContent": "Le message ne contient aucun contenu à inverser.",
+        "title": "Reverse Translation",
+        "translated": "Le log a bien été traduit."
+      },
+      "roll": {
+        "description": "Lancer de dés",
+        "diceOption": {
+          "description": "Nombre de dés à lancer",
+          "name": "dés"
+        },
+        "facesOption": {
+          "description": "Nombre de faces à chaque dé",
+          "name": "faces"
+        },
+        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés.\nTapez `/roll 'dés' 'faces'` avec *dés = nombre de dés*, *faces = nombre de faces des dés*.\nExemple pour 2 dés à 6 faces : `/roll 2 6`. Le maximum est 20d100.",
+        "name": "roll",
+        "numberError": "Les nombres donnés ne respectent pas les limites.",
+        "parsingError": "Erreur de parsing."
+      },
+      "saveLog": {
+        "author": "Logué par :",
+        "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
+        "noEmbed": "Le message ne contient pas d'embed ou de pièce jointe.",
+        "sent": "Le log est archivé.",
+        "wrongChannel": "A n'utiliser que sur les logs fréquents.",
+        "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
+      },
+      "shuffle": {
+        "description": "Permet de lancer le mode anniversaire d'Ewibot.",
+        "help": "Commande du mode anniversaire pour alterner les couleurs des roles cosmétiques.\n- `startstop` pour démarrer/arrêter le mode anniversaire.\n- `set` pour éditer la valeur du timeout **en ms**.",
+        "name": "shuffle",
+        "set": {
+          "changed": "Le waitingTime a bien été changé.",
+          "description": "Permet de modifier la valeur du temps d'attente.",
+          "name": "set",
+          "numberOption": {
+            "description": "Temps d'attente en ms avant l'éxecution suivante de la boucle.",
+            "name": "waiting-time"
+          }
+        },
+        "startstop": {
+          "description": "Permet de démarrer/arrêter la boucle de changement de couleur.",
+          "name": "startstop",
+          "start": "start",
+          "started": "La boucle de changement est lancée.",
+          "stop": "stop",
+          "stoped": "La boucle de changement est arrêtée."
+        }
+      },
+      "spotify": {
+        "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+      }
+    },
+    "spotify": {
+      "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
+      "errorAdding": "Erreur lors de l'ajout.",
+      "errorSupressing": "Erreur lors de la suppression.",
+      "react": [". Vous pouvez react avec ", " pour annuler cet ajout !"],
+      "songAdded": "Chanson ajoutée : ",
+      "songSupressed": "Chanson supprimée de la playlist."
+    }
+  }
+}
