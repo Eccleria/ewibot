@@ -1,6 +1,6 @@
 {
-  "normal": {
-    "name": "normal",
+  "funny": {
+    "name": "funny",
     "commands": {
       "announce": {
         "buttonLabel": "Confirmer",
@@ -16,41 +16,41 @@
       "birthday": {
         "add": {
           "dayOption": {
-            "description": "Votre jour de naissance.",
+            "description": "Taon jour de naissance.",
             "name": "jour"
           },
-          "description": "Ajouter/modifier votre date de naissance.",
-          "help": "Via cette commande, vous pouvez enregistrer votre date de naissance pour qu'Ewibot vous souhaite votre anniversaire.\nVous devez remplir les champs `jour` et `mois`. Le champ `année` est optionnel.\n\nLe jour J, Ewibot vous enverra une notification d'anniversaire, qui sera visible par tout le monde.",
+          "description": "Ajouter/modifier ta date de réception de cookies.",
+          "help": "Si tu souhaites des cookies à ton anniv ... <:Rudolphslich:1050186232547790848>\nTu dois me dire quel `jour` et quel `mois`. Le champ `année` est optionnel ~~ça ne te fera pas plus de cookies, déso pas déso~~.\n\nLe jour J, je t'enverrai un cookie ! <:Ewiyay:918249094391144469>",
           "name": "ajouter",
           "monthOption": {
-            "description": "Votre mois de naissance.",
+            "description": "Taon mois de naissance.",
             "name": "mois"
           },
           "yearOption": {
-            "description": "Votre année de naissance.",
+            "description": "Taon année de naissance.",
             "name": "année"
           }
         },
-        "addUser": "Je te souhaiterai ton anniversaire.",
-        "birthday": "OWH ! Aujourd'hui on fête l'anniversaire de : \n",
-        "birthdays": "OWH ! Aujourd'hui on fête les anniversaires de : \n",
+        "addUser": "Je te souhaiterai ton anniversaire en t'offrant un cookie ! <:DuomFetard:822479563077976065>",
+        "birthday": "Hey ! Un cookie pour toi aujourd'hui : \n",
+        "birthdays": "Hey ! Des cookies pour vous aujourd'hui : \n",
         "description": "Permet de modifier votre profil d'anniversaire.",
         "get": {
-          "description": "Pour voir votre date d'anniversaire enregistrée.",
+          "description": "Pour voir taon date d'anniversaire enregistrée.",
           "help": "Cette commande vous permet de vérifier si vous avez enregistré une date de naissance et sa valeur si elle existe.",
           "name": "get"
         },
         "getUser": "Ton anniversaire est le ",
-        "help": "Cette commande me permet ou non de te souhaiter ton anniversaire.\nUtilisation : \n`$birthday add DD/MM/YYYY` pour ajouter ou modifier ta date.\n`$birthday del` pour supprimer ta date.\n`$birthday get` pour afficher ta date d'anniversaire (des fois que tu l'aies oubliée ...).",
+        "help": "Tu veux un cookie pour ton anniv ? C'est simple ! Il suffit de m'indiquer ta date de naissance avec `$birthday add DD/MM/YYYY` et je m'occupe du reste !\nSi tu n'aimes pas les cookies, c'est `$birthday del` pour supprimer ta date.\nSi tu ne sais plus si tu auras un cookie ou non (si c'est pas la bonne date, c'est pas grave, tu auras quand même le cookie), utilise `$birthday get` pour afficher ta date d'anniversaire.",
         "name": "birthday",
-        "parsingError": "Erreur de parsing dans la date.",
+        "parsingError": "J'ai pas compris taon date de naissance, tu peux répéter ? <:Chuchobigeyes:1016099307956478032>",
         "remove": {
-          "description": "Pour retirer votre date de naissance.",
-          "help": "Via cette commande, vous pouvez supprimer votre date de naissance, si elle est enregistrée.",
+          "description": "Pour ne pas avoir de cookie à ton anniv.",
+          "help": "Si jamais tu n'aimes pas les cookies, ce que je ne te souhaite pas, c'est par ici.",
           "name": "remove"
         },
-        "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
-        "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
+        "removeUser": "Dommage, plus de cookie pour toi <:ManielShrug:843468437174091812>",
+        "userNotFound": "Déso, je ne t'ai pas trouvé dans mes notes... J'ai du mal à lire tu sais ? <:Artuwu:822462344583708672>"
       },
       "botMessage": {
         "attachmentOption":{
@@ -112,15 +112,15 @@
       },
       "concrete": {
         "booleanOption": {
-          "description": "S'il faut actualiser la pp utilisée",
+          "description": "Pour que le gif ait la bonne face !",
           "name": "actualisation"
         },
-        "description": "Choisissez qui vous souhaitez bétonner.",
+        "description": "Tu veux emplafonner quelqu'un.e ? zoomeyes",
         "fileName": "concrete.gif",
-        "help": "Cette commande permet de bétonner une personne, grâce au don du gif réalisé par <@693830441660317726>. Utilisation :\n- `/concrete @cible` pour bétonner la cible.\n- `/concrete @cible true` pour mettre à jour le gif avec la nouvelle photo de profil de la cible.",
+        "help": "Lezgo bétonner, emplafonner, réduire en bouillie ! C'est super simple en plus !\n- `/concrete @cible` pour bétonner lea gens.\n- `/concrete @cible true` pour mettre à jour le gif avec la nouvelle photo de profil du gens.",
         "name": "concrete",
         "userOption": {
-          "description": "La personne que vous souhaitez bétonner.",
+          "description": "La personne que vous souhaitez emplafonner.",
           "name": "cible"
         },
         "errorMention": "Il faut une seule mention."
@@ -268,15 +268,15 @@
         }
       },
       "helloWorld": {
-        "help": "Cette commande n'a pas besoin de description.",
-        "pong": "pong !"
+        "help": "pong !",
+        "pong": "re <:Chuchobigeyes:1016099307956478032>"
       },
       "help": {
         "description": "Cette commande permet d'afficher l'aide d'une commande.",
         "help": "Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.",
         "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n",
         "name": "help",
-        "notFound": "La commande dont vous cherchez l'aide n'existe pas.",
+        "notFound": "Désolé, j'ai mangé l'aide que vous cherché <:Chuchobigeyes:1016099307956478032>",
         "stringOption": {
           "description": "Nom de la commande",
           "name": "which_command"
@@ -294,11 +294,11 @@
         "help": "Ewibot ignore ou non le channel. Utilisation :\n- `/ignoreChannel #channel` dans n'importe quel channel.\n- `/ignoreChannel` dans le channel concerné."
       },
       "ignoreUser": {
-        "description": "Permet de choisir si je réagirai à vos messages ou non.",
-        "help": "Cette commande m'empêche ou non de réagir à vos messages.",
+        "description": "Permet de choisir si je te boude ou non.",
+        "help": "Cette commande me permet ou non de te bouder.",
         "name": "ignore_user",
-        "ignored": "Dorénavant je ne réagirai plus à vos messages.",
-        "notIgnored": "Je vais de nouveau réagir à vos messages."
+        "ignored": "Je te boude.",
+        "notIgnored": "...okay je boude plus <:Bjornnoyed:841686615523983400>"
       },
       "leaderboardApology": {
         "description": "Cette commande permet d'envoyer le classement des excuses",
@@ -314,7 +314,7 @@
         "sent": "Le message de classement des excuses a bien été envoyé"
       },
       "personality": {
-        "change": "Dorénavant, j'aurai la personalité ",
+        "change": "Dorénavant, je serais fun ! ",
         "currentName": "Actuellement, j'ai la personalité ",
         "nameError": "Erreur d'argument.",
         "nameList": "La liste des personalités est : ",
@@ -500,10 +500,10 @@
         }
       },
       "reminder": {
-        "delete": "Le reminder a bien été supprimé.",
+        "delete": "Bon, bah plus de pense bête. Triste.",
         "description": "Une commande alarme pense-bête.",
-        "error": "Il faut une durée.",
-        "help": "Tapez `/reminder 'contenu'` pour avoir un rappel avec le `contenu` au bout du délai indiqué. Pour demander un reminder dans 10 secondes, indiquez `10` dans l'option `secondes`.",
+        "error": "Il faut une durée. Sinon je spam <:Chuchobigeyes:1016099307956478032>",
+        "help": "Si tu tapes`/reminder 'contenu'`, je te répondrai peut être `contenu` quand tu le voudras. Mais pour ça, faut que tu me donnes une durée <:TslichEye:822487568766730270>.",
         "hourOption": {
           "description": "Le nombre d'heure d'attente.",
           "name": "heures"
@@ -514,7 +514,7 @@
         },
         "name": "reminder",
         "react": [". Tu peux react avec ", " pour annuler ce reminder !"],
-        "remind": "Je te rappelerai ça dans environ ",
+        "remind": "Je te rappelerai ça ~~si j'en ai envie hein !~~ <:BjornBear:823901160917827584> dans environ ",
         "secondOption": {
           "description": "Le nombre de secondes d'attente.",
           "name": "secondes"
@@ -530,7 +530,7 @@
           "name": "barrer"
         },
         "description": "Permet d'inverser le texte du message que vous souhaitez.",
-        "help": "Cette commande permet d'inverser le texte que vous donnez en entrée.\nExemple : `Message` devient `egasseM`.",
+        "help": "Cette commande permet d'être relou dans le chat ~~pour les autres~~ mais quand même classe, en écrivant à l'envers.\nExemple : `Message` devient `egasseM`.",
         "name": "reverse",
         "stringOption": {
           "description": "Contenu du message à inverser.",
@@ -541,9 +541,9 @@
         "alreadyTranslated": "Le log est une traduction ou a déjà été traduit.",
         "embedName": "Traduction",
         "executor": "Traduit par :",
-        "help": "Cette commande contextuelle permet d'inverser le contenu du message sur lequel vous cliquez.",
+        "help": "Cette commande contextuelle permet de rendre moins classe un message inversé. Franchement, c'est mieux sans <:Ewinklan:841675143596212267>",
         "name": "reverse-translator",
-        "noContent": "Le message ne contient aucun contenu à inverser.",
+        "noContent": "Le message ne peut être moins classe.",
         "title": "Reverse Translation",
         "translated": "Le log a bien été traduit."
       },
@@ -557,7 +557,7 @@
           "description": "Nombre de faces à chaque dé",
           "name": "faces"
         },
-        "help": "Cette commande permet de renvoyer les résultats d'un jet de dés.\nTapez `/roll 'dés' 'faces'` avec *dés = nombre de dés*, *faces = nombre de faces des dés*.\nExemple pour 2 dés à 6 faces : `/roll 2 6`. Le maximum est 20d100.",
+        "help": "Cette commande permet de jouer aux dés.\nTapez `/roll 'dés' 'faces'` avec *dés = nombre de dés*, *faces = nombre de faces des dés*.\nExemple pour 2 dés à 6 faces : `/roll 2 6`. Le maximum est 20d100.",
         "name": "roll",
         "numberError": "Les nombres donnés ne respectent pas les limites.",
         "parsingError": "Erreur de parsing."
