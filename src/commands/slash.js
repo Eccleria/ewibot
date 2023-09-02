@@ -29,6 +29,7 @@ import leaderboardApology from "./leadApo.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
+import roles from "./roles/dessinateurice.js";
 import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
@@ -191,6 +192,7 @@ const slashCommands = [
   polls,
   reminder,
   reverse,
+  roles,
   roll,
   shuffle,
   spotify,

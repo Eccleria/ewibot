@@ -547,6 +547,31 @@
         "title": "Reverse Translation",
         "translated": "Le log a bien été traduit."
       },
+      "roles": {
+        "description": "Commandes de jeux entre Alavirien.nes",
+        "dessinateurice": {
+          "creativity": {
+            "choiceOption": {
+              "description": "Liste des thèmes proposés",
+              "name": "choix"
+            },
+            "customOption": {
+              "description": "Indiquez le thème du duel",
+              "name": "theme-perso"
+            },
+            "description": "Duel de Créativité entre 2 dessinateurices.",
+            "errorNoTheme": "Attention, vous n'avez pas indiqué de thème pour le défi.",
+            "name": "creativity",
+            "userOption": {
+              "description": "Cible du duel",
+              "name": "cible"
+            }
+          },
+          "description": "Jeux entre Dessinateurices",
+          "name": "dessinateurice"
+        },
+        "name": "roles"
+      },
       "roll": {
         "description": "Lancer de dés",
         "diceOption": {
