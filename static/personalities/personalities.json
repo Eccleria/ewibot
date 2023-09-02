@@ -551,6 +551,10 @@
         "description": "Commandes de jeux entre Alavirien.nes",
         "dessinateurice": {
           "creativity": {
+            "buttons": {
+              "confirm": ["roles_dessinateurice_creativity_confirm", "Participer"],
+              "deny": ["roles_dessinateurice_creativity_deny", "Refuser"]
+            },
             "choiceOption": {
               "description": "Liste des thèmes proposés",
               "name": "choix"
@@ -561,7 +565,10 @@
             },
             "description": "Duel de Créativité entre 2 dessinateurices.",
             "errorNoTheme": "Attention, vous n'avez pas indiqué de thème pour le défi.",
+            "errorNotSent": "Le message de défi n'a pas pu être envoyé.",
+            "message": [" a defié ", " au défi Dessinateurices Créativité !\nAcceptez-vous le défi ?"],
             "name": "creativity",
+            "sent": "Le défi est bien envoyé",
             "userOption": {
               "description": "Cible du duel",
               "name": "cible"

@@ -1,6 +1,8 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { SlashCommandBuilder, ButtonStyle } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
-import { interactionReply } from "../utils.js";
+import { createButton, interactionReply } from "../utils.js";
+import { ActionRowBuilder } from "@discordjs/builders";
+import { COMMONS } from "../../commons.js";
 
 const creativityChoices = [
     {name: "theme1", value: "0"},
@@ -42,7 +44,7 @@ const command = new SlashCommandBuilder()
         )
     );
 
-const action = (interaction) => {
+const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().roles;
   const options = interaction.options;
 
@@ -68,7 +70,24 @@ const action = (interaction) => {
       }
 
       //create defi message with content + button
+      const bPerso = perso.buttons;
+      const confirmButton = createButton(...bPerso.confirm, ButtonStyle.Primary);
+      const denyButton = createButton(...bPerso.deny, ButtonStyle.Danger);
+      const ActionRow = new ActionRowBuilder().addComponents(confirmButton, denyButton);
       
+      const content = interaction.member.toString() + perso.message[0] + target.toString() + perso.message[1];
+      const server = COMMONS.fetchGuildId(interaction.guildId);
+      const channel = await interaction.guild.channels.fetch(server.randomfloodChannelId);
+      if (channel) {
+        try {
+          const message = channel.send({components: [ActionRow], content})
+          if (message) interactionReply(interaction, perso.sent);
+          else interactionReply(interaction, perso.errorNotSent);
+        } catch (e) {
+          console.log("roles dessinateurice creativity send error", e);
+          return;
+        }
+      }
     }
   }
 };
