@@ -21,7 +21,7 @@ export const onPublicMessage = (message, client, currentServer) => {
     (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
   )
     return;
-
+  console.log(message.attachments.map((obj) => obj.size));
   reactionHandler(message, currentServer, client);
 };
 
