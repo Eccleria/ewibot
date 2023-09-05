@@ -92,7 +92,7 @@ export { isStatsUser, addStatsUser, removeStatsUser };
 const addStatsData = (db, userId, whichStat, value = 1) => {
   const data = db.data.stats;
   //check if is in db
-  if (isStatsUser(db, userId)) {
+  if (isStatsUser(db, userId) === dbReturnType.isIn) {
     for (const obj of data) {
       if (obj.userId === userId) {
         if (obj[whichStat] !== undefined) obj[whichStat] += value;
