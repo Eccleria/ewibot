@@ -25,7 +25,7 @@ export const statsKeys = Object.freeze({
  * Simplify userStatsInit with this global const
  */
 const userStatsInit = Object.values(statsKeys).reduce((acc, val) => {
-  if (val === statsKeys.emojis) return { ...acc, [val]: {}}
+  if (val === statsKeys.emojis) return { ...acc, [val]: {} };
   return { ...acc, [val]: 0 };
 }, {});
 

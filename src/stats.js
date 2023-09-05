@@ -47,7 +47,7 @@ const isServerEmoji = (message, emojiId) => {
 
   const guildEmojiManager = guild.emojis;
   return guildEmojiManager.cache.hasAll(emojiId);
-}
+};
 
 //#region rolling gifs
 
