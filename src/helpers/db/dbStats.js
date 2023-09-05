@@ -17,7 +17,7 @@ export const statsKeys = Object.freeze({
   gifs: "gifs",
   hello: "hello",
   hungry: "hungry",
-  reactions: "reactions",
+  emojis: "emojis",
   rolling: "rolling",
 });
 
@@ -25,6 +25,7 @@ export const statsKeys = Object.freeze({
  * Simplify userStatsInit with this global const
  */
 const userStatsInit = Object.values(statsKeys).reduce((acc, val) => {
+  if (val === statsKeys.emojis) return { ...acc, [val]: {}}
   return { ...acc, [val]: 0 };
 }, {});
 
@@ -106,7 +107,33 @@ const addStatsData = (db, userId, whichStat, value = 1) => {
   } else return dbReturnType.isNotIn;
 };
 
-export { addStatsData };
+/**
+ * Add +1 to corresponding emoji and user
+ * @param {object} db Database object
+ * @param {string} userId User id which require stat change
+ * @param {statsKeys} emojiId Emoji Id to add value
+ * @param {?number} value The number to add to stat. 1 by default
+ * @returns {dbReturnType} isOk if is ok, isNotIn if user isn't stats user
+ */
+const addEmojiData = (db, userId, emojiId, value = 1) => {
+  const data = db.data.stats;
+  //check if is in db
+  if (isStatsUser(db, userId) === dbReturnType.isIn) {
+    for (const obj of data) {
+      if (obj.userId === userId) {
+        const emojis = obj.emojis;
+        if (emojis[emojiId] !== undefined) emojis[emojiId] += value;
+        else emojis[emojiId] = 1;
+
+        db.wasUpdated = true;
+        return dbReturnType.isOk; //stop loop here, job is done
+      }
+    }
+    return dbReturnType.isNotOk; //should not happen but anyway
+  } else return dbReturnType.isNotIn;
+};
+
+export { addStatsData, addEmojiData };
 
 //#endregion
 

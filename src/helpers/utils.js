@@ -77,7 +77,7 @@ export const hasOctagonalSign = (content, cmnShared) => {
 /**
  * Parse a string emoji into its id.
  * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
- * @returns {string} Emoji id
+ * @returns {?string} Emoji id | null
  */
 export const parseEmoji = (content) => {
   //id is always last of content.split(":")

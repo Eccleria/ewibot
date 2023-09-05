@@ -68,6 +68,7 @@ import {
 import {
   isStatsUser,
   addStatsData,
+  addEmojiData,
   addStatsUser,
   removeStatsUser,
   statsKeys,
@@ -167,6 +168,7 @@ export {
   //stats
   isStatsUser,
   addStatsUser,
+  addEmojiData,
   removeStatsUser,
   addStatsData,
   statsKeys,

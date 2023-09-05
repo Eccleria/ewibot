@@ -1,7 +1,7 @@
 import { gifRecovery } from "./admin/utils.js";
 import { addServerEmojiCount } from "./helpers/db/dbStats.js";
 import { parseEmoji, statsKeys } from "./helpers/index.js";
-import { addStatsData } from "./helpers/index.js";
+import { addStatsData, addEmojiData } from "./helpers/index.js";
 
 /**
  * Count gifs from message content and add it to user's stats
@@ -29,7 +29,7 @@ export const emojiInContentHandler = (message) => {
       //check if there is any emoji, and if this is a server emoji
       const test = emojiId ? isServerEmoji(message, emojiId) : emojiId;
       if (test) {
-        addStatsData(client.db, author.id, statsKeys.reactions);
+        addEmojiData(client.db, author.id, emojiId);
         addServerEmojiCount(client.db, emojiId);
       }
     }
