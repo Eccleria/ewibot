@@ -34,8 +34,7 @@ const action = (interaction) => {
       interactionReply(interaction, useP.isNotUser);
     } else if (ret === dbReturnType.isNotIn) {
       //if not user, add
-      ret = addStatsUser(db, userId);
-      console.log(ret);
+      addStatsUser(db, userId);
       interactionReply(interaction, useP.isUser);
     } else {
       console.log("Invalid isStatsUser returned value: ", ret);
