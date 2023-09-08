@@ -75,7 +75,6 @@ import {
   sanitizePunctuation,
   isAdmin,
   hasApology,
-  readContentAndReact,
   hasOctagonalSign,
 } from "./utils.js";
 
@@ -84,7 +83,6 @@ export {
   sanitizePunctuation,
   isAdmin,
   hasApology,
-  readContentAndReact,
   hasOctagonalSign,
   // spotifyHelper
   generateSpotifyClient,

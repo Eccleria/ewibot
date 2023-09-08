@@ -31,7 +31,7 @@ class Commons {
   /**
    * get Shared values for both servers
    * @returns {object} values shared for both servers
-  */
+   */
   getShared() {
     return this.shared;
   }

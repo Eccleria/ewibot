@@ -16,15 +16,10 @@ import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
 // helpers imports
-import {
-  generateSpotifyClient,
-} from "./helpers/index.js";
+import { generateSpotifyClient } from "./helpers/index.js";
 
 // fun imports
-import {
-  setActivity,
-  updateActivity,
-} from "./fun.js";
+import { setActivity, updateActivity } from "./fun.js";
 
 // listeners imports
 import {
