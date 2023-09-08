@@ -98,8 +98,14 @@ export const hasApology = (sanitizedContent) => {
   return false;
 };
 
-export const reactionHandler = async (message, currentServer, client) => {
-  const db = client.db;
+/**
+ * Analyse message content and makes bot react accordingly
+ * @param {object} message Message object with content to read
+ * @param {object} currentServer common.json object, related to message.guild.id
+ * @returns 
+ */
+export const readContentAndReact = async (message, currentServer) => {
+  const db = message.client.db;
   const authorId = message.author.id;
 
   const cmnShared = COMMONS.getShared();

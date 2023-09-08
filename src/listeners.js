@@ -1,7 +1,7 @@
 import { PERSONALITY } from "./personality.js";
 
 import {
-  reactionHandler,
+  readContentAndReact,
   deleteSongFromPlaylist,
   removeReminder,
 } from "./helpers/index.js";
@@ -22,7 +22,7 @@ export const onPublicMessage = (message, client, currentServer) => {
   )
     return;
 
-  reactionHandler(message, currentServer, client);
+  readContentAndReact(message, currentServer);
 };
 
 export const onRemoveReminderReaction = (
