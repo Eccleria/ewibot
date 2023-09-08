@@ -147,7 +147,7 @@ const onMessageHandler = async (message) => {
 
   if (channel.type === ChannelType.DM) return;
   else {
-    const currentServer = COMMONS.fetchGuildId(channel.guildId);
+    const currentServer = COMMONS.fetchFromGuildId(channel.guildId);
     onPublicMessage(message, client, currentServer);
   }
 };

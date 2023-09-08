@@ -286,7 +286,7 @@ export const generalEmbed = async (
  * @returns {TextChannel}
  */
 export const getLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchGuildId(eventObject.guild.id); //get server local data
+  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
 
   let id;
   switch (type) {

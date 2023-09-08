@@ -444,7 +444,7 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
-  const currentServer = COMMONS.fetchGuildId(message.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(message.guildId);
 
   if (
     message.channelId === currentServer.logThreadId ||
@@ -591,7 +591,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (!oMessage.guild) return; //Ignore DM
   if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
-  const currentServer = COMMONS.fetchGuildId(newMessage.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(newMessage.guildId);
   if (newMessage.channelId === currentServer.logThreadId) return;
 
   //get personality
@@ -719,7 +719,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       if (!hasApology(oSanitized) && hasApology(nSanitized)) {
         //in new message && not in old message
         const db = oMessage.client.db; //get db
-        const currentServer = COMMONS.fetchGuildId(nMessage.guildId); //get commons.json data
+        const currentServer = COMMONS.fetchFromGuildId(nMessage.guildId); //get commons.json data
         addApologyCount(db, nMessage.author.id); //add data to db
         await nMessage.react(currentServer.panDuomReactId); //add message reaction
       }
@@ -897,7 +897,7 @@ export const onGuildMemberRemove = async (memberKick) => {
 };
 
 export const onGuildMemberAdd = async (guildMember) => {
-  const currentServer = COMMONS.fetchGuildId(guildMember.guild.id);
+  const currentServer = COMMONS.fetchFromGuildId(guildMember.guild.id);
 
   if (currentServer.name === "prod" && process.env.DEBUG === "no") {
     console.log("onGuildMemberAdd", guildMember.displayName);

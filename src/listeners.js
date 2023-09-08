@@ -102,7 +102,7 @@ export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
-  const currentServer = COMMONS.fetchGuildId(
+  const currentServer = COMMONS.fetchFromGuildId(
     messageReaction.message.channel.guild.id
   );
   const cmnShared = COMMONS.getShared();
@@ -135,7 +135,7 @@ export const onReactionAdd = async (messageReaction, user) => {
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
-  const currentServer = COMMONS.fetchGuildId(
+  const currentServer = COMMONS.fetchFromGuildId(
     messageReaction.message.channel.guild.id
   );
 

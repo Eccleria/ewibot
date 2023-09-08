@@ -31,7 +31,7 @@ const giftAction = async (interaction) => {
     );
 
   //get channel
-  const server = COMMONS.fetchGuildId(interaction.guildId);
+  const server = COMMONS.fetchFromGuildId(interaction.guildId);
   const channelId = server.announce.giftChannelId;
   const channel = await interaction.client.channels.fetch(channelId);
 

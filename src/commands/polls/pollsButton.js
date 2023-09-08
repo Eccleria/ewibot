@@ -31,7 +31,7 @@ export const sendSettingsButtons = async (interaction) => {
 
   if (interaction.user.id !== dbPoll.authorId) {
     //if not poll author, check is sentinelle
-    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+    const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
     if (!isSentinelle(interaction.member, currentServer)) {
       //if not, no right to use this button
       interactionEditReply(interaction, perso.errorNotAuthor);

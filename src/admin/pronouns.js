@@ -4,7 +4,7 @@ import { PERSONALITY } from "../personality.js";
 
 export const pronounsButtonHandler = async (interaction) => {
   //get commons pronouns data
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
   const pronounsJson = Object.entries(currentServer.pronouns.pronouns);
   const agreementsJson = Object.entries(currentServer.pronouns.agreements);
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]

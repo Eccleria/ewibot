@@ -60,7 +60,7 @@ const action = async (object) => {
   const recipient = await client.users.fetch(user.id); //get guildMember from user id
 
   const self = process.env.CLIENTID;
-  const currentServer = COMMONS.fetchGuildId(channel.guild.id);
+  const currentServer = COMMONS.fetchFromGuildId(channel.guild.id);
 
   const gifsPath = path.join(
     path.resolve(path.dirname("")),

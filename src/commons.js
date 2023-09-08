@@ -18,7 +18,7 @@ class Commons {
   getShared() {
     return this.shared;
   }
-  fetchGuildId(guildId) {
+  fetchFromGuildId(guildId) {
     return this.list.find((obj) => guildId === obj.guildId);
   }
   getList() {

@@ -86,7 +86,7 @@ const contextAction = async (interaction) => {
   const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
   //if in log_channel => should handle embed contents + send as visible for anyone
-  const server = COMMONS.fetchGuildId(interaction.guildId);
+  const server = COMMONS.fetchFromGuildId(interaction.guildId);
   const channels = [server.logChannelId, server.logThreadId];
   let string;
   if (channels.includes(interaction.channelId)) {

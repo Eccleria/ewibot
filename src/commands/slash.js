@@ -212,7 +212,7 @@ const help = {
     if (foundCommand) {
       const member = interaction.member;
 
-      const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+      const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
       const isModo = isSentinelle(interaction.member, currentServer);
       const isAdminUser = isAdmin(member.id);
 
@@ -233,7 +233,7 @@ const help = {
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const member = interaction.member;
-    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+    const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
 
     const isModo = isSentinelle(member, currentServer);
     const isDev = isAdmin(member.id);

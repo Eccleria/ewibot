@@ -23,7 +23,7 @@ export const eventRolesButtonHandler = async (interaction) => {
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
   //get alavirien role id
-  const currentServer = COMMONS.fetchGuildId(guildId);
+  const currentServer = COMMONS.fetchFromGuildId(guildId);
 
   //give requested role
   const guildMember = !interaction.member
@@ -92,7 +92,7 @@ const action = async (interaction) => {
   const options = interaction.options;
   const subcommand = options.getSubcommand();
 
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
 
   const db = interaction.client.db;
   const buttonType = ButtonStyle.Primary;

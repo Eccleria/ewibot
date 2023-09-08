@@ -146,7 +146,7 @@ const action = async (interaction) => {
 
   //check for alavirien.ne role
   const guildMember = await interaction.member.fetch();
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
   if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
     interactionReply(interaction, personality.errorNotAlavirien);
     return;
