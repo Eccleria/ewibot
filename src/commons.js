@@ -7,7 +7,6 @@ class Commons {
     this.test = test;
     this.prod = prod;
     this.shared = shared;
-    this.list = [this.test, this.prod];
   }
 
   getTest() {
@@ -23,7 +22,7 @@ class Commons {
     return this.list.find((obj) => guildId === obj.guildId);
   }
   getList() {
-    return this.list;
+    return [this.test, this.prod];
   }
 }
 
