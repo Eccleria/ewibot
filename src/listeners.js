@@ -12,7 +12,7 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
 
-export const onPublicMessage = (message, client, currentServer) => {
+export const onPublicMessage = (message, currentServer) => {
   const { author } = message;
 
   if (

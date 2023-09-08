@@ -77,8 +77,6 @@ import {
   hasApology,
   readContentAndReact,
   hasOctagonalSign,
-  setActivity,
-  updateActivity,
 } from "./utils.js";
 
 export {
@@ -88,8 +86,6 @@ export {
   hasApology,
   readContentAndReact,
   hasOctagonalSign,
-  setActivity,
-  updateActivity,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
