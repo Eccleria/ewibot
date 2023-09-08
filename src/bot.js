@@ -18,9 +18,13 @@ import { Low, JSONFile } from "lowdb";
 // helpers imports
 import {
   generateSpotifyClient,
+} from "./helpers/index.js";
+
+// fun imports
+import {
   setActivity,
   updateActivity,
-} from "./helpers/index.js";
+} from "./fun.js";
 
 // listeners imports
 import {
