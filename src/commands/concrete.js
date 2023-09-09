@@ -9,7 +9,7 @@ import path from "path";
 import fs from "fs";
 
 import { PERSONALITY } from "../personality.js";
-import { interactionReply } from "./utils.js";
+import { interactionReply } from "../helpers/index.js";
 
 import { COMMONS } from "../commons.js";
 

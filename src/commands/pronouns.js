@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonStyle } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 
-import { setupEmbed } from "../admin/utils.js";
+import { setupEmbed } from "../helpers/index.js";
 import { createButton } from "./utils.js";
 
 const action = async (message, _client, currentServer) => {

@@ -6,9 +6,9 @@ dayjs.extend(CustomParseFormat);
 
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-import { interactionReply } from "./utils.js";
 import {
   addBirthday,
+  interactionReply,
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";

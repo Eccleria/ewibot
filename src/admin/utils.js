@@ -1,15 +1,16 @@
-import { EmbedBuilder, AuditLogEvent } from "discord.js";
-
-import { PERSONALITY } from "../personality.js";
-import { COMMONS } from "../commons.js";
+import { AuditLogEvent } from "discord.js";
 
 import {
   getAdminLogs,
+  getLogChannel,
   removeAdminLogs,
   removeBirthday,
   removeIgnoredUser,
   removeAlavirien,
+  setupEmbed,
 } from "../helpers/index.js";
+import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 /**
  * Fetch AuditLog from API.
@@ -33,47 +34,6 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
     console.log("AuditLog Fetch Error", e);
     return null;
   }
-};
-
-/**
- * Create and setup a EmbedBuilder with common properties.
- * @param {string} color The color of the embed.
- * @param {object} personality The personality object of the embed.
- * @param {object} [object] Object containing or not the author.
- * @param {string} [type] Differentiate object use case.
- * @returns {EmbedBuilder} Embed with basic properties.
- */
-export const setupEmbed = (color, personality, object, type) => {
-  const embed = new EmbedBuilder()
-    .setColor(color)
-    .setTitle(personality.title)
-    .setTimestamp();
-
-  if (personality.description) embed.setDescription(personality.description);
-
-  if (type === "tag")
-    embed.addFields({
-      name: personality.author,
-      value: object.toString(),
-      inline: true,
-    });
-  //add user as embed if required
-  else if (type === "skip") return embed;
-  //allows to skip the 3rd field
-  else if (type === "user")
-    embed.addFields({
-      name: personality.author,
-      value: object.username,
-      inline: true,
-    });
-  //add user if required
-  else
-    embed.addFields({
-      name: personality.author,
-      value: object.name.toString(),
-      inline: true,
-    }); //otherwise, add the object name as embed (for channels, roles, ...)
-  return embed;
 };
 
 /**
@@ -277,30 +237,6 @@ export const generalEmbed = async (
   const text = needReason ? log.reason : null; //if needed, get reason
 
   endCasesEmbed(objToSend, log, perso, aLog, embed, channel, text, diff);
-};
-
-/**
- * Fetch Log Channel.
- * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut"
- * @returns {TextChannel}
- */
-export const getLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
-
-  let id;
-  switch (type) {
-    case "thread":
-      id = currentServer.logThreadId;
-      break;
-    case "inAndOut":
-      id = currentServer.inAndOutLogChannelId;
-      break;
-    default:
-      id = currentServer.logChannelId;
-  }
-
-  return await eventObject.guild.channels.fetch(id); //return the log channel
 };
 
 export const clientEventUpdateProcess = (
@@ -572,7 +508,12 @@ const space2Strings = (str1, str2, dist, sep) => {
   return `${sliced1}${sep}${sliced2}`;
 };
 
-export const removeEmote = (str) => {
+/**
+ * Remove starting emote from a string
+ * @param {string} str String to modify
+ * @returns {string} New string sliced without emote
+ */
+const removeEmote = (str) => {
   //remove emote from the begining of a string
   let n = 0;
   for (const char of str) {
@@ -649,34 +590,7 @@ export const fetchMessage = async (message) => {
   }
 };
 
-/**
- * Get strings corresponding to gif url.
- * @param {string} content
- * @returns {?string[]} If any, returns array of gif url strings.
- */
-export const gifRecovery = (content) => {
-  const tenor = "tenor.com/";
-  const end = ".gif";
-
-  if (content.includes(tenor) || content.includes(end)) {
-    //if any gif inside content
-    const words = content.split(" "); //split content into words
-    const results = words.reduce((acc, cur) => {
-      //look for gif position in content
-      if (cur.includes(tenor) || cur.endsWith(end)) {
-        //if has link
-        const start = cur.indexOf("https://"); //look for link position
-        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
-        return [...acc, sliced]; //return link
-      }
-      return acc;
-    }, []);
-    return results;
-  }
-  return null;
-};
-
-export const logsRemover = async (client) => {
+const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
   const server =
@@ -769,9 +683,9 @@ export const octagonalLog = async (object, user) => {
 };
 
 /**
- * Check if is currently in test server
- * @param {Object} eventObject eventObject given to listener from API
- * @returns True if is test server
+ * Check if the event comes from test server
+ * @param {object} eventObject eventObject given to listener from API
+ * @returns {boolean} True if is test server
  */
 export const isTestServer = (eventObject) => {
   const testServer = COMMONS.getTest();

@@ -8,8 +8,7 @@ import {
 } from "./pollsButton.js";
 
 import { pollVoteHandler } from "./pollsVote.js";
-import { interactionReply } from "../utils.js";
-import { getPoll } from "../../helpers/index.js";
+import { getPoll, interactionReply } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const pollsButtonHandler = async (interaction) => {

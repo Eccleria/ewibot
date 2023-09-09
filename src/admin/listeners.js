@@ -1,33 +1,33 @@
 import {
   buttonHandler,
   selectMenuHandler,
-  interactionReply,
-  isReleasedCommand,
-  dispatchSlicedEmbedContent,
 } from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import {
   isTestServer,
+  checkEmbedContent,
   clientEventUpdateProcess,
   endCasesEmbed,
   fetchAuditLog,
   fetchMessage,
   finishEmbed,
   generalEmbed,
-  getLogChannel,
-  gifRecovery,
   octagonalLog,
-  setupEmbed,
   checkDB,
 } from "./utils.js";
 import {
   addAlavirien,
   addAdminLogs,
   addApologyCount,
+  getLogChannel,
+  gifRecovery,
   hasApology,
-  sanitizePunctuation,
   hasOctagonalSign,
+  interactionReply,
+  isReleasedCommand,
+  sanitizePunctuation,
+  setupEmbed,
 } from "../helpers/index.js";
 
 import { shuffleParam } from "../commands/shuffle.js";
@@ -504,7 +504,7 @@ export const onMessageDelete = async (message) => {
 
   //handle content
   let content = message.content ? message.content : messageDel.note;
-  dispatchSlicedEmbedContent(content, embed, messageDel);
+  checkEmbedContent(content, embed, messageDel);
 
   const gifs = gifRecovery(content); //handle gifs
 
@@ -705,10 +705,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
     if (oLen !== 0) {
       //slice too long string to fit 1024 length restriction in field
-      dispatchSlicedEmbedContent(oldContent, embed, messageU.contentOld);
+      checkEmbedContent(oldContent, embed, messageU.contentOld);
     }
     if (nLen !== 0) {
-      dispatchSlicedEmbedContent(newContent, embed, messageU.contentNew);
+      checkEmbedContent(newContent, embed, messageU.contentNew);
     }
 
     if (oLen !== 0 && nLen !== 0) {

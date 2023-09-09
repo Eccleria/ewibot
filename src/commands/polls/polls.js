@@ -1,11 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
-import { addPoll, addPollChoices } from "../../helpers/index.js";
+import { addPoll, addPollChoices, getPollFromTitle, getPollsTitles, interactionReply } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
-import { createButton, interactionReply } from "../utils.js";
+import { createButton } from "../utils.js";
 import { parsePollFields, stopPoll } from "./pollsUtils.js";
-import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
 import { COMMONS } from "../../commons.js";
 import dayjs from "dayjs";
 

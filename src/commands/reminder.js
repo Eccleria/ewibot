@@ -10,9 +10,9 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 
 import { PERSONALITY } from "../personality.js";
 
-import { interactionReply } from "./utils.js";
 import {
   addReminder,
+  interactionReply,
   removeReminder,
   updateReminder,
 } from "../helpers/index.js";

@@ -1,10 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } from "discord.js";
 
-import { createButton, interactionReply } from "./utils.js";
+import { createButton } from "./utils.js";
 import {
   addEventRole,
   getEventRoles,
+  interactionReply,
   updateEventRoleMessageId,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";

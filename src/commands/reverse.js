@@ -7,9 +7,8 @@ import {
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
-import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
+import { checkEmbedContent, getLogChannel, interactionReply } from "../helpers/index.js";
 import { Colors, EmbedBuilder } from "discord.js";
-import { getLogChannel } from "../admin/utils.js";
 
 const reverseStr = (string) => {
   let reversed = "";
@@ -125,7 +124,7 @@ const contextAction = async (interaction) => {
 
       embedTr.setColor(Colors.DarkRed);
 
-      dispatchSlicedEmbedContent(content, embedTr, mDPerso);
+      checkEmbedContent(content, embedTr, mDPerso);
     } else if (title === adminPerso.messageUpdate.title) {
       const mUPerso = adminPerso.messageUpdate;
 
@@ -157,8 +156,8 @@ const contextAction = async (interaction) => {
 
       embedTr.setColor("DARK_GREEN");
 
-      dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
-      dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
+      checkEmbedContent(oContent, embedTr, mUPerso.contentOld);
+      checkEmbedContent(nContent, embedTr, mUPerso.contentNew);
     }
 
     //add interaction author

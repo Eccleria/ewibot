@@ -1,7 +1,6 @@
 import { ContextMenuCommandBuilder } from "@discordjs/builders";
 
-import { getLogChannel, gifRecovery } from "../admin/utils.js";
-import { interactionReply } from "./utils.js";
+import { getLogChannel, gifRecovery, interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 import { EmbedBuilder } from "discord.js";

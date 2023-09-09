@@ -1,10 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v9";
-import { isAdmin } from "../helpers/utils.js";
 //import { ChannelType } from "discord.js"; //for discordjs v14
 
 import { PERSONALITY } from "../personality.js";
-import { interactionReply } from "./utils.js";
+import { interactionReply, isAdmin } from "../helpers/index.js";
 import { AttachmentBuilder } from "discord.js";
 
 const command = new SlashCommandBuilder()

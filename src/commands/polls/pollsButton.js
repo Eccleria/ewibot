@@ -5,9 +5,9 @@ import {
   pollRefreshEmbed,
   stopPoll,
 } from "./pollsUtils.js";
-import { createButton, isSentinelle } from "../utils.js";
+import { createButton } from "../utils.js";
 import { PERSONALITY } from "../../personality.js";
-import { getPoll, resetPollVoters } from "../../helpers/index.js";
+import { getPoll, isSentinelle, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 
 export const sendSettingsButtons = async (interaction) => {

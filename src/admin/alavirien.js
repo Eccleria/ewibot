@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
 
-import { removeAlavirien } from "../helpers/index.js";
-import { setupEmbed, finishEmbed } from "./utils.js";
-import { isSentinelle } from "../commands/utils.js";
+import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
+import { finishEmbed } from "./utils.js";
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 

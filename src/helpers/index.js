@@ -72,18 +72,32 @@ import {
 } from "./spotifyHelper.js";
 
 import {
-  sanitizePunctuation,
-  isAdmin,
+  checkEmbedContent,
+  getLogChannel,
+  gifRecovery,
   hasApology,
   hasOctagonalSign,
+  interactionReply,
+  isAdmin,
+  isReleasedCommand,
+  isSentinelle,
+  sanitizePunctuation,
+  setupEmbed,
 } from "./utils.js";
 
 export {
   // utils
-  sanitizePunctuation,
-  isAdmin,
+  checkEmbedContent,
+  getLogChannel,
+  gifRecovery,
   hasApology,
   hasOctagonalSign,
+  interactionReply,
+  isAdmin,
+  isReleasedCommand,
+  isSentinelle,
+  sanitizePunctuation,
+  setupEmbed,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
