@@ -6,7 +6,7 @@ import {
   //utils
   hasApology,
   hasOctagonalSign,
-  sanitizePunctuation,
+  removePunctuation,
 } from "./helpers/index.js";
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
@@ -115,7 +115,7 @@ export const readContentAndReact = async (message, currentServer) => {
   // If message contains apology, Ewibot reacts
   if (process.env.DEBUG === "yes")
     console.log("loweredContent", [loweredContent]);
-  const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
+  const sanitizedContent = removePunctuation(loweredContent); //remove punctuation
   if (process.env.DEBUG === "yes")
     console.log("sanitizedContent", [sanitizedContent]);
 

@@ -1,8 +1,8 @@
 import { ContextMenuCommandBuilder } from "@discordjs/builders";
 
 import {
-  getLogChannel,
-  gifRecovery,
+  fetchLogChannel,
+  gifParser,
   interactionReply,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
@@ -32,7 +32,7 @@ const action = async (interaction) => {
   }
   //check if is only attachment message
   if (message.attachments.size !== 0) {
-    const logChannel = await getLogChannel(interaction); //get logChannel
+    const logChannel = await fetchLogChannel(interaction); //get logChannel
     const attachments = message.attachments.reduce(
       (acc, cur) => [...acc, cur],
       []
@@ -57,7 +57,7 @@ const action = async (interaction) => {
     return;
   }
 
-  const logChannel = await getLogChannel(interaction); //get logChannel
+  const logChannel = await fetchLogChannel(interaction); //get logChannel
 
   //add executor of saveLog
   const member = interaction.member;
@@ -80,7 +80,7 @@ const action = async (interaction) => {
   if (foundFields.length !== 0) {
     //if any foundFields, find gifs
     gifs = foundFields.reduce((acc, field) => {
-      const gif = gifRecovery(field.value);
+      const gif = gifParser(field.value);
       if (gif !== null) return [...acc, ...gif];
       return acc;
     }, []);

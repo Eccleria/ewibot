@@ -73,30 +73,30 @@ import {
 
 import {
   checkEmbedContent,
-  getLogChannel,
-  gifRecovery,
+  fetchLogChannel,
+  gifParser,
   hasApology,
   hasOctagonalSign,
   interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
-  sanitizePunctuation,
+  removePunctuation,
   setupEmbed,
 } from "./utils.js";
 
 export {
   // utils
   checkEmbedContent,
-  getLogChannel,
-  gifRecovery,
+  fetchLogChannel,
+  gifParser,
   hasApology,
   hasOctagonalSign,
   interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
-  sanitizePunctuation,
+  removePunctuation,
   setupEmbed,
   // spotifyHelper
   generateSpotifyClient,

@@ -9,7 +9,7 @@ import { COMMONS } from "../commons.js";
 
 import {
   checkEmbedContent,
-  getLogChannel,
+  fetchLogChannel,
   interactionReply,
 } from "../helpers/index.js";
 import { Colors, EmbedBuilder } from "discord.js";
@@ -175,7 +175,7 @@ const contextAction = async (interaction) => {
     const size = newEmbeds.reduce((acc, cur) => acc + cur.length, 0);
     if (size > 6000) {
       message.delete(); //delete old log which will be doublon
-      const logChannel = await getLogChannel(interaction, "thread");
+      const logChannel = await fetchLogChannel(interaction, "thread");
       const msg = await logChannel.send({ embeds: embeds });
       msg.reply({ embeds: [embedTr] });
     } else {

@@ -2,7 +2,7 @@ import { AuditLogEvent } from "discord.js";
 
 import {
   getAdminLogs,
-  getLogChannel,
+  fetchLogChannel,
   removeAdminLogs,
   removeBirthday,
   removeIgnoredUser,
@@ -18,7 +18,7 @@ import { PERSONALITY } from "../personality.js";
  * @param {string|AuditLogEvent} auditType String|AuditLogEvent for audit type request.
  * @param {number} limit Number of auditLogs fetched.
  * @param {string} [type] String for audit type request.
- * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
+ * @returns {?GuildAuditLogsEntry} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
   const aType =
@@ -39,16 +39,16 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
 
 /**
  * Finish embeds and send them in the logChannel.
- * @param {object} personalityEvent The personality related to the triggered event.
- * @param {object} [executor] Object containing or not the executor, if any.
+ * @param {object} eventPerso The personality related to the triggered event.
+ * @param {?object} executor Object containing or not the executor, if any.
  * @param {(EmbedBuilder|EmbedBuilder[])} embed Log embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
- * @param {string} [text] Additional text to add.
- * @param {Attachment[]} [attachments] Message attachments.
- * @returns {object[]}
+ * @param {?string} text Additional text to add.
+ * @param {?Attachment[]} attachments Message attachments.
+ * @returns {?[Message]} The log message.s sent
  */
 export const finishEmbed = async (
-  personalityEvent,
+  eventPerso,
   executor,
   embed,
   logChannel,
@@ -61,21 +61,21 @@ export const finishEmbed = async (
     logChannel.guildId === currentServer.guildId
   ) {
     //Ewibot detects test in test server => return
-    console.log("Ewibot log in Test server", personalityEvent.title);
-    return;
+    console.log("Ewibot log in Test server", eventPerso.title);
+    return null;
   }
 
   if (embed.length >= 0) {
     //if contains multiple embeds, the 1st is the log
-    if (personalityEvent.executor && executor !== null)
+    if (eventPerso.executor && executor !== null)
       embed[0].addFields({
-        name: personalityEvent.executor,
+        name: eventPerso.executor,
         value: executor.toString(),
         inline: true,
       }); //add the executor section
     if (text)
       embed[0].addFields({
-        name: personalityEvent.text,
+        name: eventPerso.text,
         value: text,
         inline: false,
       }); //if any text (reason or content), add it
@@ -93,7 +93,7 @@ export const finishEmbed = async (
     } catch (e) {
       console.log(
         "finishEmbed list error\n",
-        personalityEvent.title,
+        eventPerso.title,
         new Date(),
         e
       );
@@ -101,15 +101,15 @@ export const finishEmbed = async (
     return [];
   }
 
-  if (personalityEvent.executor && executor !== null)
+  if (eventPerso.executor && executor !== null)
     embed.addFields({
-      name: personalityEvent.executor,
+      name: eventPerso.executor,
       value: executor.toString(),
       inline: true,
     });
   if (text)
     embed.addFields({
-      name: personalityEvent.text,
+      name: eventPerso.text,
       value: text,
       inline: false,
     }); //if any text (reason or content), add it
@@ -125,22 +125,22 @@ export const finishEmbed = async (
     }
     return [message];
   } catch (e) {
-    console.log("finishEmbed error\n", personalityEvent.title, e);
+    console.log("finishEmbed error\n", eventPerso.title, e);
     return [];
   }
 };
 
 /**
- * Differentiate finishEmbed cases.
+ * Differentiate finishEmbed cases with corresponding input.
  * @param {object} obj Object related to listened event.
- * @param {?object} log Audit log.
+ * @param {?GuildAuditLogsEntry} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
  * @param {(EmbedBuilder|EmbedBuilder[])} embed Embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
- * @returns {object[]}
+ * @returns {?[Message]}
  */
 export const endCasesEmbed = async (
   object,
@@ -214,7 +214,7 @@ export const endCasesEmbed = async (
  * @param {boolean} [needReason] If true, get reason to add to the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
  */
-export const generalEmbed = async (
+export const processGeneralEmbed = async (
   persoType,
   obj,
   color,
@@ -231,7 +231,7 @@ export const generalEmbed = async (
 
   if (process.env.DEBUG === "no" && isTestServer(obj)) return; //if in prod && modif in test server
 
-  const channel = await getLogChannel(obj); //get logChannel
+  const channel = await fetchLogChannel(obj); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
@@ -240,7 +240,7 @@ export const generalEmbed = async (
   endCasesEmbed(objToSend, log, perso, aLog, embed, channel, text, diff);
 };
 
-export const clientEventUpdateProcess = (
+export const bufferizeEventUpdate = (
   client,
   oldObj,
   newObj,
@@ -252,9 +252,7 @@ export const clientEventUpdateProcess = (
 ) => {
   //create timeout, store channels & timeout
   //differentiate type
-  let obj;
-  let newData;
-  let timeout;
+  let obj, newData, timeout;
   if (type === "channel") {
     //get client data
     const channelUpdate = client.channelUpdate;
@@ -655,7 +653,7 @@ export const octagonalLog = async (object, user) => {
   if (message.partial) await message.fetch();
 
   //basic operations
-  const logChannel = await getLogChannel(message); //get logChannelId
+  const logChannel = await fetchLogChannel(message); //get logChannelId
   const embed = setupEmbed(
     "LUMINOUS_VIVID_PINK",
     octaPerso,
@@ -694,7 +692,7 @@ export const isTestServer = (eventObject) => {
   return test; //if test, return true
 };
 
-export const checkDB = (userId, client) => {
+export const removeUserFromDB = (userId, client) => {
   //check if user is in db for removal
   const db = client.db;
   removeBirthday(db, userId);

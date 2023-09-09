@@ -45,12 +45,12 @@ export const checkEmbedContent = (content, embed, personality) => {
 };
 
 /**
- * Fetch Log Channel.
+ * Fetch Log Channel using commons value
  * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut"
+ * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut" channel. Null is for log channel.
  * @returns {TextChannel}
  */
-export const getLogChannel = async (eventObject, type) => {
+export const fetchLogChannel = async (eventObject, type) => {
   const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
 
   let id;
@@ -70,10 +70,10 @@ export const getLogChannel = async (eventObject, type) => {
 
 /**
  * Get strings corresponding to gif url.
- * @param {string} content
+ * @param {string} content Message content where to look for gifs.
  * @returns {?string[]} If any, returns array of gif url strings.
  */
-export const gifRecovery = (content) => {
+export const gifParser = (content) => {
   const tenor = "tenor.com/";
   const end = ".gif";
 
@@ -182,7 +182,7 @@ export const isSentinelle = (member, currentServer) => {
 };
 
 const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
-export const sanitizePunctuation = (messageContent) => {
+export const removePunctuation = (messageContent) => {
   const lineBreakRemoved = messageContent.replaceAll("\n", " ");
   return lineBreakRemoved.replaceAll(punctuation, "");
 };
