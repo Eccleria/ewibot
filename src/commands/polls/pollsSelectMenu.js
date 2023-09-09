@@ -1,4 +1,9 @@
-import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  EmbedBuilder,
+  StringSelectMenuBuilder,
+  ButtonBuilder,
+} from "discord.js";
 import {
   interactionEditReply,
   fetchPollMessage,

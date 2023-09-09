@@ -1,4 +1,10 @@
-import { ActionRowBuilder, StringSelectMenuBuilder, ButtonStyle, EmbedBuilder, ButtonBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  ButtonStyle,
+  EmbedBuilder,
+  ButtonBuilder,
+} from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
@@ -207,7 +213,10 @@ export const refreshPollButtonAction = async (interaction) => {
   const db = interaction.client.db;
 
   //disable actions during refresh
-  const disabledComponents = enableDisableButtons(pollMessage.components, false);
+  const disabledComponents = enableDisableButtons(
+    pollMessage.components,
+    false
+  );
   await pollMessage.edit({ components: disabledComponents });
 
   //update poll embed
@@ -233,10 +242,10 @@ const enableDisableButtons = (MActionRow, status) => {
       const newButton = ButtonBuilder.from(button);
       newButton.setDisabled(status);
       return [...acc, newButton];
-    }, []); 
+    }, []);
 
     //build new ActionRowBuilder
     const newActionRow = new ActionRowBuilder().addComponents(buttons);
     return [...acc, newActionRow];
   }, []);
-}
+};

@@ -15,9 +15,9 @@ import {
   isIgnoredUser,
   removeIgnoredUser,
   //utils
-  interactionReply, 
+  interactionReply,
   isAdmin,
-  isReleasedCommand, 
+  isReleasedCommand,
   isSentinelle,
 } from "../helpers/index.js";
 

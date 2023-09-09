@@ -1,5 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } from "discord.js";
+import {
+  ActionRowBuilder,
+  EmbedBuilder,
+  ButtonStyle,
+  Colors,
+} from "discord.js";
 
 import { createButton } from "./utils.js";
 import {
@@ -220,15 +225,19 @@ const action = async (interaction) => {
 
     //create new vote buttons + regroup with olders
     const oldComponents = roleMessage.components;
-    const oComponents = oldComponents.reduce((acc, cur) => [...acc, ActionRowBuilder.from(cur)], []);
-    const lastARSize =
-      oComponents[oComponents.length - 1].components.length;
+    const oComponents = oldComponents.reduce(
+      (acc, cur) => [...acc, ActionRowBuilder.from(cur)],
+      []
+    );
+    const lastARSize = oComponents[oComponents.length - 1].components.length;
     const newComponents =
       lastARSize === 5
         ? [...oComponents, new ActionRowBuilder().addComponents(newButton)]
         : [
             ...oComponents.slice(0, -1),
-            ActionRowBuilder.from(oComponents[oComponents.length - 1]).addComponents(newButton),
+            ActionRowBuilder.from(
+              oComponents[oComponents.length - 1]
+            ).addComponents(newButton),
           ];
 
     //edit message

@@ -1,7 +1,4 @@
-import {
-  buttonHandler,
-  selectMenuHandler,
-} from "../commands/utils.js";
+import { buttonHandler, selectMenuHandler } from "../commands/utils.js";
 
 import { PERSONALITY } from "../personality.js";
 import {

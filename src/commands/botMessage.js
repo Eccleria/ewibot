@@ -126,8 +126,10 @@ const action = async (interaction) => {
       sPerso.attachmentOption.name,
       false
     );
-    const attachment = foundAttachment ? AttachmentBuilder.from(foundAttachment) : null;
-    
+    const attachment = foundAttachment
+      ? AttachmentBuilder.from(foundAttachment)
+      : null;
+
     const fetchedChannel = options.getChannel(sPerso.channelOption.name, false);
     const toSpoil = options.getBoolean(sPerso.booleanOption.name, false);
 
@@ -203,7 +205,7 @@ const botMessage = {
   command,
   action,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().botMessage
+    const perso = PERSONALITY.getCommands().botMessage;
     interactionReply(interaction, perso.help);
   },
   admin: true,

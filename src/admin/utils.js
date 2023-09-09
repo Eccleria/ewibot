@@ -21,7 +21,8 @@ import { PERSONALITY } from "../personality.js";
  * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
-  const aType = typeof auditType === "string" ? AuditLogEvent[auditType] : auditType;
+  const aType =
+    typeof auditType === "string" ? AuditLogEvent[auditType] : auditType;
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
       limit: limit,

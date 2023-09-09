@@ -7,7 +7,11 @@ import {
 import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
 
-import { checkEmbedContent, getLogChannel, interactionReply } from "../helpers/index.js";
+import {
+  checkEmbedContent,
+  getLogChannel,
+  interactionReply,
+} from "../helpers/index.js";
 import { Colors, EmbedBuilder } from "discord.js";
 
 const reverseStr = (string) => {
