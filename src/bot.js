@@ -60,7 +60,7 @@ import { initReminder } from "./commands/reminder.js";
 
 // command import
 import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
-import { wishBirthday } from "./commands/birthday.js";
+import { initBirthdays } from "./commands/birthday.js";
 import { setGiftTimeoutLoop } from "./commands/gift.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
@@ -79,30 +79,6 @@ setInterval(async () => {
     db.wasUpdated = false;
   }
 }, 10000);
-
-// BIRTHDAY
-const tomorrow = dayjs()
-  .add(1, "day")
-  .hour(8)
-  .minute(0)
-  .second(0)
-  .millisecond(0);
-const timeToTomorrowDB = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
-const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
-
-setTimeout(async () => {
-  // init birthday check
-  const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-
-  const channel = await client.channels.fetch(server.randomfloodChannelId);
-
-  console.log("hello, timeoutBirthday");
-
-  wishBirthday(db, channel);
-
-  setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
-}, timeToTomorrowDB);
 
 // Discord CLIENT
 const client = new Client({
@@ -141,6 +117,16 @@ if (process.env.USE_SPOTIFY === "yes") {
 
 // Create event LISTENERS
 client.once("ready", async () => {
+  // Time variables
+  const tomorrow = dayjs()
+    .add(1, "day")
+    .hour(8)
+    .minute(0)
+    .second(0)
+    .millisecond(0);
+  const tomorrowDiff = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
+  const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
+
   // Bot init
   console.log("I am ready!");
   roleInit(client); //role handler init
@@ -175,6 +161,9 @@ client.once("ready", async () => {
 
   //reminders
   initReminder(client);
+
+  //birthdays
+  initBirthdays(client, tomorrowDiff, frequency);
 });
 // Create an event listener for messages
 
@@ -208,5 +197,5 @@ client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("guildMemberRemove", onGuildMemberRemove);
 client.on("guildMemberUpdate", onGuildMemberUpdate);
 
-// Log our bot in using the token from https://discord.com/developers/applications
+// Log the bot in
 client.login(process.env.TOKEN);
