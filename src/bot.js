@@ -10,16 +10,8 @@ dayjs.locale("fr");
 import { Client, GatewayIntentBits, Partials } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
-import { roleInit } from "./admin/role.js";
-
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
-
-// helpers imports
-import { generateSpotifyClient } from "./helpers/index.js";
-
-// fun imports
-import { setActivity, updateActivity } from "./fun.js";
 
 // listeners imports
 import {
@@ -35,7 +27,6 @@ import {
   onChannelUpdate,
   onThreadCreate,
   onThreadDelete,
-  //onThreadUpdate,
   onRoleCreate,
   onRoleDelete,
   onRoleUpdate,
@@ -48,21 +39,26 @@ import {
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
 
+// admin inits
+import { setupAlavirien } from "./admin/alavirien.js";
+import { roleInit } from "./admin/role.js";
 import { initAdminLogClearing } from "./admin/utils.js";
+
+// commands import
+import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
+import { initBirthdays } from "./commands/birthday.js";
+import { setGiftTimeoutLoop } from "./commands/gift.js";
+import { initReminder } from "./commands/reminder.js";
+import { slashCommandsInit } from "./commands/slash.js";
+
+// helpers imports
+import { generateSpotifyClient } from "./helpers/index.js";
 
 // jsons import
 import { COMMONS } from "./commons.js";
 
-// alavirien import
-import { setupAlavirien } from "./admin/alavirien.js";
-
-import { initReminder } from "./commands/reminder.js";
-
-// command import
-import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
-import { initBirthdays } from "./commands/birthday.js";
-import { setGiftTimeoutLoop } from "./commands/gift.js";
-import { slashCommandsInit } from "./commands/slash.js";
+// fun imports
+import { setActivity, updateActivity } from "./fun.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -115,15 +111,14 @@ if (process.env.USE_SPOTIFY === "yes") {
   client.spotifyApi = spotifyApi;
 }
 
-// Create event LISTENERS
+// Create bot startup
 client.once("ready", async () => {
   // Time variables
   const tomorrow = dayjs()
     .add(1, "day")
     .hour(8)
     .minute(0)
-    .second(0)
-    .millisecond(0);
+    .second(0);
   const tomorrowDiff = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
@@ -147,12 +142,7 @@ client.once("ready", async () => {
   slashCommandsInit(guildId, client); //commands submit to API
 
   //LOGS
-  const tomorrow2Am = dayjs()
-    .add(1, "day")
-    .hour(2)
-    .minute(0)
-    .second(0)
-    .millisecond(0); //tomorrow @ 2am
+  const tomorrow2Am = tomorrow.hour(2); //tomorrow @ 2am
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 
@@ -165,16 +155,16 @@ client.once("ready", async () => {
   //birthdays
   initBirthdays(client, tomorrowDiff, frequency);
 });
-// Create an event listener for messages
 
+// Create an event listener for messages
 client.on("messageCreate", onMessageCreate);
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
 
-// buttons/modals in messages
+// listener for buttons/modals
 client.on("interactionCreate", onInteractionCreate);
 
-// LOGS
+// listeners for LOGS
 client.on("messageDelete", onMessageDelete);
 client.on("messageUpdate", onMessageUpdate);
 
@@ -188,7 +178,6 @@ client.on("channelUpdate", onChannelUpdate);
 
 client.on("threadCreate", onThreadCreate);
 client.on("threadDelete", onThreadDelete);
-//client.on("threadUpdate", onThreadUpdate);
 
 client.on("guildBanAdd", onGuildBanAdd);
 client.on("guildBanRemove", onGuildBanRemove);
