@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
