@@ -1,3 +1,5 @@
+import { ChannelType } from "discord.js";
+
 import {
   readContentAndReact,
   deleteSongFromPlaylist,
@@ -77,17 +79,15 @@ export const onInteractionCreate = (interaction) => {
   }
 };
 
-export const onPublicMessage = (message, currentServer) => {
-  const { author } = message;
+export const onMessageCreate = async (message) => {
+  // Function triggered for each message sent
+  const { channel } = message;
 
-  if (
-    author.id === process.env.CLIENTID || // ignoring message from himself
-    !currentServer || // ignoring if wrong guild
-    (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
-  )
-    return;
-
-  readContentAndReact(message, currentServer);
+  if (channel.type === ChannelType.DM) return;
+  else {
+    const currentServer = COMMONS.fetchFromGuildId(channel.guildId);
+    onPublicMessage(message, currentServer);
+  }
 };
 
 export const onReactionAdd = async (messageReaction, user) => {
@@ -135,6 +135,20 @@ export const onReactionRemove = async (messageReaction, user) => {
 
 //#endregion
 
+//#region Listeners helpers
+
+const onPublicMessage = (message, currentServer) => {
+  const { author } = message;
+
+  if (
+    author.id === process.env.CLIENTID || // ignoring message from himself
+    !currentServer || // ignoring if wrong guild
+    (process.env.DEBUG === "yes" && currentServer.name === "prod") // ignoring if debug && prod
+  )
+    return;
+
+  readContentAndReact(message, currentServer);
+};
 
 export const onRemoveReminderReaction = (
   messageReaction,
@@ -208,3 +222,5 @@ export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
     await message.reply(result);
   }
 };
+
+//#endregion

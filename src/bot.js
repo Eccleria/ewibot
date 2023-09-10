@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { ChannelType, Client, GatewayIntentBits, Partials } from "discord.js";
+import { Client, GatewayIntentBits, Partials } from "discord.js";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { roleInit } from "./admin/role.js";
@@ -24,7 +24,7 @@ import { setActivity, updateActivity } from "./fun.js";
 // listeners imports
 import {
   onInteractionCreate,
-  onPublicMessage,
+  onMessageCreate,
   onReactionAdd,
   onReactionRemove,
 } from "./listeners.js";
@@ -139,18 +139,6 @@ if (process.env.USE_SPOTIFY === "yes") {
   client.spotifyApi = spotifyApi;
 }
 
-// Bot event FUNCTIONS
-const onMessageHandler = async (message) => {
-  // Function triggered for each message sent
-  const { channel } = message;
-
-  if (channel.type === ChannelType.DM) return;
-  else {
-    const currentServer = COMMONS.fetchFromGuildId(channel.guildId);
-    onPublicMessage(message, currentServer);
-  }
-};
-
 // Create event LISTENERS
 client.once("ready", async () => {
   // Bot init
@@ -190,7 +178,7 @@ client.once("ready", async () => {
 });
 // Create an event listener for messages
 
-client.on("messageCreate", onMessageHandler);
+client.on("messageCreate", onMessageCreate);
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
 
