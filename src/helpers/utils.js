@@ -191,8 +191,10 @@ export const removePunctuation = (messageContent) => {
  * Create and setup a EmbedBuilder with common properties.
  * @param {string} color The color of the embed.
  * @param {object} personality The personality object of the embed.
- * @param {object} [object] Object containing or not the author.
- * @param {string} [type] Differentiate object use case.
+ * @param {?object} object Object containing or not the author.
+ * @param {?string} type Differentiate object use case. 
+ *                       tag for user as embed, skip to ignore this field, user for its username, 
+ *                       otherwise for mentionable as embed
  * @returns {EmbedBuilder} Embed with basic properties.
  */
 export const setupEmbed = (color, personality, object, type) => {
@@ -202,28 +204,23 @@ export const setupEmbed = (color, personality, object, type) => {
     .setTimestamp();
 
   if (personality.description) embed.setDescription(personality.description);
-
-  if (type === "tag")
-    embed.addFields({
-      name: personality.author,
-      value: object.toString(),
-      inline: true,
-    });
-  //add user as embed if required
-  else if (type === "skip") return embed;
-  //allows to skip the 3rd field
-  else if (type === "user")
-    embed.addFields({
-      name: personality.author,
-      value: object.username,
-      inline: true,
-    });
-  //add user if required
-  else
-    embed.addFields({
-      name: personality.author,
-      value: object.name.toString(),
-      inline: true,
-    }); //otherwise, add the object name as embed (for channels, roles, ...)
+  
+  const field = {name: personality.author, inline: true}; //field init
+  if (type === "tag"){
+    //add user as embed if required
+    field.value = object.toString();
+    embed.addFields(field);
+  }
+  else if (type === "skip") return embed; //allows to skip the 3rd field
+  else if (type === "user") {
+    //add user if required
+    field.value = object.username;
+    embed.addFields(field);
+  }
+  else {
+    //otherwise, add the object name as embed (for mentionables)
+    field.value = object.name.toString();
+    embed.addFields(field);
+  }
   return embed;
 };
