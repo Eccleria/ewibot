@@ -1,13 +1,12 @@
 import { ChannelType } from "discord.js";
 
 import {
-  readContentAndReact,
   deleteSongFromPlaylist,
   interactionReply,
   isReleasedCommand,
   removeReminder,
 } from "./helpers/index.js";
-
+import { readContentAndReact } from "./fun.js";
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 import { octagonalLog } from "./admin/utils.js";

@@ -1,7 +1,6 @@
 import { PERSONALITY } from "../personality.js";
 import {
   isTestServer,
-  checkEmbedContent,
   bufferizeEventUpdate,
   endCasesEmbed,
   fetchAuditLog,
@@ -15,6 +14,7 @@ import {
   addAlavirien,
   addAdminLogs,
   addApologyCount,
+  checkEmbedContent,
   fetchLogChannel,
   gifParser,
   hasApology,
