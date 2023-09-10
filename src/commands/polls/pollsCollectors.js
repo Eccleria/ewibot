@@ -8,8 +8,8 @@ dayjs.extend(relativeTime);
 
 import { ComponentType } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
-import { getPoll, getPolls } from "../../helpers/index.js";
 import { stopPoll } from "./pollsUtils.js";
+import { getPoll, getPolls } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const initPollsCollector = (client) => {

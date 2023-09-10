@@ -1,13 +1,12 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-
-import { PERSONALITY } from "../personality.js";
+import { interactionEditReply } from "./polls/pollsUtils.js";
 import {
   interactionReply,
   isAdmin,
   removeApologyCount,
 } from "../helpers/index.js";
-import { interactionEditReply } from "./polls/pollsUtils.js";
+import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().leaderboardApology.name)

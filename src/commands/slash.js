@@ -1,25 +1,7 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import { REST } from "@discordjs/rest";
-import { ChannelType, Routes } from "discord-api-types/v9";
-import { SlashCommandBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
-
-import {
-  //dbHelper
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  addIgnoredUser,
-  isIgnoredUser,
-  removeIgnoredUser,
-  //utils
-  interactionReply,
-  isAdmin,
-  isReleasedCommand,
-  isSentinelle,
-} from "../helpers/index.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { REST } from "@discordjs/rest";
+import { ChannelType, Routes } from "discord-api-types/v9"
 
 import announce from "./announce.js";
 import birthday from "./birthday.js";
@@ -34,9 +16,22 @@ import { reverse, reverseTranslator } from "./reverse.js";
 import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
-
-import { PERSONALITY } from "../personality.js";
+import {
+  //dbHelper
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+  //utils
+  interactionReply,
+  isAdmin,
+  isReleasedCommand,
+  isSentinelle,
+} from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 

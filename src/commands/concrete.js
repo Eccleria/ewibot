@@ -1,17 +1,14 @@
 import Canvas from "canvas";
 import dayjs from "dayjs";
 import GIFEncoder from "gif-encoder-2";
-
-import { AttachmentBuilder } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
-
 import path from "path";
 import fs from "fs";
 
-import { PERSONALITY } from "../personality.js";
+import { AttachmentBuilder } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "../helpers/index.js";
-
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 //personality
 const personality = PERSONALITY.getCommands().concrete;

@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-import { PERSONALITY } from "../personality.js";
-import { interactionReply, parseLink } from "../helpers/index.js";
 import {} from "./utils.js";
+import { interactionReply, parseLink } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 const spotifyReply = async (link, interaction, client, cmnShared) => {
   // Ewibot reply for command query

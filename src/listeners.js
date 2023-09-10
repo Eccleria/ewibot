@@ -1,5 +1,8 @@
 import { ChannelType } from "discord.js";
-
+import { presentationHandler } from "./admin/alavirien.js";
+import { roleAdd, roleRemove } from "./admin/role.js";
+import { octagonalLog } from "./admin/utils.js";
+import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import {
   deleteSongFromPlaylist,
   interactionReply,
@@ -7,12 +10,6 @@ import {
   removeReminder,
 } from "./helpers/index.js";
 import { readContentAndReact } from "./fun.js";
-import { presentationHandler } from "./admin/alavirien.js";
-import { roleAdd, roleRemove } from "./admin/role.js";
-import { octagonalLog } from "./admin/utils.js";
-
-import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
-
 import { COMMONS } from "./commons.js";
 import { PERSONALITY } from "./personality.js";
 

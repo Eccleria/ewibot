@@ -8,19 +8,11 @@ dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
 import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { Low, JSONFile } from "lowdb";
+import { join } from "path";
 import SpotifyWebApi from "spotify-web-api-node";
 
-import { join } from "path";
-import { Low, JSONFile } from "lowdb";
-
 // listeners imports
-import {
-  onInteractionCreate,
-  onMessageCreate,
-  onReactionAdd,
-  onReactionRemove,
-} from "./listeners.js";
-
 import {
   onChannelCreate,
   onChannelDelete,
@@ -38,6 +30,12 @@ import {
   onGuildMemberRemove,
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
+import {
+  onInteractionCreate,
+  onMessageCreate,
+  onReactionAdd,
+  onReactionRemove,
+} from "./listeners.js";
 
 // admin inits
 import { setupAlavirien } from "./admin/alavirien.js";

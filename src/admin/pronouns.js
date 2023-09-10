@@ -1,5 +1,5 @@
-import { COMMONS } from "../commons.js";
 import { interactionReply } from "../helpers/index.js";
+import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
 export const pronounsButtonHandler = async (interaction) => {

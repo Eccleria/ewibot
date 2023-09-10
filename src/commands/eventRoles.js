@@ -13,8 +13,8 @@ import {
   interactionReply,
   updateEventRoleMessageId,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;

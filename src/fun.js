@@ -1,3 +1,4 @@
+import { octagonalLog } from "./admin/utils.js";
 import {
   //db
   isIgnoredUser,
@@ -8,7 +9,6 @@ import {
   hasOctagonalSign,
   removePunctuation,
 } from "./helpers/index.js";
-import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
 
 //#region ACTIVITY

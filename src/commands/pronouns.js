@@ -1,8 +1,7 @@
 import { ActionRowBuilder, ButtonStyle } from "discord.js";
-import { PERSONALITY } from "../personality.js";
-
-import { setupEmbed } from "../helpers/index.js";
 import { createButton } from "./utils.js";
+import { setupEmbed } from "../helpers/index.js";
+import { PERSONALITY } from "../personality.js";
 
 const action = async (message, _client, currentServer) => {
   const { pronounsRoleHandleChannelId } = currentServer;

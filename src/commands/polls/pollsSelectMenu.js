@@ -17,7 +17,6 @@ import {
   updatePollParam,
   isPollEmptyVotes,
 } from "../../helpers/index.js";
-
 import { PERSONALITY } from "../../personality.js";
 
 export const pollSelectMenuHandler = async (interaction) => {

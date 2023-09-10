@@ -5,12 +5,10 @@ import {
   ButtonStyle,
   Colors,
 } from "discord.js";
-
 import { createButton } from "./utils.js";
 import { interactionReply, isAdmin } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
-
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 // GIFT Announce
 const giftAction = async (interaction) => {

@@ -1,9 +1,8 @@
 import dayjs from "dayjs";
-
-import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
 import { finishEmbed } from "./utils.js";
-import { PERSONALITY } from "../personality.js";
+import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const presentationHandler = async (
   server,

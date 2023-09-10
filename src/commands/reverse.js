@@ -3,16 +3,14 @@ import {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
 } from "@discordjs/builders";
-
-import { PERSONALITY } from "../personality.js";
-import { COMMONS } from "../commons.js";
-
+import { Colors, EmbedBuilder } from "discord.js";
 import {
   checkEmbedContent,
   fetchLogChannel,
   interactionReply,
 } from "../helpers/index.js";
-import { Colors, EmbedBuilder } from "discord.js";
+import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 const reverseStr = (string) => {
   let reversed = "";

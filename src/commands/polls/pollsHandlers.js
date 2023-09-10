@@ -6,7 +6,6 @@ import {
   updatePollButtonAction,
   refreshPollButtonAction,
 } from "./pollsButton.js";
-
 import { pollVoteHandler } from "./pollsVote.js";
 import { getPoll, interactionReply } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";

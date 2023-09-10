@@ -1,10 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChannelType } from "discord-api-types/v9";
-//import { ChannelType } from "discord.js"; //for discordjs v14
-
-import { PERSONALITY } from "../personality.js";
+import { AttachmentBuilder, ChannelType } from "discord.js";
 import { interactionReply, isAdmin } from "../helpers/index.js";
-import { AttachmentBuilder } from "discord.js";
+import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)

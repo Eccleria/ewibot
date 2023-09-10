@@ -1,23 +1,19 @@
+import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
-
 import { createButton } from "./utils.js";
 import {
+  addGiftMessage,
+  addGiftSeparator,
   addGiftUser,
   getGiftMessage,
   interactionReply,
   isGiftUser,
+  removeGiftMessage,
   removeGiftUser,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
-import {
-  addGiftMessage,
-  removeGiftMessage,
-  addGiftSeparator,
-} from "../helpers/index.js";
-import dayjs from "dayjs";
-
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button

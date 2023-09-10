@@ -1,13 +1,12 @@
 import { ContextMenuCommandBuilder } from "@discordjs/builders";
-
+import { EmbedBuilder } from "discord.js";
 import {
   fetchLogChannel,
   gifParser,
   interactionReply,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
-import { EmbedBuilder } from "discord.js";
+import { PERSONALITY } from "../personality.js";
 
 const command = new ContextMenuCommandBuilder()
   .setName("save-log")

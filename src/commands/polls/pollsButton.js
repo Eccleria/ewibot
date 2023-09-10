@@ -12,9 +12,9 @@ import {
   stopPoll,
 } from "./pollsUtils.js";
 import { createButton } from "../utils.js";
-import { PERSONALITY } from "../../personality.js";
 import { getPoll, isSentinelle, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const sendSettingsButtons = async (interaction) => {
   try {

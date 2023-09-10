@@ -1,4 +1,5 @@
-import { PERSONALITY } from "../personality.js";
+import dayjs from "dayjs";
+import { ChannelType } from "discord.js";
 import {
   isTestServer,
   bufferizeEventUpdate,
@@ -10,6 +11,7 @@ import {
   octagonalLog,
   removeUserFromDB,
 } from "./utils.js";
+import { shuffleParam } from "../commands/shuffle.js";
 import {
   addAlavirien,
   addAdminLogs,
@@ -22,13 +24,8 @@ import {
   removePunctuation,
   setupEmbed,
 } from "../helpers/index.js";
-
-import { shuffleParam } from "../commands/shuffle.js";
-
-import dayjs from "dayjs";
-
 import { COMMONS } from "../commons.js";
-import { ChannelType } from "discord.js";
+import { PERSONALITY } from "../personality.js";
 
 //LISTENERS
 

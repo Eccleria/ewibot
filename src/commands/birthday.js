@@ -3,9 +3,7 @@ import CustomParseFormat from "dayjs/plugin/customParseFormat.js";
 import "dayjs/locale/fr.js";
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
-
 import { SlashCommandBuilder } from "@discordjs/builders";
-
 import {
   addBirthday,
   interactionReply,

@@ -1,5 +1,4 @@
 import { AuditLogEvent } from "discord.js";
-
 import {
   getAdminLogs,
   fetchLogChannel,

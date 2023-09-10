@@ -1,4 +1,3 @@
-//POLLS
 const addPoll = (
   db,
   id,
