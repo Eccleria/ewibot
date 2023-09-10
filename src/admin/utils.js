@@ -41,16 +41,16 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
  * Finish embeds and send them in the logChannel.
  * @param {object} eventPerso The personality related to the triggered event.
  * @param {?object} executor Object containing or not the executor, if any.
- * @param {(EmbedBuilder|EmbedBuilder[])} embed Log embed, or array of embeds with log at index 0.
+ * @param {(EmbedBuilder|EmbedBuilder[])} logEmbed Log embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {?string} text Additional text to add.
  * @param {?Attachment[]} attachments Message attachments.
- * @returns {?[Message]} The log message.s sent
+ * @returns {Promise<?[Message]>} The log message.s sent
  */
 export const finishEmbed = async (
   eventPerso,
   executor,
-  embed,
+  logEmbed,
   logChannel,
   text,
   attachments
@@ -65,58 +65,23 @@ export const finishEmbed = async (
     return null;
   }
 
-  if (embed.length >= 0) {
-    //if contains multiple embeds, the 1st is the log
-    if (eventPerso.executor && executor !== null)
-      embed[0].addFields({
-        name: eventPerso.executor,
-        value: executor.toString(),
-        inline: true,
-      }); //add the executor section
-    if (text)
-      embed[0].addFields({
-        name: eventPerso.text,
-        value: text,
-        inline: false,
-      }); //if any text (reason or content), add it
-
-    try {
-      const message = await logChannel.send({
-        embeds: embed,
-        allowed_mentions: { parse: [] },
-      }); //send
-      if (attachments && attachments.length !== 0) {
-        const gifMessage = await message.reply({ files: attachments }); //if attachments, send new message
-        return [message, gifMessage];
-      }
-      return [message];
-    } catch (e) {
-      console.log(
-        "finishEmbed list error\n",
-        eventPerso.title,
-        new Date(),
-        e
-      );
-    }
-    return [];
-  }
+  const embed = logEmbed.length >= 0 ? logEmbed[0] : logEmbed; //if contains multiple embeds, the 1st is the log
 
   if (eventPerso.executor && executor !== null)
     embed.addFields({
       name: eventPerso.executor,
       value: executor.toString(),
       inline: true,
-    });
+    }); //add the executor section
   if (text)
     embed.addFields({
       name: eventPerso.text,
       value: text,
-      inline: false,
     }); //if any text (reason or content), add it
 
   try {
     const message = await logChannel.send({
-      embeds: [embed],
+      embeds: [embed, ...logEmbed.slice(1)],
       allowed_mentions: { parse: [] },
     }); //send
     if (attachments && attachments.length !== 0) {
@@ -125,7 +90,12 @@ export const finishEmbed = async (
     }
     return [message];
   } catch (e) {
-    console.log("finishEmbed error\n", eventPerso.title, e);
+    console.log(
+      "finishEmbed error\n",
+      eventPerso.title,
+      new Date(),
+      e
+    );
     return [];
   }
 };
