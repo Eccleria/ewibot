@@ -153,10 +153,10 @@ export const interactionReply = async (
   await interaction.reply({ content: content, ephemeral: isEphemeral });
 };
 
-const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
 export const isAdmin = (authorId) => {
   // Check if is admin users
-  return ADMINS.includes(authorId);
+  const admins = COMMONS.getShared().admins;
+  return admins.includes(authorId);
 };
 
 /**
