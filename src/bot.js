@@ -23,13 +23,13 @@ import { setActivity, updateActivity } from "./fun.js";
 
 // listeners imports
 import {
+  onInteractionCreate,
   onPublicMessage,
   onReactionAdd,
   onReactionRemove,
 } from "./listeners.js";
 
 import {
-  onInteractionCreate,
   onChannelCreate,
   onChannelDelete,
   onChannelUpdate,

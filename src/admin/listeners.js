@@ -1,5 +1,3 @@
-import { buttonHandler, selectMenuHandler } from "../commands/utils.js";
-
 import { PERSONALITY } from "../personality.js";
 import {
   isTestServer,
@@ -21,8 +19,6 @@ import {
   gifParser,
   hasApology,
   hasOctagonalSign,
-  interactionReply,
-  isReleasedCommand,
   removePunctuation,
   setupEmbed,
 } from "../helpers/index.js";
@@ -35,67 +31,6 @@ import { COMMONS } from "../commons.js";
 import { ChannelType } from "discord.js";
 
 //LISTENERS
-
-export const onInteractionCreate = (interaction) => {
-  if (interaction.isButton()) {
-    buttonHandler(interaction);
-    return;
-  }
-
-  if (interaction.isStringSelectMenu()) {
-    console.log("selectMenu interaction detected");
-    selectMenuHandler(interaction);
-    return;
-  }
-
-  const client = interaction.client; //get client
-
-  if (interaction.isContextMenuCommand()) {
-    //context commands
-    const contextCommands = client.contextCommands; //get commands
-
-    const foundCommand = contextCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
-    );
-
-    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
-    return;
-  }
-
-  const slashCommands = client.slashCommands;
-
-  if (interaction.isAutocomplete()) {
-    //interaction with autocomplete activated
-    const autoCompleteCommands = slashCommands.filter(
-      (cmd) => cmd.autocomplete
-    ); //get commands with autocomplete action
-    const foundCommand = autoCompleteCommands
-      ? autoCompleteCommands.find(
-          (cmd) => cmd.command.name === interaction.commandName
-        )
-      : null; //find command that fired onInteractionCreate
-    if (foundCommand && isReleasedCommand(foundCommand))
-      foundCommand.autocomplete(interaction);
-    else interaction.respond([]); //if not found, return no choices
-  } else if (interaction.isCommand()) {
-    //slash commands
-    const client = interaction.client; //get client
-    const slashCommands = client.slashCommands; //get commands
-
-    const foundCommand = slashCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
-    );
-
-    if (foundCommand && isReleasedCommand(foundCommand))
-      foundCommand.action(interaction, "/");
-    //if found command, execute its action
-    else
-      interactionReply(
-        interaction,
-        PERSONALITY.getAdmin().commands.notReleased
-      );
-  }
-};
 
 export const onChannelCreate = async (channel) => {
   if (channel.type === ChannelType.DM) return;
