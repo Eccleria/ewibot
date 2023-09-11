@@ -112,11 +112,7 @@ if (process.env.USE_SPOTIFY === "yes") {
 // Create bot startup
 client.once("ready", async () => {
   // Time variables
-  const tomorrow = dayjs()
-    .add(1, "day")
-    .hour(8)
-    .minute(0)
-    .second(0);
+  const tomorrow = dayjs().add(1, "day").hour(8).minute(0).second(0);
   const tomorrowDiff = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 

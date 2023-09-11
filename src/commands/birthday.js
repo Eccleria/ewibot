@@ -22,7 +22,7 @@ export const initBirthdays = (client, tomorrowDiff, frequency) => {
       process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
     const channel = await client.channels.fetch(server.randomfloodChannelId);
     console.log("hello, timeoutBirthday");
-  
+
     wishBirthday(db, channel);
 
     setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.

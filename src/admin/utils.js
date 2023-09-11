@@ -89,12 +89,7 @@ export const finishEmbed = async (
     }
     return [message];
   } catch (e) {
-    console.log(
-      "finishEmbed error\n",
-      eventPerso.title,
-      new Date(),
-      e
-    );
+    console.log("finishEmbed error\n", eventPerso.title, new Date(), e);
     return [];
   }
 };

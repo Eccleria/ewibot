@@ -68,12 +68,12 @@ export const readContentAndReact = async (message, currentServer) => {
   const authorId = message.author.id;
   const cmnShared = COMMONS.getShared();
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
-  
+
   if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
   if (isIgnoredUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
-  
+
   const sanitizedContent = removePunctuation(loweredContent); //remove punctuation
 
   // If message contains apology, Ewibot reacts
@@ -83,7 +83,7 @@ export const readContentAndReact = async (message, currentServer) => {
   }
 
   const words = loweredContent.split(" "); //split message content into a list of words
-  
+
   if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   //if ewibot is mentionned, react
@@ -107,7 +107,7 @@ export const readContentAndReact = async (message, currentServer) => {
   const emotes = Object.values(currentServer.autoEmotes);
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    if (foundEmotes.length > 0 && frequency) 
+    if (foundEmotes.length > 0 && frequency)
       reactToContentEmotes(message, currentServer, today, foundEmotes);
   }
 
@@ -167,11 +167,10 @@ const isLuciferAge = (content) => {
   return presqueResult !== null;
 };
 
-
 const reactToContentEmotes = async (message, server, today, foundEmotes) => {
   if (today.getMonth() == 5)
     await message.react("🏳️‍🌈"); //PRIDE MONTH, RAINBOWSSSSS
-  else if (today.getMonth() == 11) 
+  else if (today.getMonth() == 11)
     await message.react(server.rudolphslichId); //December
   else if (today.getMonth() === 0 && today.getDate() === 1)
     message.react("🎂"); //ewibot birthday

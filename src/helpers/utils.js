@@ -192,8 +192,8 @@ export const removePunctuation = (messageContent) => {
  * @param {string} color The color of the embed.
  * @param {object} personality The personality object of the embed.
  * @param {?object} object Object containing or not the author.
- * @param {?string} type Differentiate object use case. 
- *                       tag for user as embed, skip to ignore this field, user for its username, 
+ * @param {?string} type Differentiate object use case.
+ *                       tag for user as embed, skip to ignore this field, user for its username,
  *                       otherwise for mentionable as embed
  * @returns {EmbedBuilder} Embed with basic properties.
  */
@@ -204,20 +204,18 @@ export const setupEmbed = (color, personality, object, type) => {
     .setTimestamp();
 
   if (personality.description) embed.setDescription(personality.description);
-  
-  const field = {name: personality.author, inline: true}; //field init
-  if (type === "tag"){
+
+  const field = { name: personality.author, inline: true }; //field init
+  if (type === "tag") {
     //add user as embed if required
     field.value = object.toString();
     embed.addFields(field);
-  }
-  else if (type === "skip") return embed; //allows to skip the 3rd field
+  } else if (type === "skip") return embed; //allows to skip the 3rd field
   else if (type === "user") {
     //add user if required
     field.value = object.username;
     embed.addFields(field);
-  }
-  else {
+  } else {
     //otherwise, add the object name as embed (for mentionables)
     field.value = object.name.toString();
     embed.addFields(field);
