@@ -6,6 +6,7 @@
 	- a lot of function names were modified for easier understanding
 	- `concrete` folder were move in pics, for future pictures fonctionalities
 	- simplify `bot` main file
+	- add jest for future unit testing and auto tests
 - Doc:
 	- update `readme` with recent and older changes ([#247](https://github.com/Eccleria/ewibot/pull/247))
 	- add more docstrings to functions/methods ([#247](https://github.com/Eccleria/ewibot/pull/247))
