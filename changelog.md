@@ -1,4 +1,14 @@
 ﻿## 6.0.0
+- Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- admin/commands utils that are shared in another folder were moved in helpers utils file
+	- `Commons` class and some functions (`setupEmbed`, `finishEmbed`) were simplified
+	- `listeners` are now more consistent (`onInteractionCreate`, `onMessageCreate` moved)
+	- a lot of function names were modified for easier understanding
+	- `concrete` folder were move in pics, for future pictures fonctionalities
+	- simplify `bot` main file
+- Doc:
+	- update `readme` with recent and older changes ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- add more docstrings to functions/methods ([#247](https://github.com/Eccleria/ewibot/pull/247))
 
 ## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
