@@ -4,4 +4,5 @@ node_modules
 *.log
 .vs
 db/*.json
-concrete/gifs
+pics/concrete/gifs/*
+pics/vest/jpgs/*
