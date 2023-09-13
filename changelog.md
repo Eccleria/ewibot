@@ -1,7 +1,7 @@
 ﻿## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
 	- add `/stats use` command to dis/enable Ewibot stats for requesting user
-	- count `gifs`, `hello` words, `hungry` words, `emojis` and `rolling` gifs for accepting users
+	- count `gifs`, `hello` words, `hungry` words, and `emojis` for accepting users
 	- count `emotes` occurences and `cats` pictures sent for whole guild
 - Feat: `dbReturnType` frozen object with returned values for db helpers ([#234](https://github.com/Eccleria/ewibot/pull/234))
 
