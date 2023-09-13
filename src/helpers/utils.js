@@ -1,6 +1,13 @@
-import { isIgnoredUser, addApologyCount, isIgnoredChannel } from "./index.js";
+import {
+  isIgnoredUser,
+  addApologyCount,
+  isIgnoredChannel,
+  isStatsUser,
+  addStatsData,
+} from "./index.js";
 import { octagonalLog } from "../admin/utils.js";
 import { COMMONS } from "../commons.js";
+import { dbReturnType, statsKeys } from "./index.js";
 
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
@@ -53,17 +60,42 @@ const isAbcd = (words) => {
   return false;
 };
 
+/**
+ * Check if message content has any "eating" related words
+ * @param {string} loweredContent Message content with only lawercase characters
+ * @returns {boolean} True if any hungriness is found, False otherwise
+ */
 const isHungry = (loweredContent) => {
-  return loweredContent.includes("faim");
+  const ret = loweredContent.includes("faim");
+  return ret || loweredContent.includes("manger"); //boolean OR
 };
 
 export const hasOctagonalSign = (content, cmnShared) => {
   return content.includes(cmnShared.octagonalSignEmoji);
 };
 
+/**
+ * Parse a string emoji into its id.
+ * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
+ * @returns {?string} Emoji id | null
+ */
+export const parseEmoji = (content) => {
+  //id is always last of content.split(":")
+  if (!content.includes(":")) return null;
+
+  const splited = content.split(":");
+  const sliced = splited[splited.length - 1];
+  if (sliced.includes(">")) {
+    const id = sliced.split(">")[0];
+    return id;
+  }
+  return sliced;
+};
+
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  if (process.env.DEBUG === "yes") console.log("apologyResult", apologyResult);
+  if (process.env.DEBUGLOGS === "yes")
+    console.log("apologyResult", apologyResult);
 
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
@@ -71,18 +103,18 @@ export const hasApology = (sanitizedContent) => {
     const splited = sanitizedContent.split(" "); //split words
     const idx = apologyResult.index;
 
-    if (process.env.DEBUG === "yes")
+    if (process.env.DEBUGLOGS === "yes")
       console.log("splited.length", splited.length, "apologyResult.index", idx);
 
     const result = splited.reduce(
       (acc, cur) => {
         const newLen = acc.len + cur.length + 1;
-        if (process.env.DEBUG === "yes") {
+        if (process.env.DEBUGLOGS === "yes") {
           console.log("len", acc.len, "newLen", newLen, "cur", [cur]);
           console.log(cur.length, sanitizedContent[newLen], "word", acc.word);
         }
         if (acc.len <= idx && idx < newLen) {
-          if (process.env.DEBUG === "yes") console.log("found");
+          if (process.env.DEBUGLOGS === "yes") console.log("found");
           return { word: acc.word || cur, len: newLen, nb: acc.nb + 1 };
         } else return { word: acc.word, len: newLen, nb: acc.nb };
       },
@@ -90,7 +122,7 @@ export const hasApology = (sanitizedContent) => {
     );
     const wordFound = result.word;
 
-    if (process.env.DEBUG === "yes") console.log("wordFound", [wordFound]);
+    if (process.env.DEBUGLOGS === "yes") console.log("wordFound", [wordFound]);
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;
@@ -111,10 +143,10 @@ export const reactionHandler = async (message, currentServer, client) => {
     return; //check for ignore users or channels
 
   // If message contains apology, Ewibot reacts
-  if (process.env.DEBUG === "yes")
+  if (process.env.DEBUGLOGS === "yes")
     console.log("loweredContent", [loweredContent]);
   const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
-  if (process.env.DEBUG === "yes")
+  if (process.env.DEBUGLOGS === "yes")
     console.log("sanitizedContent", [sanitizedContent]);
 
   if (hasApology(sanitizedContent)) {
@@ -131,9 +163,19 @@ export const reactionHandler = async (message, currentServer, client) => {
 
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
-  //Ewibot wave to user
-  if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
-    await message.react(cmnShared.helloEmoji);
+  //Ewibot waves to user
+  if (
+    hello.some((helloMessage) => words[0] === helloMessage) || //words
+    words[0] === cmnShared.helloEmoji //wave emote
+  ) {
+    if (addStatsData(db, authorId, "hello") === dbReturnType.isNotOk)
+      console.log(
+        `addStatsData isNotOk with isStatsUser ${isStatsUser(
+          db,
+          authorId
+        )}, userID ${authorId}, whichStat "hello"`
+      );
+    if (frequency) await message.react(cmnShared.helloEmoji);
   }
 
   //April
@@ -168,6 +210,8 @@ export const reactionHandler = async (message, currentServer, client) => {
     const reaction = Object.values(currentServer.hungryEmotes);
     const random = Math.round(Math.random()); // 0 or 1
     if (frequency) message.react(reaction[random]);
+
+    if (isStatsUser(db, authorId)) addStatsData(db, authorId, statsKeys.hungry); //add to db
   }
 
   if (authorId === cmnShared.LuciferId) {
