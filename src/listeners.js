@@ -9,7 +9,6 @@ import {
 } from "./helpers/index.js";
 
 import {
-  checkRollingGif,
   emojiInContentHandler,
   statsGifCount,
 } from "./stats.js";
@@ -40,7 +39,6 @@ export const onPublicMessage = async (message, client, currentServer) => {
   reactionHandler(message, currentServer, client);
   statsGifCount(message);
   emojiInContentHandler(message);
-  checkRollingGif(message);
 };
 
 export const onRemoveReminderReaction = (

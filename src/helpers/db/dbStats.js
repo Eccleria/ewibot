@@ -18,7 +18,6 @@ export const statsKeys = Object.freeze({
   hello: "hello",
   hungry: "hungry",
   emojis: "emojis",
-  rolling: "rolling",
 });
 
 /**
