@@ -1,4 +1,5 @@
 ﻿## 6.0.0
+- Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
 
 ## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
