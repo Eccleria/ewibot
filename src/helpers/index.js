@@ -66,6 +66,18 @@ import {
 } from "./db/dbReminder.js";
 
 import {
+  isStatsUser,
+  addStatsData,
+  addEmojiData,
+  addStatsUser,
+  removeStatsUser,
+  statsKeys,
+  dbReturnType,
+  addServerStatsData,
+  addServerEmojiCount,
+} from "./db/dbStats.js";
+
+import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
@@ -79,6 +91,7 @@ import {
   hasOctagonalSign,
   setActivity,
   updateActivity,
+  parseEmoji,
 } from "./utils.js";
 
 export {
@@ -90,6 +103,7 @@ export {
   hasOctagonalSign,
   setActivity,
   updateActivity,
+  parseEmoji,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
@@ -151,4 +165,14 @@ export {
   addReminder,
   removeReminder,
   updateReminder,
+  //stats
+  isStatsUser,
+  addStatsUser,
+  addEmojiData,
+  removeStatsUser,
+  addStatsData,
+  statsKeys,
+  dbReturnType,
+  addServerStatsData,
+  addServerEmojiCount,
 };

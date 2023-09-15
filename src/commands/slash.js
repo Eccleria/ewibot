@@ -33,6 +33,7 @@ import { reverse, reverseTranslator } from "./reverse.js";
 import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
+import stats from "./stats.js";
 
 import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
 
@@ -196,6 +197,7 @@ const slashCommands = [
   roll,
   shuffle,
   spotify,
+  stats,
 ]; //command + action
 
 // HELP

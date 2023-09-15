@@ -68,7 +68,7 @@ const checkAlavirien = async (client, server) => {
 
   for (const id of dbIds) {
     //db data format : { userId: authorId, messageNumber: number, joinAt: date}
-    const curDbData = data.dbUsers.find(({ userId }) => userId === id);
+    const curDbData = data.users.find(({ userId }) => userId === id);
     if (!curDbData) {
       //if no db data, log and skip
       console.log(`Unable to find alavirien data from toUpdateId ${id}`);
