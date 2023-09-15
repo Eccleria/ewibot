@@ -660,7 +660,7 @@ export const gifRecovery = (content) => {
 
   if (content.includes(tenor) || content.includes(end)) {
     //if any gif inside content
-    const words = content.split(" "); //split content into words
+    const words = content.split(/( |\n)/gm); //split content into words
     const results = words.reduce((acc, cur) => {
       //look for gif position in content
       if (cur.includes(tenor) || cur.endsWith(end)) {

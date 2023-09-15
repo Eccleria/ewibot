@@ -4,15 +4,20 @@ import {
   reactionHandler,
   deleteSongFromPlaylist,
   removeReminder,
+  addEmojiData,
+  addServerStatsData,
 } from "./helpers/index.js";
+
+import { emojiInContentHandler, statsGifCount } from "./stats.js";
 
 import { presentationHandler } from "./admin/alavirien.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 
 import { octagonalLog } from "./admin/utils.js";
 import { COMMONS } from "./commons.js";
+import { addServerEmojiCount } from "./helpers/index.js";
 
-export const onPublicMessage = (message, client, currentServer) => {
+export const onPublicMessage = async (message, client, currentServer) => {
   const { author } = message;
 
   if (
@@ -22,7 +27,15 @@ export const onPublicMessage = (message, client, currentServer) => {
   )
     return;
 
+  if (
+    message.attachments.size &&
+    message.channel.id === currentServer.catsThreadId
+  )
+    addServerStatsData(client.db, "cats");
+
   reactionHandler(message, currentServer, client);
+  statsGifCount(message);
+  emojiInContentHandler(message);
 };
 
 export const onRemoveReminderReaction = (
@@ -106,6 +119,17 @@ export const onReactionAdd = async (messageReaction, user) => {
     messageReaction.message.channel.guild.id
   );
   const cmnShared = COMMONS.getShared();
+
+  //stats
+  const emote = messageReaction.emoji; //get emote
+  const emoteGuild = emote.guild ? emote.guild : null; //get emote guild if any
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) {
+    //if is a guildEmote and belongs to current server, count
+    const db = messageReaction.client.db;
+    addEmojiData(db, user.id, emote.id); //user stat
+    addServerEmojiCount(db, emote.id); //server stat
+    return;
+  }
 
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
