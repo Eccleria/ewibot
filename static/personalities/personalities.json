@@ -58,7 +58,8 @@
           "description": "L'émote à utiliser",
           "name": "emote"
         },
-        "errorNotAdmin": "Vous n'avez pas le droit d'utiliser cette commande",
+        "errorMessageNotFound": "Le message n'a pas été trouvé.",
+        "errorNotAdmin": "Vous n'avez pas le droit d'utiliser cette commande.",
         "errorNotReact": "Je n'ai pas pu réagir.",
         "messageOption": {
           "description": "L'ID du message auquel réagir",

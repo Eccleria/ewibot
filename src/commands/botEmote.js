@@ -34,15 +34,27 @@ const action = async (interaction) => {
     return;
   }
 
+  //get options
   const options = interaction.options;
   const messageId = options.getString(perso.messageOption.name);
   const emoteId = options.getString(perso.emoteOption.name);
   console.log("messageId", messageId, "emoteId", emoteId);
 
-  const message = await interaction.channel.messages.fetch(messageId);
+  //fetch message
+  let message;
+  try {
+    message = await interaction.channel.messages.fetch(messageId);
+  } catch (e) {
+    console.log("/reaction error - message not found", e);
+    interactionReply(interaction, perso.errorMessageNotFound);
+    return;
+  }
+
+  //get emote
   const emote = interaction.guild.emojis.cache.get(emoteId);
   console.log("emote", emote);
 
+  //react
   const result = await message.react(emote);
   if (result) interactionReply(interaction, perso.react);
   else interactionReply(interaction, perso.errorNotReact);
@@ -56,7 +68,7 @@ const autocomplete = (interaction) => {
   const emotes = emotesCache.map((cur) => {
     return { name: cur.name, value: cur.id };
   });
-  const filtered = emotes.filter((cur) => cur.name.startsWith(focusedValue)); //filter to corresponding commands names
+  const filtered = emotes.filter((cur) => cur.name.startsWith(focusedValue)); //filter to corresponding emotes names
   const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
 
   interaction.respond(sliced);
