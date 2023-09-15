@@ -38,7 +38,6 @@ const action = async (interaction) => {
   const options = interaction.options;
   const messageId = options.getString(perso.messageOption.name);
   const emoteId = options.getString(perso.emoteOption.name);
-  console.log("messageId", messageId, "emoteId", emoteId);
 
   //fetch message
   let message;
@@ -52,7 +51,6 @@ const action = async (interaction) => {
 
   //get emote
   const emote = interaction.guild.emojis.cache.get(emoteId);
-  console.log("emote", emote);
 
   //react
   const result = await message.react(emote);
