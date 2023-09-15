@@ -4,23 +4,27 @@ import { PERSONALITY } from "../personality.js";
 import { isAdmin } from "../helpers/utils.js";
 
 const command = new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().botEmote.name)
-    .setDescription(PERSONALITY.getCommands().botEmote.description)
-    .setDefaultMemberPermissions(0x0000010000000000)
-    .addStringOption((option) => 
-      option
-        .setName(PERSONALITY.getCommands().botEmote.messageOption.name)
-        .setDescription(PERSONALITY.getCommands().botEmote.messageOption.description)
-        .setRequired(true)
-        .setMinLength(1)
-    )
-    .addStringOption((option) => 
-      option
-        .setName(PERSONALITY.getCommands().botEmote.emoteOption.name)
-        .setDescription(PERSONALITY.getCommands().botEmote.emoteOption.description)
-        .setRequired(true)
-        .setAutocomplete(true)
-    );
+  .setName(PERSONALITY.getCommands().botEmote.name)
+  .setDescription(PERSONALITY.getCommands().botEmote.description)
+  .setDefaultMemberPermissions(0x0000010000000000)
+  .addStringOption((option) =>
+    option
+      .setName(PERSONALITY.getCommands().botEmote.messageOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().botEmote.messageOption.description
+      )
+      .setRequired(true)
+      .setMinLength(1)
+  )
+  .addStringOption((option) =>
+    option
+      .setName(PERSONALITY.getCommands().botEmote.emoteOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().botEmote.emoteOption.description
+      )
+      .setRequired(true)
+      .setAutocomplete(true)
+  );
 
 const action = async (interaction) => {
   const perso = PERSONALITY.getCommands().botEmote;
@@ -50,11 +54,11 @@ const autocomplete = (interaction) => {
 
   //build list
   const emotes = emotesCache.map((cur) => {
-    return {"name": cur.name, "value": cur.id}
+    return { name: cur.name, value: cur.id };
   });
   const filtered = emotes.filter((cur) => cur.name.startsWith(focusedValue)); //filter to corresponding commands names
   const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
-  
+
   interaction.respond(sliced);
 };
 
@@ -63,7 +67,7 @@ const botEmote = {
   action,
   autocomplete,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().botEmote
+    const perso = PERSONALITY.getCommands().botEmote;
     interactionReply(interaction, perso.help);
   },
   admin: true,
