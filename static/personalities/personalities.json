@@ -52,6 +52,22 @@
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
+      "botEmote": {
+        "description": "Cette commande permet de faire réagir Ewibot à un message",
+        "emoteOption": {
+          "description": "L'émote à utiliser",
+          "name": "emote"
+        },
+        "errorMessageNotFound": "Le message n'a pas été trouvé.",
+        "errorNotAdmin": "Vous n'avez pas le droit d'utiliser cette commande.",
+        "errorNotReact": "Je n'ai pas pu réagir.",
+        "messageOption": {
+          "description": "L'ID du message auquel réagir",
+          "name": "message-id"
+        },
+        "name": "reaction",
+        "react": "J'ai bien réagit."
+      },
       "botMessage": {
         "attachmentOption":{
           "description":"Pièce-jointe a transmettre avec le message",

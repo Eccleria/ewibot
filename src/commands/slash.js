@@ -21,6 +21,7 @@ import {
 
 import announce from "./announce.js";
 import birthday from "./birthday.js";
+import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
@@ -181,6 +182,7 @@ const contextCommands = [reverseTranslator, saveLog]; //context commands (messag
 const slashCommands = [
   announce,
   birthday,
+  botEmote,
   botMessage,
   concrete,
   eventRoles,
