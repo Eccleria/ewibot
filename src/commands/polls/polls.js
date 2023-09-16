@@ -174,7 +174,7 @@ const action = async (interaction) => {
     const voteMax = option == null ? 1 : option;
 
     option = options.getString(perso.colorOption.name, false); //color
-    const color = option == null ? pColors.choices[4].value : option;
+    const color = option == null ? pColors.choices[2].value : option;
 
     const author = options.getUser(perso.authorOption.name, false); //author
 
