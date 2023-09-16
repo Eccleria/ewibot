@@ -95,12 +95,41 @@ export const gifParser = (content) => {
   return null;
 };
 
+/**
+ * Get strings corresponding to gif url.
+ * @param {string} content
+ * @returns {?string[]} If any, returns array of gif url strings.
+ */
+export const gifRecovery = (content) => {
+  const tenor = "tenor.com/";
+  const end = ".gif";
+
+  if (content.includes(tenor) || content.includes(end)) {
+    //if any gif inside content
+    const words = content.split(/( |\n)/gm); //split content into words
+    const results = words.reduce((acc, cur) => {
+      //look for gif position in content
+      if (cur.includes(tenor) || cur.endsWith(end)) {
+        //if has link
+        const start = cur.indexOf("https://"); //look for link position
+        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
+        return [...acc, sliced]; //return link
+      }
+      return acc;
+    }, []);
+    return results;
+  }
+  return null;
+};
+
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
 );
+
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  if (process.env.DEBUG === "yes") console.log("apologyResult", apologyResult);
+  if (process.env.DEBUGLOGS === "yes")
+    console.log("apologyResult", apologyResult);
 
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   if (apologyResult !== null) {
@@ -108,18 +137,18 @@ export const hasApology = (sanitizedContent) => {
     const splited = sanitizedContent.split(" "); //split words
     const idx = apologyResult.index;
 
-    if (process.env.DEBUG === "yes")
+    if (process.env.DEBUGLOGS === "yes")
       console.log("splited.length", splited.length, "apologyResult.index", idx);
 
     const result = splited.reduce(
       (acc, cur) => {
         const newLen = acc.len + cur.length + 1;
-        if (process.env.DEBUG === "yes") {
+        if (process.env.DEBUGLOGS === "yes") {
           console.log("len", acc.len, "newLen", newLen, "cur", [cur]);
           console.log(cur.length, sanitizedContent[newLen], "word", acc.word);
         }
         if (acc.len <= idx && idx < newLen) {
-          if (process.env.DEBUG === "yes") console.log("found");
+          if (process.env.DEBUGLOGS === "yes") console.log("found");
           return { word: acc.word || cur, len: newLen, nb: acc.nb + 1 };
         } else return { word: acc.word, len: newLen, nb: acc.nb };
       },
@@ -127,7 +156,7 @@ export const hasApology = (sanitizedContent) => {
     );
     const wordFound = result.word;
 
-    if (process.env.DEBUG === "yes") console.log("wordFound", [wordFound]);
+    if (process.env.DEBUGLOGS === "yes") console.log("wordFound", [wordFound]);
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;
@@ -179,6 +208,24 @@ export const isReleasedCommand = (command) => {
 export const isSentinelle = (member, currentServer) => {
   const roles = member.roles.cache;
   return roles.has(currentServer.sentinelleRoleId);
+};
+
+/**
+ * Parse a string emoji into its id.
+ * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
+ * @returns {?string} Emoji id | null
+ */
+export const parseEmoji = (content) => {
+  //id is always last of content.split(":")
+  if (!content.includes(":")) return null;
+
+  const splited = content.split(":");
+  const sliced = splited[splited.length - 1];
+  if (sliced.includes(">")) {
+    const id = sliced.split(">")[0];
+    return id;
+  }
+  return sliced;
 };
 
 const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);

@@ -78,7 +78,8 @@
       "giftChannelId": "935180557770448956"
     },
     "giftButtonChannelId": "935180557770448956",
-    "sentinelleRoleId": "1043971181461651506"
+    "sentinelleRoleId": "1043971181461651506",
+    "catsThreadId": "1137456643123183637"
   },
   "prod": {
     "name": "prod",
@@ -159,7 +160,8 @@
       "giftChannelId": "973206750771687434"
     },
     "giftButtonChannelId": "973206750771687434",
-    "sentinelleRoleId": "816975096518279188"
+    "sentinelleRoleId": "816975096518279188",
+    "catsThreadId": "933456973591097415"
   },
   "shared": {
     "admins": ["141962573900808193", "290505766631112714"],

@@ -1,9 +1,13 @@
 import { octagonalLog } from "./admin/utils.js";
 import {
   //db
-  isIgnoredUser,
   addApologyCount,
+  addStatsData,
+  dbReturnType,
   isIgnoredChannel,
+  isIgnoredUser,
+  isStatsUser,
+  statsKeys,
   //utils
   hasApology,
   hasOctagonalSign,
@@ -96,6 +100,19 @@ export const readContentAndReact = async (message, currentServer) => {
   if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
     await message.react(cmnShared.helloEmoji);
   }
+  if (
+    hello.some((helloMessage) => words[0] === helloMessage) || //words
+    words[0] === cmnShared.helloEmoji //wave emote
+  ) {
+    if (addStatsData(db, authorId, "hello") === dbReturnType.isNotOk)
+      console.log(
+        `addStatsData isNotOk with isStatsUser ${isStatsUser(
+          db,
+          authorId
+        )}, userID ${authorId}, whichStat "hello"`
+      );
+    if (frequency) await message.react(cmnShared.helloEmoji);
+  }
 
   //April
   const today = new Date();
@@ -116,6 +133,8 @@ export const readContentAndReact = async (message, currentServer) => {
     const reaction = Object.values(currentServer.hungryEmotes);
     const random = Math.round(Math.random()); // 0 or 1
     if (frequency) message.react(reaction[random]);
+
+    if (isStatsUser(db, authorId)) addStatsData(db, authorId, statsKeys.hungry); //add to db
   }
 
   if (authorId === cmnShared.LuciferId && isLuciferAge(sanitizedContent))

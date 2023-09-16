@@ -7,6 +7,7 @@ import { ChannelType, Routes } from "discord-api-types/v9";
 
 import announce from "./announce.js";
 import birthday from "./birthday.js";
+import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
@@ -18,6 +19,7 @@ import { reverse, reverseTranslator } from "./reverse.js";
 import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
+import stats from "./stats.js";
 import {
   //dbHelper
   addIgnoredChannel,
@@ -177,6 +179,7 @@ const contextCommands = [reverseTranslator, saveLog]; //context commands (messag
 const slashCommands = [
   announce,
   birthday,
+  botEmote,
   botMessage,
   concrete,
   eventRoles,
@@ -191,6 +194,7 @@ const slashCommands = [
   roll,
   shuffle,
   spotify,
+  stats,
 ]; //command + action
 
 // HELP

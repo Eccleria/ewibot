@@ -4,13 +4,17 @@ import { roleAdd, roleRemove } from "./admin/role.js";
 import { octagonalLog } from "./admin/utils.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import {
+  addEmojiData,
+  addServerEmojiCount,
+  addServerStatsData,
   deleteSongFromPlaylist,
   interactionReply,
   isReleasedCommand,
   removeReminder,
 } from "./helpers/index.js";
-import { readContentAndReact } from "./fun.js";
 import { COMMONS } from "./commons.js";
+import { readContentAndReact } from "./fun.js";
+import { emojiInContentHandler, statsGifCount } from "./stats.js";
 import { PERSONALITY } from "./personality.js";
 
 //#region Listeners
@@ -93,6 +97,17 @@ export const onReactionAdd = async (messageReaction, user) => {
   );
   const cmnShared = COMMONS.getShared();
 
+  //stats
+  const emote = messageReaction.emoji; //get emote
+  const emoteGuild = emote.guild ? emote.guild : null; //get emote guild if any
+  if (emoteGuild && currentServer.guildId === emoteGuild.id) {
+    //if is a guildEmote and belongs to current server, count
+    const db = messageReaction.client.db;
+    addEmojiData(db, user.id, emote.id); //user stat
+    addServerEmojiCount(db, emote.id); //server stat
+    return;
+  }
+
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
   ) {
@@ -143,7 +158,15 @@ const onPublicMessage = (message, currentServer) => {
   )
     return;
 
+  if (
+    message.attachments.size &&
+    message.channel.id === currentServer.catsThreadId
+  )
+    addServerStatsData(message.client.db, "cats");
+
   readContentAndReact(message, currentServer);
+  statsGifCount(message);
+  emojiInContentHandler(message);
 };
 
 export const onRemoveReminderReaction = (

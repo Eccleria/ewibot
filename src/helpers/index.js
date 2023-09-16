@@ -67,6 +67,18 @@ import {
 } from "./db/dbReminder.js";
 
 import {
+  isStatsUser,
+  addStatsData,
+  addEmojiData,
+  addStatsUser,
+  removeStatsUser,
+  statsKeys,
+  dbReturnType,
+  addServerStatsData,
+  addServerEmojiCount,
+} from "./db/dbStats.js";
+
+import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
@@ -82,6 +94,7 @@ import {
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  parseEmoji,
   removePunctuation,
   setupEmbed,
 } from "./utils.js";
@@ -97,6 +110,7 @@ export {
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  parseEmoji,
   removePunctuation,
   setupEmbed,
   // spotifyHelper
@@ -161,4 +175,14 @@ export {
   addReminder,
   removeReminder,
   updateReminder,
+  //stats
+  isStatsUser,
+  addStatsUser,
+  addEmojiData,
+  removeStatsUser,
+  addStatsData,
+  statsKeys,
+  dbReturnType,
+  addServerStatsData,
+  addServerEmojiCount,
 };
