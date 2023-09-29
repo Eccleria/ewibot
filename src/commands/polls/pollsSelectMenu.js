@@ -34,7 +34,8 @@ export const pollSelectMenuHandler = async (interaction) => {
 
 const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const selected = interaction.values; //get choices to remove
-  const perso = PERSONALITY.getCommands().polls.settings.remove;
+  const perso = PERSONALITY.getCommands().polls;
+  const rPerso = perso.settings.remove;
 
   //get data
   const pollMessage = await fetchPollMessage(interaction);
@@ -55,6 +56,12 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //update fields values/ratios
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  const payload = { components: [] };
+  if (!dbPoll) {
+    payload.content = perso.stopped;
+    await interactionEditReply(interaction, payload);
+    return;
+  }
   const updatedFields = refreshPollFields(dbPoll, filteredFields);
   embed.setFields(updatedFields);
 
@@ -98,16 +105,14 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
     embeds: [embed],
     components: newComponents,
   });
-  if (message)
-    interactionEditReply(interaction, {
-      content: perso.removed,
-      components: [],
-    });
-  else
-    interactionEditReply(interaction, {
-      content: perso.errorNotUpdated,
-      components: [],
-    });
+  if (message) {
+    payload.content = rPerso.removed;
+    interactionEditReply(interaction, payload);
+  }
+  else {
+    payload.content = rPerso.errorNotUpdated;
+    interactionEditReply(interaction, payload);
+  }
 };
 
 const pollUpdateSelectMenuHandler = async (interaction) => {
@@ -122,12 +127,17 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   if (toChange === "anonymous") {
     //No need to select choice, apply modif
-
+    const payload = {components: [], content: ""};
     //get embed
     const pollMessage = await fetchPollMessage(interaction);
 
     //update db
     const dbPoll = getPoll(db, pollMessage.id);
+    if (!dbPoll) {
+      payload.content = personality.errorNoDb;
+      interactionEditReply(interaction, payload);
+      return;
+    }
     const newAnonymous = !dbPoll.anonymous;
     updatePollParam(db, pollMessage.id, toChange, newAnonymous);
 
@@ -209,6 +219,10 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     //get poll data
     const pollMessage = await fetchPollMessage(interaction);
     const dbPoll = getPoll(db, pollMessage.id);
+    if (!dbPoll) {
+      await interactionEditReply(interaction, {components: [], content: personality.stopped});
+      return;
+    }
     const oldVoteMax = dbPoll.voteMax;
 
     if (toChange === "voteMax") {
