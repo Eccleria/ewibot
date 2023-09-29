@@ -81,18 +81,19 @@ export const parsePollFields = (content, totalSize = 0) => {
       if (cur.includes(",")) {
         //if choices includes emote
         const emote = cur.split(",")[0].trim();
-        return {
-          fields: [...acc.fields, replaced],
-          emotes: [...acc.emotes, emote],
-        };
-      } else {
-        const emote = bullet[idx + totalSize];
-        const text = idx === 0 ? emote + " " + replaced : emote + replaced;
-        return {
-          fields: [...acc.fields, text],
-          emotes: [...acc.emotes, emote],
-        };
+        console.log(/\p{Extended_Pictographic}/u.test(emote))
+        if (emote.includes(":") || (/\p{Extended_Pictographic}/u.test(emote) && !emote.includes(" ")))
+          return {
+            fields: [...acc.fields, replaced],
+            emotes: [...acc.emotes, emote],
+          };
       }
+      const emote = bullet[idx + totalSize];
+      const text = idx === 0 ? emote + " " + replaced : emote + replaced;
+      return {
+        fields: [...acc.fields, text],
+        emotes: [...acc.emotes, emote],
+      };
     },
     { fields: [], emotes: [] }
   );
