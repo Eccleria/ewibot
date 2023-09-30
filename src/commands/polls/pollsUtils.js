@@ -1,5 +1,5 @@
 import { PERSONALITY } from "../../personality.js";
-import { removePoll } from "../../helpers/index.js";
+import { removePoll, sanitizePunctuation } from "../../helpers/index.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -80,12 +80,20 @@ export const parsePollFields = (content, totalSize = 0) => {
       const replaced = cur.replace(",", "");
       if (cur.includes(",")) {
         //if choices includes emote
-        const emote = cur.split(",")[0].trim();
-        console.log(/\p{Extended_Pictographic}/u.test(emote))
-        if (emote.includes(":") || (/\p{Extended_Pictographic}/u.test(emote) && !emote.includes(" ")))
+        const content = cur.split(",")[0].trim();
+        console.log([content]);    
+        if (content.includes(":"))
           return {
             fields: [...acc.fields, replaced],
-            emotes: [...acc.emotes, emote],
+            emotes: [...acc.emotes, content],
+          };
+          
+        const sanitizedContent = sanitizePunctuation(content);
+        console.log([sanitizedContent] , /\p{Extended_Pictographic}/u.test(sanitizedContent), /\W{2}/g.test(sanitizedContent))
+        if ((/\p{Extended_Pictographic}/u.test(sanitizedContent) && !sanitizedContent.includes(" ")) || /\W{2}/g.test(sanitizedContent))
+          return {
+            fields: [...acc.fields, replaced],
+            emotes: [...acc.emotes, sanitizedContent],
           };
       }
       const emote = bullet[idx + totalSize];
