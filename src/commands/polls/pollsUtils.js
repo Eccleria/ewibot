@@ -77,7 +77,8 @@ export const parsePollFields = (content, totalSize = 0) => {
     (acc, cur, idx) => {
       if (cur.length === 0) return acc; //filter empty choice
 
-      const replaced = cur.replace(",", "");
+      const replaced = cur.split(",")[1];
+      console.log(cur, "replaced", [replaced])
       if (cur.includes(",")) {
         //if choices includes emote
         const content = cur.split(",")[0].trim();
@@ -87,7 +88,7 @@ export const parsePollFields = (content, totalSize = 0) => {
             fields: [...acc.fields, replaced],
             emotes: [...acc.emotes, content],
           };
-          
+
         const sanitizedContent = sanitizePunctuation(content);
         console.log([sanitizedContent] , /\p{Extended_Pictographic}/u.test(sanitizedContent), /\W{2}/g.test(sanitizedContent))
         if ((/\p{Extended_Pictographic}/u.test(sanitizedContent) && !sanitizedContent.includes(" ")) || /\W{2}/g.test(sanitizedContent))
@@ -96,15 +97,16 @@ export const parsePollFields = (content, totalSize = 0) => {
             emotes: [...acc.emotes, sanitizedContent],
           };
       }
+      //no or wrong emote => use bullet emote
       const emote = bullet[idx + totalSize];
-      const text = idx === 0 ? emote + " " + replaced : emote + replaced;
       return {
-        fields: [...acc.fields, text],
+        fields: [...acc.fields, replaced],
         emotes: [...acc.emotes, emote],
       };
     },
     { fields: [], emotes: [] }
   );
+  console.log("results", results);
   return results;
 };
 
