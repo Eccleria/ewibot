@@ -318,7 +318,12 @@ export const onThreadCreate = async (thread, newly) => {
     const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
     const executor = await thread.guild.members.fetch(thread.ownerId);
     const embed = setupEmbed("DARK_GREY", perso, thread, "tag"); //setup embed
-    console.log("onThreadCreate\nlog.executor", log.executor.id, "ownerId", thread.ownerId);
+    console.log(
+      "onThreadCreate\nlog.executor",
+      log.executor.id,
+      "ownerId",
+      thread.ownerId
+    );
 
     finishEmbed(perso, executor, embed, logChannel);
   } else console.log("threadCreateIsNull", thread, newly);
