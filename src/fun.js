@@ -148,9 +148,8 @@ const hello = [
   "salut",
   "bonsoir",
   "coucou",
-  "bijour",
-  "bonjoir",
   "hey",
+  "👋",
 ];
 
 const isAbcd = (words) => {
@@ -179,8 +178,8 @@ const isHungry = (loweredContent) => {
 };
 
 const isLuciferAge = (content) => {
-  const presqueRegex = new RegExp(/pres(qu|k)e *(16|seize)/gim); //regex for presque 16 detection
-  const presqueResult = presqueRegex.exec(content); //check if contains presque 16
+  const presqueRegex = new RegExp(/pres(qu|k)e *(17|dix( |-)*sept)/gim); //regex for presque 17 detection
+  const presqueResult = presqueRegex.exec(content); //check if contains presque 17
 
   presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
   return presqueResult !== null;
