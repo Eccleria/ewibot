@@ -1,4 +1,7 @@
-﻿## 5.5.0
+﻿## 5.5.1
+- Fix: wrong author on some onThreadCreate log when thread is created ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#253](https://github.com/Eccleria/ewibot/issues/253))
+
+## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
 	- add `/stats use` command to dis/enable Ewibot stats for requesting user
 	- count `gifs`, `hello` words, `hungry` words, and `emojis` for accepting users
