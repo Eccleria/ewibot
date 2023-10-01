@@ -1,6 +1,6 @@
-import { PERSONALITY } from "../../personality.js";
-import { removePoll } from "../../helpers/index.js";
 import { EmbedBuilder } from "discord.js";
+import { removePoll } from "../../helpers/index.js";
+import { PERSONALITY } from "../../personality.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -187,6 +187,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
   //build message content
   const mPerso = perso.stop.message;
   const len = pollEmbed.data.title.length;
-  const content = mPerso[0] + pollEmbed.data.title.slice(0, len - 14) + mPerso[1];
+  const content =
+    mPerso[0] + pollEmbed.data.title.slice(0, len - 14) + mPerso[1];
   pollMessage.reply(content);
 };

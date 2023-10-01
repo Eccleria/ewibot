@@ -1,14 +1,20 @@
-import { ActionRowBuilder, StringSelectMenuBuilder, ButtonStyle, EmbedBuilder, ButtonBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  ButtonStyle,
+  EmbedBuilder,
+  ButtonBuilder,
+} from "discord.js";
 import {
   fetchPollMessage,
   interactionEditReply,
   pollRefreshEmbed,
   stopPoll,
 } from "./pollsUtils.js";
-import { createButton, isSentinelle } from "../utils.js";
-import { PERSONALITY } from "../../personality.js";
-import { getPoll, resetPollVoters } from "../../helpers/index.js";
+import { createButton } from "../utils.js";
+import { getPoll, isSentinelle, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const sendSettingsButtons = async (interaction) => {
   try {
@@ -31,7 +37,7 @@ export const sendSettingsButtons = async (interaction) => {
 
   if (interaction.user.id !== dbPoll.authorId) {
     //if not poll author, check is sentinelle
-    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+    const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
     if (!isSentinelle(interaction.member, currentServer)) {
       //if not, no right to use this button
       interactionEditReply(interaction, perso.errorNotAuthor);
@@ -97,7 +103,8 @@ export const removePollButtonAction = async (interaction) => {
     return console.log(e);
   }
 
-  const perso = PERSONALITY.getCommands().polls.settings.remove;
+  const personality = PERSONALITY.getCommands().polls;
+  const perso = personality.settings.remove;
 
   //get poll from db
   const pollMessage = await fetchPollMessage(interaction);
@@ -120,7 +127,10 @@ export const removePollButtonAction = async (interaction) => {
   //parse choices
   const fields = pollMessage.embeds[0].data.fields;
   const choices = fields.reduce((acc, cur, idx) => {
-    const curChoice = { label: cur.name, value: "polls_" + idx.toString() }; // description: "Choix_" + idx.toString(),
+    const curChoice = {
+      label: cur.name,
+      value: personality.prefix + idx.toString(),
+    }; // description: "Choix_" + idx.toString(),
     return [...acc, curChoice];
   }, []);
   menu.addOptions(choices);
@@ -207,7 +217,10 @@ export const refreshPollButtonAction = async (interaction) => {
   const db = interaction.client.db;
 
   //disable actions during refresh
-  const disabledComponents = enableDisableButtons(pollMessage.components, false);
+  const disabledComponents = enableDisableButtons(
+    pollMessage.components,
+    false
+  );
   await pollMessage.edit({ components: disabledComponents });
 
   //update poll embed
@@ -233,10 +246,10 @@ const enableDisableButtons = (MActionRow, status) => {
       const newButton = ButtonBuilder.from(button);
       newButton.setDisabled(status);
       return [...acc, newButton];
-    }, []); 
+    }, []);
 
     //build new ActionRowBuilder
     const newActionRow = new ActionRowBuilder().addComponents(buttons);
     return [...acc, newActionRow];
   }, []);
-}
+};

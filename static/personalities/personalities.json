@@ -52,6 +52,22 @@
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
       },
+      "botEmote": {
+        "description": "Cette commande permet de faire réagir Ewibot à un message",
+        "emoteOption": {
+          "description": "L'émote à utiliser",
+          "name": "emote"
+        },
+        "errorMessageNotFound": "Le message n'a pas été trouvé.",
+        "errorNotAdmin": "Vous n'avez pas le droit d'utiliser cette commande.",
+        "errorNotReact": "Je n'ai pas pu réagir.",
+        "messageOption": {
+          "description": "L'ID du message auquel réagir",
+          "name": "message-id"
+        },
+        "name": "reaction",
+        "react": "J'ai bien réagit."
+      },
       "botMessage": {
         "attachmentOption":{
           "description":"Pièce-jointe a transmettre avec le message",
@@ -127,6 +143,7 @@
       },
       "eventRoles": {
         "create": {
+          "author": "Demandé par ",
           "colorOption": {
             "description": "Couleur du rôle.",
             "name": "couleur"
@@ -143,7 +160,9 @@
           "nameOption": {
             "description": "Le nom du futur rôle d'évènements.",
             "name": "nom"
-          }          
+          },
+          "ok": "c'est bon",
+          "prefix": "eventRole_"          
         },
         "description": "Commandes de gestions des roles associés aux évènements.",
         "help": "Cette commande permet de gérer les roles associés aux évènements.",
@@ -268,7 +287,9 @@
         }
       },
       "helloWorld": {
+        "description": "Ping !",
         "help": "Cette commande n'a pas besoin de description.",
+        "name": "ping",
         "pong": "pong !"
       },
       "help": {
@@ -381,6 +402,7 @@
           },
           "name": "create",
           "sent": "Le sondage a été envoyé.",
+          "settings": "settings",
           "titleOption": {
             "description": "Titre du sondage.",
             "name": "titre"
@@ -395,6 +417,7 @@
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
         "help": "Cette commande permet de créer des sondages.",
         "name": "polls",
+        "prefix": "polls_",
         "settings": {
           "buttons": {
             "refresh": ["polls_set_refresh", "Actualiser"],
@@ -429,7 +452,8 @@
             "anonymous": {
               "baseValue": "polls_selectMenu_update_anonymous_",
               "customId": "polls_selectMenu_update_anonymous",
-              "placeholder": "Anonyme ?"
+              "placeholder": "Anonyme ?",
+              "updated": "Le paramètre anonyme a bien été changé."
             },
             "choices": [
               { "label": "anonyme", "value": "polls_selectMenu_update_anonymous" },
@@ -439,7 +463,8 @@
             "color": {
               "baseValue": "polls_selectMenu_update_color_",
               "customId": "polls_selectMenu_update_color",
-              "placeholder": "Nouvelle couleur."
+              "placeholder": "Nouvelle couleur.",
+              "updated": "La couleur a été changée."
             },
             "customId": "polls_selectMenu_update",
             "placeholder": "Paramètre à modifier.",
@@ -594,6 +619,19 @@
       },
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+      },
+      "stats": {
+        "description": "Cette commande regroupe toutes les commandes associées aux stats",
+        "help": "Ewibot peut, **à votre demande**, récolter des statistiques sur votre participation sur ce serveur. **Par défaut, aucune donnée n'est récoltée**.\nSi vous donnez votre accord, les données recueillies sont les suivantes :\n- le *nombre de gifs* que vous envoyez,\n- le *nombre d'émotes* que vous utilisez (en réagissant aux messages ou dans le contenu de vos messages),\n- Le nombre de fois que vous envoyez un message contenant une *excuse*,\n- le nombre de fois que vous envoyez un message disant que vous avez *faim*.\n\nEwibot récupère également des statistiques globale. **Ces stats ne sont pas nominatives.**\nEwibot stocke :\n- Pour chaque *émote du serveur, son nombre d'utilisation* (en réaction ou dans un message)\n- Le nombre de *photos envoyées dans le fil <#933456973591097415>*",
+        "name": "stats",
+        "use": {
+          "description": "Cette commande vous permet de choisir si vous souhaitez avoir des stats",
+          "errorDb": "Une erreur s'est produite avec la base de donnée. Veuillez le signaler à <@290505766631112714>, s'il vous plaît.",
+          "help": "Cette commande vous permet de choisir si vous souhaitez qu'Ewibot recueille des statistiques concernant votre participation sur ce serveur. **Par défaut, Ewibot ne recueille AUCUNE donnée**.\n_Note : dès que vous retirez votre consentement, Ewibot supprime **immédiatement** et **sans possibilité de récupération** les stats vous concernant._",
+          "isUser": "Ewibot stocke dorénavant des statistiques sur vous.",
+          "isNotUser": "Ewibot ne stocke plus de statistiques sur vous. Elles ont été instantanément supprimées.",
+          "name": "use"
+        }
       }
     },
     "spotify": {

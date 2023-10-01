@@ -1,4 +1,25 @@
 ﻿## 6.0.0
+- Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- admin/commands utils that are shared in another folder were moved in helpers utils file
+	- `Commons` class and some functions (`setupEmbed`, `finishEmbed`) were simplified
+	- `listeners` are now more consistent (`onInteractionCreate`, `onMessageCreate` moved)
+	- a lot of function names were modified for easier understanding
+	- `concrete` folder were move in pics, for future pictures fonctionalities
+	- simplify `bot` main file
+	- add jest for future unit testing and auto tests
+	- public `text` are now in personality
+- Doc:
+	- update `readme` with recent and older changes ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- add more docstrings to functions/methods ([#247](https://github.com/Eccleria/ewibot/pull/247))
+- Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
+
+## 5.5.0
+- Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
+	- add `/stats use` command to dis/enable Ewibot stats for requesting user
+	- count `gifs`, `hello` words, `hungry` words, and `emojis` for accepting users
+	- count `emotes` occurences and `cats` pictures sent for whole guild
+- Feat: `dbReturnType` frozen object with returned values for db helpers ([#234](https://github.com/Eccleria/ewibot/pull/234))
+- Fix: alavirien wrong db access when alavirien check ([#250](https://github.com/Eccleria/ewibot/pull/234))
 
 ## 5.4.0
 - Feat: add reaction if is mentioned by a user ([#230](https://github.com/Eccleria/ewibot/pull/230))
