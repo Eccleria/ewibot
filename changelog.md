@@ -1,4 +1,10 @@
 ﻿## 6.0.0
+- Core: reorganize the code ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- utils function consistency: global is now in main `utils.js`
+	- simplify some functions and classes such as `Commons`
+	- change files tree
+	- utils, commons are now alphabeticaly ordered
+-Doc: add docstrings to utils functions ([#247](https://github.com/Eccleria/ewibot/pull/247))
 - Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
 
 ## 5.5.0
