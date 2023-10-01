@@ -1,96 +1,130 @@
-import {
-  isIgnoredUser,
-  addApologyCount,
-  isIgnoredChannel,
-  isStatsUser,
-  addStatsData,
-} from "./index.js";
-import { octagonalLog } from "../admin/utils.js";
+import dayjs from "dayjs";
+import { EmbedBuilder } from "discord.js";
 import { COMMONS } from "../commons.js";
-import { dbReturnType, statsKeys } from "./index.js";
+
+/**
+ * Slice a string len times and returns it as an array
+ * @param {number} len Length of the returned array
+ * @param {string} content Embed content to slice
+ * @returns {string[]} Array of sliced content
+ */
+const sliceEmbedContent = (len, content) => {
+  const lenArray = Array.from(new Array(len));
+  const sliced = lenArray.reduce((acc, _cur, idx) => {
+    if (idx === len - 1) return [...acc, content.slice(idx * 1024)]; //last index
+    const sliced = content.slice(idx * 1024, (idx + 1) * 1024);
+    return [...acc, sliced];
+  }, []); //slice content in less than 1024 characters
+  return sliced;
+};
+
+/**
+ * Slice content if required then add it to the embed
+ * @param {string} content Old Content from previous embed to slice
+ * @param {object} embed New embed that will have sliced content
+ * @param {object} personality The personality object of the embed.
+ */
+export const checkEmbedContent = (content, embed, personality) => {
+  const slice = Math.ceil(content.length / 1024); //get number of time to slice oldContent by 1024
+
+  if (slice > 1) {
+    //if need to slice
+    const sliced = sliceEmbedContent(slice, content); //slice content
+
+    //add content to embed, according to its index
+    sliced.forEach((str, idx) => {
+      if (idx === 0)
+        embed.addFields({
+          name: personality.text,
+          value: str,
+        });
+      //name's different from others
+      else embed.addFields({ name: personality.textAgain, value: str });
+    });
+  } else embed.addFields({ name: personality.text, value: content });
+};
+
+/**
+ * Fetch Log Channel using commons value
+ * @param {object} eventObject Object given by listener event.
+ * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut" channel. Null is for log channel.
+ * @returns {TextChannel}
+ */
+export const fetchLogChannel = async (eventObject, type) => {
+  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
+
+  let id;
+  switch (type) {
+    case "thread":
+      id = currentServer.logThreadId;
+      break;
+    case "inAndOut":
+      id = currentServer.inAndOutLogChannelId;
+      break;
+    default:
+      id = currentServer.logChannelId;
+  }
+
+  return await eventObject.guild.channels.fetch(id); //return the log channel
+};
+
+/**
+ * Get strings corresponding to gif url.
+ * @param {string} content Message content where to look for gifs.
+ * @returns {?string[]} If any, returns array of gif url strings.
+ */
+export const gifParser = (content) => {
+  const tenor = "tenor.com/";
+  const end = ".gif";
+
+  if (content.includes(tenor) || content.includes(end)) {
+    //if any gif inside content
+    const words = content.split(" "); //split content into words
+    const results = words.reduce((acc, cur) => {
+      //look for gif position in content
+      if (cur.includes(tenor) || cur.endsWith(end)) {
+        //if has link
+        const start = cur.indexOf("https://"); //look for link position
+        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
+        return [...acc, sliced]; //return link
+      }
+      return acc;
+    }, []);
+    return results;
+  }
+  return null;
+};
+
+/**
+ * Get strings corresponding to gif url.
+ * @param {string} content
+ * @returns {?string[]} If any, returns array of gif url strings.
+ */
+export const gifRecovery = (content) => {
+  const tenor = "tenor.com/";
+  const end = ".gif";
+
+  if (content.includes(tenor) || content.includes(end)) {
+    //if any gif inside content
+    const words = content.split(/( |\n)/gm); //split content into words
+    const results = words.reduce((acc, cur) => {
+      //look for gif position in content
+      if (cur.includes(tenor) || cur.endsWith(end)) {
+        //if has link
+        const start = cur.indexOf("https://"); //look for link position
+        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
+        return [...acc, sliced]; //return link
+      }
+      return acc;
+    }, []);
+    return results;
+  }
+  return null;
+};
 
 const apologyRegex = new RegExp( //regex for apology detection
   /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
 );
-
-const hello = [
-  "bonjour",
-  "hello",
-  "yo",
-  "salut",
-  "bonsoir",
-  "coucou",
-  "bijour",
-  "bonjoir",
-  "hey",
-];
-
-const ADMINS = ["141962573900808193", "290505766631112714"]; // Ewibot Admins' Ids
-
-const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
-
-export const sanitizePunctuation = (messageContent) => {
-  const lineBreakRemoved = messageContent.replaceAll("\n", " ");
-  return lineBreakRemoved.replaceAll(punctuation, "");
-};
-
-export const isAdmin = (authorId) => {
-  // Check if is admin users
-  return ADMINS.includes(authorId);
-};
-
-const isAbcd = (words) => {
-  // Check if message content is having all words first letters in alphabetic order
-  if (words.length >= 4) {
-    // Need at least 4 words
-    const reduced = words.reduce(
-      (precedent, current) => {
-        const unicodeWord = current.charCodeAt(0);
-        if (unicodeWord >= 97 && unicodeWord <= 122)
-          return {
-            latestUnicode: unicodeWord,
-            isAbcd: precedent.isAbcd && unicodeWord > precedent.latestUnicode,
-          };
-        else return { latestUnicode: unicodeWord, isAbcd: false };
-      },
-      { latestUnicode: null, isAbcd: true }
-    );
-    return reduced.isAbcd;
-  }
-  return false;
-};
-
-/**
- * Check if message content has any "eating" related words
- * @param {string} loweredContent Message content with only lawercase characters
- * @returns {boolean} True if any hungriness is found, False otherwise
- */
-const isHungry = (loweredContent) => {
-  const ret = loweredContent.includes("faim");
-  return ret || loweredContent.includes("manger"); //boolean OR
-};
-
-export const hasOctagonalSign = (content, cmnShared) => {
-  return content.includes(cmnShared.octagonalSignEmoji);
-};
-
-/**
- * Parse a string emoji into its id.
- * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
- * @returns {?string} Emoji id | null
- */
-export const parseEmoji = (content) => {
-  //id is always last of content.split(":")
-  if (!content.includes(":")) return null;
-
-  const splited = content.split(":");
-  const sliced = splited[splited.length - 1];
-  if (sliced.includes(">")) {
-    const id = sliced.split(">")[0];
-    return id;
-  }
-  return sliced;
-};
 
 export const hasApology = (sanitizedContent) => {
   const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
@@ -130,142 +164,108 @@ export const hasApology = (sanitizedContent) => {
   return false;
 };
 
-export const reactionHandler = async (message, currentServer, client) => {
-  const db = client.db;
-  const authorId = message.author.id;
-
-  const cmnShared = COMMONS.getShared();
-
-  const loweredContent = message.content.toLowerCase(); //get text in Lower Case
-  if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
-
-  if (isIgnoredUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
-    return; //check for ignore users or channels
-
-  // If message contains apology, Ewibot reacts
-  if (process.env.DEBUGLOGS === "yes")
-    console.log("loweredContent", [loweredContent]);
-  const sanitizedContent = sanitizePunctuation(loweredContent); //remove punctuation
-  if (process.env.DEBUGLOGS === "yes")
-    console.log("sanitizedContent", [sanitizedContent]);
-
-  if (hasApology(sanitizedContent)) {
-    addApologyCount(db, authorId); //add data to db
-    await message.react(currentServer.panDuomReactId); //add message reaction
-  }
-
-  const words = loweredContent.split(" "); //split message content into a list of words
-  if (isAbcd(words)) await message.react(currentServer.eyeReactId);
-
-  //if ewibot is mentionned, react
-  if (message.mentions.has(process.env.CLIENTID))
-    await message.react(currentServer.rudolphslichId);
-
-  const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
-
-  //Ewibot waves to user
-  if (
-    hello.some((helloMessage) => words[0] === helloMessage) || //words
-    words[0] === cmnShared.helloEmoji //wave emote
-  ) {
-    if (addStatsData(db, authorId, "hello") === dbReturnType.isNotOk)
-      console.log(
-        `addStatsData isNotOk with isStatsUser ${isStatsUser(
-          db,
-          authorId
-        )}, userID ${authorId}, whichStat "hello"`
-      );
-    if (frequency) await message.react(cmnShared.helloEmoji);
-  }
-
-  //April
-  const today = new Date();
-  if (today.getMonth() === 3 && today.getDate() === 1 && frequency) {
-    message.react("🐟");
-  }
-
-  // Ewibot reacts with the same emojis that are inside the message
-  const emotes = Object.values(currentServer.autoEmotes);
-
-  for (const word of words) {
-    const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    if (foundEmotes.length > 0 && frequency) {
-      if (today.getMonth() == 5) {
-        //PRIDE MONTH, RAIBOWSSSSS
-        await message.react("🏳️‍🌈");
-      } else if (today.getMonth() == 11) {
-        await message.react(currentServer.rudolphslichId);
-      } else if (today.getMonth() === 0 && today.getDate() === 1) {
-        message.react("🎂");
-      } else {
-        for (const e of foundEmotes) {
-          await message.react(e);
-        }
-      }
-    }
-  }
-
-  // If users say they are hungry
-  if (isHungry(loweredContent)) {
-    const reaction = Object.values(currentServer.hungryEmotes);
-    const random = Math.round(Math.random()); // 0 or 1
-    if (frequency) message.react(reaction[random]);
-
-    if (isStatsUser(db, authorId)) addStatsData(db, authorId, statsKeys.hungry); //add to db
-  }
-
-  if (authorId === cmnShared.LuciferId) {
-    //if Lucifer
-    const presqueRegex = new RegExp(/pres(qu|k)e *(16|seize)/gim); //regex for presque 16 detection
-    const presqueResult = presqueRegex.exec(sanitizedContent); //check if contains presque 16
-
-    presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
-
-    if (presqueResult !== null)
-      await message.react(currentServer.panDuomReactId); //add message reaction
-  }
-};
-
-// ACTIVITY
-
-// activity list
-const activityList = [
-  { name: "Adrien Sépulchre", type: "LISTENING" },
-  { name: "JDR Ewilan par Charlie", type: "PLAYING" },
-  {
-    name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(),
-    type: "WATCHING",
-  },
-  { name: "la bataille contre Azan", type: "COMPETING" },
-  { name: "la création d'Al-Jeit", type: "COMPETING" },
-  { name: "épier les clochinettes", type: "PLAYING" },
-  { name: "compter les poêles", type: "PLAYING" },
-];
-
-/**
- * Set the timeout for bot activity update.
- * @param {Object} client The bot Client.
- */
-export const updateActivity = (client) => {
-  // set random waiting time for updating Ewibot activity
-
-  const waitingTime = (20 * Math.random() + 4) * 3600 * 1000;
-  setTimeout(() => {
-    setActivity(client);
-    updateActivity(client);
-  }, waitingTime);
+export const hasOctagonalSign = (content, cmnShared) => {
+  return content.includes(cmnShared.octagonalSignEmoji);
 };
 
 /**
- * Set the bot client activity with a random choice from activityList.
- * @param {Object} client The bot Client.
+ * Reply to interaction function
+ * @param {any} interaction Interaction the function is replying to.
+ * @param {string} content Content of the replying message.
+ * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
  */
-export const setActivity = (client) => {
-  // randomise Ewibot activity
-  const statusLen = activityList.length - 1;
-  const rdmIdx = Math.round(statusLen * Math.random());
-  const whichStatus = activityList[rdmIdx];
+export const interactionReply = async (
+  interaction,
+  content,
+  isEphemeral = true
+) => {
+  await interaction.reply({ content: content, ephemeral: isEphemeral });
+};
 
-  //set client activity
-  client.user.setActivity(whichStatus);
+export const isAdmin = (authorId) => {
+  // Check if is admin users
+  const admins = COMMONS.getShared().admins;
+  return admins.includes(authorId);
+};
+
+/**
+ * Return if command has been released or not
+ * @param {object} command
+ * @returns {boolean}
+ */
+export const isReleasedCommand = (command) => {
+  const day = dayjs();
+  if (command.releaseDate) return command.releaseDate.diff(day) <= 0;
+  else return true;
+};
+
+/**
+ * Return if guildMember has Sentinelle role or not
+ * @param {any} member guildMember to verify role
+ * @param {any} currentServer current server data from commons.json
+ * @returns {boolean}
+ */
+export const isSentinelle = (member, currentServer) => {
+  const roles = member.roles.cache;
+  return roles.has(currentServer.sentinelleRoleId);
+};
+
+/**
+ * Parse a string emoji into its id.
+ * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
+ * @returns {?string} Emoji id | null
+ */
+export const parseEmoji = (content) => {
+  //id is always last of content.split(":")
+  if (!content.includes(":")) return null;
+
+  const splited = content.split(":");
+  const sliced = splited[splited.length - 1];
+  if (sliced.includes(">")) {
+    const id = sliced.split(">")[0];
+    return id;
+  }
+  return sliced;
+};
+
+const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
+export const removePunctuation = (messageContent) => {
+  const lineBreakRemoved = messageContent.replaceAll("\n", " ");
+  return lineBreakRemoved.replaceAll(punctuation, "");
+};
+
+/**
+ * Create and setup a EmbedBuilder with common properties.
+ * @param {string} color The color of the embed.
+ * @param {object} personality The personality object of the embed.
+ * @param {?object} object Object containing or not the author.
+ * @param {?string} type Differentiate object use case.
+ *                       tag for user as embed, skip to ignore this field, user for its username,
+ *                       otherwise for mentionable as embed
+ * @returns {EmbedBuilder} Embed with basic properties.
+ */
+export const setupEmbed = (color, personality, object, type) => {
+  const embed = new EmbedBuilder()
+    .setColor(color)
+    .setTitle(personality.title)
+    .setTimestamp();
+
+  if (personality.description) embed.setDescription(personality.description);
+
+  const field = { name: personality.author, inline: true }; //field init
+  if (type === "tag") {
+    //add user as embed if required
+    field.value = object.toString();
+    embed.addFields(field);
+  } else if (type === "skip") return embed; //allows to skip the 3rd field
+  else if (type === "user") {
+    //add user if required
+    field.value = object.username;
+    embed.addFields(field);
+  } else {
+    //otherwise, add the object name as embed (for mentionables)
+    field.value = object.name.toString();
+    embed.addFields(field);
+  }
+  return embed;
 };

@@ -1,17 +1,14 @@
 import Canvas from "canvas";
 import dayjs from "dayjs";
 import GIFEncoder from "gif-encoder-2";
-
-import { AttachmentBuilder } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
-
 import path from "path";
 import fs from "fs";
 
-import { PERSONALITY } from "../personality.js";
-import { interactionReply } from "./utils.js";
-
+import { AttachmentBuilder } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 //personality
 const personality = PERSONALITY.getCommands().concrete;
@@ -60,7 +57,7 @@ const action = async (object) => {
   const recipient = await client.users.fetch(user.id); //get guildMember from user id
 
   const self = process.env.CLIENTID;
-  const currentServer = COMMONS.fetchGuildId(channel.guild.id);
+  const currentServer = COMMONS.fetchFromGuildId(channel.guild.id);
 
   const gifsPath = path.join(
     path.resolve(path.dirname("")),

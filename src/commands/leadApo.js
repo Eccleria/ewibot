@@ -1,10 +1,12 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-
-import { PERSONALITY } from "../personality.js";
-import { isAdmin, removeApologyCount } from "../helpers/index.js";
 import { interactionEditReply } from "./polls/pollsUtils.js";
-import { interactionReply } from "./utils.js";
+import {
+  interactionReply,
+  isAdmin,
+  removeApologyCount,
+} from "../helpers/index.js";
+import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().leaderboardApology.name)
@@ -113,7 +115,7 @@ const leaderboardApology = {
   name: "leadApo",
   action,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().leaderboardApology
+    const perso = PERSONALITY.getCommands().leaderboardApology;
     interactionReply(interaction, perso.help);
   },
   admin: true,

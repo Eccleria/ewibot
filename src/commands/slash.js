@@ -1,23 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
-
+import dayjs from "dayjs";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
-import { SlashCommandBuilder } from "@discordjs/builders";
-import dayjs from "dayjs";
-
-import {
-  //dbHelper
-  addIgnoredChannel,
-  isIgnoredChannel,
-  removeIgnoredChannel,
-  addIgnoredUser,
-  isIgnoredUser,
-  removeIgnoredUser,
-  isAdmin,
-  //utils
-  //isAdmin,
-} from "../helpers/index.js";
 
 import announce from "./announce.js";
 import birthday from "./birthday.js";
@@ -34,16 +20,29 @@ import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
 import stats from "./stats.js";
-
-import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
-
-import { PERSONALITY } from "../personality.js";
+import {
+  //dbHelper
+  addIgnoredChannel,
+  isIgnoredChannel,
+  removeIgnoredChannel,
+  addIgnoredUser,
+  isIgnoredUser,
+  removeIgnoredUser,
+  //utils
+  interactionReply,
+  isAdmin,
+  isReleasedCommand,
+  isSentinelle,
+} from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const ping = {
-  command: new SlashCommandBuilder().setName("ping").setDescription("Ping !"),
+  command: new SlashCommandBuilder()
+    .setName(PERSONALITY.getCommands().helloWorld.name)
+    .setDescription(PERSONALITY.getCommands().helloWorld.description),
   action: (interaction) => {
     const personality = PERSONALITY.getCommands();
     interaction.reply(personality.helloWorld.pong);
@@ -216,7 +215,7 @@ const help = {
     if (foundCommand) {
       const member = interaction.member;
 
-      const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+      const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
       const isModo = isSentinelle(interaction.member, currentServer);
       const isAdminUser = isAdmin(member.id);
 
@@ -237,7 +236,7 @@ const help = {
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const member = interaction.member;
-    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+    const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
 
     const isModo = isSentinelle(member, currentServer);
     const isDev = isAdmin(member.id);

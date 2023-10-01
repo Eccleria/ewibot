@@ -7,16 +7,14 @@ dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
 import { SlashCommandBuilder } from "@discordjs/builders";
-
-import { PERSONALITY } from "../personality.js";
-
-import { interactionReply } from "./utils.js";
 import {
   addReminder,
+  interactionReply,
   removeReminder,
   updateReminder,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
   //add the reminder in the client

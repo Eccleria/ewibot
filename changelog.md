@@ -1,10 +1,16 @@
 ﻿## 6.0.0
-- Core: reorganize the code ([#247](https://github.com/Eccleria/ewibot/pull/247))
-	- utils function consistency: global is now in main `utils.js`
-	- simplify some functions and classes such as `Commons`
-	- change files tree
-	- utils, commons are now alphabeticaly ordered
--Doc: add docstrings to utils functions ([#247](https://github.com/Eccleria/ewibot/pull/247))
+- Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- admin/commands utils that are shared in another folder were moved in helpers utils file
+	- `Commons` class and some functions (`setupEmbed`, `finishEmbed`) were simplified
+	- `listeners` are now more consistent (`onInteractionCreate`, `onMessageCreate` moved)
+	- a lot of function names were modified for easier understanding
+	- `concrete` folder were move in pics, for future pictures fonctionalities
+	- simplify `bot` main file
+	- add jest for future unit testing and auto tests
+	- public `text` are now in personality
+- Doc:
+	- update `readme` with recent and older changes ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- add more docstrings to functions/methods ([#247](https://github.com/Eccleria/ewibot/pull/247))
 - Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
 
 ## 5.5.0

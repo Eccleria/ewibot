@@ -1,4 +1,3 @@
-//EVENTROLES
 const getEventRoles = (db) => {
   return db.data.eventRoles;
 };
