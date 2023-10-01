@@ -108,8 +108,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   if (message) {
     payload.content = rPerso.removed;
     interactionEditReply(interaction, payload);
-  }
-  else {
+  } else {
     payload.content = rPerso.errorNotUpdated;
     interactionEditReply(interaction, payload);
   }
@@ -127,7 +126,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   if (toChange === "anonymous") {
     //No need to select choice, apply modif
-    const payload = {components: [], content: ""};
+    const payload = { components: [], content: "" };
     //get embed
     const pollMessage = await fetchPollMessage(interaction);
 
@@ -220,7 +219,10 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     const pollMessage = await fetchPollMessage(interaction);
     const dbPoll = getPoll(db, pollMessage.id);
     if (!dbPoll) {
-      await interactionEditReply(interaction, {components: [], content: personality.stopped});
+      await interactionEditReply(interaction, {
+        components: [],
+        content: personality.stopped,
+      });
       return;
     }
     const oldVoteMax = dbPoll.voteMax;

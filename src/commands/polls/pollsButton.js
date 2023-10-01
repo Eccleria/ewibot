@@ -78,7 +78,7 @@ export const stopPollButtonAction = async (interaction) => {
   const pollMessage = await fetchPollMessage(interaction);
   const dbPoll = getPoll(db, pollMessage.id);
   if (!dbPoll) {
-    interactionEditReply(interaction, {content: perso.errorNoDb});
+    interactionEditReply(interaction, { content: perso.errorNoDb });
     return;
   }
   await stopPoll(dbPoll, pollMessage, sPerso);
@@ -106,7 +106,7 @@ export const removePollButtonAction = async (interaction) => {
   const pollMessage = await fetchPollMessage(interaction);
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
   if (!dbPoll) {
-    interactionEditReply(interaction, {content: perso.errorNoDb});
+    interactionEditReply(interaction, { content: perso.errorNoDb });
     return;
   }
   const maxToRemove = dbPoll.votes.length - 2;
@@ -219,8 +219,7 @@ export const refreshPollButtonAction = async (interaction) => {
 
   //update poll embed
   const dbPoll = getPoll(db, pollMessage.id);
-  if (!dbPoll)
-    interactionEditReply(interaction, {content: perso.errorNoDb});
+  if (!dbPoll) interactionEditReply(interaction, { content: perso.errorNoDb });
   else {
     await pollRefreshEmbed(pollMessage, dbPoll);
     interactionEditReply(interaction, {
@@ -239,10 +238,10 @@ export const refreshPollButtonAction = async (interaction) => {
  * @param {boolean} status new disabled status for buttons. default is true.
  * @returns List of ActionRows with edited buttons
  */
-const editButtonStatus = (components, status=true) => {
+const editButtonStatus = (components, status = true) => {
   const edited = components.reduce((acc, cur) => {
     cur.components.forEach((button) => button.setDisabled(status)); //set buttons status of cur actionRow
     return [...acc, cur];
   }, []);
   return edited;
-}
+};

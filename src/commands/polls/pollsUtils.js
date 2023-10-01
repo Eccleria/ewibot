@@ -78,11 +78,11 @@ export const parsePollFields = (content, totalSize = 0) => {
       if (cur.length === 0) return acc; //filter empty choice
 
       const replaced = cur.split(",")[1];
-      console.log(cur, "replaced", [replaced])
+      console.log(cur, "replaced", [replaced]);
       if (cur.includes(",")) {
         //if choices includes emote
         const content = cur.split(",")[0].trim();
-        console.log([content]);    
+        console.log([content]);
         if (content.includes(":"))
           return {
             fields: [...acc.fields, replaced],
@@ -90,8 +90,16 @@ export const parsePollFields = (content, totalSize = 0) => {
           };
 
         const sanitizedContent = sanitizePunctuation(content);
-        console.log([sanitizedContent] , /\p{Extended_Pictographic}/u.test(sanitizedContent), /\W{2}/g.test(sanitizedContent))
-        if ((/\p{Extended_Pictographic}/u.test(sanitizedContent) && !sanitizedContent.includes(" ")) || /\W{2}/g.test(sanitizedContent))
+        console.log(
+          [sanitizedContent],
+          /\p{Extended_Pictographic}/u.test(sanitizedContent),
+          /\W{2}/g.test(sanitizedContent)
+        );
+        if (
+          (/\p{Extended_Pictographic}/u.test(sanitizedContent) &&
+            !sanitizedContent.includes(" ")) ||
+          /\W{2}/g.test(sanitizedContent)
+        )
           return {
             fields: [...acc.fields, replaced],
             emotes: [...acc.emotes, sanitizedContent],
