@@ -354,7 +354,7 @@ const action = async (interaction) => {
     }; //init for reduce
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
-      const buttonId =  + totalIdx.toString();
+      const buttonId = +totalIdx.toString();
       const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
       const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 

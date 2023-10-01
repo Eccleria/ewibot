@@ -40,7 +40,9 @@ import { PERSONALITY } from "../personality.js";
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const ping = {
-  command: new SlashCommandBuilder().setName(PERSONALITY.getCommands().helloWorld.name).setDescription(PERSONALITY.getCommands().helloWorld.description),
+  command: new SlashCommandBuilder()
+    .setName(PERSONALITY.getCommands().helloWorld.name)
+    .setDescription(PERSONALITY.getCommands().helloWorld.description),
   action: (interaction) => {
     const personality = PERSONALITY.getCommands();
     interaction.reply(personality.helloWorld.pong);

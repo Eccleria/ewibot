@@ -127,7 +127,10 @@ export const removePollButtonAction = async (interaction) => {
   //parse choices
   const fields = pollMessage.embeds[0].data.fields;
   const choices = fields.reduce((acc, cur, idx) => {
-    const curChoice = { label: cur.name, value: personality.prefix + idx.toString() }; // description: "Choix_" + idx.toString(),
+    const curChoice = {
+      label: cur.name,
+      value: personality.prefix + idx.toString(),
+    }; // description: "Choix_" + idx.toString(),
     return [...acc, curChoice];
   }, []);
   menu.addOptions(choices);

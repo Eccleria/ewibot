@@ -120,12 +120,7 @@ export const endCasesEmbed = async (
 
   if (diff >= 5) {
     //if log too old
-    return await finishEmbed(
-      eventPerso,
-      logPerso.tooOld,
-      embed,
-      logChannel
-    );
+    return await finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
   }
 
   if (!log) {
@@ -143,13 +138,7 @@ export const endCasesEmbed = async (
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    return await finishEmbed(
-      eventPerso,
-      executor,
-      embed,
-      logChannel,
-      text
-    );
+    return await finishEmbed(eventPerso, executor, embed, logChannel, text);
   } else {
     //if bot or author executed the kick
     return await finishEmbed(
