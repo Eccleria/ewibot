@@ -120,49 +120,45 @@ export const endCasesEmbed = async (
 
   if (diff >= 5) {
     //if log too old
-    const messageList = await finishEmbed(
+    return await finishEmbed(
       eventPerso,
       logPerso.tooOld,
       embed,
       logChannel
     );
-    return messageList;
   }
 
   if (!log) {
     //if no AuditLog
-    const messageList = await finishEmbed(
+    return await finishEmbed(
       eventPerso,
       logPerso.noLog,
       embed,
       logChannel,
       text
     );
-    return messageList;
   }
 
   const { executor, target } = log;
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    const messageList = await finishEmbed(
+    return await finishEmbed(
       eventPerso,
       executor,
       embed,
       logChannel,
       text
     );
-    return messageList;
   } else {
     //if bot or author executed the kick
-    const messageList = await finishEmbed(
+    return await finishEmbed(
       eventPerso,
       logPerso.noExec,
       embed,
       logChannel,
       text
     );
-    return messageList;
   }
 };
 

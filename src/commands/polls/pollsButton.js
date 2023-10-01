@@ -103,7 +103,8 @@ export const removePollButtonAction = async (interaction) => {
     return console.log(e);
   }
 
-  const perso = PERSONALITY.getCommands().polls.settings.remove;
+  const personality = PERSONALITY.getCommands().polls;
+  const perso = personality.settings.remove;
 
   //get poll from db
   const pollMessage = await fetchPollMessage(interaction);
@@ -126,7 +127,7 @@ export const removePollButtonAction = async (interaction) => {
   //parse choices
   const fields = pollMessage.embeds[0].data.fields;
   const choices = fields.reduce((acc, cur, idx) => {
-    const curChoice = { label: cur.name, value: "polls_" + idx.toString() }; // description: "Choix_" + idx.toString(),
+    const curChoice = { label: cur.name, value: personality.prefix + idx.toString() }; // description: "Choix_" + idx.toString(),
     return [...acc, curChoice];
   }, []);
   menu.addOptions(choices);

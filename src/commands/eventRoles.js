@@ -192,7 +192,7 @@ const action = async (interaction) => {
     const newRoleObj = {
       name: slicedName,
       permisions: baseRole.permisions,
-      reason: `Demandé par ${interaction.member.toString()}`,
+      reason: perso.author + interaction.member.toString(),
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
@@ -217,7 +217,7 @@ const action = async (interaction) => {
     //create new button
     const emoteId = name.includes("<") ? name.split(">")[0] : null;
     const newButton = createButton(
-      "eventRole_" + slicedName,
+      perso.prefix + slicedName,
       slicedName,
       buttonType,
       emoteId
@@ -247,7 +247,7 @@ const action = async (interaction) => {
     });
 
     //reply to interaction
-    if (status && status2) interactionReply(interaction, "c'est bon");
+    if (status && status2) interactionReply(interaction, perso.ok);
     else interactionReply(interaction, perso.errorGeneral);
   }
 };

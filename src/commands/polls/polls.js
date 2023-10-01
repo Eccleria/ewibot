@@ -253,7 +253,7 @@ const action = async (interaction) => {
     );
 
     //add setting button
-    const settingId = "polls_" + "settings";
+    const settingId = personality.prefix + perso.settings;
     const settingButton = createButton(
       settingId,
       null,
@@ -354,7 +354,7 @@ const action = async (interaction) => {
     }; //init for reduce
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
-      const buttonId = "polls_" + totalIdx.toString();
+      const buttonId =  + totalIdx.toString();
       const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
       const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 

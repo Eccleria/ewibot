@@ -143,6 +143,7 @@
       },
       "eventRoles": {
         "create": {
+          "author": "Demandé par ",
           "colorOption": {
             "description": "Couleur du rôle.",
             "name": "couleur"
@@ -159,7 +160,9 @@
           "nameOption": {
             "description": "Le nom du futur rôle d'évènements.",
             "name": "nom"
-          }          
+          },
+          "ok": "c'est bon",
+          "prefix": "eventRole_"          
         },
         "description": "Commandes de gestions des roles associés aux évènements.",
         "help": "Cette commande permet de gérer les roles associés aux évènements.",
@@ -284,7 +287,9 @@
         }
       },
       "helloWorld": {
+        "description": "Ping !",
         "help": "Cette commande n'a pas besoin de description.",
+        "name": "ping",
         "pong": "pong !"
       },
       "help": {
@@ -397,6 +402,7 @@
           },
           "name": "create",
           "sent": "Le sondage a été envoyé.",
+          "settings": "settings",
           "titleOption": {
             "description": "Titre du sondage.",
             "name": "titre"
@@ -411,6 +417,7 @@
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
         "help": "Cette commande permet de créer des sondages.",
         "name": "polls",
+        "prefix": "polls_",
         "settings": {
           "buttons": {
             "refresh": ["polls_set_refresh", "Actualiser"],
@@ -445,7 +452,8 @@
             "anonymous": {
               "baseValue": "polls_selectMenu_update_anonymous_",
               "customId": "polls_selectMenu_update_anonymous",
-              "placeholder": "Anonyme ?"
+              "placeholder": "Anonyme ?",
+              "updated": "Le paramètre anonyme a bien été changé."
             },
             "choices": [
               { "label": "anonyme", "value": "polls_selectMenu_update_anonymous" },
@@ -455,7 +463,8 @@
             "color": {
               "baseValue": "polls_selectMenu_update_color_",
               "customId": "polls_selectMenu_update_color",
-              "placeholder": "Nouvelle couleur."
+              "placeholder": "Nouvelle couleur.",
+              "updated": "La couleur a été changée."
             },
             "customId": "polls_selectMenu_update",
             "placeholder": "Paramètre à modifier.",

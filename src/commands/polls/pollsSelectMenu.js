@@ -37,7 +37,8 @@ export const pollSelectMenuHandler = async (interaction) => {
 
 const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const selected = interaction.values; //get choices to remove
-  const perso = PERSONALITY.getCommands().polls.settings.remove;
+  const personality = PERSONALITY.getCommands().polls;
+  const perso = personality.settings.remove;
 
   //get data
   const pollMessage = await fetchPollMessage(interaction);
@@ -78,7 +79,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
     if (idx !== filteredButtons.length - 1) {
       //do not change polls_settings button
-      const newId = "polls_" + idx.toString();
+      const newId = personality.prefix + idx.toString();
       updatePollButtonId(
         interaction.client.db,
         pollMessage.id,
@@ -141,7 +142,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     await pollRefreshEmbed(pollMessage, dbPoll);
 
     interactionEditReply(interaction, {
-      content: "Le paramètre anonyme a bien été changé.",
+      content: personality.settings.update.anonymous.updated,
       components: [],
     });
   } else if (toChange.includes("color")) {
@@ -206,7 +207,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       updatePollParam(db, pollMessage.id, "colorIdx", colorIdx);
       pollMessage.edit(editedPollMessage);
       interactionEditReply(interaction, {
-        content: "La couleur a été changée.",
+        content: personality.settings.update.color.updated,
         components: [],
       });
     }
