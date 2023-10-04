@@ -42,7 +42,7 @@ class Commons {
    * @returns {object} specific values for prod or test server
    */
   fetchFromGuildId(guildId) {
-    return this.list.find((obj) => guildId === obj.guildId);
+    return this.getList().find((obj) => guildId === obj.guildId);
   }
   /**
    * get both test & prod values in a list
