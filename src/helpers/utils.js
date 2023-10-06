@@ -173,13 +173,14 @@ export const hasOctagonalSign = (content, cmnShared) => {
  * @param {any} interaction Interaction the function is replying to.
  * @param {string} content Content of the replying message.
  * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
+ * @returns {object} interaction reply
  */
 export const interactionReply = async (
   interaction,
   content,
   isEphemeral = true
 ) => {
-  await interaction.reply({ content: content, ephemeral: isEphemeral });
+  return await interaction.reply({ content: content, ephemeral: isEphemeral });
 };
 
 export const isAdmin = (authorId) => {

@@ -618,7 +618,17 @@
         }
       },
       "spotify": {
-        "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+        "add": {
+          "description": "Ajout d'une musique à la playlist du serveur",
+          "linkOption": {
+            "description": "Lien de la musique",
+            "name": "lien"
+          },
+          "name": "ajouter"
+        },
+        "description": "Cette commande interagit avec Spotify.",
+        "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>",
+        "name": "spotify"
       },
       "stats": {
         "description": "Cette commande regroupe toutes les commandes associées aux stats",
