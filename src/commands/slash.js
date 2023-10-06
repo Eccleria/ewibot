@@ -20,6 +20,7 @@ import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
 import stats from "./stats.js";
+import vest from "./vest.js";
 import {
   //dbHelper
   addIgnoredChannel,
@@ -197,6 +198,7 @@ const slashCommands = [
   shuffle,
   spotify,
   stats,
+  vest,
 ]; //command + action
 
 // HELP

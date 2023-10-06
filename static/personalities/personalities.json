@@ -632,6 +632,16 @@
           "isNotUser": "Ewibot ne stocke plus de statistiques sur vous. Elles ont été instantanément supprimées.",
           "name": "use"
         }
+      },
+      "vest": {
+        "description": "Cette commande permet d'envoyer un gilet par-balles à la cible.",
+        "errorNotSent": "Le gilet n'a pas pu être envoyé.",
+        "name": "gilet",
+        "sent": "Le gilet a bien été envoyé",
+        "userOption": {
+          "description": "Lea destinateurice du gilet.",
+          "name": "cible"
+        }
       }
     },
     "spotify": {
