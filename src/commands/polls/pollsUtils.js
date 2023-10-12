@@ -78,7 +78,7 @@ export const parsePollFields = (content, totalSize = 0) => {
       if (cur.length === 0) return acc; //filter empty choice
 
       const replaced = cur.split(",")[1];
-      console.log(cur, "replaced", [replaced]);
+      console.log([cur], "replaced", [replaced]);
       if (cur.includes(",")) {
         //if choices includes emote
         const content = cur.split(",")[0].trim();
@@ -108,7 +108,7 @@ export const parsePollFields = (content, totalSize = 0) => {
       //no or wrong emote => use bullet emote
       const emote = bullet[idx + totalSize];
       return {
-        fields: [...acc.fields, replaced],
+        fields: [...acc.fields, cur],
         emotes: [...acc.emotes, emote],
       };
     },
