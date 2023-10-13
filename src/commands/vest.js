@@ -24,15 +24,20 @@ const action = async (interaction) => {
     const user = options.getUser(perso.userOption.name);
     const target = await client.users.fetch(user.id); //get guildMember from user id
 
+    //get pp hash
+    const url = target.displayAvatarURL({ extension: "png" });
+    const urlHash = url.split(`${target.id}/`)[1].split('.')[0];
+    console.log("target image url", [url], [urlHash]);
+
     //check if older image exists
-    const jpgsPath = path.join(
+    const pngsPath = path.join(
         path.resolve(path.dirname("")),
         "pics",
         "vest",
-        "jpgs"
+        "pngs"
     );
-    const dir = fs.readdirSync(jpgsPath);
-    const gifExists = dir.includes(`${target.id}.jpg`);
+    const dir = fs.readdirSync(pngsPath);
+    const gifExists = dir.includes(`${target.id}-${urlHash}.png`);
 
     //build image
     if (!gifExists) {
@@ -40,9 +45,8 @@ const action = async (interaction) => {
         const context = canvas.getContext("2d"); // context allows canvas further modification
         const avatar = await Canvas.loadImage(
             // Load target avatar
-            target.displayAvatarURL({ extension: "jpg" })
+            target.displayAvatarURL({ extension: "png" })
         );
-
         //add background to canvas
         const basicPath = path.join(
             path.resolve(path.dirname("")),
@@ -63,8 +67,8 @@ const action = async (interaction) => {
         context.drawImage(avatar, 470, 350, 160, 160);
         context.restore(); //Go back to the general contribution
 
-        const buffer = canvas.toBuffer("image/jpeg"); 
-        fs.writeFileSync(`${jpgsPath}/${target.id}.jpeg`, buffer); //Write the gif locally
+        const buffer = canvas.toBuffer("image/png");
+        fs.writeFileSync(`${pngsPath}/${target.id}-${urlHash}.png`, buffer); //Write the gif locally
         const attachment = new AttachmentBuilder(buffer, {name: "test.png"});
         interactionEditReply(interaction, {content: perso.sent, files: [attachment]});
     }
