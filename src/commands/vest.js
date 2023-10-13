@@ -55,15 +55,17 @@ const action = async (interaction) => {
 
         //draw circle
         context.beginPath(); //Pick up the pen
-        context.arc(500, 450, 40, 0, Math.PI * 2, true); //Start the arc to form a circle
+        context.arc(550, 430, 80, 0, Math.PI * 2, true); //Start the arc to form a circle
         context.closePath(); //Put the pen down
         context.clip(); //Clip off the region you drew on
 
         //add pp
-        context.drawImage(avatar, 500, 450, 80, 80);
+        context.drawImage(avatar, 470, 350, 160, 160);
         context.restore(); //Go back to the general contribution
 
-        const attachment = new AttachmentBuilder(canvas.toBuffer("image/jpeg"), {name: "test.png"});
+        const buffer = canvas.toBuffer("image/jpeg"); 
+        fs.writeFileSync(`${jpgsPath}/${target.id}.jpeg`, buffer); //Write the gif locally
+        const attachment = new AttachmentBuilder(buffer, {name: "test.png"});
         interactionEditReply(interaction, {content: perso.sent, files: [attachment]});
     }
     else interactionEditReply(interaction, perso.errorNotSent);
