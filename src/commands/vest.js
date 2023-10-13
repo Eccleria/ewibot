@@ -27,6 +27,7 @@ const action = async (interaction) => {
     //get pp hash
     const url = target.displayAvatarURL({ extension: "png" });
     const urlHash = url.split(`${target.id}/`)[1].split('.')[0];
+    const fileName = `${target.id}-${urlHash}.png`;
     console.log("target image url", [url], [urlHash]);
 
     //check if older image exists
@@ -37,7 +38,7 @@ const action = async (interaction) => {
         "pngs"
     );
     const dir = fs.readdirSync(pngsPath);
-    const gifExists = dir.includes(`${target.id}-${urlHash}.png`);
+    const gifExists = dir.includes(fileName);
 
     //build image
     if (!gifExists) {
@@ -68,11 +69,15 @@ const action = async (interaction) => {
         context.restore(); //Go back to the general contribution
 
         const buffer = canvas.toBuffer("image/png");
-        fs.writeFileSync(`${pngsPath}/${target.id}-${urlHash}.png`, buffer); //Write the gif locally
+        fs.writeFileSync(`${pngsPath}/${fileName}`, buffer); //Write the gif locally
         const attachment = new AttachmentBuilder(buffer, {name: "test.png"});
         interactionEditReply(interaction, {content: perso.sent, files: [attachment]});
     }
-    else interactionEditReply(interaction, perso.errorNotSent);
+    else {
+        const buffer = fs.readFileSync(`${pngsPath}/${fileName}`);
+        const attachment = new AttachmentBuilder(buffer, {name: "test.png"});
+        interactionEditReply(interaction, {content: perso.sent, files: [attachment]});
+    }
 };
 
 const vest = {
