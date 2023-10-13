@@ -108,7 +108,7 @@ export const parsePollFields = (content, totalSize = 0) => {
       //no or wrong emote => use bullet emote
       const emote = bullet[idx + totalSize];
       return {
-        fields: [...acc.fields, cur],
+        fields: [...acc.fields, cur.trim()],
         emotes: [...acc.emotes, emote],
       };
     },
