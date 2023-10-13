@@ -387,6 +387,7 @@
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
         "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
         "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",
+        "errorNoDb": "Erreur, le sondage n'a pas été trouvé dans la base de donnée. Il est probablement terminé.",
         "errorNotAlavirien": "Vous n'êtes pas Alavirien.ne. Vous ne pouvez pas utiliser cette commande.",
         "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",

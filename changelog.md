@@ -1,5 +1,9 @@
 ﻿## 5.5.1
-- Fix: wrong author on some onThreadCreate log when thread is created ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#253](https://github.com/Eccleria/ewibot/issues/253))
+- Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/issues/253))
+- Fix: multiple `poll` issues ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#254](https://github.com/Eccleria/ewibot/issues/254))
+	- error if user vote during `poll` closure
+	- difficulties on `emote` detection in `poll` choice submission
+	- `dbPoll` `undefined` if accessed after `poll` closure
 
 ## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
