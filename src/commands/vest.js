@@ -123,13 +123,12 @@ const vest = {
     command,
     action,
     help: (interaction) => {
-        const perso = PERSONALITY.getCommands().stats;
+        const perso = PERSONALITY.getCommands().vest;
         interactionReply(interaction, perso.help);
     },
     admin: false,
     releaseDate: null,
-    sentinelle: false,
-    subcommands: ["vest"],
+    sentinelle: false
 };
     
 export default vest;
