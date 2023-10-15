@@ -38,7 +38,14 @@ const action = async (interaction) => {
         "pngs"
     );
     const dir = fs.readdirSync(pngsPath);
-    const gifExists = dir.includes(fileName);
+    const gifExists = dir.reduce((acc, cur) => {
+        if (cur.includes(fileName)) return true;
+        else if (cur.startsWith(target.id)) {
+            fs.unlinkSync(`${pngsPath}/${cur}`);
+            return false;
+        }
+        return acc;
+    }, false);
 
     //build image
     if (!gifExists) {
