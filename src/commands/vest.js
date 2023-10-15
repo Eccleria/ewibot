@@ -14,6 +14,12 @@ const command = new SlashCommandBuilder()
         .setName(PERSONALITY.getCommands().vest.userOption.name)
         .setDescription(PERSONALITY.getCommands().vest.userOption.description)
         .setRequired(true)
+    )
+    .addBooleanOption((option) => 
+      option
+        .setName(PERSONALITY.getCommands().vest.forceOption.name)
+        .setDescription(PERSONALITY.getCommands().vest.forceOption.description)
+        .setRequired(false)
     );
 
 const action = async (interaction) => {
@@ -47,8 +53,12 @@ const action = async (interaction) => {
         return acc;
     }, false);
 
+    //get force option if any
+    const option = options.getString(perso.forceOption.name);
+    const force = option ? option : false;
+
     //build image
-    if (!gifExists) {
+    if (!gifExists || force) {
         const canvas = Canvas.createCanvas(1078, 1260); // Canvas creation
         const context = canvas.getContext("2d"); // context allows canvas further modification
         const avatar = await Canvas.loadImage(

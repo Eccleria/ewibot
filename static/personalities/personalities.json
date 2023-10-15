@@ -636,6 +636,10 @@
       "vest": {
         "description": "Cette commande permet d'envoyer un gilet par-balles à la cible.",
         "errorNotSent": "Le gilet n'a pas pu être envoyé.",
+        "forceOption": {
+          "description": "Permet de forcer la génération de l'image.",
+          "name": "force"
+        },
         "name": "gilet",
         "sent": "Le gilet a bien été envoyé",
         "userOption": {
