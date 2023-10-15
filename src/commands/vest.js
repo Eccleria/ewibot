@@ -18,11 +18,11 @@ const command = new SlashCommandBuilder()
 
 const action = async (interaction) => {
     const perso = PERSONALITY.getCommands().vest;
-    const {client, options} = interaction;
+    const {guild, options} = interaction;
     
     await interaction.deferReply();
     const user = options.getUser(perso.userOption.name);
-    const target = await client.users.fetch(user.id); //get guildMember from user id
+    const target = await guild.members.fetch(user.id); //get guildMember from user id
 
     //get pp hash
     const url = target.displayAvatarURL({ extension: "png" });
@@ -75,6 +75,14 @@ const action = async (interaction) => {
         context.drawImage(avatar, 470, 350, 160, 160);
         context.restore(); //Go back to the general contribution
 
+        //add username
+        const text = target.nickname.length > 12 ? target.nickname.slice(0, 12) : target.nickname;
+        context.font = applyText(canvas, text);
+        context.fillStyle = "#000000";
+        context.translate(712, 490);
+        context.rotate(Math.PI / 20);
+        context.fillText(text, 0, 0);
+
         const buffer = canvas.toBuffer("image/png");
         fs.writeFileSync(`${pngsPath}/${fileName}`, buffer); //Write the gif locally
         const attachment = new AttachmentBuilder(buffer, {name: "test.png"});
@@ -85,6 +93,20 @@ const action = async (interaction) => {
         const attachment = new AttachmentBuilder(buffer, {name: "test.png"});
         interactionEditReply(interaction, {content: perso.sent, files: [attachment]});
     }
+};
+
+// Pass the entire Canvas object because you'll need access to its width and context
+const applyText = (canvas, text) => {
+	const context = canvas.getContext('2d');
+
+    let fontSize = 60;
+	do {
+		// Assign the font to the context and decrement it so it can be measured again
+		context.font = `${fontSize -= 3}px sans-serif`;
+		// Compare pixel width of the text to the canvas minus the approximate avatar size
+	} while (context.measureText(text).width > 190);
+
+	return context.font;
 };
 
 const vest = {
