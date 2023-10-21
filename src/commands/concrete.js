@@ -61,6 +61,7 @@ const action = async (object) => {
 
   const gifsPath = path.join(
     path.resolve(path.dirname("")),
+    "pics",
     "concrete",
     "gifs"
   );
@@ -75,6 +76,7 @@ const action = async (object) => {
 
     const basicPath = path.join(
       path.resolve(path.dirname("")),
+      "pics",
       "concrete",
       "jpgs"
     );
