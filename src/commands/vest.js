@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, AttachmentBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { interactionReply } from "../helpers/index.js";
+import { interactionReply, removeEmote } from "../helpers/index.js";
 import Canvas from "canvas";
 import path from "path";
 import fs from "fs";
@@ -54,7 +54,7 @@ const action = async (interaction) => {
     }, false);
 
     //get force option if any
-    const option = options.getString(perso.forceOption.name);
+    const option = options.getBoolean(perso.forceOption.name);
     const force = option ? option : false;
 
     //build image
@@ -85,8 +85,10 @@ const action = async (interaction) => {
         context.drawImage(avatar, 470, 350, 160, 160);
         context.restore(); //Go back to the general contribution
 
-        //add username
-        const text = target.nickname.length > 12 ? target.nickname.slice(0, 12) : target.nickname;
+        //add nickname
+        const filtered = target.nickname ? removeEmote(target.nickname) : removeEmote(target.displayName);
+        const text = filtered.length > 12 ? filtered.slice(0, 12) : filtered;
+
         context.font = applyText(canvas, text);
         context.fillStyle = "#000000";
         context.translate(712, 490);
@@ -105,7 +107,12 @@ const action = async (interaction) => {
     }
 };
 
-// Pass the entire Canvas object because you'll need access to its width and context
+/**
+ * Compute proper font to fit text in canvas
+ * @param {Canvas} canvas Canvas object
+ * @param {string} text Text to write
+ * @returns font with correct fontSize
+ */
 const applyText = (canvas, text) => {
 	const context = canvas.getContext('2d');
 
