@@ -77,12 +77,12 @@ const action = async (interaction) => {
 
         //draw circle
         context.beginPath(); //Pick up the pen
-        context.arc(550, 430, 80, 0, Math.PI * 2, true); //Start the arc to form a circle
+        context.arc(550, 440, 80, 0, Math.PI * 2, true); //Start the arc to form a circle
         context.closePath(); //Put the pen down
         context.clip(); //Clip off the region you drew on
 
         //add pp
-        context.drawImage(avatar, 470, 350, 160, 160);
+        context.drawImage(avatar, 470, 360, 160, 160);
         context.restore(); //Go back to the general contribution
 
         //add nickname
