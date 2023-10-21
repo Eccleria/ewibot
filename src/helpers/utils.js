@@ -228,6 +228,18 @@ export const parseEmoji = (content) => {
   return sliced;
 };
 
+/**
+ * Remove starting emote from a string
+ * @param {string} str String to modify
+ * @returns {string} New string sliced without emote
+ */
+export const removeEmote = (str) => {
+  //remove emote from the begining of a string
+  const ascii = str[0].charCodeAt(0);
+  if (ascii > 255) return str.slice(str[0].length); //if not a standard char => emote
+  return str;
+};
+
 const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 export const removePunctuation = (messageContent) => {
   const lineBreakRemoved = messageContent.replaceAll("\n", " ");
