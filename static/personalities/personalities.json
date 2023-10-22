@@ -632,6 +632,21 @@
           "isNotUser": "Ewibot ne stocke plus de statistiques sur vous. Elles ont été instantanément supprimées.",
           "name": "use"
         }
+      },
+      "vest": {
+        "description": "Cette commande permet d'envoyer un gilet par-balles à la cible.",
+        "errorNotSent": "Le gilet n'a pas pu être envoyé.",
+        "forceOption": {
+          "description": "Permet de forcer la génération de l'image.",
+          "name": "force"
+        },
+        "help": "Cette commande permet de créer un gilet par-balles pour la personne ciblée. C'est très pratique en cas de balle perdue.\n\nComment utiliser :\n`\/gilet cible:@utilisateurice` créera un gilet pour l'utilisateurice.\nSi besoin de mettre à jour l'image, utiliser l'option `force:True` afin de forcer Ewibot à la recréer.",
+        "name": "vest",
+        "sent": "Le gilet a bien été envoyé",
+        "userOption": {
+          "description": "Lea destinateurice du gilet.",
+          "name": "cible"
+        }
       }
     },
     "spotify": {

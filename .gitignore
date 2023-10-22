@@ -5,4 +5,4 @@ node_modules
 .vs
 db/*.json
 pics/concrete/gifs/*
-pics/vest/jpgs/*
+pics/vest/pngs/*

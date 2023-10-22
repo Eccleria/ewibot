@@ -4,6 +4,7 @@ import {
   fetchLogChannel,
   removeAdminLogs,
   removeBirthday,
+  removeEmote,
   removeIgnoredUser,
   removeAlavirien,
   setupEmbed,
@@ -454,21 +455,6 @@ const space2Strings = (str1, str2, dist, sep) => {
     : str2.slice(0, dist).padEnd(dist, " ");
 
   return `${sliced1}${sep}${sliced2}`;
-};
-
-/**
- * Remove starting emote from a string
- * @param {string} str String to modify
- * @returns {string} New string sliced without emote
- */
-const removeEmote = (str) => {
-  //remove emote from the begining of a string
-  let n = 0;
-  for (const char of str) {
-    const ascii = char.charCodeAt(0);
-    if (ascii > 255) n += char.length; //if not a standard char => emote
-  }
-  return str.slice(n);
 };
 
 const regroup = (element, type) => {

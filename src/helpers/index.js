@@ -96,6 +96,7 @@ import {
   isReleasedCommand,
   isSentinelle,
   parseEmoji,
+  removeEmote,
   removePunctuation,
   setupEmbed,
 } from "./utils.js";
@@ -113,6 +114,7 @@ export {
   isReleasedCommand,
   isSentinelle,
   parseEmoji,
+  removeEmote,
   removePunctuation,
   setupEmbed,
   // spotifyHelper
