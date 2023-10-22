@@ -84,7 +84,7 @@ const action = async (object) => {
     const canvas = Canvas.createCanvas(339, 480); // Canvas creation
     const context = canvas.getContext("2d"); // context allows canvas further modification
 
-    const basicPath = path.join(
+    const jpgPath = path.join(
       path.resolve(path.dirname("")),
       "pics",
       "concrete",
@@ -100,7 +100,7 @@ const action = async (object) => {
     for (let i = 100; i < 150; i++) {
       // gif creation frame by frame
       const path = i.toString().padStart(4, "0");
-      const picture = await Canvas.loadImage(`${basicPath}/frame-${path}.jpg`);
+      const picture = await Canvas.loadImage(`${jpgPath}/frame-${path}.jpg`);
       context.drawImage(picture, 0, 0, canvas.width, canvas.height); // add background
       context.save(); //Save the general configuration
 
