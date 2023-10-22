@@ -104,7 +104,7 @@ const action = async (object) => {
       context.clip(); // Clip off the region you drew on
 
       //draw avatar until the concrete block overlap it
-      if (i < 131) context.drawImage(avatar, 120, 320, 80, 80);
+      if (i < 131) context.drawImage(avatar, 120, 320, 80, 80); //add avatar
 
       context.restore(); //Go back to the general contribution
 

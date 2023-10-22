@@ -80,7 +80,7 @@ const action = async (interaction) => {
     context.clip(); //Clip off the region you drew on
 
     //add pp
-    context.drawImage(avatar, 470, 360, 160, 160);
+    context.drawImage(avatar, 470, 360, 160, 160); //add avatar
     context.restore(); //Go back to the general contribution
 
     //add nickname
@@ -89,11 +89,11 @@ const action = async (interaction) => {
       : removeEmote(target.displayName);
     const text = filtered.length > 12 ? filtered.slice(0, 12) : filtered;
 
-    context.font = applyText(canvas, text);
-    context.fillStyle = "#000000";
+    context.font = applyText(canvas, text); //font size
+    context.fillStyle = "#000000"; //font color
     context.translate(712, 490);
     context.rotate(Math.PI / 20);
-    context.fillText(text, 0, 0);
+    context.fillText(text, 0, 0); //write text
 
     const buffer = canvas.toBuffer("image/png");
     fs.writeFileSync(`${pngsPath}/${fileName}`, buffer); //Write the gif locally
