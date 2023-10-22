@@ -54,7 +54,7 @@ const action = async (object) => {
   }
 
   await interaction.deferReply();
-  const recipient = await client.users.fetch(user.id); //get guildMember from user id
+  const target = await client.users.fetch(user.id); //get guildMember from user id
 
   const self = process.env.CLIENTID;
   const currentServer = COMMONS.fetchFromGuildId(channel.guild.id);
@@ -67,7 +67,17 @@ const action = async (object) => {
   );
   const dir = fs.readdirSync(gifsPath);
 
-  const gifExists = dir.includes(`${recipient.id}.gif`);
+  const url = target.displayAvatarURL({ extension: "png" });
+  const urlHash = url.split(`${target.id}/`)[1].split(".")[0];
+  const fileName = `${target.id}-${urlHash}.gif`;  
+  const gifExists = dir.reduce((acc, cur) => {
+    if (cur.includes(fileName)) return true;
+    else if (cur.startsWith(target.id)) {
+      fs.unlinkSync(`${gifsPath}/${cur}`);
+      return false;
+    }
+    return acc;
+  }, false);
 
   if (!gifExists || force) {
     //If not in db or --force, must create/recreate the gif
@@ -85,10 +95,7 @@ const action = async (object) => {
     encoder.setDelay(33); //delay between each gif frame in ms
     encoder.start();
 
-    const avatar = await Canvas.loadImage(
-      // Load recipient avatar
-      recipient.displayAvatarURL({ extension: "jpg" })
-    );
+    const avatar = await Canvas.loadImage(url);
 
     for (let i = 100; i < 150; i++) {
       // gif creation frame by frame
@@ -113,13 +120,13 @@ const action = async (object) => {
     encoder.finish();
 
     buffer = encoder.out.getData(); //Recover the gif
-    fs.writeFileSync(`${gifsPath}/${recipient.id}.gif`, buffer); //Write the gif locally
-  } else buffer = fs.readFileSync(`${gifsPath}/${recipient.id}.gif`);
+    fs.writeFileSync(`${gifsPath}/${target.id}.gif`, buffer); //Write the gif locally
+  } else buffer = fs.readFileSync(`${gifsPath}/${target.id}.gif`);
 
   const attachment = new AttachmentBuilder(buffer, { name: cPerso.fileName });
   const sentMessage = await object.editReply({ files: [attachment] });
 
-  if (recipient.id === self) await sentMessage.react(currentServer.edouin);
+  if (target.id === self) await sentMessage.react(currentServer.edouin);
 };
 
 const concrete = {
