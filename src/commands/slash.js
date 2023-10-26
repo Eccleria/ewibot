@@ -94,7 +94,7 @@ const roll = {
         { total: 0, details: [] }
       ); //compute total + each dices values
 
-      interactionReply(interaction, `${total} (${details.join(", ")})`);
+      interactionReply(interaction, `${total} (${details.join(", ")})`, false);
     } else interactionReply(interaction, personality.parsingError);
   },
   help: (interaction) => {

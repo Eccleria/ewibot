@@ -4,6 +4,7 @@
 	- error if user vote during `poll` closure
 	- difficulties on `emote` detection in `poll` choice submission
 	- `dbPoll` `undefined` if accessed after `poll` closure
+- Update: `/roll` result is now public ([#261](https://github.com/Eccleria/ewibot/issues/261))
 
 ## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
