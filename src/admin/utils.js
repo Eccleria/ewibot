@@ -1,15 +1,16 @@
-import { EmbedBuilder, AuditLogEvent } from "discord.js";
-
-import { PERSONALITY } from "../personality.js";
-import { COMMONS } from "../commons.js";
-
+import { AuditLogEvent } from "discord.js";
 import {
   getAdminLogs,
+  fetchLogChannel,
   removeAdminLogs,
   removeBirthday,
+  removeEmote,
   removeIgnoredUser,
   removeAlavirien,
+  setupEmbed,
 } from "../helpers/index.js";
+import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 /**
  * Fetch AuditLog from API.
@@ -17,7 +18,7 @@ import {
  * @param {string|AuditLogEvent} auditType String|AuditLogEvent for audit type request.
  * @param {number} limit Number of auditLogs fetched.
  * @param {string} [type] String for audit type request.
- * @returns {GuildAuditLogsEntry|null} Returns first auditLog entry or null if error.
+ * @returns {?GuildAuditLogsEntry} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
   const aType =
@@ -37,60 +38,19 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
 };
 
 /**
- * Create and setup a EmbedBuilder with common properties.
- * @param {string} color The color of the embed.
- * @param {object} personality The personality object of the embed.
- * @param {object} [object] Object containing or not the author.
- * @param {string} [type] Differentiate object use case.
- * @returns {EmbedBuilder} Embed with basic properties.
- */
-export const setupEmbed = (color, personality, object, type) => {
-  const embed = new EmbedBuilder()
-    .setColor(color)
-    .setTitle(personality.title)
-    .setTimestamp();
-
-  if (personality.description) embed.setDescription(personality.description);
-
-  if (type === "tag")
-    embed.addFields({
-      name: personality.author,
-      value: object.toString(),
-      inline: true,
-    });
-  //add user as embed if required
-  else if (type === "skip") return embed;
-  //allows to skip the 3rd field
-  else if (type === "user")
-    embed.addFields({
-      name: personality.author,
-      value: object.username,
-      inline: true,
-    });
-  //add user if required
-  else
-    embed.addFields({
-      name: personality.author,
-      value: object.name.toString(),
-      inline: true,
-    }); //otherwise, add the object name as embed (for channels, roles, ...)
-  return embed;
-};
-
-/**
  * Finish embeds and send them in the logChannel.
- * @param {object} personalityEvent The personality related to the triggered event.
- * @param {object} [executor] Object containing or not the executor, if any.
- * @param {(EmbedBuilder|EmbedBuilder[])} embed Log embed, or array of embeds with log at index 0.
+ * @param {object} eventPerso The personality related to the triggered event.
+ * @param {?object} executor Object containing or not the executor, if any.
+ * @param {(EmbedBuilder|EmbedBuilder[])} logEmbed Log embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
- * @param {string} [text] Additional text to add.
- * @param {Attachment[]} [attachments] Message attachments.
- * @returns {object[]}
+ * @param {?string} text Additional text to add.
+ * @param {?Attachment[]} attachments Message attachments.
+ * @returns {Promise<?[Message]>} The log message.s sent
  */
 export const finishEmbed = async (
-  personalityEvent,
+  eventPerso,
   executor,
-  embed,
+  logEmbed,
   logChannel,
   text,
   attachments
@@ -101,62 +61,27 @@ export const finishEmbed = async (
     logChannel.guildId === currentServer.guildId
   ) {
     //Ewibot detects test in test server => return
-    console.log("Ewibot log in Test server", personalityEvent.title);
-    return;
+    console.log("Ewibot log in Test server", eventPerso.title);
+    return null;
   }
 
-  if (embed.length >= 0) {
-    //if contains multiple embeds, the 1st is the log
-    if (personalityEvent.executor && executor !== null)
-      embed[0].addFields({
-        name: personalityEvent.executor,
-        value: executor.toString(),
-        inline: true,
-      }); //add the executor section
-    if (text)
-      embed[0].addFields({
-        name: personalityEvent.text,
-        value: text,
-        inline: false,
-      }); //if any text (reason or content), add it
+  const embed = logEmbed.length >= 0 ? logEmbed[0] : logEmbed; //if contains multiple embeds, the 1st is the log
 
-    try {
-      const message = await logChannel.send({
-        embeds: embed,
-        allowed_mentions: { parse: [] },
-      }); //send
-      if (attachments && attachments.length !== 0) {
-        const gifMessage = await message.reply({ files: attachments }); //if attachments, send new message
-        return [message, gifMessage];
-      }
-      return [message];
-    } catch (e) {
-      console.log(
-        "finishEmbed list error\n",
-        personalityEvent.title,
-        new Date(),
-        e
-      );
-    }
-    return [];
-  }
-
-  if (personalityEvent.executor && executor !== null)
+  if (eventPerso.executor && executor !== null)
     embed.addFields({
-      name: personalityEvent.executor,
+      name: eventPerso.executor,
       value: executor.toString(),
       inline: true,
-    });
+    }); //add the executor section
   if (text)
     embed.addFields({
-      name: personalityEvent.text,
+      name: eventPerso.text,
       value: text,
-      inline: false,
     }); //if any text (reason or content), add it
 
   try {
     const message = await logChannel.send({
-      embeds: [embed],
+      embeds: [embed, ...logEmbed.slice(1)],
       allowed_mentions: { parse: [] },
     }); //send
     if (attachments && attachments.length !== 0) {
@@ -165,22 +90,22 @@ export const finishEmbed = async (
     }
     return [message];
   } catch (e) {
-    console.log("finishEmbed error\n", personalityEvent.title, e);
+    console.log("finishEmbed error\n", eventPerso.title, new Date(), e);
     return [];
   }
 };
 
 /**
- * Differentiate finishEmbed cases.
+ * Differentiate finishEmbed cases with corresponding input.
  * @param {object} obj Object related to listened event.
- * @param {?object} log Audit log.
+ * @param {?GuildAuditLogsEntry} log Audit log.
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
  * @param {(EmbedBuilder|EmbedBuilder[])} embed Embed, or array of embeds with log at index 0.
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
- * @returns {object[]}
+ * @returns {?[Message]}
  */
 export const endCasesEmbed = async (
   object,
@@ -196,49 +121,34 @@ export const endCasesEmbed = async (
 
   if (diff >= 5) {
     //if log too old
-    const messageList = await finishEmbed(
-      eventPerso,
-      logPerso.tooOld,
-      embed,
-      logChannel
-    );
-    return messageList;
+    return await finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
   }
 
   if (!log) {
     //if no AuditLog
-    const messageList = await finishEmbed(
+    return await finishEmbed(
       eventPerso,
       logPerso.noLog,
       embed,
       logChannel,
       text
     );
-    return messageList;
   }
 
   const { executor, target } = log;
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    const messageList = await finishEmbed(
-      eventPerso,
-      executor,
-      embed,
-      logChannel,
-      text
-    );
-    return messageList;
+    return await finishEmbed(eventPerso, executor, embed, logChannel, text);
   } else {
     //if bot or author executed the kick
-    const messageList = await finishEmbed(
+    return await finishEmbed(
       eventPerso,
       logPerso.noExec,
       embed,
       logChannel,
       text
     );
-    return messageList;
   }
 };
 
@@ -254,7 +164,7 @@ export const endCasesEmbed = async (
  * @param {boolean} [needReason] If true, get reason to add to the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
  */
-export const generalEmbed = async (
+export const processGeneralEmbed = async (
   persoType,
   obj,
   color,
@@ -271,7 +181,7 @@ export const generalEmbed = async (
 
   if (process.env.DEBUG === "no" && isTestServer(obj)) return; //if in prod && modif in test server
 
-  const channel = await getLogChannel(obj); //get logChannel
+  const channel = await fetchLogChannel(obj); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
@@ -280,31 +190,7 @@ export const generalEmbed = async (
   endCasesEmbed(objToSend, log, perso, aLog, embed, channel, text, diff);
 };
 
-/**
- * Fetch Log Channel.
- * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut"
- * @returns {TextChannel}
- */
-export const getLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchGuildId(eventObject.guild.id); //get server local data
-
-  let id;
-  switch (type) {
-    case "thread":
-      id = currentServer.logThreadId;
-      break;
-    case "inAndOut":
-      id = currentServer.inAndOutLogChannelId;
-      break;
-    default:
-      id = currentServer.logChannelId;
-  }
-
-  return await eventObject.guild.channels.fetch(id); //return the log channel
-};
-
-export const clientEventUpdateProcess = (
+export const bufferizeEventUpdate = (
   client,
   oldObj,
   newObj,
@@ -316,9 +202,7 @@ export const clientEventUpdateProcess = (
 ) => {
   //create timeout, store channels & timeout
   //differentiate type
-  let obj;
-  let newData;
-  let timeout;
+  let obj, newData, timeout;
   if (type === "channel") {
     //get client data
     const channelUpdate = client.channelUpdate;
@@ -573,16 +457,6 @@ const space2Strings = (str1, str2, dist, sep) => {
   return `${sliced1}${sep}${sliced2}`;
 };
 
-export const removeEmote = (str) => {
-  //remove emote from the begining of a string
-  let n = 0;
-  for (const char of str) {
-    const ascii = char.charCodeAt(0);
-    if (ascii > 255) n += char.length; //if not a standard char => emote
-  }
-  return str.slice(n);
-};
-
 const regroup = (element, type) => {
   return element.reduce(
     (acc, cur) => {
@@ -650,34 +524,7 @@ export const fetchMessage = async (message) => {
   }
 };
 
-/**
- * Get strings corresponding to gif url.
- * @param {string} content
- * @returns {?string[]} If any, returns array of gif url strings.
- */
-export const gifRecovery = (content) => {
-  const tenor = "tenor.com/";
-  const end = ".gif";
-
-  if (content.includes(tenor) || content.includes(end)) {
-    //if any gif inside content
-    const words = content.split(" "); //split content into words
-    const results = words.reduce((acc, cur) => {
-      //look for gif position in content
-      if (cur.includes(tenor) || cur.endsWith(end)) {
-        //if has link
-        const start = cur.indexOf("https://"); //look for link position
-        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
-        return [...acc, sliced]; //return link
-      }
-      return acc;
-    }, []);
-    return results;
-  }
-  return null;
-};
-
-export const logsRemover = async (client) => {
+const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
   const server =
@@ -741,7 +588,7 @@ export const octagonalLog = async (object, user) => {
   if (message.partial) await message.fetch();
 
   //basic operations
-  const logChannel = await getLogChannel(message); //get logChannelId
+  const logChannel = await fetchLogChannel(message); //get logChannelId
   const embed = setupEmbed(
     "LUMINOUS_VIVID_PINK",
     octaPerso,
@@ -770,9 +617,9 @@ export const octagonalLog = async (object, user) => {
 };
 
 /**
- * Check if is currently in test server
- * @param {Object} eventObject eventObject given to listener from API
- * @returns True if is test server
+ * Check if the event comes from test server
+ * @param {object} eventObject eventObject given to listener from API
+ * @returns {boolean} True if is test server
  */
 export const isTestServer = (eventObject) => {
   const testServer = COMMONS.getTest();
@@ -780,7 +627,7 @@ export const isTestServer = (eventObject) => {
   return test; //if test, return true
 };
 
-export const checkDB = (userId, client) => {
+export const removeUserFromDB = (userId, client) => {
   //check if user is in db for removal
   const db = client.db;
   removeBirthday(db, userId);

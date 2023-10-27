@@ -1,111 +1,40 @@
-import {
-  buttonHandler,
-  selectMenuHandler,
-  interactionReply,
-  isReleasedCommand,
-  dispatchSlicedEmbedContent,
-} from "../commands/utils.js";
-
-import { PERSONALITY } from "../personality.js";
+import dayjs from "dayjs";
+import { ChannelType } from "discord.js";
 import {
   isTestServer,
-  clientEventUpdateProcess,
+  bufferizeEventUpdate,
   endCasesEmbed,
   fetchAuditLog,
   fetchMessage,
   finishEmbed,
-  generalEmbed,
-  getLogChannel,
-  gifRecovery,
+  processGeneralEmbed,
   octagonalLog,
-  setupEmbed,
-  checkDB,
+  removeUserFromDB,
 } from "./utils.js";
+import { shuffleParam } from "../commands/shuffle.js";
 import {
   addAlavirien,
   addAdminLogs,
   addApologyCount,
+  checkEmbedContent,
+  fetchLogChannel,
+  gifParser,
   hasApology,
-  sanitizePunctuation,
   hasOctagonalSign,
+  removePunctuation,
+  setupEmbed,
 } from "../helpers/index.js";
-
-import { shuffleParam } from "../commands/shuffle.js";
-
-import dayjs from "dayjs";
-
 import { COMMONS } from "../commons.js";
-import { ChannelType } from "discord.js";
+import { PERSONALITY } from "../personality.js";
 
 //LISTENERS
-
-export const onInteractionCreate = (interaction) => {
-  if (interaction.isButton()) {
-    buttonHandler(interaction);
-    return;
-  }
-
-  if (interaction.isStringSelectMenu()) {
-    console.log("selectMenu interaction detected");
-    selectMenuHandler(interaction);
-    return;
-  }
-
-  const client = interaction.client; //get client
-
-  if (interaction.isContextMenuCommand()) {
-    //context commands
-    const contextCommands = client.contextCommands; //get commands
-
-    const foundCommand = contextCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
-    );
-
-    if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
-    return;
-  }
-
-  const slashCommands = client.slashCommands;
-
-  if (interaction.isAutocomplete()) {
-    //interaction with autocomplete activated
-    const autoCompleteCommands = slashCommands.filter(
-      (cmd) => cmd.autocomplete
-    ); //get commands with autocomplete action
-    const foundCommand = autoCompleteCommands
-      ? autoCompleteCommands.find(
-          (cmd) => cmd.command.name === interaction.commandName
-        )
-      : null; //find command that fired onInteractionCreate
-    if (foundCommand && isReleasedCommand(foundCommand))
-      foundCommand.autocomplete(interaction);
-    else interaction.respond([]); //if not found, return no choices
-  } else if (interaction.isCommand()) {
-    //slash commands
-    const client = interaction.client; //get client
-    const slashCommands = client.slashCommands; //get commands
-
-    const foundCommand = slashCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
-    );
-
-    if (foundCommand && isReleasedCommand(foundCommand))
-      foundCommand.action(interaction, "/");
-    //if found command, execute its action
-    else
-      interactionReply(
-        interaction,
-        PERSONALITY.getAdmin().commands.notReleased
-      );
-  }
-};
 
 export const onChannelCreate = async (channel) => {
   if (channel.type === ChannelType.DM) return;
 
   const logType = "CHANNEL_CREATE";
   const perso = "channelCreate";
-  generalEmbed(perso, channel, "DarkAqua", logType, 1, null, "tag");
+  processGeneralEmbed(perso, channel, "DarkAqua", logType, 1, null, "tag");
 };
 
 export const onChannelDelete = async (channel) => {
@@ -113,7 +42,7 @@ export const onChannelDelete = async (channel) => {
 
   const logType = "CHANNEL_DELETE";
   const perso = "channelDelete";
-  generalEmbed(perso, channel, "DarkAqua", logType, 1);
+  processGeneralEmbed(perso, channel, "DarkAqua", logType, 1);
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
@@ -127,7 +56,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   //basic operations
   if (process.env.DEBUG === "no" && isTestServer(newChannel)) return; //if in prod && modif in test server
-  const logChannel = await getLogChannel(newChannel); //get logChannelId
+  const logChannel = await fetchLogChannel(newChannel); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DarkAqua", chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "ChannelUpdate", 1); //get auditLog
@@ -264,7 +193,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     const timeout = channelUpdate ? channelUpdate.timeout : null;
     if (timeout) clearTimeout(timeout); //if timeout, clear it
 
-    clientEventUpdateProcess(
+    bufferizeEventUpdate(
       client,
       oldChannel,
       newChannel,
@@ -313,15 +242,18 @@ export const onThreadCreate = async (thread, newly) => {
     if (thread.joinable && !thread.joined) await thread.join(); //join thread created
     if (process.env.DEBUG === "no" && isTestServer(thread)) return; //if in prod && modif in test server
 
-    const logChannel = await getLogChannel(thread); //get logChannel
+    const logChannel = await fetchLogChannel(thread); //get logChannel
     const perso = PERSONALITY.getAdmin().threadCreate;
-    const log = await fetchAuditLog(thread.guild, "ThreadCreate", 1); //get auditLog
-    const executor = log.executor
-      ? log.executor
-      : await thread.guild.members.fetch(thread.ownerId);
-    const embed = setupEmbed("DarkGrey", perso, thread, "tag"); //setup embed
-    console.log("log.executor", log.executor.id);
-
+    const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
+    const executor = await thread.guild.members.fetch(thread.ownerId);
+    const embed = setupEmbed("DARK_GREY", perso, thread, "tag"); //setup embed
+    console.log(
+      "onThreadCreate\nlog.executor",
+      log.executor.id,
+      "ownerId",
+      thread.ownerId
+    );
+    
     finishEmbed(perso, executor, embed, logChannel);
   } else console.log("threadCreateIsNull", thread, newly);
 };
@@ -330,7 +262,7 @@ export const onThreadDelete = async (thread) => {
   //handle thread deletion
   const logType = "THREAD_DELETE";
   const perso = "threadDelete";
-  generalEmbed(perso, thread, "DarkGrey", logType, 1);
+  processGeneralEmbed(perso, thread, "DarkGrey", logType, 1);
 };
 
 export const onThreadUpdate = async (oldThread, newThread) => {
@@ -339,19 +271,19 @@ export const onThreadUpdate = async (oldThread, newThread) => {
   //console.log("oldThread", oldThread, "newThread", newThread)
   const logType = "THREAD_UPDATE";
   const perso = "threadUpdate";
-  generalEmbed(perso, newThread, "DarkGrey", logType, 1);
+  processGeneralEmbed(perso, newThread, "DarkGrey", logType, 1);
 };
 
 export const onRoleCreate = async (role) => {
   const logType = "ROLE_CREATE";
   const perso = "roleCreate";
-  generalEmbed(perso, role, "DarkGold", logType, 1);
+  processGeneralEmbed(perso, role, "DarkGold", logType, 1);
 };
 
 export const onRoleDelete = (role) => {
   const logType = "ROLE_DELETE";
   const perso = "roleDelete";
-  generalEmbed(perso, role, "DarkGold", logType, 1);
+  processGeneralEmbed(perso, role, "DarkGold", logType, 1);
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
@@ -366,7 +298,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(newRole)) return; //if in prod && modif in test server
-  const logChannel = await getLogChannel(newRole); //get logChannelId
+  const logChannel = await fetchLogChannel(newRole); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const embed = setupEmbed("DarkGold", roleUp, newRole); //setup embed
 
@@ -381,7 +313,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     const timeout = roleUpdate ? roleUpdate.timeout : null;
     if (timeout) clearTimeout(timeout);
 
-    clientEventUpdateProcess(
+    bufferizeEventUpdate(
       client,
       oldRole,
       newRole,
@@ -444,7 +376,7 @@ export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
 
-  const currentServer = COMMONS.fetchGuildId(message.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(message.guildId);
 
   if (
     message.channelId === currentServer.logThreadId ||
@@ -457,7 +389,7 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(message)) return; //if in prod && modif in test server
-  const logChannel = await getLogChannel(message, "thread"); //get logChannel
+  const logChannel = await fetchLogChannel(message, "thread"); //get logChannel
 
   const uDate = new Date(message.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
@@ -504,9 +436,9 @@ export const onMessageDelete = async (message) => {
 
   //handle content
   let content = message.content ? message.content : messageDel.note;
-  dispatchSlicedEmbedContent(content, embed, messageDel);
+  checkEmbedContent(content, embed, messageDel);
 
-  const gifs = gifRecovery(content); //handle gifs
+  const gifs = gifParser(content); //handle gifs
 
   //if no AuditLog
   if (!deletionLog) {
@@ -591,7 +523,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (!oMessage.guild) return; //Ignore DM
   if (oMessage.author.id === process.env.CLIENTID) return; //ignore itself
 
-  const currentServer = COMMONS.fetchGuildId(newMessage.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(newMessage.guildId);
   if (newMessage.channelId === currentServer.logThreadId) return;
 
   //get personality
@@ -600,7 +532,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(newMessage)) return; //if in prod && modif in test server
-  const logChannel = await getLogChannel(nMessage, "thread"); //get logChannel
+  const logChannel = await fetchLogChannel(nMessage, "thread"); //get logChannel
 
   const embed = setupEmbed("DarkGreen", messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
@@ -705,21 +637,21 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
     if (oLen !== 0) {
       //slice too long string to fit 1024 length restriction in field
-      dispatchSlicedEmbedContent(oldContent, embed, messageU.contentOld);
+      checkEmbedContent(oldContent, embed, messageU.contentOld);
     }
     if (nLen !== 0) {
-      dispatchSlicedEmbedContent(newContent, embed, messageU.contentNew);
+      checkEmbedContent(newContent, embed, messageU.contentNew);
     }
 
     if (oLen !== 0 && nLen !== 0) {
       //check for apology
-      const oSanitized = sanitizePunctuation(oldContent.toLowerCase()); //remove punctuation
-      const nSanitized = sanitizePunctuation(newContent.toLowerCase());
+      const oSanitized = removePunctuation(oldContent.toLowerCase()); //remove punctuation
+      const nSanitized = removePunctuation(newContent.toLowerCase());
 
       if (!hasApology(oSanitized) && hasApology(nSanitized)) {
         //in new message && not in old message
         const db = oMessage.client.db; //get db
-        const currentServer = COMMONS.fetchGuildId(nMessage.guildId); //get commons.json data
+        const currentServer = COMMONS.fetchFromGuildId(nMessage.guildId); //get commons.json data
         addApologyCount(db, nMessage.author.id); //add data to db
         await nMessage.react(currentServer.panDuomReactId); //add message reaction
       }
@@ -779,7 +711,16 @@ export const onGuildBanAdd = (userBan) => {
 
   const logType = "MEMBER_BAN_ADD";
   const perso = "guildBan";
-  generalEmbed(perso, userBan, "DarkNavy", logType, 1, "user", "user", true);
+  processGeneralEmbed(
+    perso,
+    userBan,
+    "DarkNavy",
+    logType,
+    1,
+    "user",
+    "user",
+    true
+  );
 };
 
 export const onGuildBanRemove = (userBan) => {
@@ -787,7 +728,7 @@ export const onGuildBanRemove = (userBan) => {
 
   const logType = "MEMBER_BAN_REMOVE";
   const perso = "guildUnban";
-  generalEmbed(perso, userBan, "DarkNavy", logType, 1, "user", "user");
+  processGeneralEmbed(perso, userBan, "DarkNavy", logType, 1, "user", "user");
 };
 
 export const onGuildMemberUpdate = async (oldMember, newMember) => {
@@ -805,7 +746,7 @@ export const onGuildMemberUpdate = async (oldMember, newMember) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(newMember)) return; //if in prod && modif in test server
-  const logChannel = await getLogChannel(newMember); //get logChannel
+  const logChannel = await fetchLogChannel(newMember); //get logChannel
   const embed = setupEmbed("Orange", timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MemberUpdate", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
@@ -826,7 +767,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   console.log("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
-  checkDB(userKick.id, userKick.client); //remove user from db
+  removeUserFromDB(userKick.id, userKick.client); //remove user from db
 
   console.log("memberKick", userKick);
   const personality = PERSONALITY.getAdmin(); //get personality
@@ -861,7 +802,7 @@ export const onGuildMemberRemove = async (memberKick) => {
         value: textRoles,
         inline: true,
       }); //add user roles if any
-    const logChannel = await getLogChannel(memberKick, "inAndOut"); //get logChannel
+    const logChannel = await fetchLogChannel(memberKick, "inAndOut"); //get logChannel
     const messageList = await endCasesEmbed(
       userKick,
       kickLog,
@@ -882,7 +823,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   embed.addFields({ name: guildKick.id, value: memberKick.id, inline: true }); //add user id
   if (textRoles)
     embed.addFields({ name: guildKick.roles, value: textRoles, inline: true }); //add user roles if any
-  const logChannel = await getLogChannel(memberKick); //get logChannel
+  const logChannel = await fetchLogChannel(memberKick); //get logChannel
 
   endCasesEmbed(
     userKick,
@@ -897,7 +838,7 @@ export const onGuildMemberRemove = async (memberKick) => {
 };
 
 export const onGuildMemberAdd = async (guildMember) => {
-  const currentServer = COMMONS.fetchGuildId(guildMember.guild.id);
+  const currentServer = COMMONS.fetchFromGuildId(guildMember.guild.id);
 
   if (currentServer.name === "prod" && process.env.DEBUG === "no") {
     console.log("onGuildMemberAdd", guildMember.displayName);

@@ -6,14 +6,15 @@ import {
   Colors,
 } from "discord.js";
 
-import { createButton, interactionReply } from "./utils.js";
+import { createButton } from "./utils.js";
 import {
   addEventRole,
   getEventRoles,
+  interactionReply,
   updateEventRoleMessageId,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
@@ -28,7 +29,7 @@ export const eventRolesButtonHandler = async (interaction) => {
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
   //get alavirien role id
-  const currentServer = COMMONS.fetchGuildId(guildId);
+  const currentServer = COMMONS.fetchFromGuildId(guildId);
 
   //give requested role
   const guildMember = !interaction.member
@@ -97,7 +98,7 @@ const action = async (interaction) => {
   const options = interaction.options;
   const subcommand = options.getSubcommand();
 
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
 
   const db = interaction.client.db;
   const buttonType = ButtonStyle.Primary;
@@ -191,7 +192,7 @@ const action = async (interaction) => {
     const newRoleObj = {
       name: slicedName,
       permisions: baseRole.permisions,
-      reason: `Demandé par ${interaction.member.toString()}`,
+      reason: perso.author + interaction.member.toString(),
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
@@ -216,7 +217,7 @@ const action = async (interaction) => {
     //create new button
     const emoteId = name.includes("<") ? name.split(">")[0] : null;
     const newButton = createButton(
-      "eventRole_" + slicedName,
+      perso.prefix + slicedName,
       slicedName,
       buttonType,
       emoteId
@@ -246,7 +247,7 @@ const action = async (interaction) => {
     });
 
     //reply to interaction
-    if (status && status2) interactionReply(interaction, "c'est bon");
+    if (status && status2) interactionReply(interaction, perso.ok);
     else interactionReply(interaction, perso.errorGeneral);
   }
 };

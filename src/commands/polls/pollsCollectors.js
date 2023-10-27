@@ -8,8 +8,8 @@ dayjs.extend(relativeTime);
 
 import { ComponentType } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
-import { getPoll, getPolls } from "../../helpers/index.js";
 import { stopPoll } from "./pollsUtils.js";
+import { getPoll, getPolls } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const initPollsCollector = (client) => {
@@ -30,16 +30,26 @@ export const initPollsCollector = (client) => {
   });
 };
 
+/**
+ * Loop over votes and handle the interactions
+ * @param {object} client Bot client
+ * @param {string} pollMessageId The id of the message containing the poll
+ */
 const pollBufferLoop = async (client, pollMessageId) => {
   const clientData = client.voteBuffers[pollMessageId];
-  for (const interaction of clientData.votes)
-    await pollsButtonHandler(interaction);
+  if (clientData) {
+    for (const interaction of clientData.votes)
+      await pollsButtonHandler(interaction);
 
-  //clear client
-  delete client.voteBuffers[pollMessageId];
+    delete client.voteBuffers[pollMessageId]; //clear client
+  }
 };
 
-const pollVoteBuffer = (interaction) => {
+/**
+ * Store votes interaction in client and reset timeout
+ * @param {object} interaction vote interaction
+ */
+const pollBufferVotes = (interaction) => {
   // store poll vote interaction data in a buffer
   //get data
   const client = interaction.client;
@@ -76,7 +86,7 @@ export const pollButtonCollector = (message, timeout) => {
 
   collector.on("collect", async (interaction) => {
     await interaction.deferReply({ ephemeral: true }); //required because should be answered under 3s
-    pollVoteBuffer(interaction);
+    pollBufferVotes(interaction);
   });
 
   collector.on("end", (collected) => {

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { PERSONALITY } from "../personality.js";
-import { interactionReply } from "./utils.js";
+import { interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const shuffleParam = {
   status: PERSONALITY.getCommands().shuffle.startstop.stop,

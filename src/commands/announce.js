@@ -5,12 +5,10 @@ import {
   ButtonStyle,
   Colors,
 } from "discord.js";
-
-import { createButton, interactionReply } from "./utils.js";
-import { isAdmin } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
-
+import { createButton } from "./utils.js";
+import { interactionReply, isAdmin } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 // GIFT Announce
 const giftAction = async (interaction) => {
@@ -36,7 +34,7 @@ const giftAction = async (interaction) => {
     );
 
   //get channel
-  const server = COMMONS.fetchGuildId(interaction.guildId);
+  const server = COMMONS.fetchFromGuildId(interaction.guildId);
   const channelId = server.announce.giftChannelId;
   const channel = await interaction.client.channels.fetch(channelId);
 

@@ -1,6 +1,6 @@
-import { PERSONALITY } from "../../personality.js";
-import { removePoll } from "../../helpers/index.js";
 import { EmbedBuilder } from "discord.js";
+import { PERSONALITY } from "../../personality.js";
+import { removePoll, removePunctuation } from "../../helpers/index.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -78,25 +78,44 @@ export const parsePollFields = (content, totalSize = 0) => {
     (acc, cur, idx) => {
       if (cur.length === 0) return acc; //filter empty choice
 
-      const replaced = cur.replace(",", "");
+      const replaced = cur.split(",")[1];
+      console.log([cur], "replaced", [replaced]);
       if (cur.includes(",")) {
         //if choices includes emote
-        const emote = cur.split(",")[0].trim();
-        return {
-          fields: [...acc.fields, replaced],
-          emotes: [...acc.emotes, emote],
-        };
-      } else {
-        const emote = bullet[idx + totalSize];
-        const text = idx === 0 ? emote + " " + replaced : emote + replaced;
-        return {
-          fields: [...acc.fields, text],
-          emotes: [...acc.emotes, emote],
-        };
+        const content = cur.split(",")[0].trim();
+        console.log([content]);
+        if (content.includes(":"))
+          return {
+            fields: [...acc.fields, replaced],
+            emotes: [...acc.emotes, content],
+          };
+
+        const sanitizedContent = removePunctuation(content);
+        console.log(
+          [sanitizedContent],
+          /\p{Extended_Pictographic}/u.test(sanitizedContent),
+          /\W{2}/g.test(sanitizedContent)
+        );
+        if (
+          (/\p{Extended_Pictographic}/u.test(sanitizedContent) &&
+            !sanitizedContent.includes(" ")) ||
+          /\W{2}/g.test(sanitizedContent)
+        )
+          return {
+            fields: [...acc.fields, replaced],
+            emotes: [...acc.emotes, sanitizedContent],
+          };
       }
+      //no or wrong emote => use bullet emote
+      const emote = bullet[idx + totalSize];
+      return {
+        fields: [...acc.fields, cur.trim()],
+        emotes: [...acc.emotes, emote],
+      };
     },
     { fields: [], emotes: [] }
   );
+  console.log("results", results);
   return results;
 };
 

@@ -2,58 +2,48 @@
   "test": {
     "name": "test",
     "guildId": "926909708072284170",
-    "playlistThreadId": "926909785117429861",
+    "alavirienRoleId": "981493533598961706",
+    "announce": {
+      "giftChannelId": "935180557770448956"
+    },
+    "autoEmotes": {
+      "bjornLoveReactId": "😍",
+      "ewilhugReactId": "🥺",
+      "ewinkLan": "😉",
+      "ewiyayReactId": "😄",
+      "salimmdrReactId": "😂"
+    },
+    "catsThreadId": "1137456643123183637",
     "charteChannelId": "935180557770448956",
-    "randomfloodChannelId": "935180557770448956",
-    "logChannelId": "981478339439104090",
-    "logThreadId": "1017080172677177345",
-    "inAndOutLogChannelId": "1132983522819321976",
     "cosmeticRoleHandle": {
       "channelId": "967059786644488192",
       "messageId": "973889029969936406"
     },
-    "pronounsRoleHandleChannelId": "967059786644488192",
+    "edouin": "😭",
     "eventRoleHandleChannelId": "967059786644488192",
-    "roles": {
-      "orange": {
-        "roleId": "959360675451383828",
-        "name": "🟠",
-        "color": "#e74c3c"
-      },
-      "vert": {
-        "roleId": "959360739800391680",
-        "name": "🟢",
-        "color": "#2ecc71"
-      },
-      "violet": {
-        "roleId": "959360767063367691",
-        "name": "🟣",
-        "color": "#9b59b6"
-      },
-      "bleu": {
-        "roleId": "959360716979175455",
-        "name": "🔵",
-        "color": "#3498db"
-      }
+    "eyeReactId": "👁️",
+    "giftButtonChannelId": "935180557770448956",
+    "hungryEmotes": {
+      "jamBjornBeurre": "🧈",
+      "jambonBeurre": "🥖"
     },
-    "alavirienRoleId": "981493533598961706",
+    "inAndOutLogChannelId": "1132983522819321976",
+    "logChannelId": "981478339439104090",
+    "logThreadId": "1017080172677177345",
+    "panDuomReactId": "😠",
+    "playlistThreadId": "926909785117429861",
     "presentationChannelId": "988100769356079114",
     "presentationReactId": "👋",
-    "autoEmotes": {
-      "ewiyayReactId": "😄",
-      "bjornLoveReactId": "😍",
-      "ewilhugReactId": "🥺",
-      "ewinkLan": "😉",
-      "salimmdrReactId": "😂"
-    },
-    "edouin": "😭",
-    "eyeReactId": "👁️",
-    "hungryEmotes": {
-      "jambonBeurre": "🥖",
-      "jamBjornBeurre": "🧈"
-    },
-    "panDuomReactId": "😠",
+    "pronounsRoleHandleChannelId": "967059786644488192",
     "pronouns": {
+      "agreements": {
+        "allA": "1010828306800713759",
+        "askA": "988481851364622336",
+        "cancelA": "Annuler",
+        "female": "988481769844117505",
+        "male": "988481664508391445",
+        "neutral": "988481811657142322"
+      },
       "pronouns": {
         "allP": "988481558325395567",
         "ael": "988481383817154610",
@@ -63,43 +53,96 @@
         "no": "988485379550232648",
         "she": "988481359255339100",
         "they": "988481438510895225"
+      }
+    },
+    "randomfloodChannelId": "935180557770448956",
+    "roles": {
+      "dessinateurs": {
+        "roleId": "959360767063367691",
+        "name": "🟣",
+        "color": "#9b59b6"
       },
-      "agreements": {
-        "allA": "1010828306800713759",
-        "askA": "988481851364622336",
-        "cancelA": "Annuler",
-        "female": "988481769844117505",
-        "male": "988481664508391445",
-        "neutral": "988481811657142322"
+      "frontaliers": {
+        "roleId": "959360739800391680",
+        "name": "🟢",
+        "color": "#2ecc71"
+      },     
+      "marchombres": {
+        "roleId": "959360675451383828",
+        "name": "🟠",
+        "color": "#e74c3c"
+      },
+      "reveurs": {
+        "roleId": "959360716979175455",
+        "name": "🔵",
+        "color": "#3498db"
       }
     },
     "rudolphslichId": "1052970160903950346",
-    "announce": {
-      "giftChannelId": "935180557770448956"
-    },
-    "giftButtonChannelId": "935180557770448956",
     "sentinelleRoleId": "1043971181461651506"
   },
   "prod": {
     "name": "prod",
     "guildId": "816961245743808582",
-    "playlistThreadId": "892785771541585980",
+    "alavirienRoleId": "826743423612092436",
+    "announce": {
+      "giftChannelId": "973206750771687434"
+    },
+    "autoEmotes": {
+      "bjornLoveReactId": "822437083003355146",
+      "ewilhugReactId": "843097186710716416",
+      "ewinkLan": "841675143596212267",
+      "ewiyayReactId": "918249094391144469",
+      "salimmdrReactId": "823904313792266250"
+    },
+    "catsThreadId": "933456973591097415",
     "charteChannelId": "817066925976191037",
-    "randomfloodChannelId": "822132004581408828",
-    "logChannelId": "959168176908804106",
-    "logThreadId": "1012365101594058762",
-    "inAndOutLogChannelId": "1131895386626326649",
     "cosmeticRoleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"
     },
-    "pronounsRoleHandleChannelId": "974735995872350208",
+    "edouin": "823872218928250890",
     "eventRoleHandleChannelId": "974735995872350208",
+    "eyeReactId": "822487568766730270",
+    "giftButtonChannelId": "973206750771687434",
+    "hungryEmotes": {
+      "jamBjornBeurre": "933464636223791144",
+      "jambonBeurre": "823904010335158323"
+    },
+    "inAndOutLogChannelId": "1131895386626326649",
+    "logChannelId": "959168176908804106",
+    "logThreadId": "1012365101594058762",
+    "panDuomReactId": "826036478672109588",
+    "playlistThreadId": "892785771541585980",
+    "presentationChannelId": "816966112968179712",
+    "presentationReactId": "👋",
+    "pronounsRoleHandleChannelId": "974735995872350208",
+    "pronouns": {
+      "agreements": {
+        "allA": "1010826570484695091",
+        "askA": "1000807897732759582",
+        "cancelA": "Annuler",
+        "female": "1000807692522229860",
+        "male": "1000807606287343616",
+        "neutral": "1000807784738213918"
+      },
+      "pronouns": {
+        "allP": "1000807331908567160",
+        "ael": "1000805873842659398",
+        "askP": "1000807113066553495",
+        "cancelP": "Annuler",
+        "he": "1000790537584005222",
+        "no": "1000807502599962716",
+        "she": "1000791244210974840",
+        "they": "1000806759532863558"
+      }
+    },
+    "randomfloodChannelId": "822132004581408828",
     "roles": {
-      "reveurs": {
-        "roleId": "816971306276880395",
-        "name": "🔵",
-        "color": "#3498db"
+      "dessinateurs": {
+        "roleId": "824226236523610125",
+        "name": "🟣",
+        "color": "#9b59b6"
       },
       "frontaliers": {
         "roleId": "823882466024357918",
@@ -111,57 +154,17 @@
         "name": "🟠",
         "color": "#e74c3c"
       },
-      "dessinateurs": {
-        "roleId": "824226236523610125",
-        "name": "🟣",
-        "color": "#9b59b6"
-      }
-    },
-    "alavirienRoleId": "826743423612092436",
-    "presentationChannelId": "816966112968179712",
-    "presentationReactId": "👋",
-    "autoEmotes": {
-      "ewiyayReactId": "918249094391144469",
-      "bjornLoveReactId": "822437083003355146",
-      "ewilhugReactId": "843097186710716416",
-      "ewinkLan": "841675143596212267",
-      "salimmdrReactId": "823904313792266250"
-    },
-    "edouin": "823872218928250890",
-    "eyeReactId": "822487568766730270",
-    "hungryEmotes": {
-      "jambonBeurre": "823904010335158323",
-      "jamBjornBeurre": "933464636223791144"
-    },
-    "panDuomReactId": "826036478672109588",
-    "pronouns": {
-      "pronouns": {
-        "allP": "1000807331908567160",
-        "ael": "1000805873842659398",
-        "askP": "1000807113066553495",
-        "cancelP": "Annuler",
-        "he": "1000790537584005222",
-        "no": "1000807502599962716",
-        "she": "1000791244210974840",
-        "they": "1000806759532863558"
-      },
-      "agreements": {
-        "allA": "1010826570484695091",
-        "askA": "1000807897732759582",
-        "cancelA": "Annuler",
-        "female": "1000807692522229860",
-        "male": "1000807606287343616",
-        "neutral": "1000807784738213918"
+      "reveurs": {
+        "roleId": "816971306276880395",
+        "name": "🔵",
+        "color": "#3498db"
       }
     },
     "rudolphslichId": "1050186232547790848",
-    "announce": {
-      "giftChannelId": "973206750771687434"
-    },
-    "giftButtonChannelId": "973206750771687434",
     "sentinelleRoleId": "816975096518279188"
   },
   "shared": {
+    "admins": ["141962573900808193", "290505766631112714"],
     "helloEmoji": "👋",
     "LuciferId": "657498573222576148",
     "name": "shared",
