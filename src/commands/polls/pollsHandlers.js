@@ -6,6 +6,7 @@ import {
   updatePollButtonAction,
   refreshPollButtonAction,
 } from "./pollsButton.js";
+import { interactionEditReply } from "./pollsUtils.js";
 import { pollVoteHandler } from "./pollsVote.js";
 import { getPoll, interactionReply } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
@@ -32,7 +33,7 @@ export const voteButtonHandler = async (interaction) => {
   const pollId = message.id;
   const dbPoll = getPoll(db, pollId); //get poll from db
   if (!dbPoll) {
-    await interactionReply(interaction, perso.stopped);
+    await interactionEditReply(interaction, perso.stopped);
     return;
   }
   const { voteMax } = dbPoll;
