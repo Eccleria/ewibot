@@ -146,8 +146,9 @@ The `results` object regroup `fields` names and `emotes`, if provided by the use
 
     //write choices in embed
     const black = personality.black;
-    results.fields.forEach((field) => {
-      embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
+    results.fields.forEach((field, idx) => {
+      const name = results.emotes[idx] + " " + field;
+      embed.addFields({ name, value: black.repeat(10) + " 0% (0)\n" });
     });
 ```
 

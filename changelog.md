@@ -15,6 +15,14 @@
 - Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
 - Feat: add `vest` command, creating a personnalized `vest` with `user` data ([#259](https://github.com/Eccleria/ewibot/pull/259))
 
+## 5.5.1
+- Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/issues/253))
+- Fix: multiple `poll` issues ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#254](https://github.com/Eccleria/ewibot/issues/254))
+	- error if user vote during `poll` closure
+	- difficulties on `emote` detection in `poll` choice submission
+	- `dbPoll` `undefined` if accessed after `poll` closure
+- Update: `/roll` result is now public ([#261](https://github.com/Eccleria/ewibot/issues/261))
+
 ## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
 	- add `/stats use` command to dis/enable Ewibot stats for requesting user
