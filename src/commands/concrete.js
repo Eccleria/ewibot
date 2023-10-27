@@ -120,8 +120,8 @@ const action = async (object) => {
     encoder.finish();
 
     buffer = encoder.out.getData(); //Recover the gif
-    fs.writeFileSync(`${gifsPath}/${target.id}.gif`, buffer); //Write the gif locally
-  } else buffer = fs.readFileSync(`${gifsPath}/${target.id}.gif`);
+    fs.writeFileSync(`${gifsPath}/${fileName}`, buffer); //Write the gif locally
+  } else buffer = fs.readFileSync(`${gifsPath}/${fileName}`);
 
   const attachment = new AttachmentBuilder(buffer, { name: cPerso.fileName });
   const sentMessage = await object.editReply({ files: [attachment] });
