@@ -1,7 +1,7 @@
 # Twitter
 
 
-**NOTE : Because of Eon Musk changes to Twitter, this feature is disabled**
+**NOTE : Because of Elon Musk changes to Twitter, this feature is removed**
 
 This doc covers all the part about Twitter-Discord links. This link was asked by Andarta Pictures for
 a communication purpose. It aims to send all tweets sent by 
