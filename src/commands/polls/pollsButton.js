@@ -3,7 +3,6 @@ import {
   StringSelectMenuBuilder,
   ButtonStyle,
   EmbedBuilder,
-  ButtonBuilder,
 } from "discord.js";
 import {
   fetchPollMessage,
@@ -256,19 +255,4 @@ const editButtonStatus = (components, status = true) => {
     return [...acc, cur];
   }, []);
   return edited;
-};
-
-const enableDisableButtons = (MActionRow, status) => {
-  return MActionRow.reduce((acc, cur) => {
-    //disable buttons of cur ActionRowBuilder
-    const buttons = cur.components.reduce((acc, button) => {
-      const newButton = ButtonBuilder.from(button);
-      newButton.setDisabled(status);
-      return [...acc, newButton];
-    }, []);
-
-    //build new ActionRowBuilder
-    const newActionRow = new ActionRowBuilder().addComponents(buttons);
-    return [...acc, newActionRow];
-  }, []);
 };

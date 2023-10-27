@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
-import { removePoll, sanitizePunctuation } from "../../helpers/index.js";
+import { removePoll, removePunctuation } from "../../helpers/index.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -90,7 +90,7 @@ export const parsePollFields = (content, totalSize = 0) => {
             emotes: [...acc.emotes, content],
           };
 
-        const sanitizedContent = sanitizePunctuation(content);
+        const sanitizedContent = removePunctuation(content);
         console.log(
           [sanitizedContent],
           /\p{Extended_Pictographic}/u.test(sanitizedContent),
