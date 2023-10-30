@@ -232,8 +232,11 @@ const optionalActivities = () => {
   let activities = [];
   //halloween
   const today = new Date();
-  if (today.getMonth() == 9 && today.getDate() == 31) 
-    activities = [...activities, {name: "compter ses bonbons", type: "COMPETING"}];
+  if (today.getMonth() == 9 && today.getDate() == 31)
+    activities = [
+      ...activities,
+      { name: "compter ses bonbons", type: "COMPETING" },
+    ];
   return activities;
 };
 
