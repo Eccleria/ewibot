@@ -1,10 +1,13 @@
-﻿## 5.5.1
-- Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/issues/253))
-- Fix: multiple `poll` issues ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#254](https://github.com/Eccleria/ewibot/issues/254))
+﻿## 5.5.2
+Feat: optional `activity` for Halloween ([#262](https://github.com/Eccleria/ewibot/issues/262)) ([#263](https://github.com/Eccleria/ewibot/pull/263))
+
+## 5.5.1
+- Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/pull/253))
+- Fix: multiple `poll` issues ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#254](https://github.com/Eccleria/ewibot/pull/254))
 	- error if user vote during `poll` closure
 	- difficulties on `emote` detection in `poll` choice submission
 	- `dbPoll` `undefined` if accessed after `poll` closure
-- Update: `/roll` result is now public ([#261](https://github.com/Eccleria/ewibot/issues/261))
+- Update: `/roll` result is now public ([#261](https://github.com/Eccleria/ewibot/pull/261))
 
 ## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
