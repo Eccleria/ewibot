@@ -228,9 +228,21 @@ export const reactionHandler = async (message, currentServer, client) => {
 
 // ACTIVITY
 
+const optionalActivities = () => {
+  let activities = [];
+  //halloween
+  const today = new Date();
+  if (today.getMonth() == 9 && today.getDate() == 31)
+    activities = [
+      ...activities,
+      { name: "compter ses bonbons", type: "COMPETING" },
+    ];
+  return activities;
+};
+
 // activity list
 const activityList = [
-  { name: "Adrien Sépulchre", type: "LISTENING" },
+  /*{ name: "Adrien Sépulchre", type: "LISTENING" },
   { name: "JDR Ewilan par Charlie", type: "PLAYING" },
   {
     name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(),
@@ -239,7 +251,8 @@ const activityList = [
   { name: "la bataille contre Azan", type: "COMPETING" },
   { name: "la création d'Al-Jeit", type: "COMPETING" },
   { name: "épier les clochinettes", type: "PLAYING" },
-  { name: "compter les poêles", type: "PLAYING" },
+  { name: "compter les poêles", type: "PLAYING" },*/
+  ...optionalActivities(),
 ];
 
 /**
