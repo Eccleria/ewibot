@@ -1,4 +1,4 @@
-﻿## 6.0.0
+## 6.0.0
 - Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
 	- admin/commands utils that are shared in another folder were moved in helpers utils file
 	- `Commons` class and some functions (`setupEmbed`, `finishEmbed`) were simplified
@@ -16,13 +16,16 @@
 - Feat: add `vest` command, creating a personnalized `vest` with `user` data ([#259](https://github.com/Eccleria/ewibot/pull/259))
 - Update: `concrete` and `vest` store pp hash in pic name for easier pic update ([#260](https://github.com/Eccleria/ewibot/pull/260))
 
+## 5.5.2
+Feat: optional `activity` for Halloween ([#262](https://github.com/Eccleria/ewibot/issues/262)) ([#263](https://github.com/Eccleria/ewibot/pull/263)) ([#264](https://github.com/Eccleria/ewibot/pull/264))
+
 ## 5.5.1
-- Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/issues/253))
-- Fix: multiple `poll` issues ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#254](https://github.com/Eccleria/ewibot/issues/254))
+- Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/pull/253))
+- Fix: multiple `poll` issues ([#240](https://github.com/Eccleria/ewibot/issues/240)) ([#254](https://github.com/Eccleria/ewibot/pull/254))
 	- error if user vote during `poll` closure
 	- difficulties on `emote` detection in `poll` choice submission
 	- `dbPoll` `undefined` if accessed after `poll` closure
-- Update: `/roll` result is now public ([#261](https://github.com/Eccleria/ewibot/issues/261))
+- Update: `/roll` result is now public ([#261](https://github.com/Eccleria/ewibot/pull/261))
 
 ## 5.5.0
 - Feat: statistics ([#234](https://github.com/Eccleria/ewibot/pull/234))
