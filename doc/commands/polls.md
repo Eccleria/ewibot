@@ -8,10 +8,11 @@
     - [Parameters](#parameters-1)
     - [Code explanation](#code-explanation-1)
 - [Buttons](#buttons)
+- [Stop](#stop)
+  - [Timeout](#timeout)
 
-Polls are a `5.0.0` feature, allowing Alavirien.nes to create interactive messages from which everyone 
-can vote. Even if everyone is able to create polls, only poll's author and moderators have access to poll 
-settings.
+Polls are a `5.0.0` feature, allowing Alavirien.nes to create interactive messages from which everyone can vote.
+Even if everyone is able to create polls, only poll's author and moderators have access to poll settings.
 
 ## Commands
 
@@ -27,11 +28,6 @@ const command = new SlashCommandBuilder()
 For both commands, the action functions filters triggering people to Alavirien.nes only.
 
 ```js
-const action = async (interaction) => {
-  const options = interaction.options;
-  const personality = PERSONALITY.getCommands().polls;
-  const subcommand = options.getSubcommand();
-
   //check for alavirien.ne role
   const guildMember = await interaction.member.fetch();
   const currentServer = COMMONS.fetchGuildId(interaction.guildId);
@@ -63,6 +59,8 @@ The major command is the `/polls create` one. It allows to create a new poll and
 #### Code explanation
 
 The following is the definition of the title argument of `/poll create` command.
+> Note: this is only an extract, the command has many options declared.
+
 ```js
   .addSubcommand((command) =>
     command //create
@@ -241,9 +239,157 @@ poll message. It can be votes or setting buttons.
 
 ### New choices
 
+This command allows to add a new choice to an already sent poll. 
+This is cool if one choice is missing.
+
 #### Parameters
+
+- Mandatory:
+  - _sondage_ Poll choice from its name, using a list.
+  - _choices_ Choices of the poll. You **must** follow the notation. 
+    - Two choices are separated by a **semi-colon `;`**. 
+    - If you want to specify an emote for a choice, you must separate the emote from the choice text using a **comma `,`**. 
+    - The last choice **does not** require a *semi-colon*.  
+    Eg: `🥖, bread; 🧈, butter`
 
 #### Code explanation
 
+Most of the process of options here is the same for `/polls create`. First, it is gathered and checked.
+```js
+} else if (subcommand === personality.addChoice.name) {
+    //addChoice poll subcommand
+    const perso = personality.addChoice;
+
+    //get options
+    const pollInput = options.getString(perso.pollOption.name);
+    const choices = options.getString(perso.choiceOption.name);
+
+    //check if not too many choices
+    const splited = choices.split(";");
+    if (splited.length > 10) {
+      interactionReply(interaction, personality.errorChoicesNumber);
+      return;
+    }
+```
+Then, the poll to modify must be retrieved. 
+Some checks are done to ensure that the command will not go wrong.
+
+```js
+    //fetch db data
+    const dbPoll = getPollFromTitle(interaction.client.db, pollInput);
+    if (!dbPoll) {
+      interactionReply(interaction, perso.errorNoPoll);
+      return;
+    }
+
+    //get pollMessage
+    const pollMessage = await interaction.channel.messages.fetch(dbPoll.pollId);
+    const embed = EmbedBuilder.from(pollMessage.embeds[0]);
+    const fields = embed.data.fields;
+
+    //check for choices number
+    if (fields.length + splited.length > 10) {
+      interactionReply(interaction, perso.errorChoicesNumber);
+      return;
+    }
+```
+
+Now, the code executes the same tasks as for `/polls create`.
+It parse the choices, create the buttons and then update the poll.
+> To see that code, please refer to the [`create` part](#code-explanation)
+
 ## Buttons
 
+A lot of buttons are used with this functionality. Some are dedicated to votes,
+others to modify the poll. To dispatch buttons interactions, some handlers functions
+are used in `pollsHandlers`.
+
+```js
+export const pollsButtonHandler = async (interaction) => {
+  // Dispatch button action to corresponding functions
+  const { customId } = interaction;
+
+  const sixNumber = Number(customId[6]);
+  const voteButtonTest = !isNaN(sixNumber) && typeof sixNumber == "number";
+  if (voteButtonTest) await voteButtonHandler(interaction);
+};
+```
+
+This method filter `poll` `interactions` to keep only `vote` related `interaction`.
+> Note: the filter impose that the maximum number of choices to be a one digit number.
+
+The following dispatch `settings` buttons according to their `customId`:
+```js
+export const settingsButtonHandler = async (interaction) => {
+  // handle settings button
+  const { customId } = interaction;
+  if (customId.includes("settings")) sendSettingsButtons(interaction);
+  else if (customId.includes("set_stop")) stopPollButtonAction(interaction);
+  else if (customId.includes("set_remove")) removePollButtonAction(interaction);
+  else if (customId.includes("set_reset")) resetPollButtonAction(interaction);
+  else if (customId.includes("set_update")) updatePollButtonAction(interaction);
+  else if (customId.includes("set_refresh"))
+    refreshPollButtonAction(interaction);
+};
+```
+
+## Stop
+
+There are 3 ways to stop a poll.
+- `timeout` expiration.
+- `/polls stop` command.
+- `stop` settings button.
+
+### Timeout
+
+Once creating a poll, you can specify when the poll will stop. This use the `setTimeout` function which execute some code after a delay.
+If you do not specify a timeout (using `hour` and `minutes` options), a default value is set for each.
+
+```js
+    option = options.getNumber(perso.hourOption.name, false); //hours
+    const hours = option == null ? 48 : option;
+    option = options.getNumber(perso.minuteOption.name, false); //minutes
+    const minutes = option == null ? 59 : option;
+    const timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    const pollDate = dayjs().millisecond(timeout).toISOString();
+```
+
+## Command
+
+The `/polls stop` command allows to chose a poll to stop and stop it.
+The choice is done using poll title.
+
+```js
+    //fetch db data
+    const dbPoll = getPollFromTitle(db, pollInput);
+    if (!dbPoll) {
+      interactionReply(interaction, perso.errorNoPoll);
+      return;
+    }
+
+    //get pollMessage
+    const channel = await interaction.client.channels.fetch(dbPoll.channelId);
+    const pollMessage = await channel.messages.fetch(dbPoll.pollId);
+
+    await stopPoll(dbPoll, pollMessage, personality);
+```
+The `options` are fetched and then the poll data in `db`.
+After this, the poll `message` is required, to stop the `poll` and write it.
+The function `stopPoll` is common to the `command stop` and the `button stop`.
+
+## Button
+
+```js
+  //get data
+  const perso = PERSONALITY.getCommands().polls;
+  const sPerso = perso.settings;
+  const pollMessage = await fetchPollMessage(interaction);
+  const dbPoll = getPoll(db, pollMessage.id);
+  if (!dbPoll) {
+    interactionEditReply(interaction, { content: perso.errorNoDb });
+    return;
+  }
+  await stopPoll(dbPoll, pollMessage, sPerso);
+```
+
+The same process is done by the `button stop`.
