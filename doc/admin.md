@@ -198,53 +198,51 @@ data and then send it in the correct log channel.
 
 ```javascript
 export const finishEmbed = async (
-  personalityEvent,
+  eventPerso,
   executor,
-  embed,
+  logEmbed,
   logChannel,
   text,
   attachments
 ) => {
-  //check for prod/test situation.
-  const currentServer = commons.find(({ name }) => name === "test"); //get test data
+  const currentServer = COMMONS.getTest(); //get test data
   if (
     process.env.DEBUG === "no" &&
-    logChannel.guildId === currentServer.guildId //If prod, shouln't care about test server.
+    logChannel.guildId === currentServer.guildId
   ) {
     //Ewibot detects test in test server => return
-    console.log("Ewibot log in Test server", personalityEvent.title);
-    return;
+    console.log("Ewibot log in Test server", eventPerso.title);
+    return null;
   }
 
-  if (embed.author !== null) {
-    //if is an array, embed.author is undefined !== null
-    //if contains multiple embeds, the 1st is the log
-    if (personalityEvent.executor && executor !== null)
-      embed[0].addField(personalityEvent.executor, executor.toString(), true); //add the executor section
-    if (text) embed[0].addField(personalityEvent.text, text, false); //if any text (reason or content), add it
+  const embed = logEmbed.length >= 0 ? logEmbed[0] : logEmbed; //if contains multiple embeds, the 1st is the log
 
-    //now trying to send messages
-    try {
-      const message = await logChannel.send({
-        embeds: embed,
-        allowed_mentions: { parse: [] },
-      }); //send
-      if (attachments && attachments.length !== 0) {
-        const gifMessage = await logChannel.send({ files: attachments }); //if attachments, send new message
-        return [message, gifMessage];
-      }
-      return [message];
-    } catch (e) {
-      console.log(
-        "finishEmbed list error\n",
-        personalityEvent.title,
-        new Date(),
-        e
-      );
+  if (eventPerso.executor && executor !== null)
+    embed.addFields({
+      name: eventPerso.executor,
+      value: executor.toString(),
+      inline: true,
+    }); //add the executor section
+  if (text)
+    embed.addFields({
+      name: eventPerso.text,
+      value: text,
+    }); //if any text (reason or content), add it
+
+  try {
+    const message = await logChannel.send({
+      embeds: [embed, ...logEmbed.slice(1)],
+      allowed_mentions: { parse: [] },
+    }); //send
+    if (attachments && attachments.length !== 0) {
+      const gifMessage = await message.reply({ files: attachments }); //if attachments, send new message
+      return [message, gifMessage];
     }
+    return [message];
+  } catch (e) {
+    console.log("finishEmbed error\n", eventPerso.title, new Date(), e);
     return [];
   }
-  //the rest of the function is the same, but using embed not as a list
 };
 ```
 

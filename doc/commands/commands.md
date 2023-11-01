@@ -9,6 +9,13 @@ Commands are interactions that users can have with the bot or other users.
   - [Context commands](#contextcommands)
     - [save-log](#save-log)
 
+This documentation aims to have a general overview of how commands are implemented in this bot.
+You can follow the next links to get more details about specific commands.
+- [Anounce](./announce.md),
+- [Concrete](./concrete.md),
+- [Polls](./polls.md),
+- [Vest](./vest.md).
+
 ## Organisation
 
 If the commands are not complex, they are written in the [index file](../src/commands/index.js). Otherwise, they are

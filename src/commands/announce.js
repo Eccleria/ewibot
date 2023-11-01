@@ -59,7 +59,7 @@ const action = (interaction) => {
   const announceP = PERSONALITY.getCommands().announce; //get personality
 
   if (!isAdmin(interaction.user.id)) {
-    //check for bot admin
+    //check for admin
     interactionReply(interaction, announceP.notAdmin);
     return;
   }
