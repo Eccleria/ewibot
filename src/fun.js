@@ -16,6 +16,19 @@ import {
 import { COMMONS } from "./commons.js";
 
 //#region ACTIVITY
+
+const optionalActivities = () => {
+  let activities = [];
+  //halloween
+  const today = new Date();
+  if (today.getMonth() == 10 && today.getDate() == 1)
+    activities = [
+      ...activities,
+      { name: "compter ses bonbons", type: "PLAYING" },
+    ];
+  return activities;
+};
+
 // activity list
 const activityList = [
   { name: "Adrien Sépulchre", type: "LISTENING" },
@@ -28,6 +41,7 @@ const activityList = [
   { name: "la création d'Al-Jeit", type: "COMPETING" },
   { name: "épier les clochinettes", type: "PLAYING" },
   { name: "compter les poêles", type: "PLAYING" },
+  ...optionalActivities(),
 ];
 
 /**
