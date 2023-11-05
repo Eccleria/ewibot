@@ -1,22 +1,19 @@
+import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
-
-import { interactionReply, createButton } from "./utils.js";
-import {
-  isGiftUser,
-  addGiftUser,
-  removeGiftUser,
-  getGiftMessage,
-} from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { createButton } from "./utils.js";
 import {
   addGiftMessage,
-  removeGiftMessage,
   addGiftSeparator,
+  addGiftUser,
+  getGiftMessage,
+  interactionReply,
+  isGiftUser,
+  removeGiftMessage,
+  removeGiftUser,
 } from "../helpers/index.js";
-import dayjs from "dayjs";
-
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
@@ -156,37 +153,31 @@ export const setGiftTimeoutLoop = (client) => {
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().gift.name)
   .setDescription(PERSONALITY.getCommands().gift.description)
-  .addSubcommand(
-    (
-      subcommand //user authorisation command
-    ) =>
-      subcommand
-        .setName(PERSONALITY.getCommands().gift.use.name)
-        .setDescription(PERSONALITY.getCommands().gift.use.description)
+  .addSubcommand((subcommand) =>
+    subcommand //user authorisation command
+      .setName(PERSONALITY.getCommands().gift.use.name)
+      .setDescription(PERSONALITY.getCommands().gift.use.description)
   )
-  .addSubcommand(
-    (
-      subcommand //send message command
-    ) =>
-      subcommand
-        .setName(PERSONALITY.getCommands().gift.send.name)
-        .setDescription(PERSONALITY.getCommands().gift.send.description)
-        .addUserOption((option) =>
-          option
-            .setName(PERSONALITY.getCommands().gift.send.userOption.name)
-            .setDescription(
-              PERSONALITY.getCommands().gift.send.userOption.description
-            )
-            .setRequired(true)
-        )
-        .addStringOption((option) =>
-          option
-            .setName(PERSONALITY.getCommands().gift.send.textOption.name)
-            .setDescription(
-              PERSONALITY.getCommands().gift.send.textOption.description
-            )
-            .setRequired(true)
-        )
+  .addSubcommand((subcommand) =>
+    subcommand //send message command
+      .setName(PERSONALITY.getCommands().gift.send.name)
+      .setDescription(PERSONALITY.getCommands().gift.send.description)
+      .addUserOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.send.userOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().gift.send.userOption.description
+          )
+          .setRequired(true)
+      )
+      .addStringOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().gift.send.textOption.name)
+          .setDescription(
+            PERSONALITY.getCommands().gift.send.textOption.description
+          )
+          .setRequired(true)
+      )
   )
   .addSubcommand((subcommand) =>
     subcommand //remove

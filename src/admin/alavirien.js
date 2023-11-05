@@ -1,10 +1,8 @@
 import dayjs from "dayjs";
-
-import { removeAlavirien } from "../helpers/index.js";
-import { setupEmbed, finishEmbed } from "./utils.js";
-import { isSentinelle } from "../commands/utils.js";
-import { PERSONALITY } from "../personality.js";
+import { finishEmbed } from "./utils.js";
+import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const presentationHandler = async (
   server,
@@ -68,7 +66,7 @@ const checkAlavirien = async (client, server) => {
 
   for (const id of dbIds) {
     //db data format : { userId: authorId, messageNumber: number, joinAt: date}
-    const curDbData = data.dbUsers.find(({ userId }) => userId === id);
+    const curDbData = data.users.find(({ userId }) => userId === id);
     if (!curDbData) {
       //if no db data, log and skip
       console.log(`Unable to find alavirien data from toUpdateId ${id}`);

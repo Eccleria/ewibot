@@ -1,13 +1,18 @@
+import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
-import { addPoll, addPollChoices } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
-import { createButton, interactionReply } from "../utils.js";
 import { parsePollFields, stopPoll } from "./pollsUtils.js";
-import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
+import { createButton } from "../utils.js";
+import {
+  addPoll,
+  addPollChoices,
+  getPollFromTitle,
+  getPollsTitles,
+  interactionReply,
+} from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
-import dayjs from "dayjs";
+import { PERSONALITY } from "../../personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
@@ -146,7 +151,7 @@ const action = async (interaction) => {
 
   //check for alavirien.ne role
   const guildMember = await interaction.member.fetch();
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
   if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
     interactionReply(interaction, personality.errorNotAlavirien);
     return;
@@ -169,7 +174,7 @@ const action = async (interaction) => {
     const voteMax = option == null ? 1 : option;
 
     option = options.getString(perso.colorOption.name, false); //color
-    const color = option == null ? pColors.choices[4].value : option;
+    const color = option == null ? pColors.choices[2].value : option;
 
     const author = options.getUser(perso.authorOption.name, false); //author
 
@@ -212,8 +217,9 @@ const action = async (interaction) => {
 
     //write choices in embed
     const black = personality.black;
-    results.fields.forEach((field) => {
-      embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
+    results.fields.forEach((field, idx) => {
+      const name = results.emotes[idx] + " " + field;
+      embed.addFields({ name, value: black.repeat(10) + " 0% (0)\n" });
     });
 
     //create vote buttons
@@ -248,7 +254,7 @@ const action = async (interaction) => {
     );
 
     //add setting button
-    const settingId = "polls_" + "settings";
+    const settingId = personality.prefix + perso.settings;
     const settingButton = createButton(
       settingId,
       null,
@@ -332,8 +338,9 @@ const action = async (interaction) => {
     //add to embed
     const results = parsePollFields(splited, totalSize);
     const black = personality.black;
-    results.fields.forEach((field) => {
-      embed.addFields({ name: field, value: black.repeat(10) + " 0% (0)\n" });
+    results.fields.forEach((field, idx) => {
+      const name = results.emotes[idx] + " " + field;
+      embed.addFields({ name, value: black.repeat(10) + " 0% (0)\n" });
     });
 
     //create new vote buttons + regroup with olders
@@ -349,7 +356,7 @@ const action = async (interaction) => {
     }; //init for reduce
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
-      const buttonId = "polls_" + totalIdx.toString();
+      const buttonId = +totalIdx.toString();
       const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
       const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
