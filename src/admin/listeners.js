@@ -685,7 +685,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //filter changes, if < 2 length => return
   const isDiff = oldContent !== newContent;
-  if (isDiff){ // && isLengthy) {
+  if (isDiff) {
     const oLen = oldContent.length;
     const nLen = newContent.length;
 
