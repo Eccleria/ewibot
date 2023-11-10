@@ -684,8 +684,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (!oHasOct && nHasOct) octagonalLog(nMessage);
 
   //filter changes, if < 2 length => return
-  const isLengthy = Math.abs(oldContent.length - newContent.length) >= 2;
-  if (oldContent !== newContent && isLengthy) {
+  const isDiff = oldContent !== newContent;
+  if (isDiff){ // && isLengthy) {
     const oLen = oldContent.length;
     const nLen = newContent.length;
 
@@ -740,7 +740,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     embeds = [embed];
   }
 
-  if (!isLengthy && embeds.length === 1 && attachments.length === 0) return; //if no apparent modif, return
+  if (embeds.length === 1 && attachments.length === 0 && !isDiff) return; //if no apparent modif, return
 
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
