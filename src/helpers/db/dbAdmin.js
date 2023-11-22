@@ -4,11 +4,13 @@ import { checkDBInput } from "./db.js";
 /**
  * Store admin log messageId in db.
  * @param {object} db Database object.
- * @param {*} messageId Id of the admin log message.
+ * @param {string} messageId Id of the admin log message.
  * @param {*} type Type of the admin log.
  * @param {*} index Index where to store messageId.
  */
 const addAdminLogs = (db, messageId, type, index) => {
+  if (checkDBInput(db) == dbReturnType.wrongInput)
+    return dbReturnType.wrongInput;
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
   const data = adminLogs[type]; // [[]...]

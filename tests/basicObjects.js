@@ -4,16 +4,16 @@ export default class basicDiscordJs {
       id: "931272900915372122",
       name: "Ewibot",
       nickname: "nickEwibot",
-    },
+    };
     this.user = {
       id: "931272900915372122",
       tag: "usernameEwibot#1234",
       username: "usernameEwibot",
-      userEmbed: "<@931272900915372122>"
-    },
+      userEmbed: "<@931272900915372122>",
+    };
     this.channel = {
       id: "123456",
-      name: "testChannel"
+      name: "testChannel",
     };
   }
 

@@ -1,5 +1,4 @@
 import { Client, Intents } from "discord.js";
-import { action } from "../../src/commands/reverse.js";
 
 const client = new Client({
   intents: [

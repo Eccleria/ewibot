@@ -16,9 +16,7 @@ test("setupEmbed correct input", () => {
   const channel = BDJ.getChannel();
   const user = BDJ.getUser();
   const color = "DARK_BLUE";
-  const correctEmbed = new MessageEmbed()
-    .setColor(color)
-    .setTitle(perso.title);
+  const correctEmbed = new MessageEmbed().setColor(color).setTitle(perso.title);
   correctEmbed.timestamp = expect.any(Number); //useless to check that value
 
   //test cases
@@ -26,17 +24,31 @@ test("setupEmbed correct input", () => {
   expect(setupEmbed(color, perso, null, "skip")).toStrictEqual(correctEmbed);
 
   //tag
-  correctEmbed.setFields({ name: perso.author, value: user.userEmbed, inline: true });
-  expect(setupEmbed(color, perso, user.userEmbed, "tag")).toStrictEqual(correctEmbed);
-  
+  correctEmbed.setFields({
+    name: perso.author,
+    value: user.userEmbed,
+    inline: true,
+  });
+  expect(setupEmbed(color, perso, user.userEmbed, "tag")).toStrictEqual(
+    correctEmbed
+  );
+
   //else
-  correctEmbed.setFields({ name: perso.author, value: channel.name, inline: true });
+  correctEmbed.setFields({
+    name: perso.author,
+    value: channel.name,
+    inline: true,
+  });
   expect(setupEmbed(color, perso, channel)).toStrictEqual(correctEmbed);
-  
+
   //user
-  correctEmbed.setFields({ name: perso.author, value: user.username, inline: true });
+  correctEmbed.setFields({
+    name: perso.author,
+    value: user.username,
+    inline: true,
+  });
   expect(setupEmbed(color, perso, user, "user")).toStrictEqual(correctEmbed);
-  
+
   //user + desc
   perso.description = "description"; //must not be set before
   correctEmbed.setDescription(perso.description);
