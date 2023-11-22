@@ -1,3 +1,13 @@
+import { dbReturnType } from "../index.js";
+import { checkDBInput } from "./db.js";
+
+/**
+ * Store admin log messageId in db.
+ * @param {object} db Database object.
+ * @param {*} messageId Id of the admin log message.
+ * @param {*} type Type of the admin log.
+ * @param {*} index Index where to store messageId.
+ */
 const addAdminLogs = (db, messageId, type, index) => {
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
@@ -10,11 +20,11 @@ const addAdminLogs = (db, messageId, type, index) => {
 /**
  * get AdminLogs data from db
  * @param {object} db Database object
- * @returns {?object} null if wrong input, adminLogs otherwise
+ * @returns {?object} dbReturnType. if wrong input, adminLogs otherwise
  */
 const getAdminLogs = (db) => {
-  if (db === null || typeof db !== "object") return null;
-  else if (db.data === null || typeof db.data !== "object") return null;
+  if (checkDBInput(db) == dbReturnType.wrongInput)
+    return dbReturnType.wrongInput;
   else return db.data.adminLogs;
 };
 

@@ -1,24 +1,4 @@
-//#region enums
-
-/**
- * @enum {number} return values for most db helper functions
- */
-export const dbReturnType = Object.freeze({
-  isNotOk: -1,
-  isOk: 0,
-  isIn: 1,
-  isNotIn: 2,
-});
-
-/**
- * @enum {string} user's stats attibutes
- */
-export const statsKeys = Object.freeze({
-  gifs: "gifs",
-  hello: "hello",
-  hungry: "hungry",
-  emojis: "emojis",
-});
+import { dbReturnType, statsKeys } from "../index.js";
 
 /**
  * Simplify userStatsInit with this global const
@@ -27,8 +7,6 @@ const userStatsInit = Object.values(statsKeys).reduce((acc, val) => {
   if (val === statsKeys.emojis) return { ...acc, [val]: {} };
   return { ...acc, [val]: 0 };
 }, {});
-
-//#endregion
 
 //#region use command
 
