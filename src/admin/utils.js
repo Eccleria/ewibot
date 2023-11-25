@@ -47,7 +47,6 @@ export const setupEmbed = (color, personality, object, type) => {
     .setTimestamp()
     .setColor(color)
     .setTitle(personality.title);
-    
 
   if (personality.description) embed.setDescription(personality.description);
 

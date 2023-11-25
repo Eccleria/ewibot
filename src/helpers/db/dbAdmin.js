@@ -5,18 +5,30 @@ import { checkDBInput } from "./db.js";
  * Store admin log messageId in db.
  * @param {object} db Database object.
  * @param {string} messageId Id of the admin log message.
- * @param {*} type Type of the admin log.
- * @param {*} index Index where to store messageId.
+ * @param {string} type Type of the admin log.
+ * @param {number} index Index where to store messageId.
+ * @returns {dbReturnType} wrongInput, isNotOk or isOk.
  */
 const addAdminLogs = (db, messageId, type, index) => {
   if (checkDBInput(db) == dbReturnType.wrongInput)
     return dbReturnType.wrongInput;
+  if (!messageId || typeof messageId != "string")
+    return dbReturnType.wrongInput;
+  if (!type || typeof type !== "string") return dbReturnType.wrongInput;
+  if (typeof index !== "number") return dbReturnType.wrongInput;
+
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
   const data = adminLogs[type]; // [[]...]
-
-  data[index].push(messageId);
-  db.wasUpdated = true;
+  
+  if (data) {
+    data[index].push(messageId);
+    db.wasUpdated = true;
+    return dbReturnType.isOk;
+  } else {
+    console.log(`type ${type} does not exist`);
+    return dbReturnType.isNotOk
+  }
 };
 
 /**
