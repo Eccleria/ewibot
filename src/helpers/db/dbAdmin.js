@@ -20,21 +20,21 @@ const addAdminLogs = (db, messageId, type, index) => {
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
   const data = adminLogs[type]; // [[]...]
-  
+
   if (data) {
     data[index].push(messageId);
     db.wasUpdated = true;
     return dbReturnType.isOk;
   } else {
-    console.log(`type ${type} does not exist`);
-    return dbReturnType.isNotOk
+    console.log(`addAdminLogs: type ${type} does not exist`);
+    return dbReturnType.isNotOk;
   }
 };
 
 /**
- * get AdminLogs data from db
- * @param {object} db Database object
- * @returns {?object} dbReturnType. if wrong input, adminLogs otherwise
+ * get AdminLogs data from db.
+ * @param {object} db Database object.
+ * @returns {?object} dbReturnType. if wrong input, adminLogs otherwise.
  */
 const getAdminLogs = (db) => {
   if (checkDBInput(db) == dbReturnType.wrongInput)
@@ -42,15 +42,31 @@ const getAdminLogs = (db) => {
   else return db.data.adminLogs;
 };
 
+/**
+ *
+ * @param {object} db Database object.
+ * @param {*} type Type of the admin logs to remove.
+ * @returns {dbReturnType}
+ */
 const removeAdminLogs = (db, type) => {
+  if (checkDBInput(db) === dbReturnType.wrongInput)
+    return dbReturnType.wrongInput;
+  if (!type || typeof type !== "string") return dbReturnType.wrongInput;
+
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
   const data = adminLogs[type]; // [[]...]
-  const sliced = data.slice(1); //remove first
-  sliced.push([]); //add [] at the end
+  if (data) {
+    const sliced = data.slice(1); //remove first
+    sliced.push([]); //add [] at the end
 
-  db.data.adminLogs[type] = sliced;
-  db.wasUpdated = true;
+    db.data.adminLogs[type] = sliced;
+    db.wasUpdated = true;
+    return dbReturnType.isOk;
+  } else {
+    console.log(`removeAdminLogs: type ${type} does not exist`);
+    return dbReturnType.isNotOk;
+  }
 };
 
 export { addAdminLogs, getAdminLogs, removeAdminLogs };

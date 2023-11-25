@@ -1,6 +1,6 @@
 /**
- *
- * @param {object} db Database object
+ * check the db object given as a dbHelper arg.
+ * @param {object} db Database object.
  * @returns {dbReturnType} wrongInput if error, else isOk.
  */
 export const checkDBInput = (db) => {
