@@ -66,16 +66,9 @@ test("removeAdminLogs false input should return error", () => {
 });
 
 test("removeAdminLogs should return isOk when ok", () => {
+  const logs = fakeDb.data.adminLogs;
   expect(removeAdminLogs(fakeDb, args.frequent[0])).toBe(dbReturnType.isOk);
-  expect(fakeDb.data.adminLogs.frequent).toEqual([
-    [],
-    [],
-    [],
-    [],
-    [],
-    ["6", "7"],
-    [],
-  ]);
+  expect(logs.frequent).toEqual([[], [], [], [], [], ["6", "7"], []]);
   expect(removeAdminLogs(fakeDb, args.userAD[0])).toBe(dbReturnType.isOk);
-  expect(fakeDb.data.adminLogs.userAD).toEqual([["11", "12"], []]);
+  expect(logs.userAD).toEqual([["11", "12"], []]);
 });
