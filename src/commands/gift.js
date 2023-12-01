@@ -28,8 +28,15 @@ export const giftButtonHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().gift;
   const authorId = interaction.user.id;
 
-  //check for date
+  //filter older buttons
   const today = dayjs();
+  if (!interaction.customId.includes(today.year)) {
+    console.log("wrong gift button");
+    interactionReply(interaction, "Bouton trop vieux");
+    return;
+  }
+
+  //check for date
   if (today.month() !== 12 && today.month !== 1 && today.date() > 7) {
     interactionReply(interaction, personality.tooLate);
     return;
@@ -71,7 +78,7 @@ const giftInteractionCreation = async (client, type) => {
 
   //create button
   const actionRow = new MessageActionRow().addComponents(
-    createButton("gift", personality.buttonLabel, "PRIMARY")
+    createButton("gift_2023", personality.buttonLabel, "PRIMARY")
   );
 
   if (type === "xmas") {
@@ -84,8 +91,7 @@ const giftInteractionCreation = async (client, type) => {
       .addFields(
         { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
         { name: nDayEmbed.imageName, value: nDayEmbed.imageText }
-      )
-      .setImage(nDayEmbed.imageURL);
+      );
 
     //create message and send it
     channel.send({ embeds: [embed], components: [actionRow] });
