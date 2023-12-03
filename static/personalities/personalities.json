@@ -178,8 +178,8 @@
       },
       "gift": {
         "accepting": {
-          "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
-          "accepts": "\nacceptent de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à ces personnes !",
+          "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `/gift send` et envoyer un message de Noël à cette personne !",
+          "accepts": "\nacceptent de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `/gift send` et envoyer un message de Noël à ces personnes !",
           "description": "Pour savoir si un.e utilisateurice accepte les messages de Noël",
           "help": "Cette commande permet de vérifier si lea utilisateurice que vous mentionnez accepte ou non les messages de Noël.\nPour l'utiliser, tapez `gift accepting @utilisateurice`.",
           "name": "accepting",

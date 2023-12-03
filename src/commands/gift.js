@@ -347,7 +347,6 @@ const action = async (interaction) => {
       else interactionReply(interaction, content + accepting.notAccept);
     } else {
       const users = getGiftUsers(db);
-      console.log("users", users);
       const usersText = users.map((id) => `\n<@${id}>`);
       content = accepting.users + usersText;
       interactionReply(interaction, content + accepting.accepts);
