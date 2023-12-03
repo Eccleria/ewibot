@@ -4,6 +4,7 @@
 - Update: `gift` ([#268](https://github.com/Eccleria/ewibot/issues/268)) ([#271](https://github.com/Eccleria/ewibot/pull/271))
 	- disable older buttons using a yearly `customId` recognition.
 	- update dates to 2023 case
+	- `/gift accepting` now display full tag list if no `recipient` argument
 
 ## 5.5.1
 - Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/pull/253))
