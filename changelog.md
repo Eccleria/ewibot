@@ -1,6 +1,9 @@
 ﻿## 5.5.2
 - Feat: optional `activity` for Halloween ([#262](https://github.com/Eccleria/ewibot/issues/262)) ([#263](https://github.com/Eccleria/ewibot/pull/263)) ([#264](https://github.com/Eccleria/ewibot/pull/264))
 - Update: remove `messageUpdate` length filter which remove some important logs ([#269](https://github.com/Eccleria/ewibot/pull/269))
+- Update: `gift` ([#268](https://github.com/Eccleria/ewibot/issues/268)) ([#271](https://github.com/Eccleria/ewibot/pull/271))
+	- disable older buttons using a yearly `customId` recognition.
+	- update dates to 2023 case
 
 ## 5.5.1
 - Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/pull/253))
