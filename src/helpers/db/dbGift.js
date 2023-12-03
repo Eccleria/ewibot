@@ -1,5 +1,5 @@
 const isGiftUser = (db, userId) => {
-  return db.data.gift.users.includes(userId);
+  return getGiftUsers(db).includes(userId);
 };
 
 const addGiftUser = (db, userId) => {
@@ -10,14 +10,18 @@ const addGiftUser = (db, userId) => {
 };
 
 const removeGiftUser = (db, userId) => {
-  const data = db.data.gift.users;
+  const data = getGiftUsers(db);
   if (isGiftUser(db, userId)) {
     db.data.gift.users = data.filter((id) => id !== userId);
     db.wasUpdated = true;
   }
 };
 
-export { isGiftUser, addGiftUser, removeGiftUser };
+const getGiftUsers = (db) => {
+  return db.data.gift.users;
+};
+
+export { isGiftUser, addGiftUser, removeGiftUser, getGiftUsers };
 
 const isMessageRecipient = (db, recipientId) => {
   return db.data.gift.messages.map((obj) => obj.userId).includes(recipientId);
