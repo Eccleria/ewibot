@@ -351,7 +351,7 @@ const action = async (interaction) => {
       const usersText = users.map((id) => `\n<@${id}>`);
       content = accepting.users + usersText;
       interactionReply(interaction, content + accepting.accepts);
-    } 
+    }
   }
 };
 

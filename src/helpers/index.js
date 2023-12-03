@@ -22,9 +22,9 @@ import {
 
 import {
   addGiftUser,
-  removeGiftUser,
-  isGiftUser,
   getGiftUsers,
+  isGiftUser,
+  removeGiftUser,
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
@@ -131,9 +131,9 @@ export {
   updateEventRoleMessageId,
   //gift
   addGiftUser,
-  removeGiftUser,
-  isGiftUser,
   getGiftUsers,
+  isGiftUser,
+  removeGiftUser,
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
