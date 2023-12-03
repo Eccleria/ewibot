@@ -1,6 +1,6 @@
 {
+  "name": "funny",
   "funny": {
-    "name": "funny",
     "commands": {
       "announce": {
         "buttonLabel": "Confirmer",
@@ -40,7 +40,7 @@
           "help": "Cette commande vous permet de vérifier si vous avez enregistré une date de naissance et sa valeur si elle existe.",
           "name": "get"
         },
-        "getUser": "Ton anniversaire est le ",
+        "getUser": "Taon anniversaire est le ",
         "help": "Tu veux un cookie pour ton anniv ? C'est simple ! Il suffit de m'indiquer ta date de naissance avec `$birthday add DD/MM/YYYY` et je m'occupe du reste !\nSi tu n'aimes pas les cookies, c'est `$birthday del` pour supprimer ta date.\nSi tu ne sais plus si tu auras un cookie ou non (si c'est pas la bonne date, c'est pas grave, tu auras quand même le cookie), utilise `$birthday get` pour afficher ta date d'anniversaire.",
         "name": "birthday",
         "parsingError": "J'ai pas compris taon date de naissance, tu peux répéter ? <:Chuchobigeyes:1016099307956478032>",
@@ -314,11 +314,16 @@
         "sent": "Le message de classement des excuses a bien été envoyé"
       },
       "personality": {
-        "change": "Dorénavant, je serais fun ! ",
+        "changed": "Dorénavant, j'aurai la personalité ",
         "currentName": "Actuellement, j'ai la personalité ",
+        "description": "Change la personnalité d'Ewibot",
+        "name": "personality",
         "nameError": "Erreur d'argument.",
-        "nameList": "La liste des personalités est : ",
-        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
+        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `/personality` pour avoir le nom de la personnalité actuelle.\n- Tape `/personality name:nom` pour qu'Ewibot utilise la personalité `nom`.",
+        "stringOption": {
+          "description": "Choix de la personnalité",
+          "name": "name"
+        }
       },
       "polls": {
         "addChoice": {
