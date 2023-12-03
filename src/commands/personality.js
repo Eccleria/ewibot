@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { readFileSync } from "fs";
 
+import { slashCommandsInit } from "./slash.js";
 import { interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
@@ -32,6 +33,9 @@ const action = (interaction) => {
       const path = "static/personalities/";
       const newP = JSON.parse(readFileSync(path + foundP +".json"));
       PERSONALITY.setPersonality(newP.name, newP[foundP]);
+
+      slashCommandsInit(interaction.guildId, interaction.client); //commands submit to API
+
       interactionReply(interaction, perso.changed + newP.name);
     } else interactionReply(interaction, perso.nameError);
   } else {
