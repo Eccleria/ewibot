@@ -6,16 +6,22 @@ import { interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().personality.name)
-    .setDescription(PERSONALITY.getCommands().personality.description)
-    .setDefaultMemberPermissions()
-    .addStringOption((option) => 
-      option
-        .setName(PERSONALITY.getCommands().personality.stringOption.name)
-        .setDescription(PERSONALITY.getCommands().personality.stringOption.description)
-        .setRequired(false)
-        .addChoices(...PERSONALITY.getPersonalities().map((pName) => {return {name: pName, value: "personality_" + pName}}))
-    );
+  .setName(PERSONALITY.getCommands().personality.name)
+  .setDescription(PERSONALITY.getCommands().personality.description)
+  .setDefaultMemberPermissions()
+  .addStringOption((option) =>
+    option
+      .setName(PERSONALITY.getCommands().personality.stringOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().personality.stringOption.description
+      )
+      .setRequired(false)
+      .addChoices(
+        ...PERSONALITY.getPersonalities().map((pName) => {
+          return { name: pName, value: "personality_" + pName };
+        })
+      )
+  );
 
 const action = (interaction) => {
   const perso = PERSONALITY.getCommands().personality;
@@ -24,14 +30,12 @@ const action = (interaction) => {
 
   if (option) {
     //want to change personality
-    const foundP = nameList.find(
-      (name) => option.includes(name)
-    );
+    const foundP = nameList.find((name) => option.includes(name));
 
     if (foundP) {
       //open file
       const path = "static/personalities/";
-      const newP = JSON.parse(readFileSync(path + foundP +".json"));
+      const newP = JSON.parse(readFileSync(path + foundP + ".json"));
       PERSONALITY.setPersonality(newP.name, newP[foundP]);
 
       slashCommandsInit(interaction.guildId, interaction.client); //commands submit to API
