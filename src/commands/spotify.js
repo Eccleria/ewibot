@@ -9,9 +9,9 @@ const spotifyReply = async (link, interaction, client, cmnShared) => {
   // Ewibot reply for command query
   if (link) {
     const { answer, songId } = link;
-    const newMessage = await interactionReply(interaction, answer);
-
-    if (songId) await newMessage.react(cmnShared.removeEmoji);
+    const newMessage = await interactionReply(interaction, answer, false);
+    console.log(newMessage);
+    //if (songId) await newMessage.react(cmnShared.removeEmoji);
 
     client.playlistCachedMessages = [
       ...client.playlistCachedMessages,
@@ -20,15 +20,34 @@ const spotifyReply = async (link, interaction, client, cmnShared) => {
   }
 };
 
+const command = new SlashCommandBuilder()
+  .setName(PERSONALITY.getCommands().spotify.name)
+  .setDescription(PERSONALITY.getCommands().spotify.description)
+  .addSubcommand((command) =>
+    command
+      .setName(PERSONALITY.getCommands().spotify.add.name)
+      .setDescription(PERSONALITY.getCommands().spotify.add.description)
+      .addStringOption((option) =>
+        option
+          .setName(PERSONALITY.getCommands().spotify.add.linkOption.name)
+          .setDescription(PERSONALITY.getCommands().spotify.add.linkOption.description)
+          .setRequired(true)
+          .setMinLength(10)
+      )
+  );
+
 const action = async (interaction) => {
   const options = interaction.options;
   const subcommand = options.getSubcommand();
+  const personality = PERSONALITY.getCommands().spotify;
 
-  if (subcommand === "ajouter") {
-    const link = interaction.options.getString("lien");
+  if (subcommand === personality.add.name) {
+    const perso = personality.add;
+    console.log(subcommand);
     const client = interaction.client;
-
     const cmnShared = COMMONS.getShared();
+    const link = interaction.options.getString(perso.linkOption.name);
+    console.log("link", [link]);
 
     const foundLink = await parseLink(
       link,
@@ -37,26 +56,12 @@ const action = async (interaction) => {
       cmnShared
     );
 
-    console.log("spotify", foundLink);
+    console.log("foundLink", foundLink);
 
     await spotifyReply(foundLink, interaction, client, cmnShared);
   }
 };
-
-const command = new SlashCommandBuilder()
-  .setName("spotify")
-  .setDescription("Permet d'interagir avec Spotify.")
-  .addSubcommand((command) =>
-    command
-      .setName("ajouter")
-      .setDescription("Ajout d'une musique dans la playlist du server.")
-      .addStringOption((option) =>
-        option
-          .setName("lien")
-          .setDescription("lien spotify de la musique � ajouter")
-      )
-  );
-
+  
 const spotify = {
   action,
   command,

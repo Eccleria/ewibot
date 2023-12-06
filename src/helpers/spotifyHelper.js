@@ -84,13 +84,13 @@ const parseYoutubeLink = async (messageContent, client) => {
 
 const parseSpotifyLink = async (messageContent) => {
   // https://open.spotify.com/track/3HctJdhy5CFb06NKIVp92U?si=cde5ab12a0f64fa6
-  const isSpotifyLink = messageContent.includes("open.spotify.com/track");
-
+  const isSpotifyLink = messageContent.includes("open.spotify.com/");
   if (!isSpotifyLink) return null;
 
   const spotifyId = messageContent
-    .split("open.spotify.com/track")[1]
-    .slice(1, "3HctJdhy5CFb06NKIVp92Ue".length);
+    .split("track/")[1]
+    .split("?")[0];
+
   return `spotify:track:${spotifyId}`;
 };
 
@@ -115,7 +115,7 @@ const getEntirePlaylist = async (client) => {
 };
 
 const parseAddCommand = async (messageContent, client) => {
-  if (!messageContent.startsWith("search")) return null;
+  if (messageContent.startsWith("http")) return null;
 
   const searchQuery = messageContent.split(" ").slice(1).join(" ");
 
@@ -133,7 +133,7 @@ export const parseLink = async (
   const songSpotify = await parseSpotifyLink(messageContent);
   const songYoutube = await parseYoutubeLink(messageContent, client);
   const songManual = await parseAddCommand(messageContent, client);
-
+  console.log(songSpotify, songYoutube, songManual);
   const songId = songSpotify || songYoutube || songManual; // Select between Spotify, Youtube or manual song
 
   if (songId) {
