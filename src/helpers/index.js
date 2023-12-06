@@ -1,3 +1,5 @@
+import { dbReturnType, statsKeys } from "./db/db.js";
+
 import {
   isApologyUser,
   addApologyCount,
@@ -71,8 +73,6 @@ import {
   addEmojiData,
   addStatsUser,
   removeStatsUser,
-  statsKeys,
-  dbReturnType,
   addServerStatsData,
   addServerEmojiCount,
 } from "./db/dbStats.js";
