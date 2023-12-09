@@ -1,6 +1,6 @@
 {
+  "name": "normal",
   "normal": {
-    "name": "normal",
     "commands": {
       "announce": {
         "buttonLabel": "Confirmer",
@@ -335,11 +335,16 @@
         "sent": "Le message de classement des excuses a bien été envoyé"
       },
       "personality": {
-        "change": "Dorénavant, j'aurai la personalité ",
+        "changed": "Dorénavant, j'aurai la personalité ",
         "currentName": "Actuellement, j'ai la personalité ",
+        "description": "Change la personnalité d'Ewibot",
+        "name": "personality",
         "nameError": "Erreur d'argument.",
-        "nameList": "La liste des personalités est : ",
-        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
+        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `/personality` pour avoir le nom de la personnalité actuelle.\n- Tape `/personality name:nom` pour qu'Ewibot utilise la personalité `nom`.",
+        "stringOption": {
+          "description": "Choix de la personnalité",
+          "name": "name"
+        }
       },
       "polls": {
         "addChoice": {

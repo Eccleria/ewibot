@@ -253,7 +253,7 @@ export const onThreadCreate = async (thread, newly) => {
       "ownerId",
       thread.ownerId
     );
-    
+
     finishEmbed(perso, executor, embed, logChannel);
   } else console.log("threadCreateIsNull", thread, newly);
 };

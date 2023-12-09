@@ -1,4 +1,4 @@
-## 6.0.0
+﻿## 6.0.0
 - Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
 	- admin/commands utils that are shared in another folder were moved in helpers utils file
 	- `Commons` class and some functions (`setupEmbed`, `finishEmbed`) were simplified
@@ -14,6 +14,7 @@
 	- add `canvas` (`concrete` + `vest`) + `helpers` + `announce` doc ([#259](https://github.com/Eccleria/ewibot/pull/259)) ([#245](https://github.com/Eccleria/ewibot/pull/245))
 - Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
 - Feat: add `vest` command, creating a personnalized `vest` with `user` data ([#259](https://github.com/Eccleria/ewibot/pull/259))
+- Feat: add admin `/personality` command ([#270](https://github.com/Eccleria/ewibot/pull/270))
 - Update: `concrete` and `vest` store pp hash in pic name for easier pic update ([#260](https://github.com/Eccleria/ewibot/pull/260))
 
 ## 5.5.2

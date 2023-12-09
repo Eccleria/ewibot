@@ -3,26 +3,29 @@ import { readFileSync } from "fs";
 const path = "static/personalities/";
 const admin = JSON.parse(readFileSync(path + "admin.json"));
 const announces = JSON.parse(readFileSync(path + "announces.json"));
-const personalities = JSON.parse(readFileSync(path + "personalities.json"));
+const normal = JSON.parse(readFileSync(path + "normal.json"));
+const funny = JSON.parse(readFileSync(path + "funny.json"));
 const colors = JSON.parse(readFileSync("static/colors.json"));
 
-//export var PERSONALITY = personalities.normal; // common var for all files
-
 class Personality {
-  constructor(name, personality, admin, announces, colors) {
+  constructor(name, personality, admin, announces, colors, personalities) {
     this.name = name;
     this.personality = personality;
     this.admin = admin;
     this.announces = announces;
     this.colors = colors;
+    this.personalities = personalities;
   }
 
-  set(name, personality) {
+  setPersonality(name, personality) {
     this.name = name;
     this.personality = personality;
   }
   getPersonality() {
     return this.personality;
+  }
+  getPersonalities() {
+    return this.personalities;
   }
   getName() {
     return this.name;
@@ -46,46 +49,9 @@ class Personality {
 
 export const PERSONALITY = new Personality(
   "normal",
-  personalities.normal,
+  normal.normal,
   admin,
   announces,
-  colors
+  colors,
+  [normal.name, funny.name]
 );
-
-// coming soon, but not today
-
-// const action = (message) => {
-//   const args = message.content.toLowerCase().split(" ");
-//   const nameList = Object.keys(personalities); // List of all personalities names
-//   const replies = PERSONALITY.getCommands().personality;
-//
-//   if (args.length === 1) {
-//     // If no content, send actual personality name
-//     message.reply(replies.currentName + PERSONALITY.getName() + ".");
-//   } else if (args[1]) {
-//     if (nameList.includes(args[1])) {
-//       // If args[1] is in personalities.json
-//       const foundPersonality = Object.values(personalities).find(
-//         (obj) => obj.name === args[1]
-//       );
-//       if (foundPersonality) {
-//         PERSONALITY.set(foundPersonality.name, foundPersonality);
-//         message.reply(replies.change + `${args[1]}.`);
-//       }
-//     } else if (args[1] === "list") {
-//       // Send  personality name list
-//       message.reply(replies.nameList + `${nameList.join(", ")}.`);
-//     } else message.reply(replies.nameError);
-//   }
-// };
-//
-// const personality = {
-//   name: "personality",
-//   action,
-//   help: () => {
-//     return PERSONALITY.getCommands().personality.help;
-//   },
-//   admin: true,
-// };
-//
-// export default personality;

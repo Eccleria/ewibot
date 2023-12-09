@@ -13,6 +13,7 @@ import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
 import gift from "./gift.js";
 import leaderboardApology from "./leadApo.js";
+import personality from "./personality.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
@@ -190,6 +191,7 @@ const slashCommands = [
   ignoreChannel,
   ignoreUser,
   leaderboardApology,
+  personality,
   ping,
   polls,
   reminder,
