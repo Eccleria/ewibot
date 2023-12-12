@@ -31,14 +31,14 @@ export const giftButtonHandler = async (interaction) => {
 
   //filter older buttons
   const today = dayjs();
-  if (!interaction.customId.includes(today.year)) {
-    console.log("wrong gift button");
-    interactionReply(interaction, "Bouton trop vieux");
+  if (!interaction.customId.includes(today.year().toString())) {
+    console.log("wrong gift button", interaction.customId);
+    interactionReply(interaction, "Bouton trop vieux.");
     return;
   }
 
   //check for date
-  if (today.month() !== 12 && today.month !== 1 && today.date() > 7) {
+  if (today.month() !== 11 && (today.month() !== 0 && today.date() > 7)) {
     interactionReply(interaction, personality.tooLate);
     return;
   }
@@ -91,7 +91,6 @@ const giftInteractionCreation = async (client, type) => {
       .setDescription(nDayEmbed.description)
       .addFields(
         { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
-        { name: nDayEmbed.imageName, value: nDayEmbed.imageText }
       );
 
     //create message and send it
