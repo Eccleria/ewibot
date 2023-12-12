@@ -38,7 +38,7 @@ export const giftButtonHandler = async (interaction) => {
   }
 
   //check for date
-  if (today.month() !== 11 && (today.month() !== 0 && today.date() > 7)) {
+  if (today.month() !== 11 && today.month() !== 0 && today.date() > 7) {
     interactionReply(interaction, personality.tooLate);
     return;
   }
@@ -89,9 +89,7 @@ const giftInteractionCreation = async (client, type) => {
       .setTimestamp()
       .setTitle(personality.nDayEmbed.title)
       .setDescription(nDayEmbed.description)
-      .addFields(
-        { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
-      );
+      .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText });
 
     //create message and send it
     channel.send({ embeds: [embed], components: [actionRow] });
