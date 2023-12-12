@@ -7,6 +7,7 @@ import {
   addGiftUser,
   removeGiftUser,
   getGiftMessage,
+  getGiftUsers,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import {
@@ -28,9 +29,16 @@ export const giftButtonHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().gift;
   const authorId = interaction.user.id;
 
-  //check for date
+  //filter older buttons
   const today = dayjs();
-  if (today.month() !== 12 && today.month !== 1 && today.date() > 7) {
+  if (!interaction.customId.includes(today.year().toString())) {
+    console.log("wrong gift button", interaction.customId);
+    interactionReply(interaction, "Bouton trop vieux.");
+    return;
+  }
+
+  //check for date
+  if (today.month() !== 11 && today.month() !== 0 && today.date() > 7) {
     interactionReply(interaction, personality.tooLate);
     return;
   }
@@ -71,7 +79,7 @@ const giftInteractionCreation = async (client, type) => {
 
   //create button
   const actionRow = new MessageActionRow().addComponents(
-    createButton("gift", personality.buttonLabel, "PRIMARY")
+    createButton("gift_2023", personality.buttonLabel, "PRIMARY")
   );
 
   if (type === "xmas") {
@@ -81,11 +89,7 @@ const giftInteractionCreation = async (client, type) => {
       .setTimestamp()
       .setTitle(personality.nDayEmbed.title)
       .setDescription(nDayEmbed.description)
-      .addFields(
-        { name: nDayEmbed.noteName, value: nDayEmbed.noteText },
-        { name: nDayEmbed.imageName, value: nDayEmbed.imageText }
-      )
-      .setImage(nDayEmbed.imageURL);
+      .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText });
 
     //create message and send it
     channel.send({ embeds: [embed], components: [actionRow] });
@@ -110,9 +114,9 @@ const addSeparationToDb = (client) => {
 
 export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
-  const xmasDate = dayjs(new Date(2022, 11, 25, 1)); //xmas date when to send
-  const nyDate = dayjs(new Date(2023, 0, 1, 1)); //new year date
-  const switchDate = dayjs(new Date(2022, 11, 27, 1)); //add separator to messages
+  const xmasDate = dayjs(new Date(2023, 11, 25, 1)); //xmas date when to send
+  const nyDate = dayjs(new Date(2024, 0, 1, 1)); //new year date
+  const switchDate = dayjs(new Date(2023, 11, 27, 1)); //add separator to messages
 
   const tomorrowMidnight = dayjs()
     .add(1, "day")
@@ -224,7 +228,7 @@ const command = new SlashCommandBuilder()
           .setDescription(
             PERSONALITY.getCommands().gift.accepting.userOption.description
           )
-          .setRequired(true)
+          .setRequired(false)
       )
   );
 
@@ -329,11 +333,21 @@ const action = async (interaction) => {
     //accepting subcommand
     const recipient = options.getUser(get.userOption.name, false);
     const accepting = personality.accepting;
-    const content = accepting.user + `<@${recipient.id}>`;
+    let content;
 
-    if (isGiftUser(db, recipient.id))
-      interactionReply(interaction, content + accepting.accept);
-    else interactionReply(interaction, content + accepting.notAccept);
+    //if recipient is given
+    if (recipient) {
+      content = accepting.user + `<@${recipient.id}>`;
+
+      if (isGiftUser(db, recipient.id))
+        interactionReply(interaction, content + accepting.accept);
+      else interactionReply(interaction, content + accepting.notAccept);
+    } else {
+      const users = getGiftUsers(db);
+      const usersText = users.map((id) => `\n<@${id}>`);
+      content = accepting.users + usersText;
+      interactionReply(interaction, content + accepting.accepts);
+    }
   }
 };
 
