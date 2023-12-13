@@ -80,8 +80,9 @@ export const finishEmbed = async (
     }); //if any text (reason or content), add it
 
   try {
+    const newEmbeds = logEmbed.length >= 1 ? [embed, ...logEmbed.slice(1)] : [embed];
     const message = await logChannel.send({
-      embeds: [embed, ...logEmbed.slice(1)],
+      embeds: newEmbeds,
       allowed_mentions: { parse: [] },
     }); //send
     if (attachments && attachments.length !== 0) {
