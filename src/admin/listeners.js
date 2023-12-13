@@ -428,7 +428,8 @@ export const onMessageDelete = async (message) => {
   }, []);
   const embeds = message.embeds.reduce(
     (acc, cur) => {
-      if (cur.type !== "gifv" && cur.type !== "image") return [...acc, cur]; //remove gif embeds
+      const data = cur.data;
+      if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
       return acc;
     },
     [embed]
