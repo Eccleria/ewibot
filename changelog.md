@@ -1,4 +1,5 @@
 ﻿## 5.5.3
+- Fix: wrong uptade value for PR ([#269](https://github.com/Eccleria/ewibot/pull/269)) ([#271](https://github.com/Eccleria/ewibot/pull/271)). ([#274](https://github.com/Eccleria/ewibot/pull/274))
 - Update: remove `messageUpdate` length filter which remove some important logs ([#269](https://github.com/Eccleria/ewibot/pull/269))
 - Update: `gift` ([#268](https://github.com/Eccleria/ewibot/issues/268)) ([#271](https://github.com/Eccleria/ewibot/pull/271))
 	- disable older buttons using a yearly `customId` recognition.
