@@ -732,7 +732,7 @@ export const onGuildBanRemove = (userBan) => {
   processGeneralEmbed(perso, userBan, "DarkNavy", logType, 1, "user", "user");
 };
 
-export const onGuildMemberUpdate = async (oldMember, newMember) => {
+export const onGuildMemberUpdate = async (_oldMember, newMember) => {
   //check if timeout added or removed
   //const oldIsTimeout = oldMember.isCommunicationDisabled();
   const newIsTimeout = newMember.isCommunicationDisabled();
