@@ -345,12 +345,12 @@ const action = async (interaction) => {
 
     //create new vote buttons + regroup with olders
     const settingButton = lastAR.components[lastAR.components.length - 1]; //get settings button
-    const lastARtest = ActionRowBuilder.from(lastAR);
-    lastARtest.components.splice(-1, 1);
+    const lastARsliced = ActionRowBuilder.from(lastAR);
+    lastARsliced.components.splice(-1, 1);
 
     const voteAR = [
       ...oldComponents.slice(0, -1),
-      lastARtest,
+      lastARsliced,
     ]; //filter actionRows
     const initComponents = {
       actionRows: voteAR,
