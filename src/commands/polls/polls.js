@@ -345,9 +345,12 @@ const action = async (interaction) => {
 
     //create new vote buttons + regroup with olders
     const settingButton = lastAR.components[lastAR.components.length - 1]; //get settings button
+    const lastARtest = ActionRowBuilder.from(lastAR);
+    lastARtest.components.splice(-1, 1);
+
     const voteAR = [
       ...oldComponents.slice(0, -1),
-      lastAR.spliceComponents(-1, 1),
+      lastARtest,
     ]; //filter actionRows
     const initComponents = {
       actionRows: voteAR,
@@ -356,7 +359,7 @@ const action = async (interaction) => {
     }; //init for reduce
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
-      const buttonId = +totalIdx.toString();
+      const buttonId = "polls_" + totalIdx.toString();
       const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
       const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
