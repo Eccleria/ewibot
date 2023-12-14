@@ -12,6 +12,7 @@
 	- update `readme` with recent and older changes ([#247](https://github.com/Eccleria/ewibot/pull/247)) ([#245](https://github.com/Eccleria/ewibot/pull/245))
 	- add more docstrings to functions/methods ([#247](https://github.com/Eccleria/ewibot/pull/247))
 	- add `canvas` (`concrete` + `vest`) + `helpers` + `announce` doc ([#259](https://github.com/Eccleria/ewibot/pull/259)) ([#245](https://github.com/Eccleria/ewibot/pull/245))
+- Fix: wrong behaviour if only one time value is set for `poll` timeout ([#276](https://github.com/Eccleria/ewibot/issues/276))
 - Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
 - Feat: add `vest` command, creating a personnalized `vest` with `user` data ([#259](https://github.com/Eccleria/ewibot/pull/259))
 - Feat: add admin `/personality` command ([#270](https://github.com/Eccleria/ewibot/pull/270))
