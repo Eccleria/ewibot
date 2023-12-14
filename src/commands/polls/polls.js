@@ -179,10 +179,11 @@ const action = async (interaction) => {
     const author = options.getUser(perso.authorOption.name, false); //author
 
     option = options.getNumber(perso.hourOption.name, false); //hours
-    const hours = option == null ? 48 : option;
+    const hours = option == null ? 0 : option;
     option = options.getNumber(perso.minuteOption.name, false); //minutes
-    const minutes = option == null ? 59 : option;
-    const timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    const minutes = option == null ? 0 : option;
+    let timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    if (timeout === 0) timeout = (48 * 60) * 60 * 1000; //2 days default value
     const pollDate = dayjs().millisecond(timeout).toISOString();
 
     //check if not too many choices
