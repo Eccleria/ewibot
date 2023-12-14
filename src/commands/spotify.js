@@ -1,3 +1,11 @@
+import dayjs from "dayjs";
+import "dayjs/locale/fr.js";
+import Duration from "dayjs/plugin/duration.js";
+import relativeTime from "dayjs/plugin/relativeTime.js";
+dayjs.locale("fr");
+dayjs.extend(Duration);
+dayjs.extend(relativeTime);
+
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 import {} from "./utils.js";
@@ -64,6 +72,7 @@ const spotify = {
     const perso = PERSONALITY.getCommands().spotify.help;
     interactionReply(interaction, perso);
   },
+  releaseDate: dayjs("12-25-2024", "MM-DD-YYYY"),
 };
 
 export default spotify;
