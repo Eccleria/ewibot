@@ -183,7 +183,7 @@ const action = async (interaction) => {
     option = options.getNumber(perso.minuteOption.name, false); //minutes
     const minutes = option == null ? 0 : option;
     let timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
-    if (timeout === 0) timeout = (48 * 60) * 60 * 1000; //2 days default value
+    if (timeout === 0) timeout = 48 * 60 * 60 * 1000; //2 days default value
     const pollDate = dayjs().millisecond(timeout);
 
     //check if not too many choices
@@ -274,7 +274,10 @@ const action = async (interaction) => {
 
     //add timeout embed
     const timeoutEmbed = new EmbedBuilder().setColor(color);
-    timeoutEmbed.addFields({name: perso.timeout, value: `<t:${pollDate.unix()}:R>`});
+    timeoutEmbed.addFields({
+      name: perso.timeout,
+      value: `<t:${pollDate.unix()}:R>`,
+    });
 
     //send poll
     try {
@@ -354,10 +357,7 @@ const action = async (interaction) => {
     const lastARsliced = ActionRowBuilder.from(lastAR);
     lastARsliced.components.splice(-1, 1);
 
-    const voteAR = [
-      ...oldComponents.slice(0, -1),
-      lastARsliced,
-    ]; //filter actionRows
+    const voteAR = [...oldComponents.slice(0, -1), lastARsliced]; //filter actionRows
     const initComponents = {
       actionRows: voteAR,
       size: voteAR[voteAR.length - 1].components.length,

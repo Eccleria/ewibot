@@ -252,7 +252,9 @@ export const refreshPollButtonAction = async (interaction) => {
  */
 const editButtonStatus = (components, status = true) => {
   const edited = components.reduce((acc, cur) => {
-    cur.components.forEach((button) => ButtonBuilder.from(button).setDisabled(status)); //set buttons status of cur actionRow
+    cur.components.forEach((button) =>
+      ButtonBuilder.from(button).setDisabled(status)
+    ); //set buttons status of cur actionRow
     return [...acc, cur];
   }, []);
   return edited;
