@@ -408,6 +408,7 @@
           "name": "create",
           "sent": "Le sondage a été envoyé.",
           "settings": "settings",
+          "timeout": "Fin du sondage",
           "titleOption": {
             "description": "Titre du sondage.",
             "name": "titre"

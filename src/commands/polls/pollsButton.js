@@ -3,6 +3,7 @@ import {
   StringSelectMenuBuilder,
   ButtonStyle,
   EmbedBuilder,
+  ButtonBuilder,
 } from "discord.js";
 import {
   fetchPollMessage,
@@ -173,7 +174,7 @@ export const resetPollButtonAction = async (interaction) => {
   embed.setFields(newFields);
 
   //update message
-  const editedPollMessage = { embeds: [embed] }; //update embed
+  const editedPollMessage = { embeds: [embed, ...pollMessage.embeds.slice(1)] }; //update embed
   editedPollMessage.components = pollMessage.components; //get old buttons
   pollMessage.edit(editedPollMessage); //update message
 
@@ -251,7 +252,7 @@ export const refreshPollButtonAction = async (interaction) => {
  */
 const editButtonStatus = (components, status = true) => {
   const edited = components.reduce((acc, cur) => {
-    cur.components.forEach((button) => button.setDisabled(status)); //set buttons status of cur actionRow
+    cur.components.forEach((button) => ButtonBuilder.from(button).setDisabled(status)); //set buttons status of cur actionRow
     return [...acc, cur];
   }, []);
   return edited;

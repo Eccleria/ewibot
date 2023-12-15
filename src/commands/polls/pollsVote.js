@@ -172,6 +172,6 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
 
   //update embed
   pollEmbed.setFields(...newFields);
-  await message.edit({ embeds: [pollEmbed], components: message.components });
+  await message.edit({ embeds: [pollEmbed, ...message.embeds.slice(1)], components: message.components });
   await interactionEditReply(interaction, perso.counted);
 };

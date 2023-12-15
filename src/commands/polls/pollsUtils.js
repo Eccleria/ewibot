@@ -170,7 +170,7 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
 
   //update message
   embed.setFields(newFields);
-  await pollMessage.edit({ embeds: [embed] });
+  await pollMessage.edit({ embeds: [embed, ...pollMessage.embeds.slice(1)] });
 };
 
 /**
@@ -196,7 +196,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
   }); //init with old names
   const newFields = refreshPollFields(dbPoll, newFieldsInit);
   pollEmbed.setFields(newFields);
-  editedPollMessage.embeds = [pollEmbed];
+  editedPollMessage.embeds = [pollEmbed, ...pollMessage.embeds.slice(1)];
   editedPollMessage.components = []; //remove polls buttons
 
   removePoll(db, pollMessage.id); //remove from db

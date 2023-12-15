@@ -108,7 +108,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //update pollMessage
   const message = await pollMessage.edit({
-    embeds: [embed],
+    embeds: [embed, ...pollMessage.embeds.slice(1)],
     components: newComponents,
   });
   if (message) {
@@ -210,8 +210,12 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       embed.setColor(color); //change color
       embed.setFields(newFields); //change fields colorbar
 
+      //update timeout embed
+      const timeoutEmbed = EmbedBuilder.from(pollMessage.embeds[1]); //get embed
+      timeoutEmbed.setColor(color); //change color
+
       //send changes
-      const editedPollMessage = { embeds: [embed] }; //update embed
+      const editedPollMessage = { embeds: [embed, timeoutEmbed] }; //update embed
       updatePollParam(db, pollMessage.id, "colorIdx", colorIdx);
       pollMessage.edit(editedPollMessage);
       interactionEditReply(interaction, {
@@ -297,7 +301,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         embed.setFooter({ text: newFooter + fPerso.options });
 
         //send
-        pollMessage.edit({ embeds: [embed] });
+        pollMessage.edit({ embeds: [embed, ...pollMessage.embeds.slice(1)] });
         const payload = { content: perso.voteMaxChanged, components: [] };
         interactionEditReply(interaction, payload);
       }

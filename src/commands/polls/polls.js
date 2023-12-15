@@ -184,7 +184,7 @@ const action = async (interaction) => {
     const minutes = option == null ? 0 : option;
     let timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
     if (timeout === 0) timeout = (48 * 60) * 60 * 1000; //2 days default value
-    const pollDate = dayjs().millisecond(timeout).toISOString();
+    const pollDate = dayjs().millisecond(timeout);
 
     //check if not too many choices
     const splited = choices.split(";");
@@ -204,10 +204,11 @@ const action = async (interaction) => {
       embed.setAuthor({ name: author.username, iconURL: author.avatarURL() });
 
     //write footer according to voteMax
-    const footerText =
+    const voteFooter =
       voteMax === 1
-        ? perso.footer.unique + perso.footer.options
-        : perso.footer.multiple + ` (${voteMax})` + perso.footer.options;
+        ? perso.footer.unique
+        : perso.footer.multiple + ` (${voteMax})`;
+    const footerText = voteFooter + perso.footer.options;
     embed.setFooter({ text: footerText });
 
     // Optionnal parameters
@@ -271,10 +272,14 @@ const action = async (interaction) => {
         settingButton
       );
 
+    //add timeout embed
+    const timeoutEmbed = new EmbedBuilder().setColor(color);
+    timeoutEmbed.addFields({name: perso.timeout, value: `<t:${pollDate.unix()}:R>`});
+
     //send poll
     try {
       const pollMsg = await interaction.channel.send({
-        embeds: [embed],
+        embeds: [embed, timeoutEmbed],
         components: components.actionRows,
       });
       pollButtonCollector(pollMsg, timeout); //start listening to interactions
@@ -292,7 +297,7 @@ const action = async (interaction) => {
         colorIdx,
         voteMax,
         title,
-        pollDate
+        pollDate.toISOString()
       ); //add to db
     } catch (e) {
       console.log("/polls create error\n", e);
