@@ -1,3 +1,4 @@
+import { ActivityType } from "discord.js";
 import { octagonalLog } from "./admin/utils.js";
 import {
   //db
@@ -24,23 +25,23 @@ const optionalActivities = () => {
   if (today.getMonth() == 9 && today.getDate() == 31)
     activities = [
       ...activities,
-      { name: "compter ses bonbons", type: "PLAYING" },
+      { name: "compter ses bonbons", type: ActivityType.Playing },
     ];
   return activities;
 };
 
 // activity list
 const activityList = [
-  { name: "Adrien Sépulchre", type: "LISTENING" },
-  { name: "JDR Ewilan par Charlie", type: "PLAYING" },
+  { name: "Adrien Sépulchre", type: ActivityType.Listening },
+  { name: "JDR Ewilan par Charlie", type: ActivityType.Playing },
   {
     name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(),
-    type: "WATCHING",
+    type: ActivityType.Watching,
   },
-  { name: "la bataille contre Azan", type: "COMPETING" },
-  { name: "la création d'Al-Jeit", type: "COMPETING" },
-  { name: "épier les clochinettes", type: "PLAYING" },
-  { name: "compter les poêles", type: "PLAYING" },
+  { name: "la bataille contre Azan", type: ActivityType.Competing },
+  { name: "la création d'Al-Jeit", type: ActivityType.Competing },
+  { name: "épier les clochinettes", type: ActivityType.Playing },
+  { name: "compter les poêles", type: ActivityType.Playing },
   ...optionalActivities(),
 ];
 
@@ -51,7 +52,7 @@ const activityList = [
 export const updateActivity = (client) => {
   // set random waiting time for updating Ewibot activity
 
-  const waitingTime = (20 * Math.random() + 4) * 3600 * 1000;
+  const waitingTime = (4 * Math.random() + 4) * 3600 * 1000;
   setTimeout(() => {
     setActivity(client);
     updateActivity(client);
