@@ -1,3 +1,4 @@
+import { ActivityType } from "discord.js";
 import { octagonalLog } from "./admin/utils.js";
 import {
   //db
@@ -14,7 +15,6 @@ import {
   removePunctuation,
 } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
-import { ActivityType } from "discord.js";
 
 //#region ACTIVITY
 
