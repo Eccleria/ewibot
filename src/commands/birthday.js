@@ -3,16 +3,31 @@ import CustomParseFormat from "dayjs/plugin/customParseFormat.js";
 import "dayjs/locale/fr.js";
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
-
 import { SlashCommandBuilder } from "@discordjs/builders";
-
-import { interactionReply } from "./utils.js";
 import {
   addBirthday,
+  interactionReply,
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
+import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
+
+export const initBirthdays = (client, tomorrowDiff, frequency) => {
+  const db = client.db;
+
+  setTimeout(async () => {
+    // init birthday check
+    const server =
+      process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+    const channel = await client.channels.fetch(server.randomfloodChannelId);
+    console.log("hello, timeoutBirthday");
+
+    wishBirthday(db, channel);
+
+    setInterval(wishBirthday, frequency, db, channel); // Set birthday check every morning @ 8am.
+  }, tomorrowDiff);
+};
 
 export const wishBirthday = async (db, channel) => {
   // Wish birthdays if there are some

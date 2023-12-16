@@ -3,13 +3,14 @@ import {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
 } from "@discordjs/builders";
-
-import { PERSONALITY } from "../personality.js";
+import { Colors, EmbedBuilder } from "discord.js";
+import {
+  checkEmbedContent,
+  fetchLogChannel,
+  interactionReply,
+} from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
-
-import { interactionReply, dispatchSlicedEmbedContent } from "./utils.js";
-import { MessageEmbed } from "discord.js";
-import { getLogChannel } from "../admin/utils.js";
+import { PERSONALITY } from "../personality.js";
 
 const reverseStr = (string) => {
   let reversed = "";
@@ -86,7 +87,7 @@ const contextAction = async (interaction) => {
   const rTPerso = PERSONALITY.getCommands().reverseTranslator;
 
   //if in log_channel => should handle embed contents + send as visible for anyone
-  const server = COMMONS.fetchGuildId(interaction.guildId);
+  const server = COMMONS.fetchFromGuildId(interaction.guildId);
   const channels = [server.logChannelId, server.logThreadId];
   let string;
   if (channels.includes(interaction.channelId)) {
@@ -95,7 +96,7 @@ const contextAction = async (interaction) => {
 
     //get embed data
     const embeds = message.embeds;
-    const fields = embeds.length !== 0 ? embeds[0].fields : null;
+    const fields = embeds.length !== 0 ? embeds[0].data.fields : null;
     const title = embeds[0].title;
 
     //check for precedent translation
@@ -107,7 +108,7 @@ const contextAction = async (interaction) => {
       return;
     }
 
-    const embedTr = new MessageEmbed().setTitle(rTPerso.title).setTimestamp();
+    const embedTr = new EmbedBuilder().setTitle(rTPerso.title).setTimestamp();
 
     if (title === adminPerso.messageDelete.title) {
       const mDPerso = adminPerso.messageDelete;
@@ -123,9 +124,9 @@ const contextAction = async (interaction) => {
         ? reversed.slice(2, -2)
         : reversed;
 
-      embedTr.setColor("DARK_RED");
+      embedTr.setColor(Colors.DarkRed);
 
-      dispatchSlicedEmbedContent(content, embedTr, mDPerso);
+      checkEmbedContent(content, embedTr, mDPerso);
     } else if (title === adminPerso.messageUpdate.title) {
       const mUPerso = adminPerso.messageUpdate;
 
@@ -157,8 +158,8 @@ const contextAction = async (interaction) => {
 
       embedTr.setColor("DARK_GREEN");
 
-      dispatchSlicedEmbedContent(oContent, embedTr, mUPerso.contentOld);
-      dispatchSlicedEmbedContent(nContent, embedTr, mUPerso.contentNew);
+      checkEmbedContent(oContent, embedTr, mUPerso.contentOld);
+      checkEmbedContent(nContent, embedTr, mUPerso.contentNew);
     }
 
     //add interaction author
@@ -172,7 +173,7 @@ const contextAction = async (interaction) => {
     const size = newEmbeds.reduce((acc, cur) => acc + cur.length, 0);
     if (size > 6000) {
       message.delete(); //delete old log which will be doublon
-      const logChannel = await getLogChannel(interaction, "thread");
+      const logChannel = await fetchLogChannel(interaction, "thread");
       const msg = await logChannel.send({ embeds: embeds });
       msg.reply({ embeds: [embedTr] });
     } else {

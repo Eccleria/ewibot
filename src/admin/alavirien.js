@@ -1,10 +1,8 @@
 import dayjs from "dayjs";
-
-import { removeAlavirien } from "../helpers/index.js";
-import { setupEmbed, finishEmbed } from "./utils.js";
-import { isSentinelle } from "../commands/utils.js";
-import { PERSONALITY } from "../personality.js";
+import { finishEmbed } from "./utils.js";
+import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const presentationHandler = async (
   server,
@@ -40,7 +38,7 @@ const giveAlavirien = async (client, server, personality, userId) => {
     removeAlavirien(client.db, userId); //remove from db
 
     //send log
-    const embed = setupEmbed("DARK_GREY", personality, guildMember.user, "tag"); //create log
+    const embed = setupEmbed("DarkGrey", personality, guildMember.user, "tag"); //create log
     finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, logChannel); //send
   }
 };

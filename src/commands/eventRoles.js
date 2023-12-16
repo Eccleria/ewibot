@@ -1,14 +1,20 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import {
+  ActionRowBuilder,
+  EmbedBuilder,
+  ButtonStyle,
+  Colors,
+} from "discord.js";
 
-import { createButton, interactionReply } from "./utils.js";
+import { createButton } from "./utils.js";
 import {
   addEventRole,
   getEventRoles,
+  interactionReply,
   updateEventRoleMessageId,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
@@ -23,7 +29,7 @@ export const eventRolesButtonHandler = async (interaction) => {
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
   //get alavirien role id
-  const currentServer = COMMONS.fetchGuildId(guildId);
+  const currentServer = COMMONS.fetchFromGuildId(guildId);
 
   //give requested role
   const guildMember = !interaction.member
@@ -32,7 +38,7 @@ export const eventRolesButtonHandler = async (interaction) => {
 
   if (
     guildMember &&
-    guildMember.roles.cache.has(currentServer.alavirienRoleId)
+    guildMember.roles.cache.hasAll(currentServer.alavirienRoleId)
   ) {
     if (!guildMember.roles.cache.has(eventRoleId)) {
       await guildMember.roles.add(eventRoleId);
@@ -92,20 +98,20 @@ const action = async (interaction) => {
   const options = interaction.options;
   const subcommand = options.getSubcommand();
 
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
 
   const db = interaction.client.db;
-  const buttonType = "PRIMARY";
+  const buttonType = ButtonStyle.Primary;
 
   if (subcommand === personality.send.name) {
     //send subcommand
     const perso = personality.send; //get personality
 
     //setup embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(perso.embed.title)
       .setDescription(perso.embed.description)
-      .setColor("NAVY")
+      .setColor(Colors.Navy)
       .addFields(perso.embed.fields);
 
     //setup buttons
@@ -131,7 +137,7 @@ const action = async (interaction) => {
       "822479563077976065"
     );
     const components = [CDLButton, tournamentButton, voiceButton, miscButton];
-    const actionRow = new MessageActionRow().addComponents(components);
+    const actionRow = new ActionRowBuilder().addComponents(components);
 
     //get channel where to send
     const guild = await interaction.guild.fetch();
@@ -186,7 +192,7 @@ const action = async (interaction) => {
     const newRoleObj = {
       name: slicedName,
       permisions: baseRole.permisions,
-      reason: `Demandé par ${interaction.member.toString()}`,
+      reason: perso.author + interaction.member.toString(),
     };
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
@@ -195,9 +201,9 @@ const action = async (interaction) => {
 
     //update embed
     const newField = { name: name, value: embedValue, inline: true };
-    const embed = roleMessage.embeds[0];
-    const fields = embed.fields;
-    const blankNumber = embed.fields.reduce(
+    const embed = EmbedBuilder.from(roleMessage.embeds[0]);
+    const fields = embed.data.fields;
+    const blankNumber = fields.reduce(
       (acc, cur) => acc + Number(cur.name === "\u200b"),
       0
     );
@@ -211,7 +217,7 @@ const action = async (interaction) => {
     //create new button
     const emoteId = name.includes("<") ? name.split(">")[0] : null;
     const newButton = createButton(
-      "eventRole_" + slicedName,
+      perso.prefix + slicedName,
       slicedName,
       buttonType,
       emoteId
@@ -219,14 +225,19 @@ const action = async (interaction) => {
 
     //create new vote buttons + regroup with olders
     const oldComponents = roleMessage.components;
-    const lastARSize =
-      oldComponents[oldComponents.length - 1].components.length;
+    const oComponents = oldComponents.reduce(
+      (acc, cur) => [...acc, ActionRowBuilder.from(cur)],
+      []
+    );
+    const lastARSize = oComponents[oComponents.length - 1].components.length;
     const newComponents =
       lastARSize === 5
-        ? [...oldComponents, new MessageActionRow().addComponents(newButton)]
+        ? [...oComponents, new ActionRowBuilder().addComponents(newButton)]
         : [
-            ...oldComponents.slice(0, -1),
-            oldComponents[oldComponents.length - 1].addComponents(newButton),
+            ...oComponents.slice(0, -1),
+            ActionRowBuilder.from(
+              oComponents[oComponents.length - 1]
+            ).addComponents(newButton),
           ];
 
     //edit message
@@ -236,23 +247,26 @@ const action = async (interaction) => {
     });
 
     //reply to interaction
-    if (status && status2) interactionReply(interaction, "c'est bon");
+    if (status && status2) interactionReply(interaction, perso.ok);
     else interactionReply(interaction, perso.errorGeneral);
   }
 };
 
 const eventRoles = {
   // Allows Ewibot to send event roles message and update it
-  name: "eventRoles",
   command: command,
   action,
-  help: (interaction) => {
-    interactionReply(interaction, PERSONALITY.getCommands().eventRoles.help);
+  help: (interaction, userOption) => {
+    const personality = PERSONALITY.getCommands().eventRoles;
+    const helpToUse = userOption.includes(" ")
+      ? personality[userOption.split(" ")[1]]
+      : personality;
+    interactionReply(interaction, helpToUse.help);
   },
   admin: true,
   releaseDate: null,
   sentinelle: false,
-  subcommands: [],
+  subcommands: ["event-roles", "event-roles create", "event-roles send"],
 };
 
 export default eventRoles;

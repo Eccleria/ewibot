@@ -1,6 +1,5 @@
-import { gifRecovery } from "./admin/utils.js";
 import { addServerEmojiCount } from "./helpers/db/dbStats.js";
-import { parseEmoji, statsKeys } from "./helpers/index.js";
+import { gifRecovery, parseEmoji, statsKeys } from "./helpers/index.js";
 import { addStatsData, addEmojiData } from "./helpers/index.js";
 
 /**

@@ -1,8 +1,7 @@
-import { MessageActionRow } from "discord.js";
-import { PERSONALITY } from "../personality.js";
-
-import { setupEmbed } from "../admin/utils.js";
+import { ActionRowBuilder, ButtonStyle } from "discord.js";
 import { createButton } from "./utils.js";
+import { setupEmbed } from "../helpers/index.js";
+import { PERSONALITY } from "../personality.js";
 
 const action = async (message, _client, currentServer) => {
   const { pronounsRoleHandleChannelId } = currentServer;
@@ -15,31 +14,31 @@ const action = async (message, _client, currentServer) => {
   const agreements = personality.pronouns.agreements;
 
   //create all buttons
-  const style = "SECONDARY"; //grey background
+  const style = ButtonStyle.Secondary; //grey background
   const base = personality.pronouns.baseId;
-  const rowP1 = new MessageActionRow().addComponents(
+  const rowP1 = new ActionRowBuilder().addComponents(
     createButton(base + "he", pronounsP.he, style),
     createButton(base + "she", pronounsP.she, style),
     createButton(base + "they", pronounsP.they, style),
     createButton(base + "ael", pronounsP.ael, style),
     createButton(base + "askP", pronounsP.ask, style)
   );
-  const rowP2 = new MessageActionRow().addComponents(
+  const rowP2 = new ActionRowBuilder().addComponents(
     createButton(base + "no", pronounsP.no, style),
     createButton(base + "allP", pronounsP.all, style),
-    createButton(base + "cancelP", pronounsP.cancel, "DANGER") //red background
+    createButton(base + "cancelP", pronounsP.cancel, ButtonStyle.Danger) //red background
   );
   const rowsPronouns = [rowP1, rowP2];
 
-  const rowA1 = new MessageActionRow().addComponents(
+  const rowA1 = new ActionRowBuilder().addComponents(
     createButton(base + "male", agreements.male, style),
     createButton(base + "neutral", agreements.neutral, style),
     createButton(base + "female", agreements.female, style),
     createButton(base + "askA", agreements.ask, style),
     createButton(base + "allA", agreements.all, style)
   );
-  const rowA2 = new MessageActionRow().addComponents(
-    createButton(base + "cancelA", agreements.cancel, "DANGER") //red background
+  const rowA2 = new ActionRowBuilder().addComponents(
+    createButton(base + "cancelA", agreements.cancel, ButtonStyle.Danger) //red background
   );
   const rowAgreement = [rowA1, rowA2];
 

@@ -1,13 +1,18 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageActionRow, MessageEmbed } from "discord.js";
-import { addPoll, addPollChoices } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
-import { pollButtonCollector } from "./pollsCollectors.js";
-import { createButton, interactionReply } from "../utils.js";
-import { parsePollFields, stopPoll } from "./pollsUtils.js";
-import { getPollFromTitle, getPollsTitles } from "../../helpers/db/dbPolls.js";
-import { COMMONS } from "../../commons.js";
 import dayjs from "dayjs";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
+import { pollButtonCollector } from "./pollsCollectors.js";
+import { parsePollFields, stopPoll } from "./pollsUtils.js";
+import { createButton } from "../utils.js";
+import {
+  addPoll,
+  addPollChoices,
+  getPollFromTitle,
+  getPollsTitles,
+  interactionReply,
+} from "../../helpers/index.js";
+import { COMMONS } from "../../commons.js";
+import { PERSONALITY } from "../../personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().polls.name)
@@ -146,7 +151,7 @@ const action = async (interaction) => {
 
   //check for alavirien.ne role
   const guildMember = await interaction.member.fetch();
-  const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
   if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
     interactionReply(interaction, personality.errorNotAlavirien);
     return;
@@ -169,16 +174,17 @@ const action = async (interaction) => {
     const voteMax = option == null ? 1 : option;
 
     option = options.getString(perso.colorOption.name, false); //color
-    const color = option == null ? pColors.choices[4].value : option;
+    const color = option == null ? pColors.choices[2].value : option;
 
     const author = options.getUser(perso.authorOption.name, false); //author
 
     option = options.getNumber(perso.hourOption.name, false); //hours
-    const hours = option == null ? 48 : option;
+    const hours = option == null ? 0 : option;
     option = options.getNumber(perso.minuteOption.name, false); //minutes
-    const minutes = option == null ? 59 : option;
-    const timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
-    const pollDate = dayjs().millisecond(timeout).toISOString();
+    const minutes = option == null ? 0 : option;
+    let timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    if (timeout === 0) timeout = 48 * 60 * 60 * 1000; //2 days default value
+    const pollDate = dayjs().millisecond(timeout);
 
     //check if not too many choices
     const splited = choices.split(";");
@@ -188,7 +194,7 @@ const action = async (interaction) => {
     }
 
     //create embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(title)
       .setTimestamp()
       .setColor(color);
@@ -198,10 +204,11 @@ const action = async (interaction) => {
       embed.setAuthor({ name: author.username, iconURL: author.avatarURL() });
 
     //write footer according to voteMax
-    const footerText =
+    const voteFooter =
       voteMax === 1
-        ? perso.footer.unique + perso.footer.options
-        : perso.footer.multiple + ` (${voteMax})` + perso.footer.options;
+        ? perso.footer.unique
+        : perso.footer.multiple + ` (${voteMax})`;
+    const footerText = voteFooter + perso.footer.options;
     embed.setFooter({ text: footerText });
 
     // Optionnal parameters
@@ -222,13 +229,13 @@ const action = async (interaction) => {
       (acc, cur, idx) => {
         //create button
         const buttonId = "polls_" + idx.toString();
-        const button = createButton(buttonId, null, "SECONDARY", cur);
+        const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
         const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
         //handle actionRow maxe size of 5 components.
         if (idx === 0 || acc.size === 5) {
           //if first button or last AR is full
-          const newRow = new MessageActionRow().addComponents(button);
+          const newRow = new ActionRowBuilder().addComponents(button);
           return {
             actionRows: [...acc.actionRows, newRow],
             size: 1,
@@ -249,21 +256,33 @@ const action = async (interaction) => {
     );
 
     //add setting button
-    const settingId = "polls_" + "settings";
-    const settingButton = createButton(settingId, null, "SECONDARY", "⚙️");
+    const settingId = personality.prefix + perso.settings;
+    const settingButton = createButton(
+      settingId,
+      null,
+      ButtonStyle.Secondary,
+      "⚙️"
+    );
     if (components.size === 5) {
       //if actionRow is full, create one more
-      const newRow = new MessageActionRow().addComponents(settingButton);
+      const newRow = new ActionRowBuilder().addComponents(settingButton);
       components.actionRows.push(newRow);
     } else
       components.actionRows[components.actionRows.length - 1].addComponents(
         settingButton
       );
 
+    //add timeout embed
+    const timeoutEmbed = new EmbedBuilder().setColor(color);
+    timeoutEmbed.addFields({
+      name: perso.timeout,
+      value: `<t:${pollDate.unix()}:R>`,
+    });
+
     //send poll
     try {
       const pollMsg = await interaction.channel.send({
-        embeds: [embed],
+        embeds: [embed, timeoutEmbed],
         components: components.actionRows,
       });
       pollButtonCollector(pollMsg, timeout); //start listening to interactions
@@ -281,7 +300,7 @@ const action = async (interaction) => {
         colorIdx,
         voteMax,
         title,
-        pollDate
+        pollDate.toISOString()
       ); //add to db
     } catch (e) {
       console.log("/polls create error\n", e);
@@ -310,8 +329,8 @@ const action = async (interaction) => {
 
     //get pollMessage
     const pollMessage = await interaction.channel.messages.fetch(dbPoll.pollId);
-    const embed = pollMessage.embeds[0];
-    const fields = embed.fields;
+    const embed = EmbedBuilder.from(pollMessage.embeds[0]);
+    const fields = embed.data.fields;
 
     //check for choices number
     if (fields.length + splited.length > 10) {
@@ -335,10 +354,10 @@ const action = async (interaction) => {
 
     //create new vote buttons + regroup with olders
     const settingButton = lastAR.components[lastAR.components.length - 1]; //get settings button
-    const voteAR = [
-      ...oldComponents.slice(0, -1),
-      lastAR.spliceComponents(-1, 1),
-    ]; //filter actionRows
+    const lastARsliced = ActionRowBuilder.from(lastAR);
+    lastARsliced.components.splice(-1, 1);
+
+    const voteAR = [...oldComponents.slice(0, -1), lastARsliced]; //filter actionRows
     const initComponents = {
       actionRows: voteAR,
       size: voteAR[voteAR.length - 1].components.length,
@@ -347,11 +366,11 @@ const action = async (interaction) => {
     const newComponents = results.emotes.reduce((acc, cur, idx) => {
       const totalIdx = idx + totalSize;
       const buttonId = "polls_" + totalIdx.toString();
-      const button = createButton(buttonId, null, "SECONDARY", cur);
+      const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
       const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
 
       if (acc.size === 5) {
-        const newRow = new MessageActionRow().addComponents(button);
+        const newRow = new ActionRowBuilder().addComponents(button);
         return {
           actionRows: [...acc.actionRows, newRow],
           size: 1,
@@ -371,7 +390,7 @@ const action = async (interaction) => {
     //add again settingsButton
     if (newComponents.size === 5) {
       //if actionRow is full, create one more
-      const newRow = new MessageActionRow().addComponents(settingButton);
+      const newRow = new ActionRowBuilder().addComponents(settingButton);
       newComponents.actionRows.push(newRow);
     } else
       newComponents.actionRows[

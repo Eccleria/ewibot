@@ -1,10 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChannelType } from "discord-api-types/v9";
-import { isAdmin } from "../helpers/utils.js";
-//import { ChannelType } from "discord.js"; //for discordjs v14
-
+import { AttachmentBuilder, ChannelType } from "discord.js";
+import { interactionReply, isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import { interactionReply } from "./utils.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
@@ -122,10 +119,14 @@ const action = async (interaction) => {
 
     //get interaction options
     const content = options.getString(sPerso.stringOption.name, false);
-    const attachment = options.getAttachment(
+    const foundAttachment = options.getAttachment(
       sPerso.attachmentOption.name,
       false
     );
+    const attachment = foundAttachment
+      ? AttachmentBuilder.from(foundAttachment)
+      : null;
+
     const fetchedChannel = options.getChannel(sPerso.channelOption.name, false);
     const toSpoil = options.getBoolean(sPerso.booleanOption.name, false);
 
@@ -200,8 +201,9 @@ const action = async (interaction) => {
 const botMessage = {
   command,
   action,
-  help: () => {
-    return PERSONALITY.getCommands().botMessage.help;
+  help: (interaction) => {
+    const perso = PERSONALITY.getCommands().botMessage;
+    interactionReply(interaction, perso.help);
   },
   admin: true,
   sentinelle: false,

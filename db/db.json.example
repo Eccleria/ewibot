@@ -25,7 +25,7 @@
     {
       "name": "test",
       "guildId": "926909708072284170",
-      "roleMessageId": "1083472077497040947",
+      "roleMessageId": "1144384534620667944",
       "baseRoleId": "959360675451383828",
       "CDLRoleId": "1082032288398852156",
       "tournamentRoleId": "1082033302325690408",
@@ -35,7 +35,7 @@
     {
       "name": "prod",
       "guildId": "816961245743808582",
-      "roleMessageId": "",
+      "roleMessageId": "1084576192847429642",
       "baseRoleId": "959085951559290882",
       "CDLRoleId": "1082760577312620604",
       "tournamentRoleId": "1082761295469748287",

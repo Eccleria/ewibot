@@ -1,4 +1,25 @@
-﻿## 5.5.3
+## 6.0.0
+- Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- admin/commands utils that are shared in another folder were moved in helpers utils file
+	- `Commons` class and some functions (`setupEmbed`, `finishEmbed`) were simplified
+	- `listeners` are now more consistent (`onInteractionCreate`, `onMessageCreate` moved)
+	- a lot of function names were modified for easier understanding
+	- `concrete` folder were move in pics, for future pictures fonctionalities
+	- simplify `bot` main file
+	- add jest for future unit testing and auto tests
+	- public `text` are now in personality
+- Doc:
+	- update `readme` with recent and older changes ([#247](https://github.com/Eccleria/ewibot/pull/247)) ([#245](https://github.com/Eccleria/ewibot/pull/245))
+	- add more docstrings to functions/methods ([#247](https://github.com/Eccleria/ewibot/pull/247))
+	- add `canvas` (`concrete` + `vest`) + `helpers` + `announce` doc ([#259](https://github.com/Eccleria/ewibot/pull/259)) ([#245](https://github.com/Eccleria/ewibot/pull/245))
+- Fix: wrong behaviour if only one time value is set for `poll` timeout ([#276](https://github.com/Eccleria/ewibot/issues/276))
+- Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
+- Feat: add `vest` command, creating a personnalized `vest` with `user` data ([#259](https://github.com/Eccleria/ewibot/pull/259))
+- Feat: add admin `/personality` command ([#270](https://github.com/Eccleria/ewibot/pull/270))
+- Feat: add `poll` ending time in a new embed ([#277](https://github.com/Eccleria/ewibot/issues/277))
+- Update: `concrete` and `vest` store pp hash in pic name for easier pic update ([#260](https://github.com/Eccleria/ewibot/pull/260))
+
+## 5.5.3
 - Fix: wrong uptade value for PR ([#269](https://github.com/Eccleria/ewibot/pull/269)) ([#271](https://github.com/Eccleria/ewibot/pull/271)). ([#274](https://github.com/Eccleria/ewibot/pull/274))
 - Update: remove `messageUpdate` length filter which remove some important logs ([#269](https://github.com/Eccleria/ewibot/pull/269))
 - Update: `gift` ([#268](https://github.com/Eccleria/ewibot/issues/268)) ([#271](https://github.com/Eccleria/ewibot/pull/271))
