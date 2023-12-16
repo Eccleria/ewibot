@@ -16,6 +16,7 @@
 - Feat: add admin `/reaction` command to make the bot react to designated message ([#251](https://github.com/Eccleria/ewibot/pull/251))
 - Feat: add `vest` command, creating a personnalized `vest` with `user` data ([#259](https://github.com/Eccleria/ewibot/pull/259))
 - Feat: add admin `/personality` command ([#270](https://github.com/Eccleria/ewibot/pull/270))
+- Feat: add `poll` ending time in a new embed ([#277](https://github.com/Eccleria/ewibot/issues/277))
 - Update: `concrete` and `vest` store pp hash in pic name for easier pic update ([#260](https://github.com/Eccleria/ewibot/pull/260))
 
 ## 5.5.3
