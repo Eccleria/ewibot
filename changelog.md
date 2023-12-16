@@ -18,9 +18,16 @@
 - Feat: add admin `/personality` command ([#270](https://github.com/Eccleria/ewibot/pull/270))
 - Update: `concrete` and `vest` store pp hash in pic name for easier pic update ([#260](https://github.com/Eccleria/ewibot/pull/260))
 
+## 5.5.3
+- Fix: wrong uptade value for PR ([#269](https://github.com/Eccleria/ewibot/pull/269)) ([#271](https://github.com/Eccleria/ewibot/pull/271)). ([#274](https://github.com/Eccleria/ewibot/pull/274))
+- Update: remove `messageUpdate` length filter which remove some important logs ([#269](https://github.com/Eccleria/ewibot/pull/269))
+- Update: `gift` ([#268](https://github.com/Eccleria/ewibot/issues/268)) ([#271](https://github.com/Eccleria/ewibot/pull/271))
+	- disable older buttons using a yearly `customId` recognition.
+	- update dates to 2023 case
+	- `/gift accepting` now display full tag list if no `recipient` argument
+
 ## 5.5.2
 - Feat: optional `activity` for Halloween ([#262](https://github.com/Eccleria/ewibot/issues/262)) ([#263](https://github.com/Eccleria/ewibot/pull/263)) ([#264](https://github.com/Eccleria/ewibot/pull/264))
-- Update: remove `messageUpdate` length filter which remove some important logs ([#269](https://github.com/Eccleria/ewibot/pull/269))
 
 ## 5.5.1
 - Fix: wrong `author` on some `onThreadCreate` log when `thread` is created ([#252](https://github.com/Eccleria/ewibot/issues/252)) ([#253](https://github.com/Eccleria/ewibot/pull/253))
