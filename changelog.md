@@ -1,5 +1,8 @@
 ﻿## 6.1.0
 - Fix: `activity` not using `ActivityType` ([#278](https://github.com/Eccleria/ewibot/issues/278)) ([#279](https://github.com/Eccleria/ewibot/pull/279))
+- Fix: `/vest` ([#280](https://github.com/Eccleria/ewibot/pull/280))
+	- missing credits in `/help`
+	- wrong behaviour on vest send
 - Update: reduce `activity` timeout max duration ([#279](https://github.com/Eccleria/ewibot/pull/279))
 
 ## 6.0.0
