@@ -3,6 +3,7 @@
 - Fix: `/vest` ([#280](https://github.com/Eccleria/ewibot/pull/280))
 	- missing credits in `/help`
 	- wrong behaviour on vest send
+- Fix: `/polls nouveau-choix` removing timeout embed ([#282](https://github.com/Eccleria/ewibot/pull/282))
 - Update: reduce `activity` timeout max duration ([#279](https://github.com/Eccleria/ewibot/pull/279))
 
 ## 6.0.0
