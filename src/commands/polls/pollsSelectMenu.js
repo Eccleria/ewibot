@@ -1,4 +1,9 @@
-import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  EmbedBuilder,
+  StringSelectMenuBuilder,
+  ButtonBuilder,
+} from "discord.js";
 import {
   interactionEditReply,
   fetchPollMessage,
@@ -12,7 +17,6 @@ import {
   updatePollParam,
   isPollEmptyVotes,
 } from "../../helpers/index.js";
-
 import { PERSONALITY } from "../../personality.js";
 
 export const pollSelectMenuHandler = async (interaction) => {
@@ -33,7 +37,8 @@ export const pollSelectMenuHandler = async (interaction) => {
 
 const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const selected = interaction.values; //get choices to remove
-  const perso = PERSONALITY.getCommands().polls.settings.remove;
+  const perso = PERSONALITY.getCommands().polls;
+  const rPerso = perso.settings.remove;
 
   //get data
   const pollMessage = await fetchPollMessage(interaction);
@@ -55,6 +60,12 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //update fields values/ratios
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
+  const payload = { components: [] };
+  if (!dbPoll) {
+    payload.content = perso.stopped;
+    await interactionEditReply(interaction, payload);
+    return;
+  }
   const updatedFields = refreshPollFields(dbPoll, filteredFields);
   embed.setFields(updatedFields);
 
@@ -74,7 +85,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
     if (idx !== filteredButtons.length - 1) {
       //do not change polls_settings button
-      const newId = "polls_" + idx.toString();
+      const newId = perso.prefix + idx.toString();
       updatePollButtonId(
         interaction.client.db,
         pollMessage.id,
@@ -97,19 +108,16 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //update pollMessage
   const message = await pollMessage.edit({
-    embeds: [embed],
+    embeds: [embed, ...pollMessage.embeds.slice(1)],
     components: newComponents,
   });
-  if (message)
-    interactionEditReply(interaction, {
-      content: perso.removed,
-      components: [],
-    });
-  else
-    interactionEditReply(interaction, {
-      content: perso.errorNotUpdated,
-      components: [],
-    });
+  if (message) {
+    payload.content = rPerso.removed;
+    interactionEditReply(interaction, payload);
+  } else {
+    payload.content = rPerso.errorNotUpdated;
+    interactionEditReply(interaction, payload);
+  }
 };
 
 const pollUpdateSelectMenuHandler = async (interaction) => {
@@ -124,12 +132,17 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
   const personality = PERSONALITY.getCommands().polls;
   if (toChange === "anonymous") {
     //No need to select choice, apply modif
-
+    const payload = { components: [], content: "" };
     //get embed
     const pollMessage = await fetchPollMessage(interaction);
 
     //update db
     const dbPoll = getPoll(db, pollMessage.id);
+    if (!dbPoll) {
+      payload.content = personality.errorNoDb;
+      interactionEditReply(interaction, payload);
+      return;
+    }
     const newAnonymous = !dbPoll.anonymous;
     updatePollParam(db, pollMessage.id, toChange, newAnonymous);
 
@@ -137,7 +150,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     await pollRefreshEmbed(pollMessage, dbPoll);
 
     interactionEditReply(interaction, {
-      content: "Le paramètre anonyme a bien été changé.",
+      content: personality.settings.update.anonymous.updated,
       components: [],
     });
   } else if (toChange.includes("color")) {
@@ -197,12 +210,16 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       embed.setColor(color); //change color
       embed.setFields(newFields); //change fields colorbar
 
+      //update timeout embed
+      const timeoutEmbed = EmbedBuilder.from(pollMessage.embeds[1]); //get embed
+      timeoutEmbed.setColor(color); //change color
+
       //send changes
-      const editedPollMessage = { embeds: [embed] }; //update embed
+      const editedPollMessage = { embeds: [embed, timeoutEmbed] }; //update embed
       updatePollParam(db, pollMessage.id, "colorIdx", colorIdx);
       pollMessage.edit(editedPollMessage);
       interactionEditReply(interaction, {
-        content: "La couleur a été changée.",
+        content: personality.settings.update.color.updated,
         components: [],
       });
     }
@@ -212,6 +229,13 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     //get poll data
     const pollMessage = await fetchPollMessage(interaction);
     const dbPoll = getPoll(db, pollMessage.id);
+    if (!dbPoll) {
+      await interactionEditReply(interaction, {
+        components: [],
+        content: personality.stopped,
+      });
+      return;
+    }
     const oldVoteMax = dbPoll.voteMax;
 
     if (toChange === "voteMax") {
@@ -277,7 +301,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
         embed.setFooter({ text: newFooter + fPerso.options });
 
         //send
-        pollMessage.edit({ embeds: [embed] });
+        pollMessage.edit({ embeds: [embed, ...pollMessage.embeds.slice(1)] });
         const payload = { content: perso.voteMaxChanged, components: [] };
         interactionEditReply(interaction, payload);
       }

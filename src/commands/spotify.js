@@ -1,9 +1,17 @@
+import dayjs from "dayjs";
+import "dayjs/locale/fr.js";
+import Duration from "dayjs/plugin/duration.js";
+import relativeTime from "dayjs/plugin/relativeTime.js";
+dayjs.locale("fr");
+dayjs.extend(Duration);
+dayjs.extend(relativeTime);
+
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-import { PERSONALITY } from "../personality.js";
-import { parseLink } from "../helpers/index.js";
-import { interactionReply } from "./utils.js";
+import {} from "./utils.js";
+import { interactionReply, parseLink } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 const spotifyReply = async (link, interaction, client, cmnShared) => {
   // Ewibot reply for command query
@@ -64,6 +72,7 @@ const spotify = {
     const perso = PERSONALITY.getCommands().spotify.help;
     interactionReply(interaction, perso);
   },
+  releaseDate: dayjs("12-25-2024", "MM-DD-YYYY"),
 };
 
 export default spotify;

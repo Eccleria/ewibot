@@ -22,8 +22,9 @@ import {
 
 import {
   addGiftUser,
-  removeGiftUser,
+  getGiftUsers,
   isGiftUser,
+  removeGiftUser,
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
@@ -49,6 +50,7 @@ import {
   addPollVoter,
   isPollEmptyVotes,
   isThisChoicePollVoter,
+  getPollsTitles,
   getPollVoteIndexes,
   getThisChoicePollIndex,
   removePoll,
@@ -66,30 +68,56 @@ import {
 } from "./db/dbReminder.js";
 
 import {
+  isStatsUser,
+  addStatsData,
+  addEmojiData,
+  addStatsUser,
+  removeStatsUser,
+  statsKeys,
+  dbReturnType,
+  addServerStatsData,
+  addServerEmojiCount,
+} from "./db/dbStats.js";
+
+import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
 } from "./spotifyHelper.js";
 
 import {
-  sanitizePunctuation,
-  isAdmin,
+  checkEmbedContent,
+  fetchLogChannel,
+  gifParser,
+  gifRecovery,
   hasApology,
-  reactionHandler,
   hasOctagonalSign,
-  setActivity,
-  updateActivity,
+  interactionReply,
+  isAdmin,
+  isReleasedCommand,
+  isSentinelle,
+  parseEmoji,
+  removeEmote,
+  removePunctuation,
+  setupEmbed,
 } from "./utils.js";
 
 export {
   // utils
-  sanitizePunctuation,
-  isAdmin,
+  checkEmbedContent,
+  fetchLogChannel,
+  gifParser,
+  gifRecovery,
   hasApology,
-  reactionHandler,
   hasOctagonalSign,
-  setActivity,
-  updateActivity,
+  interactionReply,
+  isAdmin,
+  isReleasedCommand,
+  isSentinelle,
+  parseEmoji,
+  removeEmote,
+  removePunctuation,
+  setupEmbed,
   // spotifyHelper
   generateSpotifyClient,
   parseLink,
@@ -116,8 +144,9 @@ export {
   updateEventRoleMessageId,
   //gift
   addGiftUser,
-  removeGiftUser,
+  getGiftUsers,
   isGiftUser,
+  removeGiftUser,
   isMessageRecipient,
   addGiftMessage,
   removeGiftMessage,
@@ -139,6 +168,7 @@ export {
   addPollVoter,
   isPollEmptyVotes,
   isThisChoicePollVoter,
+  getPollsTitles,
   getPollVoteIndexes,
   getThisChoicePollIndex,
   removePoll,
@@ -151,4 +181,14 @@ export {
   addReminder,
   removeReminder,
   updateReminder,
+  //stats
+  isStatsUser,
+  addStatsUser,
+  addEmojiData,
+  removeStatsUser,
+  addStatsData,
+  statsKeys,
+  dbReturnType,
+  addServerStatsData,
+  addServerEmojiCount,
 };

@@ -1,11 +1,28 @@
 import dotenv from "dotenv";
 dotenv.config();
-
+import dayjs from "dayjs";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
-import { SlashCommandBuilder } from "@discordjs/builders";
-import dayjs from "dayjs";
 
+import announce from "./announce.js";
+import birthday from "./birthday.js";
+import botEmote from "./botEmote.js";
+import botMessage from "./botMessage.js";
+import concrete from "./concrete.js";
+import eventRoles from "./eventRoles.js";
+import gift from "./gift.js";
+import leaderboardApology from "./leadApo.js";
+import personality from "./personality.js";
+import polls from "./polls/polls.js";
+import reminder from "./reminder.js";
+import { reverse, reverseTranslator } from "./reverse.js";
+import roles from "./roles/dessinateurice.js";
+import saveLog from "./save-log.js";
+import shuffle from "./shuffle.js";
+import spotify from "./spotify.js";
+import stats from "./stats.js";
+import vest from "./vest.js";
 import {
   //dbHelper
   addIgnoredChannel,
@@ -14,35 +31,21 @@ import {
   addIgnoredUser,
   isIgnoredUser,
   removeIgnoredUser,
-  isAdmin,
   //utils
-  //isAdmin,
+  interactionReply,
+  isAdmin,
+  isReleasedCommand,
+  isSentinelle,
 } from "../helpers/index.js";
-
-import announce from "./announce.js";
-import birthday from "./birthday.js";
-import botMessage from "./botMessage.js";
-import concrete from "./concrete.js";
-import eventRoles from "./eventRoles.js";
-import gift from "./gift.js";
-import leaderboardApology from "./leadApo.js";
-import polls from "./polls/polls.js";
-import reminder from "./reminder.js";
-import { reverse, reverseTranslator } from "./reverse.js";
-import roles from "./roles/dessinateurice.js";
-import saveLog from "./save-log.js";
-import shuffle from "./shuffle.js";
-import spotify from "./spotify.js";
-
-import { interactionReply, isReleasedCommand, isSentinelle } from "./utils.js";
-
-import { PERSONALITY } from "../personality.js";
 import { COMMONS } from "../commons.js";
+import { PERSONALITY } from "../personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const ping = {
-  command: new SlashCommandBuilder().setName("ping").setDescription("Ping !"),
+  command: new SlashCommandBuilder()
+    .setName(PERSONALITY.getCommands().helloWorld.name)
+    .setDescription(PERSONALITY.getCommands().helloWorld.description),
   action: (interaction) => {
     const personality = PERSONALITY.getCommands();
     interaction.reply(personality.helloWorld.pong);
@@ -94,7 +97,7 @@ const roll = {
         { total: 0, details: [] }
       ); //compute total + each dices values
 
-      interactionReply(interaction, `${total} (${details.join(", ")})`);
+      interactionReply(interaction, `${total} (${details.join(", ")})`, false);
     } else interactionReply(interaction, personality.parsingError);
   },
   help: (interaction) => {
@@ -181,6 +184,7 @@ const contextCommands = [reverseTranslator, saveLog]; //context commands (messag
 const slashCommands = [
   announce,
   birthday,
+  botEmote,
   botMessage,
   concrete,
   eventRoles,
@@ -188,6 +192,7 @@ const slashCommands = [
   ignoreChannel,
   ignoreUser,
   leaderboardApology,
+  personality,
   ping,
   polls,
   reminder,
@@ -196,6 +201,8 @@ const slashCommands = [
   roll,
   shuffle,
   spotify,
+  stats,
+  vest,
 ]; //command + action
 
 // HELP
@@ -214,7 +221,7 @@ const help = {
     if (foundCommand) {
       const member = interaction.member;
 
-      const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+      const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
       const isModo = isSentinelle(interaction.member, currentServer);
       const isAdminUser = isAdmin(member.id);
 
@@ -235,7 +242,7 @@ const help = {
   autocomplete: (interaction) => {
     const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
     const member = interaction.member;
-    const currentServer = COMMONS.fetchGuildId(interaction.guildId);
+    const currentServer = COMMONS.fetchFromGuildId(interaction.guildId);
 
     const isModo = isSentinelle(member, currentServer);
     const isDev = isAdmin(member.id);

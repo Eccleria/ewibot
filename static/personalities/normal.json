@@ -1,6 +1,6 @@
 {
+  "name": "normal",
   "normal": {
-    "name": "normal",
     "commands": {
       "announce": {
         "buttonLabel": "Confirmer",
@@ -51,6 +51,22 @@
         },
         "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
         "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
+      },
+      "botEmote": {
+        "description": "Cette commande permet de faire réagir Ewibot à un message",
+        "emoteOption": {
+          "description": "L'émote à utiliser",
+          "name": "emote"
+        },
+        "errorMessageNotFound": "Le message n'a pas été trouvé.",
+        "errorNotAdmin": "Vous n'avez pas le droit d'utiliser cette commande.",
+        "errorNotReact": "Je n'ai pas pu réagir.",
+        "messageOption": {
+          "description": "L'ID du message auquel réagir",
+          "name": "message-id"
+        },
+        "name": "reaction",
+        "react": "J'ai bien réagit."
       },
       "botMessage": {
         "attachmentOption":{
@@ -127,6 +143,7 @@
       },
       "eventRoles": {
         "create": {
+          "author": "Demandé par ",
           "colorOption": {
             "description": "Couleur du rôle.",
             "name": "couleur"
@@ -143,7 +160,9 @@
           "nameOption": {
             "description": "Le nom du futur rôle d'évènements.",
             "name": "nom"
-          }          
+          },
+          "ok": "c'est bon",
+          "prefix": "eventRole_"          
         },
         "description": "Commandes de gestions des roles associés aux évènements.",
         "help": "Cette commande permet de gérer les roles associés aux évènements.",
@@ -180,12 +199,14 @@
       },
       "gift": {
         "accepting": {
-          "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `gift send` et envoyer un message de Noël à cette personne !",
+          "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `/gift send` et envoyer un message de Noël à cette personne !",
+          "accepts": "\nacceptent de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `/gift send` et envoyer un message de Noël à ces personnes !",
           "description": "Pour savoir si un.e utilisateurice accepte les messages de Noël",
           "help": "Cette commande permet de vérifier si lea utilisateurice que vous mentionnez accepte ou non les messages de Noël.\nPour l'utiliser, tapez `/gift accepting @utilisateurice`.",
           "name": "accepting",
           "notAccept": " n'accepte pas de recevoir les messages de Noël.",
           "user": "L'utilisateurice ",
+          "users": "Les utilisateurices ",
           "userOption": {
             "description": "La personne acceptant ou non de reçevoir les messages.",
             "name": "destinateurice"
@@ -214,9 +235,6 @@
         "name": "gift",
         "nDayEmbed": {
           "description": "Bonjour tout le monde ! <:Ewiyay:918249094391144469>\n Joyeux Noël <:DuomFetard:822479563077976065> !!\n\n Voici le moment tant attendu, vous allez pouvoir recevoir vos cadeaux :gift:. Ils vous seront envoyés quand vous cliquerez sur le bouton ci-dessous.",
-          "imageURL": "https://cdn.discordapp.com/attachments/1040335601330831420/1056257880174624768/Ewilan_Noel_crop.png",
-          "imageName": "Fan-art",
-          "imageText": "Un immense merci à <@705869091986210826> et <@693830441660317726> pour ce magnifique fan-art de notre groupe préféré, fêtant Noël ensemble ! <:DuomNoelErg:1048916483490717727>",
           "noteName": "Rappel",
           "noteText": "Les messages ne sont destinés qu'à vous seul et ne seront pas publics.\n",
           "title": "Surprise de Noël"
@@ -268,7 +286,9 @@
         }
       },
       "helloWorld": {
+        "description": "Ping !",
         "help": "Cette commande n'a pas besoin de description.",
+        "name": "ping",
         "pong": "pong !"
       },
       "help": {
@@ -314,11 +334,16 @@
         "sent": "Le message de classement des excuses a bien été envoyé"
       },
       "personality": {
-        "change": "Dorénavant, j'aurai la personalité ",
+        "changed": "Dorénavant, j'aurai la personalité ",
         "currentName": "Actuellement, j'ai la personalité ",
+        "description": "Change la personnalité d'Ewibot",
+        "name": "personality",
         "nameError": "Erreur d'argument.",
-        "nameList": "La liste des personalités est : ",
-        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `$personality` pour avoir la liste des personnalités.\n- Tape `$personality nom` pour qu'Ewibot utilise la personalité `nom`.\n- Tape `$personality list` pour avoir la liste des personalités."
+        "help": "Permet de choisir la personnalité d'Ewibot. Utilisation\n- Tape `/personality` pour avoir le nom de la personnalité actuelle.\n- Tape `/personality name:nom` pour qu'Ewibot utilise la personalité `nom`.",
+        "stringOption": {
+          "description": "Choix de la personnalité",
+          "name": "name"
+        }
       },
       "polls": {
         "addChoice": {
@@ -381,6 +406,8 @@
           },
           "name": "create",
           "sent": "Le sondage a été envoyé.",
+          "settings": "settings",
+          "timeout": "Fin du sondage",
           "titleOption": {
             "description": "Titre du sondage.",
             "name": "titre"
@@ -390,11 +417,13 @@
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
         "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
         "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",
+        "errorNoDb": "Erreur, le sondage n'a pas été trouvé dans la base de donnée. Il est probablement terminé.",
         "errorNotAlavirien": "Vous n'êtes pas Alavirien.ne. Vous ne pouvez pas utiliser cette commande.",
         "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
         "errorUnknownChoice": "Erreur, le button n'est pas reconnu.",
         "help": "Cette commande permet de créer des sondages.",
         "name": "polls",
+        "prefix": "polls_",
         "settings": {
           "buttons": {
             "refresh": ["polls_set_refresh", "Actualiser"],
@@ -429,7 +458,8 @@
             "anonymous": {
               "baseValue": "polls_selectMenu_update_anonymous_",
               "customId": "polls_selectMenu_update_anonymous",
-              "placeholder": "Anonyme ?"
+              "placeholder": "Anonyme ?",
+              "updated": "Le paramètre anonyme a bien été changé."
             },
             "choices": [
               { "label": "anonyme", "value": "polls_selectMenu_update_anonymous" },
@@ -439,7 +469,8 @@
             "color": {
               "baseValue": "polls_selectMenu_update_color_",
               "customId": "polls_selectMenu_update_color",
-              "placeholder": "Nouvelle couleur."
+              "placeholder": "Nouvelle couleur.",
+              "updated": "La couleur a été changée."
             },
             "customId": "polls_selectMenu_update",
             "placeholder": "Paramètre à modifier.",
@@ -547,38 +578,6 @@
         "title": "Reverse Translation",
         "translated": "Le log a bien été traduit."
       },
-      "roles": {
-        "description": "Commandes de jeux entre Alavirien.nes",
-        "dessinateurice": {
-          "creativity": {
-            "buttons": {
-              "confirm": ["roles_dessinateurice_creativity_confirm", "Participer"],
-              "deny": ["roles_dessinateurice_creativity_deny", "Refuser"]
-            },
-            "choiceOption": {
-              "description": "Liste des thèmes proposés",
-              "name": "choix"
-            },
-            "customOption": {
-              "description": "Indiquez le thème du duel",
-              "name": "theme-perso"
-            },
-            "description": "Duel de Créativité entre 2 dessinateurices.",
-            "errorNoTheme": "Attention, vous n'avez pas indiqué de thème pour le défi.",
-            "errorNotSent": "Le message de défi n'a pas pu être envoyé.",
-            "message": [" a defié ", " au défi Dessinateurices Créativité !\nAcceptez-vous le défi ?"],
-            "name": "creativity",
-            "sent": "Le défi est bien envoyé",
-            "userOption": {
-              "description": "Cible du duel",
-              "name": "cible"
-            }
-          },
-          "description": "Jeux entre Dessinateurices",
-          "name": "dessinateurice"
-        },
-        "name": "roles"
-      },
       "roll": {
         "description": "Lancer de dés",
         "diceOption": {
@@ -626,6 +625,34 @@
       },
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+      },
+      "stats": {
+        "description": "Cette commande regroupe toutes les commandes associées aux stats",
+        "help": "Ewibot peut, **à votre demande**, récolter des statistiques sur votre participation sur ce serveur. **Par défaut, aucune donnée n'est récoltée**.\nSi vous donnez votre accord, les données recueillies sont les suivantes :\n- le *nombre de gifs* que vous envoyez,\n- le *nombre d'émotes* que vous utilisez (en réagissant aux messages ou dans le contenu de vos messages),\n- Le nombre de fois que vous envoyez un message contenant une *excuse*,\n- le nombre de fois que vous envoyez un message disant que vous avez *faim*.\n\nEwibot récupère également des statistiques globale. **Ces stats ne sont pas nominatives.**\nEwibot stocke :\n- Pour chaque *émote du serveur, son nombre d'utilisation* (en réaction ou dans un message)\n- Le nombre de *photos envoyées dans le fil <#933456973591097415>*",
+        "name": "stats",
+        "use": {
+          "description": "Cette commande vous permet de choisir si vous souhaitez avoir des stats",
+          "errorDb": "Une erreur s'est produite avec la base de donnée. Veuillez le signaler à <@290505766631112714>, s'il vous plaît.",
+          "help": "Cette commande vous permet de choisir si vous souhaitez qu'Ewibot recueille des statistiques concernant votre participation sur ce serveur. **Par défaut, Ewibot ne recueille AUCUNE donnée**.\n_Note : dès que vous retirez votre consentement, Ewibot supprime **immédiatement** et **sans possibilité de récupération** les stats vous concernant._",
+          "isUser": "Ewibot stocke dorénavant des statistiques sur vous.",
+          "isNotUser": "Ewibot ne stocke plus de statistiques sur vous. Elles ont été instantanément supprimées.",
+          "name": "use"
+        }
+      },
+      "vest": {
+        "description": "Cette commande permet d'envoyer un gilet par-balles à la cible.",
+        "errorNotSent": "Le gilet n'a pas pu être envoyé.",
+        "forceOption": {
+          "description": "Permet de forcer la génération de l'image.",
+          "name": "force"
+        },
+        "help": "Cette commande permet de créer un gilet par-balles pour la personne ciblée. C'est très pratique en cas de balle perdue.\n\nComment utiliser :\n`\/gilet cible:@utilisateurice` créera un gilet pour l'utilisateurice.\nSi besoin de mettre à jour l'image, utiliser l'option `force:True` afin de forcer Ewibot à la recréer. Cependant Ewibot devrait la mettre à jour tout seul.\n\n Remerciement à <@179382890440818689> pour l'idée et l'image originale !",
+        "name": "vest",
+        "sent": "Le gilet a bien été envoyé",
+        "userOption": {
+          "description": "Lea destinateurice du gilet.",
+          "name": "cible"
+        }
       }
     },
     "spotify": {
