@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, time } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { interactionReply } from "../helpers/index.js";
 
@@ -43,8 +43,33 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   );
 
+const action = (interaction) => {
+  const options = interaction.options;
+  const perso = PERSONALITY.getCommands().timeout;
+
+  let option
+  option = options.getNumber(perso.daysOption.name, false);
+  const days = option ? option : 0;
+  option = options.getNumber(perso.hoursOption.name, false);
+  const hours = option ? option : 0;
+  option = options.getNumber(perso.minsOption.name, false);
+  const minutes = option ? option : 0;
+
+  //compute timeout in ms
+  let timeout = 0;
+  if (days || hours || minutes) {
+    timeout = days ? (timeout + days) * 24 : timeout; //hours
+    timeout = hours ? (timeout + hours) * 60 : timeout * 60; //minutes
+    timeout = minutes ? (timeout + minutes) * 60 * 1000 : timeout * 60 * 1000; //ms
+  }
+  if (!timeout) {
+    interactionReply(interaction, perso.errorNoTimeout);
+    return;
+  }
+};
+
 const timeout = {
-  //action,
+  action,
   command,
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().timeout;
