@@ -398,7 +398,7 @@ const action = async (interaction) => {
       ].addComponents(settingButton);
 
     //edit original data
-    const payload = { embeds: [embed] };
+    const payload = { embeds: [embed, ...pollMessage.embeds.slice(1)] };
     payload.components = newComponents.actionRows;
     pollMessage.edit(payload); //edit message
     addPollChoices(
