@@ -8,7 +8,7 @@ import { PERSONALITY } from "../personality.js";
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().personality.name)
   .setDescription(PERSONALITY.getCommands().personality.description)
-  .setDefaultMemberPermissions()
+  .setDefaultMemberPermissions(0x0000010000000000)
   .addStringOption((option) =>
     option
       .setName(PERSONALITY.getCommands().personality.stringOption.name)
