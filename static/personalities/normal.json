@@ -334,8 +334,8 @@
         "sent": "Le message de classement des excuses a bien été envoyé"
       },
       "personality": {
-        "changed": "Dorénavant, j'aurai la personalité ",
-        "currentName": "Actuellement, j'ai la personalité ",
+        "changed": "Dorénavant, j'aurai la personnalité ",
+        "currentName": "Actuellement, j'ai la personnalité ",
         "description": "Change la personnalité d'Ewibot",
         "name": "personality",
         "nameError": "Erreur d'argument.",

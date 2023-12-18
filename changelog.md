@@ -4,6 +4,7 @@
 	- missing credits in `/help`
 	- wrong behaviour on vest send
 - Fix: `/polls nouveau-choix` removing timeout embed ([#282](https://github.com/Eccleria/ewibot/pull/282))
+- Fix: `/personality` missing MODERATE_MEMBERS permission snowflake ([#283](https://github.com/Eccleria/ewibot/pull/283))
 - Update: reduce `activity` timeout max duration ([#279](https://github.com/Eccleria/ewibot/pull/279))
 
 ## 6.0.0
