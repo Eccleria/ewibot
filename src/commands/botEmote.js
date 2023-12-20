@@ -59,12 +59,13 @@ const action = async (interaction) => {
 };
 
 const autocomplete = (interaction) => {
-  const focusedValue = interaction.options.getFocused(); //get value which is currently user edited
+  const value = interaction.options.getFocused(); //get value which is currently user edited
+  const focusedValue = value.toLowerCase();
   const emotesCache = interaction.guild.emojis.cache;
 
   //build list
   const emotes = emotesCache.map((cur) => {
-    return { name: cur.name, value: cur.id };
+    return { name: cur.name.toLowerCase(), value: cur.id };
   });
   const filtered = emotes.filter((cur) => cur.name.startsWith(focusedValue)); //filter to corresponding emotes names
   const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
