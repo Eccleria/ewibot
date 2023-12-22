@@ -791,12 +791,19 @@ export const onGuildMemberRemove = async (memberKick) => {
       ? roles.reduce((acc, cur) => `${acc}${cur.toString()}\n`, "")
       : null;
 
+  //get user joinedTimestamp
+  const timestamp = Math.round(memberKick.joinedTimestamp / 1000);
+  const unixTimestamp = `<t:${timestamp}:f>`;
+
   if (!diff || diff >= 5) {
     // diff can be null or float
     //no log or too old => not kicked but left
     const guildKick = personality.guildKick.leave;
     const embed = setupEmbed("DarkPurple", guildKick, userKick, "user"); //setup embed
-    embed.addFields({ name: guildKick.id, value: memberKick.id, inline: true }); //add user id
+    embed.addFields(
+      { name: guildKick.id, value: memberKick.id, inline: true }, //add user id
+      { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
+    ); 
     if (textRoles)
       embed.addFields({
         name: guildKick.roles,
@@ -821,7 +828,10 @@ export const onGuildMemberRemove = async (memberKick) => {
 
   const guildKick = personality.guildKick.kick;
   const embed = setupEmbed("DarkPurple", guildKick, userKick, "user"); //setup embed
-  embed.addFields({ name: guildKick.id, value: memberKick.id, inline: true }); //add user id
+  embed.addFields(
+    { name: guildKick.id, value: memberKick.id, inline: true },
+    { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
+  ); //add user id
   if (textRoles)
     embed.addFields({ name: guildKick.roles, value: textRoles, inline: true }); //add user roles if any
   const logChannel = await fetchLogChannel(memberKick); //get logChannel
