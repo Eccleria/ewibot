@@ -639,6 +639,23 @@
           "name": "use"
         }
       },
+      "timeout": {
+        "description": "Pour exclure une personne du serveur.",
+        "daysOption": {
+          "description": "Nombre de jours d'exclusion.",
+          "name": "jours"
+        },
+        "errorNoTimeout": "Attention, il faut renseigner un délai.",
+        "hoursOption": {
+          "description": "Nombre d'heures d'exclusion.",
+          "name": "heures"
+        },
+        "minsOption": {
+          "description": "Nombre de minutes d'exclusion.",
+          "name": "minutes"
+        },
+        "name": "timeout"
+      },
       "vest": {
         "description": "Cette commande permet d'envoyer un gilet par-balles à la cible.",
         "errorNotSent": "Le gilet n'a pas pu être envoyé.",

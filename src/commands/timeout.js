@@ -1,10 +1,11 @@
-import { SlashCommandBuilder, time } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { interactionReply } from "../helpers/index.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().timeout.name)
   .setDescription(PERSONALITY.getCommands().timeout.description)
+  .setDefaultMemberPermissions(0x0000010000000000)
   .addUserOption((option) =>
     option
       .setName(PERSONALITY.getCommands().timeout.userOption.name)
