@@ -82,7 +82,7 @@ const giftInteractionCreation = async (client, type) => {
   if (type === "xmas") {
     const nDayEmbed = personality.nDayEmbed;
     const embed = new EmbedBuilder() //create embed
-      .setColor("DARK_GREEN")
+      .setColor("DarkGreen")
       .setTimestamp()
       .setTitle(personality.nDayEmbed.title)
       .setDescription(nDayEmbed.description)
@@ -94,7 +94,7 @@ const giftInteractionCreation = async (client, type) => {
     const newYear = personality.newYear;
 
     const embed = new EmbedBuilder() //create embed
-      .setColor("DARK_GREEN")
+      .setColor("DarkGreen")
       .setTimestamp()
       .setTitle(newYear.title)
       .setDescription(newYear.description);
