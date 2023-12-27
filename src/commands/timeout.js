@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { interactionReply } from "../helpers/index.js";
+import dayjs from "dayjs";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().timeout.name)
@@ -44,7 +45,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-const action = (interaction) => {
+const action = async (interaction) => {
   const options = interaction.options;
   const perso = PERSONALITY.getCommands().timeout;
 
@@ -67,6 +68,20 @@ const action = (interaction) => {
     interactionReply(interaction, perso.errorNoTimeout);
     return;
   }
+
+  //get reason
+  const reason = options.getString(perso.reasonOption.name);
+
+  //get guildMember to timeout
+  const user = options.getUser(perso.userOption.name);
+  const member = await interaction.guild.members.fetch(user.id);
+
+  //compute timestamp for timeout
+  const today = dayjs();
+  const timestamp = today.add(timeout, "ms");
+
+  //timeout guildMember
+  member.disableCommunicationUntil(timestamp, reason);
 };
 
 const timeout = {

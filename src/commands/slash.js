@@ -21,6 +21,7 @@ import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
 import spotify from "./spotify.js";
 import stats from "./stats.js";
+import timeout from "./timeout.js";
 import vest from "./vest.js";
 import {
   //dbHelper
@@ -200,6 +201,7 @@ const slashCommands = [
   shuffle,
   spotify,
   stats,
+  timeout,
   vest,
 ]; //command + action
 
