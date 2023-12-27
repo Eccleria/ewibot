@@ -8,6 +8,7 @@
 - Fix: `gift` wrong color string ([#287](https://github.com/Eccleria/ewibot/pull/287))
 - Update: reduce `activity` timeout max duration ([#279](https://github.com/Eccleria/ewibot/pull/279))
 - Update: `/reaction` now uses lowerCased emote names ([#284](https://github.com/Eccleria/ewibot/issues/284)) ([#285](https://github.com/Eccleria/ewibot/pull/285))
+- Update: `apologies` featuring "excuses" ([#288](https://github.com/Eccleria/ewibot/pull/288))
 
 ## 6.0.0
 - Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
