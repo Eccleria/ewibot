@@ -1,6 +1,6 @@
-import { SlashCommandBuilder } from "discord.js";
+import { Colors, SlashCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { interactionReply } from "../helpers/index.js";
+import { fetchLogChannel, interactionReply, setupEmbed } from "../helpers/index.js";
 import dayjs from "dayjs";
 
 const command = new SlashCommandBuilder()
@@ -82,6 +82,12 @@ const action = async (interaction) => {
   //compute timestamp for timeout
   const today = dayjs();
   const timestamp = today.add(timeout, "ms");
+
+  //send command use log
+  const logChannel = await fetchLogChannel(interaction);
+  const tPerso = PERSONALITY.getAdmin().timeout.command;
+  const embed = setupEmbed(Colors.Orange, tPerso, interaction.user, "tag");
+  logChannel.send({embeds: [embed]});
 
   //timeout guildMember
   try {
