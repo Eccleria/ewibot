@@ -599,6 +599,21 @@
       },
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
+      },
+      "vest": {
+        "description": "Cette commande permet de sauver un gens en cas de balle perdue.",
+        "errorNotSent": "Malheureusement je n'ai plus de gilet à fournir. So long.",
+        "forceOption": {
+          "description": "Permet de forcer la génération de l'image.",
+          "name": "force"
+        },
+        "help": "Cette commande permet de créer un gilet par-balles pour la personne ciblée. C'est très pratique en cas de balle perdue.\n\nComment utiliser :\n`\/gilet cible:@utilisateurice` créera un gilet pour l'utilisateurice.\nSi besoin de mettre à jour l'image, utiliser l'option `force:True` afin de forcer Ewibot à la recréer. Cependant Ewibot devrait la mettre à jour tout seul.\n\n Remerciement à <@179382890440818689> pour l'idée et l'image originale !",
+        "name": "vest",
+        "sent": "Le gilet a bien été envoyé.",
+        "userOption": {
+          "description": "Lea destinateurice du gilet.",
+          "name": "cible"
+        }
       }
     },
     "spotify": {
