@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().timeout.name)
   .setDescription(PERSONALITY.getCommands().timeout.description)
-  .setDefaultMemberPermissions(0x0000010000000000)
+  .setDefaultMemberPermissions(0x0000010000000000) //MODERATE_MEMBERS bitwise
   .addUserOption((option) =>
     option
       .setName(PERSONALITY.getCommands().timeout.userOption.name)
@@ -49,6 +49,7 @@ const action = async (interaction) => {
   const options = interaction.options;
   const perso = PERSONALITY.getCommands().timeout;
 
+  //get timeout values
   let option
   option = options.getNumber(perso.daysOption.name, false);
   const days = option ? option : 0;
@@ -86,8 +87,8 @@ const action = async (interaction) => {
   } catch (e) {
     console.error(e);
 
-    if (e.rawError.code === 50013)
-     interactionReply(interaction, perso.errorMissingPermission); //Missing permission
+    if (e.rawError.code === 50013) //Missing permission
+     interactionReply(interaction, perso.errorMissingPermission); 
     else interactionReply(interaction, perso.errorUnknown);
     return;
   }
