@@ -65,7 +65,7 @@ const action = async (interaction) => {
     timeout = minutes ? (timeout + minutes) * 60 * 1000 : timeout * 60 * 1000; //ms
   }
   if (!timeout) {
-    interactionReply(interaction, perso.errorNoTimeout);
+    interactionReply(interaction, perso.errorMissingDelay);
     return;
   }
 
@@ -81,7 +81,18 @@ const action = async (interaction) => {
   const timestamp = today.add(timeout, "ms");
 
   //timeout guildMember
-  member.disableCommunicationUntil(timestamp, reason);
+  try {
+    await member.disableCommunicationUntil(timestamp, reason);
+  } catch (e) {
+    console.error(e);
+
+    if (e.rawError.code === 50013)
+     interactionReply(interaction, perso.errorMissingPermission); //Missing permission
+    else interactionReply(interaction, perso.errorUnknown);
+    return;
+  }
+
+  interactionReply(interaction, perso.ok);
 };
 
 const timeout = {

@@ -645,7 +645,9 @@
           "description": "Nombre de jours d'exclusion.",
           "name": "jours"
         },
-        "errorNoTimeout": "Attention, il faut renseigner un délai.",
+        "errorMissingPermission": "Je n'ai pas le droit de timeout cette personne. Problème de permission.\n\nRappel : je ne peux pas timeout un.e membre de la modération (Andartien.nes, Ewibot, Sentinelles)",
+        "errorMissingDelay": "Attention, il faut renseigner un délai.",
+        "errorUnknown": "Une erreur inconnue s'est produite.",
         "hoursOption": {
           "description": "Nombre d'heures d'exclusion.",
           "name": "heures"
@@ -659,6 +661,7 @@
           "description": "Raison du timeout.",
           "name": "raison"
         },
+        "ok": "L'utilisateurice a été timeout.",
         "userOption": {
           "description": "Utilisateurice à timeout",
           "name": "utilisateurice"
