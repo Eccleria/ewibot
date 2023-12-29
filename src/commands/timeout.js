@@ -15,10 +15,12 @@ const command = new SlashCommandBuilder()
   )
   .addStringOption((option) =>
     option
-    .setName(PERSONALITY.getCommands().timeout.reasonOption.name)
-    .setDescription(PERSONALITY.getCommands().timeout.reasonOption.description)
-    .setMinLength(1)
-    .setRequired(true)
+      .setName(PERSONALITY.getCommands().timeout.reasonOption.name)
+      .setDescription(
+        PERSONALITY.getCommands().timeout.reasonOption.description
+      )
+      .setMinLength(1)
+      .setRequired(true)
   )
   .addNumberOption((option) =>
     option
@@ -50,7 +52,7 @@ const action = async (interaction) => {
   const perso = PERSONALITY.getCommands().timeout;
 
   //get timeout values
-  let option
+  let option;
   option = options.getNumber(perso.daysOption.name, false);
   const days = option ? option : 0;
   option = options.getNumber(perso.hoursOption.name, false);
@@ -87,8 +89,9 @@ const action = async (interaction) => {
   } catch (e) {
     console.error(e);
 
-    if (e.rawError.code === 50013) //Missing permission
-     interactionReply(interaction, perso.errorMissingPermission); 
+    if (e.rawError.code === 50013)
+      //Missing permission
+      interactionReply(interaction, perso.errorMissingPermission);
     else interactionReply(interaction, perso.errorUnknown);
     return;
   }
