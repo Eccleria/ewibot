@@ -795,7 +795,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const timestamp = Math.round(memberKick.joinedTimestamp / 1000);
   const unixTimestamp = `<t:${timestamp}:f>`;
 
-  if (!diff || diff >= 5) {
+  if (!diff || diff >= 10) {
     // diff can be null or float
     //no log or too old => not kicked but left
     const guildKick = personality.guildKick.leave;
