@@ -601,6 +601,11 @@
         "wrongChannel": "A n'utiliser que sur les logs fréquents.",
         "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
       },
+      "scintilleur": {
+        "description": "Cette commande permet de passer un test de dessin.",
+        "help": "Cette commande permet de passer un test de dessin.",
+        "name": "scintilleur"
+      },
       "shuffle": {
         "description": "Permet de lancer le mode anniversaire d'Ewibot.",
         "help": "Commande du mode anniversaire pour alterner les couleurs des roles cosmétiques.\n- `startstop` pour démarrer/arrêter le mode anniversaire.\n- `set` pour éditer la valeur du timeout **en ms**.",
