@@ -203,6 +203,7 @@
           "creativity": {
             "buttons": {
               "confirm": ["games_drawer_creativity_confirm", "Confirmer"],
+              "errorUnknownButton": "Désolé, je n'ai pas reconnu ce bouton.",
               "deny": ["games_drawer_creativity_deny", "Refuser"]
             },
             "choiceOption": {
