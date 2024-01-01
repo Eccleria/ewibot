@@ -11,7 +11,6 @@ import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
-import games from "./games/games.js";
 import gift from "./gift.js";
 import leaderboardApology from "./leadApo.js";
 import personality from "./personality.js";
@@ -188,7 +187,6 @@ const slashCommands = [
   botMessage,
   concrete,
   eventRoles,
-  games,
   gift,
   ignoreChannel,
   ignoreUser,
