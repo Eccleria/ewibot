@@ -28,10 +28,9 @@ export const giftButtonHandler = async (interaction) => {
 
   //filter older buttons
   const today = dayjs();
-  console.log(today.date() < 15, today.month() === 0, (today.year() - 1).toString(), customId.includes((today.year() - 1).toString()))
   if (
-    !customId.includes(today.year().toString()) ||
-    (today.date() < 15 &&
+    !customId.includes(today.year().toString()) &&
+    !(today.date() < 15 &&
       today.month() === 0 &&
       customId.includes((today.year() - 1).toString()))
   ) {
