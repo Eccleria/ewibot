@@ -172,6 +172,7 @@
     },
     "duration": "Durée :",
     "executor": "Timeout par :",
+    "endDate": "Date de fin :",
     "text": "Raison du timeout :",
     "title": "Timeout"
   }
