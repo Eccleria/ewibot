@@ -26,7 +26,7 @@ const action = async (interaction) => {
   const perso = PERSONALITY.getCommands().vest;
   const { guild, options } = interaction;
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply();
   const user = options.getUser(perso.userOption.name);
   const target = await guild.members.fetch(user.id); //get guildMember from user id
 
@@ -98,13 +98,11 @@ const action = async (interaction) => {
     const buffer = canvas.toBuffer("image/png");
     fs.writeFileSync(`${pngsPath}/${fileName}`, buffer); //Write the gif locally
     const attachment = new AttachmentBuilder(buffer, { name: "vest.png" });
-    await interaction.channel.send({ files: [attachment] });
-    interactionEditReply(interaction, perso.sent);
+    interactionEditReply(interaction, { files: [attachment] }, false);
   } else {
     const buffer = fs.readFileSync(`${pngsPath}/${fileName}`);
     const attachment = new AttachmentBuilder(buffer, { name: "vest.png" });
-    await interaction.channel.send({ files: [attachment] });
-    interactionEditReply(interaction, perso.sent);
+    interactionEditReply(interaction, { files: [attachment] }, false);
   }
 };
 
