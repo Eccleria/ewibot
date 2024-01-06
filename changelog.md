@@ -6,6 +6,7 @@
 - Fix: `/polls nouveau-choix` removing timeout embed ([#282](https://github.com/Eccleria/ewibot/pull/282))
 - Fix: `/personality` missing MODERATE_MEMBERS permission snowflake ([#283](https://github.com/Eccleria/ewibot/pull/283))
 - Fix: `gift` wrong color string ([#287](https://github.com/Eccleria/ewibot/pull/287))
+- Fix: missing `vest` personality in `funny` json ([#290](https://github.com/Eccleria/ewibot/pull/290))
 - Update: reduce `activity` timeout max duration ([#279](https://github.com/Eccleria/ewibot/pull/279))
 - Update: `/reaction` now uses lowerCased emote names ([#284](https://github.com/Eccleria/ewibot/issues/284)) ([#285](https://github.com/Eccleria/ewibot/pull/285))
 - Update: `apologies` featuring "excuses" ([#288](https://github.com/Eccleria/ewibot/pull/288))
