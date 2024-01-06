@@ -1,4 +1,7 @@
-﻿## 6.1.0
+﻿## 6.2.0
+- Update: `/vest` now send picture in `interaction` reply ([#294](https://github.com/Eccleria/ewibot/issues/294)) ([#295](https://github.com/Eccleria/ewibot/pull/295))
+
+## 6.1.0
 - Fix: `activity` not using `ActivityType` ([#278](https://github.com/Eccleria/ewibot/issues/278)) ([#279](https://github.com/Eccleria/ewibot/pull/279))
 - Fix: `/vest` ([#280](https://github.com/Eccleria/ewibot/pull/280))
 	- missing credits in `/help`
