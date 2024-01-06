@@ -755,15 +755,18 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
   //add timeout duration + timeout end fields
   const timeoutUntil = dayjs(newMember.communicationDisabledUntil);
   const timeoutDuration = timeoutUntil.diff(dayjs(), "s");
-  embed.addFields({
-    name: timeout.duration,
-    value: timeoutDuration.toString(),
-    inline: true,
-  }, {
-    name: timeout.endDate,
-    value: `<t:${timeoutUntil.unix()}:F>`,
-    inline: true,
-  }); 
+  embed.addFields(
+    {
+      name: timeout.duration,
+      value: timeoutDuration.toString(),
+      inline: true,
+    },
+    {
+      name: timeout.endDate,
+      value: `<t:${timeoutUntil.unix()}:F>`,
+      inline: true,
+    }
+  );
 
   endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
 };

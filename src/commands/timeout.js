@@ -1,6 +1,10 @@
 import { Colors, SlashCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { fetchLogChannel, interactionReply, setupEmbed } from "../helpers/index.js";
+import {
+  fetchLogChannel,
+  interactionReply,
+  setupEmbed,
+} from "../helpers/index.js";
 import dayjs from "dayjs";
 
 const command = new SlashCommandBuilder()
@@ -87,7 +91,7 @@ const action = async (interaction) => {
   const logChannel = await fetchLogChannel(interaction);
   const tPerso = PERSONALITY.getAdmin().timeout.command;
   const embed = setupEmbed(Colors.Orange, tPerso, interaction.user, "tag");
-  logChannel.send({embeds: [embed]});
+  logChannel.send({ embeds: [embed] });
 
   //timeout guildMember
   try {
