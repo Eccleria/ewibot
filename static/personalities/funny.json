@@ -606,7 +606,7 @@
           "description": "Nombre de jours d'exclusion.",
           "name": "jours"
         },
-        "errorMissingPermission": "Je n'ai pas le droit de timeout cette personne. Problème de permission.\n\nRappel : je ne peux pas timeout un.e membre de la modération (Andartien.nes, Ewibot, Sentinelles)",
+        "errorMissingPermission": "Je n'ai pas le droit de timeout cette personne. Problème de permission.\n\nRappel : je ne peux pas timeout un.e membre de la modération (Andartien.nes, Ewibot, Sentinelles).",
         "errorMissingDelay": "Attention, il faut renseigner un délai.",
         "errorUnknown": "Une erreur inconnue s'est produite.",
         "help": "Cette commande permet de timeout un.e utilisateurice.\nJe ne peux pas timeout un.e membre de la modération (Andartien.nes, Ewibot, Sentinelles).\n\nUtilisation : `/timeout utilisateurice:@personne raison:'Raison du timeout'` - **Ne pas oublier de renseigner une durée**",
