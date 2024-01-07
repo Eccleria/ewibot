@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { interactionReply } from "../utils.js";
+import { interactionReply } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { drawerCreativityAction } from "./drawers.js";
 
