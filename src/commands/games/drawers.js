@@ -13,6 +13,14 @@ export const drawerCreativityAction = async (interaction) => {
   const customTheme = options.getString(perso.customOption.name);
   const choiceTheme = options.getString(perso.choiceOption.name);
 
+  //check for target
+  /*
+  if (target.id === interaction.user.id || target.id === process.env.CLIENTID) {
+    interactionReply(interaction, perso.errorWrongTarget);
+    return;
+  }
+  */
+
   //check for theme error
   if (!customTheme && !choiceTheme) {
       interactionReply(interaction, perso.errorNoTheme);
