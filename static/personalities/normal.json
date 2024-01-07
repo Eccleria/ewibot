@@ -216,6 +216,7 @@
             },
             "description": "Jeu de la creativité.",
             "errorNotSent": "Le défi n'a pas pu être envoyé.",
+            "errorWrongTarget": "Attention, vous ne pouvez pas vous affronter ou affronter le bot.",
             "help": "Le jeu de la Créativité.",
             "message": [" a défié ", " sur le thème :\n"],
             "name": "creativity",

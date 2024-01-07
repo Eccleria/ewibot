@@ -1,5 +1,5 @@
-import { interactionReply } from "../../helpers";
-import { PERSONALITY } from "../../personality";
+import { interactionReply } from "../../helpers/index.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const creativityButton = (interaction) => {
   //get personality
