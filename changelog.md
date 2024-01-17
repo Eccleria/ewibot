@@ -7,6 +7,7 @@
 - Fix: `/personality` missing MODERATE_MEMBERS permission snowflake ([#283](https://github.com/Eccleria/ewibot/pull/283))
 - Fix: `gift` wrong color string ([#287](https://github.com/Eccleria/ewibot/pull/287))
 - Fix: missing `vest` personality in `funny` json ([#290](https://github.com/Eccleria/ewibot/pull/290))
+- HotFix: wrong color used for `octagonal log` ([#297](https://github.com/Eccleria/ewibot/issues/297)) ([#298](https://github.com/Eccleria/ewibot/pull/298))
 - Update: reduce `activity` timeout max duration ([#279](https://github.com/Eccleria/ewibot/pull/279))
 - Update: `/reaction` now uses lowerCased emote names ([#284](https://github.com/Eccleria/ewibot/issues/284)) ([#285](https://github.com/Eccleria/ewibot/pull/285))
 - Update: `apologies` featuring "excuses" ([#288](https://github.com/Eccleria/ewibot/pull/288))
