@@ -168,8 +168,13 @@
   },
   "timeout": {
     "author": "Membre :",
+    "command": {
+      "author": "Utilisée par :",
+      "title": "Commande `/timeout` utilisée"
+    },
     "duration": "Durée :",
     "executor": "Timeout par :",
+    "endDate": "Date de fin :",
     "text": "Raison du timeout :",
     "title": "Timeout"
   }

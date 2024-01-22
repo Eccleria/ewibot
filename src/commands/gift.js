@@ -19,7 +19,7 @@ import { PERSONALITY } from "../personality.js";
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
   //get db data
-  const client = interaction.client;
+  const { client, customId } = interaction;
   const db = client.db;
   const dbData = db.data.gift;
 
@@ -28,7 +28,12 @@ export const giftButtonHandler = async (interaction) => {
 
   //filter older buttons
   const today = dayjs();
-  if (!interaction.customId.includes(today.year().toString())) {
+  if (
+    !customId.includes(today.year().toString()) &&
+    !(today.date() < 15 &&
+      today.month() === 0 &&
+      customId.includes((today.year() - 1).toString()))
+  ) {
     console.log("wrong gift button", interaction.customId);
     interactionReply(interaction, "Bouton trop vieux.");
     return;
@@ -82,7 +87,7 @@ const giftInteractionCreation = async (client, type) => {
   if (type === "xmas") {
     const nDayEmbed = personality.nDayEmbed;
     const embed = new EmbedBuilder() //create embed
-      .setColor("DARK_GREEN")
+      .setColor("DarkGreen")
       .setTimestamp()
       .setTitle(personality.nDayEmbed.title)
       .setDescription(nDayEmbed.description)
@@ -94,7 +99,7 @@ const giftInteractionCreation = async (client, type) => {
     const newYear = personality.newYear;
 
     const embed = new EmbedBuilder() //create embed
-      .setColor("DARK_GREEN")
+      .setColor("DarkGreen")
       .setTimestamp()
       .setTitle(newYear.title)
       .setDescription(newYear.description);

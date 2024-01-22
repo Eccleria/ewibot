@@ -752,13 +752,21 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
   const timeoutLog = await fetchAuditLog(newMember.guild, "MemberUpdate", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
 
+  //add timeout duration + timeout end fields
   const timeoutUntil = dayjs(newMember.communicationDisabledUntil);
   const timeoutDuration = timeoutUntil.diff(dayjs(), "s");
-  embed.addFields({
-    name: timeout.duration,
-    value: timeoutDuration.toString(),
-    inline: true,
-  }); //date of message creation
+  embed.addFields(
+    {
+      name: timeout.duration,
+      value: timeoutDuration.toString(),
+      inline: true,
+    },
+    {
+      name: timeout.endDate,
+      value: `<t:${timeoutUntil.unix()}:F>`,
+      inline: true,
+    }
+  );
 
   endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
 };

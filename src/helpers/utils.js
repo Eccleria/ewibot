@@ -123,7 +123,7 @@ export const gifRecovery = (content) => {
 };
 
 const apologyRegex = new RegExp( //regex for apology detection
-  /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)/gm
+  /(d[ée]*sol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)|(excuse[zs]*)/gm
 );
 
 export const hasApology = (sanitizedContent) => {

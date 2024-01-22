@@ -1,12 +1,19 @@
-﻿## 6.1.0
+﻿## 6.2.0
+- Update: `/vest` now send picture in `interaction` reply ([#294](https://github.com/Eccleria/ewibot/issues/294)) ([#295](https://github.com/Eccleria/ewibot/pull/295))
+
+## 6.1.0
 - Fix: `activity` not using `ActivityType` ([#278](https://github.com/Eccleria/ewibot/issues/278)) ([#279](https://github.com/Eccleria/ewibot/pull/279))
 - Fix: `/vest` ([#280](https://github.com/Eccleria/ewibot/pull/280))
 	- missing credits in `/help`
 	- wrong behaviour on vest send
 - Fix: `/polls nouveau-choix` removing timeout embed ([#282](https://github.com/Eccleria/ewibot/pull/282))
 - Fix: `/personality` missing MODERATE_MEMBERS permission snowflake ([#283](https://github.com/Eccleria/ewibot/pull/283))
+- Fix: `gift` wrong color string ([#287](https://github.com/Eccleria/ewibot/pull/287))
+- Fix: missing `vest` personality in `funny` json ([#290](https://github.com/Eccleria/ewibot/pull/290))
+- Feat: add Sentinelles `/timeout` command for better timeout duration customization ([#281](https://github.com/Eccleria/ewibot/pull/281))
 - Update: reduce `activity` timeout max duration ([#279](https://github.com/Eccleria/ewibot/pull/279))
 - Update: `/reaction` now uses lowerCased emote names ([#284](https://github.com/Eccleria/ewibot/issues/284)) ([#285](https://github.com/Eccleria/ewibot/pull/285))
+- Update: `apologies` featuring "excuses" ([#288](https://github.com/Eccleria/ewibot/pull/288))
 
 ## 6.0.0
 - Core: reorganize functions and methods for consistency ([#247](https://github.com/Eccleria/ewibot/pull/247))
