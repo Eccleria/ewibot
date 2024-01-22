@@ -53,12 +53,14 @@
       "id": "Id de l'utilisateurice :",
       "roles": "Roles",
       "text": "Raison du kick :",
+      "timestamp": "Rejoint le ",
       "title": "Membre expulsé"
     },
     "leave": {
       "author": "Membre :",
       "id": "Id de l'utilisateurice :",
       "roles": "Roles",
+      "timestamp": "Rejoint le ",
       "title": "Membre ayant quitté le serveur"
     }
   },
