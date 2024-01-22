@@ -6,7 +6,8 @@
 - [How to Contribute](#how-to-contribute)
 
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
-This bot does not have the aim to directly do some moderation but to enhance the social interactions between users. 
+This bot aim to enhance the social interactions between users. It also has the `timeout` command, its only moderation tool 
+that can only be used by moderation members. No auto-moderation is planned.
 
 ## Documentation
 Ewibot is written in Javascript. The tree is devided into 4 main parts: 

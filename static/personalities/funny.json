@@ -600,6 +600,35 @@
       "spotify": {
         "help": "**ACTUELLEMENT HORS-SERVICE**\n\nUtilisable uniquement sur le salon <#892785771541585980>. Permet d'ajouter des chansons à la playlist du serveur.\n$spotify search <recherche>\n$spotify <lien youtube>\n$spotify <lien spotify>"
       },
+      "timeout": {
+        "description": "Pour exclure une personne du serveur.",
+        "daysOption": {
+          "description": "Nombre de jours d'exclusion.",
+          "name": "jours"
+        },
+        "errorMissingPermission": "Je n'ai pas le droit de timeout cette personne. Problème de permission.\n\nRappel : je ne peux pas timeout un.e membre de la modération (Andartien.nes, Ewibot, Sentinelles).",
+        "errorMissingDelay": "Attention, il faut renseigner un délai.",
+        "errorUnknown": "Une erreur inconnue s'est produite.",
+        "help": "Cette commande permet de timeout un.e utilisateurice.\nJe ne peux pas timeout un.e membre de la modération (Andartien.nes, Ewibot, Sentinelles).\n\nUtilisation : `/timeout utilisateurice:@personne raison:'Raison du timeout'` - **Ne pas oublier de renseigner une durée**",
+        "hoursOption": {
+          "description": "Nombre d'heures d'exclusion.",
+          "name": "heures"
+        },
+        "minsOption": {
+          "description": "Nombre de minutes d'exclusion.",
+          "name": "minutes"
+        },
+        "name": "timeout",
+        "reasonOption": {
+          "description": "Raison du timeout.",
+          "name": "raison"
+        },
+        "ok": "L'utilisateurice a été timeout.",
+        "userOption": {
+          "description": "Utilisateurice à timeout",
+          "name": "utilisateurice"
+        }
+      },
       "vest": {
         "description": "Cette commande permet de sauver un gens en cas de balle perdue.",
         "errorNotSent": "Malheureusement je n'ai plus de gilet à fournir. So long.",
