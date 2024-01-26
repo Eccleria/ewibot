@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ChannelType } from "discord.js";
+import { ChannelType, MessageType } from "discord.js";
 import {
   isTestServer,
   bufferizeEventUpdate,
@@ -410,7 +410,7 @@ export const onMessageDelete = async (message) => {
   const deletionLog = await fetchAuditLog(message.guild, "MessageDelete", 1); //get auditLog
 
   //test for system message
-  if (message.type === "CHANNEL_PINNED_MESSAGE") {
+  if (message.type === MessageType.ChannelPinnedMessage) {
     const msg = await finishEmbed(
       messageDel,
       null,
