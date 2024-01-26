@@ -288,6 +288,6 @@ export const setupEmbed = (color, personality, object, type) => {
  * @param {string} type Dynamic type. Default "R"
  * @returns {string}
  */
-export const parseUnixTimestamp = (time, type="R") => {
+export const parseUnixTimestamp = (time, type = "R") => {
   return `<t:${time}:${type}>`;
 };

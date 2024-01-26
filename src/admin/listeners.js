@@ -391,7 +391,7 @@ export const onMessageDelete = async (message) => {
 
   if (process.env.DEBUG === "no" && isTestServer(message)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(message, "thread"); //get logChannel
-  
+
   const uDate = new Date(message.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
 
@@ -815,7 +815,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     embed.addFields(
       { name: guildKick.id, value: memberKick.id, inline: true }, //add user id
       { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
-    ); 
+    );
     if (textRoles)
       embed.addFields({
         name: guildKick.roles,
