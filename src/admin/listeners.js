@@ -392,20 +392,22 @@ export const onMessageDelete = async (message) => {
   if (process.env.DEBUG === "no" && isTestServer(message)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(message, "thread"); //get logChannel
 
-  const uDate = new Date(message.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
-  const dateStr = uDate.toString().slice(4, 24); //slice date string
 
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
+    const uDate = new Date(message.createdAt); //set date as Date object
+    const dateStr = uDate.toString().slice(4, 24); //slice date string
     console.log("partial message deleted", dateStr);
     return;
   }
 
+  const timestamp = Math.floor(message.createdTimestamp / 1000);
+  const unixTimestamp = parseUnixTimestamp(timestamp, "F");
   const embed = setupEmbed("DarkRed", messageDel, message.author, "tag"); //setup embed
   embed.addFields(
-    { name: messageDel.date, value: `${dateStr}`, inline: true }, //date of message creation
+    { name: messageDel.date, value: unixTimestamp, inline: true }, //date of message creation
     { name: messageDel.channel, value: `<#${message.channelId}>`, inline: true } //message channel
   );
   const deletionLog = await fetchAuditLog(message.guild, "MessageDelete", 1); //get auditLog
