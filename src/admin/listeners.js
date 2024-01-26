@@ -391,13 +391,13 @@ export const onMessageDelete = async (message) => {
 
   if (process.env.DEBUG === "no" && isTestServer(message)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(message, "thread"); //get logChannel
-
+  
+  const uDate = new Date(message.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
 
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
-    const uDate = new Date(message.createdAt); //set date as Date object
     const dateStr = uDate.toString().slice(4, 24); //slice date string
     console.log("partial message deleted", dateStr);
     return;
