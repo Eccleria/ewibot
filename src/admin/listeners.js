@@ -21,12 +21,12 @@ import {
   gifParser,
   hasApology,
   hasOctagonalSign,
+  parseUnixTimestamp,
   removePunctuation,
   setupEmbed,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
-import { parseUnixTimestamp } from "../helpers/utils.js";
 
 //LISTENERS
 
@@ -619,9 +619,9 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const uDate = new Date(oMessage.createdAt); //set date as Date object
   const unixDate = Math.floor(uDate / 1000);
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
-  const dateStr = parseUnixTimestamp(unixDate, "F"); //slice date string
+  const unixTimestamp = parseUnixTimestamp(unixDate, "F"); //slice date string
   embed.addFields(
-    { name: messageU.date, value: dateStr, inline: true }, //date of message creation
+    { name: messageU.date, value: unixTimestamp, inline: true }, //date of message creation
     { name: messageU.channel, value: `<#${oMessage.channelId}>`, inline: true } //message channel
   );
 
