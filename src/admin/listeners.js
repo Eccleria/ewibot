@@ -21,6 +21,7 @@ import {
   gifParser,
   hasApology,
   hasOctagonalSign,
+  parseUnixTimestamp,
   removePunctuation,
   setupEmbed,
 } from "../helpers/index.js";
@@ -393,18 +394,20 @@ export const onMessageDelete = async (message) => {
 
   const uDate = new Date(message.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
-  const dateStr = uDate.toString().slice(4, 24); //slice date string
 
   if (message.partial) {
     //if the message is partial and deleted, no possibility to fetch
     //so only partial data
+    const dateStr = uDate.toString().slice(4, 24); //slice date string
     console.log("partial message deleted", dateStr);
     return;
   }
 
+  const timestamp = Math.floor(message.createdTimestamp / 1000);
+  const unixTimestamp = parseUnixTimestamp(timestamp, "F");
   const embed = setupEmbed("DarkRed", messageDel, message.author, "tag"); //setup embed
   embed.addFields(
-    { name: messageDel.date, value: `${dateStr}`, inline: true }, //date of message creation
+    { name: messageDel.date, value: unixTimestamp, inline: true }, //date of message creation
     { name: messageDel.channel, value: `<#${message.channelId}>`, inline: true } //message channel
   );
   const deletionLog = await fetchAuditLog(message.guild, "MessageDelete", 1); //get auditLog
@@ -614,10 +617,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //add creation date + channel
   const uDate = new Date(oMessage.createdAt); //set date as Date object
+  const unixDate = Math.floor(uDate / 1000);
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
-  const dateStr = uDate.toString().slice(4, 24); //slice date string
+  const unixTimestamp = parseUnixTimestamp(unixDate, "F"); //slice date string
   embed.addFields(
-    { name: messageU.date, value: `${dateStr}`, inline: true }, //date of message creation
+    { name: messageU.date, value: unixTimestamp, inline: true }, //date of message creation
     { name: messageU.channel, value: `<#${oMessage.channelId}>`, inline: true } //message channel
   );
 
@@ -811,7 +815,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     embed.addFields(
       { name: guildKick.id, value: memberKick.id, inline: true }, //add user id
       { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
-    ); 
+    );
     if (textRoles)
       embed.addFields({
         name: guildKick.roles,

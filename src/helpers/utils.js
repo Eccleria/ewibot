@@ -281,3 +281,13 @@ export const setupEmbed = (color, personality, object, type) => {
   }
   return embed;
 };
+
+/**
+ * Parse unix timestamp into dynamic Discord embed timestamp
+ * @param {string} time Unix timestamp
+ * @param {string} type Dynamic type. Default "R"
+ * @returns {string}
+ */
+export const parseUnixTimestamp = (time, type = "R") => {
+  return `<t:${time}:${type}>`;
+};
