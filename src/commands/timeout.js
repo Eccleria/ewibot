@@ -26,6 +26,14 @@ const command = new SlashCommandBuilder()
       .setMinLength(1)
       .setRequired(true)
   )
+  .addNumberOption((option) => 
+    option
+      .setName(PERSONALITY.getCommands().timeout.weeksOption.name)
+      .setDescription(PERSONALITY.getCommands().timeout.weeksOption.description)
+      .setMinValue(1)
+      .setMaxValue(20)
+      .setRequired(false)
+  )
   .addNumberOption((option) =>
     option
       .setName(PERSONALITY.getCommands().timeout.daysOption.name)
@@ -57,6 +65,8 @@ const action = async (interaction) => {
 
   //get timeout values
   let option;
+  option = options.getNumber(perso.weeksOption.name, false);
+  const weeks = option ? option : 0;
   option = options.getNumber(perso.daysOption.name, false);
   const days = option ? option : 0;
   option = options.getNumber(perso.hoursOption.name, false);
@@ -66,7 +76,8 @@ const action = async (interaction) => {
 
   //compute timeout in ms
   let timeout = 0;
-  if (days || hours || minutes) {
+  if (weeks || days || hours || minutes) {
+    timeout = weeks ? (timeout + weeks) * 7 : timeout; //weeks
     timeout = days ? (timeout + days) * 24 : timeout; //hours
     timeout = hours ? (timeout + hours) * 60 : timeout * 60; //minutes
     timeout = minutes ? (timeout + minutes) * 60 * 1000 : timeout * 60 * 1000; //ms
