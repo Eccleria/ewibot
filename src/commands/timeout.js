@@ -39,7 +39,7 @@ const command = new SlashCommandBuilder()
       .setName(PERSONALITY.getCommands().timeout.daysOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.daysOption.description)
       .setMinValue(1)
-      .setMaxValue(28)
+      .setMaxValue(31)
       .setRequired(false)
   )
   .addNumberOption((option) =>
