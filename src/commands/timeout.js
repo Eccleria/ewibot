@@ -26,7 +26,7 @@ const command = new SlashCommandBuilder()
       .setMinLength(1)
       .setRequired(true)
   )
-  .addNumberOption((option) => 
+  .addNumberOption((option) =>
     option
       .setName(PERSONALITY.getCommands().timeout.weeksOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.weeksOption.description)
