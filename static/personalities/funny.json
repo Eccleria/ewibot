@@ -627,6 +627,10 @@
         "userOption": {
           "description": "Utilisateurice à timeout",
           "name": "utilisateurice"
+        },
+        "weeksOption": {
+          "description": "Nombre de semaines d'exclusion.",
+          "name": "semaines"
         }
       },
       "vest": {
