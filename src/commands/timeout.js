@@ -12,13 +12,13 @@ const command = new SlashCommandBuilder()
   .setDescription(PERSONALITY.getCommands().timeout.description)
   .setDefaultMemberPermissions(0x0000010000000000) //MODERATE_MEMBERS bitwise
   .addUserOption((option) =>
-    option
+    option //user
       .setName(PERSONALITY.getCommands().timeout.userOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.userOption.description)
       .setRequired(true)
   )
   .addStringOption((option) =>
-    option
+    option //reason
       .setName(PERSONALITY.getCommands().timeout.reasonOption.name)
       .setDescription(
         PERSONALITY.getCommands().timeout.reasonOption.description
@@ -27,7 +27,7 @@ const command = new SlashCommandBuilder()
       .setRequired(true)
   )
   .addNumberOption((option) =>
-    option
+    option //weeks
       .setName(PERSONALITY.getCommands().timeout.weeksOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.weeksOption.description)
       .setMinValue(1)
@@ -35,7 +35,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   )
   .addNumberOption((option) =>
-    option
+    option //days
       .setName(PERSONALITY.getCommands().timeout.daysOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.daysOption.description)
       .setMinValue(1)
@@ -43,7 +43,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   )
   .addNumberOption((option) =>
-    option
+    option //hours
       .setName(PERSONALITY.getCommands().timeout.hoursOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.hoursOption.description)
       .setMinValue(1)
@@ -51,7 +51,7 @@ const command = new SlashCommandBuilder()
       .setRequired(false)
   )
   .addNumberOption((option) =>
-    option
+    option //minutes
       .setName(PERSONALITY.getCommands().timeout.minsOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.minsOption.description)
       .setMinValue(1)
