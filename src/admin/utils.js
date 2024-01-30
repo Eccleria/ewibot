@@ -1,4 +1,4 @@
-import { AuditLogEvent } from "discord.js";
+import { AuditLogEvent, Colors } from "discord.js";
 import {
   getAdminLogs,
   fetchLogChannel,
@@ -592,7 +592,7 @@ export const octagonalLog = async (object, user) => {
   //basic operations
   const logChannel = await fetchLogChannel(message); //get logChannelId
   const embed = setupEmbed(
-    "LUMINOUS_VIVID_PINK",
+    Colors.LuminousVividPink,
     octaPerso,
     message.author,
     "tag"
