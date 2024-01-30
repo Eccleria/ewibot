@@ -78,7 +78,7 @@ const action = async (interaction) => {
   let timeout = 0;
   if (weeks || days || hours || minutes) {
     timeout = weeks ? (timeout + weeks) * 7 : timeout; //weeks
-    timeout = days ? (timeout + days) * 24 : timeout; //hours
+    timeout = days ? (timeout + days) * 24 : timeout * 24; //hours
     timeout = hours ? (timeout + hours) * 60 : timeout * 60; //minutes
     timeout = minutes ? (timeout + minutes) * 60 * 1000 : timeout * 60 * 1000; //ms
   }
