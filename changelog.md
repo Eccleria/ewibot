@@ -1,6 +1,6 @@
 ﻿## 6.2.0
 - Fix: `ChannelPinnedMessage` error during message delete ([#301](https://github.com/Eccleria/ewibot/issues/301)) ([#302](https://github.com/Eccleria/ewibot/pull/302))
-- Feat: add `unix` `timestamp` usage in AdminLogs ([#275](https://github.com/Eccleria/ewibot/issues/275)) ([#304](https://github.com/Eccleria/ewibot/pull/304))
+- Feat: add `unix` `timestamp` usage in AdminLogs ([#275](https://github.com/Eccleria/ewibot/issues/275)) ([#304](https://github.com/Eccleria/ewibot/pull/304)) ([#258](https://github.com/Eccleria/ewibot/issues/258)) ([#286](https://github.com/Eccleria/ewibot/pull/286))
 - Update: `/vest` now send picture in `interaction` reply ([#294](https://github.com/Eccleria/ewibot/issues/294)) ([#295](https://github.com/Eccleria/ewibot/pull/295))
 
 ## 6.1.0
