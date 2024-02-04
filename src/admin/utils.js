@@ -2,6 +2,7 @@ import { AuditLogEvent, Colors } from "discord.js";
 import {
   getAdminLogs,
   fetchLogChannel,
+  parseUnixTimestamp,
   removeAdminLogs,
   removeBirthday,
   removeEmote,
@@ -602,9 +603,10 @@ export const octagonalLog = async (object, user) => {
   const executor = user
     ? await message.guild.members.fetch(user.id)
     : object.author; //get executor
-  const date = message.createdAt.toString().slice(4, 24);
+  const date = Math.floor(message.createdTimestamp / 1000);
+  const unixTimestamp = parseUnixTimestamp(date, "F");
   embed.addFields(
-    { name: octaPerso.date, value: `${date}`, inline: true }, //date of message creation
+    { name: octaPerso.date, value: unixTimestamp, inline: true }, //date of message creation
     { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
     { name: octaPerso.text, value: message.content }, //message content
     { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
