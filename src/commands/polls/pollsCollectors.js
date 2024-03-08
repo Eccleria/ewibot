@@ -9,7 +9,7 @@ dayjs.extend(relativeTime);
 import { ComponentType } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
-import { getPoll, getPolls } from "../../helpers/index.js";
+import { getPoll, getPolls, removePoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const initPollsCollector = (client) => {
@@ -19,7 +19,14 @@ export const initPollsCollector = (client) => {
 
   polls.forEach(async (poll) => {
     const channel = await client.channels.fetch(poll.channelId);
-    const message = await channel.messages.fetch(poll.pollId);
+    let message;
+    try {
+      message = await channel.messages.fetch(poll.pollId);
+    } catch (e) {
+      console.log("pollMessage deleted, cannot start Collector. Db updated");
+      removePoll(db, poll.pollId);
+      return; //same as continue in forEach
+    }
 
     //compute new reminder waiting time
     const now = dayjs();
