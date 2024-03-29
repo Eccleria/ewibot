@@ -2,6 +2,7 @@ import { ContextMenuCommandBuilder } from "@discordjs/builders";
 import { EmbedBuilder } from "discord.js";
 import {
   fetchLogChannel,
+  getAdminLogs,
   gifParser,
   interactionReply,
 } from "../helpers/index.js";
@@ -67,8 +68,29 @@ const action = async (interaction) => {
     inline: true,
   });
 
-  await logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
+  const savedMessage = await logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
   interactionReply(interaction, saveLogP.sent); //reply to interaction
+
+  //handle attachments
+  const adminLogs = getAdminLogs(interaction.client.db);
+  for (const logs of adminLogs.frequent) {
+    const logIdx = logs.findIndex((id) => id === message.id);
+    if (logIdx !== -1 && logIdx !== logs.length - 1) {
+      //message log found, check if next one is attachment
+      //load message
+      const threadLogChannel = await fetchLogChannel(interaction, "thread"); //get threadChannel
+      const nextMsg = await threadLogChannel.messages.fetch(logs[logIdx + 1]);
+      
+      if (!nextMsg.attachments.length && nextMsg.reference.messageId === message.id) {
+        //found log which has attachments + replies to our interaction message => save it too
+        const attachments = nextMsg.attachments.reduce(
+          (acc, cur) => [...acc, cur],
+          []
+        );
+        savedMessage.reply({ files: attachments });
+      }
+    }
+  }
 
   //handle gifs
   const contentTest = [messageDe.text, messageDe.textAgain]; //get text field names
@@ -85,7 +107,7 @@ const action = async (interaction) => {
     }, []);
   }
 
-  if (gifs.length !== 0) gifs.forEach((gif) => logChannel.send(gif));
+  if (gifs.length !== 0) gifs.forEach((gif) => savedMessage.reply(gif)); //send found gifs
 };
 
 const saveLog = {
