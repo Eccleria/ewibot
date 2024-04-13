@@ -181,9 +181,16 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
  */
 export const stopPoll = async (dbPoll, pollMessage, perso) => {
   console.log("stop poll");
-
   const db = pollMessage.client.db;
   const editedPollMessage = {};
+
+  try {
+    await pollMessage.fetch();
+  } catch (e) {
+    removePoll(db, pollMessage.id); //remove from db
+    console.log("pollMessage has been deleted, cannot reply 'stoped'");
+    return;
+  }
 
   //edit title
   const fetchedPollEmbed = pollMessage.embeds[0];
