@@ -30,7 +30,7 @@ export const initReminder = async (client) => {
   const db = client.db;
   if (db.data && db.data.reminder.length > 0)
     db.data.reminder.forEach(async (element) => {
-      const author = await client.users.fetch(element.authorId); // Find user
+      const toMention = element.toMention;
       const requestChannel = await client.channels.fetch(
         element.requestChannelId
       ); //Find channel with user's request
@@ -51,12 +51,12 @@ export const initReminder = async (client) => {
         newTiming,
         client,
         requestChannel,
-        author,
+        toMention,
         element.content,
         botMessage
       );
 
-      addClientReminder(client, author.id, botMessage, timeoutObj); //add to client
+      addClientReminder(client, element.authorId, botMessage, timeoutObj); //add to client
       updateReminder(
         db,
         botMessage.id,
@@ -69,11 +69,12 @@ const sendDelayed = async (
   // Function sending the reminder to the user
   client,
   channel,
-  author,
+  toMention,
   messageContent,
   botMessage
 ) => {
-  await channel.send(`${author.toString()} : ${messageContent}`);
+  const toMentionText = toMention.reduce((acc, cur) => acc + ` <@${cur}>`, "");
+  await channel.send(toMentionText + " : " + messageContent);
 
   removeReminder(client.db, botMessage.id);
 };
@@ -102,7 +103,7 @@ const extractDuration = (interaction) => {
 const answerBot = async (interaction, cmnShared, timing) => {
   // Confirm or not the reminder to user
   const personality = PERSONALITY.getCommands().reminder;
-  const { removeEmoji } = cmnShared;
+  const { removeEmoji, participateEmoji } = cmnShared;
 
   await interactionReply(
     interaction,
@@ -116,6 +117,7 @@ const answerBot = async (interaction, cmnShared, timing) => {
   const answer = await interaction.fetchReply();
 
   await answer.react(removeEmoji);
+  await answer.react(participateEmoji);
   return answer;
 };
 
@@ -134,8 +136,11 @@ const action = async (interaction) => {
     console.log("reminder timing: ", timing);
     const cmnShared = COMMONS.getShared();
 
-    const answer = await answerBot(interaction, cmnShared, timing);
+    const answer = await answerBot(interaction, cmnShared, timing); //send bot answer
+
+    //compute useful data
     const reminderDate = dayjs().millisecond(timing).toISOString(); //waiting time before reminder in ms
+    const toMention = [member.id]; //list of users to mention when timeout is ended
 
     const timeoutObj = setTimeout(
       // Set waiting time before reminding to user
@@ -143,12 +148,12 @@ const action = async (interaction) => {
       timing,
       client,
       channel,
-      member,
+      toMention,
       messageContent,
       answer
     );
 
-    addReminder(client.db, interaction, answer, reminderDate, messageContent);
+    addReminder(client.db, interaction, answer, reminderDate, messageContent, toMention);
     addClientReminder(client, member.id, answer, timeoutObj);
   }
 };
