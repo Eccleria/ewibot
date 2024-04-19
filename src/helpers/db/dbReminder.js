@@ -12,6 +12,7 @@ const addReminder = (
   botMessage,
   endingTime,
   messageContent,
+  toMention
 ) => {
   if (!isReminder(db, botMessage.id)) {
     db.data.reminder = [
@@ -23,6 +24,7 @@ const addReminder = (
         answerChannelId: botMessage.channel.id,
         reminderTime: endingTime,
         content: messageContent,
+        toMention: toMention,
       },
     ];
     db.wasUpdated = true;
