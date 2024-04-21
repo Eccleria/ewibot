@@ -109,6 +109,7 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
+  //cosmetic role attribution
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
   ) {
@@ -116,11 +117,13 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
+  //octagonal sign
   if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
     octagonalLog(messageReaction, user);
     return;
   }
 
+  //alavirien.ne wave on presentation
   if (
     messageReaction.message.channel.id ===
       currentServer.presentationChannelId &&
@@ -130,9 +133,9 @@ export const onReactionAdd = async (messageReaction, user) => {
     return; //no command in presentation channel
   }
 
-  onRemoveSpotifyReaction(messageReaction, cmnShared);
-
-  onRemoveReminderReaction(messageReaction, user, cmnShared);
+  //remove reaction
+  onRemoveSpotifyReaction(messageReaction, cmnShared); //spotify
+  onRemoveReminderReaction(messageReaction, user, cmnShared); //reminder
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
