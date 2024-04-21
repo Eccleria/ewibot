@@ -9,9 +9,10 @@ dayjs.extend(relativeTime);
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   addReminder,
+  addReminderUser,
   interactionReply,
   removeReminder,
-  updateReminder,
+  updateReminderTime,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
@@ -31,8 +32,11 @@ export const removeClientReminder = (client, botMessageId) => {
   );
 };
 
+/**
+ * Recover reminders from db at startup
+ * @param {*} client 
+ */
 export const initReminder = async (client) => {
-  //recover reminders from db
   const db = client.db;
   if (db.data && db.data.reminder.length > 0)
     db.data.reminder.forEach(async (element) => {
@@ -63,7 +67,7 @@ export const initReminder = async (client) => {
       );
 
       addClientReminder(client, element.authorId, botMessage, timeoutObj); //add to client
-      updateReminder(
+      updateReminderTime(
         db,
         botMessage.id,
         now.millisecond(newTiming).toISOString()
@@ -71,8 +75,10 @@ export const initReminder = async (client) => {
     });
 };
 
+/**
+ * Function sending the reminder to the user
+ */
 const sendDelayed = async (
-  // Function sending the reminder to the user
   client,
   channel,
   toMention,
@@ -86,14 +92,17 @@ const sendDelayed = async (
   removeClientReminder(client, botMessage.id); //from client
 };
 
+/**
+ * get text from waiting time
+ */
 const formatMs = (nbr) => {
-  //get text from waiting time
   return dayjs.duration(nbr, "milliseconds").humanize();
 };
 
+/**
+ * returns the waiting time in ms
+ */
 const extractDuration = (interaction) => {
-  // returns the waiting time in ms
-
   const hours = interaction.options.getNumber("heures");
   const minutes = interaction.options.getNumber("minutes");
   const seconds = interaction.options.getNumber("secondes");
@@ -107,8 +116,11 @@ const extractDuration = (interaction) => {
   return durationMs * 1000; //convert in ms
 };
 
+/**
+ * Confirm or not the reminder to user
+ */
 const answerBot = async (interaction, cmnShared, timing) => {
-  // Confirm or not the reminder to user
+  
   const personality = PERSONALITY.getCommands().reminder;
   const { removeEmoji, participateEmoji } = cmnShared;
 
@@ -126,6 +138,16 @@ const answerBot = async (interaction, cmnShared, timing) => {
   await answer.react(removeEmoji);
   await answer.react(participateEmoji);
   return answer;
+};
+
+/** */
+export const participateHandler = (messageReaction, user) => {
+  //find reminder message
+  const {client, messsage} = messageReaction;
+  if (client.remindme.find((obj) => obj.botMessage.id === messsage.id)) {
+    //store user id
+    addReminderUser(client.db, reminder, user);
+  }
 };
 
 const action = async (interaction) => {
