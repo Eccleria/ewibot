@@ -25,6 +25,10 @@ const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
   });
 };
 
+export const removeClientReminder = (client, botMessageId) => {
+  client.remindme = client.remindme.filter((obj) => obj.botMessage.id !== botMessageId);
+};
+
 export const initReminder = async (client) => {
   //recover reminders from db
   const db = client.db;
@@ -76,7 +80,8 @@ const sendDelayed = async (
   const toMentionText = toMention.reduce((acc, cur) => acc + ` <@${cur}>`, "");
   await channel.send(toMentionText + " : " + messageContent);
 
-  removeReminder(client.db, botMessage.id);
+  removeReminder(client.db, botMessage.id); //from db
+  removeClientReminder(client, botMessage.id); //from client
 };
 
 const formatMs = (nbr) => {
