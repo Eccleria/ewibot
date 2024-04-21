@@ -26,7 +26,9 @@ const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
 };
 
 export const removeClientReminder = (client, botMessageId) => {
-  client.remindme = client.remindme.filter((obj) => obj.botMessage.id !== botMessageId);
+  client.remindme = client.remindme.filter(
+    (obj) => obj.botMessage.id !== botMessageId
+  );
 };
 
 export const initReminder = async (client) => {
@@ -158,7 +160,14 @@ const action = async (interaction) => {
       answer
     );
 
-    addReminder(client.db, interaction, answer, reminderDate, messageContent, toMention);
+    addReminder(
+      client.db,
+      interaction,
+      answer,
+      reminderDate,
+      messageContent,
+      toMention
+    );
     addClientReminder(client, member.id, answer, timeoutObj);
   }
 };
