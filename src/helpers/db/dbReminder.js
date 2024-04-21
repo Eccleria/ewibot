@@ -31,6 +31,17 @@ const addReminder = (
   }
 };
 
+const addReminderUser = (db, answerId, userId) => {
+  if (isReminder(db, answerId)) {
+    db.data.reminder.forEach((element) => {
+      if (element.answerId === answerId) {
+        element.toMention = [...element.toMention, userId];
+        db.wasUpdated = true;
+      }
+    })
+  }
+}
+
 const removeReminder = (db, botMessageId) => {
   if (isReminder(db, botMessageId)) {
     db.data.reminder = db.data.reminder.filter(
@@ -40,7 +51,7 @@ const removeReminder = (db, botMessageId) => {
   }
 };
 
-const updateReminder = (db, botMessageId, newReminderTime) => {
+const updateReminderTime = (db, botMessageId, newReminderTime) => {
   db.data.reminder.map((element) => {
     if (element.answerId === botMessageId)
       element.reminderTime = newReminderTime;
@@ -48,4 +59,4 @@ const updateReminder = (db, botMessageId, newReminderTime) => {
   db.wasUpdated = true;
 };
 
-export { isReminder, addReminder, removeReminder, updateReminder };
+export { isReminder, addReminder, addReminderUser, removeReminder, updateReminderTime };

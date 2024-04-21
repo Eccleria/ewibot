@@ -3,6 +3,7 @@ import { presentationHandler } from "./admin/alavirien.js";
 import { checkPinStatus } from "./admin/listeners.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 import { octagonalLog } from "./admin/utils.js";
+import { participateHandler } from "./commands/reminder.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import {
   addEmojiData,
@@ -131,6 +132,15 @@ export const onReactionAdd = async (messageReaction, user) => {
   ) {
     presentationHandler(currentServer, messageReaction, user);
     return; //no command in presentation channel
+  }
+
+  //reminder share
+  if (
+    cmnShared.participateEmoji === messageReaction.emoji.name
+  ) {
+    console.log("share reminder");
+    participateHandler(messageReaction, user);
+    return;
   }
 
   //remove reaction
