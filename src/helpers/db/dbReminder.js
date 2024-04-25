@@ -6,6 +6,18 @@ const isReminder = (db, botMessageId) => {
     .includes(botMessageId);
 };
 
+const isReminderUser = (db, botMessageId, userId) => {
+  const data = db.data.reminder;
+  let flag = false;
+  if (isReminder(db, botMessageId)) {
+    data.forEach((obj) => {
+      console.log(obj, [userId], [botMessageId], obj.toMention.includes(userId));
+      if (obj.answerId === botMessageId && obj.toMention.includes(userId)) flag = true; 
+    })
+  }
+  return flag;
+}
+
 const addReminder = (
   db,
   interaction,
@@ -59,4 +71,4 @@ const updateReminderTime = (db, botMessageId, newReminderTime) => {
   db.wasUpdated = true;
 };
 
-export { isReminder, addReminder, addReminderUser, removeReminder, updateReminderTime };
+export { isReminderUser, addReminder, addReminderUser, removeReminder, updateReminderTime };

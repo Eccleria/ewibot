@@ -11,6 +11,7 @@ import {
   addReminder,
   addReminderUser,
   interactionReply,
+  isReminderUser,
   removeReminder,
   updateReminderTime,
 } from "../helpers/index.js";
@@ -140,13 +141,36 @@ const answerBot = async (interaction, cmnShared, timing) => {
   return answer;
 };
 
+const removeCDReaction = (messageReaction, userId) => {
+  messageReaction.users.remove(userId);
+};
+
 /** */
-export const participateHandler = (messageReaction, user) => {
+export const participateHandler = async (messageReaction, user) => {
   //find reminder message
-  const {client, messsage} = messageReaction;
-  if (client.remindme.find((obj) => obj.botMessage.id === messsage.id)) {
+  const {client, message} = messageReaction;
+  const db = client.db;
+  console.log("remindme", client.remindme);
+  if (client.remindme.find((obj) => obj.botMessage.id === message.id)) {
+    console.log("found client remindme")
+    const commons = COMMONS.getShared();
+
+    //check if user is already in reminder list
+    if(isReminderUser(db, message.id, user.id)) {
+      console.log("user already in reminder db")
+      messageReaction.users.remove(user.id); //remove reaction
+      const denyReact = await message.react(commons.denyEmoji);
+
+      //wait 5s and remove reaction
+      setTimeout(removeCDReaction, 5000, denyReact, client.user.id);
+    }
+
     //store user id
     addReminderUser(client.db, reminder, user);
+
+    //react and remove react
+    const confirmReact = await message.react(commons.denyEmoji);
+    setTimeout(removeCDReaction, 5000, confirmReact, client.user.id);
   }
 };
 
