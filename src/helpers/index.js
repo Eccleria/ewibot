@@ -63,6 +63,8 @@ import {
 
 import {
   addReminder,
+  addReminderUser,
+  isReminderUser,
   removeReminder,
   updateReminderTime,
 } from "./db/dbReminder.js";
@@ -181,6 +183,8 @@ export {
   updatePollButtonId,
   //reminder
   addReminder,
+  addReminderUser,
+  isReminderUser,
   removeReminder,
   updateReminderTime,
   //stats

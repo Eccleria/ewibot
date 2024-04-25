@@ -165,6 +165,8 @@
   },
   "shared": {
     "admins": ["141962573900808193", "290505766631112714"],
+    "confirmEmoji": "✅",
+    "denyEmoji": "❎",
     "helloEmoji": "👋",
     "LuciferId": "657498573222576148",
     "name": "shared",
