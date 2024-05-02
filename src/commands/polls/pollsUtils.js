@@ -215,5 +215,5 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
   const len = pollEmbed.data.title.length;
   const content =
     mPerso[0] + pollEmbed.data.title.slice(0, len - 14) + mPerso[1];
-  pollMessage.reply({content, embeds: [pollEmbed]});
+  pollMessage.reply({ content, embeds: [pollEmbed] });
 };
