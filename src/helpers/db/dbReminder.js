@@ -52,7 +52,14 @@ const addReminderUser = (db, answerId, userId) => {
       }
     })
   }
-}
+};
+
+const getReminderToMentionNumber = (db, botMessageId) => {
+  if (isReminder(db, botMessageId)) {
+    const data = db.data.reminder.find((obj) => obj.answerId === botMessageId)
+    return data.toMention.length;
+  }
+};
 
 const removeReminder = (db, botMessageId) => {
   if (isReminder(db, botMessageId)) {
@@ -60,6 +67,13 @@ const removeReminder = (db, botMessageId) => {
       (element) => element.answerId !== botMessageId,
     );
     db.wasUpdated = true;
+  }
+};
+
+const removeReminderUser = (db, botMessageId, userId) => {
+  if (isReminder(db, botMessageId)) {
+    const data = db.data.reminder.find((obj) => obj.answerId === botMessageId);
+    return data.toRemind.includes(userId);
   }
 };
 
@@ -71,4 +85,4 @@ const updateReminderTime = (db, botMessageId, newReminderTime) => {
   db.wasUpdated = true;
 };
 
-export { isReminderUser, addReminder, addReminderUser, removeReminder, updateReminderTime };
+export { isReminderUser, addReminder, addReminderUser, getReminderToMentionNumber, removeReminder, removeReminderUser, updateReminderTime };

@@ -141,7 +141,7 @@ const answerBot = async (interaction, cmnShared, timing) => {
   return answer;
 };
 
-const removeCDReaction = (messageReaction, userId) => {
+export const removeCDReaction = (messageReaction, userId) => {
   messageReaction.users.remove(userId);
 };
 
