@@ -220,7 +220,7 @@ export const onRemoveReminderReaction = (
 
               //confirm the operation
               const reaction = await message.react(confirmEmoji);
-              setTimeout(removeCDReaction, 5000, reaction, client.user.id);
+              setTimeout(removeCDReaction, 1000, reaction, client.user.id);
             } else {
               //only one user, delete reminder
               clearTimeout(timeout); //cancel timeout
@@ -232,7 +232,7 @@ export const onRemoveReminderReaction = (
           } else {
             //not a user of this reminder
             const reaction = await message.react(denyEmoji);
-            setTimeout(removeCDReaction, 5000, reaction, client.user.id);
+            setTimeout(removeCDReaction, 1000, reaction, client.user.id);
           }
         }
         return true; //if it's the wrong, keep it

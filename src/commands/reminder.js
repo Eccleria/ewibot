@@ -162,15 +162,15 @@ export const participateHandler = async (messageReaction, user) => {
       const denyReact = await message.react(commons.denyEmoji);
 
       //wait 5s and remove reaction
-      setTimeout(removeCDReaction, 5000, denyReact, client.user.id);
+      setTimeout(removeCDReaction, 1000, denyReact, client.user.id);
     }
 
     //store user id
     addReminderUser(client.db, reminder, user);
 
     //react and remove react
-    const confirmReact = await message.react(commons.denyEmoji);
-    setTimeout(removeCDReaction, 5000, confirmReact, client.user.id);
+    const confirmReact = await message.react(commons.confirmEmoji);
+    setTimeout(removeCDReaction, 1000, confirmReact, client.user.id);
   }
 };
 
