@@ -1,5 +1,6 @@
 ﻿## 6.3.0
 - Feat: Send `poll` results in ending message ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#311](https://github.com/Eccleria/ewibot/pull/311))
+- Update: `poll` 2nd embed now display both timeout and ending date ([#312](https://github.com/Eccleria/ewibot/pull/312))
 
 ## 6.2.1
 - Fix: `poll` now handle the case of a deleted pollMessage both at startup and running ([#308](https://github.com/Eccleria/ewibot/pull/308))
