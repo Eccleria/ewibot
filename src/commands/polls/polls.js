@@ -302,6 +302,18 @@ const action = async (interaction) => {
         title,
         pollDate.toISOString()
       ); //add to db
+
+      //set 1h reminder
+      if (timeout >= 7200000) {
+        setTimeout(
+          (message) => {
+            const perso = PERSONALITY.getCommands().polls;
+            message.reply(perso.create.reminder);
+          },
+          timeout - 3600000,
+          pollMsg
+        );
+      }
     } catch (e) {
       console.log("/polls create error\n", e);
     }
