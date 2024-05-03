@@ -276,7 +276,7 @@ const action = async (interaction) => {
     const timeoutEmbed = new EmbedBuilder().setColor(color);
     timeoutEmbed.addFields({
       name: perso.timeout,
-      value: `<t:${pollDate.unix()}:R>`,
+      value: `<t:${pollDate.unix()}:F> soit <t:${pollDate.unix()}:R>`,
     });
 
     //send poll
