@@ -405,6 +405,7 @@
             "name": "minutes"
           },
           "name": "create",
+          "reminder": "N'oubliez pas, ce sondage expire dans 1h !",
           "sent": "Le sondage a été envoyé.",
           "settings": "settings",
           "timeout": "Fin du sondage",
