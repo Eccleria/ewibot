@@ -305,10 +305,14 @@ const action = async (interaction) => {
 
       //set 1h reminder
       if (timeout >= 7200000) {
-        setTimeout((message) => {
-          const perso = PERSONALITY.getCommands().polls;
-          message.reply(perso.create.reminder);
-        }, timeout - 3600000, pollMsg);
+        setTimeout(
+          (message) => {
+            const perso = PERSONALITY.getCommands().polls;
+            message.reply(perso.create.reminder);
+          },
+          timeout - 3600000,
+          pollMsg
+        );
       }
     } catch (e) {
       console.log("/polls create error\n", e);
