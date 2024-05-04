@@ -1,4 +1,5 @@
 ﻿## 6.3.0
+- Debug: remove a useless log for alavirien attribution check ([#314](https://github.com/Eccleria/ewibot/pull/314))
 - Feat: Send `poll` results in ending message ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#311](https://github.com/Eccleria/ewibot/pull/311))
 - Feat: Send a reminder 1h before `poll` end ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#313](https://github.com/Eccleria/ewibot/pull/313))
 - Update: `poll` 2nd embed now display both timeout and ending date ([#312](https://github.com/Eccleria/ewibot/pull/312))
