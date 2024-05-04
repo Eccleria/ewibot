@@ -1,24 +1,31 @@
 import { SlashCommandBuilder } from "discord.js";
 
+import { drawerCreativityAction } from "./drawers.js";
+import { frontalierAction } from "./hsa.js";
+
 import { interactionReply } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
-import { drawerCreativityAction } from "./drawers.js";
-
 
 const creativityChoices = [
     {name: "theme1", value: "0"},
     {name: "theme2", value: "1"}
 ]
 
+export const gamesClientInit = (client) => {
+  client.games = {};
+  client.games.frontalier = {};
+  client.games.frontalier.hsa = [];
+}
+
 const command = new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().games.name)
     .setDescription(PERSONALITY.getCommands().games.description)
     .addSubcommandGroup((group) => 
-      group
+      group //drawers
         .setName(PERSONALITY.getCommands().games.drawer.name)
         .setDescription(PERSONALITY.getCommands().games.drawer.description)
         .addSubcommand((subcommand) => 
-          subcommand
+          subcommand //creativity
             .setName(PERSONALITY.getCommands().games.drawer.creativity.name)
             .setDescription(PERSONALITY.getCommands().games.drawer.creativity.description)
             .addUserOption((option) => 
@@ -43,6 +50,22 @@ const command = new SlashCommandBuilder()
                 .setChoices(...creativityChoices)
             )
         )
+    )
+    .addSubcommandGroup((group) => 
+      group //frontalier
+        .setName(PERSONALITY.getCommands().games.frontalier.name)
+        .setDescription(PERSONALITY.getCommands().games.frontalier.description)
+        .addSubcommand((subcommand) => 
+          subcommand //hsa
+            .setName(PERSONALITY.getCommands().games.frontalier.hsa.name)
+            .setDescription(PERSONALITY.getCommands().games.frontalier.hsa.description)
+            .addUserOption((option) => 
+              option
+                .setName(PERSONALITY.getCommands().games.frontalier.hsa.userOption.name)
+                .setDescription(PERSONALITY.getCommands().games.frontalier.hsa.userOption.description)
+                .setRequired(false)
+            )
+        )
     );
 
 const action = async (interaction) => {
@@ -60,6 +83,10 @@ const action = async (interaction) => {
     
     if (subcommand === dPerso.creativity.name)
       drawerCreativityAction(interaction);
+  } else if (group === personality.frontalier.name) {
+    //frontalier
+
+    frontalierAction(interaction);
   }
 };
 

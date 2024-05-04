@@ -45,6 +45,7 @@ import { roleInit } from "./admin/role.js";
 import { initAdminLogClearing } from "./admin/utils.js";
 
 // commands import
+import { gamesClientInit } from "./commands/games/games.js";
 import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
 import { initBirthdays } from "./commands/birthday.js";
 import { setGiftTimeoutLoop } from "./commands/gift.js";
@@ -150,6 +151,9 @@ client.once("ready", async () => {
 
   //birthdays
   initBirthdays(client, tomorrowDiff, frequency);
+
+  //games
+  gamesClientInit(client);
 });
 
 // Create an event listener for messages
