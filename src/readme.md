@@ -31,6 +31,15 @@ Chaque tour, tu dois jouer 1 ou 2 épées.
 Les tours alternent.
 Le premier à 3 victoires gagne
 
+## Idée 4
+
+Bjorn n'a pas cassé le bouclier car son cheval a fait un écart et donc la hache a raté le bouclier 
+Cheval > hache
+(et je ne voulais pas un hache > cheval pour une raison évidente) 
+Le cheval, même s'il obéit, ne permet pas de casser le bouclier avec une hache. Cf les autres candidats qui foirent
+Bouclier > cheval 
+Quand tout est maitrisé à la perfection, la hache casse le bouclier. Cf la participation d'Edwin
+hache > bouclier
 
 # Dessinateur.ices
 
