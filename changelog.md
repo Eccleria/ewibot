@@ -2,6 +2,7 @@
 - Feat: Send `poll` results in ending message ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#311](https://github.com/Eccleria/ewibot/pull/311))
 - Feat: Send a reminder 1h before `poll` end ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#313](https://github.com/Eccleria/ewibot/pull/313))
 - Update: `poll` 2nd embed now display both timeout and ending date ([#312](https://github.com/Eccleria/ewibot/pull/312))
+- Update: `apology` `regex` now handle the word "dézo" and its affiliates ([#315](https://github.com/Eccleria/ewibot/pull/315))
 
 ## 6.2.1
 - Fix: `poll` now handle the case of a deleted pollMessage both at startup and running ([#308](https://github.com/Eccleria/ewibot/pull/308))
