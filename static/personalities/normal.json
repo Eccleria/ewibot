@@ -245,6 +245,7 @@
               "text": " a été défié.e par "
             },
             "name": "hsa",
+            "notFound": "Désolé, le jeu auquel vous jouez n'a pas été trouvé.",
             "sent": "Le défi a bien été envoyé",
             "title": "Cheval Bouclier Hâche",
             "userOption": {

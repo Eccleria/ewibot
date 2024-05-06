@@ -11,6 +11,12 @@ const creativityChoices = [
     {name: "theme2", value: "1"}
 ]
 
+export const gamesClientInit = (client) => {
+  client.games = {};
+  client.games.frontalier = {};
+  client.games.frontalier.hsa = [];
+}
+
 const command = new SlashCommandBuilder()
     .setName(PERSONALITY.getCommands().games.name)
     .setDescription(PERSONALITY.getCommands().games.description)

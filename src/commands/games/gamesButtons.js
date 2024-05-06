@@ -20,3 +20,18 @@ export const creativityButton = (interaction) => {
     interactionReply(interaction, bPerso.errorUnknownButton);
   }
 };
+
+export const hsaButtons = (interaction) => {
+  //get variables
+  const { customId, message, client } = interaction;
+  const perso = PERSONALITY.getCommands().games.frontalier.hsa;
+  //find corresponding hsa in client
+  const clientData = client.games.frontalier.hsa.find((obj) => obj.messageId === message.id);
+
+  if (!clientData) {
+    interactionReply(perso.notFound);
+    return;
+  }
+
+  //store vote in client
+};

@@ -3,7 +3,7 @@ import { PERSONALITY } from "../../personality.js";
 import { interactionReply } from "../../helpers/index.js";
 import { createButton } from "../utils.js";
 
-export const frontalierAction = (interaction) => {
+export const frontalierAction = async (interaction) => {
   //send figth interaction
 
   //get options
@@ -36,8 +36,17 @@ export const frontalierAction = (interaction) => {
   const aRow = new ActionRowBuilder().addComponents(hButton, sButton, aButton);
 
   //send the data
-  interaction.channel.send({embeds: [embed], components: [aRow]});
+  const msg = await interaction.channel.send({embeds: [embed], components: [aRow]});
 
   //reply to the original interaction
   interactionReply(interaction, perso.sent);
+
+  //save data in client
+  client.games.frontalier.hsa.push({
+    "authorId": user.id,
+    "authorScore": 0,
+    "messageId": msg.id,
+    "targetId": finalUser.id,
+    "targetScore": 0
+  });
 };
