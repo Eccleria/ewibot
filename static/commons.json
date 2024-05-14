@@ -2,6 +2,7 @@
   "test": {
     "name": "test",
     "guildId": "926909708072284170",
+    "accountabilityBuddyThreadId": "1240005752882466886",
     "alavirienRoleId": "981493533598961706",
     "announce": {
       "giftChannelId": "935180557770448956"
@@ -85,6 +86,7 @@
     "name": "prod",
     "guildId": "816961245743808582",
     "alavirienRoleId": "826743423612092436",
+    "accountabilityBuddyThreadId": "1200414174010937354",
     "announce": {
       "giftChannelId": "973206750771687434"
     },
