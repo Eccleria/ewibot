@@ -2,6 +2,7 @@
   "test": {
     "name": "test",
     "guildId": "926909708072284170",
+    "accountabilityBuddyThreadId": "1240005752882466886",
     "alavirienRoleId": "981493533598961706",
     "autoEmotes": {
       "bjornLoveReactId": "😍",
@@ -74,7 +75,11 @@
   "prod": {
     "name": "prod",
     "guildId": "816961245743808582",
+    "accountabilityBuddyThreadId": "1200414174010937354",
     "alavirienRoleId": "826743423612092436",
+    "announce": {
+      "giftChannelId": "973206750771687434"
+    },
     "autoEmotes": {
       "bjornLoveReactId": "822437083003355146",
       "ewilhugReactId": "843097186710716416",
