@@ -16,6 +16,7 @@ import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
 import { PERSONALITY } from "./personality.js";
+import { firstReactToAccountabilityMessage } from "./buddy.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -166,6 +167,7 @@ const onPublicMessage = (message, currentServer) => {
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
+  firstReactToAccountabilityMessage(message);
 };
 
 export const onRemoveReminderReaction = (

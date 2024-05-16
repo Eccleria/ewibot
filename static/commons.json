@@ -166,6 +166,7 @@
     "sentinelleRoleId": "816975096518279188"
   },
   "shared": {
+    "accountabilityBuddyEmoteId": "🔳",
     "admins": ["141962573900808193", "290505766631112714"],
     "helloEmoji": "👋",
     "LuciferId": "657498573222576148",
