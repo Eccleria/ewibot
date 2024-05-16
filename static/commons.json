@@ -150,6 +150,7 @@
   },
   "shared": {
     "name": "shared",
+    "accountabilityBuddyEmoteId": "🔳",
     "admins": ["290505766631112714"],
     "birdEmoji": "🐦",
     "helloEmoji": "👋",

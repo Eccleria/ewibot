@@ -15,9 +15,11 @@ import {
   removeReminder,
 } from "./helpers/index.js";
 import { COMMONS } from "./classes/commons.js";
+import { PERSONALITY } from "./classes/personality.js";
+
+import { firstReactToAccountabilityMessage } from "./buddy.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
-import { PERSONALITY } from "./classes/personality.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -160,6 +162,7 @@ const onPublicMessage = (message, currentServer) => {
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
+  firstReactToAccountabilityMessage(message);
 };
 
 export const onRemoveReminderReaction = (
