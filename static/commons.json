@@ -150,7 +150,13 @@
   },
   "shared": {
     "name": "shared",
-    "accountabilityBuddyEmoteId": "🔳",
+    "accountabilityBuddy": {
+      "cancelledEmoteId": "❌",
+      "currentEmoteId": "📝",
+      "pauseEmoteId": "⏸️",
+      "starEmoteId": "⭐",
+      "toDoEmoteId": "🔳"
+    },
     "admins": ["290505766631112714"],
     "birdEmoji": "🐦",
     "helloEmoji": "👋",

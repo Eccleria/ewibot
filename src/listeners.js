@@ -98,24 +98,26 @@ export const onMessageCreate = async (message) => {
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
+  const { message, emoji } = messageReaction;
+  const { channel } = message;
   const currentServer = COMMONS.fetchFromGuildId(
-    messageReaction.message.channel.guild.id,
+    channel.guild.id
   );
   const cmnShared = COMMONS.getShared();
 
   //stats
-  const emote = messageReaction.emoji; //get emote
-  const emoteGuild = emote.guild ? emote.guild : null; //get emote guild if any
+  const emoteGuild = emoji.guild ? emoji.guild : null; //get emote guild if any
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server, count
     const db = messageReaction.client.db;
-    addEmojiData(db, user.id, emote.id); //user stat
-    addServerEmojiCount(db, emote.id); //server stat
+    addEmojiData(db, user.id, emoji.id); //user stat
+    addServerEmojiCount(db, emoji.id); //server stat
     return;
   }
 
+  //role
   if (
-    currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
+    currentServer.cosmeticRoleHandle.messageId === message.id
   ) {
     roleAdd(messageReaction, currentServer, user);
     return;
