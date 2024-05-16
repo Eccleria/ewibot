@@ -12,11 +12,11 @@ import {
   isReleasedCommand,
   removeReminder,
 } from "./helpers/index.js";
+import { accountabilityReactHandler, firstReactToAccountabilityMessage } from "./buddy.js";
 import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
 import { PERSONALITY } from "./personality.js";
-import { firstReactToAccountabilityMessage } from "./buddy.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -93,41 +93,55 @@ export const onMessageCreate = async (message) => {
 
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
+  const { message, emoji } = messageReaction;
+  const { channel } = message;
   const currentServer = COMMONS.fetchFromGuildId(
-    messageReaction.message.channel.guild.id
+    channel.guild.id
   );
   const cmnShared = COMMONS.getShared();
 
   //stats
-  const emote = messageReaction.emoji; //get emote
-  const emoteGuild = emote.guild ? emote.guild : null; //get emote guild if any
+  const emoteGuild = emoji.guild ? emoji.guild : null; //get emote guild if any
   if (emoteGuild && currentServer.guildId === emoteGuild.id) {
     //if is a guildEmote and belongs to current server, count
     const db = messageReaction.client.db;
-    addEmojiData(db, user.id, emote.id); //user stat
-    addServerEmojiCount(db, emote.id); //server stat
+    addEmojiData(db, user.id, emoji.id); //user stat
+    addServerEmojiCount(db, emoji.id); //server stat
     return;
   }
 
+  //role
   if (
-    currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
+    currentServer.cosmeticRoleHandle.messageId === message.id
   ) {
     roleAdd(messageReaction, currentServer, user);
     return;
   }
 
-  if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
+  //octagonal log
+  if (cmnShared.octagonalSignEmoji === emoji.name) {
     octagonalLog(messageReaction, user);
     return;
   }
 
+  //presentation
   if (
-    messageReaction.message.channel.id ===
+    channel.id ===
       currentServer.presentationChannelId &&
-    currentServer.presentationReactId === messageReaction.emoji.name
+    currentServer.presentationReactId === emoji.name
   ) {
     presentationHandler(currentServer, messageReaction, user);
-    return; //no command in presentation channel
+    return; //no reminder/spotify in presentation channel
+  }
+
+  //accountability buddy
+  if (
+    channel.id === currentServer.accountabilityBuddyThreadId && 
+    emoji.name === cmnShared.accountabilityBuddy.toDoEmoteId && 
+    user.id === message.author.id
+  ) {
+    accountabilityReactHandler(messageReaction, user);
+    return;
   }
 
   onRemoveSpotifyReaction(messageReaction, cmnShared);
