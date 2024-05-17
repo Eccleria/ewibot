@@ -1,3 +1,4 @@
+import { Colors, EmbedBuilder } from "discord.js";
 import { COMMONS } from "./commons.js";
 
 export const firstReactToAccountabilityMessage = (message) => {
@@ -26,7 +27,15 @@ export const accountabilityReactHandler = (messageReaction, user) => {
     else return [...acc, cur];
   }, []);
   console.log("processed", processed);
-
   const newContent = processed.join("\n");
-  message.reply(newContent);
+
+  //create embed
+  const embed = new EmbedBuilder()
+    .setAuthor({ name: user.username, iconURL: user.avatarURL() })
+    .setColor(Colors.White)
+    .setDescription(newContent)
+    .setTimestamp();
+
+  //send content
+  message.reply({embeds: [embed]});
 };
