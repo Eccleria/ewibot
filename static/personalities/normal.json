@@ -1,6 +1,12 @@
 {
   "name": "normal",
   "normal": {
+    "accountabilityBuddy": {
+      "cancelButton": "aBuddy_cancel",
+      "currentButton": "aBuddy_current",
+      "doneButton": "aBuddy_done",
+      "pauseButton": "aBuddy_pause"
+    },
     "announce": {
       "buttonLabel": "Confirmer",
       "description": "Permet d'envoyer des annonces enregistrées.",

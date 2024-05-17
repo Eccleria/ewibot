@@ -151,8 +151,9 @@
   "shared": {
     "name": "shared",
     "accountabilityBuddy": {
-      "cancelledEmoteId": "❌",
+      "cancelEmoteId": "❌",
       "currentEmoteId": "📝",
+      "doneEmoteId": "✅",
       "pauseEmoteId": "⏸️",
       "starEmoteId": "⭐",
       "toDoEmoteId": "🔳"
