@@ -6,7 +6,7 @@ import { settingsButtonHandler } from "./polls/pollsHandlers.js";
 import { pollSelectMenuHandler } from "./polls/pollsSelectMenu.js";
 
 import { announceButtonHandler } from "./announce.js";
-import { accountabilityButtonHandler } from "../buddy.js";
+import { accountabilityButtonHandler, accountabilitySelectMenuHandler } from "../buddy.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift/gift.js";
 import { giftModalHandler } from "./gift/giftModal.js";
@@ -53,6 +53,8 @@ export const selectMenuHandler = (interaction) => {
   console.log("menuHandler", customId);
   if (customId.startsWith("polls_selectMenu"))
     pollSelectMenuHandler(interaction);
+  else if (customId.startsWith("aBuddy_selectMenu"))
+    accountabilitySelectMenuHandler(interaction);
 };
 
 export const modalHandler = (interaction) => {

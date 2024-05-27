@@ -17,7 +17,10 @@ import {
 import { COMMONS } from "./classes/commons.js";
 import { PERSONALITY } from "./classes/personality.js";
 
-import { firstReactToAccountabilityMessage } from "./buddy.js";
+import {
+  accountabilityReactHandler,
+  firstReactToAccountabilityMessage,
+} from "./buddy.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
 
@@ -100,9 +103,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
   const { message, emoji } = messageReaction;
   const { channel } = message;
-  const currentServer = COMMONS.fetchFromGuildId(
-    channel.guild.id
-  );
+  const currentServer = COMMONS.fetchFromGuildId(channel.guild.id);
   const cmnShared = COMMONS.getShared();
 
   //stats
@@ -116,10 +117,18 @@ export const onReactionAdd = async (messageReaction, user) => {
   }
 
   //role
-  if (
-    currentServer.cosmeticRoleHandle.messageId === message.id
-  ) {
+  if (currentServer.cosmeticRoleHandle.messageId === message.id) {
     roleAdd(messageReaction, currentServer, user);
+    return;
+  }
+
+  //accountability buddy
+  if (
+    channel.id === currentServer.accountabilityBuddyThreadId &&
+    emoji.name === cmnShared.accountabilityBuddy.toDoEmoteId &&
+    user.id === message.author.id
+  ) {
+    accountabilityReactHandler(messageReaction, user);
     return;
   }
 
