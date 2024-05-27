@@ -149,7 +149,7 @@ export const onReactionRemove = async (messageReaction, user) => {
 
 const onPublicMessage = (message, currentServer) => {
   const { author } = message;
-  console.log("message", message);
+
   if (
     author.id === process.env.CLIENTID || // ignoring message from himself
     !currentServer || // ignoring if wrong guild
@@ -163,7 +163,6 @@ const onPublicMessage = (message, currentServer) => {
   )
     addServerStatsData(message.client.db, "cats");
 
-  checkPinStatus(message);
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);

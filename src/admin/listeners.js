@@ -28,7 +28,7 @@ import {
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
-//#region LISTENERS
+//LISTENERS
 
 export const onChannelCreate = async (channel) => {
   if (channel.type === ChannelType.DM) return;
@@ -579,6 +579,27 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
+    const pinLog = await fetchAuditLog(nMessage.guild, "MessagePin", 1); //get auditLog
+    const pinned = messageU.pinned;
+    embed.addFields(
+      { name: pinned.title, value: pinned.text, inline: true }, //add unpinned text
+      {
+        name: messageU.channel,
+        value: `<#${oMessage.channelId}>`,
+        inline: true,
+      } //message channel
+    );
+
+    //add message link
+    const link = `[${messageU.linkMessage}](${nMessage.url})`;
+    embed.addFields(
+      { name: messageU.linkName, value: link, inline: true },
+      {
+        name: pinned.executor,
+        value: pinLog.executor.toString(),
+        inline: true,
+      }
+    );
 
     const messageList = await endCasesEmbed(
       nMessage,
@@ -849,44 +870,5 @@ export const onGuildMemberAdd = async (guildMember) => {
     const authorId = guildMember.id;
     const date = guildMember.joinedAt.toISOString();
     addAlavirien(db, authorId, 0, date);
-  }
-};
-
-//#endregion
-
-export const checkPinStatus = async (message) => {
-  if (!message.system) return; //if not message system, not pinned
-
-  if (message.reference) {
-    //is system and has reference => pin message
-    const perso = PERSONALITY.getAdmin().messageUpdate;
-    const ref = message.reference;
-
-    //create embed
-    const embed = setupEmbed("DarkGreen", perso, message.author, "tag"); //setup embed
-    const pinLog = await fetchAuditLog(message.guild, "MessagePin", 1); //get auditLog
-    const pPerso = perso.pinned;
-    embed.addFields(
-      { name: pPerso.title, value: pPerso.text, inline: true }, //add unpinned text
-      {
-        name: perso.channel,
-        value: `<#${message.channelId}>`,
-        inline: true,
-      } //message channel
-    );
-
-    //add message link
-    embed.addFields(
-      {
-        name: pPerso.executor,
-        value: pinLog.executor.toString(),
-        inline: true,
-      }
-    );
-
-    //add message link
-    const url = `https://discord.com/channels/${message.guildId}/${ref.channelId}/${ref.messageId}`;
-    const link = `[${perso.linkMessage}](${url})`;
-    embed.addFields({ name: perso.linkName, value: link });
   }
 };
