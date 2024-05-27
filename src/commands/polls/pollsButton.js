@@ -7,15 +7,15 @@ import {
   MessageFlags,
 } from "discord.js";
 import {
-  fetchPollMessage,
   interactionEditReply,
   pollRefreshEmbed,
   stopPoll,
 } from "./pollsUtils.js";
 import { createButton } from "../utils.js";
-import { getPoll, isSentinelle, resetPollVoters } from "../../helpers/index.js";
+import { fetchSelectMenuReferenceMessage, getPoll, isSentinelle, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../classes/commons.js";
 import { PERSONALITY } from "../../classes/personality.js";
+
 
 export const sendSettingsButtons = async (interaction) => {
   try {
@@ -84,7 +84,7 @@ export const stopPollButtonAction = async (interaction) => {
   //get data
   const perso = PERSONALITY.getPersonality().polls;
   const sPerso = perso.settings;
-  const pollMessage = await fetchPollMessage(interaction);
+  const pollMessage = await fetchSelectMenuReferenceMessage(interaction);
   const dbPoll = getPoll(db, pollMessage.id);
   if (!dbPoll) {
     interactionEditReply(interaction, { content: perso.errorNoDb });
@@ -112,7 +112,7 @@ export const removePollButtonAction = async (interaction) => {
   const rPerso = perso.settings.remove;
 
   //get poll from db
-  const pollMessage = await fetchPollMessage(interaction);
+  const pollMessage = await fetchSelectMenuReferenceMessage(interaction);
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
   if (!dbPoll) {
     interactionEditReply(interaction, { content: perso.errorNoDb });
@@ -160,7 +160,7 @@ export const resetPollButtonAction = async (interaction) => {
   //get data
   const personality = PERSONALITY.getPersonality().polls;
   const perso = personality.settings.reset; //personality
-  const pollMessage = await fetchPollMessage(interaction); //db data
+  const pollMessage = await fetchSelectMenuReferenceMessage(interaction); //db data
   const pollEmbed = pollMessage.embeds[0];
   const embed = EmbedBuilder.from(pollEmbed);
 
@@ -222,7 +222,7 @@ export const refreshPollButtonAction = async (interaction) => {
     components: [],
   });
 
-  const pollMessage = await fetchPollMessage(interaction);
+  const pollMessage = await fetchSelectMenuReferenceMessage(interaction);
   const db = interaction.client.db;
 
   //disable actions during refresh

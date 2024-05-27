@@ -39,19 +39,6 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
 };
 
 /**
- * Get poll message from buttonInteraction
- * @param {object} poll button settings interaction
- * @returns Poll message
- */
-export const fetchPollMessage = async (interaction) => {
-  const pollMessage = await fetchMessage(
-    interaction.channel.messages,
-    interaction.message.reference.messageId,
-  );
-  return pollMessage;
-};
-
-/**
  * Edit the reply to an interaction after being defered, using payload as content
  * @param {object} interaction Interaction to edit the reply.
  * @param {object|string} payload Content of the reply, can be only a string.
