@@ -54,7 +54,7 @@ export const accountabilityReactHandler = (messageReaction, user) => {
 };
 
 export const accountabilityButtonHandler = async (interaction) => {
-  await interaction.deferReply();
+  await interaction.deferReply({ephemeral: true});
   const commons = COMMONS.getShared().accountabilityBuddy;
 
   //create selectMenu
@@ -89,7 +89,7 @@ export const accountabilityButtonHandler = async (interaction) => {
 };
 
 export const accountabilitySelectMenuHandler = async (interaction) => {
-  await interaction.deferReply();
+  await interaction.deferReply({ephemeral: true});
   const selected = interaction.values;
   console.log("selected", selected);
   //console.log("selectMenuInteraction", interaction);
@@ -113,5 +113,5 @@ export const accountabilitySelectMenuHandler = async (interaction) => {
   
   //update the message
   message.edit({embeds: [embed]});
-  interactionEditReply(interaction, "completed");
+  interactionEditReply(interaction, {ephemeral: true, content: "completed"});
 };
