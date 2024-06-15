@@ -12,7 +12,10 @@ import {
   isReleasedCommand,
   removeReminder,
 } from "./helpers/index.js";
-import { accountabilityReactHandler, firstReactToAccountabilityMessage } from "./buddy.js";
+import {
+  accountabilityReactHandler,
+  firstReactToAccountabilityMessage,
+} from "./buddy.js";
 import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
@@ -95,9 +98,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
   const { message, emoji } = messageReaction;
   const { channel } = message;
-  const currentServer = COMMONS.fetchFromGuildId(
-    channel.guild.id
-  );
+  const currentServer = COMMONS.fetchFromGuildId(channel.guild.id);
   const cmnShared = COMMONS.getShared();
 
   //stats
@@ -111,9 +112,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   }
 
   //role
-  if (
-    currentServer.cosmeticRoleHandle.messageId === message.id
-  ) {
+  if (currentServer.cosmeticRoleHandle.messageId === message.id) {
     roleAdd(messageReaction, currentServer, user);
     return;
   }
@@ -126,8 +125,7 @@ export const onReactionAdd = async (messageReaction, user) => {
 
   //presentation
   if (
-    channel.id ===
-      currentServer.presentationChannelId &&
+    channel.id === currentServer.presentationChannelId &&
     currentServer.presentationReactId === emoji.name
   ) {
     presentationHandler(currentServer, messageReaction, user);
@@ -136,8 +134,8 @@ export const onReactionAdd = async (messageReaction, user) => {
 
   //accountability buddy
   if (
-    channel.id === currentServer.accountabilityBuddyThreadId && 
-    emoji.name === cmnShared.accountabilityBuddy.toDoEmoteId && 
+    channel.id === currentServer.accountabilityBuddyThreadId &&
+    emoji.name === cmnShared.accountabilityBuddy.toDoEmoteId &&
     user.id === message.author.id
   ) {
     accountabilityReactHandler(messageReaction, user);

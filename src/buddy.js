@@ -1,4 +1,10 @@
-import { ActionRowBuilder, ButtonStyle, Colors, EmbedBuilder, StringSelectMenuBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonStyle,
+  Colors,
+  EmbedBuilder,
+  StringSelectMenuBuilder,
+} from "discord.js";
 import { COMMONS } from "./commons.js";
 import { createButton } from "./commands/utils.js";
 import { PERSONALITY } from "./personality.js";
@@ -26,7 +32,7 @@ export const accountabilityReactHandler = (messageReaction, user) => {
   console.log("lines", lines);
   const processed = lines.reduce((acc, cur) => {
     const trimmed = " " + cur.trim();
-    
+
     if (cur.includes(":")) return [...acc, aCmn.starEmoteId + trimmed];
     else if (cur.length) return [...acc, aCmn.toDoEmoteId + trimmed];
     else return [...acc, cur];
@@ -43,18 +49,44 @@ export const accountabilityReactHandler = (messageReaction, user) => {
 
   //create buttons
   const style = ButtonStyle.Secondary;
-  const currentButton = createButton(perso.currentButton, null, style, aCmn.currentEmoteId);
-  const pauseButton = createButton(perso.pauseButton, null, style, aCmn.pauseEmoteId);
-  const doneButton = createButton(perso.doneButton, null, style, aCmn.doneEmoteId);
-  const cancelButton = createButton(perso.cancelButton, null, style, aCmn.cancelEmoteId);
-  const component = new ActionRowBuilder().addComponents(currentButton, pauseButton, doneButton, cancelButton);
+  const currentButton = createButton(
+    perso.currentButton,
+    null,
+    style,
+    aCmn.currentEmoteId
+  );
+  const pauseButton = createButton(
+    perso.pauseButton,
+    null,
+    style,
+    aCmn.pauseEmoteId
+  );
+  const doneButton = createButton(
+    perso.doneButton,
+    null,
+    style,
+    aCmn.doneEmoteId
+  );
+  const cancelButton = createButton(
+    perso.cancelButton,
+    null,
+    style,
+    aCmn.cancelEmoteId
+  );
+
+  const component = new ActionRowBuilder().addComponents(
+    currentButton,
+    pauseButton,
+    doneButton,
+    cancelButton
+  );
 
   //send content
-  message.reply({embeds: [embed], components: [component]});
+  message.reply({ embeds: [embed], components: [component] });
 };
 
 export const accountabilityButtonHandler = async (interaction) => {
-  await interaction.deferReply({ephemeral: true});
+  await interaction.deferReply({ ephemeral: true });
   const commons = COMMONS.getShared().accountabilityBuddy;
 
   //create selectMenu
@@ -64,21 +96,23 @@ export const accountabilityButtonHandler = async (interaction) => {
 
   //set choices
   const message = await interaction.message.fetch();
-  console.log("accountabilityButtonHandler", interaction)
+  console.log("accountabilityButtonHandler", interaction);
 
   const buttonName = interaction.customId.split("_")[1];
-  const choices = message.embeds[0].description.split("\n").reduce((acc, cur, idx) => {
-    console.log("cur", cur);
-    const choice = {value: "aBuddy_selectMenu_" + `${buttonName}_${idx}`};
-    if (!cur.length) return acc; //ignore empty line
+  const choices = message.embeds[0].description
+    .split("\n")
+    .reduce((acc, cur, idx) => {
+      console.log("cur", cur);
+      const choice = { value: "aBuddy_selectMenu_" + `${buttonName}_${idx}` };
+      if (!cur.length) return acc; //ignore empty line
 
-    const splited = cur.split(" ");
-    if (splited[0] === commons.starEmoteId) return acc; //ignore titles
+      const splited = cur.split(" ");
+      if (splited[0] === commons.starEmoteId) return acc; //ignore titles
 
-    splited.shift(); //ignore value, it's an emote
-    choice.label = splited.join(" ");
-    return [...acc, choice];
-  }, [])
+      splited.shift(); //ignore value, it's an emote
+      choice.label = splited.join(" ");
+      return [...acc, choice];
+    }, []);
   console.log("choices", choices);
   selectMenu.addOptions(...choices);
 
@@ -89,7 +123,7 @@ export const accountabilityButtonHandler = async (interaction) => {
 };
 
 export const accountabilitySelectMenuHandler = async (interaction) => {
-  await interaction.deferReply({ephemeral: true});
+  await interaction.deferReply({ ephemeral: true });
   const selected = interaction.values;
   console.log("selected", selected);
   //console.log("selectMenuInteraction", interaction);
@@ -110,8 +144,8 @@ export const accountabilitySelectMenuHandler = async (interaction) => {
   words[0] = commons[splited[2] + "EmoteId"];
   lines[idxToModify] = words.join(" ");
   embed.setDescription(lines.join("\n"));
-  
+
   //update the message
-  message.edit({embeds: [embed]});
-  interactionEditReply(interaction, {ephemeral: true, content: "completed"});
+  message.edit({ embeds: [embed] });
+  interactionEditReply(interaction, { ephemeral: true, content: "completed" });
 };
