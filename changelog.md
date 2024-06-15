@@ -2,6 +2,7 @@
 - Debug: remove a useless log for alavirien attribution check ([#314](https://github.com/Eccleria/ewibot/pull/314))
 - Feat: Send `poll` results in ending message ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#311](https://github.com/Eccleria/ewibot/pull/311))
 - Feat: Send a reminder 1h before `poll` end ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#313](https://github.com/Eccleria/ewibot/pull/313))
+- Fix: wrong pin `executor` on `log` ([#307](https://github.com/Eccleria/ewibot/issues/307)) ([#320](https://github.com/Eccleria/ewibot/pull/320))
 - Update: `poll` 2nd embed now display both timeout and ending date ([#312](https://github.com/Eccleria/ewibot/pull/312))
 - Update: `apology` `regex` now handle the word "dézo" and its affiliates ([#315](https://github.com/Eccleria/ewibot/pull/315)) ([#317](https://github.com/Eccleria/ewibot/pull/317))
 
