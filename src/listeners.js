@@ -1,5 +1,6 @@
 import { ChannelType } from "discord.js";
 import { presentationHandler } from "./admin/alavirien.js";
+import { checkPinStatus } from "./admin/listeners.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 import { octagonalLog } from "./admin/utils.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
@@ -163,6 +164,7 @@ const onPublicMessage = (message, currentServer) => {
   )
     addServerStatsData(message.client.db, "cats");
 
+  checkPinStatus(message);
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
