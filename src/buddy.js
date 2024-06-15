@@ -21,10 +21,18 @@ export const firstReactToAccountabilityMessage = (message) => {
 export const accountabilityReactHandler = (messageReaction, user) => {
   messageReaction.remove(); //remove all users from this reaction
 
+  //check user reacting to handle only message owner reaction
   const commons = COMMONS.getShared();
+  const { message } = messageReaction;
+  if (message.author.id != user.id) {
+    //wrong reacting user
+    message.react(commons.accountabilityBuddy.toDoEmoteId);
+    return;
+  }
+
+  //correct user - now get data
   const perso = PERSONALITY.getPersonality().accountabilityBuddy;
   const aCmn = commons.accountabilityBuddy;
-  const { message } = messageReaction;
   const { content } = message;
 
   //process message content
