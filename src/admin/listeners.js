@@ -869,17 +869,15 @@ export const checkPinStatus = async (message) => {
     embed.addFields({ name: perso.linkName, value: link, inline: true });
 
     //add executor
-    embed.addFields(
-      {
-        name: pPerso.executor,
-        value: pinLog.executor.toString(),
-        inline: true,
-      }
-    );
+    embed.addFields({
+      name: pPerso.executor,
+      value: pinLog.executor.toString(),
+      inline: true,
+    });
 
     //get logChannel
     const logChannel = await fetchLogChannel(message, "thread");
-    const logMessage = await logChannel.send({embeds: [embed]});
+    const logMessage = await logChannel.send({ embeds: [embed] });
     addAdminLogs(message.client.db, logMessage.id, "frequent", 6);
   }
 };
