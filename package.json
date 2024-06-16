@@ -30,7 +30,7 @@
     "start": "node --experimental-json-modules src/bot.js",
     "dev": "nodemon --ignore ./db/ --exec node --experimental-json-modules src/bot.js",
     "lint": "eslint src && eslint tests",
-    "prettier": "prettier --write src",
+    "prettier": "prettier --write src && prettier --write tests",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   }
 }

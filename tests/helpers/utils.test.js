@@ -11,16 +11,16 @@ const hasApologyInputList = [
   "déso lééééé",
   "pardon",
   "navrée",
-  "dezo"
+  "dezo",
 ];
-  
+
 const hasNotApologyInputList = [
   "désormais",
   "adsl",
   "navrant",
   "désolant",
   "pardonne",
-  "do"
+  "do",
 ];
 
 //tests
