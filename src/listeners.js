@@ -136,7 +136,7 @@ export const onReactionAdd = async (messageReaction, user) => {
   if (
     channel.id === currentServer.accountabilityBuddyThreadId &&
     emoji.name === cmnShared.accountabilityBuddy.toDoEmoteId &&
-    user.id === message.author.id
+    !(user.id === message.client.user.id)
   ) {
     accountabilityReactHandler(messageReaction, user);
     return;
