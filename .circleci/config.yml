@@ -18,8 +18,17 @@ jobs:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
       - run: npm run prettier
+  tests:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+          override-ci-command: npm install
+      - run: npm run test
 workflows:
   commit_workflow:
     jobs:
       - lint
       - prettier
+      - tests
