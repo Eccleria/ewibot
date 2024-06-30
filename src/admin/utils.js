@@ -1,7 +1,8 @@
 import { AuditLogEvent, Colors } from "discord.js";
 import {
-  getAdminLogs,
+  checkEmbedContent,
   fetchLogChannel,
+  getAdminLogs,
   parseUnixTimestamp,
   removeAdminLogs,
   removeBirthday,
@@ -605,10 +606,13 @@ export const octagonalLog = async (object, user) => {
     : object.author; //get executor
   const date = Math.floor(message.createdTimestamp / 1000);
   const unixTimestamp = parseUnixTimestamp(date, "F");
+
   embed.addFields(
     { name: octaPerso.date, value: unixTimestamp, inline: true }, //date of message creation
-    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
-    { name: octaPerso.text, value: message.content }, //message content
+    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true } //message channel
+  );
+  checkEmbedContent(message.content, embed, octaPerso); //slice content if required and add it to embed
+  embed.addFields(
     { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
     {
       name: octaPerso.linkName,

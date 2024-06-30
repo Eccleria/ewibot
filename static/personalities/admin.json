@@ -118,6 +118,7 @@
     "linkMessage": "Lien du message.",
     "linkName": "Lien",
     "text": "Contenu du message :",
+    "textAgain": "Contenu du message - suite :",
     "title": "Utilisation de 🛑"
   },
   "roleCreate": {
