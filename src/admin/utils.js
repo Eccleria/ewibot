@@ -609,7 +609,7 @@ export const octagonalLog = async (object, user) => {
 
   embed.addFields(
     { name: octaPerso.date, value: unixTimestamp, inline: true }, //date of message creation
-    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
+    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true } //message channel
   );
   checkEmbedContent(message.content, embed, octaPerso); //slice content if required and add it to embed
   embed.addFields(
