@@ -1,14 +1,6 @@
-//#region enums
+import { dbReturnType } from "../index.js";
 
-/**
- * @enum {number} return values for most db helper functions
- */
-export const dbReturnType = Object.freeze({
-  isNotOk: -1,
-  isOk: 0,
-  isIn: 1,
-  isNotIn: 2,
-});
+//#region enums
 
 /**
  * @enum {string} user's stats attibutes
