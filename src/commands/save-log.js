@@ -68,7 +68,10 @@ const action = async (interaction) => {
     inline: true,
   });
 
-  const savedMessage = await logChannel.send({ embeds: embeds, allowed_mentions: { parse: [] } }); //Send log
+  const savedMessage = await logChannel.send({
+    embeds: embeds,
+    allowed_mentions: { parse: [] },
+  }); //Send log
   interactionReply(interaction, saveLogP.sent); //reply to interaction
 
   //handle attachments
@@ -80,8 +83,12 @@ const action = async (interaction) => {
       //load message
       const threadLogChannel = await fetchLogChannel(interaction, "thread"); //get threadChannel
       const nextMsg = await threadLogChannel.messages.fetch(logs[logIdx + 1]);
-      
-      if (!nextMsg.attachments.length && nextMsg.reference && nextMsg.reference.messageId === message.id) {
+
+      if (
+        !nextMsg.attachments.length &&
+        nextMsg.reference &&
+        nextMsg.reference.messageId === message.id
+      ) {
         //found log which has attachments + replies to our interaction message => save it too
         const attachments = nextMsg.attachments.reduce(
           (acc, cur) => [...acc, cur],
