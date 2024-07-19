@@ -81,7 +81,7 @@ const action = async (interaction) => {
       const threadLogChannel = await fetchLogChannel(interaction, "thread"); //get threadChannel
       const nextMsg = await threadLogChannel.messages.fetch(logs[logIdx + 1]);
       
-      if (!nextMsg.attachments.length && nextMsg.reference.messageId === message.id) {
+      if (!nextMsg.attachments.length && nextMsg.reference && nextMsg.reference.messageId === message.id) {
         //found log which has attachments + replies to our interaction message => save it too
         const attachments = nextMsg.attachments.reduce(
           (acc, cur) => [...acc, cur],
