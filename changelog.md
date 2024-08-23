@@ -5,6 +5,7 @@
 - Fix: wrong pin `executor` on `log` ([#307](https://github.com/Eccleria/ewibot/issues/307)) ([#320](https://github.com/Eccleria/ewibot/pull/320))
 - Update: `poll` 2nd embed now display both timeout and ending date ([#312](https://github.com/Eccleria/ewibot/pull/312))
 - Update: `apology` `regex` now handle the word "dézo" and its affiliates ([#315](https://github.com/Eccleria/ewibot/pull/315)) ([#317](https://github.com/Eccleria/ewibot/pull/317))
+- Update: `LuciferAge` set at 18yo ([#327](https://github.com/Eccleria/ewibot/pull/327))
 
 ## 6.2.1
 - Fix: `poll` now handle the case of a deleted pollMessage both at startup and running ([#308](https://github.com/Eccleria/ewibot/pull/308))
