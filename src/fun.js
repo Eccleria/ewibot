@@ -193,8 +193,8 @@ const isHungry = (loweredContent) => {
 };
 
 const isLuciferAge = (content) => {
-  const presqueRegex = new RegExp(/pres(qu|k)e *(17|dix( |-)*sept)/gim); //regex for presque 17 detection
-  const presqueResult = presqueRegex.exec(content); //check if contains presque 17
+  const presqueRegex = new RegExp(/pres(qu|k)e *(18|dix( |-)*huit)/gim); //regex for presque 18 detection
+  const presqueResult = presqueRegex.exec(content); //check if contains presque 18
 
   presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
   return presqueResult !== null;
