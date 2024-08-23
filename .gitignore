@@ -6,3 +6,4 @@ node_modules
 db/*.json
 pics/concrete/gifs/*
 pics/vest/pngs/*
+coverage
