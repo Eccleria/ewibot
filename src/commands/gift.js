@@ -30,9 +30,11 @@ export const giftButtonHandler = async (interaction) => {
   const today = dayjs();
   if (
     !customId.includes(today.year().toString()) &&
-    !(today.date() < 15 &&
+    !(
+      today.date() < 15 &&
       today.month() === 0 &&
-      customId.includes((today.year() - 1).toString()))
+      customId.includes((today.year() - 1).toString())
+    )
   ) {
     console.log("wrong gift button", interaction.customId);
     interactionReply(interaction, "Bouton trop vieux.");
