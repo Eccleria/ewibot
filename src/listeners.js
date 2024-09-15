@@ -3,15 +3,19 @@ import { presentationHandler } from "./admin/alavirien.js";
 import { checkPinStatus } from "./admin/listeners.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
 import { octagonalLog } from "./admin/utils.js";
+import { participateHandler, removeCDReaction } from "./commands/reminder.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import {
   addEmojiData,
   addServerEmojiCount,
   addServerStatsData,
   deleteSongFromPlaylist,
+  getReminderToMentionNumber,
   interactionReply,
   isReleasedCommand,
+  isReminderUser,
   removeReminder,
+  removeReminderUser,
 } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
@@ -109,6 +113,7 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
+  //cosmetic role attribution
   if (
     currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id
   ) {
@@ -116,11 +121,13 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
+  //octagonal sign
   if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
     octagonalLog(messageReaction, user);
     return;
   }
 
+  //alavirien.ne wave on presentation
   if (
     messageReaction.message.channel.id ===
       currentServer.presentationChannelId &&
@@ -130,9 +137,18 @@ export const onReactionAdd = async (messageReaction, user) => {
     return; //no command in presentation channel
   }
 
-  onRemoveSpotifyReaction(messageReaction, cmnShared);
+  //reminder share
+  if (
+    cmnShared.participateEmoji === messageReaction.emoji.name
+  ) {
+    console.log("share reminder");
+    participateHandler(messageReaction, user);
+    return;
+  }
 
-  onRemoveReminderReaction(messageReaction, user, cmnShared);
+  //remove reaction
+  onRemoveSpotifyReaction(messageReaction, cmnShared); //spotify
+  onRemoveReminderReaction(messageReaction, user, cmnShared); //reminder
 };
 
 export const onReactionRemove = async (messageReaction, user) => {
@@ -175,7 +191,7 @@ export const onRemoveReminderReaction = (
   reactionUser,
   cmnShared
 ) => {
-  const { removeEmoji } = cmnShared;
+  const { confirmEmoji, denyEmoji, removeEmoji } = cmnShared;
   const { message, emoji, users, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
@@ -193,18 +209,35 @@ export const onRemoveReminderReaction = (
           .includes(message.mentions.users.first().id)) // if user reacting is the owner of reminder
   ) {
     try {
-      client.remindme = client.remindme.filter(({ botMessage, timeout }) => {
+      client.remindme = client.remindme.filter(async ({ botMessage, timeout }) => {
         if (botMessage.id === message.id) {
-          // if it is the right message
-          clearTimeout(timeout); //cancel timeout
-          removeReminder(client.db, botMessage.id);
-          botMessage.reply(PERSONALITY.getCommands().reminder.delete);
-          console.log("reminder deleted");
-          return false;
+          // if it is the right message, handle it
+
+          if (isReminderUser(client.db, message.id, reactionUser.id)) {
+            //handle according to toMention number
+            if (getReminderToMentionNumber(client.db, message.id) > 1) {
+              //if multiple toMention, remove only this user
+              removeReminderUser(client.db, message.id, reactionUser.id);
+
+              //confirm the operation
+              const reaction = await message.react(confirmEmoji);
+              setTimeout(removeCDReaction, 1000, reaction, client.user.id);
+            } else {
+              //only one user, delete reminder
+              clearTimeout(timeout); //cancel timeout
+              removeReminder(client.db, botMessage.id);
+              botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+              console.log("reminder deleted");
+              return false;
+            }
+          } else {
+            //not a user of this reminder
+            const reaction = await message.react(denyEmoji);
+            setTimeout(removeCDReaction, 1000, reaction, client.user.id);
+          }
         }
-        return true;
+        return true; //if it's the wrong, keep it
       });
-      return;
     } catch (err) {
       console.log("reminderError", err);
     }
