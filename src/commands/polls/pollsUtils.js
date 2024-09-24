@@ -101,8 +101,18 @@ export const parsePollFields = (content, totalSize = 0) => {
             !sanitizedContent.includes(" ")) ||
           /\W{2}/g.test(sanitizedContent)
         ) {
-          console.log(/\p{Extended_Pictographic}/u.test(sanitizedContent), "&&", !sanitizedContent.includes(" "), "||", /\W{2}/g.test(sanitizedContent))
-          console.log("Extended_Pictographic Emote found:", [sanitizedContent], sanitizedContent)
+          console.log(
+            /\p{Extended_Pictographic}/u.test(sanitizedContent),
+            "&&",
+            !sanitizedContent.includes(" "),
+            "||",
+            /\W{2}/g.test(sanitizedContent)
+          );
+          console.log(
+            "Extended_Pictographic Emote found:",
+            [sanitizedContent],
+            sanitizedContent
+          );
           return {
             fields: [...acc.fields, replaced],
             emotes: [...acc.emotes, sanitizedContent],
