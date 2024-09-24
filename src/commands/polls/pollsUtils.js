@@ -78,11 +78,11 @@ export const parsePollFields = (content, totalSize = 0) => {
     (acc, cur, idx) => {
       if (cur.length === 0) return acc; //filter empty choice
 
-      const replaced = cur.split(",")[1];
+      const replaced = cur.split("&")[1];
       console.log([cur], "replaced", [replaced]);
-      if (cur.includes(",")) {
+      if (cur.includes("&")) {
         //if choices includes emote
-        const content = cur.split(",")[0].trim();
+        const content = cur.split("&")[0].trim();
         console.log([content]);
         if (content.includes(":"))
           return {
@@ -100,11 +100,14 @@ export const parsePollFields = (content, totalSize = 0) => {
           (/\p{Extended_Pictographic}/u.test(sanitizedContent) &&
             !sanitizedContent.includes(" ")) ||
           /\W{2}/g.test(sanitizedContent)
-        )
+        ) {
+          console.log(/\p{Extended_Pictographic}/u.test(sanitizedContent), "&&", !sanitizedContent.includes(" "), "||", /\W{2}/g.test(sanitizedContent))
+          console.log("Extended_Pictographic Emote found:", [sanitizedContent], sanitizedContent)
           return {
             fields: [...acc.fields, replaced],
             emotes: [...acc.emotes, sanitizedContent],
           };
+        }
       }
       //no or wrong emote => use bullet emote
       const emote = bullet[idx + totalSize];
