@@ -179,8 +179,9 @@ export const interactionReply = async (
   content,
   isEphemeral = true
 ) => {
-  await interaction.reply({ content: content, ephemeral: isEphemeral })
-        .catch((err) => console.log("interactionReply error", err));
+  await interaction
+    .reply({ content: content, ephemeral: isEphemeral })
+    .catch((err) => console.log("interactionReply error", err));
 };
 
 export const isAdmin = (authorId) => {
