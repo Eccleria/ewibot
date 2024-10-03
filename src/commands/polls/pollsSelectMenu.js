@@ -6,11 +6,11 @@ import {
 } from "discord.js";
 import {
   interactionEditReply,
-  fetchPollMessage,
   refreshPollFields,
   pollRefreshEmbed,
 } from "./pollsUtils.js";
 import {
+  fetchSelectMenuReferenceMessage,
   getPoll,
   removePollChoice,
   updatePollButtonId,
@@ -41,7 +41,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const rPerso = perso.settings.remove;
 
   //get data
-  const pollMessage = await fetchPollMessage(interaction);
+  const pollMessage = await fetchSelectMenuReferenceMessage(interaction);
   const pollEmbed = pollMessage.embeds[0];
   const embed = EmbedBuilder.from(pollEmbed);
 
@@ -134,7 +134,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     //No need to select choice, apply modif
     const payload = { components: [], content: "" };
     //get embed
-    const pollMessage = await fetchPollMessage(interaction);
+    const pollMessage = await fetchSelectMenuReferenceMessage(interaction);
 
     //update db
     const dbPoll = getPoll(db, pollMessage.id);
@@ -184,7 +184,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
       );
 
       //get embed
-      const pollMessage = await fetchPollMessage(interaction);
+      const pollMessage = await fetchSelectMenuReferenceMessage(interaction);
       const pollEmbed = pollMessage.embeds[0];
       const embed = EmbedBuilder.from(pollEmbed);
 
@@ -227,7 +227,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
     const perso = personality.settings.update.voteMax;
 
     //get poll data
-    const pollMessage = await fetchPollMessage(interaction);
+    const pollMessage = await fetchSelectMenuReferenceMessage(interaction);
     const dbPoll = getPoll(db, pollMessage.id);
     if (!dbPoll) {
       await interactionEditReply(interaction, {

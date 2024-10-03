@@ -6,6 +6,7 @@ import { announceButtonHandler } from "./announce.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift.js";
 import { interactionReply } from "../helpers/index.js";
+import { accountabilityButtonHandler, accountabilitySelectMenuHandler } from "../buddy.js";
 
 /**
  * Create a button from ButtonBuilder
@@ -35,6 +36,7 @@ export const buttonHandler = (interaction) => {
   else if (customId.startsWith("polls_set")) settingsButtonHandler(interaction);
   else if (customId.startsWith("polls"))
     return; //poll vote buttons, handled in pollsCollectors.js
+  else if (customId.startsWith("aBuddy")) accountabilityButtonHandler(interaction);
   else if (customId.startsWith("pronouns")) pronounsButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
 };
@@ -48,4 +50,6 @@ export const selectMenuHandler = (interaction) => {
   console.log("menuHandler", customId);
   if (customId.startsWith("polls_selectMenu"))
     pollSelectMenuHandler(interaction);
+  else if (customId.startsWith("aBuddy_selectMenu"))
+    accountabilitySelectMenuHandler(interaction);
 };
