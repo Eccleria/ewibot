@@ -68,7 +68,7 @@ const action = async (object) => {
   const dir = fs.readdirSync(gifsPath);
 
   const url = target.displayAvatarURL({ extension: "png" });
-  const urlHash = url.split(`${target.id}/`)[1].split(".")[0];
+  const urlHash = url.includes(target.id) ? url.split(`${target.id}/`)[1].split(".")[0] : "0";
   const fileName = `${target.id}-${urlHash}.gif`;
   const gifExists = dir.reduce((acc, cur) => {
     if (cur.includes(fileName)) return true;
