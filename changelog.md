@@ -1,4 +1,7 @@
-﻿## 6.3.1
+﻿## 6.4.0
+- Upgrade: `discordjs` to version 14.16.3. **BREAKING CHANGES**: it requires Node > v18. ([#334](https://github.com/Eccleria/ewibot/pull/334))
+
+## 6.3.1
 - Fix: rare crash on unknown interaction reply ([#329](https://github.com/Eccleria/ewibot/issues/329)) ([#330](https://github.com/Eccleria/ewibot/pull/330))
 - Fix: crash on `/concrete` if user does not have a custom pp ([#332](https://github.com/Eccleria/ewibot/issues/332)) ([#333](https://github.com/Eccleria/ewibot/pull/333))
 - Update: `/polls` now uses "&" to separate emotes ([#328](https://github.com/Eccleria/ewibot/pull/328))
