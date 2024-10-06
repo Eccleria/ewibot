@@ -1,4 +1,5 @@
 ## 6.4.0
+- Upgrade: `discordjs` to version 14.16.3. **BREAKING CHANGES**: it requires Node > v18. ([#334](https://github.com/Eccleria/ewibot/pull/334))
 - Fix: now check the length of `polls` choices (<= 256) ([#331](https://github.com/Eccleria/ewibot/issues/331)) ([#344](https://github.com/Eccleria/ewibot/pull/344))
 - Update: `polls` now use the max of votes to compute vote ratio for progress bar ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#335](https://github.com/Eccleria/ewibot/pull/335))
 - Update: now use `Colors` type from `discord.js` instead of strings ([#338](https://github.com/Eccleria/ewibot/issues/338)) ([#349](https://github.com/Eccleria/ewibot/pull/349))
