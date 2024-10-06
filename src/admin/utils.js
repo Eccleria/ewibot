@@ -428,7 +428,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   );
   if (filtered.oldOrder.length === 0) {
     //if empty, no changes => return
-    finishEmbed(roleUp, logPerso.noLog, embed, logChannel, roleUp.noModifs); //send embed
+    finishEmbed(roleUp, logPerso.noLog, [embed], logChannel, roleUp.noModifs); //send embed
     return;
   }
 
@@ -444,7 +444,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
 
-  finishEmbed(roleUp, logPerso.noLog, embed, logChannel, orderText); //send embed
+  finishEmbed(roleUp, logPerso.noLog, [embed], logChannel, orderText); //send embed
 
   client.roleUpdate = {}; //remove from client
 };
@@ -621,7 +621,7 @@ export const octagonalLog = async (object, user) => {
     } //get message link
   );
 
-  finishEmbed(octaPerso, null, embed, logChannel);
+  finishEmbed(octaPerso, null, [embed], logChannel);
 };
 
 /**

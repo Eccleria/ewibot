@@ -91,7 +91,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
 
       if (obj) embed.addFields({ name: name, value: obj.toString() });
-      finishEmbed(chnUp, null, embed, logChannel);
+      finishEmbed(chnUp, null, [embed], logChannel);
       return;
     } else if (newDiffCol.size !== 0) {
       //added permission overwrite
@@ -104,7 +104,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       const name = newDiff.type === "member" ? perm.userAdded : perm.roleAdded;
 
       embed.addFields({ name: name, value: obj.toString() });
-      finishEmbed(chnUp, null, embed, logChannel);
+      finishEmbed(chnUp, null, [embed], logChannel);
       return;
     }
   }
@@ -167,7 +167,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
     if (modifs.length !== 0) {
       embed.addFields({ name: chnUp.text, value: modifs }); //add modifs in embed
-      finishEmbed(chnUp, null, embed, logChannel);
+      finishEmbed(chnUp, null, [embed], logChannel);
     } else
       console.log(
         "channelUpdate permOverwrite noModifs",
@@ -201,7 +201,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       chnUp,
       auditLog,
       logChannel,
-      embed,
+      [embed],
       "channel"
     ); //update client data
     return;
@@ -222,7 +222,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       chnLog,
       chnUp,
       auditLog,
-      embed,
+      [embed],
       logChannel,
       text,
       diff
@@ -255,7 +255,7 @@ export const onThreadCreate = async (thread, newly) => {
       thread.ownerId
     );
 
-    finishEmbed(perso, executor, embed, logChannel);
+    finishEmbed(perso, executor, [embed], logChannel);
   } else console.log("threadCreateIsNull", thread, newly);
 };
 
@@ -363,14 +363,14 @@ export const onRoleUpdate = async (oldRole, newRole) => {
       roleLog,
       roleUp,
       auditLog,
-      embed,
+      [embed],
       logChannel,
       text,
       diff
     );
     return;
   }
-  endCasesEmbed(newRole, null, roleUp, auditLog, embed, logChannel);
+  endCasesEmbed(newRole, null, roleUp, auditLog, [embed], logChannel);
 };
 
 export const onMessageDelete = async (message) => {
@@ -417,7 +417,7 @@ export const onMessageDelete = async (message) => {
     const msg = await finishEmbed(
       messageDel,
       null,
-      embed,
+      [embed],
       logChannel,
       messageDel.pinned
     );
@@ -570,7 +570,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       null,
       messageU,
       auditLog,
-      embed,
+      [embed],
       logChannel
     );
     messageList.forEach((msg) =>
@@ -739,7 +739,15 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
     }
   );
 
-  endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
+  endCasesEmbed(
+    user,
+    timeoutLog,
+    timeout,
+    auditLog,
+    [embed],
+    logChannel,
+    reason
+  );
 };
 
 export const onGuildMemberRemove = async (memberKick) => {
@@ -795,7 +803,7 @@ export const onGuildMemberRemove = async (memberKick) => {
       kickLog,
       guildKick,
       auditLog,
-      embed,
+      [embed],
       logChannel
     );
 
@@ -820,7 +828,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     kickLog,
     guildKick,
     auditLog,
-    embed,
+    [embed],
     logChannel,
     reason,
     diff
