@@ -739,7 +739,15 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
     }
   );
 
-  endCasesEmbed(user, timeoutLog, timeout, auditLog, [embed], logChannel, reason);
+  endCasesEmbed(
+    user,
+    timeoutLog,
+    timeout,
+    auditLog,
+    [embed],
+    logChannel,
+    reason
+  );
 };
 
 export const onGuildMemberRemove = async (memberKick) => {
