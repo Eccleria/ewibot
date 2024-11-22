@@ -58,7 +58,10 @@ export const giftButtonHandler = async (interaction) => {
       let idx = 0;
       const giftInterval = setInterval(() => {
         if (messages.length >= idx) clearInterval(giftInterval);
-        interaction.followUp({ content: messages[idx++].message, ephemeral: true })      
+        interaction.followUp({
+          content: messages[idx++].message,
+          ephemeral: true,
+        });
       }, 1000); //send messages every 1s
       return;
     }
