@@ -55,15 +55,11 @@ export const giftButtonHandler = async (interaction) => {
 
     if (messages.length !== 0) {
       await interactionReply(interaction, personality.delivery);
-      messages.forEach(async (obj) => {
-        //get corresponding messages
-        setTimeout(
-          async (text) =>
-            await interaction.followUp({ content: text, ephemeral: true }),
-          2000,
-          obj.message
-        ); //send messages every 2s
-      });
+      let idx = 0;
+      const giftInterval = setInterval(() => {
+        if (messages.length >= idx) clearInterval(giftInterval);
+        interaction.followUp({ content: messages[idx++].message, ephemeral: true })      
+      }, 1000); //send messages every 1s
       return;
     }
   }
