@@ -55,15 +55,14 @@ export const giftButtonHandler = async (interaction) => {
 
     if (messages.length !== 0) {
       await interactionReply(interaction, personality.delivery);
-      messages.forEach(async (obj) => {
-        //get corresponding messages
-        setTimeout(
-          async (text) =>
-            await interaction.followUp({ content: text, ephemeral: true }),
-          2000,
-          obj.message
-        ); //send messages every 2s
-      });
+      let idx = 0;
+      const giftInterval = setInterval(() => {
+        if (messages.length >= idx) clearInterval(giftInterval);
+        interaction.followUp({
+          content: messages[idx++].message,
+          ephemeral: true,
+        });
+      }, 1000); //send messages every 1s
       return;
     }
   }
@@ -83,7 +82,7 @@ const giftInteractionCreation = async (client, type) => {
 
   //create button
   const actionRow = new ActionRowBuilder().addComponents(
-    createButton("gift_2023", personality.buttonLabel, ButtonStyle.Primary)
+    createButton("gift_2024", personality.buttonLabel, ButtonStyle.Primary)
   );
 
   if (type === "xmas") {
@@ -118,9 +117,9 @@ const addSeparationToDb = (client) => {
 
 export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
-  const xmasDate = dayjs(new Date(2023, 11, 25, 1)); //xmas date when to send
-  const nyDate = dayjs(new Date(2024, 0, 1, 1)); //new year date
-  const switchDate = dayjs(new Date(2023, 11, 27, 1)); //add separator to messages
+  const xmasDate = dayjs(new Date(2024, 11, 25, 1)); //xmas date when to send
+  const nyDate = dayjs(new Date(2025, 0, 1, 1)); //new year date
+  const switchDate = dayjs(new Date(2024, 11, 27, 1)); //add separator to messages
 
   const tomorrowMidnight = dayjs()
     .add(1, "day")
