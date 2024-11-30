@@ -689,6 +689,12 @@
         }
       }
     },
+    "accountabilityBuddy": {
+      "cancelButton": "aBuddy_cancel",
+      "currentButton": "aBuddy_current",
+      "doneButton": "aBuddy_done",
+      "pauseButton": "aBuddy_pause"
+    },
     "spotify": {
       "alreadyInPlaylist": "Cette chanson est déjà dans la playlist !",
       "errorAdding": "Erreur lors de l'ajout.",

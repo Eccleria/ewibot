@@ -69,6 +69,18 @@ export const fetchLogChannel = async (eventObject, type) => {
 };
 
 /**
+ * Get poll message from buttonInteraction
+ * @param {object} poll button settings interaction
+ * @returns Poll message
+ */
+export const fetchSelectMenuReferenceMessage = async (interaction) => {
+  const pollMessage = await interaction.channel.messages.fetch(
+    interaction.message.reference.messageId
+  );
+  return pollMessage;
+};
+
+/**
  * Get strings corresponding to gif url.
  * @param {string} content Message content where to look for gifs.
  * @returns {?string[]} If any, returns array of gif url strings.

@@ -88,6 +88,7 @@ import {
 import {
   checkEmbedContent,
   fetchLogChannel,
+  fetchSelectMenuReferenceMessage,
   gifParser,
   gifRecovery,
   hasApology,
@@ -107,6 +108,7 @@ export {
   // utils
   checkEmbedContent,
   fetchLogChannel,
+  fetchSelectMenuReferenceMessage,
   gifParser,
   gifRecovery,
   hasApology,
