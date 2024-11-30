@@ -6,12 +6,25 @@ const isReminder = (db, botMessageId) => {
     .includes(botMessageId);
 };
 
+const isReminderUser = (db, botMessageId, userId) => {
+  const data = db.data.reminder;
+  let flag = false;
+  if (isReminder(db, botMessageId)) {
+    data.forEach((obj) => {
+      console.log(obj, [userId], [botMessageId], obj.toMention.includes(userId));
+      if (obj.answerId === botMessageId && obj.toMention.includes(userId)) flag = true; 
+    })
+  }
+  return flag;
+}
+
 const addReminder = (
   db,
   interaction,
   botMessage,
   endingTime,
-  messageContent
+  messageContent,
+  toMention
 ) => {
   if (!isReminder(db, botMessage.id)) {
     db.data.reminder = [
@@ -23,9 +36,28 @@ const addReminder = (
         answerChannelId: botMessage.channel.id,
         reminderTime: endingTime,
         content: messageContent,
+        toMention: toMention,
       },
     ];
     db.wasUpdated = true;
+  }
+};
+
+const addReminderUser = (db, answerId, userId) => {
+  if (isReminder(db, answerId)) {
+    db.data.reminder.forEach((element) => {
+      if (element.answerId === answerId) {
+        element.toMention = [...element.toMention, userId];
+        db.wasUpdated = true;
+      }
+    })
+  }
+};
+
+const getReminderToMentionNumber = (db, botMessageId) => {
+  if (isReminder(db, botMessageId)) {
+    const data = db.data.reminder.find((obj) => obj.answerId === botMessageId)
+    return data.toMention.length;
   }
 };
 
@@ -38,7 +70,14 @@ const removeReminder = (db, botMessageId) => {
   }
 };
 
-const updateReminder = (db, botMessageId, newReminderTime) => {
+const removeReminderUser = (db, botMessageId, userId) => {
+  if (isReminder(db, botMessageId)) {
+    const data = db.data.reminder.find((obj) => obj.answerId === botMessageId);
+    return data.toRemind.includes(userId);
+  }
+};
+
+const updateReminderTime = (db, botMessageId, newReminderTime) => {
   db.data.reminder.map((element) => {
     if (element.answerId === botMessageId)
       element.reminderTime = newReminderTime;
@@ -46,4 +85,4 @@ const updateReminder = (db, botMessageId, newReminderTime) => {
   db.wasUpdated = true;
 };
 
-export { isReminder, addReminder, removeReminder, updateReminder };
+export { isReminderUser, addReminder, addReminderUser, getReminderToMentionNumber, removeReminder, removeReminderUser, updateReminderTime };
