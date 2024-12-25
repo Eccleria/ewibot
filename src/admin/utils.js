@@ -44,6 +44,7 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
  * @param {object} eventPerso The personality related to the triggered event.
  * @param {?object} executor Object containing or not the executor, if any.
  * @param {(EmbedBuilder|EmbedBuilder[])} logEmbed Log embed, or array of embeds with log at index 0.
+ * @param {boolean} isEmbedList Defines if the embed is an EmbedBuilder or an EmbedBuilder[]
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {?string} text Additional text to add.
  * @param {?Attachment[]} attachments Message attachments.
@@ -53,6 +54,7 @@ export const finishEmbed = async (
   eventPerso,
   executor,
   logEmbed,
+  isEmbedList,
   logChannel,
   text,
   attachments
@@ -67,7 +69,7 @@ export const finishEmbed = async (
     return null;
   }
 
-  const embed = logEmbed.length >= 0 ? logEmbed[0] : logEmbed; //if contains multiple embeds, the 1st is the log
+  const embed = isEmbedList ? logEmbed[0] : logEmbed; //if contains multiple embeds, the 1st is the log
 
   if (eventPerso.executor && executor !== null)
     embed.addFields({
@@ -83,7 +85,7 @@ export const finishEmbed = async (
 
   try {
     const newEmbeds =
-      logEmbed.length >= 1 ? [embed, ...logEmbed.slice(1)] : [embed];
+      isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
     const message = await logChannel.send({
       embeds: newEmbeds,
       allowed_mentions: { parse: [] },
@@ -106,6 +108,7 @@ export const finishEmbed = async (
  * @param {object} eventPerso Personality related to the listened event.
  * @param {object} logPerso Audit log personality.
  * @param {(EmbedBuilder|EmbedBuilder[])} embed Embed, or array of embeds with log at index 0.
+ * @param {boolean} isEmbedList Defines if the embed is an EmbedBuilder or an EmbedBuilder[]
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
@@ -117,6 +120,7 @@ export const endCasesEmbed = async (
   eventPerso,
   logPerso,
   embed,
+  isEmbedList,
   logChannel,
   text,
   diff
@@ -125,7 +129,7 @@ export const endCasesEmbed = async (
 
   if (diff >= 5) {
     //if log too old
-    return await finishEmbed(eventPerso, logPerso.tooOld, embed, logChannel);
+    return await finishEmbed(eventPerso, logPerso.tooOld, embed, isEmbedList, logChannel);
   }
 
   if (!log) {
@@ -134,6 +138,7 @@ export const endCasesEmbed = async (
       eventPerso,
       logPerso.noLog,
       embed,
+      isEmbedList,
       logChannel,
       text
     );
@@ -143,13 +148,14 @@ export const endCasesEmbed = async (
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    return await finishEmbed(eventPerso, executor, embed, logChannel, text);
+    return await finishEmbed(eventPerso, executor, embed, isEmbedList, logChannel, text);
   } else {
     //if bot or author executed the kick
     return await finishEmbed(
       eventPerso,
       logPerso.noExec,
       embed,
+      isEmbedList,
       logChannel,
       text
     );
@@ -191,7 +197,7 @@ export const processGeneralEmbed = async (
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
   const text = needReason ? log.reason : null; //if needed, get reason
 
-  endCasesEmbed(objToSend, log, perso, aLog, embed, channel, text, diff);
+  endCasesEmbed(objToSend, log, perso, aLog, embed, false, channel, text, diff);
 };
 
 export const bufferizeEventUpdate = (
@@ -379,7 +385,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //check for empty modifs
   if (oText.length === 0) {
-    finishEmbed(chnUp, logPerso.noLog, embed, logChannel, chnUp.noModifs); //send embed
+    finishEmbed(chnUp, logPerso.noLog, embed, false, logChannel, chnUp.noModifs); //send embed
     return;
   }
 
@@ -393,7 +399,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     return acc + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
 
-  finishEmbed(chnUp, logPerso.noLog, embed, logChannel, orderText); //send embed
+  finishEmbed(chnUp, logPerso.noLog, embed, false, logChannel, orderText); //send embed
 
   client.channelUpdate = {}; //remove from client
 };
@@ -428,7 +434,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   );
   if (filtered.oldOrder.length === 0) {
     //if empty, no changes => return
-    finishEmbed(roleUp, logPerso.noLog, embed, logChannel, roleUp.noModifs); //send embed
+    finishEmbed(roleUp, logPerso.noLog, embed, false, logChannel, roleUp.noModifs); //send embed
     return;
   }
 
@@ -444,7 +450,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
     return acc + "\n" + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
 
-  finishEmbed(roleUp, logPerso.noLog, embed, logChannel, orderText); //send embed
+  finishEmbed(roleUp, logPerso.noLog, embed, false, logChannel, orderText); //send embed
 
   client.roleUpdate = {}; //remove from client
 };
@@ -621,7 +627,7 @@ export const octagonalLog = async (object, user) => {
     } //get message link
   );
 
-  finishEmbed(octaPerso, null, embed, logChannel);
+  finishEmbed(octaPerso, null, embed, false, logChannel);
 };
 
 /**
