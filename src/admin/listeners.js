@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ChannelType, MessageType } from "discord.js";
+import { ChannelType, MessageType, OverwriteType } from "discord.js";
 import {
   isTestServer,
   bufferizeEventUpdate,
@@ -80,7 +80,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       let obj;
       try {
         obj =
-          oldDiff.type === "member"
+          oldDiff.type === OverwriteType.Member
             ? await oldChannel.guild.members.fetch(id)
             : await oldChannel.guild.roles.fetch(id);
       } catch (e) {
@@ -88,23 +88,23 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         obj = null;
       }
       const name =
-        oldDiff.type === "member" ? perm.userRemoved : perm.roleRemoved;
+        oldDiff.type === OverwriteType.Member ? perm.userRemoved : perm.roleRemoved;
 
       if (obj) embed.addFields({ name: name, value: obj.toString() });
-      finishEmbed(chnUp, null, embed, logChannel);
+      finishEmbed(chnUp, null, embed, false, logChannel);
       return;
     } else if (newDiffCol.size !== 0) {
       //added permission overwrite
       const newDiff = newDiffCol.first();
       const id = newDiff.id; //get PO target id
       const obj =
-        newDiff.type === "member"
+        newDiff.type === OverwriteType.Member
           ? await newChannel.guild.members.fetch(id)
           : await newChannel.guild.roles.fetch(id);
-      const name = newDiff.type === "member" ? perm.userAdded : perm.roleAdded;
+      const name = newDiff.type === OverwriteType.Member ? perm.userAdded : perm.roleAdded;
 
       embed.addFields({ name: name, value: obj.toString() });
-      finishEmbed(chnUp, null, embed, logChannel);
+      finishEmbed(chnUp, null, embed, false, logChannel);
       return;
     }
   }
@@ -149,7 +149,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
       //get role or member having that PO
       const obj =
-        cur[0].type === "member"
+        cur[0].type === OverwriteType.Member
           ? await newChannel.guild.members.fetch(cur[0].id)
           : await newChannel.guild.roles.fetch(cur[0].id);
 
@@ -167,7 +167,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
     if (modifs.length !== 0) {
       embed.addFields({ name: chnUp.text, value: modifs }); //add modifs in embed
-      finishEmbed(chnUp, null, embed, logChannel);
+      finishEmbed(chnUp, null, embed, false, logChannel);
     } else
       console.log(
         "channelUpdate permOverwrite noModifs",
@@ -223,6 +223,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       chnUp,
       auditLog,
       embed,
+      false,
       logChannel,
       text,
       diff
@@ -255,7 +256,7 @@ export const onThreadCreate = async (thread, newly) => {
       thread.ownerId
     );
 
-    finishEmbed(perso, executor, embed, logChannel);
+    finishEmbed(perso, executor, embed, false, logChannel);
   } else console.log("threadCreateIsNull", thread, newly);
 };
 
@@ -364,13 +365,14 @@ export const onRoleUpdate = async (oldRole, newRole) => {
       roleUp,
       auditLog,
       embed,
+      false,
       logChannel,
       text,
       diff
     );
     return;
   }
-  endCasesEmbed(newRole, null, roleUp, auditLog, embed, logChannel);
+  endCasesEmbed(newRole, null, roleUp, auditLog, embed, false, logChannel);
 };
 
 export const onMessageDelete = async (message) => {
@@ -418,6 +420,7 @@ export const onMessageDelete = async (message) => {
       messageDel,
       null,
       embed,
+      false,
       logChannel,
       messageDel.pinned
     );
@@ -450,6 +453,7 @@ export const onMessageDelete = async (message) => {
       messageDel,
       auditLog.noLog,
       embeds,
+      true,
       logChannel,
       null,
       attachments
@@ -477,6 +481,7 @@ export const onMessageDelete = async (message) => {
       messageDel,
       executor,
       embeds,
+      true,
       logChannel,
       null,
       attachments
@@ -495,6 +500,7 @@ export const onMessageDelete = async (message) => {
       messageDel,
       auditLog.noExec,
       embeds,
+      true,
       logChannel,
       null,
       attachments
@@ -571,6 +577,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       messageU,
       auditLog,
       embed,
+      false,
       logChannel
     );
     messageList.forEach((msg) =>
@@ -669,6 +676,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     messageU,
     null,
     embeds,
+    true,
     logChannel,
     null,
     attachments
@@ -739,7 +747,7 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
     }
   );
 
-  endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, logChannel, reason);
+  endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, false, logChannel, reason);
 };
 
 export const onGuildMemberRemove = async (memberKick) => {
@@ -796,6 +804,7 @@ export const onGuildMemberRemove = async (memberKick) => {
       guildKick,
       auditLog,
       embed,
+      false,
       logChannel
     );
 
@@ -821,6 +830,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     guildKick,
     auditLog,
     embed,
+    false,
     logChannel,
     reason,
     diff
@@ -846,38 +856,40 @@ export const checkPinStatus = async (message) => {
   if (!message.system) return; //if not message system, not pinned
 
   if (message.reference) {
-    //is system and has reference => pin message
-    const perso = PERSONALITY.getAdmin().messageUpdate;
-    const ref = message.reference;
+    if (message.reference.messageId) {
+      //is system and has a messageId reference => pin message
+      const perso = PERSONALITY.getAdmin().messageUpdate;
+      const ref = message.reference;
 
-    //create embed
-    const embed = setupEmbed("DarkGreen", perso, message.author, "tag"); //setup embed
-    const pinLog = await fetchAuditLog(message.guild, "MessagePin", 1); //get auditLog
-    const pPerso = perso.pinned;
-    embed.addFields(
-      { name: pPerso.title, value: pPerso.text, inline: true }, //add unpinned text
-      {
-        name: perso.channel,
-        value: `<#${message.channelId}>`,
+      //create embed
+      const embed = setupEmbed("DarkGreen", perso, message.author, "tag"); //setup embed
+      const pinLog = await fetchAuditLog(message.guild, "MessagePin", 1); //get auditLog
+      const pPerso = perso.pinned;
+      embed.addFields(
+        { name: pPerso.title, value: pPerso.text, inline: true }, //add unpinned text
+        {
+          name: perso.channel,
+          value: `<#${message.channelId}>`,
+          inline: true,
+        } //message channel
+      );
+
+      //add message link
+      const url = `https://discord.com/channels/${message.guildId}/${ref.channelId}/${ref.messageId}`;
+      const link = `[${perso.linkMessage}](${url})`;
+      embed.addFields({ name: perso.linkName, value: link, inline: true });
+
+      //add executor
+      embed.addFields({
+        name: pPerso.executor,
+        value: pinLog.executor.toString(),
         inline: true,
-      } //message channel
-    );
+      });
 
-    //add message link
-    const url = `https://discord.com/channels/${message.guildId}/${ref.channelId}/${ref.messageId}`;
-    const link = `[${perso.linkMessage}](${url})`;
-    embed.addFields({ name: perso.linkName, value: link, inline: true });
-
-    //add executor
-    embed.addFields({
-      name: pPerso.executor,
-      value: pinLog.executor.toString(),
-      inline: true,
-    });
-
-    //get logChannel
-    const logChannel = await fetchLogChannel(message, "thread");
-    const logMessage = await logChannel.send({ embeds: [embed] });
-    addAdminLogs(message.client.db, logMessage.id, "frequent", 6);
+      //get logChannel
+      const logChannel = await fetchLogChannel(message, "thread");
+      const logMessage = await logChannel.send({ embeds: [embed] });
+      addAdminLogs(message.client.db, logMessage.id, "frequent", 6);
+    }
   }
 };
