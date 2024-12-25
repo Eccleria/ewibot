@@ -84,8 +84,7 @@ export const finishEmbed = async (
     }); //if any text (reason or content), add it
 
   try {
-    const newEmbeds =
-      isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
+    const newEmbeds = isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
     const message = await logChannel.send({
       embeds: newEmbeds,
       allowed_mentions: { parse: [] },
@@ -129,7 +128,13 @@ export const endCasesEmbed = async (
 
   if (diff >= 5) {
     //if log too old
-    return await finishEmbed(eventPerso, logPerso.tooOld, embed, isEmbedList, logChannel);
+    return await finishEmbed(
+      eventPerso,
+      logPerso.tooOld,
+      embed,
+      isEmbedList,
+      logChannel
+    );
   }
 
   if (!log) {
@@ -148,7 +153,14 @@ export const endCasesEmbed = async (
 
   if (target.id === object.id) {
     //check if log report the correct kick
-    return await finishEmbed(eventPerso, executor, embed, isEmbedList, logChannel, text);
+    return await finishEmbed(
+      eventPerso,
+      executor,
+      embed,
+      isEmbedList,
+      logChannel,
+      text
+    );
   } else {
     //if bot or author executed the kick
     return await finishEmbed(
@@ -385,7 +397,14 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //check for empty modifs
   if (oText.length === 0) {
-    finishEmbed(chnUp, logPerso.noLog, embed, false, logChannel, chnUp.noModifs); //send embed
+    finishEmbed(
+      chnUp,
+      logPerso.noLog,
+      embed,
+      false,
+      logChannel,
+      chnUp.noModifs
+    ); //send embed
     return;
   }
 
@@ -434,7 +453,14 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   );
   if (filtered.oldOrder.length === 0) {
     //if empty, no changes => return
-    finishEmbed(roleUp, logPerso.noLog, embed, false, logChannel, roleUp.noModifs); //send embed
+    finishEmbed(
+      roleUp,
+      logPerso.noLog,
+      embed,
+      false,
+      logChannel,
+      roleUp.noModifs
+    ); //send embed
     return;
   }
 
