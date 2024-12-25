@@ -1,5 +1,5 @@
 ﻿## 6.3.2
-- Update: `/gift` ([#337](https://github.com/Eccleria/ewibot/pull/337))
+- Update: `/gift` ([#337](https://github.com/Eccleria/ewibot/pull/337)) ([#340](https://github.com/Eccleria/ewibot/pull/340))
 	- set dates to 2025
 	- message reception is now a real `Interval`
 
