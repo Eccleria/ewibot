@@ -39,7 +39,13 @@ const giveAlavirien = async (client, server, personality, userId) => {
 
     //send log
     const embed = setupEmbed("DarkGrey", personality, guildMember.user, "tag"); //create log
-    finishEmbed(personality, `<@${process.env.CLIENTID}>`, embed, false, logChannel); //send
+    finishEmbed(
+      personality,
+      `<@${process.env.CLIENTID}>`,
+      embed,
+      false,
+      logChannel
+    ); //send
   }
 };
 

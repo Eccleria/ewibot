@@ -55,14 +55,14 @@ export const giftButtonHandler = async (interaction) => {
 
     if (messages.length !== 0) {
       await interactionReply(interaction, personality.delivery);
-      let idx = 0;
-      const giftInterval = setInterval(() => {
-        if (messages.length >= idx) clearInterval(giftInterval);
-        interaction.followUp({
-          content: messages[idx++].message,
-          ephemeral: true,
-        });
-      }, 1000); //send messages every 1s
+      messages.reduce((_acc, obj, idx) => {
+        //get corresponding messages
+        setTimeout(
+          (text) => interaction.followUp({ content: text, ephemeral: true }),
+          (idx + 1) * 1000,
+          obj.message
+        ); //send messages every 2s
+      }, null);
       return;
     }
   }
@@ -121,7 +121,7 @@ export const setGiftTimeoutLoop = (client) => {
   const nyDate = dayjs(new Date(2025, 0, 1, 1)); //new year date
   const switchDate = dayjs(new Date(2024, 11, 27, 1)); //add separator to messages
 
-  const tomorrowMidnight = dayjs()
+  /*const tomorrowMidnight = dayjs()
     .add(1, "day")
     .hour(0)
     .minute(0)
@@ -129,7 +129,7 @@ export const setGiftTimeoutLoop = (client) => {
     .millisecond(0); //tomorrow @ midnight
 
   const timeToMidnight = tomorrowMidnight.diff(dayjs());
-  const dayMs = 86400000;
+  const dayMs = 86400000;*/
 
   const sendMessage = () => {
     const today = dayjs();
@@ -154,10 +154,10 @@ export const setGiftTimeoutLoop = (client) => {
 
   setTimeout(() => {
     sendMessage();
-    setInterval(() => {
+    /*setInterval(() => {
       sendMessage();
-    }, dayMs);
-  }, timeToMidnight);
+    }, dayMs);*/
+  }, 15000); //timeToMidnight);
 };
 
 const command = new SlashCommandBuilder()

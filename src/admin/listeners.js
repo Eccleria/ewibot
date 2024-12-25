@@ -88,7 +88,9 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         obj = null;
       }
       const name =
-        oldDiff.type === OverwriteType.Member ? perm.userRemoved : perm.roleRemoved;
+        oldDiff.type === OverwriteType.Member
+          ? perm.userRemoved
+          : perm.roleRemoved;
 
       if (obj) embed.addFields({ name: name, value: obj.toString() });
       finishEmbed(chnUp, null, embed, false, logChannel);
@@ -101,7 +103,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         newDiff.type === OverwriteType.Member
           ? await newChannel.guild.members.fetch(id)
           : await newChannel.guild.roles.fetch(id);
-      const name = newDiff.type === OverwriteType.Member ? perm.userAdded : perm.roleAdded;
+      const name =
+        newDiff.type === OverwriteType.Member ? perm.userAdded : perm.roleAdded;
 
       embed.addFields({ name: name, value: obj.toString() });
       finishEmbed(chnUp, null, embed, false, logChannel);
@@ -747,7 +750,16 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
     }
   );
 
-  endCasesEmbed(user, timeoutLog, timeout, auditLog, embed, false, logChannel, reason);
+  endCasesEmbed(
+    user,
+    timeoutLog,
+    timeout,
+    auditLog,
+    embed,
+    false,
+    logChannel,
+    reason
+  );
 };
 
 export const onGuildMemberRemove = async (memberKick) => {
