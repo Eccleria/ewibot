@@ -121,7 +121,7 @@ export const setGiftTimeoutLoop = (client) => {
   const nyDate = dayjs(new Date(2025, 0, 1, 1)); //new year date
   const switchDate = dayjs(new Date(2024, 11, 27, 1)); //add separator to messages
 
-  /*const tomorrowMidnight = dayjs()
+  const tomorrowMidnight = dayjs()
     .add(1, "day")
     .hour(0)
     .minute(0)
@@ -129,7 +129,7 @@ export const setGiftTimeoutLoop = (client) => {
     .millisecond(0); //tomorrow @ midnight
 
   const timeToMidnight = tomorrowMidnight.diff(dayjs());
-  const dayMs = 86400000;*/
+  const dayMs = 86400000;
 
   const sendMessage = () => {
     const today = dayjs();
@@ -154,10 +154,10 @@ export const setGiftTimeoutLoop = (client) => {
 
   setTimeout(() => {
     sendMessage();
-    /*setInterval(() => {
+    setInterval(() => {
       sendMessage();
-    }, dayMs);*/
-  }, 15000); //timeToMidnight);
+    }, dayMs);
+  }, timeToMidnight);
 };
 
 const command = new SlashCommandBuilder()
