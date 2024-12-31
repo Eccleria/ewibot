@@ -1,4 +1,5 @@
 ﻿## 6.3.2
+- Fix: rare case of `embed` being undefined during `processGeneralEmbed` ([#336](https://github.com/Eccleria/ewibot/issues/336)) ([#339](https://github.com/Eccleria/ewibot/pull/339))
 - Update: `/gift` ([#337](https://github.com/Eccleria/ewibot/pull/337)) ([#340](https://github.com/Eccleria/ewibot/pull/340))
 	- set dates to 2025
 	- message reception is now a real `Interval`
