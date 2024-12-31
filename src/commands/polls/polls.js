@@ -186,7 +186,7 @@ const action = async (interaction) => {
     if (timeout === 0) timeout = 48 * 60 * 60 * 1000; //2 days default value
     const pollDate = dayjs().millisecond(timeout);
 
-    //check choices length restrictions 
+    //check choices length restrictions
     const splited = choices.split(";");
     if (splited.length > 10) {
       //if not too many choices
