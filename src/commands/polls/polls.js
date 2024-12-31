@@ -186,11 +186,20 @@ const action = async (interaction) => {
     if (timeout === 0) timeout = 48 * 60 * 60 * 1000; //2 days default value
     const pollDate = dayjs().millisecond(timeout);
 
-    //check if not too many choices
+    //check choices length restrictions 
     const splited = choices.split(";");
     if (splited.length > 10) {
+      //if not too many choices
       interactionReply(interaction, personality.errorChoicesNumber);
       return;
+    }
+    for (const item of splited) {
+      //if any choice is too long
+      if (item.length > 256) {
+        console.log("polls choice too long: ", item.length);
+        interactionReply(interaction, personality.errorChoicesLength);
+        return;
+      }
     }
 
     //create embed
