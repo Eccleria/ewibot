@@ -1,4 +1,7 @@
-﻿## 6.3.2
+## 6.4.0
+- Update: `polls` now use the max of votes to compute vote ratio for progress bar ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#335](https://github.com/Eccleria/ewibot/pull/335))
+
+## 6.3.2
 - Fix: rare case of `embed` being undefined during `processGeneralEmbed` ([#336](https://github.com/Eccleria/ewibot/issues/336)) ([#339](https://github.com/Eccleria/ewibot/pull/339))
 - Update: `/gift` ([#337](https://github.com/Eccleria/ewibot/pull/337)) ([#340](https://github.com/Eccleria/ewibot/pull/340))
 	- set dates to 2025
