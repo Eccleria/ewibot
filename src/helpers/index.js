@@ -80,6 +80,14 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  isTimeoutUser, 
+  getTimeoutUser,
+  addTimeoutUser, 
+  removeTimeoutUser,
+  updateTimeoutUser,
+} from "./db/dbTimeout.js";
+
+import {
   generateSpotifyClient,
   parseLink,
   deleteSongFromPlaylist,
@@ -193,4 +201,10 @@ export {
   dbReturnType,
   addServerStatsData,
   addServerEmojiCount,
+  //timeout
+  isTimeoutUser, 
+  getTimeoutUser,
+  addTimeoutUser, 
+  removeTimeoutUser,
+  updateTimeoutUser,
 };

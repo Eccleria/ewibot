@@ -1,11 +1,48 @@
 import { Colors, SlashCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import {
+  addTimeoutUser,
   fetchLogChannel,
+  getTimeoutUser,
   interactionReply,
+  removeTimeoutUser,
   setupEmbed,
+  updateTimeoutUser,
 } from "../helpers/index.js";
 import dayjs from "dayjs";
+
+const userTimeoutHandler = async (client, userId, guildId) => {
+  //executed when long timeout is required
+  const dbData = getTimeoutUser(client.db, userId);
+  const { reason, currentDelay, spentDelay, totalDelay } = dbData;
+
+  //check if finished
+  if (spentDelay >= totalDelay) {
+    //remove data and that's it
+    removeTimeoutUser(client.db, userId);
+    return;
+  }
+
+  //set a new timeout
+  const diff = totalDelay - spentDelay;
+
+  //compute timestamp for timeout
+  const today = dayjs();
+  const timestamp = today.add(diff, "ms");
+
+  //fetch member
+  const guild = await client.guild.fetch(guildId);
+  const member = await guild.members.fetch(userId);
+
+  try {
+    await member.disableCommunicationUntil(timestamp, reason);
+    updateTimeoutUser(client.db, member.id, "spentDelay", spentDelay + currentDelay);
+    updateTimeoutUser(client.db, member.id, "currentDelay", diff);
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+}
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getCommands().timeout.name)
@@ -107,6 +144,7 @@ const action = async (interaction) => {
   //timeout guildMember
   try {
     await member.disableCommunicationUntil(timestamp, reason);
+    addTimeoutUser(interaction.client.db, member.id, timeout, '0', reason);
   } catch (e) {
     console.error(e);
 
