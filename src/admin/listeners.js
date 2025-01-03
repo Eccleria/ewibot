@@ -700,21 +700,22 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   );
 };
 
-export const onGuildBanAdd = (userBan) => {
+export const onGuildBanAdd = async (userBan) => {
   console.log("member banned from Discord Server");
 
-  const logType = "MEMBER_BAN_ADD";
-  const perso = "guildBan";
-  processGeneralEmbed(
-    perso,
-    userBan,
-    Colors.DarkNavy,
-    logType,
-    1,
-    "user",
-    "user",
-    true
-  );
+  const personality = PERSONALITY.getAdmin(); //get personality
+  const perso = personality.guildBan;
+
+  if (process.env.DEBUG === "no" && isTestServer(userBan)) return; //if in prod && modif in test server
+
+  const user = userBan.user;
+  const logChannel = await fetchLogChannel(userBan); //get logChannel
+  const color = Colors.DarkNavy;
+  const embed = setupEmbed(color, perso, user, "user"); //setup embed
+  embed.addFields({ name: perso.id, value: user.id, inline: true })
+  const log = await fetchAuditLog(userBan.guild, "MEMBER_BAN_ADD", 1); //get auditLog
+
+  finishEmbed(perso, log.executor, embed, false, logChannel, log.reason);
 };
 
 export const onGuildBanRemove = (userBan) => {
