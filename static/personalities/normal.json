@@ -415,6 +415,7 @@
           }        
         },
         "description": "Cette commande permet de créer des sondages.",
+        "errorChoicesLength": "Attention, la longueur d'un choix ne peux pas dépasser 256 caractères, émote incluse.",
         "errorChoicesNumber": "Vous avez donné trop de choix. Maximum 10 choix.",
         "errorMaxVote": "Vous avez atteint le nombre maximal de vote. Veuillez en retirer pour pouvoir en changer.",
         "errorMultipleInput": "Vous ne pouvez ajouter qu'un seul choix à la fois.",

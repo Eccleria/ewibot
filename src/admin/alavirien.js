@@ -3,6 +3,7 @@ import { finishEmbed } from "./utils.js";
 import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
+import { Colors } from "discord.js";
 
 export const presentationHandler = async (
   server,
@@ -38,7 +39,8 @@ const giveAlavirien = async (client, server, personality, userId) => {
     removeAlavirien(client.db, userId); //remove from db
 
     //send log
-    const embed = setupEmbed("DarkGrey", personality, guildMember.user, "tag"); //create log
+    const color = Colors.DarkGrey;
+    const embed = setupEmbed(color, personality, guildMember.user, "tag"); //create log
     finishEmbed(
       personality,
       `<@${process.env.CLIENTID}>`,

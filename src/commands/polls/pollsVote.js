@@ -109,11 +109,11 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
 
   //compute new ratios
   const values = fieldNumbers.values;
-  const total = values.reduce((acc, cur) => acc + cur, 0); //get total count nb
+  const max = values.reduce((acc, cur) => Math.max(acc, cur), 0); //get max count nb
   const newRatios =
-    total === 0
+    max === 0
       ? values.map(() => 0)
-      : values.map((value) => Math.round((value / total) * 100)); //emote ratio
+      : values.map((value) => Math.round((value / max) * 100)); //emote ratio
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
