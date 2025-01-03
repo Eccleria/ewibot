@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ChannelType, MessageType, OverwriteType } from "discord.js";
+import { ChannelType, Colors, MessageType, OverwriteType } from "discord.js";
 import {
   isTestServer,
   bufferizeEventUpdate,
@@ -35,7 +35,8 @@ export const onChannelCreate = async (channel) => {
 
   const logType = "CHANNEL_CREATE";
   const perso = "channelCreate";
-  processGeneralEmbed(perso, channel, "DarkAqua", logType, 1, null, "tag");
+  const color = Colors.DarkAqua;
+  processGeneralEmbed(perso, channel, color, logType, 1, null, "tag");
 };
 
 export const onChannelDelete = async (channel) => {
@@ -43,7 +44,8 @@ export const onChannelDelete = async (channel) => {
 
   const logType = "CHANNEL_DELETE";
   const perso = "channelDelete";
-  processGeneralEmbed(perso, channel, "DarkAqua", logType, 1);
+  const color = Colors.DarkAqua;
+  processGeneralEmbed(perso, channel, color, logType, 1);
 };
 
 export const onChannelUpdate = async (oldChannel, newChannel) => {
@@ -59,7 +61,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   if (process.env.DEBUG === "no" && isTestServer(newChannel)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(newChannel); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
-  const embed = setupEmbed("DarkAqua", chnUp, newChannel, "tag"); //setup embed
+  const color = Colors.DarkAqua;
+  const embed = setupEmbed(color, chnUp, newChannel, "tag"); //setup embed
   const chnLog = await fetchAuditLog(oldChannel.guild, "ChannelUpdate", 1); //get auditLog
 
   //check for permission overwrite
@@ -251,7 +254,8 @@ export const onThreadCreate = async (thread, newly) => {
     const perso = PERSONALITY.getAdmin().threadCreate;
     const log = await fetchAuditLog(thread.guild, "THREAD_CREATE", 1); //get auditLog
     const executor = await thread.guild.members.fetch(thread.ownerId);
-    const embed = setupEmbed("DarkGrey", perso, thread, "tag"); //setup embed
+    const color = Colors.DarkGrey;
+    const embed = setupEmbed(color, perso, thread, "tag"); //setup embed
     console.log(
       "onThreadCreate\nlog.executor",
       log.executor.id,
@@ -267,7 +271,8 @@ export const onThreadDelete = async (thread) => {
   //handle thread deletion
   const logType = "THREAD_DELETE";
   const perso = "threadDelete";
-  processGeneralEmbed(perso, thread, "DarkGrey", logType, 1);
+  const color = Colors.DarkGrey;
+  processGeneralEmbed(perso, thread, color, logType, 1);
 };
 
 export const onThreadUpdate = async (oldThread, newThread) => {
@@ -276,19 +281,22 @@ export const onThreadUpdate = async (oldThread, newThread) => {
   //console.log("oldThread", oldThread, "newThread", newThread)
   const logType = "THREAD_UPDATE";
   const perso = "threadUpdate";
-  processGeneralEmbed(perso, newThread, "DarkGrey", logType, 1);
+  const color = Colors.DarkGrey;
+  processGeneralEmbed(perso, newThread, color, logType, 1);
 };
 
 export const onRoleCreate = async (role) => {
   const logType = "ROLE_CREATE";
   const perso = "roleCreate";
-  processGeneralEmbed(perso, role, "DarkGold", logType, 1);
+  const color = Colors.DarkGold;
+  processGeneralEmbed(perso, role, color, logType, 1);
 };
 
 export const onRoleDelete = (role) => {
   const logType = "ROLE_DELETE";
   const perso = "roleDelete";
-  processGeneralEmbed(perso, role, "DarkGold", logType, 1);
+  const color = Colors.DarkGold;
+  processGeneralEmbed(perso, role, color, logType, 1);
 };
 
 export const onRoleUpdate = async (oldRole, newRole) => {
@@ -305,7 +313,8 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   if (process.env.DEBUG === "no" && isTestServer(newRole)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(newRole); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
-  const embed = setupEmbed("DarkGold", roleUp, newRole); //setup embed
+  const color = Colors.DarkGold;
+  const embed = setupEmbed(color, roleUp, newRole); //setup embed
 
   //get client
   const client = newRole.client;
@@ -410,7 +419,8 @@ export const onMessageDelete = async (message) => {
 
   const timestamp = Math.floor(message.createdTimestamp / 1000);
   const unixTimestamp = parseUnixTimestamp(timestamp, "F");
-  const embed = setupEmbed("DarkRed", messageDel, message.author, "tag"); //setup embed
+  const color = Colors.DarkRed;
+  const embed = setupEmbed(color, messageDel, message.author, "tag"); //setup embed
   embed.addFields(
     { name: messageDel.date, value: unixTimestamp, inline: true }, //date of message creation
     { name: messageDel.channel, value: `<#${message.channelId}>`, inline: true } //message channel
@@ -547,7 +557,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   if (process.env.DEBUG === "no" && isTestServer(newMessage)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(nMessage, "thread"); //get logChannel
 
-  const embed = setupEmbed("DarkGreen", messageU, nMessage.author, "tag"); //setup embed
+  const color = Colors.DarkGreen;
+  const embed = setupEmbed(color, messageU, nMessage.author, "tag"); //setup embed
   //no auditLog when message update
 
   //check for un/pinned
@@ -697,7 +708,7 @@ export const onGuildBanAdd = (userBan) => {
   processGeneralEmbed(
     perso,
     userBan,
-    "DarkNavy",
+    Colors.DarkNavy,
     logType,
     1,
     "user",
@@ -711,7 +722,8 @@ export const onGuildBanRemove = (userBan) => {
 
   const logType = "MEMBER_BAN_REMOVE";
   const perso = "guildUnban";
-  processGeneralEmbed(perso, userBan, "DarkNavy", logType, 1, "user", "user");
+  const color = Colors.DarkNavy;
+  processGeneralEmbed(perso, userBan, color, logType, 1, "user", "user");
 };
 
 export const onGuildMemberUpdate = async (_oldMember, newMember) => {
@@ -730,7 +742,8 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
 
   if (process.env.DEBUG === "no" && isTestServer(newMember)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(newMember); //get logChannel
-  const embed = setupEmbed("Orange", timeout, user, "tag"); //setup embed
+  const color = Colors.Orange;
+  const embed = setupEmbed(color, timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(newMember.guild, "MemberUpdate", 1); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
 
@@ -798,7 +811,8 @@ export const onGuildMemberRemove = async (memberKick) => {
     // diff can be null or float
     //no log or too old => not kicked but left
     const guildKick = personality.guildKick.leave;
-    const embed = setupEmbed("DarkPurple", guildKick, userKick, "user"); //setup embed
+    const color = Colors.DarkPurple;
+    const embed = setupEmbed(color, guildKick, userKick, "user"); //setup embed
     embed.addFields(
       { name: guildKick.id, value: memberKick.id, inline: true }, //add user id
       { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
@@ -827,7 +841,8 @@ export const onGuildMemberRemove = async (memberKick) => {
   }
 
   const guildKick = personality.guildKick.kick;
-  const embed = setupEmbed("DarkPurple", guildKick, userKick, "user"); //setup embed
+  const color = Colors.DarkPurple;
+  const embed = setupEmbed(color, guildKick, userKick, "user"); //setup embed
   embed.addFields(
     { name: guildKick.id, value: memberKick.id, inline: true },
     { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
@@ -874,7 +889,8 @@ export const checkPinStatus = async (message) => {
       const ref = message.reference;
 
       //create embed
-      const embed = setupEmbed("DarkGreen", perso, message.author, "tag"); //setup embed
+      const color = Colors.DarkGreen;
+      const embed = setupEmbed(color, perso, message.author, "tag"); //setup embed
       const pinLog = await fetchAuditLog(message.guild, "MessagePin", 1); //get auditLog
       const pPerso = perso.pinned;
       embed.addFields(
