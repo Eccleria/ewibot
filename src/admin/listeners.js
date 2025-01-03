@@ -207,7 +207,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       chnUp,
       auditLog,
       logChannel,
-      embed,
+      [embed],
       "channel"
     ); //update client data
     return;
