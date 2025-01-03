@@ -1,6 +1,7 @@
 ## 6.4.0
 - Fix: now check the length of `polls` choices (<= 256) ([#331](https://github.com/Eccleria/ewibot/issues/331)) ([#344](https://github.com/Eccleria/ewibot/pull/344))
 - Update: `polls` now use the max of votes to compute vote ratio for progress bar ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#335](https://github.com/Eccleria/ewibot/pull/335))
+- Update: now use `Colors` type from `discord.js` instead of strings ([#338](https://github.com/Eccleria/ewibot/issues/338)) ([#349](https://github.com/Eccleria/ewibot/pull/349))
 
 ## 6.3.2
 - Fix: rare case of `embed` being undefined during `processGeneralEmbed` ([#336](https://github.com/Eccleria/ewibot/issues/336)) ([#339](https://github.com/Eccleria/ewibot/pull/339))
