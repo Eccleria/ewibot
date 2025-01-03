@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } from "discord.js";
 import { createButton } from "./utils.js";
 import {
   addGiftMessage,
@@ -88,7 +88,7 @@ const giftInteractionCreation = async (client, type) => {
   if (type === "xmas") {
     const nDayEmbed = personality.nDayEmbed;
     const embed = new EmbedBuilder() //create embed
-      .setColor("DarkGreen")
+      .setColor(Colors.DarkGreen)
       .setTimestamp()
       .setTitle(personality.nDayEmbed.title)
       .setDescription(nDayEmbed.description)
@@ -100,7 +100,7 @@ const giftInteractionCreation = async (client, type) => {
     const newYear = personality.newYear;
 
     const embed = new EmbedBuilder() //create embed
-      .setColor("DarkGreen")
+      .setColor(Colors.DarkGreen)
       .setTimestamp()
       .setTitle(newYear.title)
       .setDescription(newYear.description);
