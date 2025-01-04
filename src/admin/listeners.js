@@ -1,5 +1,11 @@
 import dayjs from "dayjs";
-import { AuditLogEvent, ChannelType, Colors, MessageType, OverwriteType } from "discord.js";
+import {
+  AuditLogEvent,
+  ChannelType,
+  Colors,
+  MessageType,
+  OverwriteType,
+} from "discord.js";
 import {
   isTestServer,
   bufferizeEventUpdate,
@@ -63,7 +69,11 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
   const color = Colors.DarkAqua;
   const embed = setupEmbed(color, chnUp, newChannel, "tag"); //setup embed
-  const chnLog = await fetchAuditLog(oldChannel.guild, AuditLogEvent.ChannelUpdate, 1); //get auditLog
+  const chnLog = await fetchAuditLog(
+    oldChannel.guild,
+    AuditLogEvent.ChannelUpdate,
+    1
+  ); //get auditLog
 
   //check for permission overwrite
   const oldOverwrite = oldChannel.permissionOverwrites.cache;
@@ -252,7 +262,11 @@ export const onThreadCreate = async (thread, newly) => {
 
     const logChannel = await fetchLogChannel(thread); //get logChannel
     const perso = PERSONALITY.getAdmin().threadCreate;
-    const log = await fetchAuditLog(thread.guild, AuditLogEvent.ThreadCreate, 1); //get auditLog
+    const log = await fetchAuditLog(
+      thread.guild,
+      AuditLogEvent.ThreadCreate,
+      1
+    ); //get auditLog
     const executor = await thread.guild.members.fetch(thread.ownerId);
     const color = Colors.DarkGrey;
     const embed = setupEmbed(color, perso, thread, "tag"); //setup embed
@@ -340,7 +354,11 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     return;
   }
 
-  const roleLog = await fetchAuditLog(newRole.guild, AuditLogEvent.RoleUpdate, 1); //get auditLog
+  const roleLog = await fetchAuditLog(
+    newRole.guild,
+    AuditLogEvent.RoleUpdate,
+    1
+  ); //get auditLog
 
   if (roleLog !== null) {
     //get all data to compare
@@ -425,7 +443,11 @@ export const onMessageDelete = async (message) => {
     { name: messageDel.date, value: unixTimestamp, inline: true }, //date of message creation
     { name: messageDel.channel, value: `<#${message.channelId}>`, inline: true } //message channel
   );
-  const deletionLog = await fetchAuditLog(message.guild, AuditLogEvent.MessageDelete, 1); //get auditLog
+  const deletionLog = await fetchAuditLog(
+    message.guild,
+    AuditLogEvent.MessageDelete,
+    1
+  ); //get auditLog
 
   //test for system message
   if (message.type === MessageType.ChannelPinnedMessage) {
@@ -563,7 +585,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //check for un/pinned
   if (oMessage.pinned && !nMessage.pinned) {
-    const unpinLog = await fetchAuditLog(nMessage.guild, AuditLogEvent.MessageUnpin, 1); //get auditLog
+    const unpinLog = await fetchAuditLog(
+      nMessage.guild,
+      AuditLogEvent.MessageUnpin,
+      1
+    ); //get auditLog
     const unpinned = messageU.unpinned;
     embed.addFields(
       { name: unpinned.title, value: unpinned.text, inline: true }, //add unpinned text
@@ -712,7 +738,7 @@ export const onGuildBanAdd = async (userBan) => {
   const logChannel = await fetchLogChannel(userBan); //get logChannel
   const color = Colors.DarkNavy;
   const embed = setupEmbed(color, perso, user, "user"); //setup embed
-  embed.addFields({ name: perso.id, value: user.id, inline: true })
+  embed.addFields({ name: perso.id, value: user.id, inline: true });
   const log = await fetchAuditLog(userBan.guild, AuditLogEvent.MemberBanAdd, 1); //get auditLog
 
   finishEmbed(perso, log.executor, embed, false, logChannel, log.reason);
@@ -788,7 +814,11 @@ export const onGuildMemberRemove = async (memberKick) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(memberKick)) return; //if in prod && modif in test server
-  const kickLog = await fetchAuditLog(memberKick.guild, AuditLogEvent.MemberKick, 1); //get auditLog
+  const kickLog = await fetchAuditLog(
+    memberKick.guild,
+    AuditLogEvent.MemberKick,
+    1
+  ); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get kick reason
 
   //get log creation date and compare to now
@@ -892,7 +922,11 @@ export const checkPinStatus = async (message) => {
       //create embed
       const color = Colors.DarkGreen;
       const embed = setupEmbed(color, perso, message.author, "tag"); //setup embed
-      const pinLog = await fetchAuditLog(message.guild, AuditLogEvent.MessagePin, 1); //get auditLog
+      const pinLog = await fetchAuditLog(
+        message.guild,
+        AuditLogEvent.MessagePin,
+        1
+      ); //get auditLog
       const pPerso = perso.pinned;
       embed.addFields(
         { name: pPerso.title, value: pPerso.text, inline: true }, //add unpinned text
