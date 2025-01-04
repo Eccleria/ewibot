@@ -1,4 +1,4 @@
-import { AuditLogEvent, Colors } from "discord.js";
+import { Colors } from "discord.js";
 import {
   checkEmbedContent,
   fetchLogChannel,
@@ -17,18 +17,16 @@ import { PERSONALITY } from "../personality.js";
 /**
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
- * @param {string|AuditLogEvent} auditType String|AuditLogEvent for audit type request.
+ * @param {AuditLogEvent} auditType AuditLogEvent for audit type request.
  * @param {number} limit Number of auditLogs fetched.
  * @param {string} [type] String for audit type request.
  * @returns {?GuildAuditLogsEntry} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
-  const aType =
-    typeof auditType === "string" ? AuditLogEvent[auditType] : auditType;
   try {
     const fetchedLogs = await guild.fetchAuditLogs({
       limit: limit,
-      type: aType,
+      type: auditType,
     }); //fetch logs
     if (type === "list") return fetchedLogs.entries; //return all entries
     return fetchedLogs.entries.first(); //return the first
@@ -418,7 +416,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     return acc + spaced;
   }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
 
-  finishEmbed(chnUp, logPerso.noLog, embed, false, logChannel, orderText); //send embed
+  finishEmbed(chnUp, logPerso.noLog, embed, true, logChannel, orderText); //send embed
 
   client.channelUpdate = {}; //remove from client
 };

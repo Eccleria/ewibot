@@ -3,6 +3,7 @@
 - Fix: now check the length of `polls` choices (<= 256) ([#331](https://github.com/Eccleria/ewibot/issues/331)) ([#344](https://github.com/Eccleria/ewibot/pull/344))
 - Update: `polls` now use the max of votes to compute vote ratio for progress bar ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#335](https://github.com/Eccleria/ewibot/pull/335))
 - Update: now use `Colors` type from `discord.js` instead of strings ([#338](https://github.com/Eccleria/ewibot/issues/338)) ([#349](https://github.com/Eccleria/ewibot/pull/349))
+- Update: now use `AuditLogEvent` type from `discord.js` instead of strings ([#348](https://github.com/Eccleria/ewibot/issues/348)) ([#350](https://github.com/Eccleria/ewibot/pull/350))
 - Update: `guildBanAdd` `embed` now display banned user's Id ([#346](https://github.com/Eccleria/ewibot/issues/346)) ([#347](https://github.com/Eccleria/ewibot/pull/347))
 
 ## 6.3.2
