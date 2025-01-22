@@ -198,4 +198,30 @@ export const parseUnixTimestamp = (time, type = "R") => {
   return `<t:${time}:${type}>`;
 };
 
+const urlTrackers = ['?si=', '?t=', '?igsh='];
+
+export const clearURL = async (message) => {
+    const { content } = message;
+    const words = content.split(' ');
+    
+    const result = urlTrackers.reduce((acc, cur) => {
+        if (words.some((str) => str.includes(cur))) {
+            const index = words.findIndex((str) => str.includes(cur));
+            acc = {tracker: cur, index};
+        }
+        return acc;
+    }, {tracker: "", index: -1})
+
+    if (result.index != -1) {
+        const word = words[result.index];
+        console.log("Url with tracker found! ", word);
+        
+        const wordIdx = word.indexOf(result.tracker);
+        const sanitizedContent = word.slice(0, wordIdx);
+
+        await message.suppressEmbeds(true);
+        message.reply({content:"Voici un lien sans traqueur :\n" + sanitizedContent, allowedMentions: { repliedUser: false }});
+    } 
+};
+
 //#endregion
