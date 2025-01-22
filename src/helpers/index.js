@@ -76,6 +76,7 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  clearURL,
   gifRecovery,
   hasApology,
   interactionReply,
@@ -91,6 +92,7 @@ import {
 
 export {
   // utils
+  clearURL,
   gifRecovery,
   hasApology,
   interactionReply,
