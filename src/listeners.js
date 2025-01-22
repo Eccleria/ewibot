@@ -8,6 +8,7 @@ import {
   addEmojiData,
   addServerEmojiCount,
   addServerStatsData,
+  clearURL,
   deleteSongFromPlaylist,
   interactionReply,
   isReleasedCommand,
@@ -168,6 +169,7 @@ const onPublicMessage = (message, currentServer) => {
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
+  clearURL(message);
 };
 
 export const onRemoveReminderReaction = (
