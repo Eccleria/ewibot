@@ -87,6 +87,7 @@ import {
 
 import {
   checkEmbedContent,
+  clearURL,
   fetchLogChannel,
   gifParser,
   gifRecovery,
@@ -106,6 +107,7 @@ import {
 export {
   // utils
   checkEmbedContent,
+  clearURL,
   fetchLogChannel,
   gifParser,
   gifRecovery,
