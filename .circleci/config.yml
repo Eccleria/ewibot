@@ -3,7 +3,9 @@ orbs:
   node: circleci/node@7.1.0
 jobs:
   lint:
-    executor: node/default
+    executor: 
+      name: node/default
+      tag: '20.18.3'
     steps:
       - checkout
       - node/install-packages:
@@ -11,7 +13,9 @@ jobs:
           override-ci-command: npm install
       - run: npm run lint
   prettier:
-    executor: node/default
+    executor:
+      name: node/default
+      tag: '20.18.3'
     steps:
       - checkout
       - node/install-packages:
