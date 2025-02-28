@@ -8,7 +8,9 @@ dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
 import { Client, GatewayIntentBits, Partials } from "discord.js";
-import { Low, JSONFile } from "lowdb";
+import { Low } from "lowdb";
+import { JSONFile } from "lowdb/node";
+
 import { join } from "path";
 import SpotifyWebApi from "spotify-web-api-node";
 
@@ -61,7 +63,7 @@ import { setActivity, updateActivity } from "./fun.js";
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
 const adapter = new JSONFile(file);
-const db = new Low(adapter);
+const db = new Low(adapter, {});
 
 db.read(); // Read data from JSON file, this will set db.data content
 db.wasUpdated = false;
