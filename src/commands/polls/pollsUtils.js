@@ -198,7 +198,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
     await pollMessage.fetch();
   } catch (e) {
     removePoll(db, pollMessage.id); //remove from db
-    console.log("pollMessage has been deleted, cannot reply 'stoped'");
+    console.log("pollMessage has been deleted, cannot reply 'stoped'", e);
     return;
   }
 
