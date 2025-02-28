@@ -43,7 +43,7 @@ const startInterval = (client) => {
       await shuffleRoleColor(client);
     },
     shuffleParam.waitingTime,
-    client
+    client,
   );
 };
 
@@ -109,7 +109,7 @@ const command = new SlashCommandBuilder()
   .addSubcommand((subcommand) =>
     subcommand
       .setName(PERSONALITY.getCommands().shuffle.startstop.name)
-      .setDescription(PERSONALITY.getCommands().shuffle.startstop.description)
+      .setDescription(PERSONALITY.getCommands().shuffle.startstop.description),
   )
   .addSubcommand((subcommand) =>
     subcommand
@@ -119,10 +119,10 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().shuffle.set.numberOption.name)
           .setDescription(
-            PERSONALITY.getCommands().shuffle.set.numberOption.description
+            PERSONALITY.getCommands().shuffle.set.numberOption.description,
           )
-          .setRequired(true)
-      )
+          .setRequired(true),
+      ),
   );
 
 const shuffle = {

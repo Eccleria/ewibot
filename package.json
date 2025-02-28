@@ -1,29 +1,29 @@
 {
   "name": "ewibot",
-  "version": "4.1.0",
+  "version": "6.4.0",
   "main": "bot.js",
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.9.1",
-    "dayjs": "^1.11.0",
-    "discord.js": "14.16.3",
-    "dotenv": "^16.0.0",
-    "ffmpeg-static": "^5.0.0",
+    "canvas": "^3.1.0",
+    "dayjs": "^1.11.13",
+    "discord.js": "14.18.0",
+    "dotenv": "^16.4.7",
+    "ffmpeg-static": "^5.2.0",
     "get-artist-title": "^1.3.1",
     "gif-encoder-2": "^1.0.5",
-    "jest": "^29.6.4",
-    "lowdb": "^3.0.0",
-    "nodemon": "^2.0.15",
+    "jest": "^29.7.0",
+    "lowdb": "^7.0.1",
+    "nodemon": "^3.1.9",
     "spotify-web-api-node": "^5.0.2",
     "wait-for-user-input": "^1.0.0",
-    "ytdl-core": "^4.11.0"
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
-    "eslint": "^7.18.0",
+    "eslint": "^9.21.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-node": "^11.1.0",
-    "prettier": "^2.6.2"
+    "prettier": "^3.5.2"
   },
   "scripts": {
     "start": "node --experimental-json-modules src/bot.js",

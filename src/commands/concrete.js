@@ -4,7 +4,7 @@ import GIFEncoder from "gif-encoder-2";
 import path from "path";
 import fs from "fs";
 
-import { AttachmentBuilder } from "discord.js";
+import { AttachmentBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
@@ -21,15 +21,15 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().concrete.userOption.name)
       .setDescription(PERSONALITY.getCommands().concrete.userOption.description)
-      .setRequired(true)
+      .setRequired(true),
   )
   .addBooleanOption((option) =>
     option
       .setName(PERSONALITY.getCommands().concrete.booleanOption.name)
       .setDescription(
-        PERSONALITY.getCommands().concrete.booleanOption.description
+        PERSONALITY.getCommands().concrete.booleanOption.description,
       )
-      .setRequired(false)
+      .setRequired(false),
   );
 
 const action = async (object) => {
@@ -63,7 +63,7 @@ const action = async (object) => {
     path.resolve(path.dirname("")),
     "pics",
     "concrete",
-    "gifs"
+    "gifs",
   );
   const dir = fs.readdirSync(gifsPath);
 
@@ -90,7 +90,7 @@ const action = async (object) => {
       path.resolve(path.dirname("")),
       "pics",
       "concrete",
-      "jpgs"
+      "jpgs",
     );
 
     const encoder = new GIFEncoder(canvas.width, canvas.height); // width, heigth
@@ -138,7 +138,7 @@ const concrete = {
   help: (interaction) => {
     interaction.reply({
       content: personality.help,
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
       allowed_mentions: { parse: [] },
     });
   },

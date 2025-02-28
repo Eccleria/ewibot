@@ -1,4 +1,4 @@
-import { Colors, EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionEditReply } from "./polls/pollsUtils.js";
 import {
@@ -14,7 +14,7 @@ const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0x0000010000000000);
 
 const action = async (interaction) => {
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: MessageFlags.Ephemeral });
   const perso = PERSONALITY.getCommands().leaderboardApology;
 
   if (!isAdmin(interaction.user.id)) {
@@ -61,7 +61,7 @@ const action = async (interaction) => {
         "username",
         guildMember.user.username,
         "counter",
-        cur.counter
+        cur.counter,
       );
       const userNickname = guildMember.nickname
         ? guildMember.nickname

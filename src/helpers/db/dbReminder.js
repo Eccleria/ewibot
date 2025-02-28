@@ -11,7 +11,7 @@ const addReminder = (
   interaction,
   botMessage,
   endingTime,
-  messageContent
+  messageContent,
 ) => {
   if (!isReminder(db, botMessage.id)) {
     db.data.reminder = [
@@ -32,7 +32,7 @@ const addReminder = (
 const removeReminder = (db, botMessageId) => {
   if (isReminder(db, botMessageId)) {
     db.data.reminder = db.data.reminder.filter(
-      (element) => element.answerId !== botMessageId
+      (element) => element.answerId !== botMessageId,
     );
     db.wasUpdated = true;
   }

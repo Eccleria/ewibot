@@ -53,5 +53,5 @@ export const PERSONALITY = new Personality(
   admin,
   announces,
   colors,
-  [normal.name, funny.name]
+  [normal.name, funny.name],
 );

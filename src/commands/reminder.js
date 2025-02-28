@@ -32,10 +32,10 @@ export const initReminder = async (client) => {
     db.data.reminder.forEach(async (element) => {
       const author = await client.users.fetch(element.authorId); // Find user
       const requestChannel = await client.channels.fetch(
-        element.requestChannelId
+        element.requestChannelId,
       ); //Find channel with user's request
       const answerChannel = await client.channels.fetch(
-        element.answerChannelId
+        element.answerChannelId,
       ); //Find channel with Ewibot answer
       const botMessage = await answerChannel.messages.fetch(element.answerId); //Find bot response
 
@@ -53,14 +53,14 @@ export const initReminder = async (client) => {
         requestChannel,
         author,
         element.content,
-        botMessage
+        botMessage,
       );
 
       addClientReminder(client, author.id, botMessage, timeoutObj); //add to client
       updateReminder(
         db,
         botMessage.id,
-        now.millisecond(newTiming).toISOString()
+        now.millisecond(newTiming).toISOString(),
       ); //modify db
     });
 };
@@ -71,7 +71,7 @@ const sendDelayed = async (
   channel,
   author,
   messageContent,
-  botMessage
+  botMessage,
 ) => {
   await channel.send(`${author.toString()} : ${messageContent}`);
 
@@ -111,7 +111,7 @@ const answerBot = async (interaction, cmnShared, timing) => {
       personality.react[0] +
       `${removeEmoji}` +
       personality.react[1],
-    false
+    false,
   );
   const answer = await interaction.fetchReply();
 
@@ -145,7 +145,7 @@ const action = async (interaction) => {
       channel,
       member,
       messageContent,
-      answer
+      answer,
     );
 
     addReminder(client.db, interaction, answer, reminderDate, messageContent);
@@ -160,10 +160,10 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().reminder.stringOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reminder.stringOption.description
+        PERSONALITY.getCommands().reminder.stringOption.description,
       )
       .setRequired(true)
-      .setMinLength(1)
+      .setMinLength(1),
   )
   .addNumberOption((option) =>
     option //hour
@@ -171,27 +171,27 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().reminder.hourOption.name)
       .setRequired(false)
       .setMinValue(1)
-      .setMaxValue(99)
+      .setMaxValue(99),
   )
   .addNumberOption((option) =>
     option //minutes
       .setName(PERSONALITY.getCommands().reminder.minuteOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reminder.minuteOption.description
+        PERSONALITY.getCommands().reminder.minuteOption.description,
       )
       .setRequired(false)
       .setMinValue(1)
-      .setMaxValue(60)
+      .setMaxValue(60),
   )
   .addNumberOption((option) =>
     option //seconds
       .setName(PERSONALITY.getCommands().reminder.secondOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reminder.secondOption.description
+        PERSONALITY.getCommands().reminder.secondOption.description,
       )
       .setRequired(false)
       .setMinValue(1)
-      .setMaxValue(60)
+      .setMaxValue(60),
   );
 
 const reminder = {

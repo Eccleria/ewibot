@@ -69,7 +69,7 @@ const roll = {
         .setDescription(PERSONALITY.getCommands().roll.diceOption.description)
         .setRequired(true)
         .setMinValue(1)
-        .setMaxValue(20)
+        .setMaxValue(20),
     )
     .addIntegerOption((option) =>
       option
@@ -77,7 +77,7 @@ const roll = {
         .setDescription(PERSONALITY.getCommands().roll.facesOption.description)
         .setRequired(true)
         .setMinValue(1)
-        .setMaxValue(100)
+        .setMaxValue(100),
     ),
   action: async (interaction) => {
     const personality = PERSONALITY.getCommands().roll;
@@ -94,7 +94,7 @@ const roll = {
             details: [...acc.details, value],
           };
         },
-        { total: 0, details: [] }
+        { total: 0, details: [] },
       ); //compute total + each dices values
 
       interactionReply(interaction, `${total} (${details.join(", ")})`, false);
@@ -145,10 +145,10 @@ const ignoreChannel = {
       option
         .setName(PERSONALITY.getCommands().ignoreChannel.channelOption.name)
         .setDescription(
-          PERSONALITY.getCommands().ignoreChannel.channelOption.description
+          PERSONALITY.getCommands().ignoreChannel.channelOption.description,
         )
         .setRequired(false)
-        .addChannelTypes(ChannelType.GuildText)
+        .addChannelTypes(ChannelType.GuildText),
     ),
   action: (interaction) => {
     const db = interaction.client.db; // get db
@@ -215,7 +215,7 @@ const help = {
 
     const userOption = interaction.options.getString(perso.stringOption.name); //get option given by user
     const foundCommand = helpCommands.find((cmd) =>
-      userOption.startsWith(cmd.command.name)
+      userOption.startsWith(cmd.command.name),
     ); //find associated command
 
     if (foundCommand) {
@@ -260,12 +260,12 @@ const help = {
     }, []);
 
     const filtered = helpOptions.filter((choice) =>
-      choice.startsWith(focusedValue)
+      choice.startsWith(focusedValue),
     ); //filter to corresponding commands names
 
     const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
     interaction.respond(
-      sliced.map((choice) => ({ name: choice, value: choice }))
+      sliced.map((choice) => ({ name: choice, value: choice })),
     );
   },
   command: new SlashCommandBuilder()
@@ -276,7 +276,7 @@ const help = {
         .setName(PERSONALITY.getCommands().help.stringOption.name)
         .setDescription(PERSONALITY.getCommands().help.stringOption.description)
         .setRequired(true)
-        .setAutocomplete(true)
+        .setAutocomplete(true),
     ),
   help: (interaction) => {
     const personality = PERSONALITY.getCommands().help.help;

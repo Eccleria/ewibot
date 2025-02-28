@@ -35,7 +35,7 @@ const action = async (interaction) => {
     const logChannel = await fetchLogChannel(interaction); //get logChannel
     const attachments = message.attachments.reduce(
       (acc, cur) => [...acc, cur],
-      []
+      [],
     );
     logChannel.send({ files: attachments });
 
@@ -92,7 +92,7 @@ const action = async (interaction) => {
         //found log which has attachments + replies to our interaction message => save it too
         const attachments = nextMsg.attachments.reduce(
           (acc, cur) => [...acc, cur],
-          []
+          [],
         );
         savedMessage.reply({ files: attachments });
       }

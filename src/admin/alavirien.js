@@ -8,7 +8,7 @@ import { Colors } from "discord.js";
 export const presentationHandler = async (
   server,
   messageReaction,
-  reactingUser
+  reactingUser,
 ) => {
   const client = messageReaction.client;
   const personality = PERSONALITY.getAdmin().alavirien;
@@ -46,7 +46,7 @@ const giveAlavirien = async (client, server, personality, userId) => {
       `<@${process.env.CLIENTID}>`,
       embed,
       false,
-      logChannel
+      logChannel,
     ); //send
   }
 };

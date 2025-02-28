@@ -11,19 +11,19 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().botEmote.messageOption.name)
       .setDescription(
-        PERSONALITY.getCommands().botEmote.messageOption.description
+        PERSONALITY.getCommands().botEmote.messageOption.description,
       )
       .setRequired(true)
-      .setMinLength(1)
+      .setMinLength(1),
   )
   .addStringOption((option) =>
     option
       .setName(PERSONALITY.getCommands().botEmote.emoteOption.name)
       .setDescription(
-        PERSONALITY.getCommands().botEmote.emoteOption.description
+        PERSONALITY.getCommands().botEmote.emoteOption.description,
       )
       .setRequired(true)
-      .setAutocomplete(true)
+      .setAutocomplete(true),
   );
 
 const action = async (interaction) => {

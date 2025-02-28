@@ -41,7 +41,7 @@ export const generateSpotifyClient = async (spotifyApi) => {
 };
 
 const youtubeRegex = new RegExp(
-  /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/gim
+  /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/gim,
 ); // Youtube Link recognition
 
 const sanitizeTitle = (title) => {
@@ -102,7 +102,7 @@ const getEntirePlaylist = async (client) => {
   do {
     let tracks = await client.spotifyApi.getPlaylistTracks(
       process.env.SPOTIFY_PLAYLIST_ID,
-      { limit: 100, offset }
+      { limit: 100, offset },
     );
     const trackIds = tracks.body.items.map(({ track }) => track.uri);
     if (trackIds.length === 0) loop = false;
@@ -128,7 +128,7 @@ export const parseLink = async (
   messageContent,
   client,
   personality,
-  cmnShared
+  cmnShared,
 ) => {
   const songSpotify = await parseSpotifyLink(messageContent);
   const songYoutube = await parseYoutubeLink(messageContent, client);
@@ -160,7 +160,7 @@ export const parseLink = async (
       const artists = tracks[0].artists.reduce(
         // Get the artists
         (acc, { name }) => `${acc},  ${name}`,
-        ""
+        "",
       );
 
       const result = `${tracks[0].name} ${artists}`; // The result is the first one
@@ -171,7 +171,7 @@ export const parseLink = async (
           `${result}`,
           personality.react[0],
           `${cmnShared.removeEmoji}`,
-          personality.react[1]
+          personality.react[1],
         ),
         songId,
       };
@@ -192,7 +192,7 @@ export const deleteSongFromPlaylist = async (songId, client, personality) => {
   try {
     await client.spotifyApi.removeTracksFromPlaylist(
       process.env.SPOTIFY_PLAYLIST_ID,
-      tracks
+      tracks,
     );
     return personality.songSupressed;
   } catch {
