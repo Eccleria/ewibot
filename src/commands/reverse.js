@@ -156,7 +156,7 @@ const contextAction = async (interaction) => {
         ? reversed.new.slice(2, -2)
         : reversed.new;
 
-      embedTr.setColor("DARK_GREEN");
+      embedTr.setColor(Colors.DarkGreen);
 
       checkEmbedContent(oContent, embedTr, mUPerso.contentOld);
       checkEmbedContent(nContent, embedTr, mUPerso.contentNew);

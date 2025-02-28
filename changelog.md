@@ -1,4 +1,12 @@
-﻿## 6.3.2
+## 6.4.0
+- Upgrade: `discordjs` to version 14.16.3. **BREAKING CHANGES**: it requires Node > v18. ([#334](https://github.com/Eccleria/ewibot/pull/334))
+- Fix: now check the length of `polls` choices (<= 256) ([#331](https://github.com/Eccleria/ewibot/issues/331)) ([#344](https://github.com/Eccleria/ewibot/pull/344))
+- Update: `polls` now use the max of votes to compute vote ratio for progress bar ([#239](https://github.com/Eccleria/ewibot/issues/239)) ([#335](https://github.com/Eccleria/ewibot/pull/335))
+- Update: now use `Colors` type from `discord.js` instead of strings ([#338](https://github.com/Eccleria/ewibot/issues/338)) ([#349](https://github.com/Eccleria/ewibot/pull/349))
+- Update: now use `AuditLogEvent` type from `discord.js` instead of strings ([#348](https://github.com/Eccleria/ewibot/issues/348)) ([#350](https://github.com/Eccleria/ewibot/pull/350))
+- Update: `guildBanAdd` `embed` now display banned user's Id ([#346](https://github.com/Eccleria/ewibot/issues/346)) ([#347](https://github.com/Eccleria/ewibot/pull/347))
+
+## 6.3.2
 - Fix: rare case of `embed` being undefined during `processGeneralEmbed` ([#336](https://github.com/Eccleria/ewibot/issues/336)) ([#339](https://github.com/Eccleria/ewibot/pull/339))
 - Update: `/gift` ([#337](https://github.com/Eccleria/ewibot/pull/337)) ([#340](https://github.com/Eccleria/ewibot/pull/340))
 	- set dates to 2025

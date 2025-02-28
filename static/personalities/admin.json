@@ -42,6 +42,7 @@
   "guildBan": {
     "author": "Membre :",
     "executor": "Banni par :",
+    "id": "Id de l'utilisateurice :",
     "text": "Raison du ban :",
     "title": "Membre banni"
   },
