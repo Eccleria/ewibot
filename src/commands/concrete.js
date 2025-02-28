@@ -4,7 +4,7 @@ import GIFEncoder from "gif-encoder-2";
 import path from "path";
 import fs from "fs";
 
-import { AttachmentBuilder } from "discord.js";
+import { AttachmentBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
@@ -138,7 +138,7 @@ const concrete = {
   help: (interaction) => {
     interaction.reply({
       content: personality.help,
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
       allowed_mentions: { parse: [] },
     });
   },

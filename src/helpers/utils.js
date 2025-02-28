@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
@@ -179,8 +179,11 @@ export const interactionReply = async (
   content,
   isEphemeral = true
 ) => {
+  const payload = {content};
+  if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
+  
   await interaction
-    .reply({ content: content, ephemeral: isEphemeral })
+    .reply(payload)
     .catch((err) => console.log("interactionReply error", err));
 };
 

@@ -4,6 +4,7 @@ import {
   EmbedBuilder,
   ButtonStyle,
   Colors,
+  MessageFlags,
 } from "discord.js";
 import { createButton } from "./utils.js";
 import { interactionReply, isAdmin } from "../helpers/index.js";
@@ -77,7 +78,7 @@ const action = (interaction) => {
   interaction.reply({
     content: whichAnnounceP.confirm,
     components: [actionRow],
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral,
   });
 };
 

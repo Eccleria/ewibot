@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
@@ -34,10 +35,10 @@ export const pronounsButtonHandler = async (interaction) => {
       guildMember.roles.add(json[1]); //if do not have, add role
 
       const content = pronounsP.text.replyAdd; //get reply message content
-      interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+      interaction.reply({ content: content, flags: MessageFlags.Ephemeral }); //reply to interaction
     } else {
       const content = pronounsP.text.replyAlreadyHave; //get reply message content
-      interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+      interaction.reply({ content: content, flags: MessageFlags.Ephemeral }); //reply to interaction
     }
   } else {
     //is cancel
@@ -53,6 +54,6 @@ export const pronounsButtonHandler = async (interaction) => {
     if (toRemove.length !== 0) roles.remove(toRemove); //if have any, remove it/them
 
     const content = pronounsP.text.replyRemove; //get reply message content
-    await interaction.reply({ content: content, ephemeral: true }); //reply to interaction
+    await interaction.reply({ content: content, flags: MessageFlags.Ephemeral }); //reply to interaction
   }
 };

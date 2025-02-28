@@ -6,7 +6,7 @@ dayjs.locale("fr");
 dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
-import { ComponentType } from "discord.js";
+import { ComponentType, MessageFlags } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
 import { getPoll, getPolls, removePoll } from "../../helpers/index.js";
@@ -92,7 +92,7 @@ export const pollButtonCollector = (message, timeout) => {
   });
 
   collector.on("collect", async (interaction) => {
-    await interaction.deferReply({ ephemeral: true }); //required because should be answered under 3s
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral }); //required because should be answered under 3s
     pollBufferVotes(interaction);
   });
 

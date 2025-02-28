@@ -4,6 +4,7 @@ import {
   ButtonStyle,
   EmbedBuilder,
   ButtonBuilder,
+  MessageFlags,
 } from "discord.js";
 import {
   fetchPollMessage,
@@ -18,7 +19,7 @@ import { PERSONALITY } from "../../personality.js";
 
 export const sendSettingsButtons = async (interaction) => {
   try {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
   } catch (e) {
     return console.log(e);
   }
@@ -95,7 +96,7 @@ export const stopPollButtonAction = async (interaction) => {
   const editedStopMessage = {
     content: sPerso.stop.stopped,
     components: [],
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral,
   };
   interactionEditReply(interaction, editedStopMessage);
 };
@@ -181,7 +182,7 @@ export const resetPollButtonAction = async (interaction) => {
   const editedInteractionMessage = {
     content: perso.reset,
     components: [],
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral,
   };
   interactionEditReply(interaction, editedInteractionMessage);
 };
@@ -208,7 +209,7 @@ export const updatePollButtonAction = async (interaction) => {
 
   //send message
   const actionRow = new ActionRowBuilder().addComponents(selectMenu);
-  const payload = { components: [actionRow], ephemeral: true };
+  const payload = { components: [actionRow], flags: MessageFlags.Ephemeral };
   interactionEditReply(interaction, payload);
 };
 
@@ -217,7 +218,7 @@ export const refreshPollButtonAction = async (interaction) => {
   const sPerso = perso.settings;
   await interaction.update({
     content: sPerso.refresh.underRefresh,
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral,
     components: [],
   });
 

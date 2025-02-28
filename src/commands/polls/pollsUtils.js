@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
 import { removePoll, removePunctuation } from "../../helpers/index.js";
 
@@ -57,12 +57,9 @@ export const interactionEditReply = async (
   payload,
   isEphemeral = true
 ) => {
-  if (typeof payload == "string")
-    await interaction.editReply({ content: payload, ephemeral: isEphemeral });
-  else {
-    payload.ephemeral = isEphemeral;
-    await interaction.editReply(payload);
-  }
+  const payloadObj = typeof payload == "string" ? {content: payload} : payload;
+  if (isEphemeral) payloadObj.flags = MessageFlags.Ephemeral;
+  await interaction.editReply(payloadObj);
 };
 
 const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];

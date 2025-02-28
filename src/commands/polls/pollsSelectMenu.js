@@ -3,6 +3,7 @@ import {
   EmbedBuilder,
   StringSelectMenuBuilder,
   ButtonBuilder,
+  MessageFlags,
 } from "discord.js";
 import {
   interactionEditReply,
@@ -22,7 +23,7 @@ import { PERSONALITY } from "../../personality.js";
 export const pollSelectMenuHandler = async (interaction) => {
   const { customId } = interaction;
   const personality = PERSONALITY.getCommands().polls;
-  await interaction.deferUpdate({ ephemeral: true });
+  await interaction.deferUpdate({ flags: MessageFlags.Ephemeral });
 
   if (customId.includes("_remove")) {
     pollRemoveChoicesSelectMenuHandler(interaction);
@@ -174,7 +175,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //send message
       const actionRow = new ActionRowBuilder().addComponents(selectMenu);
-      const payload = { components: [actionRow], ephemeral: true };
+      const payload = { components: [actionRow], flags: MessageFlags.Ephemeral };
       interactionEditReply(interaction, payload);
     } else {
       // color is selected, apply change
@@ -263,7 +264,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //send message
       const actionRow = new ActionRowBuilder().addComponents(selectMenu);
-      const payload = { components: [actionRow], ephemeral: true };
+      const payload = { components: [actionRow], flags: MessageFlags.Ephemeral };
       interactionEditReply(interaction, payload);
     } else {
       //change value
