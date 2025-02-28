@@ -32,7 +32,7 @@ export const pollSelectMenuHandler = async (interaction) => {
   else
     return interactionEditReply(
       interaction,
-      personality.errorSelectMenuNotFound
+      personality.errorSelectMenuNotFound,
     );
 };
 
@@ -48,14 +48,15 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
 
   //remove in db
   selected.forEach((buttonId) =>
-    removePollChoice(interaction.client.db, pollMessage.id, buttonId)
+    removePollChoice(interaction.client.db, pollMessage.id, buttonId),
   );
 
   //remove in embed
   const fields = embed.data.fields;
   const selectedIndexes = selected.map((str) => Number(str.split("_")[1])); //"polls_id"
   const filteredFields = fields.reduce((acc, cur, idx) => {
-    if (selectedIndexes.includes(idx)) return acc; //to remove
+    if (selectedIndexes.includes(idx))
+      return acc; //to remove
     else return [...acc, cur];
   }, []);
 
@@ -73,7 +74,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   //remove vote buttons
   const buttons = pollMessage.components.reduce(
     (acc, cur) => [...acc, ...cur.components],
-    []
+    [],
   );
   const filteredButtons = buttons.reduce((acc, cur, idx) => {
     if (selectedIndexes.includes(idx)) return acc;
@@ -91,7 +92,7 @@ const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
         interaction.client.db,
         pollMessage.id,
         newButton.data.custom_id,
-        newId
+        newId,
       );
       newButton.setCustomId(newId);
     }
@@ -175,13 +176,16 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
 
       //send message
       const actionRow = new ActionRowBuilder().addComponents(selectMenu);
-      const payload = { components: [actionRow], flags: MessageFlags.Ephemeral };
+      const payload = {
+        components: [actionRow],
+        flags: MessageFlags.Ephemeral,
+      };
       interactionEditReply(interaction, payload);
     } else {
       // color is selected, apply change
       const color = toChange.split("_").slice(1).join("_"); //remove "color"
       const colorIdx = persoColors.choices.findIndex(
-        (obj) => obj.value === color
+        (obj) => obj.value === color,
       );
 
       //get embed
@@ -258,13 +262,16 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
           const voteStr = voteNb.toString();
           return [...acc, { label: voteStr, value: baseValue + voteStr }];
         },
-        []
+        [],
       );
       selectMenu.addOptions(choices);
 
       //send message
       const actionRow = new ActionRowBuilder().addComponents(selectMenu);
-      const payload = { components: [actionRow], flags: MessageFlags.Ephemeral };
+      const payload = {
+        components: [actionRow],
+        flags: MessageFlags.Ephemeral,
+      };
       interactionEditReply(interaction, payload);
     } else {
       //change value

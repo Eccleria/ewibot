@@ -13,7 +13,7 @@ const pollVoteMultiple = (
   hasVotedIndexes,
   dbPoll,
   currentVoteIdx,
-  perso
+  perso,
 ) => {
   const db = interaction.client.db;
   const userId = interaction.user.id;
@@ -36,7 +36,7 @@ const pollVoteUnique = (
   interaction,
   hasVotedIndexes,
   pollId,
-  currentVoteIdx
+  currentVoteIdx,
 ) => {
   const db = interaction.client.db;
   const userId = interaction.user.id;
@@ -80,7 +80,7 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
           hasVotedIndexes,
           dbPoll,
           currentVoteIdx,
-          perso
+          perso,
         )
       )
         return;
@@ -89,7 +89,7 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
         interaction,
         hasVotedIndexes,
         pollId,
-        currentVoteIdx
+        currentVoteIdx,
       );
   }
 

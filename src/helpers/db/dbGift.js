@@ -60,7 +60,7 @@ const removeGiftMessage = (db, senderId, recipientId = null) => {
             return { new: acc.new, removed: [...acc.removed, cur.message] };
           else return { new: [...acc.new, cur], removed: acc.removed };
         },
-        { new: [], removed: [] }
+        { new: [], removed: [] },
       );
 
       //update db
@@ -79,7 +79,7 @@ const removeGiftMessage = (db, senderId, recipientId = null) => {
             return { new: acc.new, removed: [...acc.removed, cur.message] };
           else return { new: [...acc.new, cur], removed: acc.removed };
         },
-        { new: [], removed: [] }
+        { new: [], removed: [] },
       );
 
       //add foundMessages to overall found messages

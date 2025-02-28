@@ -55,7 +55,7 @@ export const finishEmbed = async (
   isEmbedList,
   logChannel,
   text,
-  attachments
+  attachments,
 ) => {
   const currentServer = COMMONS.getTest(); //get test data
   if (
@@ -120,7 +120,7 @@ export const endCasesEmbed = async (
   isEmbedList,
   logChannel,
   text,
-  diff
+  diff,
 ) => {
   //if no AuditLog
 
@@ -131,7 +131,7 @@ export const endCasesEmbed = async (
       logPerso.tooOld,
       embed,
       isEmbedList,
-      logChannel
+      logChannel,
     );
   }
 
@@ -143,7 +143,7 @@ export const endCasesEmbed = async (
       embed,
       isEmbedList,
       logChannel,
-      text
+      text,
     );
   }
 
@@ -157,7 +157,7 @@ export const endCasesEmbed = async (
       embed,
       isEmbedList,
       logChannel,
-      text
+      text,
     );
   } else {
     //if bot or author executed the kick
@@ -167,7 +167,7 @@ export const endCasesEmbed = async (
       embed,
       isEmbedList,
       logChannel,
-      text
+      text,
     );
   }
 };
@@ -193,7 +193,7 @@ export const processGeneralEmbed = async (
   objType,
   embedType,
   needReason,
-  diff
+  diff,
 ) => {
   const personality = PERSONALITY.getAdmin(); //get personality
   const perso = personality[persoType];
@@ -218,7 +218,7 @@ export const bufferizeEventUpdate = (
   logPerso,
   logChannel,
   embed,
-  type
+  type,
 ) => {
   //create timeout, store channels & timeout
   //differentiate type
@@ -236,7 +236,7 @@ export const bufferizeEventUpdate = (
       personality,
       logPerso,
       logChannel,
-      embed
+      embed,
     );
 
     //setup new data
@@ -257,7 +257,7 @@ export const bufferizeEventUpdate = (
       personality,
       logPerso,
       logChannel,
-      embed
+      embed,
     );
 
     newData = { id: newObj.id, name: oldObj.name };
@@ -377,7 +377,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     "oldText",
     oldText,
     "newText",
-    newText
+    newText,
   );
 
   //delete duplicate channels not in bulk of changes
@@ -401,20 +401,23 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
       embed,
       false,
       logChannel,
-      chnUp.noModifs
+      chnUp.noModifs,
     ); //send embed
     return;
   }
 
   const space = 15;
-  const orderText = oText.reduce((acc, cur, idx) => {
-    const spaced = space2Strings(cur, nText[idx], space, " |");
-    if (idx === oText.length - 1) {
-      //if last one
-      return acc + spaced + "\n```"; //add end of code line code
-    }
-    return acc + spaced;
-  }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
+  const orderText = oText.reduce(
+    (acc, cur, idx) => {
+      const spaced = space2Strings(cur, nText[idx], space, " |");
+      if (idx === oText.length - 1) {
+        //if last one
+        return acc + spaced + "\n```"; //add end of code line code
+      }
+      return acc + spaced;
+    },
+    "```md\n" + space2Strings("avant", "apres", space, " |") + "\n",
+  );
 
   finishEmbed(chnUp, logPerso.noLog, embed, true, logChannel, orderText); //send embed
 
@@ -447,7 +450,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
           newOrder: [...acc.newOrder, newCur],
         };
     },
-    { oldOrder: [], newOrder: [] }
+    { oldOrder: [], newOrder: [] },
   );
   if (filtered.oldOrder.length === 0) {
     //if empty, no changes => return
@@ -457,7 +460,7 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
       embed,
       false,
       logChannel,
-      roleUp.noModifs
+      roleUp.noModifs,
     ); //send embed
     return;
   }
@@ -465,14 +468,17 @@ const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
   const { oldOrder, newOrder } = filtered;
 
   const space = 15;
-  const orderText = oldOrder.reduce((acc, cur, idx) => {
-    const spaced = space2Strings(cur.name, newOrder[idx].name, space, " |");
-    if (idx === oldOrder.length - 1) {
-      //if last one
-      return acc + "\n" + spaced + "\n```"; //add end of code line code
-    }
-    return acc + "\n" + spaced;
-  }, "```md\n" + space2Strings("avant", "apres", space, " |") + "\n");
+  const orderText = oldOrder.reduce(
+    (acc, cur, idx) => {
+      const spaced = space2Strings(cur.name, newOrder[idx].name, space, " |");
+      if (idx === oldOrder.length - 1) {
+        //if last one
+        return acc + "\n" + spaced + "\n```"; //add end of code line code
+      }
+      return acc + "\n" + spaced;
+    },
+    "```md\n" + space2Strings("avant", "apres", space, " |") + "\n",
+  );
 
   finishEmbed(roleUp, logPerso.noLog, embed, false, logChannel, orderText); //send embed
 
@@ -545,7 +551,7 @@ const regroup = (element, type) => {
       list.splice(parentIdx, 0, [cur]);
       return { list: list, lastParentId: cur.parentId, lastAddIdx: len };
     },
-    { list: [], lastParentId: null, lastAddIdx: 0 }
+    { list: [], lastParentId: null, lastAddIdx: 0 },
   ); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
 };
 
@@ -573,7 +579,8 @@ const logsRemover = async (client) => {
     const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
 
     const diff = data.reduce((acc, cur) => {
-      if (result.has(cur)) return acc; //if no diff
+      if (result.has(cur))
+        return acc; //if no diff
       else return [...acc, cur];
     }, []); //find diff for error check
     console.log("frequent diff", diff); //log for debug
@@ -588,7 +595,8 @@ const logsRemover = async (client) => {
     const result = await logChannel.bulkDelete(data);
 
     const diff = data.reduce((acc, cur) => {
-      if (result.has(cur)) return acc; //if no diff
+      if (result.has(cur))
+        return acc; //if no diff
       else return [...acc, cur];
     }, []); //find diff for error check
     console.log("userAD diff", diff); //log for debug
@@ -605,11 +613,11 @@ export const initAdminLogClearing = (client, waitingTime) => {
           logsRemover(client);
         },
         24 * 3600 * 1000,
-        client
+        client,
       );
     },
     waitingTime,
-    client
+    client,
   );
 };
 
@@ -627,7 +635,7 @@ export const octagonalLog = async (object, user) => {
     Colors.LuminousVividPink,
     octaPerso,
     message.author,
-    "tag"
+    "tag",
   ); //setup embed
 
   //add more info to embed
@@ -639,7 +647,7 @@ export const octagonalLog = async (object, user) => {
 
   embed.addFields(
     { name: octaPerso.date, value: unixTimestamp, inline: true }, //date of message creation
-    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true } //message channel
+    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
   );
   checkEmbedContent(message.content, embed, octaPerso); //slice content if required and add it to embed
   embed.addFields(
@@ -648,7 +656,7 @@ export const octagonalLog = async (object, user) => {
       name: octaPerso.linkName,
       value: `[${octaPerso.linkMessage}](${message.url})`,
       inline: true,
-    } //get message link
+    }, //get message link
   );
 
   finishEmbed(octaPerso, null, embed, false, logChannel);

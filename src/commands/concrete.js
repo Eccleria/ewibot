@@ -21,15 +21,15 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().concrete.userOption.name)
       .setDescription(PERSONALITY.getCommands().concrete.userOption.description)
-      .setRequired(true)
+      .setRequired(true),
   )
   .addBooleanOption((option) =>
     option
       .setName(PERSONALITY.getCommands().concrete.booleanOption.name)
       .setDescription(
-        PERSONALITY.getCommands().concrete.booleanOption.description
+        PERSONALITY.getCommands().concrete.booleanOption.description,
       )
-      .setRequired(false)
+      .setRequired(false),
   );
 
 const action = async (object) => {
@@ -63,7 +63,7 @@ const action = async (object) => {
     path.resolve(path.dirname("")),
     "pics",
     "concrete",
-    "gifs"
+    "gifs",
   );
   const dir = fs.readdirSync(gifsPath);
 
@@ -90,7 +90,7 @@ const action = async (object) => {
       path.resolve(path.dirname("")),
       "pics",
       "concrete",
-      "jpgs"
+      "jpgs",
     );
 
     const encoder = new GIFEncoder(canvas.width, canvas.height); // width, heigth

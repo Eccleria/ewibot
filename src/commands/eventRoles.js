@@ -24,7 +24,7 @@ export const eventRolesButtonHandler = async (interaction) => {
   //get wanted role data
   const requestedEventRole = customId.split("_")[1];
   const currentEventServer = getEventRoles(db).find(
-    (obj) => obj.guildId === guildId
+    (obj) => obj.guildId === guildId,
   );
   const eventRoleId = currentEventServer[requestedEventRole + "RoleId"];
 
@@ -59,7 +59,7 @@ const command = new SlashCommandBuilder()
   .addSubcommand((command) =>
     command //send
       .setName(PERSONALITY.getCommands().eventRoles.send.name)
-      .setDescription(PERSONALITY.getCommands().eventRoles.send.description)
+      .setDescription(PERSONALITY.getCommands().eventRoles.send.description),
   )
   .addSubcommand((command) =>
     command //create
@@ -69,28 +69,28 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().eventRoles.create.nameOption.name)
           .setDescription(
-            PERSONALITY.getCommands().eventRoles.create.nameOption.description
+            PERSONALITY.getCommands().eventRoles.create.nameOption.description,
           )
           .setMinLength(2)
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName(PERSONALITY.getCommands().eventRoles.create.embedOption.name)
           .setDescription(
-            PERSONALITY.getCommands().eventRoles.create.embedOption.description
+            PERSONALITY.getCommands().eventRoles.create.embedOption.description,
           )
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName(PERSONALITY.getCommands().eventRoles.create.colorOption.name)
           .setDescription(
-            PERSONALITY.getCommands().eventRoles.create.colorOption.description
+            PERSONALITY.getCommands().eventRoles.create.colorOption.description,
           )
           .setChoices(...PERSONALITY.getColors().choices)
-          .setRequired(false)
-      )
+          .setRequired(false),
+      ),
   );
 
 const action = async (interaction) => {
@@ -119,22 +119,22 @@ const action = async (interaction) => {
     const CDLButton = createButton(
       ...pButton.CDL,
       buttonType,
-      "822489141312618507"
+      "822489141312618507",
     );
     const tournamentButton = createButton(
       ...pButton.tournament,
       buttonType,
-      "⚔️"
+      "⚔️",
     );
     const voiceButton = createButton(
       ...pButton.voice,
       buttonType,
-      "841651539662995466"
+      "841651539662995466",
     );
     const miscButton = createButton(
       ...pButton.misc,
       buttonType,
-      "822479563077976065"
+      "822479563077976065",
     );
     const components = [CDLButton, tournamentButton, voiceButton, miscButton];
     const actionRow = new ActionRowBuilder().addComponents(components);
@@ -142,7 +142,7 @@ const action = async (interaction) => {
     //get channel where to send
     const guild = await interaction.guild.fetch();
     const channel = await guild.channels.fetch(
-      currentServer.eventRoleHandleChannelId
+      currentServer.eventRoleHandleChannelId,
     );
 
     //send message
@@ -161,7 +161,7 @@ const action = async (interaction) => {
 
     //get data
     const currentEventServer = getEventRoles(db).find(
-      ({ guildId }) => guildId === interaction.guildId
+      ({ guildId }) => guildId === interaction.guildId,
     );
     const guild = interaction.guild;
     const perso = personality.create;
@@ -178,7 +178,7 @@ const action = async (interaction) => {
 
     //get role message
     const roleChannel = await interaction.guild.channels.fetch(
-      currentServer.eventRoleHandleChannelId
+      currentServer.eventRoleHandleChannelId,
     );
     const roleMessage = currentEventServer.roleMessageId
       ? await roleChannel.messages.fetch(currentEventServer.roleMessageId)
@@ -205,7 +205,7 @@ const action = async (interaction) => {
     const fields = embed.data.fields;
     const blankNumber = fields.reduce(
       (acc, cur) => acc + Number(cur.name === "\u200b"),
-      0
+      0,
     );
     const newFieldsNumber = fields.length - blankNumber;
     const fieldsToAdd =
@@ -220,14 +220,14 @@ const action = async (interaction) => {
       perso.prefix + slicedName,
       slicedName,
       buttonType,
-      emoteId
+      emoteId,
     );
 
     //create new vote buttons + regroup with olders
     const oldComponents = roleMessage.components;
     const oComponents = oldComponents.reduce(
       (acc, cur) => [...acc, ActionRowBuilder.from(cur)],
-      []
+      [],
     );
     const lastARSize = oComponents[oComponents.length - 1].components.length;
     const newComponents =
@@ -236,7 +236,7 @@ const action = async (interaction) => {
         : [
             ...oComponents.slice(0, -1),
             ActionRowBuilder.from(
-              oComponents[oComponents.length - 1]
+              oComponents[oComponents.length - 1],
             ).addComponents(newButton),
           ];
 

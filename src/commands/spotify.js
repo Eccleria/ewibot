@@ -42,7 +42,7 @@ const action = async (interaction) => {
       link,
       client,
       PERSONALITY.getSpotify(),
-      cmnShared
+      cmnShared,
     );
 
     console.log("spotify", foundLink);
@@ -61,8 +61,8 @@ const command = new SlashCommandBuilder()
       .addStringOption((option) =>
         option
           .setName("lien")
-          .setDescription("lien spotify de la musique � ajouter")
-      )
+          .setDescription("lien spotify de la musique � ajouter"),
+      ),
   );
 
 const spotify = {

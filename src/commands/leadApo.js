@@ -61,7 +61,7 @@ const action = async (interaction) => {
         "username",
         guildMember.user.username,
         "counter",
-        cur.counter
+        cur.counter,
       );
       const userNickname = guildMember.nickname
         ? guildMember.nickname

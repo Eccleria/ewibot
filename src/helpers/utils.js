@@ -123,7 +123,7 @@ export const gifRecovery = (content) => {
 };
 
 const apologyRegex = new RegExp( //regex for apology detection
-  /(d[ée]*[sz]ol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)|(excuse[zs]*)/gm
+  /(d[ée]*[sz]ol*[eé]*[sr]?)|(dsl[eé]*)|(so?r+y)|(pardo+n+)|(navr[eé]+)|(excuse[zs]*)/gm,
 );
 
 export const hasApology = (sanitizedContent) => {
@@ -152,7 +152,7 @@ export const hasApology = (sanitizedContent) => {
           return { word: acc.word || cur, len: newLen, nb: acc.nb + 1 };
         } else return { word: acc.word, len: newLen, nb: acc.nb };
       },
-      { word: null, len: 0, nb: 0 }
+      { word: null, len: 0, nb: 0 },
     );
     const wordFound = result.word;
 
@@ -177,11 +177,11 @@ export const hasOctagonalSign = (content, cmnShared) => {
 export const interactionReply = async (
   interaction,
   content,
-  isEphemeral = true
+  isEphemeral = true,
 ) => {
-  const payload = {content};
+  const payload = { content };
   if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
-  
+
   await interaction
     .reply(payload)
     .catch((err) => console.log("interactionReply error", err));
@@ -274,7 +274,8 @@ export const setupEmbed = (color, personality, object, type) => {
     //add user as embed if required
     field.value = object.toString();
     embed.addFields(field);
-  } else if (type === "skip") return embed; //allows to skip the 3rd field
+  } else if (type === "skip")
+    return embed; //allows to skip the 3rd field
   else if (type === "user") {
     //add user if required
     field.value = object.username;

@@ -58,7 +58,7 @@ export const wishBirthday = async (db, channel) => {
             : `${acc} <@${userId}> (${currentAge} ans) ♥ \n`;
         return text;
       },
-      initialText
+      initialText,
     );
     await channel.send(birthdayText);
   }
@@ -75,42 +75,42 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().birthday.add.dayOption.name)
           .setDescription(
-            PERSONALITY.getCommands().birthday.add.dayOption.description
+            PERSONALITY.getCommands().birthday.add.dayOption.description,
           )
           .setRequired(true)
           .setMinValue(1)
-          .setMaxValue(31)
+          .setMaxValue(31),
       )
       .addNumberOption((option) =>
         option
           .setName(PERSONALITY.getCommands().birthday.add.monthOption.name)
           .setDescription(
-            PERSONALITY.getCommands().birthday.add.monthOption.description
+            PERSONALITY.getCommands().birthday.add.monthOption.description,
           )
           .setRequired(true)
           .setMinValue(1)
-          .setMaxValue(12)
+          .setMaxValue(12),
       )
       .addNumberOption((option) =>
         option
           .setName(PERSONALITY.getCommands().birthday.add.yearOption.name)
           .setDescription(
-            PERSONALITY.getCommands().birthday.add.yearOption.description
+            PERSONALITY.getCommands().birthday.add.yearOption.description,
           )
           .setRequired(false)
           .setMinValue(dayjs().subtract(100, "year").year())
-          .setMaxValue(dayjs().subtract(5, "year").year())
-      )
+          .setMaxValue(dayjs().subtract(5, "year").year()),
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand //remove subcommand
       .setName(PERSONALITY.getCommands().birthday.remove.name)
-      .setDescription(PERSONALITY.getCommands().birthday.remove.description)
+      .setDescription(PERSONALITY.getCommands().birthday.remove.description),
   )
   .addSubcommand((subcommand) =>
     subcommand //get subcommand
       .setName(PERSONALITY.getCommands().birthday.get.name)
-      .setDescription(PERSONALITY.getCommands().birthday.get.description)
+      .setDescription(PERSONALITY.getCommands().birthday.get.description),
   );
 
 const action = async (interaction) => {
@@ -158,7 +158,7 @@ const action = async (interaction) => {
     if (user)
       await interactionReply(
         interaction,
-        `${bPerso.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`
+        `${bPerso.getUser}${dayjs(user.birthdayDate).format("DD/MM/YYYY")}.`,
       );
     else await interactionReply(interaction, bPerso.userNotFound);
   }

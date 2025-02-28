@@ -8,7 +8,7 @@ const addPoll = (
   colorIdx,
   voteMax,
   title,
-  pollDate
+  pollDate,
 ) => {
   const poll = {
     pollId: id,
@@ -91,7 +91,7 @@ const removePollChoice = (db, pollId, buttonId) => {
 const removePollIndex = (db, pollId, userId, voteIdx) => {
   const data = getPoll(db, pollId);
   data.votes[voteIdx].votes = data.votes[voteIdx].votes.filter(
-    (id) => id !== userId
+    (id) => id !== userId,
   );
   db.wasUpdated = true;
 };

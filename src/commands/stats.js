@@ -14,7 +14,7 @@ const command = new SlashCommandBuilder()
   .addSubcommand((command) =>
     command
       .setName(PERSONALITY.getCommands().stats.use.name)
-      .setDescription(PERSONALITY.getCommands().stats.use.description)
+      .setDescription(PERSONALITY.getCommands().stats.use.description),
   );
 
 const action = (interaction) => {

@@ -11,7 +11,7 @@ export const pronounsButtonHandler = async (interaction) => {
   const rolesJson = [...pronounsJson, ...agreementsJson]; //[[button name, role id], []]
 
   const json = rolesJson.find(
-    (arr) => arr[0] === interaction.customId.split("_")[1]
+    (arr) => arr[0] === interaction.customId.split("_")[1],
   ); //get corresponding json duo
 
   //get triggering user data
@@ -54,6 +54,9 @@ export const pronounsButtonHandler = async (interaction) => {
     if (toRemove.length !== 0) roles.remove(toRemove); //if have any, remove it/them
 
     const content = pronounsP.text.replyRemove; //get reply message content
-    await interaction.reply({ content: content, flags: MessageFlags.Ephemeral }); //reply to interaction
+    await interaction.reply({
+      content: content,
+      flags: MessageFlags.Ephemeral,
+    }); //reply to interaction
   }
 };

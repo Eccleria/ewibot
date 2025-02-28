@@ -39,17 +39,17 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().reverse.stringOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reverse.stringOption.description
+        PERSONALITY.getCommands().reverse.stringOption.description,
       )
-      .setRequired(true)
+      .setRequired(true),
   )
   .addBooleanOption((option) =>
     option
       .setName(PERSONALITY.getCommands().reverse.booleanOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reverse.booleanOption.description
+        PERSONALITY.getCommands().reverse.booleanOption.description,
       )
-      .setRequired(false)
+      .setRequired(false),
   );
 
 const action = (interaction) => {
@@ -141,7 +141,7 @@ const contextAction = async (interaction) => {
             return { old: acc.old, new: acc.new + fld.value };
           else return acc;
         },
-        { old: "", new: "" }
+        { old: "", new: "" },
       );
 
       //reverse content

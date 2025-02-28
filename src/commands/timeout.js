@@ -15,16 +15,16 @@ const command = new SlashCommandBuilder()
     option //user
       .setName(PERSONALITY.getCommands().timeout.userOption.name)
       .setDescription(PERSONALITY.getCommands().timeout.userOption.description)
-      .setRequired(true)
+      .setRequired(true),
   )
   .addStringOption((option) =>
     option //reason
       .setName(PERSONALITY.getCommands().timeout.reasonOption.name)
       .setDescription(
-        PERSONALITY.getCommands().timeout.reasonOption.description
+        PERSONALITY.getCommands().timeout.reasonOption.description,
       )
       .setMinLength(1)
-      .setRequired(true)
+      .setRequired(true),
   )
   .addNumberOption((option) =>
     option //weeks
@@ -32,7 +32,7 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().timeout.weeksOption.description)
       .setMinValue(1)
       .setMaxValue(20)
-      .setRequired(false)
+      .setRequired(false),
   )
   .addNumberOption((option) =>
     option //days
@@ -40,7 +40,7 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().timeout.daysOption.description)
       .setMinValue(1)
       .setMaxValue(31)
-      .setRequired(false)
+      .setRequired(false),
   )
   .addNumberOption((option) =>
     option //hours
@@ -48,7 +48,7 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().timeout.hoursOption.description)
       .setMinValue(1)
       .setMaxValue(24)
-      .setRequired(false)
+      .setRequired(false),
   )
   .addNumberOption((option) =>
     option //minutes
@@ -56,7 +56,7 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getCommands().timeout.minsOption.description)
       .setMinValue(1)
       .setMaxValue(60)
-      .setRequired(false)
+      .setRequired(false),
   );
 
 const action = async (interaction) => {

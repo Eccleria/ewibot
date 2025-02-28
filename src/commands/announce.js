@@ -31,7 +31,7 @@ const giftAction = async (interaction) => {
     })
     .addFields(Object.values(fields))
     .setThumbnail(
-      "https://media.discordapp.net/attachments/959815577575256124/1041070360461852724/Ewilan_writing_cut.png?width=670&height=670"
+      "https://media.discordapp.net/attachments/959815577575256124/1041070360461852724/Ewilan_writing_cut.png?width=670&height=670",
     );
 
   //get channel
@@ -72,7 +72,7 @@ const action = (interaction) => {
   const whichAnnounceP = PERSONALITY.getAnnounces()[whichAnnounce];
   //create confirm button
   const actionRow = new ActionRowBuilder().addComponents(
-    createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger)
+    createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger),
   );
 
   interaction.reply({
@@ -89,7 +89,7 @@ const announces = [giftAnnounce]; //list of all announces
 export const announceButtonHandler = (interaction) => {
   const whichButton = interaction.customId;
   const foundAnnounce = announces.find(
-    (obj) => obj.button.value === whichButton
+    (obj) => obj.button.value === whichButton,
   );
 
   if (foundAnnounce) foundAnnounce.action(interaction);
@@ -106,9 +106,9 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().announce.stringOption.name)
       .setDescription(
-        PERSONALITY.getCommands().announce.stringOption.description
+        PERSONALITY.getCommands().announce.stringOption.description,
       )
-      .addChoices(...announces.map((obj) => obj.button))
+      .addChoices(...announces.map((obj) => obj.button)),
   );
 
 const announce = {
