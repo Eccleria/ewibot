@@ -9,9 +9,8 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install --legacy-peer-deps
-      - run: npm run lint
+          pkg-manager: yarn
+      - run: yarn run lint
   prettier:
     executor:
       name: node/default
@@ -19,9 +18,8 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install --legacy-peer-deps
-      - run: npm run prettier
+          pkg-manager: yarn
+      - run: yarn run prettier
 workflows:
   commit_workflow:
     jobs:
