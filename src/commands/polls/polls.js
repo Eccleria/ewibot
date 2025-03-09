@@ -26,84 +26,84 @@ const command = new SlashCommandBuilder()
         option //title
           .setName(PERSONALITY.getCommands().polls.create.titleOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.titleOption.description
+            PERSONALITY.getCommands().polls.create.titleOption.description,
           )
           .setRequired(true)
           .setMinLength(1)
-          .setMaxLength(225)
+          .setMaxLength(225),
       )
       .addStringOption((option) =>
         option //choice
           .setName(PERSONALITY.getCommands().polls.create.choiceOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.choiceOption.description
+            PERSONALITY.getCommands().polls.create.choiceOption.description,
           )
           .setRequired(true)
-          .setMinLength(4)
+          .setMinLength(4),
       )
       .addStringOption((option) =>
         option //description
           .setName(PERSONALITY.getCommands().polls.create.descOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.descOption.description
+            PERSONALITY.getCommands().polls.create.descOption.description,
           )
           .setMinLength(1)
-          .setMaxLength(4096)
+          .setMaxLength(4096),
       )
       .addBooleanOption((option) =>
         option //hide
           .setName(PERSONALITY.getCommands().polls.create.hideOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.hideOption.description
+            PERSONALITY.getCommands().polls.create.hideOption.description,
           )
-          .setRequired(false)
+          .setRequired(false),
       )
       .addStringOption((option) =>
         option //color
           .setName(PERSONALITY.getCommands().polls.create.colorOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.colorOption.description
+            PERSONALITY.getCommands().polls.create.colorOption.description,
           )
           .setRequired(false)
-          .addChoices(...PERSONALITY.getColors().choices)
+          .addChoices(...PERSONALITY.getColors().choices),
       )
       .addNumberOption((option) =>
         option //maxVoteNumber
           .setName(PERSONALITY.getCommands().polls.create.maxOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.maxOption.description
+            PERSONALITY.getCommands().polls.create.maxOption.description,
           )
           .setRequired(false)
-          .setMinValue(1)
+          .setMinValue(1),
       )
       .addUserOption((option) =>
         option //author
           .setName(PERSONALITY.getCommands().polls.create.authorOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.authorOption.description
+            PERSONALITY.getCommands().polls.create.authorOption.description,
           )
-          .setRequired(false)
+          .setRequired(false),
       )
       .addNumberOption((option) =>
         option //hour
           .setName(PERSONALITY.getCommands().polls.create.hourOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.hourOption.description
+            PERSONALITY.getCommands().polls.create.hourOption.description,
           )
           .setRequired(false)
           .setMaxValue(99)
-          .setMinValue(0)
+          .setMinValue(0),
       )
       .addNumberOption((option) =>
         option //minutes
           .setName(PERSONALITY.getCommands().polls.create.minuteOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.minuteOption.description
+            PERSONALITY.getCommands().polls.create.minuteOption.description,
           )
           .setRequired(false)
           .setMaxValue(99)
-          .setMinValue(0)
-      )
+          .setMinValue(0),
+      ),
   )
   .addSubcommand((command) =>
     command //add choice
@@ -113,20 +113,20 @@ const command = new SlashCommandBuilder()
         option //poll
           .setName(PERSONALITY.getCommands().polls.addChoice.pollOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.addChoice.pollOption.description
+            PERSONALITY.getCommands().polls.addChoice.pollOption.description,
           )
           .setRequired(true)
-          .setAutocomplete(true)
+          .setAutocomplete(true),
       )
       .addStringOption((option) =>
         option //choice
           .setName(PERSONALITY.getCommands().polls.addChoice.choiceOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.addChoice.choiceOption.description
+            PERSONALITY.getCommands().polls.addChoice.choiceOption.description,
           )
           .setRequired(true)
-          .setMinLength(4)
-      )
+          .setMinLength(4),
+      ),
   )
   .addSubcommand((command) =>
     command //stop poll
@@ -136,11 +136,11 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().polls.stop.pollOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.stop.pollOption.description
+            PERSONALITY.getCommands().polls.stop.pollOption.description,
           )
           .setRequired(true)
-          .setAutocomplete(true)
-      )
+          .setAutocomplete(true),
+      ),
   );
 
 const action = async (interaction) => {
@@ -261,7 +261,7 @@ const action = async (interaction) => {
           };
         }
       },
-      { actionRows: [], size: 0, dbVotes: [] }
+      { actionRows: [], size: 0, dbVotes: [] },
     );
 
     //add setting button
@@ -270,7 +270,7 @@ const action = async (interaction) => {
       settingId,
       null,
       ButtonStyle.Secondary,
-      "⚙️"
+      "⚙️",
     );
     if (components.size === 5) {
       //if actionRow is full, create one more
@@ -278,7 +278,7 @@ const action = async (interaction) => {
       components.actionRows.push(newRow);
     } else
       components.actionRows[components.actionRows.length - 1].addComponents(
-        settingButton
+        settingButton,
       );
 
     //add timeout embed
@@ -309,7 +309,7 @@ const action = async (interaction) => {
         colorIdx,
         voteMax,
         title,
-        pollDate.toISOString()
+        pollDate.toISOString(),
       ); //add to db
 
       //set 1h reminder
@@ -320,7 +320,7 @@ const action = async (interaction) => {
             message.reply(perso.create.reminder);
           },
           timeout - 3600000,
-          pollMsg
+          pollMsg,
         );
       }
     } catch (e) {
@@ -425,7 +425,7 @@ const action = async (interaction) => {
     addPollChoices(
       interaction.client.db,
       pollMessage.id,
-      newComponents.dbVotes
+      newComponents.dbVotes,
     ); //edit db
     interactionReply(interaction, perso.updated);
   } else if (subcommand === personality.stop.name) {
@@ -462,7 +462,7 @@ const autocomplete = (interaction) => {
   const sliced = filtered.length > 24 ? filtered.slice(0, 24) : filtered;
 
   interaction.respond(
-    sliced.map((choice) => ({ name: choice, value: choice }))
+    sliced.map((choice) => ({ name: choice, value: choice })),
   );
 };
 

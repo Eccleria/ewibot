@@ -13,13 +13,13 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().vest.userOption.name)
       .setDescription(PERSONALITY.getCommands().vest.userOption.description)
-      .setRequired(true)
+      .setRequired(true),
   )
   .addBooleanOption((option) =>
     option
       .setName(PERSONALITY.getCommands().vest.forceOption.name)
       .setDescription(PERSONALITY.getCommands().vest.forceOption.description)
-      .setRequired(false)
+      .setRequired(false),
   );
 
 const action = async (interaction) => {
@@ -41,7 +41,7 @@ const action = async (interaction) => {
     path.resolve(path.dirname("")),
     "pics",
     "vest",
-    "pngs"
+    "pngs",
   );
   const dir = fs.readdirSync(pngsPath);
   const gifExists = dir.reduce((acc, cur) => {
@@ -63,12 +63,12 @@ const action = async (interaction) => {
     const context = canvas.getContext("2d"); // context allows canvas further modification
     const avatar = await Canvas.loadImage(
       // Load target avatar
-      target.displayAvatarURL({ extension: "png" })
+      target.displayAvatarURL({ extension: "png" }),
     );
     //add background to canvas
     const basicPath = path.join(path.resolve(path.dirname("")), "pics", "vest");
     const picture = await Canvas.loadImage(
-      `${basicPath}/Gilet pare-balles perdues.png`
+      `${basicPath}/Gilet pare-balles perdues.png`,
     );
     context.drawImage(picture, 0, 0, canvas.width, canvas.height); //add background
     context.save(); //Save the general configuration

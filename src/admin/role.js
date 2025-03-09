@@ -10,10 +10,10 @@ export const roleInit = async (client) => {
 
   //check if the message has all Ewibot reactions
   const channel = await client.channels.fetch(
-    server.cosmeticRoleHandle.channelId
+    server.cosmeticRoleHandle.channelId,
   ); //get the channel
   const message = await channel.messages.fetch(
-    server.cosmeticRoleHandle.messageId
+    server.cosmeticRoleHandle.messageId,
   ); //get the message
 
   //get emotes to add
@@ -29,7 +29,7 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
 
   //fetch user data
   const guild = await messageReaction.client.guilds.fetch(
-    currentServer.guildId
+    currentServer.guildId,
   ); //fetch the guild
   const guildMember = await guild.members.fetch(userId); //get guildMember
 
@@ -60,7 +60,7 @@ export const roleRemove = async (messageReaction, currentServer, user) => {
   if (userId === process.env.CLIENTID) return; //if bot, return
 
   const guild = await messageReaction.client.guilds.fetch(
-    currentServer.guildId
+    currentServer.guildId,
   ); //fetch the guild
   const guildMember = await guild.members.fetch(userId); //get guildMember
 

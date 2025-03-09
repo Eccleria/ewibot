@@ -123,8 +123,8 @@ export const readContentAndReact = async (message, currentServer) => {
       console.log(
         `addStatsData isNotOk with isStatsUser ${isStatsUser(
           db,
-          authorId
-        )}, userID ${authorId}, whichStat "hello"`
+          authorId,
+        )}, userID ${authorId}, whichStat "hello"`,
       );
     if (frequency) await message.react(cmnShared.helloEmoji);
   }
@@ -181,7 +181,7 @@ const isAbcd = (words) => {
           };
         else return { latestUnicode: unicodeWord, isAbcd: false };
       },
-      { latestUnicode: null, isAbcd: true }
+      { latestUnicode: null, isAbcd: true },
     );
     return reduced.isAbcd;
   }

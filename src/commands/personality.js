@@ -13,14 +13,14 @@ const command = new SlashCommandBuilder()
     option
       .setName(PERSONALITY.getCommands().personality.stringOption.name)
       .setDescription(
-        PERSONALITY.getCommands().personality.stringOption.description
+        PERSONALITY.getCommands().personality.stringOption.description,
       )
       .setRequired(false)
       .addChoices(
         ...PERSONALITY.getPersonalities().map((pName) => {
           return { name: pName, value: "personality_" + pName };
-        })
-      )
+        }),
+      ),
   );
 
 const action = (interaction) => {

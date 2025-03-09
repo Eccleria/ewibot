@@ -13,7 +13,7 @@ const addIgnoredChannel = (db, channelId) => {
 const removeIgnoredChannel = (db, channelId) => {
   if (isIgnoredChannel(db, channelId)) {
     db.data.ignoredChannelIds = db.data.ignoredChannelIds.filter(
-      (id) => id !== channelId
+      (id) => id !== channelId,
     );
   }
   db.wasUpdated = true;
@@ -32,7 +32,7 @@ const addIgnoredUser = (db, authorId) => {
 const removeIgnoredUser = (db, authorId) => {
   if (db.data.ignoredUsersIds.includes(authorId)) {
     db.data.ignoredUsersIds = db.data.ignoredUsersIds.filter(
-      (id) => id !== authorId
+      (id) => id !== authorId,
     );
   }
   db.wasUpdated = true;

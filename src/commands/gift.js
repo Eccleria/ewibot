@@ -5,6 +5,7 @@ import {
   EmbedBuilder,
   ButtonStyle,
   Colors,
+  MessageFlags,
 } from "discord.js";
 import { createButton } from "./utils.js";
 import {
@@ -63,9 +64,13 @@ export const giftButtonHandler = async (interaction) => {
       messages.reduce((_acc, obj, idx) => {
         //get corresponding messages
         setTimeout(
-          (text) => interaction.followUp({ content: text, ephemeral: true }),
+          (text) =>
+            interaction.followUp({
+              content: text,
+              flags: MessageFlags.Ephemeral,
+            }),
           (idx + 1) * 1000,
-          obj.message
+          obj.message,
         ); //send messages every 2s
       }, null);
       return;
@@ -87,7 +92,7 @@ const giftInteractionCreation = async (client, type) => {
 
   //create button
   const actionRow = new ActionRowBuilder().addComponents(
-    createButton("gift_2024", personality.buttonLabel, ButtonStyle.Primary)
+    createButton("gift_2024", personality.buttonLabel, ButtonStyle.Primary),
   );
 
   if (type === "xmas") {
@@ -171,7 +176,7 @@ const command = new SlashCommandBuilder()
   .addSubcommand((subcommand) =>
     subcommand //user authorisation command
       .setName(PERSONALITY.getCommands().gift.use.name)
-      .setDescription(PERSONALITY.getCommands().gift.use.description)
+      .setDescription(PERSONALITY.getCommands().gift.use.description),
   )
   .addSubcommand((subcommand) =>
     subcommand //send message command
@@ -181,18 +186,18 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().gift.send.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.send.userOption.description
+            PERSONALITY.getCommands().gift.send.userOption.description,
           )
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName(PERSONALITY.getCommands().gift.send.textOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.send.textOption.description
+            PERSONALITY.getCommands().gift.send.textOption.description,
           )
-          .setRequired(true)
-      )
+          .setRequired(true),
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand //remove
@@ -202,10 +207,10 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().gift.remove.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.remove.userOption.description
+            PERSONALITY.getCommands().gift.remove.userOption.description,
           )
-          .setRequired(false)
-      )
+          .setRequired(false),
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand //get
@@ -215,10 +220,10 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().gift.get.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.get.userOption.description
+            PERSONALITY.getCommands().gift.get.userOption.description,
           )
-          .setRequired(false)
-      )
+          .setRequired(false),
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand //accepting
@@ -228,10 +233,10 @@ const command = new SlashCommandBuilder()
         option
           .setName(PERSONALITY.getCommands().gift.accepting.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.accepting.userOption.description
+            PERSONALITY.getCommands().gift.accepting.userOption.description,
           )
-          .setRequired(false)
-      )
+          .setRequired(false),
+      ),
   );
 
 const action = async (interaction) => {
@@ -297,13 +302,13 @@ const action = async (interaction) => {
           typeof obj === "object"
             ? obj.messages.reduce(
                 (acc, cur) => acc + remove.separator + cur,
-                ""
+                "",
               )
             : obj; //concat messages
 
         await interaction.followUp({
           content: name + userState + messages,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       });
     } else interactionReply(interaction, remove.noMessage);
@@ -323,11 +328,11 @@ const action = async (interaction) => {
 
         const messages = obj.messages.reduce(
           (acc, cur) => acc + get.separator + cur,
-          ""
+          "",
         ); //concat messages
         await interaction.followUp({
           content: name + userState + messages,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       });
     } else interactionReply(interaction, get.noMessage);

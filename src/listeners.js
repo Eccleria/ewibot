@@ -38,7 +38,7 @@ export const onInteractionCreate = (interaction) => {
     const contextCommands = client.contextCommands; //get commands
 
     const foundCommand = contextCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
+      (cmd) => cmd.command.name === interaction.commandName,
     );
 
     if (foundCommand) foundCommand.action(interaction); //if found command, execute its action
@@ -50,11 +50,11 @@ export const onInteractionCreate = (interaction) => {
   if (interaction.isAutocomplete()) {
     //interaction with autocomplete activated
     const autoCompleteCommands = slashCommands.filter(
-      (cmd) => cmd.autocomplete
+      (cmd) => cmd.autocomplete,
     ); //get commands with autocomplete action
     const foundCommand = autoCompleteCommands
       ? autoCompleteCommands.find(
-          (cmd) => cmd.command.name === interaction.commandName
+          (cmd) => cmd.command.name === interaction.commandName,
         )
       : null; //find command that fired onInteractionCreate
     if (foundCommand && isReleasedCommand(foundCommand))
@@ -66,7 +66,7 @@ export const onInteractionCreate = (interaction) => {
     const slashCommands = client.slashCommands; //get commands
 
     const foundCommand = slashCommands.find(
-      (cmd) => cmd.command.name === interaction.commandName
+      (cmd) => cmd.command.name === interaction.commandName,
     );
 
     if (foundCommand && isReleasedCommand(foundCommand))
@@ -75,7 +75,7 @@ export const onInteractionCreate = (interaction) => {
     else
       interactionReply(
         interaction,
-        PERSONALITY.getAdmin().commands.notReleased
+        PERSONALITY.getAdmin().commands.notReleased,
       );
   }
 };
@@ -94,7 +94,7 @@ export const onMessageCreate = async (message) => {
 export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
   const currentServer = COMMONS.fetchFromGuildId(
-    messageReaction.message.channel.guild.id
+    messageReaction.message.channel.guild.id,
   );
   const cmnShared = COMMONS.getShared();
 
@@ -137,7 +137,7 @@ export const onReactionAdd = async (messageReaction, user) => {
 
 export const onReactionRemove = async (messageReaction, user) => {
   const currentServer = COMMONS.fetchFromGuildId(
-    messageReaction.message.channel.guild.id
+    messageReaction.message.channel.guild.id,
   );
 
   if (currentServer.cosmeticRoleHandle.messageId === messageReaction.message.id)
@@ -173,14 +173,14 @@ const onPublicMessage = (message, currentServer) => {
 export const onRemoveReminderReaction = (
   messageReaction,
   reactionUser,
-  cmnShared
+  cmnShared,
 ) => {
   const { removeEmoji } = cmnShared;
   const { message, emoji, users, client } = messageReaction;
 
   const foundReminder = client.remindme.find(
     // found corresponding reminder message
-    ({ botMessage }) => botMessage.id === message.id
+    ({ botMessage }) => botMessage.id === message.id,
   );
 
   if (
@@ -218,7 +218,7 @@ export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
 
   const foundMessageSpotify = client.playlistCachedMessages.find(
     // found corresponding spotify message
-    ({ id }) => id === message.id
+    ({ id }) => id === message.id,
   );
 
   if (
@@ -234,10 +234,10 @@ export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
     const result = await deleteSongFromPlaylist(
       songId,
       client,
-      PERSONALITY.getSpotify()
+      PERSONALITY.getSpotify(),
     );
     client.playlistCachedMessages = client.playlistCachedMessages.filter(
-      ({ id }) => id !== message.id
+      ({ id }) => id !== message.id,
     );
     await message.reply(result);
   }

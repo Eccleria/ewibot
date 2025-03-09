@@ -1,23 +1,25 @@
 version: 2.1
 orbs:
-  node: circleci/node@5.1.0
+  node: circleci/node@7.1.0
 jobs:
   lint:
-    executor: node/default
+    executor: 
+      name: node/default
+      tag: '20.18.3'
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install
-      - run: npm run lint
+          pkg-manager: yarn
+      - run: yarn run lint
   prettier:
-    executor: node/default
+    executor:
+      name: node/default
+      tag: '20.18.3'
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install
-      - run: npm run prettier
+          pkg-manager: yarn
+      - run: yarn run prettier
 workflows:
   commit_workflow:
     jobs:

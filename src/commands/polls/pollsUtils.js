@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
 import { removePoll, removePunctuation } from "../../helpers/index.js";
 
@@ -25,11 +25,12 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
       //new value
       let value = oldValue;
       if (idx === newVoteIdx && idx === oldVoteIdx) value = oldValue - 1;
-      else if (idx === newVoteIdx) value = oldValue + 1; //add 1 to voteIdx
+      else if (idx === newVoteIdx)
+        value = oldValue + 1; //add 1 to voteIdx
       else if (idx === oldVoteIdx) value = oldValue - 1; //remove 1 to oldIndex
       return { values: [...acc.values, value], ratios: [...acc.ratios, ratio] };
     },
-    { values: [], ratios: [] }
+    { values: [], ratios: [] },
   );
   return results;
 };
@@ -41,7 +42,7 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
  */
 export const fetchPollMessage = async (interaction) => {
   const pollMessage = await interaction.channel.messages.fetch(
-    interaction.message.reference.messageId
+    interaction.message.reference.messageId,
   );
   return pollMessage;
 };
@@ -55,14 +56,12 @@ export const fetchPollMessage = async (interaction) => {
 export const interactionEditReply = async (
   interaction,
   payload,
-  isEphemeral = true
+  isEphemeral = true,
 ) => {
-  if (typeof payload == "string")
-    await interaction.editReply({ content: payload, ephemeral: isEphemeral });
-  else {
-    payload.ephemeral = isEphemeral;
-    await interaction.editReply(payload);
-  }
+  const payloadObj =
+    typeof payload == "string" ? { content: payload } : payload;
+  if (isEphemeral) payloadObj.flags = MessageFlags.Ephemeral;
+  await interaction.editReply(payloadObj);
 };
 
 const bullet = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
@@ -94,7 +93,7 @@ export const parsePollFields = (content, totalSize = 0) => {
         console.log(
           [sanitizedContent],
           /\p{Extended_Pictographic}/u.test(sanitizedContent),
-          /\W{2}/g.test(sanitizedContent)
+          /\W{2}/g.test(sanitizedContent),
         );
         if (
           (/\p{Extended_Pictographic}/u.test(sanitizedContent) &&
@@ -106,12 +105,12 @@ export const parsePollFields = (content, totalSize = 0) => {
             "&&",
             !sanitizedContent.includes(" "),
             "||",
-            /\W{2}/g.test(sanitizedContent)
+            /\W{2}/g.test(sanitizedContent),
           );
           console.log(
             "Extended_Pictographic Emote found:",
             [sanitizedContent],
-            sanitizedContent
+            sanitizedContent,
           );
           return {
             fields: [...acc.fields, replaced],
@@ -126,7 +125,7 @@ export const parsePollFields = (content, totalSize = 0) => {
         emotes: [...acc.emotes, emote],
       };
     },
-    { fields: [], emotes: [] }
+    { fields: [], emotes: [] },
   );
   console.log("results", results);
   return results;
@@ -147,7 +146,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit) => {
       ? dbPoll.votes.map(() => 0)
       : values.reduce(
           (acc, cur) => [...acc, Math.round((cur / totalValues) * 100)],
-          []
+          [],
         );
 
   //get progress bar color
@@ -201,7 +200,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
     await pollMessage.fetch();
   } catch (e) {
     removePoll(db, pollMessage.id); //remove from db
-    console.log("pollMessage has been deleted, cannot reply 'stoped'");
+    console.log("pollMessage has been deleted, cannot reply 'stoped'", e);
     return;
   }
 

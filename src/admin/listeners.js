@@ -72,7 +72,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   const chnLog = await fetchAuditLog(
     oldChannel.guild,
     AuditLogEvent.ChannelUpdate,
-    1
+    1,
   ); //get auditLog
 
   //check for permission overwrite
@@ -83,7 +83,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   if (diffOverwrite.size !== 0) {
     //add/removed permission orverwrite
     const [oldDiffCol, newDiffCol] = diffOverwrite.partition((perm) =>
-      oldOverwrite.has(perm.id)
+      oldOverwrite.has(perm.id),
     ); //separate old & new permissions
 
     if (oldDiffCol.size !== 0) {
@@ -190,7 +190,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         new Date(),
         newChannel.name,
         diff,
-        [modifs]
+        [modifs],
       );
     return;
   }
@@ -218,7 +218,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       auditLog,
       logChannel,
       [embed],
-      "channel"
+      "channel",
     ); //update client data
     return;
   }
@@ -242,7 +242,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       false,
       logChannel,
       text,
-      diff
+      diff,
     );
     return;
   }
@@ -265,7 +265,7 @@ export const onThreadCreate = async (thread, newly) => {
     const log = await fetchAuditLog(
       thread.guild,
       AuditLogEvent.ThreadCreate,
-      1
+      1,
     ); //get auditLog
     const executor = await thread.guild.members.fetch(thread.ownerId);
     const color = Colors.DarkGrey;
@@ -274,7 +274,7 @@ export const onThreadCreate = async (thread, newly) => {
       "onThreadCreate\nlog.executor",
       log.executor.id,
       "ownerId",
-      thread.ownerId
+      thread.ownerId,
     );
 
     finishEmbed(perso, executor, embed, false, logChannel);
@@ -349,7 +349,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
       auditLog,
       logChannel,
       embed,
-      "role"
+      "role",
     ); //update client data
     return;
   }
@@ -357,7 +357,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const roleLog = await fetchAuditLog(
     newRole.guild,
     AuditLogEvent.RoleUpdate,
-    1
+    1,
   ); //get auditLog
 
   if (roleLog !== null) {
@@ -398,7 +398,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
       false,
       logChannel,
       text,
-      diff
+      diff,
     );
     return;
   }
@@ -441,12 +441,16 @@ export const onMessageDelete = async (message) => {
   const embed = setupEmbed(color, messageDel, message.author, "tag"); //setup embed
   embed.addFields(
     { name: messageDel.date, value: unixTimestamp, inline: true }, //date of message creation
-    { name: messageDel.channel, value: `<#${message.channelId}>`, inline: true } //message channel
+    {
+      name: messageDel.channel,
+      value: `<#${message.channelId}>`,
+      inline: true,
+    }, //message channel
   );
   const deletionLog = await fetchAuditLog(
     message.guild,
     AuditLogEvent.MessageDelete,
-    1
+    1,
   ); //get auditLog
 
   //test for system message
@@ -457,7 +461,7 @@ export const onMessageDelete = async (message) => {
       embed,
       false,
       logChannel,
-      messageDel.pinned
+      messageDel.pinned,
     );
     addAdminLogs(msg[0].client.db, msg[0].id, "frequent", 6);
     return;
@@ -473,7 +477,7 @@ export const onMessageDelete = async (message) => {
       if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
       return acc;
     },
-    [embed]
+    [embed],
   );
 
   //handle content
@@ -491,7 +495,7 @@ export const onMessageDelete = async (message) => {
       true,
       logChannel,
       null,
-      attachments
+      attachments,
     );
     if (gifs !== null)
       gifs.forEach((gif) => {
@@ -500,7 +504,7 @@ export const onMessageDelete = async (message) => {
       });
 
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
     );
     return;
   }
@@ -519,7 +523,7 @@ export const onMessageDelete = async (message) => {
       true,
       logChannel,
       null,
-      attachments
+      attachments,
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
@@ -527,7 +531,7 @@ export const onMessageDelete = async (message) => {
       messageList.push(msg);
     }
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
     );
   } else {
     //if bot or author deleted the message
@@ -538,7 +542,7 @@ export const onMessageDelete = async (message) => {
       true,
       logChannel,
       null,
-      attachments
+      attachments,
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
@@ -546,7 +550,7 @@ export const onMessageDelete = async (message) => {
       messageList.push(msg);
     }
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
     );
   }
 };
@@ -588,7 +592,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     const unpinLog = await fetchAuditLog(
       nMessage.guild,
       AuditLogEvent.MessageUnpin,
-      1
+      1,
     ); //get auditLog
     const unpinned = messageU.unpinned;
     embed.addFields(
@@ -597,7 +601,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         name: messageU.channel,
         value: `<#${oMessage.channelId}>`,
         inline: true,
-      } //message channel
+      }, //message channel
     );
 
     //add message link + executor
@@ -608,7 +612,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
         name: unpinned.executor,
         value: unpinLog.executor.toString(),
         inline: true,
-      }
+      },
     );
 
     const messageList = await endCasesEmbed(
@@ -618,10 +622,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       auditLog,
       embed,
       false,
-      logChannel
+      logChannel,
     );
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
     );
     return;
   }
@@ -636,7 +640,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const unixTimestamp = parseUnixTimestamp(unixDate, "F"); //slice date string
   embed.addFields(
     { name: messageU.date, value: unixTimestamp, inline: true }, //date of message creation
-    { name: messageU.channel, value: `<#${oMessage.channelId}>`, inline: true } //message channel
+    { name: messageU.channel, value: `<#${oMessage.channelId}>`, inline: true }, //message channel
   );
 
   //check for content modif
@@ -697,7 +701,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
                 return [...acc, cur];
               return acc;
             },
-            [embed]
+            [embed],
           )
         : [embed]; //check for embeds. It includes link integration
   } catch (e) {
@@ -719,10 +723,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     true,
     logChannel,
     null,
-    attachments
+    attachments,
   );
   messageList.forEach((msg) =>
-    addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    addAdminLogs(msg.client.db, msg.id, "frequent", 6),
   );
 };
 
@@ -787,7 +791,7 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
       name: timeout.endDate,
       value: `<t:${timeoutUntil.unix()}:F>`,
       inline: true,
-    }
+    },
   );
 
   endCasesEmbed(
@@ -798,7 +802,7 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
     embed,
     false,
     logChannel,
-    reason
+    reason,
   );
 };
 
@@ -817,7 +821,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const kickLog = await fetchAuditLog(
     memberKick.guild,
     AuditLogEvent.MemberKick,
-    1
+    1,
   ); //get auditLog
   const reason = kickLog ? kickLog.reason : null; //get kick reason
 
@@ -846,7 +850,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     const embed = setupEmbed(color, guildKick, userKick, "user"); //setup embed
     embed.addFields(
       { name: guildKick.id, value: memberKick.id, inline: true }, //add user id
-      { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
+      { name: guildKick.timestamp, value: unixTimestamp, inline: true }, //joined timestamp
     );
     if (textRoles)
       embed.addFields({
@@ -862,11 +866,11 @@ export const onGuildMemberRemove = async (memberKick) => {
       auditLog,
       embed,
       false,
-      logChannel
+      logChannel,
     );
 
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "userAD", 1)
+      addAdminLogs(msg.client.db, msg.id, "userAD", 1),
     );
     return;
   }
@@ -876,7 +880,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const embed = setupEmbed(color, guildKick, userKick, "user"); //setup embed
   embed.addFields(
     { name: guildKick.id, value: memberKick.id, inline: true },
-    { name: guildKick.timestamp, value: unixTimestamp, inline: true } //joined timestamp
+    { name: guildKick.timestamp, value: unixTimestamp, inline: true }, //joined timestamp
   ); //add user id
   if (textRoles)
     embed.addFields({ name: guildKick.roles, value: textRoles, inline: true }); //add user roles if any
@@ -891,7 +895,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     false,
     logChannel,
     reason,
-    diff
+    diff,
   );
 };
 
@@ -925,7 +929,7 @@ export const checkPinStatus = async (message) => {
       const pinLog = await fetchAuditLog(
         message.guild,
         AuditLogEvent.MessagePin,
-        1
+        1,
       ); //get auditLog
       const pPerso = perso.pinned;
       embed.addFields(
@@ -934,7 +938,7 @@ export const checkPinStatus = async (message) => {
           name: perso.channel,
           value: `<#${message.channelId}>`,
           inline: true,
-        } //message channel
+        }, //message channel
       );
 
       //add message link
