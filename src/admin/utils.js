@@ -395,14 +395,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //check for empty modifs
   if (oText.length === 0) {
-    finishEmbed(
-      chnUp,
-      logPerso.noLog,
-      embed,
-      false,
-      logChannel,
-      chnUp.noModifs,
-    ); //send embed
+    finishEmbed(chnUp, logPerso.noLog, embed, true, logChannel, chnUp.noModifs); //send embed
     return;
   }
 

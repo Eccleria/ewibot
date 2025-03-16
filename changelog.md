@@ -1,5 +1,7 @@
 ﻿## 6.5.0
+- Upgrade: massive changes to dependancies. **BREAKING CHANGES**: it requires Node > v20.11.1. ([#352](https://github.com/Eccleria/ewibot/pull/352))
 - Update: apologies are now found using a loop. ([#354](https://github.com/Eccleria/ewibot/pull/354))
+- Fix: crash when the Channels positions are swapped but then cancelled. ([#355](https://github.com/Eccleria/ewibot/issues/355)) ([#356](https://github.com/Eccleria/ewibot/pull/356))
 
 ## 6.4.0
 - Upgrade: `discordjs` to version 14.16.3. **BREAKING CHANGES**: it requires Node > v18. ([#334](https://github.com/Eccleria/ewibot/pull/334))
