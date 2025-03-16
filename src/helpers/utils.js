@@ -127,12 +127,12 @@ const apologyRegex = new RegExp( //regex for apology detection
 );
 
 export const hasApology = (sanitizedContent) => {
-  const apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
+  let apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   if (process.env.DEBUGLOGS === "yes")
     console.log("apologyResult", apologyResult);
 
-  apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
-  if (apologyResult !== null) {
+  //apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
+  while (apologyResult !== null) {
     //if found apology
     const splited = sanitizedContent.split(" "); //split words
     const idx = apologyResult.index;
@@ -160,6 +160,9 @@ export const hasApology = (sanitizedContent) => {
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;
+
+    //compute for next while
+    apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   }
   return false;
 };

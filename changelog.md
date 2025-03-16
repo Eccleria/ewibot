@@ -1,3 +1,6 @@
+﻿## 6.5.0
+- Update: apologies are now found using a loop. ([#354](https://github.com/Eccleria/ewibot/pull/354))
+
 ## 6.4.0
 - Upgrade: `discordjs` to version 14.16.3. **BREAKING CHANGES**: it requires Node > v18. ([#334](https://github.com/Eccleria/ewibot/pull/334))
 - Fix: now check the length of `polls` choices (<= 256) ([#331](https://github.com/Eccleria/ewibot/issues/331)) ([#344](https://github.com/Eccleria/ewibot/pull/344))
