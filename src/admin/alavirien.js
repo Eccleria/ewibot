@@ -30,7 +30,16 @@ export const presentationHandler = async (
 const giveAlavirien = async (client, server, personality, userId) => {
   //fetch data
   const guild = await client.guilds.fetch(server.guildId);
-  const guildMember = await guild.members.fetch(userId);
+  
+  let guildMember;
+  try {
+    guildMember = await guild.members.fetch(userId);
+  } catch (e) {
+    console.log("Alavirien - unknown guildMember ", userId, e);
+    removeAlavirien(client.db, userId); //remove from db
+    return;
+  }
+    
   const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
 
   if (!guildMember.roles.cache.has(server.alavirienRoleId)) {
