@@ -399,7 +399,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
       chnUp,
       logPerso.noLog,
       embed,
-      false,
+      true,
       logChannel,
       chnUp.noModifs,
     ); //send embed
