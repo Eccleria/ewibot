@@ -13,6 +13,7 @@ import {
 } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 import { PERSONALITY } from "../../personality.js";
+import { POLLS } from "../../polls.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().polls.name)
@@ -297,7 +298,7 @@ const action = async (interaction) => {
         embeds: [embed, timeoutEmbed],
         components: components.actionRows,
       });
-      pollButtonCollector(pollMsg, timeout); //start listening to interactions
+      const collector = pollButtonCollector(pollMsg, timeout); //start listening to interactions
       interactionReply(interaction, perso.sent);
 
       //save poll
@@ -316,23 +317,27 @@ const action = async (interaction) => {
       ); //add to db
 
       //set 1h reminder
-      if (timeout >= 7200000) {
-        setTimeout(
+      let timeoutDuration = null;
+      if (timeoutDuration >= 7200000) {
+        timeoutDuration = setTimeout(
           (message) => {
             const perso = PERSONALITY.getPersonality().polls;
             message.reply(perso.create.reminder);
           },
-          timeout - 3600000,
+          timeoutDuration - 3600000,
           pollMsg,
         );
       }
+
+      //save data in class
+      POLLS.addPoll({pollId: pollMsg.id, collector, timeoutDuration});
     } catch (e) {
       console.log("/polls create error\n", e);
     }
   } else if (subcommand === personality.addChoice.name) {
     //addChoice poll subcommand
     const perso = personality.addChoice;
-
+ 
     //get options
     const pollInput = options.getString(perso.pollOption.name);
     const choices = options.getString(perso.choiceOption.name);
@@ -450,7 +455,7 @@ const action = async (interaction) => {
     const channel = await interaction.client.channels.fetch(dbPoll.channelId);
     const pollMessage = await channel.messages.fetch(dbPoll.pollId);
 
-    await stopPoll(dbPoll, pollMessage, personality);
+    await stopPoll(dbPoll, pollMessage, personality, false);
 
     //return
     interactionReply(interaction, perso.stopped);

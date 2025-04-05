@@ -105,8 +105,10 @@ export const pollButtonCollector = (message, timeout) => {
     console.log(`Collected ${collected.size} interactions.`);
     const dbPoll = getPoll(message.client.db, message.id);
     if (dbPoll) {
-      const perso = PERSONALITY.getPersonality().polls;
-      stopPoll(dbPoll, message, perso);
+      const perso = PERSONALITY.getCommands().polls;
+      stopPoll(dbPoll, message, perso, true);
     }
   });
+
+  return collector;
 };
