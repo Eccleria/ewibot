@@ -1,5 +1,6 @@
 ﻿## 6.5.1
 - Fix a crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))
+- Update: `leadApo` now have 2025 text [#360](https://github.com/Eccleria/ewibot/pull/360)
 
 ## 6.5.0
 - Upgrade: massive changes to dependancies. **BREAKING CHANGES**: it requires Node > v20.11.1. ([#352](https://github.com/Eccleria/ewibot/pull/352))
