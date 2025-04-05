@@ -101,7 +101,9 @@ export const pollButtonCollector = (message, timeout) => {
     const dbPoll = getPoll(message.client.db, message.id);
     if (dbPoll) {
       const perso = PERSONALITY.getCommands().polls;
-      stopPoll(dbPoll, message, perso);
+      stopPoll(dbPoll, message, perso, true);
     }
   });
+
+  return collector;
 };

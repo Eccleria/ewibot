@@ -90,7 +90,7 @@ export const stopPollButtonAction = async (interaction) => {
     interactionEditReply(interaction, { content: perso.errorNoDb });
     return;
   }
-  await stopPoll(dbPoll, pollMessage, sPerso);
+  await stopPoll(dbPoll, pollMessage, sPerso, false);
 
   //edit poll message
   const editedStopMessage = {
