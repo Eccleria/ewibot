@@ -1,4 +1,7 @@
-﻿## 6.5.0
+﻿## 6.5.1
+- Fix a crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))
+
+## 6.5.0
 - Upgrade: massive changes to dependancies. **BREAKING CHANGES**: it requires Node > v20.11.1. ([#352](https://github.com/Eccleria/ewibot/pull/352))
 - Update: apologies are now found using a loop. ([#354](https://github.com/Eccleria/ewibot/pull/354))
 - Fix: crash when the Channels positions are swapped but then cancelled. ([#355](https://github.com/Eccleria/ewibot/issues/355)) ([#356](https://github.com/Eccleria/ewibot/pull/356))
