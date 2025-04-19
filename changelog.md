@@ -1,5 +1,6 @@
 ﻿## 6.5.1
-- Fix a crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))
+- Fix: crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))
+- Fix: wrong color saved for marchombre backup after shuffle [#361](https://github.com/Eccleria/ewibot/pull/361)
 - Update: `leadApo` now have 2025 text [#360](https://github.com/Eccleria/ewibot/pull/360)
 
 ## 6.5.0
