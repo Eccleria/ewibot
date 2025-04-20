@@ -5,7 +5,7 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
 /**
  * Class giving access to commons.json data for all bot files
  */
-class Commons {
+export class Commons {
   constructor(test, prod, shared) {
     this.test = test;
     this.prod = prod;
