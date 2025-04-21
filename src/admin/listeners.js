@@ -382,7 +382,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
     });
 
     //create log to send
-    const text = changes.reduce((acc, cur, i) => {
+    const text = changes.reduce((acc, cur) => {
       //if permissions, get permissions removed and added
       if (cur[0] === "permissions") {
         const draft1 =
