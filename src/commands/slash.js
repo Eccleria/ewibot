@@ -17,11 +17,8 @@ import personality from "./personality.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
-import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
-import spotify from "./spotify.js";
 import stats from "./stats.js";
-import timeout from "./timeout.js";
 import vest from "./vest.js";
 import {
   //dbHelper
@@ -180,7 +177,7 @@ const ignoreChannel = {
 };
 
 //regroup all commands
-const contextCommands = [reverseTranslator, saveLog]; //context commands (message, channel, user)
+const contextCommands = [reverseTranslator]; //context commands (message, channel, user)
 const slashCommands = [
   announce,
   birthday,
@@ -199,9 +196,7 @@ const slashCommands = [
   reverse,
   roll,
   shuffle,
-  spotify,
   stats,
-  timeout,
   vest,
 ]; //command + action
 
