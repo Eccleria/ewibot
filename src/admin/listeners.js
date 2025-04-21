@@ -227,7 +227,14 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
     const text = changes.reduce((acc, cur) => {
       //create text to send
-      return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
+      if (typeof cur[1] === "object") {
+        const obj2 = Object.entries(cur[2]);
+        const draft3 = Object.entries(cur[1]).reduce(
+          (acc, [k, v], idx) => acc + `  - ${k}: ${v} => ${obj2[idx][1]}\n`,
+          "",
+        );
+        return acc + `- ${cur[0]}\n` + draft3;
+      } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
     }, "");
 
     const logCreationDate = dayjs(chnLog.createdAt);
@@ -362,6 +369,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
 
   if (roleLog !== null) {
     //get all data to compare
+    console.log(roleLog.changes);
     const changes = roleLog.changes.map((obj) => {
       if (obj.key === "permissions")
         return [
@@ -382,7 +390,16 @@ export const onRoleUpdate = async (oldRole, newRole) => {
         const draft2 =
           cur[2].length === 0 ? "" : `${roleUp.old} ${cur[2].join(", ")}`; //[removed permissions]
         return acc + `${roleUp.permission}` + `${draft1}` + `${draft2}\n`;
-      } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
+      } else {
+        if (typeof cur[1] === "object") {
+          const obj2 = Object.entries(cur[2]);
+          const draft3 = Object.entries(cur[1]).reduce(
+            (acc, [k, v], idx) => acc + `  - ${k}: ${v} => ${obj2[idx][1]}\n`,
+            "",
+          );
+          return acc + `- ${cur[0]}\n` + draft3;
+        } else return acc + `- ${cur[0]} : ${cur[1]} => ${cur[2]}\n`;
+      }
     }, "");
 
     //get log creation date and compare to now
