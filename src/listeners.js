@@ -1,8 +1,6 @@
 import { ChannelType } from "discord.js";
 import { presentationHandler } from "./admin/alavirien.js";
-import { checkPinStatus } from "./admin/listeners.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
-import { octagonalLog } from "./admin/utils.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import {
   addEmojiData,
@@ -116,11 +114,6 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-  if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
-    octagonalLog(messageReaction, user);
-    return;
-  }
-
   if (
     messageReaction.message.channel.id ===
       currentServer.presentationChannelId &&
@@ -129,8 +122,6 @@ export const onReactionAdd = async (messageReaction, user) => {
     presentationHandler(currentServer, messageReaction, user);
     return; //no command in presentation channel
   }
-
-  onRemoveSpotifyReaction(messageReaction, cmnShared);
 
   onRemoveReminderReaction(messageReaction, user, cmnShared);
 };
@@ -164,7 +155,6 @@ const onPublicMessage = (message, currentServer) => {
   )
     addServerStatsData(message.client.db, "cats");
 
-  checkPinStatus(message);
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);

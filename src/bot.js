@@ -16,21 +16,8 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 // listeners imports
 import {
-  onChannelCreate,
-  onChannelDelete,
-  onChannelUpdate,
-  onThreadCreate,
-  onThreadDelete,
-  onRoleCreate,
-  onRoleDelete,
-  onRoleUpdate,
-  onMessageDelete,
   onMessageUpdate,
-  onGuildBanAdd,
-  onGuildBanRemove,
-  onGuildMemberAdd,
   onGuildMemberRemove,
-  onGuildMemberUpdate,
 } from "./admin/listeners.js";
 import {
   onInteractionCreate,
@@ -160,27 +147,9 @@ client.on("messageReactionRemove", onReactionRemove);
 // listener for buttons/modals
 client.on("interactionCreate", onInteractionCreate);
 
-// listeners for LOGS
-client.on("messageDelete", onMessageDelete);
+// listeners for FUN
 client.on("messageUpdate", onMessageUpdate);
-
-client.on("roleCreate", onRoleCreate);
-client.on("roleDelete", onRoleDelete);
-client.on("roleUpdate", onRoleUpdate);
-
-client.on("channelCreate", onChannelCreate);
-client.on("channelDelete", onChannelDelete);
-client.on("channelUpdate", onChannelUpdate);
-
-client.on("threadCreate", onThreadCreate);
-client.on("threadDelete", onThreadDelete);
-
-client.on("guildBanAdd", onGuildBanAdd);
-client.on("guildBanRemove", onGuildBanRemove);
-
-client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("guildMemberRemove", onGuildMemberRemove);
-client.on("guildMemberUpdate", onGuildMemberUpdate);
 
 // Log the bot in
 client.login(process.env.TOKEN);

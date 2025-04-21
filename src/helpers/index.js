@@ -4,10 +4,6 @@ import {
   removeApologyCount,
 } from "./db/dbApology.js";
 
-import { addAdminLogs, getAdminLogs, removeAdminLogs } from "./db/dbAdmin.js";
-
-import { addAlavirien, removeAlavirien } from "./db/dbAlavirien.js";
-
 import {
   addBirthday,
   isBirthdayDate,
@@ -80,18 +76,8 @@ import {
 } from "./db/dbStats.js";
 
 import {
-  generateSpotifyClient,
-  parseLink,
-  deleteSongFromPlaylist,
-} from "./spotifyHelper.js";
-
-import {
-  checkEmbedContent,
-  fetchLogChannel,
-  gifParser,
   gifRecovery,
   hasApology,
-  hasOctagonalSign,
   interactionReply,
   isAdmin,
   isReleasedCommand,
@@ -105,12 +91,8 @@ import {
 
 export {
   // utils
-  checkEmbedContent,
-  fetchLogChannel,
-  gifParser,
   gifRecovery,
   hasApology,
-  hasOctagonalSign,
   interactionReply,
   isAdmin,
   isReleasedCommand,
@@ -120,18 +102,7 @@ export {
   removeEmote,
   removePunctuation,
   setupEmbed,
-  // spotifyHelper
-  generateSpotifyClient,
-  parseLink,
-  deleteSongFromPlaylist,
   // dbHelper
-  //admin
-  addAdminLogs,
-  getAdminLogs,
-  removeAdminLogs,
-  //alavirien
-  addAlavirien,
-  removeAlavirien,
   //apology
   isApologyUser,
   addApologyCount,
