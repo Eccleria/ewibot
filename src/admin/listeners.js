@@ -227,7 +227,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   if (chnLog) {
     const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
-    console.log("changes", changes);
+
     const text = changes.reduce((acc, cur) => {
       //create text to send
       console.log("cur", cur);
@@ -236,35 +236,33 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         //compare the 2 lists to get the difference
         const onlyInCur1 = onlyInLeft(cur[1], cur[2], isSameEmojiInGuildUpdate);
         const onlyInCur2 = onlyInLeft(cur[2], cur[1], isSameEmojiInGuildUpdate);
-        
-        console.log("onlyInCur1", onlyInCur1);
-        console.log("onlyInCur2", onlyInCur2);
 
         //write diff and return with acc
-        const draft4 = onlyInCur1.length > 0 ? Object.entries(onlyInCur1[0]) : null;
-        const draft5 = onlyInCur2.length > 0 ? Object.entries(onlyInCur2[0]) : null;
-        const toReduce = draft4 ? {obj: draft4, who: "cur1"} : {obj: draft5, who: "cur2"};
+        const cur1Entries = onlyInCur1.length > 0 ? Object.entries(onlyInCur1[0]) : null;
+        const cur2Entries = onlyInCur2.length > 0 ? Object.entries(onlyInCur2[0]) : null;
+        const toReduce = cur1Entries ? {obj: cur1Entries, who: "cur1"} : {obj: cur2Entries, who: "cur2"};
 
+        //determine update status to add more context on log
         let status;
-        if (draft4 && draft5) status = " modified";
-        else if (draft4) status = " removed";
+        if (cur1Entries && cur2Entries) status = " modified";
+        else if (cur1Entries) status = " removed";
         else status = " added";
 
+        //write the list of each tag changes
         const draft6 = toReduce.obj.reduce((acc, [k, v], idx) => {
-          console.log("draft 6 reduce", idx, "k", k, "v", v)
           let otherText;
-          if(toReduce.who === "cur1") otherText = draft5 ? draft5[idx][1] : "null";
-          else otherText = draft4 ? draft4[idx][1] : "null";
-          console.log("otherText", [otherText], [v])
+          if(toReduce.who === "cur1") otherText = cur2Entries ? cur2Entries[idx][1] : "null";
+          else otherText = cur1Entries ? cur1Entries[idx][1] : "null";
 
           if (otherText === v) {
-            if (k != "id") return acc;
-            else return `  - ${k}: ${otherText}\n`;
+            if (k != "id") return acc; //ignore when there are no changes
+            else return `  - ${k}: ${otherText}\n`; //always print the tag id
           }
-          else if (toReduce.who === "cur2") return acc + `  - ${k}: ${otherText} => ${v}\n`;
+          else if (toReduce.who === "cur2") return acc + `  - ${k}: ${otherText} => ${v}\n`; //reverse the text when a tag is added
           else return acc + `  - ${k}: ${v} => ${otherText}\n`;
         }, "");
-        console.log("draft6", draft6);
+
+        //return the changes text
         return acc + `- ${cur[0]}` + status + "\n" + draft6;
       } else if (typeof cur[1] === "object") {
         const obj2 = Object.entries(cur[2]);
