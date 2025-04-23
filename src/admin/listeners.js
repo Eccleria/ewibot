@@ -238,9 +238,13 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         const onlyInCur2 = onlyInLeft(cur[2], cur[1], isSameEmojiInGuildUpdate);
 
         //write diff and return with acc
-        const cur1Entries = onlyInCur1.length > 0 ? Object.entries(onlyInCur1[0]) : null;
-        const cur2Entries = onlyInCur2.length > 0 ? Object.entries(onlyInCur2[0]) : null;
-        const toReduce = cur1Entries ? {obj: cur1Entries, who: "cur1"} : {obj: cur2Entries, who: "cur2"};
+        const cur1Entries =
+          onlyInCur1.length > 0 ? Object.entries(onlyInCur1[0]) : null;
+        const cur2Entries =
+          onlyInCur2.length > 0 ? Object.entries(onlyInCur2[0]) : null;
+        const toReduce = cur1Entries
+          ? { obj: cur1Entries, who: "cur1" }
+          : { obj: cur2Entries, who: "cur2" };
 
         //determine update status to add more context on log
         let status;
@@ -251,14 +255,16 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         //write the list of each tag changes
         const draft6 = toReduce.obj.reduce((acc, [k, v], idx) => {
           let otherText;
-          if(toReduce.who === "cur1") otherText = cur2Entries ? cur2Entries[idx][1] : "null";
+          if (toReduce.who === "cur1")
+            otherText = cur2Entries ? cur2Entries[idx][1] : "null";
           else otherText = cur1Entries ? cur1Entries[idx][1] : "null";
 
           if (otherText === v) {
-            if (k != "id") return acc; //ignore when there are no changes
+            if (k != "id")
+              return acc; //ignore when there are no changes
             else return `  - ${k}: ${otherText}\n`; //always print the tag id
-          }
-          else if (toReduce.who === "cur2") return acc + `  - ${k}: ${otherText} => ${v}\n`; //reverse the text when a tag is added
+          } else if (toReduce.who === "cur2")
+            return acc + `  - ${k}: ${otherText} => ${v}\n`; //reverse the text when a tag is added
           else return acc + `  - ${k}: ${v} => ${otherText}\n`;
         }, "");
 
