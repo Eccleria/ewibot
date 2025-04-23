@@ -16,6 +16,8 @@ import {
   processGeneralEmbed,
   octagonalLog,
   removeUserFromDB,
+  onlyInLeft,
+  isSameEmojiInGuildUpdate,
 } from "./utils.js";
 import { shuffleParam } from "../commands/shuffle.js";
 import {
@@ -225,9 +227,46 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   if (chnLog) {
     const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
+    console.log("changes", changes);
     const text = changes.reduce((acc, cur) => {
       //create text to send
-      if (typeof cur[1] === "object") {
+      console.log("cur", cur);
+      if (Array.isArray(cur[1])) {
+        //form: [string, [Objects], [Objects]]
+        //compare the 2 lists to get the difference
+        const onlyInCur1 = onlyInLeft(cur[1], cur[2], isSameEmojiInGuildUpdate);
+        const onlyInCur2 = onlyInLeft(cur[2], cur[1], isSameEmojiInGuildUpdate);
+        
+        console.log("onlyInCur1", onlyInCur1);
+        console.log("onlyInCur2", onlyInCur2);
+
+        //write diff and return with acc
+        const draft4 = onlyInCur1.length > 0 ? Object.entries(onlyInCur1[0]) : null;
+        const draft5 = onlyInCur2.length > 0 ? Object.entries(onlyInCur2[0]) : null;
+        const toReduce = draft4 ? {obj: draft4, who: "cur1"} : {obj: draft5, who: "cur2"};
+
+        let status;
+        if (draft4 && draft5) status = " modified";
+        else if (draft4) status = " removed";
+        else status = " added";
+
+        const draft6 = toReduce.obj.reduce((acc, [k, v], idx) => {
+          console.log("draft 6 reduce", idx, "k", k, "v", v)
+          let otherText;
+          if(toReduce.who === "cur1") otherText = draft5 ? draft5[idx][1] : "null";
+          else otherText = draft4 ? draft4[idx][1] : "null";
+          console.log("otherText", [otherText], [v])
+
+          if (otherText === v) {
+            if (k != "id") return acc;
+            else return `  - ${k}: ${otherText}\n`;
+          }
+          else if (toReduce.who === "cur2") return acc + `  - ${k}: ${otherText} => ${v}\n`;
+          else return acc + `  - ${k}: ${v} => ${otherText}\n`;
+        }, "");
+        console.log("draft6", draft6);
+        return acc + `- ${cur[0]}` + status + "\n" + draft6;
+      } else if (typeof cur[1] === "object") {
         const obj2 = Object.entries(cur[2]);
         const draft3 = Object.entries(cur[1]).reduce(
           (acc, [k, v], idx) => acc + `  - ${k}: ${v} => ${obj2[idx][1]}\n`,

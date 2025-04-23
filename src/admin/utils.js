@@ -673,3 +673,13 @@ export const removeUserFromDB = (userId, client) => {
   removeIgnoredUser(db, userId);
   removeAlavirien(db, userId);
 };
+
+export const isSameEmojiInGuildUpdate = (a, b) => {
+  return a.id === b.id && a.name === b.name && a.emoji_id === b.emoji_id && a.emoji_name === b.emoji_name && a.moderated === b.moderated;
+};
+
+export const onlyInLeft = (left, right, compareFunction) => {
+  return left.filter(leftValue =>
+    !right.some(rightValue => 
+      compareFunction(leftValue, rightValue)));
+};
