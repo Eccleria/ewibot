@@ -204,6 +204,8 @@ export const clearURL = async (message) => {
   const { content } = message;
   const words = content.split(" ");
 
+  if(words.every((str) => !str.includes("http"))) return;
+
   const result = urlTrackers.reduce(
     (acc, cur) => {
       if (words.some((str) => str.includes(cur))) {
