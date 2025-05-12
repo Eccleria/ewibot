@@ -197,6 +197,11 @@
           "sent": "Le message de sélection des rôles a bien été envoyé."
         }
       },
+      "fetchLog": {
+        "description": "Je fouine comme un frippon !",
+        "help": "Tkt",
+        "name": "fetch-log"
+      },
       "gift": {
         "accepting": {
           "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `/gift send` et envoyer un message de Noël à cette personne !",
