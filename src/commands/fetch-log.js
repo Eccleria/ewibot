@@ -16,10 +16,10 @@ const action = async (interaction) => {
     type: AuditLogEvent.MessageDelete,
   }); //fetch logs
   console.log(logs);
-  console.log(logs.entries[1]);
-  console.log(logs.entries[1].target);
-  console.log(logs.entries[1].executor);
-  console.log(logs.entries[1].extra);
+  console.log(logs.entries.first());
+  console.log(logs.entries.first().target);
+  console.log(logs.entries.first().executor);
+  console.log(logs.entries.first().extra);
 };
 
 
