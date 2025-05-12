@@ -11,15 +11,15 @@ const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0x0000010000000000);
 
 const action = async (interaction) => {
-  const options = interaction.options;
-  const client = interaction.client;
-  const perso = PERSONALITY.getCommands().fetchLog;
-
   const logs = await interaction.guild.fetchAuditLogs({
     limit: 1,
     type: AuditLogEvent.MessageDelete,
   }); //fetch logs
   console.log(logs);
+  console.log(logs.entries[1]);
+  console.log(logs.entries[1].target);
+  console.log(logs.entries[1].executor);
+  console.log(logs.entries[1].extra);
 };
 
 
