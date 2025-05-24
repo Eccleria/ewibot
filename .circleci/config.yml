@@ -25,7 +25,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: ~/project/node_modules
+          pkg-manager: yarn
       - run: yarn run test
 workflows:
   commit_workflow:
