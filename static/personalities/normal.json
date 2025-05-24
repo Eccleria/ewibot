@@ -197,6 +197,67 @@
           "sent": "Le message de sélection des rôles a bien été envoyé."
         }
       },
+      "games": {
+        "description": "Commandes des jeux.",
+        "drawer": {
+          "creativity": {
+            "buttons": {
+              "confirm": ["games_drawer_creativity_confirm", "Confirmer"],
+              "errorUnknownButton": "Désolé, je n'ai pas reconnu ce bouton.",
+              "deny": ["games_drawer_creativity_deny", "Refuser"]
+            },
+            "choiceOption": {
+              "description": "Choix d'un thème par défaut.",
+              "name": "choice"
+            },
+            "customOption": {
+              "description": "Un thème personnalisé que vous proposez.",
+              "name": "custom"
+            },
+            "description": "Jeu de la creativité.",
+            "errorNotSent": "Le défi n'a pas pu être envoyé.",
+            "errorWrongTarget": "Attention, vous ne pouvez pas vous affronter ou affronter le bot.",
+            "help": "Le jeu de la Créativité.",
+            "message": [" a défié ", " sur le thème :\n"],
+            "name": "creativity",
+            "sent": "Le défi a bien été lancé.",
+            "userOption": {
+              "description": "La personne à défier.",
+              "name": "destinateurice"
+            }
+          },
+          "description": "Jeux des dessinateurices.",
+          "help": "Ces jeux concernent particulièrement les dessinateurices.",
+          "name": "drawer"
+        },
+        "frontalier": {
+          "description": "Jeux des frontalier.e.s.",
+          "help": "Ces jeux concernent particulièrement les frontalier.e.s.",
+          "hsa": {
+            "buttons": {
+              "h_id": "frontalier_hsa_horse",
+              "s_id": "frontalier_hsa_shield",
+              "a_id": "frontaleir_hsa_axe"
+            },
+            "description": "Shifumi revisité à la sauce Bottero",
+            "embed": {
+              "name": "Shifumi !",
+              "text": " a été défié.e par "
+            },
+            "name": "hsa",
+            "notFound": "Désolé, le jeu auquel vous jouez n'a pas été trouvé.",
+            "sent": "Le défi a bien été envoyé",
+            "title": "Cheval Bouclier Hâche",
+            "userOption": {
+              "description":"La personne que vous souhaitez défier.",
+              "name": "utilisateurice"
+            }
+          },
+          "name": "frontalier"
+        },
+        "help": "Cette commande permet de lancer les jeux made in Ewibot sur le thème de l'univers d'Ewilan.",
+        "name": "games"
+      },
       "gift": {
         "accepting": {
           "accept": " accepte de recevoir les messages de Noël. Vous pouvez donc utiliser la commande `/gift send` et envoyer un message de Noël à cette personne !",
