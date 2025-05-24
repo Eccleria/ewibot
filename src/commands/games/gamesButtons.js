@@ -11,10 +11,8 @@ export const creativityButton = (interaction) => {
   const { customId } = interaction;
   if (customId.includes(bPerso.confirm[0])) {
     //confirm button
-
   } else if (customId.includes(bPerso.deny[0])) {
     //deny button
-
   } else {
     //wrong button
     interactionReply(interaction, bPerso.errorUnknownButton);
@@ -26,7 +24,9 @@ export const hsaButtons = (interaction) => {
   const { customId, message, client } = interaction;
   const perso = PERSONALITY.getCommands().games.frontalier.hsa;
   //find corresponding hsa in client
-  const clientData = client.games.frontalier.hsa.find((obj) => obj.messageId === message.id);
+  const clientData = client.games.frontalier.hsa.find(
+    (obj) => obj.messageId === message.id,
+  );
 
   if (!clientData) {
     interactionReply(perso.notFound);

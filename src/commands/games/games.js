@@ -7,66 +7,93 @@ import { interactionReply } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 
 const creativityChoices = [
-    {name: "theme1", value: "0"},
-    {name: "theme2", value: "1"}
-]
+  { name: "theme1", value: "0" },
+  { name: "theme2", value: "1" },
+];
 
 export const gamesClientInit = (client) => {
   client.games = {};
   client.games.frontalier = {};
   client.games.frontalier.hsa = [];
-}
+};
 
 const command = new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().games.name)
-    .setDescription(PERSONALITY.getCommands().games.description)
-    .addSubcommandGroup((group) => 
-      group //drawers
-        .setName(PERSONALITY.getCommands().games.drawer.name)
-        .setDescription(PERSONALITY.getCommands().games.drawer.description)
-        .addSubcommand((subcommand) => 
-          subcommand //creativity
-            .setName(PERSONALITY.getCommands().games.drawer.creativity.name)
-            .setDescription(PERSONALITY.getCommands().games.drawer.creativity.description)
-            .addUserOption((option) => 
-              option
-                .setName(PERSONALITY.getCommands().games.drawer.creativity.userOption.name)
-                .setDescription(PERSONALITY.getCommands().games.drawer.creativity.userOption.description)
-                .setRequired(true)
-            )
-            .addStringOption((option) => 
-              option //custom theme
-                .setName(PERSONALITY.getCommands().games.drawer.creativity.customOption.name)
-                .setDescription(PERSONALITY.getCommands().games.drawer.creativity.customOption.description)
-                .setRequired(false)
-                .setMinLength(1)
-                .setMaxLength(225)
-            )
-            .addStringOption((option) =>
-              option
-                .setName(PERSONALITY.getCommands().games.drawer.creativity.choiceOption.name)
-                .setDescription(PERSONALITY.getCommands().games.drawer.creativity.choiceOption.description)
-                .setRequired(false)
-                .setChoices(...creativityChoices)
-            )
-        )
-    )
-    .addSubcommandGroup((group) => 
-      group //frontalier
-        .setName(PERSONALITY.getCommands().games.frontalier.name)
-        .setDescription(PERSONALITY.getCommands().games.frontalier.description)
-        .addSubcommand((subcommand) => 
-          subcommand //hsa
-            .setName(PERSONALITY.getCommands().games.frontalier.hsa.name)
-            .setDescription(PERSONALITY.getCommands().games.frontalier.hsa.description)
-            .addUserOption((option) => 
-              option
-                .setName(PERSONALITY.getCommands().games.frontalier.hsa.userOption.name)
-                .setDescription(PERSONALITY.getCommands().games.frontalier.hsa.userOption.description)
-                .setRequired(false)
-            )
-        )
-    );
+  .setName(PERSONALITY.getCommands().games.name)
+  .setDescription(PERSONALITY.getCommands().games.description)
+  .addSubcommandGroup((group) =>
+    group //drawers
+      .setName(PERSONALITY.getCommands().games.drawer.name)
+      .setDescription(PERSONALITY.getCommands().games.drawer.description)
+      .addSubcommand((subcommand) =>
+        subcommand //creativity
+          .setName(PERSONALITY.getCommands().games.drawer.creativity.name)
+          .setDescription(
+            PERSONALITY.getCommands().games.drawer.creativity.description,
+          )
+          .addUserOption((option) =>
+            option
+              .setName(
+                PERSONALITY.getCommands().games.drawer.creativity.userOption
+                  .name,
+              )
+              .setDescription(
+                PERSONALITY.getCommands().games.drawer.creativity.userOption
+                  .description,
+              )
+              .setRequired(true),
+          )
+          .addStringOption((option) =>
+            option //custom theme
+              .setName(
+                PERSONALITY.getCommands().games.drawer.creativity.customOption
+                  .name,
+              )
+              .setDescription(
+                PERSONALITY.getCommands().games.drawer.creativity.customOption
+                  .description,
+              )
+              .setRequired(false)
+              .setMinLength(1)
+              .setMaxLength(225),
+          )
+          .addStringOption((option) =>
+            option
+              .setName(
+                PERSONALITY.getCommands().games.drawer.creativity.choiceOption
+                  .name,
+              )
+              .setDescription(
+                PERSONALITY.getCommands().games.drawer.creativity.choiceOption
+                  .description,
+              )
+              .setRequired(false)
+              .setChoices(...creativityChoices),
+          ),
+      ),
+  )
+  .addSubcommandGroup((group) =>
+    group //frontalier
+      .setName(PERSONALITY.getCommands().games.frontalier.name)
+      .setDescription(PERSONALITY.getCommands().games.frontalier.description)
+      .addSubcommand((subcommand) =>
+        subcommand //hsa
+          .setName(PERSONALITY.getCommands().games.frontalier.hsa.name)
+          .setDescription(
+            PERSONALITY.getCommands().games.frontalier.hsa.description,
+          )
+          .addUserOption((option) =>
+            option
+              .setName(
+                PERSONALITY.getCommands().games.frontalier.hsa.userOption.name,
+              )
+              .setDescription(
+                PERSONALITY.getCommands().games.frontalier.hsa.userOption
+                  .description,
+              )
+              .setRequired(false),
+          ),
+      ),
+  );
 
 const action = async (interaction) => {
   const personality = PERSONALITY.getCommands().games;
@@ -80,7 +107,7 @@ const action = async (interaction) => {
   if (group === personality.drawer.name) {
     //drawer
     const dPerso = personality.drawer;
-    
+
     if (subcommand === dPerso.creativity.name)
       drawerCreativityAction(interaction);
   } else if (group === personality.frontalier.name) {

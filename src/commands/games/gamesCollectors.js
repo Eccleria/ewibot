@@ -30,6 +30,4 @@ const gamesHSACollector = (message, timeout) => {
   });
 };
 
-const gamesHSABuffer = () => {
-
-};
+const gamesHSABuffer = () => {};

@@ -2,11 +2,12 @@ import { dbReturnType } from "../index.js";
 import { checkDBInput } from "./db.js";
 
 export const dbGamesType = Object.freeze({
-  creativity: "creativity"
+  creativity: "creativity",
 });
 
 const addGames = (db, game, type) => {
-  if (checkDBInput(db) === dbReturnType.wrongInput) return dbReturnType.wrongInput;
+  if (checkDBInput(db) === dbReturnType.wrongInput)
+    return dbReturnType.wrongInput;
   if (!game || typeof game !== "object") return dbReturnType.wrongInput;
   if (!type || typeof type !== "string") return dbReturnType.wrongInput;
 
