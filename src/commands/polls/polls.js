@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
+import { ContainerBuilder, SlashCommandBuilder, TextDisplayBuilder } from "@discordjs/builders";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle, MessageFlags } from "discord.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { parsePollFields, stopPoll } from "./pollsUtils.js";
 import { createButton } from "../utils.js";
@@ -204,6 +204,13 @@ const action = async (interaction) => {
         return;
       }
     }
+    //create container
+    const titleC = new TextDisplayBuilder().setContent(title);
+    const container = new ContainerBuilder()
+      .addTextDisplayComponents(titleC);
+    
+    console.log("container", container);
+    interaction.channel.send({flags: MessageFlags.IsComponentsV2, components: [container]});
 
     //create embed
     const embed = new EmbedBuilder()
@@ -292,6 +299,7 @@ const action = async (interaction) => {
     });
 
     //send poll
+    /*
     try {
       const pollMsg = await interaction.channel.send({
         embeds: [embed, timeoutEmbed],
@@ -329,6 +337,7 @@ const action = async (interaction) => {
     } catch (e) {
       console.log("/polls create error\n", e);
     }
+    */
   } else if (subcommand === personality.addChoice.name) {
     //addChoice poll subcommand
     const perso = personality.addChoice;
