@@ -74,9 +74,6 @@
     "name": "prod",
     "guildId": "816961245743808582",
     "alavirienRoleId": "826743423612092436",
-    "announce": {
-      "giftChannelId": "973206750771687434"
-    },
     "autoEmotes": {
       "bjornLoveReactId": "822437083003355146",
       "ewilhugReactId": "843097186710716416",
@@ -97,7 +94,6 @@
       "jamBjornBeurre": "933464636223791144",
       "jambonBeurre": "823904010335158323"
     },
-    "inAndOutLogChannelId": "1131895386626326649",
     "panDuomReactId": "826036478672109588",
     "pronounsRoleHandleChannelId": "974735995872350208",
     "pronouns": {
@@ -147,10 +143,10 @@
     "sentinelleRoleId": "816975096518279188"
   },
   "shared": {
-    "admins": ["141962573900808193", "290505766631112714"],
+    "name": "shared",
+    "admins": ["290505766631112714"],
     "helloEmoji": "👋",
     "LuciferId": "657498573222576148",
-    "name": "shared",
     "removeEmoji": "❌"
   }
 }
