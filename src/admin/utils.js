@@ -1,7 +1,6 @@
 import {
   removeBirthday,
   removeIgnoredUser,
-  removeAlavirien,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 
@@ -30,7 +29,6 @@ export const removeUserFromDB = (userId, client) => {
   const db = client.db;
   removeBirthday(db, userId);
   removeIgnoredUser(db, userId);
-  removeAlavirien(db, userId);
 };
 
 export const isSameEmojiInGuildUpdate = (a, b) => {

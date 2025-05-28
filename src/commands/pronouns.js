@@ -9,7 +9,7 @@ const action = async (message, _client, currentServer) => {
   const roleChannel = await guild.channels.fetch(pronounsRoleHandleChannelId);
 
   //personality
-  const personality = PERSONALITY.getCommands();
+  const personality = PERSONALITY.getPersonality();
   const pronounsP = personality.pronouns.pronouns;
   const agreements = personality.pronouns.agreements;
 
@@ -59,7 +59,7 @@ const pronouns = {
   name: "pronouns",
   action,
   help: () => {
-    return PERSONALITY.getCommands().pronouns.help;
+    return PERSONALITY.getPersonality().pronouns.help;
   },
   admin: true,
   releaseDate: null,

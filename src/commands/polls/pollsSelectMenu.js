@@ -22,7 +22,7 @@ import { PERSONALITY } from "../../personality.js";
 
 export const pollSelectMenuHandler = async (interaction) => {
   const { customId } = interaction;
-  const personality = PERSONALITY.getCommands().polls;
+  const personality = PERSONALITY.getPersonality().polls;
   await interaction.deferUpdate({ flags: MessageFlags.Ephemeral });
 
   if (customId.includes("_remove")) {
@@ -38,7 +38,7 @@ export const pollSelectMenuHandler = async (interaction) => {
 
 const pollRemoveChoicesSelectMenuHandler = async (interaction) => {
   const selected = interaction.values; //get choices to remove
-  const perso = PERSONALITY.getCommands().polls;
+  const perso = PERSONALITY.getPersonality().polls;
   const rPerso = perso.settings.remove;
 
   //get data
@@ -131,7 +131,7 @@ const pollUpdateSelectMenuHandler = async (interaction) => {
   const toChange = selected[0].split("update_")[1]; //get poll param to change
 
   //get personality
-  const personality = PERSONALITY.getCommands().polls;
+  const personality = PERSONALITY.getPersonality().polls;
   if (toChange === "anonymous") {
     //No need to select choice, apply modif
     const payload = { components: [], content: "" };

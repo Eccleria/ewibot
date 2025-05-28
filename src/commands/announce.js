@@ -57,7 +57,7 @@ const giftAnnounce = {
 const action = (interaction) => {
   // handle announce command interaction
 
-  const announceP = PERSONALITY.getCommands().announce; //get personality
+  const announceP = PERSONALITY.getPersonality().announce; //get personality
 
   if (!isAdmin(interaction.user.id)) {
     //check for admin
@@ -94,19 +94,19 @@ export const announceButtonHandler = (interaction) => {
 
   if (foundAnnounce) foundAnnounce.action(interaction);
   else
-    interactionReply(interaction, PERSONALITY.getCommands().announce.notFound);
+    interactionReply(interaction, PERSONALITY.getPersonality().announce.notFound);
 };
 
 //announce command
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().announce.name)
-  .setDescription(PERSONALITY.getCommands().announce.description)
+  .setName(PERSONALITY.getPersonality().announce.name)
+  .setDescription(PERSONALITY.getPersonality().announce.description)
   .setDefaultMemberPermissions(0x0000010000000000)
   .addStringOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().announce.stringOption.name)
+      .setName(PERSONALITY.getPersonality().announce.stringOption.name)
       .setDescription(
-        PERSONALITY.getCommands().announce.stringOption.description,
+        PERSONALITY.getPersonality().announce.stringOption.description,
       )
       .addChoices(...announces.map((obj) => obj.button)),
   );
@@ -115,7 +115,7 @@ const announce = {
   action,
   command,
   help: (interaction) => {
-    interactionReply(interaction, PERSONALITY.getCommands().announce.help);
+    interactionReply(interaction, PERSONALITY.getPersonality().announce.help);
   },
   admin: true,
   releaseDate: null,

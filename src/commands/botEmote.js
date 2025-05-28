@@ -4,30 +4,30 @@ import { PERSONALITY } from "../personality.js";
 import { isAdmin } from "../helpers/utils.js";
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().botEmote.name)
-  .setDescription(PERSONALITY.getCommands().botEmote.description)
+  .setName(PERSONALITY.getPersonality().botEmote.name)
+  .setDescription(PERSONALITY.getPersonality().botEmote.description)
   .setDefaultMemberPermissions(0x0000010000000000)
   .addStringOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().botEmote.messageOption.name)
+      .setName(PERSONALITY.getPersonality().botEmote.messageOption.name)
       .setDescription(
-        PERSONALITY.getCommands().botEmote.messageOption.description,
+        PERSONALITY.getPersonality().botEmote.messageOption.description,
       )
       .setRequired(true)
       .setMinLength(1),
   )
   .addStringOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().botEmote.emoteOption.name)
+      .setName(PERSONALITY.getPersonality().botEmote.emoteOption.name)
       .setDescription(
-        PERSONALITY.getCommands().botEmote.emoteOption.description,
+        PERSONALITY.getPersonality().botEmote.emoteOption.description,
       )
       .setRequired(true)
       .setAutocomplete(true),
   );
 
 const action = async (interaction) => {
-  const perso = PERSONALITY.getCommands().botEmote;
+  const perso = PERSONALITY.getPersonality().botEmote;
   if (!isAdmin(interaction.user.id)) {
     interactionReply(interaction, perso.errorNotAdmin);
     console.log(`${interaction.user.id} tried to use /reaction`);
@@ -78,7 +78,7 @@ const botEmote = {
   action,
   autocomplete,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().botEmote;
+    const perso = PERSONALITY.getPersonality().botEmote;
     interactionReply(interaction, perso.help);
   },
   admin: true,

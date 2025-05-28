@@ -9,13 +9,13 @@ import {
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().leaderboardApology.name)
-  .setDescription(PERSONALITY.getCommands().leaderboardApology.description)
+  .setName(PERSONALITY.getPersonality().leaderboardApology.name)
+  .setDescription(PERSONALITY.getPersonality().leaderboardApology.description)
   .setDefaultMemberPermissions(0x0000010000000000);
 
 const action = async (interaction) => {
   await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-  const perso = PERSONALITY.getCommands().leaderboardApology;
+  const perso = PERSONALITY.getPersonality().leaderboardApology;
 
   if (!isAdmin(interaction.user.id)) {
     console.log(`${interaction.user.id} tryed to use /leadApo`);
@@ -115,7 +115,7 @@ const leaderboardApology = {
   name: "leadApo",
   action,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().leaderboardApology;
+    const perso = PERSONALITY.getPersonality().leaderboardApology;
     interactionReply(interaction, perso.help);
   },
   admin: true,

@@ -12,7 +12,6 @@ import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
 import { join } from "path";
-import SpotifyWebApi from "spotify-web-api-node";
 
 // listeners imports
 import {
@@ -27,9 +26,7 @@ import {
 } from "./listeners.js";
 
 // admin inits
-import { setupAlavirien } from "./admin/alavirien.js";
 import { roleInit } from "./admin/role.js";
-import { initAdminLogClearing } from "./admin/utils.js";
 
 // commands import
 import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
@@ -39,7 +36,6 @@ import { initReminder } from "./commands/reminder.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
-import { generateSpotifyClient } from "./helpers/index.js";
 
 // jsons import
 import { COMMONS } from "./commons.js";
@@ -82,21 +78,8 @@ const client = new Client({
   ],
 });
 
-client.playlistCachedMessages = []; // Spotify messages cache
-
 client.db = db; // db cache
 client.remindme = []; // reminders cache
-
-if (process.env.USE_SPOTIFY === "yes") {
-  // Spotify API cache
-  const spotifyApi = new SpotifyWebApi({
-    clientId: process.env.SPOTIFY_CLIENT_ID,
-    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    redirectUri: "http://localhost:3001",
-  });
-  generateSpotifyClient(spotifyApi);
-  client.spotifyApi = spotifyApi;
-}
 
 // Create bot startup
 client.once("ready", async () => {
@@ -108,7 +91,6 @@ client.once("ready", async () => {
   // Bot init
   console.log("I am ready!");
   roleInit(client); //role handler init
-  setupAlavirien(client, tomorrow, frequency);
 
   //polls
   client.voteBuffers = {}; //init poll votes buffer
@@ -123,11 +105,6 @@ client.once("ready", async () => {
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
   slashCommandsInit(guildId, client); //commands submit to API
-
-  //LOGS
-  const tomorrow2Am = tomorrow.hour(2); //tomorrow @ 2am
-  const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
-  initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 
   //gift
   setGiftTimeoutLoop(client); //gift timeout loop init

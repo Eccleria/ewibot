@@ -7,23 +7,23 @@ import fs from "fs";
 import { interactionEditReply } from "./polls/pollsUtils.js";
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().vest.name)
-  .setDescription(PERSONALITY.getCommands().vest.description)
+  .setName(PERSONALITY.getPersonality().vest.name)
+  .setDescription(PERSONALITY.getPersonality().vest.description)
   .addUserOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().vest.userOption.name)
-      .setDescription(PERSONALITY.getCommands().vest.userOption.description)
+      .setName(PERSONALITY.getPersonality().vest.userOption.name)
+      .setDescription(PERSONALITY.getPersonality().vest.userOption.description)
       .setRequired(true),
   )
   .addBooleanOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().vest.forceOption.name)
-      .setDescription(PERSONALITY.getCommands().vest.forceOption.description)
+      .setName(PERSONALITY.getPersonality().vest.forceOption.name)
+      .setDescription(PERSONALITY.getPersonality().vest.forceOption.description)
       .setRequired(false),
   );
 
 const action = async (interaction) => {
-  const perso = PERSONALITY.getCommands().vest;
+  const perso = PERSONALITY.getPersonality().vest;
   const { guild, options } = interaction;
 
   await interaction.deferReply();
@@ -129,7 +129,7 @@ const vest = {
   command,
   action,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().vest;
+    const perso = PERSONALITY.getPersonality().vest;
     interactionReply(interaction, perso.help);
   },
   admin: false,
