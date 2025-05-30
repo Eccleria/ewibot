@@ -2,6 +2,7 @@
   "test": {
     "name": "test",
     "guildId": "926909708072284170",
+    "alavirienRoleId": "981493533598961706",
     "autoEmotes": {
       "bjornLoveReactId": "😍",
       "ewilhugReactId": "🥺",
