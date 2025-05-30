@@ -203,23 +203,3 @@ Because of each `message` having its own sending method (`giftAction` for this e
 The `confirm` is the confirmation message displayed with the confirm button.
 The `id` is the button customId used for internal recognition.
 > Any other attribute is specific to the `message`.
-
-
-```json
-  "announce_gift": {
-    "confirm": "Voulez-vous vraiment envoyer l'annonce `gift` ?",
-    "description": "Salut les Ewinautes ! Une fois n'est pas coutume, c'est moi qui vous fais l'annonce <:Ewiyay:918249094391144469>.\n\n Après quelques semaines de développement, et sur une idée de la modération, voici venir votre **cadeau de Noël** ! <:DuomFetard:822479563077976065>. Enfin, **vos** cadeaux <:Ewinklan:841675143596212267>",
-    "fields": {
-      "field2": {
-        "name": "\u200b",
-        "value": "\u200b"
-      }
-    },
-    "footer": "Merci à Arsenic qui a su maîtriser sa patience !",
-    "id": "announce_gift",
-    "notFound": "Désolé, l'annonce n'a pas été trouvée.",
-    "sending": "L'annonce est en cours d'envoi.",
-    "title": "Cadeaux de Noël"
-  }
-  ```
-

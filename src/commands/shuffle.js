@@ -4,7 +4,7 @@ import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
 export const shuffleParam = {
-  status: PERSONALITY.getCommands().shuffle.startstop.stop,
+  status: PERSONALITY.getPersonality().shuffle.startstop.stop,
   interval: null,
   waitingTime: 10 * 60 * 1000,
 };
@@ -51,7 +51,7 @@ const action = async (interaction) => {
   const options = interaction.options;
   const client = interaction.client;
   const subcommand = options.getSubcommand();
-  const perso = PERSONALITY.getCommands().shuffle;
+  const perso = PERSONALITY.getPersonality().shuffle;
 
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
@@ -103,23 +103,23 @@ const action = async (interaction) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().shuffle.name)
-  .setDescription(PERSONALITY.getCommands().shuffle.description)
+  .setName(PERSONALITY.getPersonality().shuffle.name)
+  .setDescription(PERSONALITY.getPersonality().shuffle.description)
   .setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((subcommand) =>
     subcommand
-      .setName(PERSONALITY.getCommands().shuffle.startstop.name)
-      .setDescription(PERSONALITY.getCommands().shuffle.startstop.description),
+      .setName(PERSONALITY.getPersonality().shuffle.startstop.name)
+      .setDescription(PERSONALITY.getPersonality().shuffle.startstop.description),
   )
   .addSubcommand((subcommand) =>
     subcommand
-      .setName(PERSONALITY.getCommands().shuffle.set.name)
-      .setDescription(PERSONALITY.getCommands().shuffle.set.description)
+      .setName(PERSONALITY.getPersonality().shuffle.set.name)
+      .setDescription(PERSONALITY.getPersonality().shuffle.set.description)
       .addNumberOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().shuffle.set.numberOption.name)
+          .setName(PERSONALITY.getPersonality().shuffle.set.numberOption.name)
           .setDescription(
-            PERSONALITY.getCommands().shuffle.set.numberOption.description,
+            PERSONALITY.getPersonality().shuffle.set.numberOption.description,
           )
           .setRequired(true),
       ),
@@ -129,7 +129,7 @@ const shuffle = {
   command: command,
   action,
   help: (interaction) => {
-    const content = PERSONALITY.getCommands().shuffle.help;
+    const content = PERSONALITY.getPersonality().shuffle.help;
     interactionReply(interaction, content);
   },
   admin: true,

@@ -101,7 +101,7 @@ const extractDuration = (interaction) => {
 
 const answerBot = async (interaction, cmnShared, timing) => {
   // Confirm or not the reminder to user
-  const personality = PERSONALITY.getCommands().reminder;
+  const personality = PERSONALITY.getPersonality().reminder;
   const { removeEmoji } = cmnShared;
 
   await interactionReply(
@@ -128,7 +128,7 @@ const action = async (interaction) => {
 
   if (!timing) {
     //Checks for timing format
-    const content = PERSONALITY.getCommands().reminder.error;
+    const content = PERSONALITY.getPersonality().reminder.error;
     interactionReply(interaction, content);
   } else {
     console.log("reminder timing: ", timing);
@@ -154,30 +154,30 @@ const action = async (interaction) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().reminder.name)
-  .setDescription(PERSONALITY.getCommands().reminder.description)
+  .setName(PERSONALITY.getPersonality().reminder.name)
+  .setDescription(PERSONALITY.getPersonality().reminder.description)
   .addStringOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().reminder.stringOption.name)
+      .setName(PERSONALITY.getPersonality().reminder.stringOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reminder.stringOption.description,
+        PERSONALITY.getPersonality().reminder.stringOption.description,
       )
       .setRequired(true)
       .setMinLength(1),
   )
   .addNumberOption((option) =>
     option //hour
-      .setName(PERSONALITY.getCommands().reminder.hourOption.name)
-      .setDescription(PERSONALITY.getCommands().reminder.hourOption.name)
+      .setName(PERSONALITY.getPersonality().reminder.hourOption.name)
+      .setDescription(PERSONALITY.getPersonality().reminder.hourOption.name)
       .setRequired(false)
       .setMinValue(1)
       .setMaxValue(99),
   )
   .addNumberOption((option) =>
     option //minutes
-      .setName(PERSONALITY.getCommands().reminder.minuteOption.name)
+      .setName(PERSONALITY.getPersonality().reminder.minuteOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reminder.minuteOption.description,
+        PERSONALITY.getPersonality().reminder.minuteOption.description,
       )
       .setRequired(false)
       .setMinValue(1)
@@ -185,9 +185,9 @@ const command = new SlashCommandBuilder()
   )
   .addNumberOption((option) =>
     option //seconds
-      .setName(PERSONALITY.getCommands().reminder.secondOption.name)
+      .setName(PERSONALITY.getPersonality().reminder.secondOption.name)
       .setDescription(
-        PERSONALITY.getCommands().reminder.secondOption.description,
+        PERSONALITY.getPersonality().reminder.secondOption.description,
       )
       .setRequired(false)
       .setMinValue(1)
@@ -199,7 +199,7 @@ const reminder = {
   command: command,
   action,
   help: (interaction) => {
-    const content = PERSONALITY.getCommands().reminder.help;
+    const content = PERSONALITY.getPersonality().reminder.help;
     interactionReply(interaction, content);
   },
   admin: false,

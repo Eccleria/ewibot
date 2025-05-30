@@ -15,18 +15,18 @@ import { COMMONS } from "../../commons.js";
 import { PERSONALITY } from "../../personality.js";
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().polls.name)
-  .setDescription(PERSONALITY.getCommands().polls.description)
+  .setName(PERSONALITY.getPersonality().polls.name)
+  .setDescription(PERSONALITY.getPersonality().polls.description)
   //.setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) =>
     command //create
-      .setName(PERSONALITY.getCommands().polls.create.name)
-      .setDescription(PERSONALITY.getCommands().polls.create.description)
+      .setName(PERSONALITY.getPersonality().polls.create.name)
+      .setDescription(PERSONALITY.getPersonality().polls.create.description)
       .addStringOption((option) =>
         option //title
-          .setName(PERSONALITY.getCommands().polls.create.titleOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.titleOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.titleOption.description,
+            PERSONALITY.getPersonality().polls.create.titleOption.description,
           )
           .setRequired(true)
           .setMinLength(1)
@@ -34,61 +34,61 @@ const command = new SlashCommandBuilder()
       )
       .addStringOption((option) =>
         option //choice
-          .setName(PERSONALITY.getCommands().polls.create.choiceOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.choiceOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.choiceOption.description,
+            PERSONALITY.getPersonality().polls.create.choiceOption.description,
           )
           .setRequired(true)
           .setMinLength(4),
       )
       .addStringOption((option) =>
         option //description
-          .setName(PERSONALITY.getCommands().polls.create.descOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.descOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.descOption.description,
+            PERSONALITY.getPersonality().polls.create.descOption.description,
           )
           .setMinLength(1)
           .setMaxLength(4096),
       )
       .addBooleanOption((option) =>
         option //hide
-          .setName(PERSONALITY.getCommands().polls.create.hideOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.hideOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.hideOption.description,
+            PERSONALITY.getPersonality().polls.create.hideOption.description,
           )
           .setRequired(false),
       )
       .addStringOption((option) =>
         option //color
-          .setName(PERSONALITY.getCommands().polls.create.colorOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.colorOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.colorOption.description,
+            PERSONALITY.getPersonality().polls.create.colorOption.description,
           )
           .setRequired(false)
           .addChoices(...PERSONALITY.getColors().choices),
       )
       .addNumberOption((option) =>
         option //maxVoteNumber
-          .setName(PERSONALITY.getCommands().polls.create.maxOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.maxOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.maxOption.description,
+            PERSONALITY.getPersonality().polls.create.maxOption.description,
           )
           .setRequired(false)
           .setMinValue(1),
       )
       .addUserOption((option) =>
         option //author
-          .setName(PERSONALITY.getCommands().polls.create.authorOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.authorOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.authorOption.description,
+            PERSONALITY.getPersonality().polls.create.authorOption.description,
           )
           .setRequired(false),
       )
       .addNumberOption((option) =>
         option //hour
-          .setName(PERSONALITY.getCommands().polls.create.hourOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.hourOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.hourOption.description,
+            PERSONALITY.getPersonality().polls.create.hourOption.description,
           )
           .setRequired(false)
           .setMaxValue(99)
@@ -96,9 +96,9 @@ const command = new SlashCommandBuilder()
       )
       .addNumberOption((option) =>
         option //minutes
-          .setName(PERSONALITY.getCommands().polls.create.minuteOption.name)
+          .setName(PERSONALITY.getPersonality().polls.create.minuteOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.create.minuteOption.description,
+            PERSONALITY.getPersonality().polls.create.minuteOption.description,
           )
           .setRequired(false)
           .setMaxValue(99)
@@ -107,22 +107,22 @@ const command = new SlashCommandBuilder()
   )
   .addSubcommand((command) =>
     command //add choice
-      .setName(PERSONALITY.getCommands().polls.addChoice.name)
-      .setDescription(PERSONALITY.getCommands().polls.addChoice.description)
+      .setName(PERSONALITY.getPersonality().polls.addChoice.name)
+      .setDescription(PERSONALITY.getPersonality().polls.addChoice.description)
       .addStringOption((option) =>
         option //poll
-          .setName(PERSONALITY.getCommands().polls.addChoice.pollOption.name)
+          .setName(PERSONALITY.getPersonality().polls.addChoice.pollOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.addChoice.pollOption.description,
+            PERSONALITY.getPersonality().polls.addChoice.pollOption.description,
           )
           .setRequired(true)
           .setAutocomplete(true),
       )
       .addStringOption((option) =>
         option //choice
-          .setName(PERSONALITY.getCommands().polls.addChoice.choiceOption.name)
+          .setName(PERSONALITY.getPersonality().polls.addChoice.choiceOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.addChoice.choiceOption.description,
+            PERSONALITY.getPersonality().polls.addChoice.choiceOption.description,
           )
           .setRequired(true)
           .setMinLength(4),
@@ -130,13 +130,13 @@ const command = new SlashCommandBuilder()
   )
   .addSubcommand((command) =>
     command //stop poll
-      .setName(PERSONALITY.getCommands().polls.stop.name)
-      .setDescription(PERSONALITY.getCommands().polls.stop.description)
+      .setName(PERSONALITY.getPersonality().polls.stop.name)
+      .setDescription(PERSONALITY.getPersonality().polls.stop.description)
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().polls.stop.pollOption.name)
+          .setName(PERSONALITY.getPersonality().polls.stop.pollOption.name)
           .setDescription(
-            PERSONALITY.getCommands().polls.stop.pollOption.description,
+            PERSONALITY.getPersonality().polls.stop.pollOption.description,
           )
           .setRequired(true)
           .setAutocomplete(true),
@@ -146,7 +146,7 @@ const command = new SlashCommandBuilder()
 const action = async (interaction) => {
   console.log("polls command");
   const options = interaction.options;
-  const personality = PERSONALITY.getCommands().polls;
+  const personality = PERSONALITY.getPersonality().polls;
   const subcommand = options.getSubcommand();
 
   //check for alavirien.ne role
@@ -316,7 +316,7 @@ const action = async (interaction) => {
       if (timeout >= 7200000) {
         setTimeout(
           (message) => {
-            const perso = PERSONALITY.getCommands().polls;
+            const perso = PERSONALITY.getPersonality().polls;
             message.reply(perso.create.reminder);
           },
           timeout - 3600000,
@@ -471,7 +471,7 @@ const polls = {
   autocomplete,
   command,
   help: (interaction, userOption) => {
-    const personality = PERSONALITY.getCommands().polls;
+    const personality = PERSONALITY.getPersonality().polls;
     const helpToUse = userOption.includes(" ")
       ? personality[userOption.split(" ")[1]]
       : personality;

@@ -1,5 +1,4 @@
 import { ActivityType } from "discord.js";
-import { octagonalLog } from "./admin/utils.js";
 import {
   //db
   addApologyCount,
@@ -11,7 +10,6 @@ import {
   statsKeys,
   //utils
   hasApology,
-  hasOctagonalSign,
   removePunctuation,
 } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
@@ -87,8 +85,6 @@ export const readContentAndReact = async (message, currentServer) => {
   const authorId = message.author.id;
   const cmnShared = COMMONS.getShared();
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
-
-  if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
   if (isIgnoredUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels

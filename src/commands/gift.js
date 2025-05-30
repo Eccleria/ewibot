@@ -29,7 +29,7 @@ export const giftButtonHandler = async (interaction) => {
   const db = client.db;
   const dbData = db.data.gift;
 
-  const personality = PERSONALITY.getCommands().gift;
+  const personality = PERSONALITY.getPersonality().gift;
   const authorId = interaction.user.id;
 
   //filter older buttons
@@ -88,7 +88,7 @@ const giftInteractionCreation = async (client, type) => {
   const guild = await client.guilds.fetch(server.guildId);
   const channel = await guild.channels.fetch(server.giftButtonChannelId);
 
-  const personality = PERSONALITY.getCommands().gift;
+  const personality = PERSONALITY.getPersonality().gift;
 
   //create button
   const actionRow = new ActionRowBuilder().addComponents(
@@ -120,7 +120,7 @@ const giftInteractionCreation = async (client, type) => {
 };
 
 const addSeparationToDb = (client) => {
-  const perso = PERSONALITY.getCommands().gift.newYear;
+  const perso = PERSONALITY.getPersonality().gift.newYear;
   addGiftSeparator(client.db, perso.separator);
   console.log("Separation added to gift db");
 };
@@ -171,69 +171,69 @@ export const setGiftTimeoutLoop = (client) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().gift.name)
-  .setDescription(PERSONALITY.getCommands().gift.description)
+  .setName(PERSONALITY.getPersonality().gift.name)
+  .setDescription(PERSONALITY.getPersonality().gift.description)
   .addSubcommand((subcommand) =>
     subcommand //user authorisation command
-      .setName(PERSONALITY.getCommands().gift.use.name)
-      .setDescription(PERSONALITY.getCommands().gift.use.description),
+      .setName(PERSONALITY.getPersonality().gift.use.name)
+      .setDescription(PERSONALITY.getPersonality().gift.use.description),
   )
   .addSubcommand((subcommand) =>
     subcommand //send message command
-      .setName(PERSONALITY.getCommands().gift.send.name)
-      .setDescription(PERSONALITY.getCommands().gift.send.description)
+      .setName(PERSONALITY.getPersonality().gift.send.name)
+      .setDescription(PERSONALITY.getPersonality().gift.send.description)
       .addUserOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().gift.send.userOption.name)
+          .setName(PERSONALITY.getPersonality().gift.send.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.send.userOption.description,
+            PERSONALITY.getPersonality().gift.send.userOption.description,
           )
           .setRequired(true),
       )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().gift.send.textOption.name)
+          .setName(PERSONALITY.getPersonality().gift.send.textOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.send.textOption.description,
+            PERSONALITY.getPersonality().gift.send.textOption.description,
           )
           .setRequired(true),
       ),
   )
   .addSubcommand((subcommand) =>
     subcommand //remove
-      .setName(PERSONALITY.getCommands().gift.remove.name)
-      .setDescription(PERSONALITY.getCommands().gift.remove.description)
+      .setName(PERSONALITY.getPersonality().gift.remove.name)
+      .setDescription(PERSONALITY.getPersonality().gift.remove.description)
       .addUserOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().gift.remove.userOption.name)
+          .setName(PERSONALITY.getPersonality().gift.remove.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.remove.userOption.description,
+            PERSONALITY.getPersonality().gift.remove.userOption.description,
           )
           .setRequired(false),
       ),
   )
   .addSubcommand((subcommand) =>
     subcommand //get
-      .setName(PERSONALITY.getCommands().gift.get.name)
-      .setDescription(PERSONALITY.getCommands().gift.get.description)
+      .setName(PERSONALITY.getPersonality().gift.get.name)
+      .setDescription(PERSONALITY.getPersonality().gift.get.description)
       .addUserOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().gift.get.userOption.name)
+          .setName(PERSONALITY.getPersonality().gift.get.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.get.userOption.description,
+            PERSONALITY.getPersonality().gift.get.userOption.description,
           )
           .setRequired(false),
       ),
   )
   .addSubcommand((subcommand) =>
     subcommand //accepting
-      .setName(PERSONALITY.getCommands().gift.accepting.name)
-      .setDescription(PERSONALITY.getCommands().gift.accepting.description)
+      .setName(PERSONALITY.getPersonality().gift.accepting.name)
+      .setDescription(PERSONALITY.getPersonality().gift.accepting.description)
       .addUserOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().gift.accepting.userOption.name)
+          .setName(PERSONALITY.getPersonality().gift.accepting.userOption.name)
           .setDescription(
-            PERSONALITY.getCommands().gift.accepting.userOption.description,
+            PERSONALITY.getPersonality().gift.accepting.userOption.description,
           )
           .setRequired(false),
       ),
@@ -247,7 +247,7 @@ const action = async (interaction) => {
   const db = interaction.client.db;
 
   //get personality
-  const personality = PERSONALITY.getCommands().gift;
+  const personality = PERSONALITY.getPersonality().gift;
   const send = personality.send;
   const remove = personality.remove;
   const get = personality.get;
@@ -362,7 +362,7 @@ const gift = {
   action,
   command,
   help: (interaction, userOption) => {
-    const personality = PERSONALITY.getCommands().gift;
+    const personality = PERSONALITY.getPersonality().gift;
     const helpToUse = userOption.includes(" ")
       ? personality[userOption.split(" ")[1]]
       : personality;
