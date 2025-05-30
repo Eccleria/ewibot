@@ -6,8 +6,7 @@
 - [How to Contribute](#how-to-contribute)
 
 Ewibot is a Discord Bot used only on the official *La Quête d'Ewilan* Discord Server.
-This bot aim to enhance the social interactions between users. It also has the `timeout` command, its only moderation tool 
-that can only be used by moderation members. No auto-moderation is planned.
+This bot aim to enhance the social interactions between users. All moderation tools have been removed from this bot.
 
 ## Documentation
 Ewibot is written in Javascript. The tree is devided into 4 main parts: 
@@ -52,7 +51,7 @@ It is divided into 4 parts:
 [admin](#admin), [commands](#commands), [helpers](#helpers) and the [main code](#main-code).
 
 #### Admin
-The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. 
+The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. Admin means mostly roles interaction.
 See [Admin documentation](./doc/admin.md) for more details.
 
 #### Commands
@@ -70,8 +69,8 @@ functional, such as `client` login and event `listeners`.
 * _[commons.js](./src/commons.js)_ is where the `Commons` Class is declared. This class allows Ewibot to find the correct ids/emotes to use, according to the current guild where Ewibot is working.
 * _[fun.js](./src/fun.js)_ regroups features that are only for fun/entertainment purpose, such as Ewibot `reacting` to some specific user words, or its `activity`.
 * _[listeners.js](./src/listeners.js)_ is a file regrouping all functions associated to the events Ewibot is responding to.
-* _[personality.js](./src/personality.js)_ is the file where the `Personality` Class is declared. This class allows Ewibot to chose the correct text to send to users. It will also allow admins to change Ewibot personality, but is still work in
-progress.
+* _[personality.js](./src/personality.js)_ is the file where the `Personality` Class is declared. This class allows Ewibot to chose the correct text to send to users. It will also allow admins to change Ewibot personality, but is still work in progress.
+* _[stats.js](./src/stats.js)_ is the main file handling the stats system. This needs a complete rework (written at 6.5.1) 
 
 ### Static Code
 The [static folder](./static) is including the json files used.
@@ -98,7 +97,6 @@ Next, you need to download every dependancy that the bot need. To do so, you nee
 
 Now, you need to setup the `.env` file. Create it with `touch .env`and use the [.env.example](.env.example) as a template (you can copy the `.env.example` content and paste it in `.env` file).
 The *DEBUG* line needs to be set as **yes** if you have only a bot used for development (used on a Discord test server), and **no** if you will host Ewibot on the `Ewilan` Discord Server.
-The *USE_SPOTIFY* uses the same process: **yes** or **no**. If **no**, you don't need to write the rest of the *SPOTIFY_* variables.
 
 For the database, you need to create the `.db.json` file in the [database folder](./db).
 When created, you can repeate the same process for `.env` file: copy the content of the [.db.json.example](./db/db.json.example) and paste it in the newly created file.
