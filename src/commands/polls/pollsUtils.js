@@ -152,7 +152,7 @@ export const refreshPollFields = (dbPoll, newFieldsInit) => {
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
   const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
-  const black = PERSONALITY.getCommands().polls.black; //empty bar color
+  const black = PERSONALITY.getPersonality().polls.black; //empty bar color
 
   //return new fields
   return newFieldsInit.map((field, idx) => {
