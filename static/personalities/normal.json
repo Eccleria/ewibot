@@ -363,6 +363,7 @@
       "black": ":black_large_square:",
       "counted": "Votre vote a été compté.",
       "create": {
+        "author": "Sondage créé par : ",
         "authorOption": {
           "description": "L'auteurice du sondage.",
           "name": "auteurice"
