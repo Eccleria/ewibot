@@ -68,11 +68,7 @@ export const onInteractionCreate = (interaction) => {
     if (foundCommand && isReleasedCommand(foundCommand))
       foundCommand.action(interaction, "/");
     //if found command, execute its action
-    else
-      interactionReply(
-        interaction,
-        "La commande n'est pas disponible."
-      );
+    else interactionReply(interaction, "La commande n'est pas disponible.");
   }
 };
 

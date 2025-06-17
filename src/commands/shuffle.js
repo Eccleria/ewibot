@@ -109,7 +109,9 @@ const command = new SlashCommandBuilder()
   .addSubcommand((subcommand) =>
     subcommand
       .setName(PERSONALITY.getPersonality().shuffle.startstop.name)
-      .setDescription(PERSONALITY.getPersonality().shuffle.startstop.description),
+      .setDescription(
+        PERSONALITY.getPersonality().shuffle.startstop.description,
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand

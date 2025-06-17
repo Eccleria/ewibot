@@ -120,9 +120,12 @@ const command = new SlashCommandBuilder()
       )
       .addStringOption((option) =>
         option //choice
-          .setName(PERSONALITY.getPersonality().polls.addChoice.choiceOption.name)
+          .setName(
+            PERSONALITY.getPersonality().polls.addChoice.choiceOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().polls.addChoice.choiceOption.description,
+            PERSONALITY.getPersonality().polls.addChoice.choiceOption
+              .description,
           )
           .setRequired(true)
           .setMinLength(4),

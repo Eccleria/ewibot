@@ -14,10 +14,7 @@ import { JSONFile } from "lowdb/node";
 import { join } from "path";
 
 // listeners imports
-import {
-  onMessageUpdate,
-  onGuildMemberRemove,
-} from "./admin/listeners.js";
+import { onMessageUpdate, onGuildMemberRemove } from "./admin/listeners.js";
 import {
   onInteractionCreate,
   onMessageCreate,

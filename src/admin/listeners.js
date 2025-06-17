@@ -1,8 +1,4 @@
-import {
-  isTestServer,
-  fetchMessage,
-  removeUserFromDB,
-} from "./utils.js";
+import { isTestServer, fetchMessage, removeUserFromDB } from "./utils.js";
 import {
   addApologyCount,
   hasApology,

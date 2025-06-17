@@ -64,29 +64,40 @@ const command = new SlashCommandBuilder()
   .addSubcommand((command) =>
     command //create
       .setName(PERSONALITY.getPersonality().eventRoles.create.name)
-      .setDescription(PERSONALITY.getPersonality().eventRoles.create.description)
+      .setDescription(
+        PERSONALITY.getPersonality().eventRoles.create.description,
+      )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getPersonality().eventRoles.create.nameOption.name)
+          .setName(
+            PERSONALITY.getPersonality().eventRoles.create.nameOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().eventRoles.create.nameOption.description,
+            PERSONALITY.getPersonality().eventRoles.create.nameOption
+              .description,
           )
           .setMinLength(2)
           .setRequired(true),
       )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getPersonality().eventRoles.create.embedOption.name)
+          .setName(
+            PERSONALITY.getPersonality().eventRoles.create.embedOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().eventRoles.create.embedOption.description,
+            PERSONALITY.getPersonality().eventRoles.create.embedOption
+              .description,
           )
           .setRequired(true),
       )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getPersonality().eventRoles.create.colorOption.name)
+          .setName(
+            PERSONALITY.getPersonality().eventRoles.create.colorOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().eventRoles.create.colorOption.description,
+            PERSONALITY.getPersonality().eventRoles.create.colorOption
+              .description,
           )
           .setChoices(...PERSONALITY.getColors().choices)
           .setRequired(false),

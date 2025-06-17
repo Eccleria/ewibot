@@ -1,9 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import {
-  ActionRowBuilder,
-  ButtonStyle,
-  MessageFlags,
-} from "discord.js";
+import { ActionRowBuilder, ButtonStyle, MessageFlags } from "discord.js";
 import { createButton } from "./utils.js";
 import { interactionReply, isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
@@ -51,7 +47,10 @@ export const announceButtonHandler = (interaction) => {
 
   if (foundAnnounce) foundAnnounce.action(interaction);
   else
-    interactionReply(interaction, PERSONALITY.getPersonality().announce.notFound);
+    interactionReply(
+      interaction,
+      PERSONALITY.getPersonality().announce.notFound,
+    );
 };
 
 //announce command

@@ -63,7 +63,9 @@ const roll = {
     .addIntegerOption((option) =>
       option
         .setName(PERSONALITY.getPersonality().roll.diceOption.name)
-        .setDescription(PERSONALITY.getPersonality().roll.diceOption.description)
+        .setDescription(
+          PERSONALITY.getPersonality().roll.diceOption.description,
+        )
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(20),
@@ -71,7 +73,9 @@ const roll = {
     .addIntegerOption((option) =>
       option
         .setName(PERSONALITY.getPersonality().roll.facesOption.name)
-        .setDescription(PERSONALITY.getPersonality().roll.facesOption.description)
+        .setDescription(
+          PERSONALITY.getPersonality().roll.facesOption.description,
+        )
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(100),
@@ -269,7 +273,9 @@ const help = {
     .addStringOption((option) =>
       option
         .setName(PERSONALITY.getPersonality().help.stringOption.name)
-        .setDescription(PERSONALITY.getPersonality().help.stringOption.description)
+        .setDescription(
+          PERSONALITY.getPersonality().help.stringOption.description,
+        )
         .setRequired(true)
         .setAutocomplete(true),
     ),

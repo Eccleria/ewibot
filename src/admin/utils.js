@@ -1,7 +1,4 @@
-import {
-  removeBirthday,
-  removeIgnoredUser,
-} from "../helpers/index.js";
+import { removeBirthday, removeIgnoredUser } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 
 export const fetchMessage = async (message) => {

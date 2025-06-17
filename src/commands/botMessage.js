@@ -14,18 +14,24 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getPersonality().botMessage.send.description)
       .addChannelOption((option) =>
         option
-          .setName(PERSONALITY.getPersonality().botMessage.send.channelOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.send.channelOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().botMessage.send.channelOption.description,
+            PERSONALITY.getPersonality().botMessage.send.channelOption
+              .description,
           )
           .setRequired(false)
           .addChannelTypes(ChannelType.GuildText),
       )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getPersonality().botMessage.send.stringOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.send.stringOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().botMessage.send.stringOption.description,
+            PERSONALITY.getPersonality().botMessage.send.stringOption
+              .description,
           )
           .setMinLength(1)
           .setRequired(false),
@@ -43,9 +49,12 @@ const command = new SlashCommandBuilder()
       )
       .addBooleanOption((option) =>
         option
-          .setName(PERSONALITY.getPersonality().botMessage.send.booleanOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.send.booleanOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().botMessage.send.booleanOption.description,
+            PERSONALITY.getPersonality().botMessage.send.booleanOption
+              .description,
           )
           .setRequired(false),
       ),
@@ -65,9 +74,12 @@ const command = new SlashCommandBuilder()
       )
       .addStringOption((option) =>
         option //text
-          .setName(PERSONALITY.getPersonality().botMessage.reply.stringOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.reply.stringOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().botMessage.reply.stringOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.stringOption
+              .description,
           )
           .setMinLength(1)
           .setRequired(false),
@@ -85,17 +97,23 @@ const command = new SlashCommandBuilder()
       )
       .addBooleanOption((option) =>
         option //toSpoil
-          .setName(PERSONALITY.getPersonality().botMessage.reply.spoilOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.reply.spoilOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().botMessage.reply.spoilOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.spoilOption
+              .description,
           )
           .setRequired(false),
       )
       .addBooleanOption((option) =>
         option //toPing
-          .setName(PERSONALITY.getPersonality().botMessage.reply.pingOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.reply.pingOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().botMessage.reply.pingOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.pingOption
+              .description,
           )
           .setRequired(false),
       ),

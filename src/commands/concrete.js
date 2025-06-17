@@ -20,7 +20,9 @@ const command = new SlashCommandBuilder()
   .addUserOption((option) =>
     option
       .setName(PERSONALITY.getPersonality().concrete.userOption.name)
-      .setDescription(PERSONALITY.getPersonality().concrete.userOption.description)
+      .setDescription(
+        PERSONALITY.getPersonality().concrete.userOption.description,
+      )
       .setRequired(true),
   )
   .addBooleanOption((option) =>

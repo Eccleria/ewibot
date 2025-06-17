@@ -3,9 +3,7 @@ import {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
 } from "@discordjs/builders";
-import {
-  interactionReply,
-} from "../helpers/index.js";
+import { interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const reverseStr = (string) => {
