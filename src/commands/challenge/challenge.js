@@ -1,4 +1,17 @@
-import { ActionRowBuilder, ButtonStyle, Colors, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, StringSelectMenuBuilder, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonStyle,
+  Colors,
+  ContainerBuilder,
+  MessageFlags,
+  SectionBuilder,
+  SeparatorBuilder,
+  SeparatorSpacingSize,
+  SlashCommandBuilder,
+  StringSelectMenuBuilder,
+  TextDisplayBuilder,
+  ThumbnailBuilder,
+} from "discord.js";
 import { PERSONALITY } from "../../personality.js";
 
 import { interactionReply } from "../../helpers/index.js";
@@ -7,15 +20,18 @@ import dayjs from "dayjs";
 
 export const createChallenge = async (interaction, challenge) => {
   const perso = PERSONALITY.getPersonality().challenge.challenge;
-  const channel = await interaction.client.channels.fetch(interaction.channelId);
+  const channel = await interaction.client.channels.fetch(
+    interaction.channelId,
+  );
 
   //build the first container for the challenge message
   //create basic objects
-  const separator = new SeparatorBuilder()
-    .setSpacing(SeparatorSpacingSize.Large);
+  const separator = new SeparatorBuilder().setSpacing(
+    SeparatorSpacingSize.Large,
+  );
   const firstSection = new SectionBuilder();
   const secondSection = new SectionBuilder();
-  
+
   //add author
   const avatarUrl = interaction.user.avatarURL();
   if (avatarUrl) {
@@ -24,22 +40,32 @@ export const createChallenge = async (interaction, challenge) => {
   }
 
   //add challenge title
-  const titleText = new TextDisplayBuilder()
-    .setContent(perso.title);
-  const authorText = new TextDisplayBuilder()
-    .setContent(perso.author + interaction.user.toString());
+  const titleText = new TextDisplayBuilder().setContent(perso.title);
+  const authorText = new TextDisplayBuilder().setContent(
+    perso.author + interaction.user.toString(),
+  );
   firstSection.addTextDisplayComponents(titleText, authorText);
 
   //add challenge description
-  const button = createButton(perso.pButton.customId, perso.pButton.label, ButtonStyle.Success);
+  const button = createButton(
+    perso.pButton.customId,
+    perso.pButton.label,
+    ButtonStyle.Success,
+  );
   secondSection.setButtonAccessory(button);
   const challengeText = new TextDisplayBuilder().setContent(challenge);
-  const participantCountText = new TextDisplayBuilder()
-    .setContent(perso.participantCount);
+  const participantCountText = new TextDisplayBuilder().setContent(
+    perso.participantCount,
+  );
   secondSection.addTextDisplayComponents(challengeText, participantCountText);
 
   //create setup button
-  const settingButton = createButton(perso.sButton.customId, null, ButtonStyle.Secondary, "⚙️");
+  const settingButton = createButton(
+    perso.sButton.customId,
+    null,
+    ButtonStyle.Secondary,
+    "⚙️",
+  );
   const actionRow = new ActionRowBuilder().addComponents(settingButton);
 
   //build the second container for the challenge message
@@ -48,9 +74,9 @@ export const createChallenge = async (interaction, challenge) => {
   const challengeDate = dayjs().millisecond(timeout);
   const cDateUnix = challengeDate.unix();
   const hammertimeText = `<t:${cDateUnix}:F> soit <t:${cDateUnix}:R>`;
-  const dateTextField = new TextDisplayBuilder()
-    .setContent(perso.hammertime + hammertimeText);
-
+  const dateTextField = new TextDisplayBuilder().setContent(
+    perso.hammertime + hammertimeText,
+  );
 
   //assemble the message
   const color = PERSONALITY.getColors().choices[18].value;
@@ -65,7 +91,11 @@ export const createChallenge = async (interaction, challenge) => {
     .setAccentColor(Colors[color])
     .addTextDisplayComponents(dateTextField);
 
-  channel.send({allowed_mentions: { parse: [] }, flags: MessageFlags.IsComponentsV2, components: [container, hammertimeContainer]});
+  channel.send({
+    allowed_mentions: { parse: [] },
+    flags: MessageFlags.IsComponentsV2,
+    components: [container, hammertimeContainer],
+  });
 };
 
 const command = new SlashCommandBuilder()
@@ -74,14 +104,15 @@ const command = new SlashCommandBuilder()
 
 const action = (interaction) => {
   const perso = PERSONALITY.getPersonality().challenge;
-  
+
   //create the different components
   //create section components
   const textC = new TextDisplayBuilder().setContent(perso.selectMenu.title);
-  const thumbnail = new ThumbnailBuilder()
-    .setURL("https://cdn.discordapp.com/attachments/935180557770448956/1384579139713106083/image.png");
-  
-    //create section
+  const thumbnail = new ThumbnailBuilder().setURL(
+    "https://cdn.discordapp.com/attachments/935180557770448956/1384579139713106083/image.png",
+  );
+
+  //create section
   const section = new SectionBuilder()
     .setThumbnailAccessory(thumbnail)
     .addTextDisplayComponents(textC);
@@ -103,8 +134,11 @@ const action = (interaction) => {
     .addSectionComponents(section)
     .addActionRowComponents(actionRow);
 
-  interaction.reply({flags: MessageFlags.IsComponentsV2 + MessageFlags.Ephemeral, components: [container]})
-}
+  interaction.reply({
+    flags: MessageFlags.IsComponentsV2 + MessageFlags.Ephemeral,
+    components: [container],
+  });
+};
 
 const challenge = {
   action,
