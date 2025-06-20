@@ -128,6 +128,7 @@
     "challenge": {
       "challenge": {
         "author": "Proposé par ",
+        "hammertime": "Vous pouvez participer jusqu'à ",
         "participantCount": "Il y a 0 participant.e.s.",
         "pButton": {
           "customId": "challenge_button_participate",
