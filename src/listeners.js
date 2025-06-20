@@ -1,14 +1,10 @@
 import { ChannelType } from "discord.js";
-import { presentationHandler } from "./admin/alavirien.js";
-import { checkPinStatus } from "./admin/listeners.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
-import { octagonalLog } from "./admin/utils.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import {
   addEmojiData,
   addServerEmojiCount,
   addServerStatsData,
-  deleteSongFromPlaylist,
   interactionReply,
   isReleasedCommand,
   removeReminder,
@@ -72,11 +68,7 @@ export const onInteractionCreate = (interaction) => {
     if (foundCommand && isReleasedCommand(foundCommand))
       foundCommand.action(interaction, "/");
     //if found command, execute its action
-    else
-      interactionReply(
-        interaction,
-        PERSONALITY.getAdmin().commands.notReleased,
-      );
+    else interactionReply(interaction, "La commande n'est pas disponible.");
   }
 };
 
@@ -116,22 +108,6 @@ export const onReactionAdd = async (messageReaction, user) => {
     return;
   }
 
-  if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
-    octagonalLog(messageReaction, user);
-    return;
-  }
-
-  if (
-    messageReaction.message.channel.id ===
-      currentServer.presentationChannelId &&
-    currentServer.presentationReactId === messageReaction.emoji.name
-  ) {
-    presentationHandler(currentServer, messageReaction, user);
-    return; //no command in presentation channel
-  }
-
-  onRemoveSpotifyReaction(messageReaction, cmnShared);
-
   onRemoveReminderReaction(messageReaction, user, cmnShared);
 };
 
@@ -164,7 +140,6 @@ const onPublicMessage = (message, currentServer) => {
   )
     addServerStatsData(message.client.db, "cats");
 
-  checkPinStatus(message);
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
@@ -198,7 +173,7 @@ export const onRemoveReminderReaction = (
           // if it is the right message
           clearTimeout(timeout); //cancel timeout
           removeReminder(client.db, botMessage.id);
-          botMessage.reply(PERSONALITY.getCommands().reminder.delete);
+          botMessage.reply(PERSONALITY.getPersonality().reminder.delete);
           console.log("reminder deleted");
           return false;
         }
@@ -208,38 +183,6 @@ export const onRemoveReminderReaction = (
     } catch (err) {
       console.log("reminderError", err);
     }
-  }
-};
-
-export const onRemoveSpotifyReaction = async (messageReaction, cmnShared) => {
-  //remove song from client cache and spotify playlist using react
-  const { client, message, emoji, users } = messageReaction;
-  const { removeEmoji } = cmnShared;
-
-  const foundMessageSpotify = client.playlistCachedMessages.find(
-    // found corresponding spotify message
-    ({ id }) => id === message.id,
-  );
-
-  if (
-    process.env.USE_SPOTIFY === "yes" &&
-    foundMessageSpotify &&
-    emoji.name === removeEmoji &&
-    users.cache // if user reacting is the owner of spotify message
-      .map((user) => user.id)
-      .includes(message.mentions.users.first().id)
-  ) {
-    const { songId } = foundMessageSpotify;
-
-    const result = await deleteSongFromPlaylist(
-      songId,
-      client,
-      PERSONALITY.getSpotify(),
-    );
-    client.playlistCachedMessages = client.playlistCachedMessages.filter(
-      ({ id }) => id !== message.id,
-    );
-    await message.reply(result);
   }
 };
 

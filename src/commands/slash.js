@@ -17,11 +17,8 @@ import personality from "./personality.js";
 import polls from "./polls/polls.js";
 import reminder from "./reminder.js";
 import { reverse, reverseTranslator } from "./reverse.js";
-import saveLog from "./save-log.js";
 import shuffle from "./shuffle.js";
-import spotify from "./spotify.js";
 import stats from "./stats.js";
-import timeout from "./timeout.js";
 import vest from "./vest.js";
 import {
   //dbHelper
@@ -44,14 +41,14 @@ const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
 const ping = {
   command: new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().helloWorld.name)
-    .setDescription(PERSONALITY.getCommands().helloWorld.description),
+    .setName(PERSONALITY.getPersonality().helloWorld.name)
+    .setDescription(PERSONALITY.getPersonality().helloWorld.description),
   action: (interaction) => {
-    const personality = PERSONALITY.getCommands();
+    const personality = PERSONALITY.getPersonality();
     interaction.reply(personality.helloWorld.pong);
   },
   help: (interaction) => {
-    const personality = PERSONALITY.getCommands();
+    const personality = PERSONALITY.getPersonality();
     interactionReply(interaction, personality.helloWorld.help);
   },
   admin: false,
@@ -61,26 +58,30 @@ const ping = {
 
 const roll = {
   command: new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().roll.name)
-    .setDescription(PERSONALITY.getCommands().roll.description)
+    .setName(PERSONALITY.getPersonality().roll.name)
+    .setDescription(PERSONALITY.getPersonality().roll.description)
     .addIntegerOption((option) =>
       option
-        .setName(PERSONALITY.getCommands().roll.diceOption.name)
-        .setDescription(PERSONALITY.getCommands().roll.diceOption.description)
+        .setName(PERSONALITY.getPersonality().roll.diceOption.name)
+        .setDescription(
+          PERSONALITY.getPersonality().roll.diceOption.description,
+        )
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(20),
     )
     .addIntegerOption((option) =>
       option
-        .setName(PERSONALITY.getCommands().roll.facesOption.name)
-        .setDescription(PERSONALITY.getCommands().roll.facesOption.description)
+        .setName(PERSONALITY.getPersonality().roll.facesOption.name)
+        .setDescription(
+          PERSONALITY.getPersonality().roll.facesOption.description,
+        )
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(100),
     ),
   action: async (interaction) => {
-    const personality = PERSONALITY.getCommands().roll;
+    const personality = PERSONALITY.getPersonality().roll;
     const dice = interaction.options.getInteger(personality.diceOption.name);
     const faces = interaction.options.getInteger(personality.facesOption.name);
     if (dice && faces) {
@@ -101,7 +102,7 @@ const roll = {
     } else interactionReply(interaction, personality.parsingError);
   },
   help: (interaction) => {
-    const personality = PERSONALITY.getCommands().roll;
+    const personality = PERSONALITY.getPersonality().roll;
     interactionReply(interaction, personality.help);
   },
   admin: false,
@@ -111,12 +112,12 @@ const roll = {
 
 const ignoreUser = {
   command: new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().ignoreUser.name)
-    .setDescription(PERSONALITY.getCommands().ignoreUser.description),
+    .setName(PERSONALITY.getPersonality().ignoreUser.name)
+    .setDescription(PERSONALITY.getPersonality().ignoreUser.description),
   action: (interaction) => {
     const db = interaction.client.db;
     const authorId = interaction.member.id;
-    const iPerso = PERSONALITY.getCommands().ignoreUser;
+    const iPerso = PERSONALITY.getPersonality().ignoreUser;
 
     //check for command argument
     if (isIgnoredUser(db, authorId)) {
@@ -128,7 +129,7 @@ const ignoreUser = {
     }
   },
   help: (interaction) => {
-    const personality = PERSONALITY.getCommands();
+    const personality = PERSONALITY.getPersonality();
     interactionReply(interaction, personality.ignoreUser.help);
   },
   admin: false,
@@ -138,21 +139,21 @@ const ignoreUser = {
 
 const ignoreChannel = {
   command: new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().ignoreChannel.name)
-    .setDescription(PERSONALITY.getCommands().ignoreChannel.description)
+    .setName(PERSONALITY.getPersonality().ignoreChannel.name)
+    .setDescription(PERSONALITY.getPersonality().ignoreChannel.description)
     .setDefaultMemberPermissions(0x0000010000000000)
     .addChannelOption((option) =>
       option
-        .setName(PERSONALITY.getCommands().ignoreChannel.channelOption.name)
+        .setName(PERSONALITY.getPersonality().ignoreChannel.channelOption.name)
         .setDescription(
-          PERSONALITY.getCommands().ignoreChannel.channelOption.description,
+          PERSONALITY.getPersonality().ignoreChannel.channelOption.description,
         )
         .setRequired(false)
         .addChannelTypes(ChannelType.GuildText),
     ),
   action: (interaction) => {
     const db = interaction.client.db; // get db
-    const iPerso = PERSONALITY.getCommands().ignoreChannel; //get personality
+    const iPerso = PERSONALITY.getPersonality().ignoreChannel; //get personality
 
     //get corresponding channel data
     const ignoredChannel =
@@ -171,7 +172,7 @@ const ignoreChannel = {
     }
   },
   help: (interaction) => {
-    const personality = PERSONALITY.getCommands();
+    const personality = PERSONALITY.getPersonality();
     interactionReply(interaction, personality.ignoreChannel.help);
   },
   admin: true,
@@ -180,7 +181,7 @@ const ignoreChannel = {
 };
 
 //regroup all commands
-const contextCommands = [reverseTranslator, saveLog]; //context commands (message, channel, user)
+const contextCommands = [reverseTranslator]; //context commands (message, channel, user)
 const slashCommands = [
   announce,
   birthday,
@@ -199,9 +200,7 @@ const slashCommands = [
   reverse,
   roll,
   shuffle,
-  spotify,
   stats,
-  timeout,
   vest,
 ]; //command + action
 
@@ -211,7 +210,7 @@ const helpCommands = [...contextCommands, ...slashCommands];
 
 const help = {
   action: (interaction) => {
-    const perso = PERSONALITY.getCommands().help;
+    const perso = PERSONALITY.getPersonality().help;
 
     const userOption = interaction.options.getString(perso.stringOption.name); //get option given by user
     const foundCommand = helpCommands.find((cmd) =>
@@ -269,17 +268,19 @@ const help = {
     );
   },
   command: new SlashCommandBuilder()
-    .setName(PERSONALITY.getCommands().help.name)
-    .setDescription(PERSONALITY.getCommands().help.description)
+    .setName(PERSONALITY.getPersonality().help.name)
+    .setDescription(PERSONALITY.getPersonality().help.description)
     .addStringOption((option) =>
       option
-        .setName(PERSONALITY.getCommands().help.stringOption.name)
-        .setDescription(PERSONALITY.getCommands().help.stringOption.description)
+        .setName(PERSONALITY.getPersonality().help.stringOption.name)
+        .setDescription(
+          PERSONALITY.getPersonality().help.stringOption.description,
+        )
         .setRequired(true)
         .setAutocomplete(true),
     ),
   help: (interaction) => {
-    const personality = PERSONALITY.getCommands().help.help;
+    const personality = PERSONALITY.getPersonality().help.help;
     interactionReply(interaction, personality);
   },
   admin: false,

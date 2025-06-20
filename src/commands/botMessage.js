@@ -5,27 +5,33 @@ import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
-  .setName(PERSONALITY.getCommands().botMessage.name)
-  .setDescription(PERSONALITY.getCommands().botMessage.description)
+  .setName(PERSONALITY.getPersonality().botMessage.name)
+  .setDescription(PERSONALITY.getPersonality().botMessage.description)
   .setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) =>
     command //send
-      .setName(PERSONALITY.getCommands().botMessage.send.name)
-      .setDescription(PERSONALITY.getCommands().botMessage.send.description)
+      .setName(PERSONALITY.getPersonality().botMessage.send.name)
+      .setDescription(PERSONALITY.getPersonality().botMessage.send.description)
       .addChannelOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().botMessage.send.channelOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.send.channelOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.send.channelOption.description,
+            PERSONALITY.getPersonality().botMessage.send.channelOption
+              .description,
           )
           .setRequired(false)
           .addChannelTypes(ChannelType.GuildText),
       )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().botMessage.send.stringOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.send.stringOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.send.stringOption.description,
+            PERSONALITY.getPersonality().botMessage.send.stringOption
+              .description,
           )
           .setMinLength(1)
           .setRequired(false),
@@ -33,41 +39,47 @@ const command = new SlashCommandBuilder()
       .addAttachmentOption((option) =>
         option
           .setName(
-            PERSONALITY.getCommands().botMessage.send.attachmentOption.name,
+            PERSONALITY.getPersonality().botMessage.send.attachmentOption.name,
           )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.send.attachmentOption
+            PERSONALITY.getPersonality().botMessage.send.attachmentOption
               .description,
           )
           .setRequired(false),
       )
       .addBooleanOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().botMessage.send.booleanOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.send.booleanOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.send.booleanOption.description,
+            PERSONALITY.getPersonality().botMessage.send.booleanOption
+              .description,
           )
           .setRequired(false),
       ),
   )
   .addSubcommand((command) =>
     command //reply
-      .setName(PERSONALITY.getCommands().botMessage.reply.name)
-      .setDescription(PERSONALITY.getCommands().botMessage.reply.description)
+      .setName(PERSONALITY.getPersonality().botMessage.reply.name)
+      .setDescription(PERSONALITY.getPersonality().botMessage.reply.description)
       .addStringOption((option) =>
         option //url
-          .setName(PERSONALITY.getCommands().botMessage.reply.urlOption.name)
+          .setName(PERSONALITY.getPersonality().botMessage.reply.urlOption.name)
           .setDescription(
-            PERSONALITY.getCommands().botMessage.reply.urlOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.urlOption.description,
           )
           .setMinLength(1)
           .setRequired(true),
       )
       .addStringOption((option) =>
         option //text
-          .setName(PERSONALITY.getCommands().botMessage.reply.stringOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.reply.stringOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.reply.stringOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.stringOption
+              .description,
           )
           .setMinLength(1)
           .setRequired(false),
@@ -75,27 +87,33 @@ const command = new SlashCommandBuilder()
       .addAttachmentOption((option) =>
         option //attachment
           .setName(
-            PERSONALITY.getCommands().botMessage.reply.attachmentOption.name,
+            PERSONALITY.getPersonality().botMessage.reply.attachmentOption.name,
           )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.reply.attachmentOption
+            PERSONALITY.getPersonality().botMessage.reply.attachmentOption
               .description,
           )
           .setRequired(false),
       )
       .addBooleanOption((option) =>
         option //toSpoil
-          .setName(PERSONALITY.getCommands().botMessage.reply.spoilOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.reply.spoilOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.reply.spoilOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.spoilOption
+              .description,
           )
           .setRequired(false),
       )
       .addBooleanOption((option) =>
         option //toPing
-          .setName(PERSONALITY.getCommands().botMessage.reply.pingOption.name)
+          .setName(
+            PERSONALITY.getPersonality().botMessage.reply.pingOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().botMessage.reply.pingOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.pingOption
+              .description,
           )
           .setRequired(false),
       ),
@@ -105,7 +123,7 @@ const action = async (interaction) => {
   //console.log(interaction);
   const options = interaction.options;
   const subcommand = options.getSubcommand();
-  const personality = PERSONALITY.getCommands().botMessage;
+  const personality = PERSONALITY.getPersonality().botMessage;
 
   //check for admin rights
   if (!isAdmin(interaction.user.id)) {
@@ -202,7 +220,7 @@ const botMessage = {
   command,
   action,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().botMessage;
+    const perso = PERSONALITY.getPersonality().botMessage;
     interactionReply(interaction, perso.help);
   },
   admin: true,

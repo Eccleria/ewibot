@@ -44,8 +44,8 @@ export const wishBirthday = async (db, channel) => {
     // if there is a birthday
     const initialText = // For correct grammar
       foundBirthdays.length === 1
-        ? PERSONALITY.getCommands().birthday.birthday
-        : PERSONALITY.getCommands().birthday.birthdays;
+        ? PERSONALITY.getPersonality().birthday.birthday
+        : PERSONALITY.getPersonality().birthday.birthdays;
 
     const birthdayText = foundBirthdays.reduce(
       (acc, { userId, birthdayDate }) => {
@@ -65,17 +65,17 @@ export const wishBirthday = async (db, channel) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().birthday.name)
-  .setDescription(PERSONALITY.getCommands().birthday.description)
+  .setName(PERSONALITY.getPersonality().birthday.name)
+  .setDescription(PERSONALITY.getPersonality().birthday.description)
   .addSubcommand((subcommand) =>
     subcommand //add subcommand
-      .setName(PERSONALITY.getCommands().birthday.add.name)
-      .setDescription(PERSONALITY.getCommands().birthday.add.description)
+      .setName(PERSONALITY.getPersonality().birthday.add.name)
+      .setDescription(PERSONALITY.getPersonality().birthday.add.description)
       .addIntegerOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().birthday.add.dayOption.name)
+          .setName(PERSONALITY.getPersonality().birthday.add.dayOption.name)
           .setDescription(
-            PERSONALITY.getCommands().birthday.add.dayOption.description,
+            PERSONALITY.getPersonality().birthday.add.dayOption.description,
           )
           .setRequired(true)
           .setMinValue(1)
@@ -83,9 +83,9 @@ const command = new SlashCommandBuilder()
       )
       .addNumberOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().birthday.add.monthOption.name)
+          .setName(PERSONALITY.getPersonality().birthday.add.monthOption.name)
           .setDescription(
-            PERSONALITY.getCommands().birthday.add.monthOption.description,
+            PERSONALITY.getPersonality().birthday.add.monthOption.description,
           )
           .setRequired(true)
           .setMinValue(1)
@@ -93,9 +93,9 @@ const command = new SlashCommandBuilder()
       )
       .addNumberOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().birthday.add.yearOption.name)
+          .setName(PERSONALITY.getPersonality().birthday.add.yearOption.name)
           .setDescription(
-            PERSONALITY.getCommands().birthday.add.yearOption.description,
+            PERSONALITY.getPersonality().birthday.add.yearOption.description,
           )
           .setRequired(false)
           .setMinValue(dayjs().subtract(100, "year").year())
@@ -104,13 +104,13 @@ const command = new SlashCommandBuilder()
   )
   .addSubcommand((subcommand) =>
     subcommand //remove subcommand
-      .setName(PERSONALITY.getCommands().birthday.remove.name)
-      .setDescription(PERSONALITY.getCommands().birthday.remove.description),
+      .setName(PERSONALITY.getPersonality().birthday.remove.name)
+      .setDescription(PERSONALITY.getPersonality().birthday.remove.description),
   )
   .addSubcommand((subcommand) =>
     subcommand //get subcommand
-      .setName(PERSONALITY.getCommands().birthday.get.name)
-      .setDescription(PERSONALITY.getCommands().birthday.get.description),
+      .setName(PERSONALITY.getPersonality().birthday.get.name)
+      .setDescription(PERSONALITY.getPersonality().birthday.get.description),
   );
 
 const action = async (interaction) => {
@@ -118,7 +118,7 @@ const action = async (interaction) => {
   const db = interaction.client.db;
 
   const whichCommand = interaction.options.getSubcommand();
-  const bPerso = PERSONALITY.getCommands().birthday;
+  const bPerso = PERSONALITY.getPersonality().birthday;
 
   if (whichCommand === bPerso.remove.name) {
     // remove user
@@ -170,7 +170,7 @@ const birthday = {
   command: command,
   action,
   help: (interaction, userOption) => {
-    const personality = PERSONALITY.getCommands().birthday;
+    const personality = PERSONALITY.getPersonality().birthday;
     const helpToUse = userOption.includes(" ")
       ? personality[userOption.split(" ")[1]]
       : personality;

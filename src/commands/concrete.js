@@ -11,30 +11,32 @@ import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
 //personality
-const personality = PERSONALITY.getCommands().concrete;
+const personality = PERSONALITY.getPersonality().concrete;
 
 //COMMAND
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().concrete.name)
-  .setDescription(PERSONALITY.getCommands().concrete.description)
+  .setName(PERSONALITY.getPersonality().concrete.name)
+  .setDescription(PERSONALITY.getPersonality().concrete.description)
   .addUserOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().concrete.userOption.name)
-      .setDescription(PERSONALITY.getCommands().concrete.userOption.description)
+      .setName(PERSONALITY.getPersonality().concrete.userOption.name)
+      .setDescription(
+        PERSONALITY.getPersonality().concrete.userOption.description,
+      )
       .setRequired(true),
   )
   .addBooleanOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().concrete.booleanOption.name)
+      .setName(PERSONALITY.getPersonality().concrete.booleanOption.name)
       .setDescription(
-        PERSONALITY.getCommands().concrete.booleanOption.description,
+        PERSONALITY.getPersonality().concrete.booleanOption.description,
       )
       .setRequired(false),
   );
 
 const action = async (object) => {
   //action to execute when command is fired
-  const cPerso = PERSONALITY.getCommands().concrete;
+  const cPerso = PERSONALITY.getPersonality().concrete;
   const { channel, client } = object;
 
   let buffer;
