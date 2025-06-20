@@ -125,6 +125,45 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "challenge": {
+      "challenge": {
+        "author": "Proposé par ",
+        "participantCount": "Il y a 0 participant.e.s.",
+        "pButton": {
+          "customId": "challenge_button_participate",
+          "label": "Participer"
+        },
+        "sButton": {
+          "customId": "challenge_button_settings"
+        },
+        "title": "Défi"
+      },
+      "description": "Choisissez un défi à envoyer dans le salon actuel.",
+      "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
+      "help": "Cette commande permet de lancer un défi à d'autres gens.",
+      "name": "challenge",
+      "selectMenu": {
+        "choices": [
+          { "label": "Choix parmi un des défis par défaut", "value": "challenge_selectMenu_userInput_defaultChallenge" },
+          { "label": "Rédiger votre défi", "value": "challenge_selectMenu_userInput_userChallenge" }
+        ],
+        "customId": "challenge_selectMenu_userInput",
+        "placeholder": "Votre choix ?",
+        "title": "# Challenge\n\nOn aime les défis. Et vous ? \nChoisissez entre une liste de défis par défaut, ou proposez votre sujet."
+      },
+      "userInput": {
+        "input": {
+          "customId": "challenge_modal_userInput_inputText",
+          "label": "L'explication de votre défi",
+          "placeholder": "Ecrivez ici votre idée !"
+        },
+        "modal": {
+          "customId": "challenge_modal_userInput_userChallenge",
+          "title": "Votre sujet de défi"
+        },
+        "sent": "Le contenu du modal a bien été reçu."
+      }
+    },
     "concrete": {
       "booleanOption": {
         "description": "S'il faut actualiser la pp utilisée",
