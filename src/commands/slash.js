@@ -9,6 +9,7 @@ import announce from "./announce.js";
 import birthday from "./birthday.js";
 import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
+import challenge from "./challenge/challenge.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
 import gift from "./gift.js";
@@ -187,6 +188,7 @@ const slashCommands = [
   birthday,
   botEmote,
   botMessage,
+  challenge,
   concrete,
   eventRoles,
   gift,

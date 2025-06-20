@@ -1,5 +1,7 @@
 import { ButtonBuilder } from "discord.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
+import { challengeModalHandler } from "./challenge/challengeModal.js";
+import { challengeSelectMenuHandler } from "./challenge/challengeSelectMenu.js";
 import { settingsButtonHandler } from "./polls/pollsHandlers.js";
 import { pollSelectMenuHandler } from "./polls/pollsSelectMenu.js";
 import { announceButtonHandler } from "./announce.js";
@@ -28,6 +30,7 @@ export const createButton = (id, label, style, emoji) => {
  */
 export const buttonHandler = (interaction) => {
   const { customId } = interaction;
+  
   if (customId.startsWith("gift")) giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
@@ -46,6 +49,21 @@ export const buttonHandler = (interaction) => {
 export const selectMenuHandler = (interaction) => {
   const { customId } = interaction;
   console.log("menuHandler", customId);
+
   if (customId.startsWith("polls_selectMenu"))
     pollSelectMenuHandler(interaction);
+  else if (customId.startsWith("challenge_selectMenu"))
+    challengeSelectMenuHandler(interaction);
 };
+
+/**
+ * Dispatch Modal interactions between corresponding functions
+ * @param {object} interaction 
+ */
+export const modalHandler = (interaction) => {
+  const { customId } = interaction;
+
+  if (customId.startsWith("challenge")) 
+    challengeModalHandler(interaction);
+  else interactionReply(interaction, "ERROR 404");
+}

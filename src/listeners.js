@@ -1,6 +1,6 @@
 import { ChannelType } from "discord.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
-import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
+import { buttonHandler, modalHandler, selectMenuHandler } from "./commands/utils.js";
 import {
   addEmojiData,
   addServerEmojiCount,
@@ -24,6 +24,12 @@ export const onInteractionCreate = (interaction) => {
   if (interaction.isStringSelectMenu()) {
     console.log("selectMenu interaction detected");
     selectMenuHandler(interaction);
+    return;
+  }
+
+  if (interaction.isModalSubmit()) {
+    console.log("modal interaction detected");
+    modalHandler(interaction);
     return;
   }
 
