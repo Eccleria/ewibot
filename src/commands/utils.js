@@ -30,7 +30,7 @@ export const createButton = (id, label, style, emoji) => {
  */
 export const buttonHandler = (interaction) => {
   const { customId } = interaction;
-  
+
   if (customId.startsWith("gift")) giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
@@ -58,12 +58,11 @@ export const selectMenuHandler = (interaction) => {
 
 /**
  * Dispatch Modal interactions between corresponding functions
- * @param {object} interaction 
+ * @param {object} interaction
  */
 export const modalHandler = (interaction) => {
   const { customId } = interaction;
 
-  if (customId.startsWith("challenge")) 
-    challengeModalHandler(interaction);
+  if (customId.startsWith("challenge")) challengeModalHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
-}
+};
