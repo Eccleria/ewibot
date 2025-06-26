@@ -1,4 +1,7 @@
-﻿## 6.5.1
+﻿## 7.0.0
+- Fix: `polls` now use also maxValue and not totalValues when computing ratio at polls stop ([#375](https://github.com/Eccleria/ewibot/pull/375))
+
+## 6.5.1
 - Fix a crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))
 - Fix: "[object Object]" written in some logs ([#364](https://github.com/Eccleria/ewibot/issues/364)) ([#365](https://github.com/Eccleria/ewibot/pull/365))
 - Fix: wrong color saved for marchombre backup after shuffle ([#358](https://github.com/Eccleria/ewibot/issues/358)) [#361](https://github.com/Eccleria/ewibot/pull/361)
