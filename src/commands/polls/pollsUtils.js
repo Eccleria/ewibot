@@ -140,12 +140,12 @@ export const parsePollFields = (content, totalSize = 0) => {
 export const refreshPollFields = (dbPoll, newFieldsInit) => {
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
-  const totalValues = values.reduce((acc, cur) => acc + cur, 0);
+  const max = values.reduce((acc, cur) => Math.max(acc, cur), 0); //get max count nb
   const ratios =
-    totalValues === 0
+    max === 0
       ? dbPoll.votes.map(() => 0)
       : values.reduce(
-          (acc, cur) => [...acc, Math.round((cur / totalValues) * 100)],
+          (acc, cur) => [...acc, Math.round((cur / max) * 100)],
           [],
         );
 
