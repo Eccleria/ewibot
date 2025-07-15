@@ -37,19 +37,27 @@ const challengeUserSelectMenuHandler = (interaction) => {
 
   //create the modal for user input
   const textInput = new TextInputBuilder()
-    .setCustomId(perso.input.customId)
-    .setLabel(perso.input.label)
-    .setPlaceholder(perso.input.placeholder)
+    .setCustomId(perso.textInput.customId)
+    .setLabel(perso.textInput.label)
+    .setPlaceholder(perso.textInput.placeholder)
     .setStyle(TextInputStyle.Paragraph)
     .setMinLength(1)
     .setRequired(true);
+  const titleInput = new TextInputBuilder()
+    .setCustomId(perso.titleInput.customId)
+    .setLabel(perso.titleInput.label)
+    .setPlaceholder(perso.titleInput.placeholder)
+    .setStyle(TextInputStyle.Short)
+    .setMinLength(1)
+    .setRequired(true);
 
-  const actionRow = new ActionRowBuilder().addComponents(textInput);
+  const titleActionRow = new ActionRowBuilder().addComponents(titleInput);
+  const textActionRow = new ActionRowBuilder().addComponents(textInput);
 
   const modal = new ModalBuilder()
     .setCustomId(perso.modal.customId)
     .setTitle(perso.modal.title)
-    .addComponents(actionRow);
+    .addComponents(titleActionRow, textActionRow);
 
   interaction.showModal(modal);
 };
