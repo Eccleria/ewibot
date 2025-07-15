@@ -18,7 +18,7 @@ import { interactionReply } from "../../helpers/index.js";
 import { createButton } from "../utils.js";
 import dayjs from "dayjs";
 
-export const createChallenge = async (interaction, challenge) => {
+export const createChallenge = async (interaction, title, challenge) => {
   const perso = PERSONALITY.getPersonality().challenge.challenge;
   const channel = await interaction.client.channels.fetch(
     interaction.channelId,
@@ -40,24 +40,26 @@ export const createChallenge = async (interaction, challenge) => {
   }
 
   //add challenge title
-  const titleText = new TextDisplayBuilder().setContent(perso.title);
+  const titleText = new TextDisplayBuilder()
+    .setContent(perso.title + '\n' + perso.description);
   const authorText = new TextDisplayBuilder().setContent(
     perso.author + interaction.user.toString(),
   );
   firstSection.addTextDisplayComponents(titleText, authorText);
 
-  //add challenge description
+  //add challenge title and description
   const button = createButton(
     perso.pButton.customId,
     perso.pButton.label,
     ButtonStyle.Success,
   );
   secondSection.setButtonAccessory(button);
+  const challengeTitle = new TextDisplayBuilder().setContent("## " + title);
   const challengeText = new TextDisplayBuilder().setContent(challenge);
   const participantCountText = new TextDisplayBuilder().setContent(
-    perso.participantCount,
+    perso.participantCount[0] + '0' + perso.participantCount[1],
   );
-  secondSection.addTextDisplayComponents(challengeText, participantCountText);
+  secondSection.addTextDisplayComponents(challengeTitle, challengeText, participantCountText);
 
   //create setup button
   const settingButton = createButton(
@@ -127,6 +129,7 @@ const action = (interaction) => {
   console.log(selectMenu);
   const actionRow = new ActionRowBuilder().addComponents(selectMenu);
   //console.log(actionRow);
+
   //create container
   const color = PERSONALITY.getColors().choices[18].value;
   const container = new ContainerBuilder()

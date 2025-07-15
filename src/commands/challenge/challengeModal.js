@@ -13,11 +13,12 @@ export const challengeModalHandler = (interaction) => {
 const challengeUserInputModalHandler = (interaction) => {
   const perso = PERSONALITY.getPersonality().challenge.userInput;
 
-  const userInput = interaction.fields.getTextInputValue(perso.input.customId);
-  console.log("userInput modal", [userInput]);
+  const text = interaction.fields.getTextInputValue(perso.textInput.customId);
+  const title = interaction.fields.getTextInputValue(perso.titleInput.customId)
+  console.log("challenge modal userInput text", [text]);
 
   //now the input is given, let's start the challenge
-  createChallenge(interaction, userInput);
+  createChallenge(interaction, title, text);
 
   //reply to the modal
   interactionReply(interaction, perso.sent);

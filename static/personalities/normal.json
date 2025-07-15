@@ -127,9 +127,10 @@
     },
     "challenge": {
       "challenge": {
-        "author": "Proposé par ",
+        "author": "**Proposé par** ",
+        "description": "Le défi est un jeu d'écriture proposé par un.e membre de ce serveur. L'auteurice choisit un thème par défaut ou peut en proposer un de son choix. Les autres personnes, si le thème les intéresse, peuvent participer au défi en cliquant sur le bouton de participation et en donnant leur contribution. Vous avez 24h pour participer avant que les contributions soient bloquées. Après votre participation, un sondage sera posté pour que tout le monde puisse voter pour ses conributions préférées. Attention, vous ne pouvez pas voter pour la votre. Bonne chance !",
         "hammertime": "Vous pouvez participer jusqu'à ",
-        "participantCount": "Il y a 0 participant.e.s.",
+        "participantCount": ["Il y a ", " participant.e.s."],
         "pButton": {
           "customId": "challenge_button_participate",
           "label": "Participer"
@@ -137,7 +138,7 @@
         "sButton": {
           "customId": "challenge_button_settings"
         },
-        "title": "Défi"
+        "title": "# Défi"
       },
       "description": "Choisissez un défi à envoyer dans le salon actuel.",
       "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
@@ -153,10 +154,15 @@
         "title": "# Challenge\n\nOn aime les défis. Et vous ? \nChoisissez entre une liste de défis par défaut, ou proposez votre sujet."
       },
       "userInput": {
-        "input": {
+        "textInput": {
           "customId": "challenge_modal_userInput_inputText",
           "label": "L'explication de votre défi",
           "placeholder": "Ecrivez ici votre idée !"
+        },
+        "titleInput": {
+          "customId": "challenge_modal_userInput_inputTitle",
+          "label": "Le titre de votre défi",
+          "placeholder": "Ecrivez ici votre titre !"
         },
         "modal": {
           "customId": "challenge_modal_userInput_userChallenge",
