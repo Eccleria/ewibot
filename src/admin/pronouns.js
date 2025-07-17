@@ -19,7 +19,7 @@ export const pronounsButtonHandler = async (interaction) => {
   const roles = guildMember.roles; //get guildMember roles
 
   //get personality
-  const personality = PERSONALITY.getCommands();
+  const personality = PERSONALITY.getPersonality();
   const pronounsP = personality.pronouns;
 
   //mitigate rare error

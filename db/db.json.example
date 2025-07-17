@@ -1,23 +1,4 @@
 {
-  "adminLogs": {
-    "frequent": [
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      []
-    ],
-    "userAD": [
-      [],
-      []
-    ]
-  },
-  "alavirien": {
-    "toUpdateIds": [],
-    "users": []
-  },
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "concreteRecipients": [],

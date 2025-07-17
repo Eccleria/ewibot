@@ -9,12 +9,12 @@ import { PERSONALITY } from "../personality.js";
 import { dbReturnType } from "../helpers/index.js";
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().stats.name)
-  .setDescription(PERSONALITY.getCommands().stats.description)
+  .setName(PERSONALITY.getPersonality().stats.name)
+  .setDescription(PERSONALITY.getPersonality().stats.description)
   .addSubcommand((command) =>
     command
-      .setName(PERSONALITY.getCommands().stats.use.name)
-      .setDescription(PERSONALITY.getCommands().stats.use.description),
+      .setName(PERSONALITY.getPersonality().stats.use.name)
+      .setDescription(PERSONALITY.getPersonality().stats.use.description),
   );
 
 const action = (interaction) => {
@@ -22,7 +22,7 @@ const action = (interaction) => {
   const subcommand = options.getSubcommand();
   const db = interaction.client.db;
 
-  const perso = PERSONALITY.getCommands(); //get personality
+  const perso = PERSONALITY.getPersonality(); //get personality
   const useP = perso.stats.use;
 
   if (subcommand === "use") {
@@ -48,7 +48,7 @@ const stats = {
   command: command,
   action,
   help: (interaction, userOption) => {
-    const personality = PERSONALITY.getCommands().stats;
+    const personality = PERSONALITY.getPersonality().stats;
     const helpToUse = userOption.includes(" ")
       ? personality[userOption.split(" ")[1]]
       : personality;

@@ -25,7 +25,7 @@ export const sendSettingsButtons = async (interaction) => {
   }
 
   //get personality
-  const perso = PERSONALITY.getCommands().polls.settings;
+  const perso = PERSONALITY.getPersonality().polls.settings;
 
   //check for Sentinelle or author
   const pollMessage = interaction.message;
@@ -82,7 +82,7 @@ export const stopPollButtonAction = async (interaction) => {
   const db = interaction.client.db;
 
   //get data
-  const perso = PERSONALITY.getCommands().polls;
+  const perso = PERSONALITY.getPersonality().polls;
   const sPerso = perso.settings;
   const pollMessage = await fetchPollMessage(interaction);
   const dbPoll = getPoll(db, pollMessage.id);
@@ -108,7 +108,7 @@ export const removePollButtonAction = async (interaction) => {
     return console.log(e);
   }
 
-  const perso = PERSONALITY.getCommands().polls;
+  const perso = PERSONALITY.getPersonality().polls;
   const rPerso = perso.settings.remove;
 
   //get poll from db
@@ -158,7 +158,7 @@ export const resetPollButtonAction = async (interaction) => {
   }
 
   //get data
-  const personality = PERSONALITY.getCommands().polls;
+  const personality = PERSONALITY.getPersonality().polls;
   const perso = personality.settings.reset; //personality
   const pollMessage = await fetchPollMessage(interaction); //db data
   const pollEmbed = pollMessage.embeds[0];
@@ -195,7 +195,7 @@ export const updatePollButtonAction = async (interaction) => {
   }
 
   //get personality
-  const perso = PERSONALITY.getCommands().polls.settings.update;
+  const perso = PERSONALITY.getPersonality().polls.settings.update;
 
   //create selectMenu
   const selectMenu = new StringSelectMenuBuilder()
@@ -214,7 +214,7 @@ export const updatePollButtonAction = async (interaction) => {
 };
 
 export const refreshPollButtonAction = async (interaction) => {
-  const perso = PERSONALITY.getCommands().polls; //personality
+  const perso = PERSONALITY.getPersonality().polls; //personality
   const sPerso = perso.settings;
   await interaction.update({
     content: sPerso.refresh.underRefresh,

@@ -3,99 +3,6 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
- * Slice a string len times and returns it as an array
- * @param {number} len Length of the returned array
- * @param {string} content Embed content to slice
- * @returns {string[]} Array of sliced content
- */
-const sliceEmbedContent = (len, content) => {
-  const lenArray = Array.from(new Array(len));
-  const sliced = lenArray.reduce((acc, _cur, idx) => {
-    if (idx === len - 1) return [...acc, content.slice(idx * 1024)]; //last index
-    const sliced = content.slice(idx * 1024, (idx + 1) * 1024);
-    return [...acc, sliced];
-  }, []); //slice content in less than 1024 characters
-  return sliced;
-};
-
-/**
- * Slice content if required then add it to the embed
- * @param {string} content Old Content from previous embed to slice
- * @param {object} embed New embed that will have sliced content
- * @param {object} personality The personality object of the embed.
- */
-export const checkEmbedContent = (content, embed, personality) => {
-  const slice = Math.ceil(content.length / 1024); //get number of time to slice oldContent by 1024
-
-  if (slice > 1) {
-    //if need to slice
-    const sliced = sliceEmbedContent(slice, content); //slice content
-
-    //add content to embed, according to its index
-    sliced.forEach((str, idx) => {
-      if (idx === 0)
-        embed.addFields({
-          name: personality.text,
-          value: str,
-        });
-      //name's different from others
-      else embed.addFields({ name: personality.textAgain, value: str });
-    });
-  } else embed.addFields({ name: personality.text, value: content });
-};
-
-/**
- * Fetch Log Channel using commons value
- * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut" channel. Null is for log channel.
- * @returns {TextChannel}
- */
-export const fetchLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
-
-  let id;
-  switch (type) {
-    case "thread":
-      id = currentServer.logThreadId;
-      break;
-    case "inAndOut":
-      id = currentServer.inAndOutLogChannelId;
-      break;
-    default:
-      id = currentServer.logChannelId;
-  }
-
-  return await eventObject.guild.channels.fetch(id); //return the log channel
-};
-
-/**
- * Get strings corresponding to gif url.
- * @param {string} content Message content where to look for gifs.
- * @returns {?string[]} If any, returns array of gif url strings.
- */
-export const gifParser = (content) => {
-  const tenor = "tenor.com/";
-  const end = ".gif";
-
-  if (content.includes(tenor) || content.includes(end)) {
-    //if any gif inside content
-    const words = content.split(" "); //split content into words
-    const results = words.reduce((acc, cur) => {
-      //look for gif position in content
-      if (cur.includes(tenor) || cur.endsWith(end)) {
-        //if has link
-        const start = cur.indexOf("https://"); //look for link position
-        const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
-        return [...acc, sliced]; //return link
-      }
-      return acc;
-    }, []);
-    return results;
-  }
-  return null;
-};
-
-/**
  * Get strings corresponding to gif url.
  * @param {string} content
  * @returns {?string[]} If any, returns array of gif url strings.
@@ -165,10 +72,6 @@ export const hasApology = (sanitizedContent) => {
     apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   }
   return false;
-};
-
-export const hasOctagonalSign = (content, cmnShared) => {
-  return content.includes(cmnShared.octagonalSignEmoji);
 };
 
 /**
@@ -291,6 +194,7 @@ export const setupEmbed = (color, personality, object, type) => {
   return embed;
 };
 
+//TODO: add it to reminder
 /**
  * Parse unix timestamp into dynamic Discord embed timestamp
  * @param {string} time Unix timestamp

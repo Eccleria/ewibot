@@ -25,7 +25,7 @@ export const voteButtonHandler = async (interaction) => {
   const { message, client } = interaction;
 
   //get personality
-  const perso = PERSONALITY.getCommands().polls;
+  const perso = PERSONALITY.getPersonality().polls;
   const cPerso = perso.create;
 
   //get db data

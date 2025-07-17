@@ -3,9 +3,6 @@
     "name": "test",
     "guildId": "926909708072284170",
     "alavirienRoleId": "981493533598961706",
-    "announce": {
-      "giftChannelId": "935180557770448956"
-    },
     "autoEmotes": {
       "bjornLoveReactId": "😍",
       "ewilhugReactId": "🥺",
@@ -14,7 +11,6 @@
       "salimmdrReactId": "😂"
     },
     "catsThreadId": "1137456643123183637",
-    "charteChannelId": "935180557770448956",
     "cosmeticRoleHandle": {
       "channelId": "967059786644488192",
       "messageId": "973889029969936406"
@@ -27,13 +23,7 @@
       "jamBjornBeurre": "🧈",
       "jambonBeurre": "🥖"
     },
-    "inAndOutLogChannelId": "1132983522819321976",
-    "logChannelId": "981478339439104090",
-    "logThreadId": "1017080172677177345",
     "panDuomReactId": "😠",
-    "playlistThreadId": "926909785117429861",
-    "presentationChannelId": "988100769356079114",
-    "presentationReactId": "👋",
     "pronounsRoleHandleChannelId": "967059786644488192",
     "pronouns": {
       "agreements": {
@@ -85,9 +75,6 @@
     "name": "prod",
     "guildId": "816961245743808582",
     "alavirienRoleId": "826743423612092436",
-    "announce": {
-      "giftChannelId": "973206750771687434"
-    },
     "autoEmotes": {
       "bjornLoveReactId": "822437083003355146",
       "ewilhugReactId": "843097186710716416",
@@ -96,7 +83,6 @@
       "salimmdrReactId": "823904313792266250"
     },
     "catsThreadId": "933456973591097415",
-    "charteChannelId": "817066925976191037",
     "cosmeticRoleHandle": {
       "channelId": "974735995872350208",
       "messageId": "974736389914640464"
@@ -109,13 +95,7 @@
       "jamBjornBeurre": "933464636223791144",
       "jambonBeurre": "823904010335158323"
     },
-    "inAndOutLogChannelId": "1131895386626326649",
-    "logChannelId": "959168176908804106",
-    "logThreadId": "1012365101594058762",
     "panDuomReactId": "826036478672109588",
-    "playlistThreadId": "892785771541585980",
-    "presentationChannelId": "816966112968179712",
-    "presentationReactId": "👋",
     "pronounsRoleHandleChannelId": "974735995872350208",
     "pronouns": {
       "agreements": {
@@ -164,11 +144,10 @@
     "sentinelleRoleId": "816975096518279188"
   },
   "shared": {
-    "admins": ["141962573900808193", "290505766631112714"],
+    "name": "shared",
+    "admins": ["290505766631112714"],
     "helloEmoji": "👋",
     "LuciferId": "657498573222576148",
-    "name": "shared",
-    "octagonalSignEmoji": "🛑",
     "removeEmoji": "❌"
   }
 }

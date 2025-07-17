@@ -6,14 +6,14 @@ import { interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().personality.name)
-  .setDescription(PERSONALITY.getCommands().personality.description)
+  .setName(PERSONALITY.getPersonality().personality.name)
+  .setDescription(PERSONALITY.getPersonality().personality.description)
   .setDefaultMemberPermissions(0x0000010000000000)
   .addStringOption((option) =>
     option
-      .setName(PERSONALITY.getCommands().personality.stringOption.name)
+      .setName(PERSONALITY.getPersonality().personality.stringOption.name)
       .setDescription(
-        PERSONALITY.getCommands().personality.stringOption.description,
+        PERSONALITY.getPersonality().personality.stringOption.description,
       )
       .setRequired(false)
       .addChoices(
@@ -24,7 +24,7 @@ const command = new SlashCommandBuilder()
   );
 
 const action = (interaction) => {
-  const perso = PERSONALITY.getCommands().personality;
+  const perso = PERSONALITY.getPersonality().personality;
   const nameList = PERSONALITY.getPersonalities(); // List of all personalities names
   const option = interaction.options.getString(perso.stringOption.name);
 
@@ -53,7 +53,7 @@ const personality = {
   command,
   action,
   help: (interaction) => {
-    const perso = PERSONALITY.getCommands().personality;
+    const perso = PERSONALITY.getPersonality().personality;
     interactionReply(interaction, perso.help);
   },
   admin: true,

@@ -18,7 +18,7 @@ import { PERSONALITY } from "../personality.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
-  const personality = PERSONALITY.getCommands().eventRoles;
+  const personality = PERSONALITY.getPersonality().eventRoles;
   const db = interaction.client.db;
 
   //get wanted role data
@@ -53,40 +53,51 @@ export const eventRolesButtonHandler = async (interaction) => {
 };
 
 const command = new SlashCommandBuilder()
-  .setName(PERSONALITY.getCommands().eventRoles.name)
-  .setDescription(PERSONALITY.getCommands().eventRoles.description)
+  .setName(PERSONALITY.getPersonality().eventRoles.name)
+  .setDescription(PERSONALITY.getPersonality().eventRoles.description)
   .setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) =>
     command //send
-      .setName(PERSONALITY.getCommands().eventRoles.send.name)
-      .setDescription(PERSONALITY.getCommands().eventRoles.send.description),
+      .setName(PERSONALITY.getPersonality().eventRoles.send.name)
+      .setDescription(PERSONALITY.getPersonality().eventRoles.send.description),
   )
   .addSubcommand((command) =>
     command //create
-      .setName(PERSONALITY.getCommands().eventRoles.create.name)
-      .setDescription(PERSONALITY.getCommands().eventRoles.create.description)
+      .setName(PERSONALITY.getPersonality().eventRoles.create.name)
+      .setDescription(
+        PERSONALITY.getPersonality().eventRoles.create.description,
+      )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().eventRoles.create.nameOption.name)
+          .setName(
+            PERSONALITY.getPersonality().eventRoles.create.nameOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().eventRoles.create.nameOption.description,
+            PERSONALITY.getPersonality().eventRoles.create.nameOption
+              .description,
           )
           .setMinLength(2)
           .setRequired(true),
       )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().eventRoles.create.embedOption.name)
+          .setName(
+            PERSONALITY.getPersonality().eventRoles.create.embedOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().eventRoles.create.embedOption.description,
+            PERSONALITY.getPersonality().eventRoles.create.embedOption
+              .description,
           )
           .setRequired(true),
       )
       .addStringOption((option) =>
         option
-          .setName(PERSONALITY.getCommands().eventRoles.create.colorOption.name)
+          .setName(
+            PERSONALITY.getPersonality().eventRoles.create.colorOption.name,
+          )
           .setDescription(
-            PERSONALITY.getCommands().eventRoles.create.colorOption.description,
+            PERSONALITY.getPersonality().eventRoles.create.colorOption
+              .description,
           )
           .setChoices(...PERSONALITY.getColors().choices)
           .setRequired(false),
@@ -94,7 +105,7 @@ const command = new SlashCommandBuilder()
   );
 
 const action = async (interaction) => {
-  const personality = PERSONALITY.getCommands().eventRoles;
+  const personality = PERSONALITY.getPersonality().eventRoles;
   const options = interaction.options;
   const subcommand = options.getSubcommand();
 
@@ -257,7 +268,7 @@ const eventRoles = {
   command: command,
   action,
   help: (interaction, userOption) => {
-    const personality = PERSONALITY.getCommands().eventRoles;
+    const personality = PERSONALITY.getPersonality().eventRoles;
     const helpToUse = userOption.includes(" ")
       ? personality[userOption.split(" ")[1]]
       : personality;
