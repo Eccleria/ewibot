@@ -75,7 +75,7 @@ export const onInteractionCreate = (interaction) => {
 export const onMessageCreate = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
-
+  console.log(message);
   if (channel.type === ChannelType.DM) return;
   else {
     const currentServer = COMMONS.fetchFromGuildId(channel.guildId);
@@ -109,6 +109,9 @@ export const onReactionAdd = async (messageReaction, user) => {
   }
 
   onRemoveReminderReaction(messageReaction, user, cmnShared);
+
+  //check for date emotes
+  onDateReaction(messageReaction, user, cmnShared);
 };
 
 export const onReactionRemove = async (messageReaction, user) => {

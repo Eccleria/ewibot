@@ -210,3 +210,11 @@ const reactToContentEmotes = async (message, server, today, foundEmotes) => {
 };
 
 //#endregion
+
+//#region Reaction
+export const onDateReaction = (messageReaction, user, cmnShared) => {
+  const message = messageReaction.message;
+
+
+}
+//#endregion
