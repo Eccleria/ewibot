@@ -92,8 +92,13 @@ export const pollButtonCollector = (message, timeout) => {
   });
 
   collector.on("collect", async (interaction) => {
-    await interaction.deferReply({ flags: MessageFlags.Ephemeral }); //required because should be answered under 3s
-    pollBufferVotes(interaction);
+    try {
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral }); //required because should be answered under 3s
+      pollBufferVotes(interaction);
+    } catch (error) {
+      console.log("vote collect failed");
+      console.log(error);
+    }
   });
 
   collector.on("end", (collected) => {
