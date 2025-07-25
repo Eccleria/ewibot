@@ -1,6 +1,7 @@
 ﻿## 7.0.0
 - Core: slice Ewibot in 2, moderation part now in Sil' Afian ([Ewibot](https://github.com/Eccleria/Sil-Afian))
 - Fix: rare `polls` crash when vote `collector` fails with an unknow interaction ([#371](https://github.com/Eccleria/ewibot/issues/371)) ([#373](https://github.com/Eccleria/ewibot/pull/373))
+- Fix: `polls` now use also maxValue and not totalValues when computing ratio at polls stop ([#375](https://github.com/Eccleria/ewibot/pull/375))
 
 ## 6.5.1
 - Fix a crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))
