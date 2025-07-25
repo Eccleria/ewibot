@@ -20,8 +20,18 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run: yarn run prettier
+  test:
+    executor:
+      name: node/default
+      tag: '20.18.3'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn run test
 workflows:
   commit_workflow:
     jobs:
       - lint
       - prettier
+      - test
