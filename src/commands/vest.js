@@ -32,7 +32,8 @@ const action = async (interaction) => {
 
   //get pp hash
   const url = target.displayAvatarURL({ extension: "png" });
-  const urlHash = url.split(`${target.id}/`)[1].split(".")[0];
+  const separator = url.includes("guilds/") ? "avatars/" : `${target.id}/`;
+  const urlHash = url.split(separator)[1].split(".")[0];
   const fileName = `${target.id}-${urlHash}.png`;
   console.log("target image url", [url], [urlHash]);
 
