@@ -13,7 +13,7 @@ import {
 } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 import { PERSONALITY } from "../../personality.js";
-import { POLLS } from "../../polls.js";
+import { Poll, POLLS } from "../../polls.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().polls.name)
@@ -186,9 +186,9 @@ const action = async (interaction) => {
     const hours = option == null ? 0 : option;
     option = options.getNumber(perso.minuteOption.name, false); //minutes
     const minutes = option == null ? 0 : option;
-    let timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
-    if (timeout === 0) timeout = 48 * 60 * 60 * 1000; //2 days default value
-    const pollDate = dayjs().millisecond(timeout);
+    let timeoutDuration = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    if (timeoutDuration === 0) timeoutDuration = 48 * 60 * 60 * 1000; //2 days default value
+    const pollDate = dayjs().millisecond(timeoutDuration);
 
     //check choices length restrictions
     const splited = choices.split(";");
@@ -298,7 +298,7 @@ const action = async (interaction) => {
         embeds: [embed, timeoutEmbed],
         components: components.actionRows,
       });
-      const collector = pollButtonCollector(pollMsg, timeout); //start listening to interactions
+      const collector = pollButtonCollector(pollMsg, timeoutDuration); //start listening to interactions
       interactionReply(interaction, perso.sent);
 
       //save poll
@@ -317,9 +317,9 @@ const action = async (interaction) => {
       ); //add to db
 
       //set 1h reminder
-      let timeoutDuration = null;
+      let timeout = null;
       if (timeoutDuration >= 7200000) {
-        timeoutDuration = setTimeout(
+        timeout = setTimeout(
           (message) => {
             const perso = PERSONALITY.getPersonality().polls;
             message.reply(perso.create.reminder);
@@ -330,7 +330,8 @@ const action = async (interaction) => {
       }
 
       //save data in class
-      POLLS.addPoll({pollId: pollMsg.id, collector, timeoutDuration});
+      const pollInstance = new Poll(pollMsg.id, collector, timeout);
+      POLLS.addPoll(pollInstance);
     } catch (e) {
       console.log("/polls create error\n", e);
     }

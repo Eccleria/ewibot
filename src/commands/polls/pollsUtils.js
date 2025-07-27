@@ -205,6 +205,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
     removePoll(db, pollMessage.id); //remove from db
     clearTimeout(pollData.timeout); //clear timeout
     if (!isFromCollector) pollData.collector.stop(); //stop collector if any
+    POLLS.removePoll(pollMessage.id);
     console.log("pollMessage has been deleted, cannot reply 'stoped'", e);
     return;
   }
