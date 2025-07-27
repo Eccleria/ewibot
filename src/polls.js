@@ -1,4 +1,12 @@
 
+export class Poll {
+  constructor(pollId, collector, timeout) {
+    this.pollId = pollId;
+    this.collector = collector;
+    this.timeout = timeout;
+  }
+}
+
 
 class Polls {
   constructor(polls) {
