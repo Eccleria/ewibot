@@ -11,6 +11,7 @@ import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
 import { getPoll, getPolls, removePoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
+import { Poll, POLLS } from "../../polls.js";
 
 export const initPollsCollector = (client) => {
   // once startup, init polls lookup
@@ -33,7 +34,25 @@ export const initPollsCollector = (client) => {
     const difference = dayjs(poll.pollDate).diff(now);
     const newTiming = difference > 0 ? difference : 10000; //if passed, waiting time of 10s
 
-    pollButtonCollector(message, newTiming);
+    //create the 1h timeout if required
+    let timeout = null;
+    if (newTiming >= 3600000) {
+      timeout = setTimeout(
+        (message) => {
+          const perso = PERSONALITY.getPersonality().polls;
+          message.reply(perso.create.reminder);
+        },
+        newTiming - 3600000,
+        message,
+      );
+    }
+
+    //create collector
+    const collector = pollButtonCollector(message, newTiming);
+
+    //update POLLS
+    const pollInstance = new Poll(poll.pollId, collector, timeout);
+    POLLS.addPoll(pollInstance);
   });
 };
 
