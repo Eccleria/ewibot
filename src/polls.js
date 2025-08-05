@@ -45,7 +45,7 @@ class Polls {
 
   /**
    * Get a poll.
-   * @param {string} pollId 
+   * @param {string} pollId
    * @returns Poll
    */
   getPoll(pollId) {
