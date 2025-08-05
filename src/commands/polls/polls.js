@@ -338,7 +338,7 @@ const action = async (interaction) => {
   } else if (subcommand === personality.addChoice.name) {
     //addChoice poll subcommand
     const perso = personality.addChoice;
- 
+
     //get options
     const pollInput = options.getString(perso.pollOption.name);
     const choices = options.getString(perso.choiceOption.name);

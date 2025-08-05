@@ -226,12 +226,12 @@ export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
 
   //clear data
   removePoll(db, pollMessage.id); //remove from db
-  if(!isFromCollector) pollData.collector.stop(); //stop collector if any
+  if (!isFromCollector) pollData.collector.stop(); //stop collector if any
   clearTimeout(pollData.timeout); //clear timeout
   POLLS.removePoll(pollData.pollId);
 
   //edit original poll message
-  pollMessage.edit(editedPollMessage); 
+  pollMessage.edit(editedPollMessage);
 
   //build poll summary message content
   const mPerso = perso.stop.message;
