@@ -119,6 +119,9 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
   const colorIdx = dbPoll.colorIdx; //db data
   const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
   const black = cPerso.colorOption.black; //empty bar color
+  //debug for fixing #272 #376
+  console.log("polls colorIdx :", colorIdx);
+  console.log("emoteColor : ", emoteColor);
 
   //write new fields
   //const toChangeFieldIdx = [toAddVoteIdx, toRemoveVoteIdx];

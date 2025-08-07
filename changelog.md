@@ -1,5 +1,6 @@
 ﻿## 7.0.0
 - Core: slice Ewibot in 2, moderation part now in Sil' Afian ([Ewibot](https://github.com/Eccleria/Sil-Afian))
+- Debug: add more logs about `emoteColor`, trying to fix ([#272](https://github.com/Eccleria/ewibot/issues/272)) and ([#376](https://github.com/Eccleria/ewibot/issues/376))
 - Fix: rare `polls` crash when vote `collector` fails with an unknow interaction ([#371](https://github.com/Eccleria/ewibot/issues/371)) ([#373](https://github.com/Eccleria/ewibot/pull/373))
 - Fix: `polls` now use also maxValue and not totalValues when computing ratio at polls stop ([#375](https://github.com/Eccleria/ewibot/pull/375))
 - Fix: app crashed if `user` has guild specific `avatar` ([#378](https://github.com/Eccleria/ewibot/issues/378)) ([#379](https://github.com/Eccleria/ewibot/pull/379))
