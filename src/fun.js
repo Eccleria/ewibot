@@ -29,19 +29,31 @@ const optionalActivities = () => {
 };
 
 // activity list
-const activityList = [
-  { name: "Adrien Sépulchre", type: ActivityType.Listening },
-  { name: "JDR Ewilan par Charlie", type: ActivityType.Playing },
-  {
-    name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(),
-    type: ActivityType.Watching,
-  },
-  { name: "la bataille contre Azan", type: ActivityType.Competing },
-  { name: "la création d'Al-Jeit", type: ActivityType.Competing },
-  { name: "épier les clochinettes", type: ActivityType.Playing },
-  { name: "compter les poêles", type: ActivityType.Playing },
-  ...optionalActivities(),
-];
+const buildActivityList = () => {
+  const activityList = [
+    { name: "Adrien Sépulchre", type: ActivityType.Listening },
+    { name: "JDR Ewilan par Charlie", type: ActivityType.Playing },
+    { name: "la bataille contre Azan", type: ActivityType.Competing },
+    { name: "la création d'Al-Jeit", type: ActivityType.Competing },
+    { name: "épier les clochinettes", type: ActivityType.Playing },
+    { name: "compter les poêles", type: ActivityType.Playing },
+    ...optionalActivities(),
+  ];
+
+  //add Ewilan episodes
+  const array = Array.from(new Array(7));
+  const EwilanList = array.reduce((acc, _cur, idx) => {
+    const element = {
+        name: "Ewilan EP" + (idx + 1).toString(),
+        type: ActivityType.Watching,
+      }
+    return [...acc, element];
+  }, []);
+  activityList.push(...EwilanList);
+  
+  return activityList;
+}
+
 
 /**
  * Set the timeout for bot activity update.
@@ -63,6 +75,7 @@ export const updateActivity = (client) => {
  */
 export const setActivity = (client) => {
   // randomise Ewibot activity
+  const activityList = buildActivityList();
   const statusLen = activityList.length - 1;
   const rdmIdx = Math.round(statusLen * Math.random());
   const whichStatus = activityList[rdmIdx];
