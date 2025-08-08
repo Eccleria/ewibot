@@ -13,6 +13,7 @@ import {
 } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 import { PERSONALITY } from "../../personality.js";
+import { Poll, POLLS } from "../../polls.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().polls.name)
@@ -185,9 +186,9 @@ const action = async (interaction) => {
     const hours = option == null ? 0 : option;
     option = options.getNumber(perso.minuteOption.name, false); //minutes
     const minutes = option == null ? 0 : option;
-    let timeout = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
-    if (timeout === 0) timeout = 48 * 60 * 60 * 1000; //2 days default value
-    const pollDate = dayjs().millisecond(timeout);
+    let timeoutDuration = (hours * 60 + minutes) * 60 * 1000; //poll duration in miliseconds
+    if (timeoutDuration === 0) timeoutDuration = 48 * 60 * 60 * 1000; //2 days default value
+    const pollDate = dayjs().millisecond(timeoutDuration);
 
     //check choices length restrictions
     const splited = choices.split(";");
@@ -297,7 +298,7 @@ const action = async (interaction) => {
         embeds: [embed, timeoutEmbed],
         components: components.actionRows,
       });
-      pollButtonCollector(pollMsg, timeout); //start listening to interactions
+      const collector = pollButtonCollector(pollMsg, timeoutDuration); //start listening to interactions
       interactionReply(interaction, perso.sent);
 
       //save poll
@@ -316,16 +317,21 @@ const action = async (interaction) => {
       ); //add to db
 
       //set 1h reminder
-      if (timeout >= 7200000) {
-        setTimeout(
+      let timeout = null;
+      if (timeoutDuration >= 7200000) {
+        timeout = setTimeout(
           (message) => {
             const perso = PERSONALITY.getPersonality().polls;
             message.reply(perso.create.reminder);
           },
-          timeout - 3600000,
+          timeoutDuration - 3600000,
           pollMsg,
         );
       }
+
+      //save data in class
+      const pollInstance = new Poll(pollMsg.id, collector, timeout);
+      POLLS.addPoll(pollInstance);
     } catch (e) {
       console.log("/polls create error\n", e);
     }
@@ -450,7 +456,7 @@ const action = async (interaction) => {
     const channel = await interaction.client.channels.fetch(dbPoll.channelId);
     const pollMessage = await channel.messages.fetch(dbPoll.pollId);
 
-    await stopPoll(dbPoll, pollMessage, personality);
+    await stopPoll(dbPoll, pollMessage, personality, false);
 
     //return
     interactionReply(interaction, perso.stopped);

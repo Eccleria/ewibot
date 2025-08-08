@@ -4,6 +4,7 @@
 - Fix: rare `polls` crash when vote `collector` fails with an unknow interaction ([#371](https://github.com/Eccleria/ewibot/issues/371)) ([#373](https://github.com/Eccleria/ewibot/pull/373))
 - Fix: `polls` now use also maxValue and not totalValues when computing ratio at polls stop ([#375](https://github.com/Eccleria/ewibot/pull/375))
 - Fix: app crashed if `user` has guild specific `avatar` ([#378](https://github.com/Eccleria/ewibot/issues/378)) ([#379](https://github.com/Eccleria/ewibot/pull/379))
+- Update: `polls` now store `collector` and `timeout` in a `Polls` class instance, fixing [#326](https://github.com/Eccleria/ewibot/issues/326). ([#359](https://github.com/Eccleria/ewibot/pull/359))
 
 ## 6.5.1
 - Fix a crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))

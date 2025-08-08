@@ -1,6 +1,7 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
 import { removePoll, removePunctuation } from "../../helpers/index.js";
+import { POLLS } from "../../polls.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -190,16 +191,21 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
  * @param {*} dbPoll poll data from db
  * @param {*} pollMessage Message with poll embed
  * @param {*} perso personality
+ * @param {boolean} isFromCollector boolean indicating if fonction is called by collector end
  */
-export const stopPoll = async (dbPoll, pollMessage, perso) => {
+export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
   console.log("stop poll");
   const db = pollMessage.client.db;
   const editedPollMessage = {};
+  const pollData = POLLS.getPoll(pollMessage.id);
 
   try {
     await pollMessage.fetch();
   } catch (e) {
     removePoll(db, pollMessage.id); //remove from db
+    clearTimeout(pollData.timeout); //clear timeout
+    if (!isFromCollector) pollData.collector.stop(); //stop collector if any
+    POLLS.removePoll(pollMessage.id);
     console.log("pollMessage has been deleted, cannot reply 'stoped'", e);
     return;
   }
@@ -218,11 +224,16 @@ export const stopPoll = async (dbPoll, pollMessage, perso) => {
   editedPollMessage.embeds = [pollEmbed, ...pollMessage.embeds.slice(1)];
   editedPollMessage.components = []; //remove polls buttons
 
+  //clear data
   removePoll(db, pollMessage.id); //remove from db
+  if (!isFromCollector) pollData.collector.stop(); //stop collector if any
+  clearTimeout(pollData.timeout); //clear timeout
+  POLLS.removePoll(pollData.pollId);
 
-  pollMessage.edit(editedPollMessage); //edit poll message
+  //edit original poll message
+  pollMessage.edit(editedPollMessage);
 
-  //build message content
+  //build poll summary message content
   const mPerso = perso.stop.message;
   const len = pollEmbed.data.title.length;
   const content =
