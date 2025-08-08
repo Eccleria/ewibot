@@ -8,6 +8,7 @@ import { announceButtonHandler } from "./announce.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift.js";
 import { interactionReply } from "../helpers/index.js";
+import { challengeButtonHandler } from "./challenge/challengeHandlers.js";
 
 /**
  * Create a button from ButtonBuilder
@@ -39,6 +40,7 @@ export const buttonHandler = (interaction) => {
   else if (customId.startsWith("polls"))
     return; //poll vote buttons, handled in pollsCollectors.js
   else if (customId.startsWith("pronouns")) pronounsButtonHandler(interaction);
+  else if (customId.startsWith("challenge")) challengeButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
 };
 

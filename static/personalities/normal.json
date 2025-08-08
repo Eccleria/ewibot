@@ -144,6 +144,23 @@
       "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
       "help": "Cette commande permet de lancer un défi à d'autres gens.",
       "name": "challenge",
+      "participate": {
+        "textInput": {
+          "customId": "challenge_modal_participate_inputText",
+          "label": "Le contenu de votre participation",
+          "placeholder": "Ecrivez ici vos idées !"
+        },
+        "titleInput": {
+          "customId": "challenge_modal_participate_inputTitle",
+          "label": "Le titre de votre participation",
+          "placeholder": "Ecrivez ici votre titre !"
+        },
+        "modal": {
+          "customId": "challenge_modal_participate_userParticipation",
+          "title": "Votre participation"
+        },
+        "sent": "Le contenu du modal a bien été reçu."
+      },
       "selectMenu": {
         "choices": [
           { "label": "Choix parmi un des défis par défaut", "value": "challenge_selectMenu_userInput_defaultChallenge" },
