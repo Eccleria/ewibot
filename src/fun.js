@@ -105,7 +105,7 @@ export const readContentAndReact = async (message, currentServer) => {
   if (message.mentions.has(process.env.CLIENTID))
     await message.react(currentServer.rudolphslichId);
 
-  const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
+  const frequency = Math.random() > 0.9; // Limit Ewibot react frequency
 
   //Ewibot wave to user
   if (hello.some((helloMessage) => words[0] === helloMessage) && frequency) {
@@ -205,7 +205,7 @@ const reactToContentEmotes = async (message, server, today, foundEmotes) => {
     message.react("🎂"); //ewibot birthday
   else
     for (const e of foundEmotes) {
-      await message.react(e);
+      if (Math.random() > 0.5) await message.react(e);
     }
 };
 
