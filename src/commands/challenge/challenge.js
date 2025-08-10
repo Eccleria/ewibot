@@ -12,11 +12,12 @@ import {
   TextDisplayBuilder,
   ThumbnailBuilder,
 } from "discord.js";
-import { PERSONALITY } from "../../personality.js";
-
-import { interactionReply } from "../../helpers/index.js";
-import { createButton } from "../utils.js";
 import dayjs from "dayjs";
+
+import { addChallenge, interactionReply } from "../../helpers/index.js";
+import { createButton } from "../utils.js";
+import { CHALLENGES, Challenge } from "../../challenge.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const createChallenge = async (interaction, title, challenge) => {
   const perso = PERSONALITY.getPersonality().challenge.challenge;
@@ -93,11 +94,19 @@ export const createChallenge = async (interaction, title, challenge) => {
     .setAccentColor(Colors[color])
     .addTextDisplayComponents(dateTextField);
 
-  channel.send({
+  const challengeMessage = await channel.send({
     allowed_mentions: { parse: [] },
     flags: MessageFlags.IsComponentsV2,
     components: [container, hammertimeContainer],
   });
+
+  //create the timeout
+  const timeoutObj = setTimeout(() => {}, timeout);
+
+  //add challenge to the db and to the class
+  addChallenge(interaction.client.db, interaction.user.id, challengeMessage.id, title);
+  const challengeInstance = new Challenge(challengeMessage.id, timeoutObj);
+  CHALLENGES.addChallenge(challengeInstance);
 };
 
 const command = new SlashCommandBuilder()

@@ -1,18 +1,60 @@
+import { dbReturnType } from "./dbStats.js";
 
-const addChallenge = (db, channelId, messageId, authorId, title) => {
-  const challenge = {
-    channelId,
-    id: messageId,
+//#region Challenge
+
+const isChallenge = (db, challengeId) => {
+  const result = db.data.challenges.map((chlg) => chlg.challengeId).includes(challengeId);
+  if (result) return dbReturnType.isIn;
+  else return dbReturnType.isNotIn;
+}
+
+const addChallenge = (db, authorId, challengeId, title) => {
+  db.data.challenges.push({
     authorId,
-    title
-  }
-  db.data.challenges.push(challenge);
-  db.wasUpdated = true
+    challengeId,
+    participations: [],
+    title,
+  });
+  db.wasUpdated = true;
 };
 
-const removeChallenge = (db, messageId) => {
-  db.data.challenges = db.data.challenges.filter((chlg) => chlg.id !== messageId);
+const getChallenge = (db, challengeId) => {
+  if (isChallenge(db, challengeId)) {
+    const result = db.data.challenges.find((chlg) => chlg.challengeId === challengeId);
+    return result
+  }
+}
+
+const removeChallenge = (db, challengeId) => {
+  const data = db.data.challenges;
+  db.data.challenges = data.filter((chlg) => chlg.challengeId !== challengeId);
   db.wasUpdated = true;
 }
 
-export { addChallenge, removeChallenge };
+export { addChallenge, isChallenge, removeChallenge };
+
+//#endregion
+
+//#region Participation
+
+const addChallengeParticipation = (db, challengeId, authorId, text, title) => {
+  const challenge = getChallenge(db, challengeId);
+  if (challenge) {
+    challenge.participations.push({authorId, text, title});
+    db.wasUpdated = true;
+    return dbReturnType.isOk;
+  } else return dbReturnType.isNotOk;
+};
+
+export { addChallengeParticipation };
+
+//#endregion
+
+//#region Utils
+
+const getChallengeParticipationCount = (db, challengeId) => {
+  const count = getChallenge(db, challengeId).participations.length;
+  return count
+}
+
+export { getChallengeParticipationCount };

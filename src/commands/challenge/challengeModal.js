@@ -1,4 +1,5 @@
-import { addChallengeParticipation } from "../../helpers/index.js";
+import { ContainerBuilder, SectionBuilder, TextDisplayBuilder } from "discord.js";
+import { addChallengeParticipation, getChallengeParticipationCount } from "../../helpers/index.js";
 import { interactionReply } from "../../helpers/utils.js";
 import { PERSONALITY } from "../../personality.js";
 import { createChallenge } from "./challenge.js";
@@ -27,20 +28,36 @@ const challengeUserInputModalHandler = (interaction) => {
   interactionReply(interaction, perso.sent);
 };
 
-const challengeParticipateModalHandler = (interaction) => {
-  const perso = PERSONALITY.getPersonality().challenge.participate;
+const challengeParticipateModalHandler = async (interaction) => {
+  const perso = PERSONALITY.getPersonality().challenge;
+  const pPerso = perso.participate;
+  const cPerso = perso.challenge;
 
-  const text = interaction.fields.getTextInputValue(perso.textInput.customId);
-  const title = interaction.fields.getTextInputValue(perso.titleInput.customId);
+  const text = interaction.fields.getTextInputValue(pPerso.textInput.customId);
+  const title = interaction.fields.getTextInputValue(pPerso.titleInput.customId);
   console.log("challenge modal userInput text", [text], [title]);
 
   //store the participation
-  addChallengeParticipation(interaction.client.db, interaction.message.id, interaction.user.id, text, title);
+  const client = interaction.client;
+  const message = interaction.message;
+  addChallengeParticipation(client.db, message.id, interaction.user.id, text, title);
 
   //update the participant count on the challenge message
-  const message = interaction.message;
-  console.log("participation message", message);
+  const participantsNumber = getChallengeParticipationCount(client.db, message.id);
+  const components = message.components;
+  const container = new ContainerBuilder(components[0].toJSON());
+  const section = new SectionBuilder(container.components[2].toJSON());
+  const participantCountText = new TextDisplayBuilder().setContent(
+    cPerso.participantCount[0] + `${participantsNumber}` + cPerso.participantCount[1],
+  ); //update the count in the textDisplay
+  section.spliceTextDisplayComponents(2, 1, participantCountText); //update the section with the new text
+  container.spliceComponents(2, 1, section); //update the container with the new section
 
+  //edit the challenge message with the new count
+  await message.edit({
+    components: [container, components[1]]
+  })
+  
   //reply to the modal
-  interactionReply(interaction, perso.sent);
+  interactionReply(interaction, pPerso.sent);
 }

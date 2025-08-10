@@ -12,6 +12,10 @@ import {
 
 import {
   addChallenge,
+  isChallenge,
+  removeChallenge,
+  addChallengeParticipation,
+  getChallengeParticipationCount,
 } from "./db/dbChallenge.js";
 
 import {
@@ -117,6 +121,10 @@ export {
   removeBirthday,
   //challenge
   addChallenge,
+  isChallenge,
+  removeChallenge,
+  addChallengeParticipation,
+  getChallengeParticipationCount,
   //eventRoles
   getEventRoles,
   addEventRole,
