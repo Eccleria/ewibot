@@ -31,12 +31,12 @@ const optionalActivities = () => {
 // activity list
 const buildActivityList = () => {
   const activityList = [
-    { name: "Adrien Sépulchre", type: ActivityType.Listening },
-    { name: "JDR Ewilan par Charlie", type: ActivityType.Playing },
-    { name: "la bataille contre Azan", type: ActivityType.Competing },
-    { name: "la création d'Al-Jeit", type: ActivityType.Competing },
-    { name: "épier les clochinettes", type: ActivityType.Playing },
-    { name: "compter les poêles", type: ActivityType.Playing },
+    { name: "Adrien Sépulchre", type: ActivityType.Listening, state: "Quel talent ..." },
+    { name: "JDR Ewilan par Charlie", type: ActivityType.Playing, state: "C'est quand qu'on arrive ?" },
+    { name: "le Chant de la Dame", type: ActivityType.Listening, state: "Courbes innées en ondoyantes circonvolutions. Onde infinie gourgeoyante d'harmonie plongée au cœur des océans d'étoiles." },
+    { name: "la création d'Al-Jeit", type: ActivityType.Competing, state: "😎" },
+    { name: "épier les clochinettes", type: ActivityType.Playing, state: "...c'est quoi en fait une clochinette ?" },
+    { name: "bétonner les gens", type: ActivityType.Playing, state: "Hehehe béton" },
     ...optionalActivities(),
   ];
 
@@ -46,6 +46,7 @@ const buildActivityList = () => {
     const element = {
         name: "Ewilan EP" + (idx + 1).toString(),
         type: ActivityType.Watching,
+        state: "J'adore cet épisode !"
       }
     return [...acc, element];
   }, []);
