@@ -120,7 +120,7 @@ export const onReactionRemove = async (messageReaction, user) => {
     await roleRemove(messageReaction, currentServer, user);
 };
 
-export const onThreadCreate = (thread, newlyCreated) => {
+export const onThreadCreate = (thread, _newlyCreated) => {
   if (thread.joinable && !thread.joined) thread.join();
 }
 
