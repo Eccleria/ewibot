@@ -122,7 +122,7 @@ export const onReactionRemove = async (messageReaction, user) => {
 
 export const onThreadCreate = (thread, _newlyCreated) => {
   if (thread.joinable && !thread.joined) thread.join();
-}
+};
 
 //#endregion
 
