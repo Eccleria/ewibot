@@ -1,11 +1,14 @@
 import { ButtonBuilder } from "discord.js";
 import { pronounsButtonHandler } from "../admin/pronouns.js";
+import { challengeModalHandler } from "./challenge/challengeModal.js";
+import { challengeSelectMenuHandler } from "./challenge/challengeSelectMenu.js";
 import { settingsButtonHandler } from "./polls/pollsHandlers.js";
 import { pollSelectMenuHandler } from "./polls/pollsSelectMenu.js";
 import { announceButtonHandler } from "./announce.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift.js";
 import { interactionReply } from "../helpers/index.js";
+import { challengeButtonHandler } from "./challenge/challengeHandlers.js";
 
 /**
  * Create a button from ButtonBuilder
@@ -28,6 +31,7 @@ export const createButton = (id, label, style, emoji) => {
  */
 export const buttonHandler = (interaction) => {
   const { customId } = interaction;
+
   if (customId.startsWith("gift")) giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
@@ -36,6 +40,7 @@ export const buttonHandler = (interaction) => {
   else if (customId.startsWith("polls"))
     return; //poll vote buttons, handled in pollsCollectors.js
   else if (customId.startsWith("pronouns")) pronounsButtonHandler(interaction);
+  else if (customId.startsWith("challenge")) challengeButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
 };
 
@@ -46,6 +51,20 @@ export const buttonHandler = (interaction) => {
 export const selectMenuHandler = (interaction) => {
   const { customId } = interaction;
   console.log("menuHandler", customId);
+
   if (customId.startsWith("polls_selectMenu"))
     pollSelectMenuHandler(interaction);
+  else if (customId.startsWith("challenge_selectMenu"))
+    challengeSelectMenuHandler(interaction);
+};
+
+/**
+ * Dispatch Modal interactions between corresponding functions
+ * @param {object} interaction
+ */
+export const modalHandler = (interaction) => {
+  const { customId } = interaction;
+
+  if (customId.startsWith("challenge")) challengeModalHandler(interaction);
+  else interactionReply(interaction, "ERROR 404");
 };

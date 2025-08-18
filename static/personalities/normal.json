@@ -125,6 +125,69 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "challenge": {
+      "challenge": {
+        "author": "**Proposé par** ",
+        "description": "Le défi est un jeu d'écriture proposé par un.e membre de ce serveur. L'auteurice choisit un thème par défaut ou peut en proposer un de son choix. Les autres personnes, si le thème les intéresse, peuvent participer au défi en cliquant sur le bouton de participation et en donnant leur contribution. Vous avez 24h pour participer avant que les contributions soient bloquées. Après votre participation, un sondage sera posté pour que tout le monde puisse voter pour ses conributions préférées. Attention, vous ne pouvez pas voter pour la votre. Bonne chance !",
+        "hammertime": "Vous pouvez participer jusqu'à ",
+        "participantCount": ["Il y a ", " participant.e.s."],
+        "pButton": {
+          "customId": "challenge_button_participate",
+          "label": "Participer"
+        },
+        "sButton": {
+          "customId": "challenge_button_settings"
+        },
+        "title": "# Défi"
+      },
+      "description": "Choisissez un défi à envoyer dans le salon actuel.",
+      "errorSelectMenuNotFound": "Le menu de sélection n'a pas été trouvé",
+      "help": "Cette commande permet de lancer un défi à d'autres gens.",
+      "name": "challenge",
+      "participate": {
+        "textInput": {
+          "customId": "challenge_modal_participate_inputText",
+          "label": "Le contenu de votre participation",
+          "placeholder": "Ecrivez ici vos idées !"
+        },
+        "titleInput": {
+          "customId": "challenge_modal_participate_inputTitle",
+          "label": "Le titre de votre participation",
+          "placeholder": "Ecrivez ici votre titre !"
+        },
+        "modal": {
+          "customId": "challenge_modal_participate_userParticipation",
+          "title": "Votre participation"
+        },
+        "sent": "Le contenu du modal a bien été reçu."
+      },
+      "selectMenu": {
+        "choices": [
+          { "label": "Choix parmi un des défis par défaut", "value": "challenge_selectMenu_userInput_defaultChallenge" },
+          { "label": "Rédiger votre défi", "value": "challenge_selectMenu_userInput_userChallenge" }
+        ],
+        "customId": "challenge_selectMenu_userInput",
+        "placeholder": "Votre choix ?",
+        "title": "# Challenge\n\nOn aime les défis. Et vous ? \nChoisissez entre une liste de défis par défaut, ou proposez votre sujet."
+      },
+      "userInput": {
+        "textInput": {
+          "customId": "challenge_modal_userInput_inputText",
+          "label": "L'explication de votre défi",
+          "placeholder": "Ecrivez ici votre idée !"
+        },
+        "titleInput": {
+          "customId": "challenge_modal_userInput_inputTitle",
+          "label": "Le titre de votre défi",
+          "placeholder": "Ecrivez ici votre titre !"
+        },
+        "modal": {
+          "customId": "challenge_modal_userInput_userChallenge",
+          "title": "Votre sujet de défi"
+        },
+        "sent": "Le contenu du modal a bien été reçu."
+      }
+    },
     "concrete": {
       "booleanOption": {
         "description": "S'il faut actualiser la pp utilisée",

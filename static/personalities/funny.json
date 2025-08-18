@@ -109,6 +109,18 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "challenge": {
+      "description": "Choisissez un défi à envoyer dans le salon actuel.",
+      "help": "Cette commande permet de lancer un défi à d'autres gens.",
+      "name": "challenge",
+      "selectMenu": {
+        "choices": [
+          { "label": "Choix parmi un des défis par défaut", "value": "challenge_selectMenu_defaultChallenge" },
+          { "label": "Rédiger votre défi", "value": "challenge_selectMenu_userChallenge" }
+        ],
+        "placeholder": "Votre choix ?"
+      }
+    },
     "concrete": {
       "booleanOption": {
         "description": "Pour que le gif ait la bonne face !",
