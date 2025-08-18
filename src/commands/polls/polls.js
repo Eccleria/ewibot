@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, ButtonStyle, MessageFlags, Colors, ContainerBuilder, SectionBuilder, SeparatorBuilder, SlashCommandBuilder, TextDisplayBuilder, ThumbnailBuilder, SeparatorSpacingSize } from "discord.js";
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { parsePollFields, stopPoll } from "./pollsUtils.js";
 import { createButton } from "../utils.js";
@@ -206,15 +205,67 @@ const action = async (interaction) => {
       }
     }
 
+    //create container
+    const titleText = "# " + title;
+    const container = new ContainerBuilder()
+      .setAccentColor(Colors[color]);
+
     //create embed
     const embed = new EmbedBuilder()
-      .setTitle(title)
       .setTimestamp()
-      .setColor(color);
 
     //add author if any
-    if (author)
-      embed.setAuthor({ name: author.username, iconURL: author.avatarURL() });
+    if (author) {
+      const authorThumbnail = new ThumbnailBuilder()
+        .setURL(author.avatarURL())
+        .setDescription(author.username);
+      const authorTitleText = titleText + "\n -#" + perso.author + author.toString();
+      const authorTitleDescText = description ? authorTitleText + '\n' + description : authorTitleText;
+      const authorC = new TextDisplayBuilder()
+        .setContent(authorTitleDescText);
+      const titleSection = new SectionBuilder()
+        .addTextDisplayComponents(authorC)
+        .setThumbnailAccessory(authorThumbnail);
+
+      container.addSectionComponents(titleSection);
+    } else {
+      const titleDescText = description ? titleText + '\n' + description : titleText;
+      const titleC = new TextDisplayBuilder().setContent(titleDescText);
+      container.addTextDisplayComponents(titleC);
+    }
+
+    //add separator
+    const separator = new SeparatorBuilder();
+    container.addSeparatorComponents(separator);
+
+    //parse choices text
+    const results = parsePollFields(splited);
+
+    //write choices in embed
+    const black = personality.black;
+    let dbVotes = [];
+    results.fields.forEach((field, idx) => {
+      //create text displays
+      const emote = results.emotes[idx];
+      const name = "### " + emote + " " + field;
+      const nameC = new TextDisplayBuilder().setContent(name);
+      const value = black.repeat(10) + " 0% (0)\n";
+      const valueC = new TextDisplayBuilder().setContent(value);
+      
+      //create button
+      const buttonId = "polls_" + idx.toString();
+      const button = createButton(buttonId, field, ButtonStyle.Secondary, emote);
+      dbVotes = [...dbVotes, { votes: [], buttonId: buttonId }]; //create db choice storage
+
+      const fieldSection = new SectionBuilder()
+        .addTextDisplayComponents(nameC, valueC)
+        .setButtonAccessory(button);
+
+      container.addSectionComponents(fieldSection);
+    });
+    
+    const separator2 = new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large); 
+    container.addSeparatorComponents(separator2);
 
     //write footer according to voteMax
     const voteFooter =
@@ -222,51 +273,9 @@ const action = async (interaction) => {
         ? perso.footer.unique
         : perso.footer.multiple + ` (${voteMax})`;
     const footerText = voteFooter + perso.footer.options;
-    embed.setFooter({ text: footerText });
+    const footerC = new TextDisplayBuilder().setContent(footerText);
 
-    // Optionnal parameters
-    if (description) embed.setDescription(description);
-
-    //parse choices text
-    const results = parsePollFields(splited);
-
-    //write choices in embed
-    const black = personality.black;
-    results.fields.forEach((field, idx) => {
-      const name = results.emotes[idx] + " " + field;
-      embed.addFields({ name, value: black.repeat(10) + " 0% (0)\n" });
-    });
-
-    //create vote buttons
-    const components = results.emotes.reduce(
-      (acc, cur, idx) => {
-        //create button
-        const buttonId = "polls_" + idx.toString();
-        const button = createButton(buttonId, null, ButtonStyle.Secondary, cur);
-        const newDbVotesValue = { votes: [], buttonId: buttonId }; //create db choice storage
-
-        //handle actionRow maxe size of 5 components.
-        if (idx === 0 || acc.size === 5) {
-          //if first button or last AR is full
-          const newRow = new ActionRowBuilder().addComponents(button);
-          return {
-            actionRows: [...acc.actionRows, newRow],
-            size: 1,
-            dbVotes: [...acc.dbVotes, newDbVotesValue],
-          };
-        } else {
-          //add button to last AR
-          const lastAR = acc.actionRows[acc.actionRows.length - 1];
-          lastAR.addComponents(button);
-          return {
-            actionRows: acc.actionRows,
-            size: acc.size + 1,
-            dbVotes: [...acc.dbVotes, newDbVotesValue],
-          };
-        }
-      },
-      { actionRows: [], size: 0, dbVotes: [] },
-    );
+    container.addTextDisplayComponents(footerC);
 
     //add setting button
     const settingId = personality.prefix + perso.settings;
@@ -276,15 +285,7 @@ const action = async (interaction) => {
       ButtonStyle.Secondary,
       "⚙️",
     );
-    if (components.size === 5) {
-      //if actionRow is full, create one more
-      const newRow = new ActionRowBuilder().addComponents(settingButton);
-      components.actionRows.push(newRow);
-    } else
-      components.actionRows[components.actionRows.length - 1].addComponents(
-        settingButton,
-      );
-
+    const row = new ActionRowBuilder().addComponents(settingButton);
     //add timeout embed
     const timeoutEmbed = new EmbedBuilder().setColor(color);
     timeoutEmbed.addFields({
@@ -292,7 +293,11 @@ const action = async (interaction) => {
       value: `<t:${pollDate.unix()}:F> soit <t:${pollDate.unix()}:R>`,
     });
 
+    console.log("container", container);
+    interaction.channel.send({flags: MessageFlags.IsComponentsV2, components: [container, row]});
+
     //send poll
+    /*
     try {
       const pollMsg = await interaction.channel.send({
         embeds: [embed, timeoutEmbed],
@@ -335,6 +340,7 @@ const action = async (interaction) => {
     } catch (e) {
       console.log("/polls create error\n", e);
     }
+    */
   } else if (subcommand === personality.addChoice.name) {
     //addChoice poll subcommand
     const perso = personality.addChoice;
