@@ -2,6 +2,7 @@
   "apologiesCounting": [],
   "birthdaysUsers": [],
   "concreteRecipients": [],
+  "dateMessages": [],
   "eventRoles": [
     {
       "name": "test",

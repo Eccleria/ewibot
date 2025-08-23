@@ -1,4 +1,4 @@
-import { dbReturnType } from "./dbStats";
+import { dbReturnType } from "./dbStats.js";
 
 const isDateSaved = (db, messageId) => {
 	if(db.data.dateMessages.map((obj) => obj.messageId).includes(messageId))

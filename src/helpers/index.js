@@ -11,6 +11,10 @@ import {
 } from "./db/dbBirthday.js";
 
 import {
+  addDate
+} from "./db/dbDate.js";
+
+import {
   getEventRoles,
   addEventRole,
   updateEventRoleMessageId,
@@ -111,6 +115,8 @@ export {
   addBirthday,
   isBirthdayDate,
   removeBirthday,
+  //date
+  addDate,
   //eventRoles
   getEventRoles,
   addEventRole,
