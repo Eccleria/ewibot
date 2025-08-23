@@ -11,6 +11,7 @@ import {
   //utils
   hasApology,
   removePunctuation,
+  addDate,
 } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
 
@@ -105,6 +106,21 @@ export const readContentAndReact = async (message, currentServer) => {
   if (message.mentions.has(process.env.CLIENTID))
     await message.react(currentServer.rudolphslichId);
 
+
+  // Ewibot look for date emotes in message content, to store data in db
+  const dateEmotes = COMMONS.getShared().dateEmotes;
+  for (const emote of dateEmotes) {
+    if (words.some((word) => word.includes(emote)))
+      {
+        //add data to db and break the loop 
+        const returned = addDate(db, message.id, authorId, message.channel.id);
+        if (returned === dbReturnType.isIn) //should not happen
+          return;
+        console.warn("issue here")
+        break
+      }
+  }
+
   const frequency = Math.random() > 0.8; // Limit Ewibot react frequency
 
   //Ewibot wave to user
@@ -132,11 +148,14 @@ export const readContentAndReact = async (message, currentServer) => {
   }
 
   // Ewibot reacts with the same emojis that are inside the message
-  const emotes = Object.values(currentServer.autoEmotes);
+  let emotes = Object.values(currentServer.autoEmotes);
   for (const word of words) {
     const foundEmotes = emotes.filter((emote) => word.includes(emote)); // If the emoji is in the commons.json file
-    if (foundEmotes.length > 0 && frequency)
+    if (foundEmotes.length > 0 && frequency) {
       reactToContentEmotes(message, currentServer, today, foundEmotes);
+      foundEmotes.forEach((fEmote) => emotes = emotes.filter((emote) => emote !== fEmote));
+      if (foundEmotes.length === 0) break;
+    }
   }
 
   // If users say they are hungry
