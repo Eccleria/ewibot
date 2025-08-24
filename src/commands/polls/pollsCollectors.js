@@ -19,6 +19,7 @@ import {
 } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { Poll, POLLS } from "../../polls.js";
+import { logger } from "../../bot.js";
 
 export const initPollsCollector = (client) => {
   // once startup, init polls lookup
@@ -31,7 +32,7 @@ export const initPollsCollector = (client) => {
     try {
       message = await fetchMessage(channel.messages, poll.pollId);
     } catch (e) {
-      console.log("pollMessage deleted, cannot start Collector. Db updated", e);
+      logger.error(e, "pollMessage deleted, cannot start Collector. Db updated");
       removePoll(db, poll.pollId);
       return; //same as continue in forEach
     }
@@ -111,7 +112,7 @@ export const pollButtonCollector = (message, timeout) => {
     );
   };
 
-  console.log(timeout);
+  logger.info(timeout);
   const collector = message.createMessageComponentCollector({
     filter,
     componentType: ComponentType.Button,
@@ -123,13 +124,12 @@ export const pollButtonCollector = (message, timeout) => {
       await interaction.deferReply({ flags: MessageFlags.Ephemeral }); //required because should be answered under 3s
       pollBufferVotes(interaction);
     } catch (error) {
-      console.log("vote collect failed");
-      console.log(error);
+      logger.error(error, "vote collect failed");
     }
   });
 
   collector.on("end", (collected) => {
-    console.log(`Collected ${collected.size} interactions.`);
+    logger.info(`Collected ${collected.size} interactions.`);
     const dbPoll = getPoll(message.client.db, message.id);
     if (dbPoll) {
       const perso = PERSONALITY.getPersonality().polls;

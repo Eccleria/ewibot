@@ -4,6 +4,7 @@ import "dayjs/locale/fr.js";
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
 import { SlashCommandBuilder } from "@discordjs/builders";
+
 import {
   addBirthday,
   channelSend,
@@ -11,6 +12,7 @@ import {
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
+import { logger } from "../bot.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
@@ -25,7 +27,7 @@ export const initBirthdays = (client, tomorrowDiff, frequency) => {
       client.channels,
       server.randomfloodChannelId,
     );
-    console.log("hello, timeoutBirthday");
+    logger.info("hello, timeoutBirthday");
 
     wishBirthday(db, channel);
 

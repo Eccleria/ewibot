@@ -9,6 +9,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { fetchUser, interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
+import { logger } from "../bot.js";
 
 //personality
 const personality = PERSONALITY.getPersonality().concrete;
@@ -51,7 +52,7 @@ const action = async (object) => {
     user = options.getUser(cPerso.userOption.name);
   } catch (e) {
     interactionReply(interaction, personality.errorMention);
-    console.log("concrete error", e);
+    logger.error(e, "concrete");
     return;
   }
 
