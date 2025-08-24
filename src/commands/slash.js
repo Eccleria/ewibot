@@ -36,6 +36,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../bot.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -296,19 +297,19 @@ slashCommands.push(help);
 // COMMANDS SENDING TO API
 export const slashCommandsInit = async (guildId, client) => {
   try {
-    console.log("Started refreshing application (/) commands.");
+    logger.info("Started refreshing application (/) commands.");
 
     const self = process.env.CLIENTID; //get self Discord Id
     await rest.put(Routes.applicationGuildCommands(self, guildId), {
       body: helpCommands.map((cmd) => cmd.command.toJSON()),
     }); //send commands jsons to API for command create/update
 
-    console.log("Successfully reloaded application (/) commands.");
+    logger.info("Successfully reloaded application (/) commands.");
 
     //save commands in client
     client.slashCommands = slashCommands; //save slashCommands
     client.contextCommands = contextCommands; //save contextCommands
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 };

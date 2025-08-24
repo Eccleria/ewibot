@@ -10,6 +10,7 @@ import {
 
 import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../bot.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
@@ -128,14 +129,14 @@ const command = new SlashCommandBuilder()
   );
 
 const action = async (interaction) => {
-  //console.log(interaction);
+  //logger.debug(interaction);
   const options = interaction.options;
   const subcommand = options.getSubcommand();
   const personality = PERSONALITY.getPersonality().botMessage;
 
   //check for admin rights
   if (!isAdmin(interaction.user.id)) {
-    console.log(`${interaction.user.id} tried to use /message`);
+    logger.warn(`${interaction.user.id} tried to use /message`);
     interactionReply(interaction, personality.wrongUser);
     return;
   }
@@ -193,7 +194,7 @@ const action = async (interaction) => {
         sliced[sliced.length - 1],
       );
     } catch (e) {
-      console.log("botMessage message fetch error", e);
+      logger.error(e, "botMessage message fetch error");
       try {
         const channel = await fetchChannel(
           interaction.client.channels,
@@ -204,7 +205,7 @@ const action = async (interaction) => {
           sliced[sliced.length - 1],
         );
       } catch (e2) {
-        console.log("botMessage channel/message fetch error", e2);
+        logger.error(e2, "botMessage channel/message fetch error");
         interactionReply(interaction, personality.wrongUrl);
         return;
       }

@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
 import { COMMONS } from "../classes/commons.js";
+import { logger } from "../bot.js";
 
 //#region MISC
 
@@ -38,7 +39,7 @@ const apologyRegex = new RegExp( //regex for apology detection
 export const hasApology = (sanitizedContent) => {
   let apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
   if (process.env.DEBUGLOGS === "yes")
-    console.log("apologyResult", apologyResult);
+    logger.info({apologyResult});
 
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   while (apologyResult !== null) {
@@ -47,17 +48,18 @@ export const hasApology = (sanitizedContent) => {
     const idx = apologyResult.index;
 
     if (process.env.DEBUGLOGS === "yes")
-      console.log("splited.length", splited.length, "apologyResult.index", idx);
+      logger.info({"splitedLength": splited.length, "apologyResultIndex": idx});
 
     const result = splited.reduce(
       (acc, cur) => {
         const newLen = acc.len + cur.length + 1;
         if (process.env.DEBUGLOGS === "yes") {
-          console.log("len", acc.len, "newLen", newLen, "cur", [cur]);
-          console.log(cur.length, sanitizedContent[newLen], "word", acc.word);
+          logger.info({"len": acc.len, newLen, cur});
+          logger.info({"curLength": cur.length, 
+            "content": sanitizedContent[newLen], "word": acc.word});
         }
         if (acc.len <= idx && idx < newLen) {
-          if (process.env.DEBUGLOGS === "yes") console.log("found");
+          if (process.env.DEBUGLOGS === "yes") logger.info("found");
           return { word: acc.word || cur, len: newLen, nb: acc.nb + 1 };
         } else return { word: acc.word, len: newLen, nb: acc.nb };
       },
@@ -65,7 +67,7 @@ export const hasApology = (sanitizedContent) => {
     );
     const wordFound = result.word;
 
-    if (process.env.DEBUGLOGS === "yes") console.log("wordFound", [wordFound]);
+    if (process.env.DEBUGLOGS === "yes") logger.info({wordFound});
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;

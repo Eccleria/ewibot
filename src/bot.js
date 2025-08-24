@@ -100,8 +100,7 @@ client.once(Events.ClientReady, async () => {
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
   // Bot init
-  logger.info("I am ready!")
-  console.log("I am ready!");
+  logger.info("I am ready!");
   roleInit(client); //role handler init
 
   //polls

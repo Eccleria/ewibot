@@ -8,6 +8,7 @@ import { announceButtonHandler } from "./announce.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift/gift.js";
 import { giftModalHandler } from "./gift/giftModal.js";
+import { logger } from "../bot.js";
 
 /**
  * Create a button from ButtonBuilder
@@ -47,7 +48,7 @@ export const buttonHandler = (interaction) => {
  */
 export const selectMenuHandler = (interaction) => {
   const { customId } = interaction;
-  console.log("menuHandler", customId);
+  logger.info("menuHandler %s", customId);
   if (customId.startsWith("polls_selectMenu"))
     pollSelectMenuHandler(interaction);
 };

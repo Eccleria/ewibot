@@ -1,3 +1,5 @@
+import { logger } from "./bot.js";
+
 /**
  * The object Poll is the content added to the Polls unique instance.
  */
@@ -31,8 +33,8 @@ class Polls {
    */
   addPoll(poll) {
     this[poll._pollId] = poll;
-    console.log("Polls - addPoll", poll._pollId);
-    console.log(this);
+    logger.info("Polls - addPoll", poll._pollId);
+    logger.debug(this);
   }
 
   /**
@@ -41,7 +43,7 @@ class Polls {
    */
   removePoll(pollId) {
     delete this[pollId];
-    console.log("Polls - removePoll", pollId);
+    logger.info(pollId, "Polls - removePoll");
   }
 
   /**

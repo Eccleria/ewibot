@@ -5,6 +5,7 @@ import { channelSend, fetchMember, interactionReply } from "ewilib";
 import { interactionEditReply } from "./polls/pollsUtils.js";
 import { isAdmin, removeApologyCount } from "../helpers/index.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../bot.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().leaderboardApology.name)
@@ -16,7 +17,7 @@ const action = async (interaction) => {
   const perso = PERSONALITY.getPersonality().leaderboardApology;
 
   if (!isAdmin(interaction.user.id)) {
-    console.log(`${interaction.user.id} tryed to use /leadApo`);
+    logger.warn(`${interaction.user.id} tryed to use /leadApo`);
     interactionEditReply(interaction, perso.errorNotAllowed);
     return;
   }
@@ -28,7 +29,7 @@ const action = async (interaction) => {
   interaction.channel.sendTyping();
 
   const sorted = dbData.sort((a, b) => a.counter - b.counter); // sort users by counters
-  console.log("sorted", sorted);
+  logger.log(sorted, "sorted");
 
   const guildMembers = interaction.guild.members;
   const baseValue = "```\n";
@@ -53,14 +54,13 @@ const action = async (interaction) => {
 
     if (guildMember && cur.counter >= 10) {
       //if found && enough apologies
-      console.log(
-        "nickname",
+      logger.info({
+        "nickname":
         guildMember.nickname,
-        "username",
+        "username":
         guildMember.user.username,
-        "counter",
-        cur.counter,
-      );
+        "counter":
+        cur.counter});
       const userNickname = guildMember.nickname
         ? guildMember.nickname
         : guildMember.user.username; //get nickname
