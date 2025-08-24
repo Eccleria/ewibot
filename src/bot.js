@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import pino from "pino";
+
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime.js";
 import "dayjs/locale/fr.js";
@@ -40,6 +42,17 @@ import { COMMONS } from "./classes/commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
+
+// LOGGER
+export const logger = pino({
+  transport: {
+    target: "pino-pretty",
+    options: {
+      colorize: true
+    }
+  },
+  redact: ['TOKEN']
+});
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -87,6 +100,7 @@ client.once(Events.ClientReady, async () => {
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
   // Bot init
+  logger.info("I am ready!")
   console.log("I am ready!");
   roleInit(client); //role handler init
 
