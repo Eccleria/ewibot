@@ -61,10 +61,10 @@ export const logger = pino({
   transport: {
     target: "pino-pretty",
     options: {
-      colorize: true
-    }
+      colorize: true,
+    },
   },
-  redact: ['TOKEN']
+  redact: ["TOKEN"],
 });
 
 // DB
@@ -113,8 +113,7 @@ client.once(Events.ClientReady, async () => {
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
   // Bot init
-  logger.info("I am ready!")
-  console.log("I am ready!");
+  logger.info("I am ready!");
   const embed = new EmbedBuilder()
     .setColor(COMMONS.getOk())
     .setDescription("I am ready!")

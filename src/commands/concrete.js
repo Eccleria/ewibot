@@ -10,6 +10,7 @@ import { fetchUser, interactionReply } from "ewilib";
 
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../bot.js";
 
 //COMMAND
 const command = new SlashCommandBuilder()
@@ -49,7 +50,7 @@ const action = async (object) => {
     user = options.getUser(cPerso.userOption.name);
   } catch (e) {
     interactionReply(interaction, cPerso.errorMention);
-    console.log("concrete error", e);
+    logger.error(e, "concrete");
     return;
   }
 

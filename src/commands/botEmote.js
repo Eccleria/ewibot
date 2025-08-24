@@ -3,6 +3,7 @@ import { fetchMessage, interactionReply } from "ewilib";
 
 import { PERSONALITY } from "../classes/personality.js";
 import { isAdmin } from "../helpers/utils.js";
+import { logger } from "../bot.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().botEmote.name)
@@ -31,7 +32,7 @@ const action = async (interaction) => {
   const perso = PERSONALITY.getPersonality().botEmote;
   if (!isAdmin(interaction.user.id)) {
     interactionReply(interaction, perso.errorNotAdmin);
-    console.log(`${interaction.user.id} tried to use /reaction`);
+    logger.warn(`${interaction.user.id} tried to use /reaction`);
     return;
   }
 
@@ -45,7 +46,7 @@ const action = async (interaction) => {
   try {
     message = await fetchMessage(interaction.channel.messages, messageId);
   } catch (e) {
-    console.log("/reaction error - message not found", e);
+    logger.error(e, "/reaction error - message not found");
     interactionReply(interaction, perso.errorMessageNotFound);
     return;
   }

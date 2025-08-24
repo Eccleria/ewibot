@@ -1,8 +1,9 @@
-﻿import { COMMONS } from "../classes/commons.js";
+﻿import { logger } from "../bot.js";
+import { COMMONS } from "../classes/commons.js";
 import { fetchChannel, fetchGuild, fetchMember, fetchMessage } from "ewilib";
 
 export const roleInit = async (client) => {
-  console.log("role init");
+  logger.info("role init");
   // Client init and check reactions on role message
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
