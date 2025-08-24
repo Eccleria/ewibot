@@ -15,6 +15,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
+import { logger } from "../bot.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
@@ -208,8 +209,8 @@ const action = async (interaction) => {
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
     const status = addEventRole(db, guild.id, newRole.name, newRole.id);
-    console.log("status", status);
-
+    logger.info({status});
+    
     //update embed
     const newField = { name: name, value: embedValue, inline: true };
     const embed = EmbedBuilder.from(roleMessage.embeds[0]);

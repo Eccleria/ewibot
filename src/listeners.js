@@ -17,6 +17,7 @@ import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
 import { PERSONALITY } from "./personality.js";
+import { logger } from "./bot.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -26,7 +27,7 @@ export const onInteractionCreate = (interaction) => {
   }
 
   if (interaction.isStringSelectMenu()) {
-    console.log("selectMenu interaction detected");
+    logger.info("selectMenu interaction detected");
     selectMenuHandler(interaction);
     return;
   }
@@ -190,14 +191,14 @@ export const onRemoveReminderReaction = (
           clearTimeout(timeout); //cancel timeout
           removeReminder(client.db, botMessage.id);
           botMessage.reply(PERSONALITY.getPersonality().reminder.delete);
-          console.log("reminder deleted");
+          logger.info("reminder deleted");
           return false;
         }
         return true;
       });
       return;
     } catch (err) {
-      console.log("reminderError", err);
+      logger.error(err, "reminderError");
     }
   }
 };
