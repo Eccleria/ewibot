@@ -7,6 +7,7 @@ import {
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { dbReturnType } from "../helpers/index.js";
+import { logger } from "../bot.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().stats.name)
@@ -37,7 +38,7 @@ const action = (interaction) => {
       addStatsUser(db, userId);
       interactionReply(interaction, useP.isUser);
     } else {
-      console.log("Invalid isStatsUser returned value: ", ret);
+      logger.warn("Invalid isStatsUser returned value: %d", ret);
       interactionReply(interaction, useP.errorDb);
     }
   }

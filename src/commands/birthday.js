@@ -12,6 +12,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
+import { logger } from "../bot.js";
 
 export const initBirthdays = (client, tomorrowDiff, frequency) => {
   const db = client.db;
@@ -21,7 +22,7 @@ export const initBirthdays = (client, tomorrowDiff, frequency) => {
     const server =
       process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
     const channel = await client.channels.fetch(server.randomfloodChannelId);
-    console.log("hello, timeoutBirthday");
+    logger.info("hello, timeoutBirthday");
 
     wishBirthday(db, channel);
 
