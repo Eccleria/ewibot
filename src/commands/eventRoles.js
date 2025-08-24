@@ -220,8 +220,8 @@ const action = async (interaction) => {
     if (color) newRoleObj.color = color;
     const newRole = await roles.create(newRoleObj);
     const status = addEventRole(db, guild.id, newRole.name, newRole.id);
-    logger.info({status});
-    
+    logger.info({ status });
+
     //update embed
     const newField = { name: name, value: embedValue, inline: true };
     const embed = EmbedBuilder.from(roleMessage.embeds[0]);

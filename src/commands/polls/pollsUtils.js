@@ -83,7 +83,7 @@ export const parsePollFields = (content, totalSize = 0) => {
       if (cur.length === 0) return acc; //filter empty choice
 
       const replaced = cur.split("&")[1];
-      logger.info({cur, replaced: String(replaced)}, "emotes");
+      logger.info({ cur, replaced: String(replaced) }, "emotes");
 
       if (cur.includes("&")) {
         //if choices includes emote
@@ -98,21 +98,22 @@ export const parsePollFields = (content, totalSize = 0) => {
         const sanitizedContent = removePunctuation(content);
         logger.info({
           sanitizedContent,
-          "extended": /\p{Extended_Pictographic}/u.test(sanitizedContent),
-          "W2": /\W{2}/g.test(sanitizedContent)
+          extended: /\p{Extended_Pictographic}/u.test(sanitizedContent),
+          W2: /\W{2}/g.test(sanitizedContent),
         });
         if (
           (/\p{Extended_Pictographic}/u.test(sanitizedContent) &&
             !sanitizedContent.includes(" ")) ||
           /\W{2}/g.test(sanitizedContent)
         ) {
-          logger.info( {
-            "extended": /\p{Extended_Pictographic}/u.test(sanitizedContent),
-            "includesSpace": !sanitizedContent.includes(" "),
-            "W2": /\W{2}/g.test(sanitizedContent)}
-          );
-          logger.info({sanitizedContent}, 
-            "Extended_Pictographic Emote found:"
+          logger.info({
+            extended: /\p{Extended_Pictographic}/u.test(sanitizedContent),
+            includesSpace: !sanitizedContent.includes(" "),
+            W2: /\W{2}/g.test(sanitizedContent),
+          });
+          logger.info(
+            { sanitizedContent },
+            "Extended_Pictographic Emote found:",
           );
           return {
             fields: [...acc.fields, replaced],

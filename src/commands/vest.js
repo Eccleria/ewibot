@@ -38,7 +38,7 @@ const action = async (interaction) => {
   const separator = url.includes("guilds/") ? "avatars/" : `${target.id}/`;
   const urlHash = url.split(separator)[1].split(".")[0];
   const fileName = `${target.id}-${urlHash}.png`;
-  logger.info({url, urlHash}, "target image url");
+  logger.info({ url, urlHash }, "target image url");
 
   //check if older image exists
   const pngsPath = path.join(

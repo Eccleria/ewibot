@@ -55,12 +55,10 @@ const action = async (interaction) => {
     if (guildMember && cur.counter >= 10) {
       //if found && enough apologies
       logger.info({
-        "nickname":
-        guildMember.nickname,
-        "username":
-        guildMember.user.username,
-        "counter":
-        cur.counter});
+        nickname: guildMember.nickname,
+        username: guildMember.user.username,
+        counter: cur.counter,
+      });
       const userNickname = guildMember.nickname
         ? guildMember.nickname
         : guildMember.user.username; //get nickname
