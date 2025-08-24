@@ -48,10 +48,10 @@ export const logger = pino({
   transport: {
     target: "pino-pretty",
     options: {
-      colorize: true
-    }
+      colorize: true,
+    },
   },
-  redact: ['TOKEN']
+  redact: ["TOKEN"],
 });
 
 // DB
