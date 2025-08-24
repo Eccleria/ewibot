@@ -25,7 +25,10 @@ export const initPollsCollector = (client) => {
     try {
       message = await channel.messages.fetch(poll.pollId);
     } catch (e) {
-      logger.error(e, "pollMessage deleted, cannot start Collector. Db updated");
+      logger.error(
+        e,
+        "pollMessage deleted, cannot start Collector. Db updated",
+      );
       removePoll(db, poll.pollId);
       return; //same as continue in forEach
     }
