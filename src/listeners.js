@@ -161,7 +161,7 @@ const onPublicMessage = (message, currentServer) => {
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
-  clearURL(message);
+  setTimeout(() => clearURL(message), 1500);
 };
 
 export const onRemoveReminderReaction = (
