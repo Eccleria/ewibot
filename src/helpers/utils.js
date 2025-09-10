@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../classes/commons.js";
-import { logger } from "../logger.js";
+import { utilsLog } from "../logger.js";
 
 /**
  * Get strings corresponding to gif url.
@@ -36,7 +36,7 @@ const apologyRegex = new RegExp( //regex for apology detection
 
 export const hasApology = (sanitizedContent) => {
   let apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  if (process.env.DEBUGLOGS === "yes") logger.info({ apologyResult });
+  if (process.env.DEBUGLOGS === "yes") utilsLog.info({ apologyResult });
 
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   while (apologyResult !== null) {
@@ -45,21 +45,21 @@ export const hasApology = (sanitizedContent) => {
     const idx = apologyResult.index;
 
     if (process.env.DEBUGLOGS === "yes")
-      logger.info({ splitedLength: splited.length, apologyResultIndex: idx });
+      utilsLog.debug({ splitedLength: splited.length, apologyResultIndex: idx });
 
     const result = splited.reduce(
       (acc, cur) => {
         const newLen = acc.len + cur.length + 1;
         if (process.env.DEBUGLOGS === "yes") {
-          logger.info({ len: acc.len, newLen, cur });
-          logger.info({
+          utilsLog.debug({ len: acc.len, newLen, cur });
+          utilsLog.debug({
             curLength: cur.length,
             content: sanitizedContent[newLen],
             word: acc.word,
           });
         }
         if (acc.len <= idx && idx < newLen) {
-          if (process.env.DEBUGLOGS === "yes") logger.info("found");
+          if (process.env.DEBUGLOGS === "yes") utilsLog.debug("found");
           return { word: acc.word || cur, len: newLen, nb: acc.nb + 1 };
         } else return { word: acc.word, len: newLen, nb: acc.nb };
       },
@@ -67,7 +67,7 @@ export const hasApology = (sanitizedContent) => {
     );
     const wordFound = result.word;
 
-    if (process.env.DEBUGLOGS === "yes") logger.info({ wordFound });
+    if (process.env.DEBUGLOGS === "yes") utilsLog.debug({ wordFound });
 
     //verify correspondance between trigerring & full word for error mitigation
     if (apologyResult[0] === wordFound) return true;
@@ -94,7 +94,7 @@ export const interactionReply = async (
 
   await interaction
     .reply(payload)
-    .catch((err) => logger.info(err, "interactionReply error"));
+    .catch((err) => utilsLog.err(err, "interactionReply error"));
 };
 
 export const isAdmin = (authorId) => {
