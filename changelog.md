@@ -7,6 +7,7 @@
 - Fix: missing the autojoin on `thread` creation ([#379](https://github.com/Eccleria/ewibot/pull/379))
 - Update: reduce the `frequency` of auto reactions + add randomness to reactions at content emotes ([#383](https://github.com/Eccleria/ewibot/pull/383))
 - Update: `polls` now store `collector` and `timeout` in a `Polls` class instance, fixing [#326](https://github.com/Eccleria/ewibot/issues/326). ([#359](https://github.com/Eccleria/ewibot/pull/359))
+- Update: `Lucifer`'s age detection is now at 19yo ([#388](https://github.com/Eccleria/ewibot/pull/388))
 
 ## 6.5.1
 - Fix a crash occuring when an pending `alavirien` has left the server when checking if matching criterias ([#353](https://github.com/Eccleria/ewibot/issues/353)) ([#357](https://github.com/Eccleria/ewibot/pull/357))
