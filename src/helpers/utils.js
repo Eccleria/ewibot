@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { EmbedBuilder, MessageFlags } from "discord.js";
-import { COMMONS } from "../commons.js";
+import { COMMONS } from "../classes/commons.js";
 import { logger } from "../logger.js";
 
 /**

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { AttachmentBuilder, ChannelType } from "discord.js";
 import { interactionReply, isAdmin } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
