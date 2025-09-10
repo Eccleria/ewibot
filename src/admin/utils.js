@@ -1,6 +1,6 @@
 import { removeBirthday, removeIgnoredUser } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 export const fetchMessage = async (message) => {
   try {

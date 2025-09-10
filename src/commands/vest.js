@@ -9,7 +9,7 @@ import Canvas from "canvas";
 import path from "path";
 import fs from "fs";
 import { interactionEditReply } from "./polls/pollsUtils.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().vest.name)

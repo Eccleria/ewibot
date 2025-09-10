@@ -7,7 +7,7 @@ import {
   removePunctuation,
 } from "../../helpers/index.js";
 import { POLLS } from "../../polls.js";
-import { logger } from "../../bot.js";
+import { pollLog } from "../../logger.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -86,12 +86,12 @@ export const parsePollFields = (content, totalSize = 0) => {
       if (cur.length === 0) return acc; //filter empty choice
 
       const replaced = cur.split("&")[1];
-      logger.info({ cur, replaced: String(replaced) }, "emotes");
+      pollLog.info({ cur, replaced: String(replaced) }, "emotes");
 
       if (cur.includes("&")) {
         //if choices includes emote
         const content = cur.split("&")[0].trim();
-        logger.info(content, "parse emote");
+        pollLog.info(content, "parse emote");
         if (content.includes(":"))
           return {
             fields: [...acc.fields, replaced],
@@ -99,7 +99,7 @@ export const parsePollFields = (content, totalSize = 0) => {
           };
 
         const sanitizedContent = removePunctuation(content);
-        logger.info({
+        pollLog.info({
           sanitizedContent,
           extended: /\p{Extended_Pictographic}/u.test(sanitizedContent),
           W2: /\W{2}/g.test(sanitizedContent),
@@ -109,12 +109,12 @@ export const parsePollFields = (content, totalSize = 0) => {
             !sanitizedContent.includes(" ")) ||
           /\W{2}/g.test(sanitizedContent)
         ) {
-          logger.info({
+          pollLog.info({
             extended: /\p{Extended_Pictographic}/u.test(sanitizedContent),
             includesSpace: !sanitizedContent.includes(" "),
             W2: /\W{2}/g.test(sanitizedContent),
           });
-          logger.info(
+          pollLog.info(
             { sanitizedContent },
             "Extended_Pictographic Emote found:",
           );
@@ -133,7 +133,7 @@ export const parsePollFields = (content, totalSize = 0) => {
     },
     { fields: [], emotes: [] },
   );
-  logger.info(results, "results");
+  pollLog.info(results, "results");
   return results;
 };
 
@@ -199,7 +199,7 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
  * @param {boolean} isFromCollector boolean indicating if fonction is called by collector end
  */
 export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
-  logger.info("stop poll");
+  pollLog.info("stop poll");
   const db = pollMessage.client.db;
   const editedPollMessage = {};
   const pollData = POLLS.getPoll(pollMessage.id);
@@ -211,7 +211,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
     clearTimeout(pollData.timeout); //clear timeout
     if (!isFromCollector) pollData.collector.stop(); //stop collector if any
     POLLS.removePoll(pollMessage.id);
-    logger.error(e, "pollMessage has been deleted, cannot reply 'stoped'");
+    pollLog.error(e, "pollMessage has been deleted, cannot reply 'stoped'");
     return;
   }
 

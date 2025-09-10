@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 /**
  * Types imports for docstrings

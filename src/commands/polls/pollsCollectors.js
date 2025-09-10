@@ -19,7 +19,7 @@ import {
 } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { Poll, POLLS } from "../../polls.js";
-import { logger } from "../../bot.js";
+import { logger } from "../../logger.js";
 
 export const initPollsCollector = (client) => {
   // once startup, init polls lookup

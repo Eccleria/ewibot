@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 import { PERSONALITY } from "../personality.js";
 import { fetchMessage, interactionReply, isAdmin } from "../helpers/index.js";
 

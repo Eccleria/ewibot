@@ -19,7 +19,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;
