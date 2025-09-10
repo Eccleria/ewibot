@@ -123,10 +123,8 @@ export const readContentAndReact = async (message, currentServer) => {
         )}, userID ${authorId}, whichStat "hello"`,
       );
     if (frequency) {
-      if (words[0].includes("coucou")) 
-        await message.react(cmnShared.birdEmoji);
-      else
-        await message.react(cmnShared.helloEmoji);
+      if (words[0].includes("coucou")) await message.react(cmnShared.birdEmoji);
+      else await message.react(cmnShared.helloEmoji);
     }
   }
 
