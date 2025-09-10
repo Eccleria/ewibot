@@ -1,12 +1,13 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
-import { PERSONALITY } from "../../personality.js";
+
 import {
   fetchMessage,
   messageReply,
   removePoll,
   removePunctuation,
 } from "../../helpers/index.js";
-import { POLLS } from "../../polls.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { POLLS } from "../../classes/polls.js";
 import { pollLog } from "../../logger.js";
 
 /**

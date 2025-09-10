@@ -17,8 +17,8 @@ import {
   messageReply,
   removePoll,
 } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
-import { Poll, POLLS } from "../../polls.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { Poll, POLLS } from "../../classes/polls.js";
 import { logger } from "../../logger.js";
 
 export const initPollsCollector = (client) => {

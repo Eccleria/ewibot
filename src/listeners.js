@@ -14,10 +14,10 @@ import {
   messageReply,
   removeReminder,
 } from "./helpers/index.js";
-import { COMMONS } from "./commons.js";
+import { COMMONS } from "./classes/commons.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "./classes/personality.js";
 import { logger } from "./logger.js";
 
 //#region Listeners

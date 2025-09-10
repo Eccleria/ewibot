@@ -8,7 +8,7 @@ import {
   isAdmin,
   removeApologyCount,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()

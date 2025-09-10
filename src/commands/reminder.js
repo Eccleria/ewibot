@@ -17,8 +17,8 @@ import {
   removeReminder,
   updateReminder,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { logger } from "../logger.js";
 
 const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
