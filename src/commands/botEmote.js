@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import { interactionReply } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { isAdmin } from "../helpers/utils.js";
+import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().botEmote.name)
@@ -30,7 +31,7 @@ const action = async (interaction) => {
   const perso = PERSONALITY.getPersonality().botEmote;
   if (!isAdmin(interaction.user.id)) {
     interactionReply(interaction, perso.errorNotAdmin);
-    console.log(`${interaction.user.id} tried to use /reaction`);
+    logger.warn(`${interaction.user.id} tried to use /reaction`);
     return;
   }
 
@@ -44,7 +45,7 @@ const action = async (interaction) => {
   try {
     message = await interaction.channel.messages.fetch(messageId);
   } catch (e) {
-    console.log("/reaction error - message not found", e);
+    logger.error(e, "/reaction error - message not found");
     interactionReply(interaction, perso.errorMessageNotFound);
     return;
   }

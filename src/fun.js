@@ -12,7 +12,8 @@ import {
   hasApology,
   removePunctuation,
 } from "./helpers/index.js";
-import { COMMONS } from "./commons.js";
+import { COMMONS } from "./classes/commons.js";
+import { funLog } from "./logger.js";
 
 //#region ACTIVITY
 
@@ -116,7 +117,7 @@ export const readContentAndReact = async (message, currentServer) => {
     words[0] === cmnShared.helloEmoji //wave emote
   ) {
     if (addStatsData(db, authorId, "hello") === dbReturnType.isNotOk)
-      console.log(
+      funLog.warn(
         `addStatsData isNotOk with isStatsUser ${isStatsUser(
           db,
           authorId,

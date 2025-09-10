@@ -13,6 +13,8 @@ import { JSONFile } from "lowdb/node";
 
 import { join } from "path";
 
+import { logger } from "./logger.js";
+
 // listeners imports
 import { onMessageUpdate, onGuildMemberRemove } from "./admin/listeners.js";
 import {
@@ -36,7 +38,7 @@ import { slashCommandsInit } from "./commands/slash.js";
 // helpers imports
 
 // jsons import
-import { COMMONS } from "./commons.js";
+import { COMMONS } from "./classes/commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
@@ -87,7 +89,7 @@ client.once("ready", async () => {
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
   // Bot init
-  console.log("I am ready!");
+  logger.info("I am ready!");
   roleInit(client); //role handler init
 
   //polls
