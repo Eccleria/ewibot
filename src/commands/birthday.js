@@ -10,8 +10,8 @@ import {
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { logger } from "../logger.js";
 
 export const initBirthdays = (client, tomorrowDiff, frequency) => {

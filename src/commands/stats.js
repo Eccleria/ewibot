@@ -5,7 +5,7 @@ import {
   addStatsUser,
   removeStatsUser,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { dbReturnType } from "../helpers/index.js";
 import { logger } from "../logger.js";
 

@@ -11,9 +11,9 @@ import {
   getPollsTitles,
   interactionReply,
 } from "../../helpers/index.js";
-import { COMMONS } from "../../commons.js";
-import { PERSONALITY } from "../../personality.js";
-import { Poll, POLLS } from "../../polls.js";
+import { COMMONS } from "../../classes/commons.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { Poll, POLLS } from "../../classes/polls.js";
 import { pollLog } from "../../logger.js";
 
 const command = new SlashCommandBuilder()
