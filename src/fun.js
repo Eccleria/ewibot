@@ -13,7 +13,7 @@ import {
   removePunctuation,
 } from "./helpers/index.js";
 import { COMMONS } from "./classes/commons.js";
-import { logger } from "./logger.js";
+import { funLog } from "./logger.js";
 
 //#region ACTIVITY
 
@@ -117,7 +117,7 @@ export const readContentAndReact = async (message, currentServer) => {
     words[0] === cmnShared.helloEmoji //wave emote
   ) {
     if (addStatsData(db, authorId, "hello") === dbReturnType.isNotOk)
-      logger.warn(
+      funLog.warn(
         `addStatsData isNotOk with isStatsUser ${isStatsUser(
           db,
           authorId,
