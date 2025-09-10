@@ -6,7 +6,7 @@ import { announceButtonHandler } from "./announce.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift.js";
 import { interactionReply } from "../helpers/index.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 /**
  * Create a button from ButtonBuilder

@@ -2,7 +2,7 @@ import { MessageFlags } from "discord.js";
 import { interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 export const pronounsButtonHandler = async (interaction) => {
   //get commons pronouns data
