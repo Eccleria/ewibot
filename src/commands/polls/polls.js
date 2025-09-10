@@ -14,12 +14,11 @@ import {
 import { COMMONS } from "../../commons.js";
 import { PERSONALITY } from "../../personality.js";
 import { Poll, POLLS } from "../../polls.js";
-import { logger } from "../../bot.js";
+import { pollLog } from "../../logger.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().polls.name)
   .setDescription(PERSONALITY.getPersonality().polls.description)
-  //.setDefaultMemberPermissions(0x0000010000000000)
   .addSubcommand((command) =>
     command //create
       .setName(PERSONALITY.getPersonality().polls.create.name)
@@ -149,7 +148,7 @@ const command = new SlashCommandBuilder()
   );
 
 const action = async (interaction) => {
-  logger.info("polls command");
+  pollLog.info("polls command");
   const options = interaction.options;
   const personality = PERSONALITY.getPersonality().polls;
   const subcommand = options.getSubcommand();
@@ -201,7 +200,7 @@ const action = async (interaction) => {
     for (const item of splited) {
       //if any choice is too long
       if (item.length > 256) {
-        logger.warn("polls choice too long: %d", item.length);
+        pollLog.warn("polls choice too long: %d", item.length);
         interactionReply(interaction, personality.errorChoicesLength);
         return;
       }
@@ -334,7 +333,8 @@ const action = async (interaction) => {
       const pollInstance = new Poll(pollMsg.id, collector, timeout);
       POLLS.addPoll(pollInstance);
     } catch (e) {
-      logger.error(e, "/polls create error");
+      pollLog.error("/polls create error");
+      pollLog.error(e);
     }
   } else if (subcommand === personality.addChoice.name) {
     //addChoice poll subcommand

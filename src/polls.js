@@ -1,4 +1,4 @@
-import { logger } from "./bot.js";
+import { logger } from "./logger.js";
 
 /**
  * The object Poll is the content added to the Polls unique instance.

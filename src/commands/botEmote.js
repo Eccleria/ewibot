@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 import { isAdmin } from "../helpers/utils.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().botEmote.name)
