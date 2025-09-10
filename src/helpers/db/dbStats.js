@@ -1,6 +1,6 @@
 //#region enums
 
-import { logger } from "../../bot.js";
+import { logger } from "../../logger.js";
 
 /**
  * @enum {number} return values for most db helper functions

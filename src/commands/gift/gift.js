@@ -31,7 +31,7 @@ import {
 } from "../../helpers/index.js";
 import { COMMONS } from "../../classes/commons.js";
 import { PERSONALITY } from "../../classes/personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button

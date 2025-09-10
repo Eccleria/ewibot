@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
 import { COMMONS } from "../classes/commons.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 //#region MISC
 

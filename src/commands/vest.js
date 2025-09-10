@@ -7,7 +7,7 @@ import { fetchMember, interactionReply } from "ewilib";
 import { PERSONALITY } from "../classes/personality.js";
 import { removeEmote } from "../helpers/index.js";
 import { interactionEditReply } from "./polls/pollsUtils.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().vest.name)

@@ -5,7 +5,7 @@ import { channelSend, fetchMember, interactionReply } from "ewilib";
 import { interactionEditReply } from "./polls/pollsUtils.js";
 import { isAdmin, removeApologyCount } from "../helpers/index.js";
 import { PERSONALITY } from "../classes/personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().leaderboardApology.name)

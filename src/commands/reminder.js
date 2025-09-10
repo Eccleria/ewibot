@@ -22,7 +22,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
   //add the reminder in the client

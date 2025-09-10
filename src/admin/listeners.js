@@ -7,7 +7,7 @@ import {
   removePunctuation,
 } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 //#region LISTENERS
 
@@ -66,7 +66,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   const userKick = memberKick.user;
   removeUserFromDB(userKick.id, userKick.client); //remove user from db
 
-  logger.info(userKick, "memberKick");
+  logger.debug(userKick);
 };
 
 //#endregion

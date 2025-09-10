@@ -7,7 +7,7 @@ import {
   getThisChoicePollIndex,
 } from "../../helpers/index.js";
 import { PERSONALITY } from "../../classes/personality.js";
-import { logger } from "../../bot.js";
+import { logger } from "../../logger.js";
 
 const pollVoteMultiple = (
   interaction,

@@ -36,7 +36,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
