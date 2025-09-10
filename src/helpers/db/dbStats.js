@@ -1,6 +1,6 @@
 //#region enums
 
-import { logger } from "../../logger.js";
+import { dbLog } from "../../logger.js";
 
 /**
  * @enum {number} return values for most db helper functions
@@ -166,7 +166,7 @@ export const addServerEmojiCount = (db, emojiID) => {
 
   if (isEmojiCounted(db, emojiID) === dbReturnType.isIn) data[emojiID] += 1;
   else {
-    logger.info(`Add ${emojiID} in serverStats`);
+    dbLog.info(`Add ${emojiID} in serverStats`);
     data[emojiID] = 1;
   }
   return dbReturnType.isOk;

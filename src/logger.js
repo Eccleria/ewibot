@@ -20,6 +20,9 @@ export const logger = pino({
 //#region Childs
 //Admin
 
+//classes
+export const classPollsLog = logger.child({module: 'classPolls'});
+
 //commands
 export const birthdayLog = logger.child({module: 'birthday'});
 export const botEmoteLog = logger.child({module: 'botEmote'});
@@ -40,13 +43,14 @@ export const commandUtilsLog = logger.child({module: 'commandUtils'});
 export const vestLog = logger.child({module: 'vest'});
 
 //helpers
-//db
 export const dbLog = logger.child({module: 'db'});
+export const utilsLog = logger.child({module: 'utils'});
 
 //main
+//no child for bot.js
 export const funLog = logger.child({module: 'fun'});
 export const listenersLog = logger.child({module: 'mainListeners'});
-
+export const statsUtilsLog = logger.child({module: 'stats'});
 
 
 //#endregion
