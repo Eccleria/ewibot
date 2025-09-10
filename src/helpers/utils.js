@@ -7,7 +7,7 @@ import { channelSend, fetchChannel } from "ewilib";
 import { TidyURL } from "tidy-url";
 
 import { COMMONS } from "../classes/commons.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 //#region API wrappers
 

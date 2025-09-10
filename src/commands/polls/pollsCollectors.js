@@ -14,7 +14,7 @@ import { stopPoll } from "./pollsUtils.js";
 import { getPoll, getPolls, removePoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../classes/personality.js";
 import { Poll, POLLS } from "../../classes/polls.js";
-import { logger } from "../../bot.js";
+import { logger } from "../../logger.js";
 
 export const initPollsCollector = (client) => {
   // once startup, init polls lookup

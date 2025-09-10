@@ -16,13 +16,13 @@ import { createButton } from "../utils.js";
 import { getPoll, isSentinelle, resetPollVoters } from "../../helpers/index.js";
 import { COMMONS } from "../../classes/commons.js";
 import { PERSONALITY } from "../../classes/personality.js";
-import { logger } from "../../bot.js";
+import { pollLog } from "../../logger.js";
 
 export const sendSettingsButtons = async (interaction) => {
   try {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
   } catch (e) {
-    return logger.error(e);
+    return pollLog.error(e);
   }
 
   //get personality
@@ -33,7 +33,7 @@ export const sendSettingsButtons = async (interaction) => {
   const dbPoll = getPoll(interaction.client.db, pollMessage.id);
   if (!dbPoll) {
     interactionEditReply(interaction, perso.errorNoPoll);
-    logger.error(`Error poll not found : ${pollMessage.id}`);
+    pollLog.error(`Error poll not found : ${pollMessage.id}`);
     return;
   }
 
@@ -78,7 +78,7 @@ export const stopPollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return logger.error(e);
+    return pollLog.error(e);
   }
   const db = interaction.client.db;
 
@@ -106,7 +106,7 @@ export const removePollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return logger.error(e);
+    return pollLog.error(e);
   }
 
   const perso = PERSONALITY.getPersonality().polls;
@@ -155,7 +155,7 @@ export const resetPollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return logger.error(e);
+    return pollLog.error(e);
   }
 
   //get data
@@ -192,7 +192,7 @@ export const updatePollButtonAction = async (interaction) => {
   try {
     await interaction.deferUpdate();
   } catch (e) {
-    return logger.error(e);
+    return pollLog.error(e);
   }
 
   //get personality

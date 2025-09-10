@@ -10,7 +10,7 @@ import {
 
 import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../classes/personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)

@@ -14,7 +14,7 @@ import {
   removePunctuation,
 } from "./helpers/index.js";
 import { COMMONS } from "./classes/commons.js";
-import { logger } from "./bot.js";
+import { logger } from "./logger.js";
 
 //#region ACTIVITY
 

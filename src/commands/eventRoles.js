@@ -21,7 +21,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
-import { logger } from "../bot.js";
+import { logger } from "../logger.js";
 
 export const eventRolesButtonHandler = async (interaction) => {
   const { customId, guildId } = interaction;

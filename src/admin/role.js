@@ -1,4 +1,4 @@
-﻿import { logger } from "../bot.js";
+﻿import { logger } from "../logger.js";
 import { COMMONS } from "../classes/commons.js";
 import { fetchChannel, fetchGuild, fetchMember, fetchMessage } from "ewilib";
 

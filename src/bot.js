@@ -1,8 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import pino from "pino";
-
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime.js";
 import "dayjs/locale/fr.js";
@@ -22,6 +20,9 @@ import { JSONFile } from "lowdb/node";
 import { join } from "path";
 
 import { channelSend, fetchGuild } from "ewilib";
+
+import { logger } from "./logger.js";
+
 // listeners imports
 import { onMessageUpdate, onGuildMemberRemove } from "./admin/listeners.js";
 import {
@@ -55,18 +56,6 @@ import { COMMONS } from "./classes/commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
-
-// LOGGER
-export const logger = pino({
-  transport: {
-    target: "pino-pretty",
-    options: {
-      colorize: true,
-      translateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'",
-    },
-  },
-  redact: ["TOKEN"],
-});
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
