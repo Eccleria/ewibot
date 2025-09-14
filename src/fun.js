@@ -74,7 +74,7 @@ export const updateActivity = (client) => {
 const getActivityIndexes = (activities) => {
   const indexes = activities.reduce((acc, cur, idx) => {
     const w = cur.weight ? cur.weight : 2;
-    const array = Array.from(Array(w), (e) => e = idx);
+    const array = Array.from(Array(w), () => idx);
     return [...acc, ...array];
   }, [])
   return indexes;
