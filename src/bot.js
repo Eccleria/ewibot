@@ -135,5 +135,10 @@ client.on(Events.InteractionCreate, onInteractionCreate);
 client.on(Events.MessageUpdate, onMessageUpdate);
 client.on(Events.GuildMemberRemove, onGuildMemberRemove);
 
+// listeners for ERRORS
+client.on("debug", logger.debug);
+client.on("warn", logger.warn);
+client.on("error", logger.error);
+
 // Log the bot in
 client.login(process.env.TOKEN);
