@@ -110,7 +110,7 @@ const giftInteractionCreation = async (client, type) => {
       .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText });
 
     //create message and send it
-    channel, { embeds: [embed], components: [actionRow] };
+    channelSend(channel, { embeds: [embed], components: [actionRow] });
   } else if (type === "ny") {
     const newYear = personality.newYear;
 
