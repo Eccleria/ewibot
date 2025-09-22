@@ -77,15 +77,15 @@ export const hasApology = (sanitizedContent) => {
 /**
  * Reply to interaction function
  * @param {any} interaction Interaction the function is replying to.
- * @param {string} content Content of the replying message.
+ * @param {string|object} data Data of the replying message.
  * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
  */
 export const interactionReply = async (
   interaction,
-  content,
+  data,
   isEphemeral = true,
 ) => {
-  const payload = { content };
+  const payload = typeof data === "string" ? { content: data } : data;
   if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
 
   await interaction
