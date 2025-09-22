@@ -9,6 +9,7 @@ dayjs.extend(relativeTime);
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   addReminder,
+  channelSend,
   interactionReply,
   removeReminder,
   updateReminder,
@@ -73,7 +74,7 @@ const sendDelayed = async (
   messageContent,
   botMessage,
 ) => {
-  await channel.send(`${author.toString()} : ${messageContent}`);
+  await channelSend(channel, `${author.toString()} : ${messageContent}`);
 
   removeReminder(client.db, botMessage.id);
 };

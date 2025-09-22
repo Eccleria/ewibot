@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonStyle, Colors } from "discord.js";
 import { createButton } from "./utils.js";
-import { setupEmbed } from "../helpers/index.js";
+import { channelSend, setupEmbed } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const action = async (message, _client, currentServer) => {
@@ -48,8 +48,11 @@ const action = async (message, _client, currentServer) => {
   const embedAgreements = setupEmbed(color, agreements, null, "skip");
 
   //send messages
-  await roleChannel.send({ embeds: [embedPronouns], components: rowsPronouns });
-  await roleChannel.send({
+  await channelSend(roleChannel, {
+    embeds: [embedPronouns],
+    components: rowsPronouns,
+  });
+  await channelSend(roleChannel, {
     embeds: [embedAgreements],
     components: rowAgreement,
   });

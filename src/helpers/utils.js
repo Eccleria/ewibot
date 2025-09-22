@@ -3,6 +3,17 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
+ *
+ * @param {Channel} channel Channel where to send the message.
+ * @param {object} payload Payload of the message.
+ * @returns {Message} Message sent on channel
+ */
+export const channelSend = async (channel, payload) => {
+  const message = await channel.send(payload).catch((e) => console.error(e));
+  return message;
+};
+
+/**
  * Get strings corresponding to gif url.
  * @param {string} content
  * @returns {?string[]} If any, returns array of gif url strings.
