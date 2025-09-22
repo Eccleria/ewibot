@@ -122,6 +122,17 @@ export const isSentinelle = (member, currentServer) => {
 };
 
 /**
+ * 
+ * @param {Message} message A Discord message object 
+ * @param {object} payload The content to reply with
+ */
+export const messageReply = async (message, payload) => {
+  await message
+    .reply(payload)
+    .catch((err) => console.error("message reply error", err));
+};
+
+/**
  * Parse a string emoji into its id.
  * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
  * @returns {?string} Emoji id | null

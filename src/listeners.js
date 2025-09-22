@@ -7,6 +7,7 @@ import {
   addServerStatsData,
   interactionReply,
   isReleasedCommand,
+  messageReply,
   removeReminder,
 } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
@@ -179,7 +180,8 @@ export const onRemoveReminderReaction = (
           // if it is the right message
           clearTimeout(timeout); //cancel timeout
           removeReminder(client.db, botMessage.id);
-          botMessage.reply(PERSONALITY.getPersonality().reminder.delete);
+          const payload = { content: PERSONALITY.getPersonality().reminder.delete };
+          messageReply(botMessage, payload);
           console.log("reminder deleted");
           return false;
         }
