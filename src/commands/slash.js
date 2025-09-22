@@ -45,7 +45,7 @@ const ping = {
     .setDescription(PERSONALITY.getPersonality().helloWorld.description),
   action: (interaction) => {
     const personality = PERSONALITY.getPersonality();
-    interaction.reply(personality.helloWorld.pong);
+    interactionReply(interaction, personality.helloWorld.pong);
   },
   help: (interaction) => {
     const personality = PERSONALITY.getPersonality();
