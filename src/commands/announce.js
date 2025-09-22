@@ -28,11 +28,14 @@ const action = (interaction) => {
     createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger),
   );
 
-  interaction.reply({
-    content: whichAnnounceP.confirm,
-    components: [actionRow],
-    flags: MessageFlags.Ephemeral,
-  });
+  interactionReply(
+    interaction, 
+    {
+      content: whichAnnounceP.confirm,
+      components: [actionRow],
+      flags: MessageFlags.Ephemeral,
+    }
+  );
 };
 
 //list of announces
