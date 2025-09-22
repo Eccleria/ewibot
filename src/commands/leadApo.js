@@ -2,6 +2,7 @@ import { Colors, EmbedBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionEditReply } from "./polls/pollsUtils.js";
 import {
+  channelSend,
   interactionReply,
   isAdmin,
   removeApologyCount,
@@ -105,7 +106,7 @@ const action = async (interaction) => {
       value: `${ePerso.top3} ${fields[3].value}`,
     });
 
-  const message = await interaction.channel.send({ embeds: [embed] });
+  const message = await channelSend(interaction.channel, { embeds: [embed] });
   if (message) interactionEditReply(interaction, perso.sent);
   else interactionEditReply(interaction, perso.errorNotSent);
 };

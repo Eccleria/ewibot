@@ -7,6 +7,7 @@ import { createButton } from "../utils.js";
 import {
   addPoll,
   addPollChoices,
+  channelSend,
   getPollFromTitle,
   getPollsTitles,
   interactionReply,
@@ -295,7 +296,7 @@ const action = async (interaction) => {
 
     //send poll
     try {
-      const pollMsg = await interaction.channel.send({
+      const pollMsg = await channelSend(interaction.channel, {
         embeds: [embed, timeoutEmbed],
         components: components.actionRows,
       });

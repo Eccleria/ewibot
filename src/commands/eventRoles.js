@@ -9,6 +9,7 @@ import {
 import { createButton } from "./utils.js";
 import {
   addEventRole,
+  channelSend,
   getEventRoles,
   interactionReply,
   updateEventRoleMessageId,
@@ -157,7 +158,7 @@ const action = async (interaction) => {
     );
 
     //send message
-    const roleMessage = await channel.send({
+    const roleMessage = await channelSend(channel, {
       embeds: [embed],
       components: [actionRow],
     });

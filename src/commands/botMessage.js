@@ -1,6 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { AttachmentBuilder, ChannelType } from "discord.js";
-import { interactionReply, isAdmin, messageReply } from "../helpers/index.js";
+import {
+  channelSend,
+  interactionReply,
+  isAdmin,
+  messageReply,
+} from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
@@ -160,7 +165,7 @@ const action = async (interaction) => {
 
     //send message
     if (Object.values(payload).length !== 0) {
-      channel.send(payload);
+      channelSend(channel, payload);
       interactionReply(interaction, sPerso.sent);
     } else interactionReply(interaction, personality.empty);
   } else if (subcommand === personality.reply.name) {

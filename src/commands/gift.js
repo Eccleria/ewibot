@@ -12,6 +12,7 @@ import {
   addGiftMessage,
   addGiftSeparator,
   addGiftUser,
+  channelSend,
   getGiftMessage,
   getGiftUsers,
   interactionReply,
@@ -105,7 +106,7 @@ const giftInteractionCreation = async (client, type) => {
       .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText });
 
     //create message and send it
-    channel.send({ embeds: [embed], components: [actionRow] });
+    channel, { embeds: [embed], components: [actionRow] };
   } else if (type === "ny") {
     const newYear = personality.newYear;
 
@@ -115,7 +116,7 @@ const giftInteractionCreation = async (client, type) => {
       .setTitle(newYear.title)
       .setDescription(newYear.description);
 
-    channel.send({ embeds: [embed], components: [actionRow] });
+    channelSend(channel, { embeds: [embed], components: [actionRow] });
   }
 };
 

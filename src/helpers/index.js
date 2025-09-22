@@ -76,6 +76,7 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  channelSend,
   gifRecovery,
   hasApology,
   interactionReply,
@@ -92,6 +93,7 @@ import {
 
 export {
   // utils
+  channelSend,
   gifRecovery,
   hasApology,
   interactionReply,
