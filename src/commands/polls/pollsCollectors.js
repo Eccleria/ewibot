@@ -9,7 +9,7 @@ dayjs.extend(relativeTime);
 import { ComponentType, MessageFlags } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
-import { getPoll, getPolls, removePoll } from "../../helpers/index.js";
+import { getPoll, getPolls, messageReply, removePoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { Poll, POLLS } from "../../polls.js";
 
@@ -40,7 +40,8 @@ export const initPollsCollector = (client) => {
       timeout = setTimeout(
         (message) => {
           const perso = PERSONALITY.getPersonality().polls;
-          message.reply(perso.create.reminder);
+          const payload = { content: perso.create.reminder};
+          messageReply(message, payload);
         },
         newTiming - 3600000,
         message,
