@@ -138,14 +138,11 @@ const concrete = {
   command: command,
   action,
   help: (interaction) => {
-    interactionReply(
-      interaction,
-      {
-        content: personality.help,
-        flags: MessageFlags.Ephemeral,
-        allowed_mentions: { parse: [] },
-      }
-    );
+    interactionReply(interaction, {
+      content: personality.help,
+      flags: MessageFlags.Ephemeral,
+      allowed_mentions: { parse: [] },
+    });
   },
   admin: false,
   releaseDate: dayjs("12-15-2022", "MM-DD-YYYY"),

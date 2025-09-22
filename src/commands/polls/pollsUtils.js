@@ -1,6 +1,10 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
-import { messageReply, removePoll, removePunctuation } from "../../helpers/index.js";
+import {
+  messageReply,
+  removePoll,
+  removePunctuation,
+} from "../../helpers/index.js";
 import { POLLS } from "../../polls.js";
 
 /**
