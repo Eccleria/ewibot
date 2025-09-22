@@ -122,13 +122,14 @@ export const isSentinelle = (member, currentServer) => {
 };
 
 /**
- * Replce all \n with a replace string
- * @param {*} words list of words
- * @param {*} replace string that will replace lin breaks
- * @returns
+ * 
+ * @param {Message} message A Discord message object 
+ * @param {object} payload The content to reply with
  */
-export const replaceLineBreak = (words, replace) => {
-  return words.replaceAll("\n", replace);
+export const messageReply = async (message, payload) => {
+  await message
+    .reply(payload)
+    .catch((err) => console.error("message reply error", err));
 };
 
 /**
@@ -165,6 +166,16 @@ const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 export const removePunctuation = (messageContent) => {
   const lineBreakRemoved = replaceLineBreak(messageContent, " ");
   return lineBreakRemoved.replaceAll(punctuation, "");
+};
+
+/**
+ * Replce all \n with a replace string
+ * @param {*} words list of words
+ * @param {*} replace string that will replace lin breaks
+ * @returns
+ */
+export const replaceLineBreak = (words, replace) => {
+  return words.replaceAll("\n", replace);
 };
 
 /**
