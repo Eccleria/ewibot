@@ -6,6 +6,7 @@ dayjs.extend(CustomParseFormat);
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   addBirthday,
+  channelSend,
   interactionReply,
   isBirthdayDate,
   removeBirthday,
@@ -60,7 +61,7 @@ export const wishBirthday = async (db, channel) => {
       },
       initialText,
     );
-    await channel.send(birthdayText);
+    await channelSend(channel, { content: birthdayText });
   }
 };
 
