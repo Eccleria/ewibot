@@ -122,8 +122,8 @@ export const isSentinelle = (member, currentServer) => {
 };
 
 /**
- * 
- * @param {Message} message A Discord message object 
+ *
+ * @param {Message} message A Discord message object
  * @param {object} payload The content to reply with
  */
 export const messageReply = async (message, payload) => {

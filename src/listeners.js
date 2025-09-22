@@ -190,7 +190,9 @@ export const onRemoveReminderReaction = (
           // if it is the right message
           clearTimeout(timeout); //cancel timeout
           removeReminder(client.db, botMessage.id);
-          const payload = { content: PERSONALITY.getPersonality().reminder.delete };
+          const payload = {
+            content: PERSONALITY.getPersonality().reminder.delete,
+          };
           messageReply(botMessage, payload);
           console.log("reminder deleted");
           return false;

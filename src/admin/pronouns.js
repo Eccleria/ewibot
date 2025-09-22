@@ -35,10 +35,16 @@ export const pronounsButtonHandler = async (interaction) => {
       guildMember.roles.add(json[1]); //if do not have, add role
 
       const content = pronounsP.text.replyAdd; //get reply message content
-      interactionReply(interaction, { content: content, flags: MessageFlags.Ephemeral }); //reply to interaction
+      interactionReply(interaction, {
+        content: content,
+        flags: MessageFlags.Ephemeral,
+      }); //reply to interaction
     } else {
       const content = pronounsP.text.replyAlreadyHave; //get reply message content
-      interactionReply(interaction, { content: content, flags: MessageFlags.Ephemeral }); //reply to interaction
+      interactionReply(interaction, {
+        content: content,
+        flags: MessageFlags.Ephemeral,
+      }); //reply to interaction
     }
   } else {
     //is cancel
