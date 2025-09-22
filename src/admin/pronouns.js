@@ -60,7 +60,7 @@ export const pronounsButtonHandler = async (interaction) => {
     if (toRemove.length !== 0) roles.remove(toRemove); //if have any, remove it/them
 
     const content = pronounsP.text.replyRemove; //get reply message content
-    await interactionReply({
+    await interactionReply(interaction, {
       content: content,
       flags: MessageFlags.Ephemeral,
     }); //reply to interaction
