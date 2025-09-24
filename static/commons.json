@@ -146,6 +146,7 @@
   "shared": {
     "name": "shared",
     "admins": ["290505766631112714"],
+    "birdEmoji": "🐦",
     "helloEmoji": "👋",
     "LuciferId": "657498573222576148",
     "removeEmoji": "❌"

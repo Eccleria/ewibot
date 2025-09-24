@@ -88,7 +88,7 @@ The texts are written according to different personalities but for now only one 
 We welcome every contribution. If you want to contribute to Ewibot, you will have to follow the next instructions.
 
 ### Setup process
-You need to install nodejs **v20.18.3**.
+You need to install nodejs **v20.19.4**.
 Then on your code editor you can clone the Ewibot repository, using this command on your terminal: `git clone https://github.com/Eccleria/ewibot.git`.
 You will need to install yarn with the follow command: ```npm install --global yarn```.
 

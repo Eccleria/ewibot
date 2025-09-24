@@ -20,6 +20,7 @@ import {
   onMessageCreate,
   onReactionAdd,
   onReactionRemove,
+  onThreadCreate,
 } from "./listeners.js";
 
 // admin inits
@@ -117,6 +118,9 @@ client.once("ready", async () => {
 client.on("messageCreate", onMessageCreate);
 client.on("messageReactionAdd", onReactionAdd);
 client.on("messageReactionRemove", onReactionRemove);
+
+// listener to autojoin threads
+client.on("threadCreate", onThreadCreate);
 
 // listener for buttons/modals
 client.on("interactionCreate", onInteractionCreate);
