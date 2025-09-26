@@ -1,7 +1,8 @@
 import { MessageFlags } from "discord.js";
 import { interactionReply } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../logger.js";
 
 export const pronounsButtonHandler = async (interaction) => {
   //get commons pronouns data
@@ -25,7 +26,10 @@ export const pronounsButtonHandler = async (interaction) => {
   //mitigate rare error
   if (!json) {
     interactionReply(interaction, pronounsP.errorNoJson);
-    console.log("errorNoJson", interaction.customId, rolesJson);
+    logger.error(
+      { customeId: interaction.customId, roles: rolesJson },
+      "errorNoJson",
+    );
     return;
   }
 

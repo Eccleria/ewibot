@@ -6,7 +6,8 @@ import {
   removePollIndex,
   getThisChoicePollIndex,
 } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { logger } from "../../logger.js";
 
 const pollVoteMultiple = (
   interaction,
@@ -120,8 +121,8 @@ export const pollVoteHandler = async (interaction, dbPoll, perso, cPerso) => {
   const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
   const black = cPerso.colorOption.black; //empty bar color
   //debug for fixing #272 #376
-  console.log("polls colorIdx :", colorIdx);
-  console.log("emoteColor : ", emoteColor);
+  logger.info("polls colorIdx : %d", colorIdx);
+  logger.info("emoteColor : %d", emoteColor);
 
   //write new fields
   //const toChangeFieldIdx = [toAddVoteIdx, toRemoveVoteIdx];
