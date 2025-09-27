@@ -145,7 +145,11 @@ export const parsePollFields = (content, totalSize = 0) => {
  * @param {boolean} [isPollStop] boolean allowing to change the winning choice color
  * @returns {list} List of new fields objects [{name: , value: }, ...]
  */
-export const refreshPollFields = (dbPoll, newFieldsInit, isPollStop = false) => {
+export const refreshPollFields = (
+  dbPoll,
+  newFieldsInit,
+  isPollStop = false,
+) => {
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
   const max = values.reduce((acc, cur) => Math.max(acc, cur), 0); //get max count nb
@@ -161,14 +165,16 @@ export const refreshPollFields = (dbPoll, newFieldsInit, isPollStop = false) => 
   const colorIdx = dbPoll.colorIdx; //db data
   const progressBar = PERSONALITY.getColors().progressBar;
   const emoteColor = progressBar[colorIdx]; //emoteId from personality
-  const emoteWiningColor = ":red_square:" === emoteColor ? ":blue_square:" : ":red_square:";
+  const emoteWiningColor =
+    ":red_square:" === emoteColor ? ":blue_square:" : ":red_square:";
   const black = PERSONALITY.getPersonality().polls.black; //empty bar color
 
   //return new fields
   return newFieldsInit.map((field, idx) => {
     //update values
     const nb = Math.floor(ratios[idx] / 10);
-    const color = values[idx] === max && isPollStop ? emoteWiningColor : emoteColor;
+    const color =
+      values[idx] === max && isPollStop ? emoteWiningColor : emoteColor;
     const newColorBar =
       color.repeat(nb) +
       black.repeat(10 - nb) +
