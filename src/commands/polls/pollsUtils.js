@@ -166,7 +166,7 @@ export const refreshPollFields = (
   const progressBar = PERSONALITY.getColors().progressBar;
   const emoteColor = progressBar[colorIdx]; //emoteId from personality
   const emoteWiningColor =
-    ":red_square:" === emoteColor ? ":blue_square:" : ":red_square:";
+    ":green_square:" === emoteColor ? ":blue_square:" : ":green_square:";
   const black = PERSONALITY.getPersonality().polls.black; //empty bar color
 
   //return new fields
