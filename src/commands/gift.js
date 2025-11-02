@@ -127,9 +127,9 @@ const addSeparationToDb = (client) => {
 
 export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
-  const xmasDate = dayjs(new Date(2024, 11, 25, 1)); //xmas date when to send
-  const nyDate = dayjs(new Date(2025, 0, 1, 1)); //new year date
-  const switchDate = dayjs(new Date(2024, 11, 27, 1)); //add separator to messages
+  const xmasDate = dayjs(new Date(2025, 11, 25, 1)); //xmas date when to send
+  const nyDate = dayjs(new Date(2026, 0, 1, 1)); //new year date
+  const switchDate = dayjs(new Date(2025, 11, 27, 1)); //add separator to messages
 
   const tomorrowMidnight = dayjs()
     .add(1, "day")
