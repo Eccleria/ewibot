@@ -18,7 +18,7 @@ import { COMMONS } from "./classes/commons.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
 import { PERSONALITY } from "./classes/personality.js";
-import { listenersLog } from "./logger.js";
+import { listenersLog, reminderLog } from "./logger.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -195,14 +195,14 @@ export const onRemoveReminderReaction = (
             content: PERSONALITY.getPersonality().reminder.delete,
           };
           messageReply(botMessage, payload);
-          listenersLog.info("reminder deleted");
+          reminderLog.info("reminder deleted");
           return false;
         }
         return true;
       });
       return;
     } catch (err) {
-      listenersLog.error(err, "reminderError");
+      reminderLog.error(err, "reminderError");
     }
   }
 };

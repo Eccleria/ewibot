@@ -5,7 +5,7 @@ import pino from "pino";
 export const logger = pino({
   redact: ["TOKEN"],
   transport: {
-    target: "pino-pretty",
+    target: "./loggerTransport.js",
     options: {
       colorize: true,
       ignore: "pid,hostname",
@@ -13,7 +13,6 @@ export const logger = pino({
     },
   },
 });
-
 
 //#endregion
 
