@@ -264,6 +264,10 @@
         "description": "Pour envoyer un message de Noël.",
         "help": "Cette commande vous permet d'envoyer un message de Noël. \n*Attention, le message à envoyer ne peut pas contenir de pièces jointes. Seulement du texte et des liens.*\n`gift send @utilisateurice 'message'` envoie le contenu `message` à l'utilisateurice mentionné.",
         "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
+        "modal": {
+          "customId": "gift_modal_send",
+          "title": "Le message anonyme à envoyer"
+        },
         "name": "send",
         "saved": "Le message a été sauvegardé.",
         "textOption": {
