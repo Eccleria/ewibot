@@ -13,6 +13,7 @@ import {
   removePunctuation,
 } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
+import { replaceLineBreak } from "./helpers/utils.js";
 
 //#region ACTIVITY
 
@@ -121,9 +122,9 @@ export const readContentAndReact = async (message, currentServer) => {
     await message.react(currentServer.panDuomReactId); //add message reaction
   }
 
+  if (isAbcd(loweredContent)) await message.react(currentServer.eyeReactId);
+  
   const words = loweredContent.split(" "); //split message content into a list of words
-
-  if (isAbcd(words)) await message.react(currentServer.eyeReactId);
 
   //if ewibot is mentionned, react
   if (message.mentions.has(process.env.CLIENTID))
@@ -190,8 +191,11 @@ const hello = [
   "👋",
 ];
 
-const isAbcd = (words) => {
+const isAbcd = (content) => {
   // Check if message content is having all words first letters in alphabetic order
+  const replaced = replaceLineBreak(content, " ");
+  const words = replaced.split(" "); //split message content into a list of words
+
   if (words.length >= 4) {
     // Need at least 4 words
     const reduced = words.reduce(
