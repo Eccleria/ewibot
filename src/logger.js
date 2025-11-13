@@ -8,7 +8,7 @@ export const logger = pino({
     target: "./loggerTransport.js",
     options: {
       colorize: true,
-      ignore: "pid,hostname",
+      ignore: "hostname",
       translateTime: "SYS:standard",
     },
   },
@@ -18,6 +18,8 @@ export const logger = pino({
 
 //#region Childs
 //Admin
+export const roleLog = logger.child({module: 'role'});
+export const aPronounsLog = logger.child({module: 'aPronouns'});
 
 //classes
 export const classPollsLog = logger.child({module: 'classPolls'});
@@ -35,7 +37,7 @@ export const pollLog = logger.child({module: 'polls'});
 export const pronounsLog = logger.child({module: 'pronouns'});
 export const reminderLog = logger.child({module: 'reminder'});
 export const reverseLog = logger.child({module: 'reverse'});
-export const shuttleLog = logger.child({module: 'shuttle'});
+export const shuffleLog = logger.child({module: 'shuffle'});
 export const slashLog = logger.child({module: 'slash'});
 export const statsLog = logger.child({module: 'stats'});
 export const commandUtilsLog = logger.child({module: 'commandUtils'});
