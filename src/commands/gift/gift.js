@@ -1,13 +1,15 @@
 import dayjs from "dayjs";
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { SlashCommandBuilder, TextDisplayBuilder } from "@discordjs/builders";
 import {
   ActionRowBuilder,
   EmbedBuilder,
   ButtonStyle,
   Colors,
   MessageFlags,
+  ModalBuilder,
+  TextInputBuilder,
 } from "discord.js";
-import { createButton } from "./utils.js";
+import { createButton } from "../utils.js";
 import {
   addGiftMessage,
   addGiftSeparator,
@@ -18,9 +20,9 @@ import {
   isGiftUser,
   removeGiftMessage,
   removeGiftUser,
-} from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+} from "../../helpers/index.js";
+import { COMMONS } from "../../commons.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
@@ -274,6 +276,23 @@ const action = async (interaction) => {
       interactionReply(interaction, send.isNotAccepting);
     else {
       //correct user
+      //build modal
+      const mPerso = send.modal
+      const modal = new ModalBuilder()
+        .setTitle(mPerso.title)
+        .setCustomId(mPerso.customId);
+      
+      const text = 
+      const textDisplay = new TextDisplayBuilder()
+        .setContent(mPerso)
+      
+      const textInput = new TextInputBuilder()
+        .setCustomId(mPerso.textInput.customId)
+        .setPlaceholder(mPerso.textInput.placeholder)
+        .setMinLength(1)
+        .setRequired(true)
+
+
       const content = options.getString(send.textOption.name); //get gift content
       addGiftMessage(db, targetId, content, author.id); //add to db
       interactionReply(interaction, send.saved);
