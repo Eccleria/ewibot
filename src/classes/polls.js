@@ -1,4 +1,4 @@
-import { logger } from "../logger.js";
+import { classPollsLog } from "../logger.js";
 
 /**
  * The object Poll is the content added to the Polls unique instance.
@@ -33,8 +33,8 @@ class Polls {
    */
   addPoll(poll) {
     this[poll._pollId] = poll;
-    logger.info("Polls - addPoll", poll._pollId);
-    logger.debug(this);
+    classPollsLog.info("Polls - addPoll", poll._pollId);
+    classPollsLog.debug(this);
   }
 
   /**
@@ -43,7 +43,7 @@ class Polls {
    */
   removePoll(pollId) {
     delete this[pollId];
-    logger.info(pollId, "Polls - removePoll");
+    classPollsLog.info(`removePoll ${pollId}`);
   }
 
   /**
