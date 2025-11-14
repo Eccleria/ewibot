@@ -5,6 +5,7 @@ import {
   addEmojiData,
   addServerEmojiCount,
   addServerStatsData,
+  clearURL,
   interactionReply,
   isReleasedCommand,
   removeReminder,
@@ -149,6 +150,7 @@ const onPublicMessage = (message, currentServer) => {
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
+  setTimeout(() => clearURL(message), 1500);
 };
 
 export const onRemoveReminderReaction = (
