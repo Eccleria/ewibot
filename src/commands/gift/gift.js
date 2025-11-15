@@ -350,20 +350,29 @@ const action = async (interaction) => {
 
     if (dbResult.length !== 0) {
       await interactionReply(interaction, get.hasMessages);
-      dbResult.forEach(async (obj) => {
+      for (const obj of dbResult) {
         const userId = obj.recipientId;
         const name = get.for + `<@${userId}>`;
         const userState = isGiftUser(db, userId) ? get.accept : get.notAccept;
 
-        const messages = obj.messages.reduce(
-          (acc, cur) => acc + get.separator + cur,
-          "",
-        ); //concat messages
+        const embed = new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription(name + userState);
+
         await interaction.followUp({
-          content: name + userState + messages,
+          embeds: [embed],
           flags: MessageFlags.Ephemeral,
         });
-      });
+
+        await obj.messages.forEach(
+          async (message) => {
+            await interaction.followUp({
+              content: message,
+              flags: MessageFlags.Ephemeral,
+            });
+          }
+        );
+      };
     } else interactionReply(interaction, get.noMessage);
   } else if (subcommand === personality.accepting.name) {
     //accepting subcommand
