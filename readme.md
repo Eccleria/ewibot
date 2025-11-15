@@ -18,7 +18,6 @@ Ewibot is written in Javascript. The tree is devided into 4 main parts:
 - [source code](#source-code)
 	- [admin](#admin)
 	- [commands](#commands)
-		- polls
 	- [helpers](#helpers)
 - [static code](#static-code)
 
@@ -33,9 +32,6 @@ The [concrete jpgs folder](./pics/concrete/jpgs) regroups all the necessary pict
 The gifs created by the code are stored in the [concrete gifs folder](./pics/concrete/gifs).
 - It includes the [vest folder](./pics/vest). This one regroups the pics for the `/vest` command.
 
-To see how it works, see the respective doc:
-- [concrete command](./doc/commands/concrete.md)
-- [vest command](./doc/commands/vest.md)
 
 ### Database
 The [database folder](./db) contains the database files required. The DB system is a .json file.   
@@ -52,15 +48,12 @@ It is divided into 4 parts:
 
 #### Admin
 The [admin folder](./src/admin) regroups the file aiming to have an administrative action in the Discord Server. Admin means mostly roles interaction.
-See [Admin documentation](./doc/admin.md) for more details.
 
 #### Commands
 There are different commands available for the users. All are inside the files of the [commands folder](./src/commands). 
-See [Commands documentation](./doc/commands/commands.md) for more details.
 
 #### Helpers
 The [folder](./src/helpers) is dedicated to regroup every file having smaller functions or methods used in more important files.
-See [Helpers documentation](./doc/helpers.md) for more details.
 
 #### Main Code
 Main code refers to all the files in the src folder. It includes 5 files:
