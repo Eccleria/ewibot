@@ -19,9 +19,18 @@ const giftModalSendMessage = (interaction) => {
   const sPerso = personality.send;
   const mPerso = sPerso.modal;
 
-  //get targetId
+  //get targetId from modal customId
   const targetId = interaction.customId.split('=')[1]; //customId="[...]_id={id}"
   const content = interaction.fields.getTextInputValue(mPerso.textInput.customId); //get gift content
+  
+  //check content size
+  if (content.length > 1900) {
+    console.log(`gift modal - sent content size ${content.length} > 1900`);
+    interactionReply(interaction, sPerso.errorTooLong);
+    return;
+  }
+
+  //store message and reply
   addGiftMessage(db, targetId, content, author.id); //add to db
   interactionReply(interaction, sPerso.saved);
 }
