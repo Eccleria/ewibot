@@ -289,7 +289,6 @@ const action = async (interaction) => {
         .setRequired(true);
       
       const label = new LabelBuilder()
-        .setDescription("description")
         .setLabel(mPerso.textInput.label)
         .setTextInputComponent(textInput);
 
