@@ -54,10 +54,9 @@ export const selectMenuHandler = (interaction) => {
 export const modalHandler = (interaction) => {
   const { customId } = interaction;
   console.log("modal handler", customId);
-  if (customId.startsWith("gift_modal")) 
-    giftModalHandler(interaction);
+  if (customId.startsWith("gift_modal")) giftModalHandler(interaction);
   else {
     console.warn("modal handler not found!", interaction);
     interactionReply(interaction, "ERROR - contactez une Sentinelle.");
   }
-}
+};

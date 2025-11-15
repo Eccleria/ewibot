@@ -7,6 +7,7 @@
 - Fix: missing the autojoin on `thread` creation ([#379](https://github.com/Eccleria/ewibot/pull/379))
 - Fix: removed deprecated client.on("ready"), now use Events enum ([#401](https://github.com/Eccleria/ewibot/issues/401)) ([#402](https://github.com/Eccleria/ewibot/pull/402))
 - New: add a `weight` system to the bot activities, enabling better tuning of probabilities ([#382](https://github.com/Eccleria/ewibot/pull/382))
+- New: `gift send` now use a modal for `content` formating + `gift get` reworked ([#396](https://github.com/Eccleria/ewibot/pull/396))
 - Update: reduce the `frequency` of auto reactions + add randomness to reactions at content emotes ([#383](https://github.com/Eccleria/ewibot/pull/383))
 - Update: `polls` now store `collector` and `timeout` in a `Polls` class instance, fixing ([#326](https://github.com/Eccleria/ewibot/issues/326)). ([#359](https://github.com/Eccleria/ewibot/pull/359))
 - Update: `Lucifer`'s age detection is now at 19yo ([#388](https://github.com/Eccleria/ewibot/pull/388))

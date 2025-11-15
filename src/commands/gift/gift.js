@@ -14,7 +14,6 @@ import {
 } from "discord.js";
 import { createButton } from "../utils.js";
 import {
-  addGiftMessage,
   addGiftSeparator,
   addGiftUser,
   getGiftMessage,
@@ -194,7 +193,7 @@ const command = new SlashCommandBuilder()
             PERSONALITY.getPersonality().gift.send.userOption.description,
           )
           .setRequired(true),
-      )
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand //remove
@@ -272,22 +271,17 @@ const action = async (interaction) => {
     else {
       //correct user
       //build modal
-      const mPerso = send.modal
-      
-      //check if user already has a message
-      const giftMessages = getGiftMessage(db, author.id, targetId);
-
+      const mPerso = send.modal;
       const text = mPerso.text;
-      const textDisplay = new TextDisplayBuilder()
-        .setContent(text);
-      
+      const textDisplay = new TextDisplayBuilder().setContent(text);
+
       const textInput = new TextInputBuilder()
         .setCustomId(mPerso.textInput.customId)
         .setPlaceholder(mPerso.textInput.placeholder)
         .setMinLength(1)
         .setStyle(TextInputStyle.Paragraph)
         .setRequired(true);
-      
+
       const label = new LabelBuilder()
         .setLabel(mPerso.textInput.label)
         .setTextInputComponent(textInput);
@@ -300,12 +294,12 @@ const action = async (interaction) => {
         .addLabelComponents(label);
 
       console.log("modal", modal);
-      
+
       try {
         interaction.showModal(modal);
       } catch (e) {
         console.error(e);
-      }      
+      }
     }
   } else if (subcommand === personality.remove.name) {
     //remove subcommand
@@ -350,20 +344,27 @@ const action = async (interaction) => {
 
     if (dbResult.length !== 0) {
       await interactionReply(interaction, get.hasMessages);
-      dbResult.forEach(async (obj) => {
+      for (const obj of dbResult) {
         const userId = obj.recipientId;
         const name = get.for + `<@${userId}>`;
         const userState = isGiftUser(db, userId) ? get.accept : get.notAccept;
 
-        const messages = obj.messages.reduce(
-          (acc, cur) => acc + get.separator + cur,
-          "",
-        ); //concat messages
+        const embed = new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription(name + userState);
+
         await interaction.followUp({
-          content: name + userState + messages,
+          embeds: [embed],
           flags: MessageFlags.Ephemeral,
         });
-      });
+
+        await obj.messages.forEach(async (message) => {
+          await interaction.followUp({
+            content: message,
+            flags: MessageFlags.Ephemeral,
+          });
+        });
+      }
     } else interactionReply(interaction, get.noMessage);
   } else if (subcommand === personality.accepting.name) {
     //accepting subcommand
