@@ -266,14 +266,16 @@
         "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
         "modal": {
           "customId": "gift_modal_send",
+          "text": "Ecrivez ce que vous voulez, la mise en page sera conservée <:Ewiyay:918249094391144469>. Soyez intriguant.e et mystérieux.se <:hellagay:1250926761156546580>.\n\nOu juste vous même <:chuchoteur:822487268178657390>.\n\n###ATTENTION: votre message ne peut dépassesr 1900 caractères.",
+          "textInput": {
+            "customId": "gift_modal_send_textInput",
+            "label": "Votre message",
+            "placeholder": "Ecrivez ici votre message de Noël <3"
+          },
           "title": "Le message anonyme à envoyer"
         },
         "name": "send",
         "saved": "Le message a été sauvegardé.",
-        "textOption": {
-          "description": "Le message à envoyer.",
-          "name": "message"
-        },
         "userOption": {
           "description": "La personne qui recevra le message.",
           "name": "destinateurice"
