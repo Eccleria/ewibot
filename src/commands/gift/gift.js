@@ -14,7 +14,6 @@ import {
 } from "discord.js";
 import { createButton } from "../utils.js";
 import {
-  addGiftMessage,
   addGiftSeparator,
   addGiftUser,
   getGiftMessage,
@@ -273,10 +272,6 @@ const action = async (interaction) => {
       //correct user
       //build modal
       const mPerso = send.modal;
-
-      //check if user already has a message
-      const giftMessages = getGiftMessage(db, author.id, targetId);
-
       const text = mPerso.text;
       const textDisplay = new TextDisplayBuilder().setContent(text);
 
