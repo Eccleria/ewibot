@@ -1,13 +1,16 @@
 import dayjs from "dayjs";
-import { SlashCommandBuilder, TextDisplayBuilder } from "@discordjs/builders";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   ActionRowBuilder,
   EmbedBuilder,
   ButtonStyle,
   Colors,
+  LabelBuilder,
   MessageFlags,
   ModalBuilder,
+  TextDisplayBuilder,
   TextInputBuilder,
+  TextInputStyle,
 } from "discord.js";
 import { createButton } from "../utils.js";
 import {
@@ -192,14 +195,6 @@ const command = new SlashCommandBuilder()
           )
           .setRequired(true),
       )
-      .addStringOption((option) =>
-        option
-          .setName(PERSONALITY.getPersonality().gift.send.textOption.name)
-          .setDescription(
-            PERSONALITY.getPersonality().gift.send.textOption.description,
-          )
-          .setRequired(true),
-      ),
   )
   .addSubcommand((subcommand) =>
     subcommand //remove
@@ -278,24 +273,40 @@ const action = async (interaction) => {
       //correct user
       //build modal
       const mPerso = send.modal
-      const modal = new ModalBuilder()
-        .setTitle(mPerso.title)
-        .setCustomId(mPerso.customId);
       
-      const text = 
+      //check if user already has a message
+      const giftMessages = getGiftMessage(db, author.id, targetId);
+
+      const text = mPerso.text;
       const textDisplay = new TextDisplayBuilder()
-        .setContent(mPerso)
+        .setContent(text);
       
       const textInput = new TextInputBuilder()
         .setCustomId(mPerso.textInput.customId)
         .setPlaceholder(mPerso.textInput.placeholder)
         .setMinLength(1)
-        .setRequired(true)
+        .setStyle(TextInputStyle.Paragraph)
+        .setRequired(true);
+      
+      const label = new LabelBuilder()
+        .setDescription("description")
+        .setLabel(mPerso.textInput.label)
+        .setTextInputComponent(textInput);
 
+      const modalCustomId = mPerso.customId + `_id=${targetId}`;
+      const modal = new ModalBuilder()
+        .setTitle(mPerso.title)
+        .setCustomId(modalCustomId)
+        .addTextDisplayComponents(textDisplay)
+        .addLabelComponents(label);
 
-      const content = options.getString(send.textOption.name); //get gift content
-      addGiftMessage(db, targetId, content, author.id); //add to db
-      interactionReply(interaction, send.saved);
+      console.log("modal", modal);
+      
+      try {
+        interaction.showModal(modal);
+      } catch (e) {
+        console.error(e);
+      }      
     }
   } else if (subcommand === personality.remove.name) {
     //remove subcommand
