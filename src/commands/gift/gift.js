@@ -194,7 +194,7 @@ const command = new SlashCommandBuilder()
             PERSONALITY.getPersonality().gift.send.userOption.description,
           )
           .setRequired(true),
-      )
+      ),
   )
   .addSubcommand((subcommand) =>
     subcommand //remove
@@ -272,22 +272,21 @@ const action = async (interaction) => {
     else {
       //correct user
       //build modal
-      const mPerso = send.modal
-      
+      const mPerso = send.modal;
+
       //check if user already has a message
       const giftMessages = getGiftMessage(db, author.id, targetId);
 
       const text = mPerso.text;
-      const textDisplay = new TextDisplayBuilder()
-        .setContent(text);
-      
+      const textDisplay = new TextDisplayBuilder().setContent(text);
+
       const textInput = new TextInputBuilder()
         .setCustomId(mPerso.textInput.customId)
         .setPlaceholder(mPerso.textInput.placeholder)
         .setMinLength(1)
         .setStyle(TextInputStyle.Paragraph)
         .setRequired(true);
-      
+
       const label = new LabelBuilder()
         .setLabel(mPerso.textInput.label)
         .setTextInputComponent(textInput);
@@ -300,12 +299,12 @@ const action = async (interaction) => {
         .addLabelComponents(label);
 
       console.log("modal", modal);
-      
+
       try {
         interaction.showModal(modal);
       } catch (e) {
         console.error(e);
-      }      
+      }
     }
   } else if (subcommand === personality.remove.name) {
     //remove subcommand
@@ -364,15 +363,13 @@ const action = async (interaction) => {
           flags: MessageFlags.Ephemeral,
         });
 
-        await obj.messages.forEach(
-          async (message) => {
-            await interaction.followUp({
-              content: message,
-              flags: MessageFlags.Ephemeral,
-            });
-          }
-        );
-      };
+        await obj.messages.forEach(async (message) => {
+          await interaction.followUp({
+            content: message,
+            flags: MessageFlags.Ephemeral,
+          });
+        });
+      }
     } else interactionReply(interaction, get.noMessage);
   } else if (subcommand === personality.accepting.name) {
     //accepting subcommand

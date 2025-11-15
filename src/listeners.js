@@ -1,6 +1,10 @@
 import { ChannelType } from "discord.js";
 import { roleAdd, roleRemove } from "./admin/role.js";
-import { buttonHandler, modalHandler, selectMenuHandler } from "./commands/utils.js";
+import {
+  buttonHandler,
+  modalHandler,
+  selectMenuHandler,
+} from "./commands/utils.js";
 import {
   addEmojiData,
   addServerEmojiCount,

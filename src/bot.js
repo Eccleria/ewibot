@@ -114,8 +114,8 @@ client.once("ready", async () => {
   initBirthdays(client, tomorrowDiff, frequency);
 });
 
-process.on('unhandledRejection', (error) => {
-	console.error('Unhandled promise rejection:', error);
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled promise rejection:", error);
 });
 
 // Create an event listener for messages
