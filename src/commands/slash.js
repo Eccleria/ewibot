@@ -11,7 +11,7 @@ import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
-import gift from "./gift.js";
+import gift from "./gift/gift.js";
 import leaderboardApology from "./leadApo.js";
 import personality from "./personality.js";
 import polls from "./polls/polls.js";

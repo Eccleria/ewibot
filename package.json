@@ -7,10 +7,10 @@
   "dependencies": {
     "canvas": "^3.1.0",
     "dayjs": "^1.11.13",
-    "discord.js": "14.19.3",
-    "dotenv": "^16.5.0",
+    "discord.js": "14.24.2",
+    "dotenv": "^17.2.3",
     "gif-encoder-2": "^1.0.5",
-    "jest": "^29.7.0",
+    "jest": "^30.2.0",
     "lowdb": "^7.0.1",
     "nodemon": "^3.1.10"
   },

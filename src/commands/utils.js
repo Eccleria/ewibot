@@ -4,8 +4,9 @@ import { settingsButtonHandler } from "./polls/pollsHandlers.js";
 import { pollSelectMenuHandler } from "./polls/pollsSelectMenu.js";
 import { announceButtonHandler } from "./announce.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
-import { giftButtonHandler } from "./gift.js";
+import { giftButtonHandler } from "./gift/gift.js";
 import { interactionReply } from "../helpers/index.js";
+import { giftModalHandler } from "./gift/giftModal.js";
 
 /**
  * Create a button from ButtonBuilder
@@ -48,4 +49,14 @@ export const selectMenuHandler = (interaction) => {
   console.log("menuHandler", customId);
   if (customId.startsWith("polls_selectMenu"))
     pollSelectMenuHandler(interaction);
+};
+
+export const modalHandler = (interaction) => {
+  const { customId } = interaction;
+  console.log("modal handler", customId);
+  if (customId.startsWith("gift_modal")) giftModalHandler(interaction);
+  else {
+    console.warn("modal handler not found!", interaction);
+    interactionReply(interaction, "ERROR - contactez une Sentinelle.");
+  }
 };
