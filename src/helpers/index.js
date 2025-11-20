@@ -76,12 +76,14 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  channelSend,
   gifRecovery,
   hasApology,
   interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  messageReply,
   parseEmoji,
   parseUnixTimestamp,
   removeEmote,
@@ -91,12 +93,14 @@ import {
 
 export {
   // utils
+  channelSend,
   gifRecovery,
   hasApology,
   interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  messageReply,
   parseEmoji,
   parseUnixTimestamp,
   removeEmote,

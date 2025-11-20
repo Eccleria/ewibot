@@ -138,7 +138,7 @@ const concrete = {
   command: command,
   action,
   help: (interaction) => {
-    interaction.reply({
+    interactionReply(interaction, {
       content: personality.help,
       flags: MessageFlags.Ephemeral,
       allowed_mentions: { parse: [] },

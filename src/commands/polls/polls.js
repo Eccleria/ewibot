@@ -7,9 +7,11 @@ import { createButton } from "../utils.js";
 import {
   addPoll,
   addPollChoices,
+  channelSend,
   getPollFromTitle,
   getPollsTitles,
   interactionReply,
+  messageReply,
 } from "../../helpers/index.js";
 import { COMMONS } from "../../commons.js";
 import { PERSONALITY } from "../../personality.js";
@@ -294,7 +296,7 @@ const action = async (interaction) => {
 
     //send poll
     try {
-      const pollMsg = await interaction.channel.send({
+      const pollMsg = await channelSend(interaction.channel, {
         embeds: [embed, timeoutEmbed],
         components: components.actionRows,
       });
@@ -322,7 +324,8 @@ const action = async (interaction) => {
         timeout = setTimeout(
           (message) => {
             const perso = PERSONALITY.getPersonality().polls;
-            message.reply(perso.create.reminder);
+            const payload = { content: perso.create.reminder };
+            messageReply(message, payload);
           },
           timeoutDuration - 3600000,
           pollMsg,
