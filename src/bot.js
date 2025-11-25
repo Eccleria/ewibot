@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
@@ -80,7 +80,7 @@ client.db = db; // db cache
 client.remindme = []; // reminders cache
 
 // Create bot startup
-client.once("ready", async () => {
+client.once(Events.ClientReady, async () => {
   // Time variables
   const tomorrow = dayjs().add(1, "day").hour(8).minute(0).second(0);
   const tomorrowDiff = tomorrow.diff(dayjs()); //diff between tomorrow 8am and now in ms
@@ -115,19 +115,19 @@ client.once("ready", async () => {
 });
 
 // Create an event listener for messages
-client.on("messageCreate", onMessageCreate);
-client.on("messageReactionAdd", onReactionAdd);
-client.on("messageReactionRemove", onReactionRemove);
+client.on(Events.MessageCreate, onMessageCreate);
+client.on(Events.MessageReactionAdd, onReactionAdd);
+client.on(Events.MessageReactionRemove, onReactionRemove);
 
 // listener to autojoin threads
-client.on("threadCreate", onThreadCreate);
+client.on(Events.ThreadCreate, onThreadCreate);
 
 // listener for buttons/modals
-client.on("interactionCreate", onInteractionCreate);
+client.on(Events.InteractionCreate, onInteractionCreate);
 
 // listeners for FUN
-client.on("messageUpdate", onMessageUpdate);
-client.on("guildMemberRemove", onGuildMemberRemove);
+client.on(Events.MessageUpdate, onMessageUpdate);
+client.on(Events.GuildMemberRemove, onGuildMemberRemove);
 
 // Log the bot in
 client.login(process.env.TOKEN);
