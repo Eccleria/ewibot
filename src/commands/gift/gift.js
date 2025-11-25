@@ -5,11 +5,15 @@ import {
   EmbedBuilder,
   ButtonStyle,
   Colors,
+  LabelBuilder,
   MessageFlags,
+  ModalBuilder,
+  TextDisplayBuilder,
+  TextInputBuilder,
+  TextInputStyle,
 } from "discord.js";
-import { createButton } from "./utils.js";
+import { createButton } from "../utils.js";
 import {
-  addGiftMessage,
   addGiftSeparator,
   addGiftUser,
   getGiftMessage,
@@ -18,9 +22,9 @@ import {
   isGiftUser,
   removeGiftMessage,
   removeGiftUser,
-} from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+} from "../../helpers/index.js";
+import { COMMONS } from "../../commons.js";
+import { PERSONALITY } from "../../personality.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
@@ -127,9 +131,9 @@ const addSeparationToDb = (client) => {
 
 export const setGiftTimeoutLoop = (client) => {
   // setup Timeout before n-Surprise day
-  const xmasDate = dayjs(new Date(2024, 11, 25, 1)); //xmas date when to send
-  const nyDate = dayjs(new Date(2025, 0, 1, 1)); //new year date
-  const switchDate = dayjs(new Date(2024, 11, 27, 1)); //add separator to messages
+  const xmasDate = dayjs(new Date(2025, 11, 25, 1)); //xmas date when to send
+  const nyDate = dayjs(new Date(2026, 0, 1, 1)); //new year date
+  const switchDate = dayjs(new Date(2025, 11, 27, 1)); //add separator to messages
 
   const tomorrowMidnight = dayjs()
     .add(1, "day")
@@ -187,14 +191,6 @@ const command = new SlashCommandBuilder()
           .setName(PERSONALITY.getPersonality().gift.send.userOption.name)
           .setDescription(
             PERSONALITY.getPersonality().gift.send.userOption.description,
-          )
-          .setRequired(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName(PERSONALITY.getPersonality().gift.send.textOption.name)
-          .setDescription(
-            PERSONALITY.getPersonality().gift.send.textOption.description,
           )
           .setRequired(true),
       ),
@@ -274,9 +270,35 @@ const action = async (interaction) => {
       interactionReply(interaction, send.isNotAccepting);
     else {
       //correct user
-      const content = options.getString(send.textOption.name); //get gift content
-      addGiftMessage(db, targetId, content, author.id); //add to db
-      interactionReply(interaction, send.saved);
+      //build modal
+      const mPerso = send.modal;
+      const text = mPerso.text;
+      const textDisplay = new TextDisplayBuilder().setContent(text);
+
+      const textInput = new TextInputBuilder()
+        .setCustomId(mPerso.textInput.customId)
+        .setPlaceholder(mPerso.textInput.placeholder)
+        .setMinLength(1)
+        .setStyle(TextInputStyle.Paragraph)
+        .setRequired(true);
+
+      const label = new LabelBuilder()
+        .setLabel(mPerso.textInput.label)
+        .setTextInputComponent(textInput);
+
+      const modalCustomId = mPerso.customId + `_id=${targetId}`;
+      const modal = new ModalBuilder()
+        .setTitle(mPerso.title)
+        .setCustomId(modalCustomId)
+        .addTextDisplayComponents(textDisplay)
+        .addLabelComponents(label);
+
+      console.log("Showing gift modal to ", author.id);
+      try {
+        interaction.showModal(modal);
+      } catch (e) {
+        console.error(e);
+      }
     }
   } else if (subcommand === personality.remove.name) {
     //remove subcommand
@@ -289,7 +311,7 @@ const action = async (interaction) => {
       //is not null && is not empty list
       await interactionReply(interaction, remove.removed);
 
-      dbResults.forEach(async (obj) => {
+      for (const obj of dbResults) {
         //typeof obj can be "string" or "object"
         const userId =
           typeof obj === "object" ? obj.recipientId : targetUser.id;
@@ -298,19 +320,22 @@ const action = async (interaction) => {
           ? remove.accept
           : remove.notAccept;
 
-        const messages =
-          typeof obj === "object"
-            ? obj.messages.reduce(
-                (acc, cur) => acc + remove.separator + cur,
-                "",
-              )
-            : obj; //concat messages
+        const embed = new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription(name + userState);
 
         await interaction.followUp({
-          content: name + userState + messages,
+          embeds: [embed],
           flags: MessageFlags.Ephemeral,
         });
-      });
+
+        for (const message of obj.messages) {
+          await interaction.followUp({
+            content: message,
+            flags: MessageFlags.Ephemeral,
+          });
+        }
+      }
     } else interactionReply(interaction, remove.noMessage);
   } else if (subcommand === personality.get.name) {
     //get subcommand
@@ -321,20 +346,27 @@ const action = async (interaction) => {
 
     if (dbResult.length !== 0) {
       await interactionReply(interaction, get.hasMessages);
-      dbResult.forEach(async (obj) => {
+      for (const obj of dbResult) {
         const userId = obj.recipientId;
         const name = get.for + `<@${userId}>`;
         const userState = isGiftUser(db, userId) ? get.accept : get.notAccept;
 
-        const messages = obj.messages.reduce(
-          (acc, cur) => acc + get.separator + cur,
-          "",
-        ); //concat messages
+        const embed = new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription(name + userState);
+
         await interaction.followUp({
-          content: name + userState + messages,
+          embeds: [embed],
           flags: MessageFlags.Ephemeral,
         });
-      });
+
+        await obj.messages.forEach(async (message) => {
+          await interaction.followUp({
+            content: message,
+            flags: MessageFlags.Ephemeral,
+          });
+        });
+      }
     } else interactionReply(interaction, get.noMessage);
   } else if (subcommand === personality.accepting.name) {
     //accepting subcommand

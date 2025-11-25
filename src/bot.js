@@ -29,7 +29,7 @@ import { roleInit } from "./admin/role.js";
 // commands import
 import { initPollsCollector } from "./commands/polls/pollsCollectors.js";
 import { initBirthdays } from "./commands/birthday.js";
-import { setGiftTimeoutLoop } from "./commands/gift.js";
+import { setGiftTimeoutLoop } from "./commands/gift/gift.js";
 import { initReminder } from "./commands/reminder.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
@@ -112,6 +112,10 @@ client.once(Events.ClientReady, async () => {
 
   //birthdays
   initBirthdays(client, tomorrowDiff, frequency);
+});
+
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled promise rejection:", error);
 });
 
 // Create an event listener for messages
