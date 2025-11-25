@@ -267,7 +267,7 @@
         "isNotAccepting": "Cette personne n'accepte pas les messages de Noël.",
         "modal": {
           "customId": "gift_modal_send",
-          "text": "Ecrivez ce que vous voulez, la mise en page sera conservée <:Ewiyay:918249094391144469>. Soyez intriguant.e et mystérieux.se <:hellagay:1250926761156546580>.\n\nOu juste vous même <:chuchoteur:822487268178657390>.\n\n### ATTENTION: votre message ne peut dépassesr 1900 caractères.",
+          "text": "Ecrivez ce que vous voulez comme un message normal, la mise en page sera conservée <:Ewiyay:918249094391144469> (ps: les liens des gifs fonctionnent). Soyez intriguant.e et mystérieux.se <:hellagay:1250926761156546580>.\n\nOu juste vous même <:chuchoteur:822487268178657390>.\n\n_ATTENTION: votre message ne peut dépasser 1900 caractères._",
           "textInput": {
             "customId": "gift_modal_send_textInput",
             "label": "Votre message",

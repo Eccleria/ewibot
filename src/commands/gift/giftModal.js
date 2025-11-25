@@ -12,6 +12,7 @@ export const giftModalHandler = (interaction) => {
 };
 
 const giftModalSendMessage = (interaction) => {
+  console.log("gift modal - processing gift message yay");
   const db = interaction.client.db;
   const author = interaction.member;
   const personality = PERSONALITY.getPersonality().gift;

@@ -292,9 +292,8 @@ const action = async (interaction) => {
         .setCustomId(modalCustomId)
         .addTextDisplayComponents(textDisplay)
         .addLabelComponents(label);
-
-      console.log("modal", modal);
-
+      
+      console.log("Showing gift modal to ", author.id);
       try {
         interaction.showModal(modal);
       } catch (e) {
