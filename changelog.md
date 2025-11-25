@@ -5,6 +5,7 @@
 - Fix: `polls` now use also maxValue and not totalValues when computing ratio at polls stop ([#375](https://github.com/Eccleria/ewibot/pull/375))
 - Fix: app crashed if `user` has guild specific `avatar` ([#378](https://github.com/Eccleria/ewibot/issues/378)) ([#379](https://github.com/Eccleria/ewibot/pull/379))
 - Fix: missing the autojoin on `thread` creation ([#379](https://github.com/Eccleria/ewibot/pull/379))
+- Fix: removed deprecated client.on("ready"), now use Events enum ([#401](https://github.com/Eccleria/ewibot/issues/401)) ([#402](https://github.com/Eccleria/ewibot/pull/402))
 - New: add a `weight` system to the bot activities, enabling better tuning of probabilities ([#382](https://github.com/Eccleria/ewibot/pull/382))
 - Update: reduce the `frequency` of auto reactions + add randomness to reactions at content emotes ([#383](https://github.com/Eccleria/ewibot/pull/383))
 - Update: `polls` now store `collector` and `timeout` in a `Polls` class instance, fixing ([#326](https://github.com/Eccleria/ewibot/issues/326)). ([#359](https://github.com/Eccleria/ewibot/pull/359))
