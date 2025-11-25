@@ -292,7 +292,7 @@ const action = async (interaction) => {
         .setCustomId(modalCustomId)
         .addTextDisplayComponents(textDisplay)
         .addLabelComponents(label);
-      
+
       console.log("Showing gift modal to ", author.id);
       try {
         interaction.showModal(modal);
@@ -311,7 +311,7 @@ const action = async (interaction) => {
       //is not null && is not empty list
       await interactionReply(interaction, remove.removed);
 
-      dbResults.forEach(async (obj) => {
+      for (const obj of dbResults) {
         //typeof obj can be "string" or "object"
         const userId =
           typeof obj === "object" ? obj.recipientId : targetUser.id;
@@ -320,19 +320,22 @@ const action = async (interaction) => {
           ? remove.accept
           : remove.notAccept;
 
-        const messages =
-          typeof obj === "object"
-            ? obj.messages.reduce(
-                (acc, cur) => acc + remove.separator + cur,
-                "",
-              )
-            : obj; //concat messages
+        const embed = new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription(name + userState);
 
         await interaction.followUp({
-          content: name + userState + messages,
+          embeds: [embed],
           flags: MessageFlags.Ephemeral,
         });
-      });
+
+        for (const message of obj.messages) {
+          await interaction.followUp({
+            content: message,
+            flags: MessageFlags.Ephemeral,
+          });
+        }
+      }
     } else interactionReply(interaction, remove.noMessage);
   } else if (subcommand === personality.get.name) {
     //get subcommand

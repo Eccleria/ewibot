@@ -64,11 +64,18 @@ const removeGiftMessage = (db, senderId, recipientId = null) => {
       );
 
       //update db
-      userData.messages = results.new;
-      db.wasUpdated = true;
+      if (results.removed.length) {
+        userData.messages = results.new;
+        db.wasUpdated = true;
 
-      return results.removed; //return messages for feedback
-    } else return null;
+        const parsedResults = {
+          recipientId, //we're sure it's not undefined
+          messages: results.removed,
+        };
+        return [parsedResults];
+      }
+    }
+    return [];
   } else {
     return data.reduce((senderAcc, recipientObj) => {
       //recipientObj = {userId, messages}
