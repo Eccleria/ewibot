@@ -4,7 +4,8 @@ import {
   hasApology,
   removePunctuation,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
+import { COMMONS } from "../classes/commons.js";
+import { logger } from "../logger.js";
 
 //#region LISTENERS
 
@@ -58,12 +59,12 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
 export const onGuildMemberRemove = async (memberKick) => {
   //handle guildMember kicked or leaving the server
-  console.log("member kicked from/left Discord Server");
+  logger.info("member kicked from/left Discord Server");
 
   const userKick = memberKick.user;
   removeUserFromDB(userKick.id, userKick.client); //remove user from db
 
-  console.log("memberKick", userKick);
+  logger.debug(userKick);
 };
 
 //#endregion

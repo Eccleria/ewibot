@@ -19,8 +19,9 @@ import {
   removeGiftMessage,
   removeGiftUser,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../logger.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
@@ -42,7 +43,7 @@ export const giftButtonHandler = async (interaction) => {
       customId.includes((today.year() - 1).toString())
     )
   ) {
-    console.log("wrong gift button", interaction.customId);
+    logger.warn("wrong gift button - customId : %s", interaction.customId);
     interactionReply(interaction, "Bouton trop vieux.");
     return;
   }
@@ -122,7 +123,7 @@ const giftInteractionCreation = async (client, type) => {
 const addSeparationToDb = (client) => {
   const perso = PERSONALITY.getPersonality().gift.newYear;
   addGiftSeparator(client.db, perso.separator);
-  console.log("Separation added to gift db");
+  logger.info("Separation added to gift db");
 };
 
 export const setGiftTimeoutLoop = (client) => {

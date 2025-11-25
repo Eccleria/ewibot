@@ -7,8 +7,9 @@ import fs from "fs";
 import { AttachmentBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../logger.js";
 
 //personality
 const personality = PERSONALITY.getPersonality().concrete;
@@ -51,7 +52,7 @@ const action = async (object) => {
     user = options.getUser(cPerso.userOption.name);
   } catch (e) {
     interactionReply(interaction, personality.errorMention);
-    console.log("concrete error", e);
+    logger.error(e, "concrete");
     return;
   }
 
