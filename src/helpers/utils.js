@@ -161,9 +161,10 @@ const apologyRegex = new RegExp( //regex for apology detection
 
 export const hasApology = (sanitizedContent) => {
   let apologyResult = apologyRegex.exec(sanitizedContent); //check if contains apology
-  if (process.env.DEBUGLOGS === "yes")
+  if (process.env.DEBUGLOGS === "yes") {
+    console.log([sanitizedContent]);
     console.log("apologyResult", apologyResult);
-
+  }
   apologyRegex.lastIndex = 0; //reset lastIndex, needed for every check
   while (apologyResult !== null) {
     //if found apology
