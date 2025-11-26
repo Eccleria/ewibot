@@ -60,7 +60,7 @@ const Modules = {
   //main
   fun: new Color(),
   mainListeners: new Color(),
-  stats: new Color(),
+  mainStats: new Color(),
 }
 
 export default (opts) => PinoPretty({
