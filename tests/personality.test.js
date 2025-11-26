@@ -10,12 +10,11 @@ describe("Personality", () => {
 
   const personalities = ["nom", "fun"];
   const perso = {commands: "commande", spotify: "spotify"}
-  const p = new Personality("nom", "personalité", "administratif", "annonces", "couleurs", personalities);
+  const p = new Personality("nom", "personalité", "annonces", "couleurs", personalities);
 
   test("Correct init", () => {
     expect(p.name).toBe("nom");
     expect(p.personality).toBe("personalité");
-    expect(p.admin).toBe("administratif");
     expect(p.announces).toBe("annonces");
     expect(p.colors).toBe("couleurs");
     expect(p.personalities).toStrictEqual(personalities);
@@ -40,18 +39,6 @@ describe("Personality", () => {
     expect(p.getName()).toBe("fun");
   });
 
-  test("getCommands", () => {
-    expect(p.getCommands()).toBe("commande");
-  });
-
-  test("getSpotify", () => {
-    expect(p.getSpotify()).toBe("spotify");
-  });
-
-  test("getAdmin", () => {
-    expect(p.getAdmin()).toBe("administratif");
-  });
-
   test("getAnnounces", () => {
     expect(p.getAnnounces()).toBe("annonces");
   });
@@ -59,4 +46,4 @@ describe("Personality", () => {
   test("getColors", () => {
     expect(p.getColors()).toBe("couleurs");
   });
-})
+});
