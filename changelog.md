@@ -1,4 +1,7 @@
-﻿## 7.0.0
+﻿## 7.1.0
+- Fix: apologies only detected 1 out of 2 apologies ([#403](https://github.com/Eccleria/ewibot/issues/403)) ([#405](https://github.com/Eccleria/ewibot/pull/405))
+
+## 7.0.0
 - Core: slice Ewibot in 2, moderation part now in Sil' Afian ([Ewibot](https://github.com/Eccleria/Sil-Afian))
 - Debug: add more logs about `emoteColor`, trying to fix ([#272](https://github.com/Eccleria/ewibot/issues/272)) and ([#376](https://github.com/Eccleria/ewibot/issues/376))
 - Fix: rare `polls` crash when vote `collector` fails with an unknow interaction ([#371](https://github.com/Eccleria/ewibot/issues/371)) ([#373](https://github.com/Eccleria/ewibot/pull/373))
