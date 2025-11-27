@@ -1,6 +1,7 @@
 ﻿## 7.1.0
 - Fix: apologies only detected 1 out of 2 apologies ([#403](https://github.com/Eccleria/ewibot/issues/403)) ([#405](https://github.com/Eccleria/ewibot/pull/405))
 - Fix: `isABCD` wrongly fired on a multi line message ([#380](https://github.com/Eccleria/ewibot/issues/380)) ([#397](https://github.com/Eccleria/ewibot/pull/397))
+- Remove: unused functions left from Ewibot slicing ([#406](https://github.com/Eccleria/ewibot/pull/406))
 
 ## 7.0.0
 - Core: slice Ewibot in 2, moderation part now in Sil' Afian ([Ewibot](https://github.com/Eccleria/Sil-Afian))
