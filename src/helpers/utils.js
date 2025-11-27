@@ -122,6 +122,16 @@ export const isSentinelle = (member, currentServer) => {
 };
 
 /**
+ * Replce all \n with a replace string
+ * @param {*} words list of words
+ * @param {*} replace string that will replace lin breaks
+ * @returns
+ */
+export const replaceLineBreak = (words, replace) => {
+  return words.replaceAll("\n", replace);
+};
+
+/**
  * Parse a string emoji into its id.
  * @param {string} content `<a:name:id>`, `<:name:id>`, `a:name:id` or `name:id` emoji identifier string
  * @returns {?string} Emoji id | null
@@ -153,7 +163,7 @@ export const removeEmote = (str) => {
 
 const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 export const removePunctuation = (messageContent) => {
-  const lineBreakRemoved = messageContent.replaceAll("\n", " ");
+  const lineBreakRemoved = replaceLineBreak(messageContent, " ");
   return lineBreakRemoved.replaceAll(punctuation, "");
 };
 
