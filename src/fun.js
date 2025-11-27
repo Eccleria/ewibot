@@ -24,7 +24,12 @@ const optionalActivities = () => {
   if (today.getMonth() == 9 && today.getDate() == 31)
     activities = [
       ...activities,
-      { name: "compter ses bonbons", type: ActivityType.Playing, state: "Il en manque un !", weight: 10 },
+      {
+        name: "compter ses bonbons",
+        type: ActivityType.Playing,
+        state: "Il en manque un !",
+        weight: 10,
+      },
     ];
   return activities;
 };
@@ -32,12 +37,37 @@ const optionalActivities = () => {
 // activity list
 const buildActivityList = () => {
   const activityList = [
-    { name: "Adrien Sépulchre", type: ActivityType.Listening, state: "Quel talent ..." },
-    { name: "JDR Ewilan par Charlie", type: ActivityType.Playing, state: "C'est quand qu'on arrive ?" },
-    { name: "le Chant de la Dame", type: ActivityType.Listening, state: "Courbes innées en ondoyantes circonvolutions. Onde infinie gourgeoyante d'harmonie plongée au cœur des océans d'étoiles." },
-    { name: "la création d'Al-Jeit", type: ActivityType.Competing, state: "😎" },
-    { name: "épier les clochinettes", type: ActivityType.Playing, state: "...c'est quoi en fait une clochinette ?" },
-    { name: "bétonner les gens", type: ActivityType.Playing, state: "Hehehe béton" },
+    {
+      name: "Adrien Sépulchre",
+      type: ActivityType.Listening,
+      state: "Quel talent ...",
+    },
+    {
+      name: "JDR Ewilan par Charlie",
+      type: ActivityType.Playing,
+      state: "C'est quand qu'on arrive ?",
+    },
+    {
+      name: "le Chant de la Dame",
+      type: ActivityType.Listening,
+      state:
+        "Courbes innées en ondoyantes circonvolutions. Onde infinie gourgeoyante d'harmonie plongée au cœur des océans d'étoiles.",
+    },
+    {
+      name: "la création d'Al-Jeit",
+      type: ActivityType.Competing,
+      state: "😎",
+    },
+    {
+      name: "épier les clochinettes",
+      type: ActivityType.Playing,
+      state: "...c'est quoi en fait une clochinette ?",
+    },
+    {
+      name: "bétonner les gens",
+      type: ActivityType.Playing,
+      state: "Hehehe béton",
+    },
     ...optionalActivities(),
   ];
 
@@ -45,18 +75,17 @@ const buildActivityList = () => {
   const array = Array.from(new Array(7));
   const EwilanList = array.reduce((acc, _cur, idx) => {
     const element = {
-        name: "Ewilan EP" + (idx + 1).toString(),
-        type: ActivityType.Watching,
-        state: "J'adore cet épisode !",
-        weight: 1
-      }
+      name: "Ewilan EP" + (idx + 1).toString(),
+      type: ActivityType.Watching,
+      state: "J'adore cet épisode !",
+      weight: 1,
+    };
     return [...acc, element];
   }, []);
   activityList.push(...EwilanList);
-  
-  return activityList;
-}
 
+  return activityList;
+};
 
 /**
  * Set the timeout for bot activity update.
@@ -77,7 +106,7 @@ const getActivityIndexes = (activities) => {
     const w = cur.weight ? cur.weight : 2;
     const array = Array.from(Array(w), () => idx);
     return [...acc, ...array];
-  }, [])
+  }, []);
   return indexes;
 };
 
@@ -123,7 +152,7 @@ export const readContentAndReact = async (message, currentServer) => {
   }
 
   if (isAbcd(loweredContent)) await message.react(currentServer.eyeReactId);
-  
+
   const words = loweredContent.split(" "); //split message content into a list of words
 
   //if ewibot is mentionned, react

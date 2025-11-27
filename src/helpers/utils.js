@@ -125,11 +125,11 @@ export const isSentinelle = (member, currentServer) => {
  * Replce all \n with a replace string
  * @param {*} words list of words
  * @param {*} replace string that will replace lin breaks
- * @returns 
+ * @returns
  */
 export const replaceLineBreak = (words, replace) => {
   return words.replaceAll("\n", replace);
-}
+};
 
 /**
  * Parse a string emoji into its id.
