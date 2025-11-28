@@ -6,7 +6,7 @@ const normal = JSON.parse(readFileSync(path + "normal.json"));
 const funny = JSON.parse(readFileSync(path + "funny.json"));
 const colors = JSON.parse(readFileSync("static/colors.json"));
 
-class Personality {
+export class Personality {
   constructor(name, personality, announces, colors, personalities) {
     this.name = name;
     this.personality = personality;
