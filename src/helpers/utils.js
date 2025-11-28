@@ -3,6 +3,17 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
+ *
+ * @param {Channel} channel Channel where to send the message.
+ * @param {object} payload Payload of the message.
+ * @returns {Message} Message sent on channel
+ */
+export const channelSend = async (channel, payload) => {
+  const message = await channel.send(payload).catch((e) => console.error(e));
+  return message;
+};
+
+/**
  * Get strings corresponding to gif url.
  * @param {string} content
  * @returns {?string[]} If any, returns array of gif url strings.
@@ -77,15 +88,15 @@ export const hasApology = (sanitizedContent) => {
 /**
  * Reply to interaction function
  * @param {any} interaction Interaction the function is replying to.
- * @param {string} content Content of the replying message.
+ * @param {string|object} data Data of the replying message.
  * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
  */
 export const interactionReply = async (
   interaction,
-  content,
+  data,
   isEphemeral = true,
 ) => {
-  const payload = { content };
+  const payload = typeof data === "string" ? { content: data } : data;
   if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
 
   await interaction
@@ -122,13 +133,14 @@ export const isSentinelle = (member, currentServer) => {
 };
 
 /**
- * Replce all \n with a replace string
- * @param {*} words list of words
- * @param {*} replace string that will replace lin breaks
- * @returns
+ *
+ * @param {Message} message A Discord message object
+ * @param {object} payload The content to reply with
  */
-export const replaceLineBreak = (words, replace) => {
-  return words.replaceAll("\n", replace);
+export const messageReply = async (message, payload) => {
+  await message
+    .reply(payload)
+    .catch((err) => console.error("message reply error", err));
 };
 
 /**
@@ -165,6 +177,16 @@ const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
 export const removePunctuation = (messageContent) => {
   const lineBreakRemoved = replaceLineBreak(messageContent, " ");
   return lineBreakRemoved.replaceAll(punctuation, "");
+};
+
+/**
+ * Replce all \n with a replace string
+ * @param {*} words list of words
+ * @param {*} replace string that will replace lin breaks
+ * @returns
+ */
+export const replaceLineBreak = (words, replace) => {
+  return words.replaceAll("\n", replace);
 };
 
 /**
