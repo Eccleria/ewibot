@@ -86,6 +86,7 @@ import {
   parseUnixTimestamp,
   removeEmote,
   removePunctuation,
+  replaceLineBreak,
   setupEmbed,
 } from "./utils.js";
 
@@ -101,6 +102,7 @@ export {
   parseUnixTimestamp,
   removeEmote,
   removePunctuation,
+  replaceLineBreak,
   setupEmbed,
   // dbHelper
   //apology
