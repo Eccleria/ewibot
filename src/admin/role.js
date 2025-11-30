@@ -1,4 +1,5 @@
 ﻿import { COMMONS } from "../commons.js";
+import { channelFetch } from "../helpers/index.js";
 
 export const roleInit = async (client) => {
   console.log("role init");
@@ -9,7 +10,8 @@ export const roleInit = async (client) => {
   const rolesJson = Object.values(server.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
 
   //check if the message has all Ewibot reactions
-  const channel = await client.channels.fetch(
+  const channel = await channelFetch(
+    client.channels,
     server.cosmeticRoleHandle.channelId,
   ); //get the channel
   const message = await channel.messages.fetch(

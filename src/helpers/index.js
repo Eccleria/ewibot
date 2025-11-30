@@ -76,14 +76,18 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  //API
   channelSend,
+  fetchChannel,
+  fetchGuild,
+  interactionReply,
+  messageReply,
+  //Misc
   gifRecovery,
   hasApology,
-  interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
-  messageReply,
   parseEmoji,
   parseUnixTimestamp,
   removeEmote,
@@ -94,14 +98,18 @@ import {
 
 export {
   // utils
+  //API
   channelSend,
+  fetchChannel,
+  fetchGuild,
+  interactionReply,
+  messageReply,
+  //Misc
   gifRecovery,
   hasApology,
-  interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
-  messageReply,
   parseEmoji,
   parseUnixTimestamp,
   removeEmote,

@@ -3,15 +3,76 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
+ * Types imports for docstrings
+ * @import { Channel, ChannelManager, Interaction, Message, MessagePayload } from "discord.js"
+ */
+
+//#region API wrappers
+
+/**
  *
  * @param {Channel} channel Channel where to send the message.
  * @param {object} payload Payload of the message.
- * @returns {Message} Message sent on channel
+ * @returns {Promise<Message>} Message sent on channel
  */
 export const channelSend = async (channel, payload) => {
   const message = await channel.send(payload).catch((e) => console.error(e));
   return message;
 };
+
+/**
+ * Fetch a channel from a ChannelManger and catch issues
+ * @param {ChannelManager} channels The channelManager to fetch the channel from.
+ * @param {string} id The Id of the channel to fetch
+ * @returns {Promise<Channel>}
+ */
+export const fetchChannel = async (channels, id) => {
+  const channel = await channels.fetch(id).catch(console.err);
+  return channel;
+}
+
+/**
+ * Fetch the guild from its id
+ * @param {Client} client Bot client
+ * @param {string} guildId The id of the guild to fetch
+ * @returns {Promise<Guild>}
+ */
+export const fetchGuild = async (client, guildId) => {
+  return await client.guilds.fetch(guildId).catch(console.error);
+};
+
+/**
+ * Reply to interaction function
+ * @param {Interaction} interaction Interaction the function is replying to.
+ * @param {string|object} data Data of the replying message.
+ * @param {boolean} [isEphemeral] Add the Ephemeral flag to message flags, true by default.
+ */
+export const interactionReply = async (
+  interaction,
+  data,
+  isEphemeral = true,
+) => {
+  const payload = typeof data === "string" ? { content: data } : data;
+  if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
+
+  await interaction
+    .reply(payload)
+    .catch((err) => console.log("interactionReply error", err));
+};
+
+/**
+ * Wrapper that handle Message.reply and its catch
+ * @param {Message} message A Discord message object
+ * @param {MessagePayload} payload The content to reply with
+ */
+export const messageReply = async (message, payload) => {
+  return await message
+    .reply(payload)
+    .catch((err) => console.error("message reply error", err));
+};
+
+//#endregion
+
 
 /**
  * Get strings corresponding to gif url.
@@ -85,25 +146,6 @@ export const hasApology = (sanitizedContent) => {
   return false;
 };
 
-/**
- * Reply to interaction function
- * @param {any} interaction Interaction the function is replying to.
- * @param {string|object} data Data of the replying message.
- * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
- */
-export const interactionReply = async (
-  interaction,
-  data,
-  isEphemeral = true,
-) => {
-  const payload = typeof data === "string" ? { content: data } : data;
-  if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
-
-  await interaction
-    .reply(payload)
-    .catch((err) => console.log("interactionReply error", err));
-};
-
 export const isAdmin = (authorId) => {
   // Check if is admin users
   const admins = COMMONS.getShared().admins;
@@ -130,17 +172,6 @@ export const isReleasedCommand = (command) => {
 export const isSentinelle = (member, currentServer) => {
   const roles = member.roles.cache;
   return roles.has(currentServer.sentinelleRoleId);
-};
-
-/**
- *
- * @param {Message} message A Discord message object
- * @param {object} payload The content to reply with
- */
-export const messageReply = async (message, payload) => {
-  await message
-    .reply(payload)
-    .catch((err) => console.error("message reply error", err));
 };
 
 /**
