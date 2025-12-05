@@ -1,10 +1,19 @@
+import { dbAdmin } from "./database.js";
+
 //IGNORE CHANNEL
 const isIgnoredChannel = (db, channelId) => {
+  dbAdmin.all("SELECT * FROM ignoreChannels WHERE channelId=?", [channelId], (err, rows) => {
+    console.error(err);
+    console.log("rows", rows);
+  });
   return db.data.ignoredChannelIds.includes(channelId);
 };
 
 const addIgnoredChannel = (db, channelId) => {
   if (!isIgnoredChannel(db, channelId)) {
+    console.log("add", channelId);
+    const query = "INSERT INTO ignoreChannels(channelId) VALUES(?)";
+    dbAdmin.run(query, [channelId], console.error);
     db.data.ignoredChannelIds.push(channelId);
   }
   db.wasUpdated = true;
