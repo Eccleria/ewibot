@@ -40,6 +40,7 @@ import { COMMONS } from "./commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
+import { initDB } from "./helpers/db/database.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -56,6 +57,8 @@ setInterval(async () => {
     db.wasUpdated = false;
   }
 }, 10000);
+
+
 
 // Discord CLIENT
 const client = new Client({
@@ -90,6 +93,8 @@ client.once(Events.ClientReady, async () => {
   console.log("I am ready!");
   roleInit(client); //role handler init
 
+  initDB();
+  
   //polls
   client.voteBuffers = {}; //init poll votes buffer
   initPollsCollector(client); //start db polls collectors
