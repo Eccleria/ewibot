@@ -12,7 +12,8 @@
     "gif-encoder-2": "^1.0.5",
     "jest": "^30.2.0",
     "lowdb": "^7.0.1",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "eslint": "^9.28.0",
