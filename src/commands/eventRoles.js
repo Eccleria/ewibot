@@ -10,6 +10,7 @@ import { createButton } from "./utils.js";
 import {
   addEventRole,
   channelSend,
+  fetchChannel,
   fetchMessage,
   getEventRoles,
   interactionReply,
@@ -154,7 +155,8 @@ const action = async (interaction) => {
 
     //get channel where to send
     const guild = await interaction.guild.fetch();
-    const channel = await guild.channels.fetch(
+    const channel = await fetchChannel(
+      guild.channels,
       currentServer.eventRoleHandleChannelId,
     );
 
@@ -190,7 +192,8 @@ const action = async (interaction) => {
     const slicedName = name.includes("<") ? name.split(">")[1] : name;
 
     //get role message
-    const roleChannel = await interaction.guild.channels.fetch(
+    const roleChannel = await fetchChannel(
+      interaction.guild.channels,
       currentServer.eventRoleHandleChannelId,
     );
     const roleMessage = currentEventServer.roleMessageId

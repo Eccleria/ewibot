@@ -10,6 +10,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   addReminder,
   channelSend,
+  fetchChannel,
   fetchMessage,
   interactionReply,
   removeReminder,
@@ -33,10 +34,12 @@ export const initReminder = async (client) => {
   if (db.data && db.data.reminder.length > 0)
     db.data.reminder.forEach(async (element) => {
       const author = await client.users.fetch(element.authorId); // Find user
-      const requestChannel = await client.channels.fetch(
+      const requestChannel = await fetchChannel(
+        client.channels,
         element.requestChannelId,
       ); //Find channel with user's request
-      const answerChannel = await client.channels.fetch(
+      const answerChannel = await fetchChannel(
+        client.channels,
         element.answerChannelId,
       ); //Find channel with Ewibot answer
       const botMessage = await fetchMessage(

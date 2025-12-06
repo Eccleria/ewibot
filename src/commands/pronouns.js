@@ -1,12 +1,12 @@
 import { ActionRowBuilder, ButtonStyle, Colors } from "discord.js";
 import { createButton } from "./utils.js";
-import { channelSend, setupEmbed } from "../helpers/index.js";
+import { channelSend, fetchChannel, fetchGuild, setupEmbed } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const action = async (message, _client, currentServer) => {
   const { pronounsRoleHandleChannelId } = currentServer;
-  const guild = await message.client.guilds.fetch(message.guildId);
-  const roleChannel = await guild.channels.fetch(pronounsRoleHandleChannelId);
+  const guild = await fetchGuild(message.client, message.guildId);
+  const roleChannel = await fetchChannel(guild.channels, pronounsRoleHandleChannelId);
 
   //personality
   const personality = PERSONALITY.getPersonality();

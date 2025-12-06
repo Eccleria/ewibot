@@ -10,6 +10,7 @@ import { ComponentType, MessageFlags } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
 import {
+  fetchChannel,
   fetchMessage,
   getPoll,
   getPolls,
@@ -25,7 +26,7 @@ export const initPollsCollector = (client) => {
   const polls = getPolls(db);
 
   polls.forEach(async (poll) => {
-    const channel = await client.channels.fetch(poll.channelId);
+    const channel = await fetchChannel(client.channels, poll.channelId);
     let message;
     try {
       message = await fetchMessage(channel.messages, poll.pollId);

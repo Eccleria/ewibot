@@ -17,6 +17,8 @@ import {
   addGiftSeparator,
   addGiftUser,
   channelSend,
+  fetchChannel,
+  fetchGuild,
   getGiftMessage,
   getGiftUsers,
   interactionReply,
@@ -90,8 +92,8 @@ const giftInteractionCreation = async (client, type) => {
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
 
-  const guild = await client.guilds.fetch(server.guildId);
-  const channel = await guild.channels.fetch(server.giftButtonChannelId);
+  const guild = await fetchGuild(client, server.guildId);
+  const channel = await fetchChannel(guild.channels, server.giftButtonChannelId);
 
   const personality = PERSONALITY.getPersonality().gift;
 

@@ -1,5 +1,5 @@
 ﻿import { COMMONS } from "../commons.js";
-import { fetchChannel, fetchMessage } from "../helpers/index.js";
+import { fetchChannel, fetchGuild, fetchMember, fetchMessage } from "../helpers/index.js";
 
 export const roleInit = async (client) => {
   console.log("role init");
@@ -31,10 +31,11 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   if (userId === process.env.CLIENTID) return; //if bot, return
 
   //fetch user data
-  const guild = await messageReaction.client.guilds.fetch(
+  const guild = await fetchMember(
+    messageReaction.client.guilds,
     currentServer.guildId,
   ); //fetch the guild
-  const guildMember = await guild.members.fetch(userId); //get guildMember
+  const guildMember = await fetchMember(guild.members, userId); //get guildMember
 
   //check for alavirien role
   if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
@@ -62,10 +63,11 @@ export const roleRemove = async (messageReaction, currentServer, user) => {
   const userId = user.id;
   if (userId === process.env.CLIENTID) return; //if bot, return
 
-  const guild = await messageReaction.client.guilds.fetch(
+  const guild = await fetchGuild(
+    messageReaction.client,
     currentServer.guildId,
   ); //fetch the guild
-  const guildMember = await guild.members.fetch(userId); //get guildMember
+  const guildMember = await fetchMember(guild.members, userId); //get guildMember
 
   //check for correct triggering reaction
   const rolesJson = Object.values(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]

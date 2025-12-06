@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, AttachmentBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { interactionReply, removeEmote } from "../helpers/index.js";
+import { fetchMember, interactionReply, removeEmote } from "../helpers/index.js";
 import Canvas from "canvas";
 import path from "path";
 import fs from "fs";
@@ -28,7 +28,7 @@ const action = async (interaction) => {
 
   await interaction.deferReply();
   const user = options.getUser(perso.userOption.name);
-  const target = await guild.members.fetch(user.id); //get guildMember from user id
+  const target = await fetchMember(guild.members, user.id); //get guildMember from user id
 
   //get pp hash
   const url = target.displayAvatarURL({ extension: "png" });

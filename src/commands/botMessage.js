@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { AttachmentBuilder, ChannelType } from "discord.js";
 import {
   channelSend,
+  fetchChannel,
   fetchMessage,
   interactionReply,
   isAdmin,
@@ -193,7 +194,8 @@ const action = async (interaction) => {
     } catch (e) {
       console.log("botMessage message fetch error", e);
       try {
-        const channel = await interaction.client.channels.fetch(
+        const channel = await fetchChannel(
+          interaction.client.channels,
           sliced[sliced.length - 2],
         );
         message = await fetchMessage(

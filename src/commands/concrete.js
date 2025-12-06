@@ -56,7 +56,7 @@ const action = async (object) => {
   }
 
   await interaction.deferReply();
-  const target = await client.users.fetch(user.id); //get guildMember from user id
+  const target = await client.users.fetch(user.id); //get user from user id
 
   const self = process.env.CLIENTID;
   const currentServer = COMMONS.fetchFromGuildId(channel.guild.id);

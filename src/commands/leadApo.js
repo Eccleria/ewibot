@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionEditReply } from "./polls/pollsUtils.js";
 import {
   channelSend,
+  fetchMember,
   interactionReply,
   isAdmin,
   removeApologyCount,
@@ -48,7 +49,7 @@ const action = async (interaction) => {
 
     let guildMember;
     try {
-      guildMember = await guildMembers.fetch(cur.userId); //get guildMember
+      guildMember = await fetchMember(guildMembers, cur.userId); //get guildMember
     } catch {
       //if not found, not in serveur anymore => remove from db
       removeApologyCount(db, cur.userId);
