@@ -39,7 +39,10 @@ export const initReminder = async (client) => {
       const answerChannel = await client.channels.fetch(
         element.answerChannelId,
       ); //Find channel with Ewibot answer
-      const botMessage = await fetchMessage(answerChannel.messages, element.answerId); //Find bot response
+      const botMessage = await fetchMessage(
+        answerChannel.messages,
+        element.answerId,
+      ); //Find bot response
 
       //compute new reminder waiting time
       const now = dayjs();

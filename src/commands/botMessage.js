@@ -196,7 +196,10 @@ const action = async (interaction) => {
         const channel = await interaction.client.channels.fetch(
           sliced[sliced.length - 2],
         );
-        message = await fetchMessage(channel.messages, sliced[sliced.length - 1]);
+        message = await fetchMessage(
+          channel.messages,
+          sliced[sliced.length - 1],
+        );
       } catch (e2) {
         console.log("botMessage channel/message fetch error", e2);
         interactionReply(interaction, personality.wrongUrl);

@@ -194,7 +194,10 @@ const action = async (interaction) => {
       currentServer.eventRoleHandleChannelId,
     );
     const roleMessage = currentEventServer.roleMessageId
-      ? await fetchMessage(roleChannel.messages, currentEventServer.roleMessageId)
+      ? await fetchMessage(
+          roleChannel.messages,
+          currentEventServer.roleMessageId,
+        )
       : null;
     if (!roleMessage) {
       interactionReply(interaction, perso.errorNoRoleMessage);

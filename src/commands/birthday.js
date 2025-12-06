@@ -21,7 +21,10 @@ export const initBirthdays = (client, tomorrowDiff, frequency) => {
     // init birthday check
     const server =
       process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-    const channel = await channelSend(client.channels, server.randomfloodChannelId);
+    const channel = await channelSend(
+      client.channels,
+      server.randomfloodChannelId,
+    );
     console.log("hello, timeoutBirthday");
 
     wishBirthday(db, channel);

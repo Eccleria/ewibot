@@ -47,7 +47,8 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
  * @returns Poll message
  */
 export const fetchPollMessage = async (interaction) => {
-  const pollMessage = await fetchMessage(interaction.channel.messages,
+  const pollMessage = await fetchMessage(
+    interaction.channel.messages,
     interaction.message.reference.messageId,
   );
   return pollMessage;

@@ -15,7 +15,7 @@ export const roleInit = async (client) => {
     server.cosmeticRoleHandle.channelId,
   ); //get the channel
   const message = await fetchMessage(
-    channel.messages, 
+    channel.messages,
     server.cosmeticRoleHandle.messageId,
   ); //get the message
 

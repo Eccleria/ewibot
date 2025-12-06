@@ -362,7 +362,10 @@ const action = async (interaction) => {
     }
 
     //get pollMessage
-    const pollMessage = await fetchMessage(interaction.channel.messages, dbPoll.pollId);
+    const pollMessage = await fetchMessage(
+      interaction.channel.messages,
+      dbPoll.pollId,
+    );
     const embed = EmbedBuilder.from(pollMessage.embeds[0]);
     const fields = embed.data.fields;
 

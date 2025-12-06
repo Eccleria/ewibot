@@ -29,7 +29,7 @@ export const channelSend = async (channel, payload) => {
 export const fetchChannel = async (channels, id) => {
   const channel = await channels.fetch(id).catch(console.err);
   return channel;
-}
+};
 
 /**
  * Fetch the guild from its id
@@ -49,7 +49,7 @@ export const fetchGuild = async (client, guildId) => {
  */
 export const fetchMessage = async (messageManager, messageId) => {
   return await messageManager.fetch(messageId).catch(console.error);
-}
+};
 
 /**
  * Reply to interaction function
@@ -82,7 +82,6 @@ export const messageReply = async (message, payload) => {
 };
 
 //#endregion
-
 
 /**
  * Get strings corresponding to gif url.
