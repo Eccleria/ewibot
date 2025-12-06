@@ -1,6 +1,7 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
 import {
+  fetchMessage,
   messageReply,
   removePoll,
   removePunctuation,
@@ -46,7 +47,7 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
  * @returns Poll message
  */
 export const fetchPollMessage = async (interaction) => {
-  const pollMessage = await interaction.channel.messages.fetch(
+  const pollMessage = await fetchMessage(interaction.channel.messages,
     interaction.message.reference.messageId,
   );
   return pollMessage;

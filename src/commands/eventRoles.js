@@ -10,6 +10,7 @@ import { createButton } from "./utils.js";
 import {
   addEventRole,
   channelSend,
+  fetchMessage,
   getEventRoles,
   interactionReply,
   updateEventRoleMessageId,
@@ -193,7 +194,7 @@ const action = async (interaction) => {
       currentServer.eventRoleHandleChannelId,
     );
     const roleMessage = currentEventServer.roleMessageId
-      ? await roleChannel.messages.fetch(currentEventServer.roleMessageId)
+      ? await fetchMessage(roleChannel.messages, currentEventServer.roleMessageId)
       : null;
     if (!roleMessage) {
       interactionReply(interaction, perso.errorNoRoleMessage);

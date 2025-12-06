@@ -1,5 +1,5 @@
 ﻿import { COMMONS } from "../commons.js";
-import { fetchChannel } from "../helpers/index.js";
+import { fetchChannel, fetchMessage } from "../helpers/index.js";
 
 export const roleInit = async (client) => {
   console.log("role init");
@@ -14,7 +14,8 @@ export const roleInit = async (client) => {
     client.channels,
     server.cosmeticRoleHandle.channelId,
   ); //get the channel
-  const message = await channel.messages.fetch(
+  const message = await fetchMessage(
+    channel.messages, 
     server.cosmeticRoleHandle.messageId,
   ); //get the message
 

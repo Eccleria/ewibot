@@ -10,6 +10,7 @@ import { ComponentType, MessageFlags } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
 import {
+  fetchMessage,
   getPoll,
   getPolls,
   messageReply,
@@ -27,7 +28,7 @@ export const initPollsCollector = (client) => {
     const channel = await client.channels.fetch(poll.channelId);
     let message;
     try {
-      message = await channel.messages.fetch(poll.pollId);
+      message = await fetchMessage(channel.messages, poll.pollId);
     } catch (e) {
       console.log("pollMessage deleted, cannot start Collector. Db updated", e);
       removePoll(db, poll.pollId);

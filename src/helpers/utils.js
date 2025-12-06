@@ -4,7 +4,7 @@ import { COMMONS } from "../commons.js";
 
 /**
  * Types imports for docstrings
- * @import { Channel, ChannelManager, Interaction, Message, MessagePayload } from "discord.js"
+ * @import { Channel, ChannelManager, Interaction, Message, MessageManager, MessagePayload } from "discord.js"
  */
 
 //#region API wrappers
@@ -40,6 +40,16 @@ export const fetchChannel = async (channels, id) => {
 export const fetchGuild = async (client, guildId) => {
   return await client.guilds.fetch(guildId).catch(console.error);
 };
+
+/**
+ * Fetch a message from its id using a MessageManager
+ * @param {MessageManager} messageManager The manager to fetch the message from
+ * @param {string} messageId The id of the message to fetch
+ * @returns {Promise<Message>}
+ */
+export const fetchMessage = async (messageManager, messageId) => {
+  return await messageManager.fetch(messageId).catch(console.error);
+}
 
 /**
  * Reply to interaction function
