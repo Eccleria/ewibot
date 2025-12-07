@@ -34,6 +34,7 @@ import { initReminder } from "./commands/reminder.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
+import { onUncaughtException } from "./helpers/errors.js";
 
 // jsons import
 import { COMMONS } from "./commons.js";
@@ -58,7 +59,7 @@ setInterval(async () => {
 }, 10000);
 
 // Discord CLIENT
-const client = new Client({
+export const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -102,7 +103,7 @@ client.once(Events.ClientReady, async () => {
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
-  slashCommandsInit(guildId, client); //commands submit to API
+  await slashCommandsInit(guildId, client); //commands submit to API
 
   //gift
   setGiftTimeoutLoop(client); //gift timeout loop init
@@ -112,11 +113,15 @@ client.once(Events.ClientReady, async () => {
 
   //birthdays
   initBirthdays(client, tomorrowDiff, frequency);
+
+  process.emit("uncaughtException");
 });
 
 process.on("unhandledRejection", (error) => {
   console.error("Unhandled promise rejection:", error);
 });
+
+process.on("uncaughtException", onUncaughtException);
 
 // Create an event listener for messages
 client.on(Events.MessageCreate, onMessageCreate);
