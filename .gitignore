@@ -4,6 +4,7 @@ node_modules
 *.log
 .vs
 db/*.json
+db/*.db
 pics/concrete/gifs/*
 pics/vest/pngs/*
 coverage
