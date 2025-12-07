@@ -12,6 +12,7 @@ import {
   channelSend,
   fetchChannel,
   fetchMessage,
+  fetchUser,
   interactionReply,
   removeReminder,
   updateReminder,
@@ -33,7 +34,7 @@ export const initReminder = async (client) => {
   const db = client.db;
   if (db.data && db.data.reminder.length > 0)
     db.data.reminder.forEach(async (element) => {
-      const author = await client.users.fetch(element.authorId); // Find user
+      const author = await fetchUser(client.users, element.authorId); // Find user
       const requestChannel = await fetchChannel(
         client.channels,
         element.requestChannelId,

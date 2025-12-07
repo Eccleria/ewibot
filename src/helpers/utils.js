@@ -4,7 +4,20 @@ import { COMMONS } from "../commons.js";
 
 /**
  * Types imports for docstrings
- * @import { Channel, ChannelManager, GuildMember, GuildMemberManager, Interaction, Message, MessageManager, MessagePayload, Role, RoleManager } from "discord.js"
+ * @import { 
+ *  Channel, 
+ *  ChannelManager, 
+ *  GuildMember, 
+ *  GuildMemberManager, 
+ *  Interaction, 
+ *  Message, 
+ *  MessageManager, 
+ *  MessagePayload, 
+ *  Role, 
+ *  RoleManager, 
+ *  User, 
+ *  UserManager 
+ * } from "discord.js"
  */
 
 //#region API wrappers
@@ -69,6 +82,16 @@ export const fetchMessage = async (messageManager, messageId) => {
  */
 export const fetchRole = async (roleManager, roleId) => {
   return await roleManager.fetch(roleId).catch(console.error);
+};
+
+/**
+ * Fetch a role from its id using a RoleManager
+ * @param {UserManager} userManager The manager to fetch the user from
+ * @param {string} userId The id of the user to fetch
+ * @returns {Promise<User>}
+ */
+export const fetchUser = async (userManager, userId) => {
+  return await userManager.fetch(userId).catch(console.error);
 };
 
 

@@ -83,6 +83,7 @@ import {
   fetchMember,
   fetchMessage,
   fetchRole,
+  fetchUser,
   interactionReply,
   messageReply,
   //Misc
@@ -108,6 +109,7 @@ export {
   fetchMember,
   fetchMessage,
   fetchRole,
+  fetchUser,
   interactionReply,
   messageReply,
   //Misc
