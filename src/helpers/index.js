@@ -76,11 +76,15 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  //API
+  fetchSpamThread,
+  fetchThread,
   //Misc
   clearURL,
   gifRecovery,
   hasApology,
   isAdmin,
+  isProduction,
   isReleasedCommand,
   isSentinelle,
   parseEmoji,
@@ -93,11 +97,15 @@ import {
 
 export {
   // utils
+  //API
+  fetchSpamThread,
+  fetchThread,
   //Misc
   clearURL,
   gifRecovery,
   hasApology,
   isAdmin,
+  isProduction,
   isReleasedCommand,
   isSentinelle,
   parseEmoji,

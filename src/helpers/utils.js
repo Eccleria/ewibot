@@ -3,6 +3,29 @@ import { EmbedBuilder } from "discord.js";
 import { COMMONS } from "../classes/commons.js";
 import { TidyURL } from "tidy-url";
 
+import dotenv from "dotenv";
+dotenv.config();
+
+//#region API
+
+export const fetchSpamThread = async (guild) => {
+  const commons = COMMONS.fetchFromGuildId(guild.id);
+  const logChannel = await fetchChannel(guild.channels, commons.spamChannelId);
+  return await fetchThread(logChannel.threads, commons.spamThreadId);
+};
+
+/**
+ * Fetch a thread from a GuildTextThreadManager and catch issues
+ * @param {GuildTextThreadManager} channels The GuildTextThreadManager to fetch the thread from.
+ * @param {string} id The Id of the thread to fetch
+ * @returns {Promise<ThreadChannel>}
+ */
+export const fetchThread = async (threadManager, id) => {
+  return await threadManager.fetch(id).catch(console.err);
+};
+
+//#endregion
+
 //#region MISC
 
 /**
@@ -82,6 +105,9 @@ export const isAdmin = (authorId) => {
   const admins = COMMONS.getShared().admins;
   return admins.includes(authorId);
 };
+
+console.log(process.env.DEBUG);
+export const isProduction = process.env.DEBUG === "yes" ? false : true;
 
 /**
  * Return if command has been released or not
