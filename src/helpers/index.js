@@ -102,6 +102,8 @@ import {
   removePunctuation,
   replaceLineBreak,
   setupEmbed,
+  //gif
+  getHelloGif,
 } from "./utils.js";
 
 export {
@@ -132,6 +134,8 @@ export {
   removePunctuation,
   replaceLineBreak,
   setupEmbed,
+  //Gif
+  getHelloGif,
   // dbHelper
   //apology
   isApologyUser,

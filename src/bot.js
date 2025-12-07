@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import { Client, EmbedBuilder, Events, GatewayIntentBits, Partials } from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
@@ -41,6 +41,7 @@ import { COMMONS } from "./commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
+import { getHelloGif } from "./helpers/utils.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -89,6 +90,11 @@ client.once(Events.ClientReady, async () => {
 
   // Bot init
   console.log("I am ready!");
+  const embed = new EmbedBuilder()
+    .setColor(COMMONS.getOk())
+    .setDescription("I am ready!")
+    .setImage(getHelloGif());
+
   roleInit(client); //role handler init
 
   //polls
@@ -113,8 +119,6 @@ client.once(Events.ClientReady, async () => {
 
   //birthdays
   initBirthdays(client, tomorrowDiff, frequency);
-
-  process.emit("uncaughtException");
 });
 
 process.on("unhandledRejection", (error) => {

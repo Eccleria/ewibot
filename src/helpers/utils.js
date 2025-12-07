@@ -10,6 +10,7 @@ dotenv.config();
  * @import {
  *  Channel,
  *  ChannelManager,
+ *  ColorResolvable,
  *  GuildMember,
  *  GuildMemberManager,
  *  Interaction,
@@ -297,6 +298,24 @@ export const replaceLineBreak = (words, replace) => {
 };
 
 /**
+ * 
+ * @param {Channel} channel 
+ * @param {string} msg 
+ * @param {ColorResolvable} colour 
+ */
+export const sendBotSpamEmbed = async (channel, msg, colour) => {
+  const embed = new EmbedBuilder()
+    .setColor(colour)
+    .setDescription(msg);
+
+  try {
+    await channelSend(channel, {embeds: [embed]});
+  } catch (e) {
+    console.error("Cannot send bot spam message", e);
+  }
+};
+
+/**
  * Create and setup a EmbedBuilder with common properties.
  * @param {string} color The color of the embed.
  * @param {object} personality The personality object of the embed.
@@ -358,3 +377,14 @@ export const parseUnixTimestamp = (time, type = "R") => {
 };
 
 //#endregion
+
+//#region Gifs
+
+const helloGifs = [
+  "https://tenor.com/view/meme-flying-cat-cute-mountain-gif-13758569"
+];
+
+export const getHelloGif = () => {
+  const randomIdx = Math.round(helloGifs.length * Math.random());
+  return helloGifs[randomIdx];
+}
