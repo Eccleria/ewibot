@@ -12,6 +12,7 @@ import {
   channelSend,
   fetchChannel,
   fetchMessage,
+  fetchRole,
   getEventRoles,
   interactionReply,
   updateEventRoleMessageId,
@@ -183,7 +184,7 @@ const action = async (interaction) => {
 
     //get base role
     const roles = guild.roles; //roleManager
-    const baseRole = roles.fetch(currentEventServer.baseRoleId);
+    const baseRole = await fetchRole(roles, currentEventServer.baseRoleId);
 
     //get options
     const name = options.getString(perso.nameOption.name);

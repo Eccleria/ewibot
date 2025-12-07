@@ -79,9 +79,10 @@ import {
   //API
   channelSend,
   fetchChannel,
+  fetchGuild,
   fetchMember,
   fetchMessage,
-  fetchGuild,
+  fetchRole,
   interactionReply,
   messageReply,
   //Misc
@@ -103,9 +104,10 @@ export {
   //API
   channelSend,
   fetchChannel,
+  fetchGuild,
   fetchMember,
   fetchMessage,
-  fetchGuild,
+  fetchRole,
   interactionReply,
   messageReply,
   //Misc
