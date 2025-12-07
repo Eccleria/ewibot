@@ -49,7 +49,7 @@ export const fetchGuild = async (client, guildId) => {
  */
 export const fetchMember = async (guildMembers, memberId) => {
   return await guildMembers.fetch(memberId).catch(console.error);
-}
+};
 
 /**
  * Fetch a message from its id using a MessageManager
@@ -92,6 +92,8 @@ export const messageReply = async (message, payload) => {
 };
 
 //#endregion
+
+//#region MISC
 
 /**
  * Get strings corresponding to gif url.
@@ -286,3 +288,5 @@ export const setupEmbed = (color, personality, object, type) => {
 export const parseUnixTimestamp = (time, type = "R") => {
   return `<t:${time}:${type}>`;
 };
+
+//#endregion

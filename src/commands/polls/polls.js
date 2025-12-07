@@ -461,7 +461,10 @@ const action = async (interaction) => {
     }
 
     //get pollMessage
-    const channel = await fetchChannel(interaction.client.channels, dbPoll.channelId);
+    const channel = await fetchChannel(
+      interaction.client.channels,
+      dbPoll.channelId,
+    );
     const pollMessage = await fetchMessage(channel.messages, dbPoll.pollId);
 
     await stopPoll(dbPoll, pollMessage, personality, false);

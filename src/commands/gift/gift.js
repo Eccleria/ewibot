@@ -93,7 +93,10 @@ const giftInteractionCreation = async (client, type) => {
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
 
   const guild = await fetchGuild(client, server.guildId);
-  const channel = await fetchChannel(guild.channels, server.giftButtonChannelId);
+  const channel = await fetchChannel(
+    guild.channels,
+    server.giftButtonChannelId,
+  );
 
   const personality = PERSONALITY.getPersonality().gift;
 

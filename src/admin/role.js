@@ -1,5 +1,10 @@
 ﻿import { COMMONS } from "../commons.js";
-import { fetchChannel, fetchGuild, fetchMember, fetchMessage } from "../helpers/index.js";
+import {
+  fetchChannel,
+  fetchGuild,
+  fetchMember,
+  fetchMessage,
+} from "../helpers/index.js";
 
 export const roleInit = async (client) => {
   console.log("role init");
@@ -63,10 +68,7 @@ export const roleRemove = async (messageReaction, currentServer, user) => {
   const userId = user.id;
   if (userId === process.env.CLIENTID) return; //if bot, return
 
-  const guild = await fetchGuild(
-    messageReaction.client,
-    currentServer.guildId,
-  ); //fetch the guild
+  const guild = await fetchGuild(messageReaction.client, currentServer.guildId); //fetch the guild
   const guildMember = await fetchMember(guild.members, userId); //get guildMember
 
   //check for correct triggering reaction

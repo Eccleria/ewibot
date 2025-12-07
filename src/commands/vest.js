@@ -1,6 +1,10 @@
 import { SlashCommandBuilder, AttachmentBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { fetchMember, interactionReply, removeEmote } from "../helpers/index.js";
+import {
+  fetchMember,
+  interactionReply,
+  removeEmote,
+} from "../helpers/index.js";
 import Canvas from "canvas";
 import path from "path";
 import fs from "fs";
