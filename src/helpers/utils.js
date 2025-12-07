@@ -333,6 +333,19 @@ export const setupEmbed = (color, personality, object, type) => {
   return embed;
 };
 
+/**
+ * Parse a list of users' ids into a string of pings
+ * @param {List<string>} ids User Ids to ping
+ * @param {string} separator String to add between ids, " " by default.
+ * @returns {string}
+ */
+export const parseIdsIntoPings = (ids, separator = " ") => {
+  return ids.reduce((acc, cur, idx) => {
+    if (idx === 0) return acc + cur;
+    else return `${acc}${separator}<@${cur}>`;
+  }, "");
+};
+
 //TODO: add it to reminder
 /**
  * Parse unix timestamp into dynamic Discord embed timestamp
