@@ -9,7 +9,14 @@ dayjs.extend(relativeTime);
 import { ComponentType, MessageFlags } from "discord.js";
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
-import { getPoll, getPolls, removePoll } from "../../helpers/index.js";
+import {
+  fetchChannel,
+  fetchMessage,
+  getPoll,
+  getPolls,
+  messageReply,
+  removePoll,
+} from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 import { Poll, POLLS } from "../../polls.js";
 
@@ -19,10 +26,10 @@ export const initPollsCollector = (client) => {
   const polls = getPolls(db);
 
   polls.forEach(async (poll) => {
-    const channel = await client.channels.fetch(poll.channelId);
+    const channel = await fetchChannel(client.channels, poll.channelId);
     let message;
     try {
-      message = await channel.messages.fetch(poll.pollId);
+      message = await fetchMessage(channel.messages, poll.pollId);
     } catch (e) {
       console.log("pollMessage deleted, cannot start Collector. Db updated", e);
       removePoll(db, poll.pollId);
@@ -40,7 +47,8 @@ export const initPollsCollector = (client) => {
       timeout = setTimeout(
         (message) => {
           const perso = PERSONALITY.getPersonality().polls;
-          message.reply(perso.create.reminder);
+          const payload = { content: perso.create.reminder };
+          messageReply(message, payload);
         },
         newTiming - 3600000,
         message,

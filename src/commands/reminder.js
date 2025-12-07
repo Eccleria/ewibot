@@ -9,6 +9,10 @@ dayjs.extend(relativeTime);
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   addReminder,
+  channelSend,
+  fetchChannel,
+  fetchMessage,
+  fetchUser,
   interactionReply,
   removeReminder,
   updateReminder,
@@ -30,14 +34,19 @@ export const initReminder = async (client) => {
   const db = client.db;
   if (db.data && db.data.reminder.length > 0)
     db.data.reminder.forEach(async (element) => {
-      const author = await client.users.fetch(element.authorId); // Find user
-      const requestChannel = await client.channels.fetch(
+      const author = await fetchUser(client.users, element.authorId); // Find user
+      const requestChannel = await fetchChannel(
+        client.channels,
         element.requestChannelId,
       ); //Find channel with user's request
-      const answerChannel = await client.channels.fetch(
+      const answerChannel = await fetchChannel(
+        client.channels,
         element.answerChannelId,
       ); //Find channel with Ewibot answer
-      const botMessage = await answerChannel.messages.fetch(element.answerId); //Find bot response
+      const botMessage = await fetchMessage(
+        answerChannel.messages,
+        element.answerId,
+      ); //Find bot response
 
       //compute new reminder waiting time
       const now = dayjs();
@@ -73,7 +82,7 @@ const sendDelayed = async (
   messageContent,
   botMessage,
 ) => {
-  await channel.send(`${author.toString()} : ${messageContent}`);
+  await channelSend(channel, `${author.toString()} : ${messageContent}`);
 
   removeReminder(client.db, botMessage.id);
 };

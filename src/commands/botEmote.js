@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
-import { isAdmin } from "../helpers/utils.js";
+import { fetchMessage, isAdmin } from "../helpers/utils.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().botEmote.name)
@@ -42,7 +42,7 @@ const action = async (interaction) => {
   //fetch message
   let message;
   try {
-    message = await interaction.channel.messages.fetch(messageId);
+    message = await fetchMessage(interaction.channel.messages, messageId);
   } catch (e) {
     console.log("/reaction error - message not found", e);
     interactionReply(interaction, perso.errorMessageNotFound);

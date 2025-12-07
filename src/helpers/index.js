@@ -76,9 +76,19 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  //API
+  channelSend,
+  fetchChannel,
+  fetchGuild,
+  fetchMember,
+  fetchMessage,
+  fetchRole,
+  fetchUser,
+  interactionReply,
+  messageReply,
+  //Misc
   gifRecovery,
   hasApology,
-  interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
@@ -92,9 +102,19 @@ import {
 
 export {
   // utils
+  //API
+  channelSend,
+  fetchChannel,
+  fetchGuild,
+  fetchMember,
+  fetchMessage,
+  fetchRole,
+  fetchUser,
+  interactionReply,
+  messageReply,
+  //Misc
   gifRecovery,
   hasApology,
-  interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,

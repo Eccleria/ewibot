@@ -1,6 +1,11 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { PERSONALITY } from "../../personality.js";
-import { removePoll, removePunctuation } from "../../helpers/index.js";
+import {
+  fetchMessage,
+  messageReply,
+  removePoll,
+  removePunctuation,
+} from "../../helpers/index.js";
 import { POLLS } from "../../polls.js";
 
 /**
@@ -42,7 +47,8 @@ export const getFieldNumbers = (fields, newVoteIdx, oldVoteIdx) => {
  * @returns Poll message
  */
 export const fetchPollMessage = async (interaction) => {
-  const pollMessage = await interaction.channel.messages.fetch(
+  const pollMessage = await fetchMessage(
+    interaction.channel.messages,
     interaction.message.reference.messageId,
   );
   return pollMessage;
@@ -238,5 +244,6 @@ export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
   const len = pollEmbed.data.title.length;
   const content =
     mPerso[0] + pollEmbed.data.title.slice(0, len - 14) + mPerso[1];
-  pollMessage.reply({ content, embeds: [pollEmbed] });
+  const payload = { content, embeds: [pollEmbed] };
+  messageReply(pollMessage, payload);
 };

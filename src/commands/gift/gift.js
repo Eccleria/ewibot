@@ -16,6 +16,9 @@ import { createButton } from "../utils.js";
 import {
   addGiftSeparator,
   addGiftUser,
+  channelSend,
+  fetchChannel,
+  fetchGuild,
   getGiftMessage,
   getGiftUsers,
   interactionReply,
@@ -89,8 +92,11 @@ const giftInteractionCreation = async (client, type) => {
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
 
-  const guild = await client.guilds.fetch(server.guildId);
-  const channel = await guild.channels.fetch(server.giftButtonChannelId);
+  const guild = await fetchGuild(client, server.guildId);
+  const channel = await fetchChannel(
+    guild.channels,
+    server.giftButtonChannelId,
+  );
 
   const personality = PERSONALITY.getPersonality().gift;
 
@@ -109,7 +115,7 @@ const giftInteractionCreation = async (client, type) => {
       .addFields({ name: nDayEmbed.noteName, value: nDayEmbed.noteText });
 
     //create message and send it
-    channel.send({ embeds: [embed], components: [actionRow] });
+    channelSend(channel, { embeds: [embed], components: [actionRow] });
   } else if (type === "ny") {
     const newYear = personality.newYear;
 
@@ -119,7 +125,7 @@ const giftInteractionCreation = async (client, type) => {
       .setTitle(newYear.title)
       .setDescription(newYear.description);
 
-    channel.send({ embeds: [embed], components: [actionRow] });
+    channelSend(channel, { embeds: [embed], components: [actionRow] });
   }
 };
 

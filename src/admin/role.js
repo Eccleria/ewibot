@@ -1,4 +1,10 @@
 ﻿import { COMMONS } from "../commons.js";
+import {
+  fetchChannel,
+  fetchGuild,
+  fetchMember,
+  fetchMessage,
+} from "../helpers/index.js";
 
 export const roleInit = async (client) => {
   console.log("role init");
@@ -9,10 +15,12 @@ export const roleInit = async (client) => {
   const rolesJson = Object.values(server.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]
 
   //check if the message has all Ewibot reactions
-  const channel = await client.channels.fetch(
+  const channel = await fetchChannel(
+    client.channels,
     server.cosmeticRoleHandle.channelId,
   ); //get the channel
-  const message = await channel.messages.fetch(
+  const message = await fetchMessage(
+    channel.messages,
     server.cosmeticRoleHandle.messageId,
   ); //get the message
 
@@ -28,10 +36,11 @@ export const roleAdd = async (messageReaction, currentServer, user) => {
   if (userId === process.env.CLIENTID) return; //if bot, return
 
   //fetch user data
-  const guild = await messageReaction.client.guilds.fetch(
+  const guild = await fetchMember(
+    messageReaction.client.guilds,
     currentServer.guildId,
   ); //fetch the guild
-  const guildMember = await guild.members.fetch(userId); //get guildMember
+  const guildMember = await fetchMember(guild.members, userId); //get guildMember
 
   //check for alavirien role
   if (!guildMember.roles.cache.has(currentServer.alavirienRoleId)) {
@@ -59,10 +68,8 @@ export const roleRemove = async (messageReaction, currentServer, user) => {
   const userId = user.id;
   if (userId === process.env.CLIENTID) return; //if bot, return
 
-  const guild = await messageReaction.client.guilds.fetch(
-    currentServer.guildId,
-  ); //fetch the guild
-  const guildMember = await guild.members.fetch(userId); //get guildMember
+  const guild = await fetchGuild(messageReaction.client, currentServer.guildId); //fetch the guild
+  const guildMember = await fetchMember(guild.members, userId); //get guildMember
 
   //check for correct triggering reaction
   const rolesJson = Object.values(currentServer.roles); //get all the roles we are working with - format : [color, {roleId:, name:}]

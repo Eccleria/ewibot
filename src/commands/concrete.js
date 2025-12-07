@@ -6,7 +6,7 @@ import fs from "fs";
 
 import { AttachmentBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { interactionReply } from "../helpers/index.js";
+import { fetchUser, interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
@@ -56,7 +56,7 @@ const action = async (object) => {
   }
 
   await interaction.deferReply();
-  const target = await client.users.fetch(user.id); //get guildMember from user id
+  const target = await fetchUser(client.users, user.id); //get user from user id
 
   const self = process.env.CLIENTID;
   const currentServer = COMMONS.fetchFromGuildId(channel.guild.id);
@@ -138,7 +138,7 @@ const concrete = {
   command: command,
   action,
   help: (interaction) => {
-    interaction.reply({
+    interactionReply(interaction, {
       content: personality.help,
       flags: MessageFlags.Ephemeral,
       allowed_mentions: { parse: [] },

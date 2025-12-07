@@ -6,6 +6,7 @@ dayjs.extend(CustomParseFormat);
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   addBirthday,
+  channelSend,
   interactionReply,
   isBirthdayDate,
   removeBirthday,
@@ -20,7 +21,10 @@ export const initBirthdays = (client, tomorrowDiff, frequency) => {
     // init birthday check
     const server =
       process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-    const channel = await client.channels.fetch(server.randomfloodChannelId);
+    const channel = await channelSend(
+      client.channels,
+      server.randomfloodChannelId,
+    );
     console.log("hello, timeoutBirthday");
 
     wishBirthday(db, channel);
@@ -60,7 +64,7 @@ export const wishBirthday = async (db, channel) => {
       },
       initialText,
     );
-    await channel.send(birthdayText);
+    await channelSend(channel, { content: birthdayText });
   }
 };
 

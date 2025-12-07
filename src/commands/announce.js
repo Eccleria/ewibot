@@ -28,7 +28,7 @@ const action = (interaction) => {
     createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger),
   );
 
-  interaction.reply({
+  interactionReply(interaction, {
     content: whichAnnounceP.confirm,
     components: [actionRow],
     flags: MessageFlags.Ephemeral,

@@ -1,6 +1,13 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { AttachmentBuilder, ChannelType } from "discord.js";
-import { interactionReply, isAdmin } from "../helpers/index.js";
+import {
+  channelSend,
+  fetchChannel,
+  fetchMessage,
+  interactionReply,
+  isAdmin,
+  messageReply,
+} from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
@@ -160,7 +167,7 @@ const action = async (interaction) => {
 
     //send message
     if (Object.values(payload).length !== 0) {
-      channel.send(payload);
+      channelSend(channel, payload);
       interactionReply(interaction, sPerso.sent);
     } else interactionReply(interaction, personality.empty);
   } else if (subcommand === personality.reply.name) {
@@ -180,16 +187,21 @@ const action = async (interaction) => {
     const sliced = url.split("/");
     let message;
     try {
-      message = await interaction.channel.messages.fetch(
+      message = await fetchMessage(
+        interaction.channel.messages,
         sliced[sliced.length - 1],
       );
     } catch (e) {
       console.log("botMessage message fetch error", e);
       try {
-        const channel = await interaction.client.channels.fetch(
+        const channel = await fetchChannel(
+          interaction.client.channels,
           sliced[sliced.length - 2],
         );
-        message = await channel.messages.fetch(sliced[sliced.length - 1]);
+        message = await fetchMessage(
+          channel.messages,
+          sliced[sliced.length - 1],
+        );
       } catch (e2) {
         console.log("botMessage channel/message fetch error", e2);
         interactionReply(interaction, personality.wrongUrl);
@@ -210,7 +222,7 @@ const action = async (interaction) => {
 
     //send reply
     if (Object.values(payload).length !== 0) {
-      message.reply(payload);
+      messageReply(message, payload);
       interactionReply(interaction, rPerso.sent);
     } else interactionReply(interaction, personality.empty);
   }

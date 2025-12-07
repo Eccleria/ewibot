@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { interactionReply } from "../helpers/index.js";
+import { fetchGuild, fetchRole, interactionReply } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
@@ -23,11 +23,11 @@ const shuffleRoleColor = async (client) => {
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get commons data
 
   const roles = Object.values(server.roles); // list of roles
-  const guild = await client.guilds.fetch(server.guildId);
+  const guild = await fetchGuild(client, server.guildId);
 
   let colorToApply = colorList;
   roles.forEach(async (roleData) => {
-    const role = await guild.roles.fetch(roleData.roleId);
+    const role = await fetchRole(guild.roles, roleData.roleId);
     const rd = Math.round((colorToApply.length - 1) * Math.random());
     role.setColor(colorToApply[rd]);
     colorToApply = [
@@ -77,9 +77,9 @@ const action = async (interaction) => {
 
       //reset colors
       const roles = Object.values(server.roles); // list of roles
-      const guild = await client.guilds.fetch(server.guildId);
+      const guild = await fetchGuild(client, server.guildId);
       roles.forEach(async (roleData) => {
-        const role = await guild.roles.fetch(roleData.roleId);
+        const role = await fetchRole(guild.roles, roleData.roleId);
         role.setColor(roleData.color);
       });
 
