@@ -103,7 +103,11 @@ const giftInteractionCreation = async (client, type) => {
   //create button
   const thisYear = dayjs().year().toString();
   const actionRow = new ActionRowBuilder().addComponents(
-    createButton("gift_" + thisYear, personality.buttonLabel, ButtonStyle.Primary),
+    createButton(
+      "gift_" + thisYear,
+      personality.buttonLabel,
+      ButtonStyle.Primary,
+    ),
   );
 
   if (type === "xmas") {
