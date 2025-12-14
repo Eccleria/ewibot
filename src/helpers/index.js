@@ -83,6 +83,8 @@ import {
   fetchMember,
   fetchMessage,
   fetchRole,
+  fetchSpamThread,
+  fetchThread,
   fetchUser,
   interactionReply,
   messageReply,
@@ -90,14 +92,18 @@ import {
   gifRecovery,
   hasApology,
   isAdmin,
+  isProduction,
   isReleasedCommand,
   isSentinelle,
   parseEmoji,
   parseUnixTimestamp,
+  parseIdsIntoPings,
   removeEmote,
   removePunctuation,
   replaceLineBreak,
   setupEmbed,
+  //gif
+  getHelloGif,
 } from "./utils.js";
 
 export {
@@ -109,6 +115,8 @@ export {
   fetchMember,
   fetchMessage,
   fetchRole,
+  fetchSpamThread,
+  fetchThread,
   fetchUser,
   interactionReply,
   messageReply,
@@ -116,14 +124,18 @@ export {
   gifRecovery,
   hasApology,
   isAdmin,
+  isProduction,
   isReleasedCommand,
   isSentinelle,
   parseEmoji,
   parseUnixTimestamp,
+  parseIdsIntoPings,
   removeEmote,
   removePunctuation,
   replaceLineBreak,
   setupEmbed,
+  //Gif
+  getHelloGif,
   // dbHelper
   //apology
   isApologyUser,

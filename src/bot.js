@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import { Client, EmbedBuilder, Events, GatewayIntentBits, Partials } from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
@@ -34,12 +34,14 @@ import { initReminder } from "./commands/reminder.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
+import { onUncaughtException } from "./helpers/errors.js";
 
 // jsons import
 import { COMMONS } from "./commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
+import { getHelloGif } from "./helpers/utils.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -58,7 +60,7 @@ setInterval(async () => {
 }, 10000);
 
 // Discord CLIENT
-const client = new Client({
+export const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -88,6 +90,11 @@ client.once(Events.ClientReady, async () => {
 
   // Bot init
   console.log("I am ready!");
+  const embed = new EmbedBuilder()
+    .setColor(COMMONS.getOk())
+    .setDescription("I am ready!")
+    .setImage(getHelloGif());
+
   roleInit(client); //role handler init
 
   //polls
@@ -102,7 +109,7 @@ client.once(Events.ClientReady, async () => {
   const server =
     process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
-  slashCommandsInit(guildId, client); //commands submit to API
+  await slashCommandsInit(guildId, client); //commands submit to API
 
   //gift
   setGiftTimeoutLoop(client); //gift timeout loop init
@@ -117,6 +124,8 @@ client.once(Events.ClientReady, async () => {
 process.on("unhandledRejection", (error) => {
   console.error("Unhandled promise rejection:", error);
 });
+
+process.on("uncaughtException", onUncaughtException);
 
 // Create an event listener for messages
 client.on(Events.MessageCreate, onMessageCreate);

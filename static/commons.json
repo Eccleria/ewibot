@@ -69,7 +69,9 @@
       }
     },
     "rudolphslichId": "1052970160903950346",
-    "sentinelleRoleId": "1043971181461651506"
+    "sentinelleRoleId": "1043971181461651506",
+    "spamChannelId": "981478339439104090",
+    "spamThreadId": "1436743845646827520"
   },
   "prod": {
     "name": "prod",
@@ -141,7 +143,9 @@
       }
     },
     "rudolphslichId": "1050186232547790848",
-    "sentinelleRoleId": "816975096518279188"
+    "sentinelleRoleId": "816975096518279188",
+    "spamChannelId": "959168176908804106",
+    "spamThreadId": "1436742270878748702"
   },
   "shared": {
     "name": "shared",
