@@ -381,10 +381,11 @@ export const parseUnixTimestamp = (time, type = "R") => {
 //#region Gifs
 
 const helloGifs = [
-  "https://tenor.com/view/meme-flying-cat-cute-mountain-gif-13758569"
+  "https://c.tenor.com/FHBMPAWxdF8AAAAC/tenor.gif"
 ];
 
 export const getHelloGif = () => {
   const randomIdx = Math.round(helloGifs.length * Math.random());
+  return helloGifs[0];
   return helloGifs[randomIdx];
 }

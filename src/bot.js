@@ -35,13 +35,13 @@ import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
 import { onUncaughtException } from "./helpers/errors.js";
+import { channelSend, fetchGuild, fetchSpamThread, getHelloGif, isProduction, sendBotSpamEmbed } from "./helpers/index.js";
 
 // jsons import
 import { COMMONS } from "./commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
-import { getHelloGif } from "./helpers/utils.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -94,7 +94,10 @@ client.once(Events.ClientReady, async () => {
     .setColor(COMMONS.getOk())
     .setDescription("I am ready!")
     .setImage(getHelloGif());
-
+  const server = isProduction ? COMMONS.getProd() : COMMONS.getTest();
+  const guild = await fetchGuild(client, server.guildId);
+  const spamThread = await fetchSpamThread(guild);
+  await channelSend(spamThread, {embeds: [embed]});
   roleInit(client); //role handler init
 
   //polls
@@ -106,8 +109,6 @@ client.once(Events.ClientReady, async () => {
   updateActivity(client);
 
   //slash commands
-  const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
   await slashCommandsInit(guildId, client); //commands submit to API
 
