@@ -93,6 +93,7 @@ import {
   removeEmote,
   removePunctuation,
   replaceLineBreak,
+  sendBotSpamEmbed,
   setupEmbed,
   //gif
   getHelloGif,
@@ -117,6 +118,7 @@ export {
   removeEmote,
   removePunctuation,
   replaceLineBreak,
+  sendBotSpamEmbed,
   setupEmbed,
   //Gif
   getHelloGif,
