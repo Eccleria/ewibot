@@ -2,11 +2,15 @@ import dayjs from "dayjs";
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 /**
  * Types imports for docstrings
  * @import {
  *  Channel,
  *  ChannelManager,
+ *  ColorResolvable,
  *  GuildMember,
  *  GuildMemberManager,
  *  Interaction,
@@ -82,6 +86,22 @@ export const fetchMessage = async (messageManager, messageId) => {
  */
 export const fetchRole = async (roleManager, roleId) => {
   return await roleManager.fetch(roleId).catch(console.error);
+};
+
+export const fetchSpamThread = async (guild) => {
+  const commons = COMMONS.fetchFromGuildId(guild.id);
+  const logChannel = await fetchChannel(guild.channels, commons.spamChannelId);
+  return await fetchThread(logChannel.threads, commons.spamThreadId);
+};
+
+/**
+ * Fetch a thread from a GuildTextThreadManager and catch issues
+ * @param {GuildTextThreadManager} channels The GuildTextThreadManager to fetch the thread from.
+ * @param {string} id The Id of the thread to fetch
+ * @returns {Promise<ThreadChannel>}
+ */
+export const fetchThread = async (threadManager, id) => {
+  return await threadManager.fetch(id).catch(console.err);
 };
 
 /**
@@ -206,6 +226,9 @@ export const isAdmin = (authorId) => {
   return admins.includes(authorId);
 };
 
+console.log(process.env.DEBUG);
+export const isProduction = process.env.DEBUG === "yes" ? false : true;
+
 /**
  * Return if command has been released or not
  * @param {object} command
@@ -275,6 +298,24 @@ export const replaceLineBreak = (words, replace) => {
 };
 
 /**
+ * 
+ * @param {Channel} channel 
+ * @param {string} msg 
+ * @param {ColorResolvable} colour 
+ */
+export const sendBotSpamEmbed = async (channel, msg, colour) => {
+  const embed = new EmbedBuilder()
+    .setColor(colour)
+    .setDescription(msg);
+
+  try {
+    await channelSend(channel, {embeds: [embed]});
+  } catch (e) {
+    console.error("Cannot send bot spam message", e);
+  }
+};
+
+/**
  * Create and setup a EmbedBuilder with common properties.
  * @param {string} color The color of the embed.
  * @param {object} personality The personality object of the embed.
@@ -311,6 +352,19 @@ export const setupEmbed = (color, personality, object, type) => {
   return embed;
 };
 
+/**
+ * Parse a list of users' ids into a string of pings
+ * @param {List<string>} ids User Ids to ping
+ * @param {string} separator String to add between ids, " " by default.
+ * @returns {string}
+ */
+export const parseIdsIntoPings = (ids, separator = " ") => {
+  return ids.reduce((acc, cur, idx) => {
+    if (idx === 0) return acc + cur;
+    else return `${acc}${separator}<@${cur}>`;
+  }, "");
+};
+
 //TODO: add it to reminder
 /**
  * Parse unix timestamp into dynamic Discord embed timestamp
@@ -323,3 +377,15 @@ export const parseUnixTimestamp = (time, type = "R") => {
 };
 
 //#endregion
+
+//#region Gifs
+
+const helloGifs = [
+  "https://c.tenor.com/FHBMPAWxdF8AAAAC/tenor.gif"
+];
+
+export const getHelloGif = () => {
+  const randomIdx = Math.round(helloGifs.length * Math.random());
+  return helloGifs[0];
+  return helloGifs[randomIdx];
+}
