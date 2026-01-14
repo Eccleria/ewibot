@@ -6,7 +6,8 @@ import fs from "fs";
 
 import { AttachmentBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { fetchUser, interactionReply } from "../helpers/index.js";
+import { fetchUser, interactionReply } from "ewilib";
+
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 

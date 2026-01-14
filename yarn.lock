@@ -1693,7 +1693,7 @@ esutils@^2.0.2:
 
 "ewilib@https://github.com/Eccleria/ewilib":
   version "0.1.0"
-  resolved "https://github.com/Eccleria/ewilib#e9f71dc3234a2eea5fa13c902d7c30df1efefcbb"
+  resolved "https://github.com/Eccleria/ewilib#e05e97695d8f713ad064f7be21290097f7c9885b"
 
 execa@^5.1.1:
   version "5.1.1"

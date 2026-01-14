@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { fetchGuild, fetchRole, interactionReply } from "../helpers/index.js";
+import { fetchGuild, fetchRole, interactionReply } from "ewilib";
+
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 

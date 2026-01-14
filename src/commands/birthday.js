@@ -5,9 +5,12 @@ dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
-  addBirthday,
   channelSend,
   interactionReply,
+} from "ewilib";
+
+import {
+  addBirthday,
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";

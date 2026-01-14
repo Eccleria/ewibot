@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import { readFileSync } from "fs";
+import { interactionReply } from "ewilib";
 
 import { slashCommandsInit } from "./slash.js";
-import { interactionReply } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()

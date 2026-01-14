@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
-import { interactionReply } from "../helpers/index.js";
+import { fetchMessage, interactionReply } from "ewilib";
+
 import { PERSONALITY } from "../personality.js";
-import { fetchMessage, isAdmin } from "../helpers/utils.js";
+import { isAdmin } from "../helpers/utils.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().botEmote.name)

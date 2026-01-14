@@ -1,9 +1,12 @@
 import { ActionRowBuilder, ButtonStyle, Colors } from "discord.js";
-import { createButton } from "./utils.js";
 import {
   channelSend,
   fetchChannel,
   fetchGuild,
+} from "ewilib";
+
+import { createButton } from "./utils.js";
+import {
   setupEmbed,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";

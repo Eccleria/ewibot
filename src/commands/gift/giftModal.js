@@ -1,4 +1,6 @@
-import { addGiftMessage, interactionReply } from "../../helpers/index.js";
+import { interactionReply } from "ewilib";
+
+import { addGiftMessage } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const giftModalHandler = (interaction) => {

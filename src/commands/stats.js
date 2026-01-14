@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { interactionReply } from "../helpers/index.js";
+import { interactionReply } from "ewilib";
+
 import {
   isStatsUser,
   addStatsUser,

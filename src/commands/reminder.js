@@ -8,12 +8,15 @@ dayjs.extend(relativeTime);
 
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
-  addReminder,
   channelSend,
   fetchChannel,
   fetchMessage,
   fetchUser,
   interactionReply,
+} from "ewilib";
+
+import {
+  addReminder,
   removeReminder,
   updateReminder,
 } from "../helpers/index.js";
