@@ -30,7 +30,7 @@ const shuffleRoleColor = async (client) => {
   roles.forEach(async (roleData) => {
     const role = await fetchRole(guild.roles, roleData.roleId);
     const rd = Math.round((colorToApply.length - 1) * Math.random());
-    role.setColor(colorToApply[rd]);
+    role.setColors(colorToApply[rd]);
     colorToApply = [
       ...colorToApply.slice(0, rd),
       ...colorToApply.slice(rd + 1),
@@ -81,7 +81,7 @@ const action = async (interaction) => {
       const guild = await fetchGuild(client, server.guildId);
       roles.forEach(async (roleData) => {
         const role = await fetchRole(guild.roles, roleData.roleId);
-        role.setColor(roleData.color);
+        role.setColors(roleData.color);
       });
 
       setTimeout(() => {
