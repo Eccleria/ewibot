@@ -1,15 +1,6 @@
 import { removeBirthday, removeIgnoredUser } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 
-export const fetchMessage = async (message) => {
-  try {
-    return await message.fetch();
-  } catch (e) {
-    console.log(e);
-    return null;
-  }
-};
-
 /**
  * Check if the event comes from test server
  * @param {object} eventObject eventObject given to listener from API

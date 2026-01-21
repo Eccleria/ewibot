@@ -1,5 +1,5 @@
 import { MessageFlags } from "discord.js";
-import { interactionReply } from "../helpers/index.js";
+import { interactionReply } from "ewilib";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 

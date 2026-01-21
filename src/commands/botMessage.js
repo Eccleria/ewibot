@@ -5,8 +5,11 @@ import {
   fetchChannel,
   fetchMessage,
   interactionReply,
-  isAdmin,
   messageReply,
+} from "ewilib";
+
+import {
+  isAdmin,
 } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 

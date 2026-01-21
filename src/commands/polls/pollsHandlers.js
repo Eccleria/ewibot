@@ -1,3 +1,5 @@
+import { interactionReply } from "ewilib";
+
 import {
   sendSettingsButtons,
   stopPollButtonAction,
@@ -8,7 +10,7 @@ import {
 } from "./pollsButton.js";
 import { interactionEditReply } from "./pollsUtils.js";
 import { pollVoteHandler } from "./pollsVote.js";
-import { getPoll, interactionReply } from "../../helpers/index.js";
+import { getPoll } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";
 
 export const pollsButtonHandler = async (interaction) => {

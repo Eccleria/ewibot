@@ -4,7 +4,7 @@ import {
   fetchGuild,
   fetchMember,
   fetchMessage,
-} from "../helpers/index.js";
+} from "ewilib";
 
 export const roleInit = async (client) => {
   console.log("role init");

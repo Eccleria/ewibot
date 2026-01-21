@@ -7,14 +7,17 @@ dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
 import { ComponentType, MessageFlags } from "discord.js";
-import { pollsButtonHandler } from "./pollsHandlers.js";
-import { stopPoll } from "./pollsUtils.js";
 import {
   fetchChannel,
   fetchMessage,
+  messageReply,
+} from "ewilib";
+
+import { pollsButtonHandler } from "./pollsHandlers.js";
+import { stopPoll } from "./pollsUtils.js";
+import {
   getPoll,
   getPolls,
-  messageReply,
   removePoll,
 } from "../../helpers/index.js";
 import { PERSONALITY } from "../../personality.js";

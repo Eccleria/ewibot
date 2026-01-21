@@ -1,4 +1,6 @@
-import { isTestServer, fetchMessage, removeUserFromDB } from "./utils.js";
+import { fetchMessage } from "ewilib";
+
+import { isTestServer, removeUserFromDB } from "./utils.js";
 import {
   addApologyCount,
   hasApology,

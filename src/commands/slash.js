@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
+import { interactionReply } from "ewilib";
 
 import announce from "./announce.js";
 import birthday from "./birthday.js";
@@ -29,7 +30,6 @@ import {
   isIgnoredUser,
   removeIgnoredUser,
   //utils
-  interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,

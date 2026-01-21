@@ -1,8 +1,11 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
-import { PERSONALITY } from "../../personality.js";
 import {
   fetchMessage,
   messageReply,
+} from "ewilib";
+
+import { PERSONALITY } from "../../personality.js";
+import {
   removePoll,
   removePunctuation,
 } from "../../helpers/index.js";

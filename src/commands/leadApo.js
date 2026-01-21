@@ -1,10 +1,13 @@
 import { Colors, EmbedBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { interactionEditReply } from "./polls/pollsUtils.js";
 import {
   channelSend,
   fetchMember,
   interactionReply,
+} from "ewilib";
+
+import { interactionEditReply } from "./polls/pollsUtils.js";
+import {
   isAdmin,
   removeApologyCount,
 } from "../helpers/index.js";
