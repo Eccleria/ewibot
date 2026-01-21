@@ -34,8 +34,8 @@ import {
   isReleasedCommand,
   isSentinelle,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 

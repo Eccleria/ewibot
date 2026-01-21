@@ -1,4 +1,4 @@
-﻿import { COMMONS } from "../commons.js";
+﻿import { COMMONS } from "../classes/commons.js";
 import {
   fetchChannel,
   fetchGuild,

@@ -1,5 +1,5 @@
 import { removeBirthday, removeIgnoredUser } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
+import { COMMONS } from "../classes/commons.js";
 
 /**
  * Check if the event comes from test server

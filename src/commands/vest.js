@@ -7,7 +7,7 @@ import {
   interactionReply,
 } from "ewilib";
 
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import {
   removeEmote,
 } from "../helpers/index.js";

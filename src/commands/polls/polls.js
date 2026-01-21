@@ -18,9 +18,9 @@ import {
   getPollFromTitle,
   getPollsTitles,
 } from "../../helpers/index.js";
-import { COMMONS } from "../../commons.js";
-import { PERSONALITY } from "../../personality.js";
-import { Poll, POLLS } from "../../polls.js";
+import { COMMONS } from "../../classes/commons.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { Poll, POLLS } from "../../classes/polls.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().polls.name)

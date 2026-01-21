@@ -5,7 +5,7 @@ import {
 } from "@discordjs/builders";
 import { interactionReply } from "ewilib";
 
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality";
 
 const reverseStr = (string) => {
   let reversed = "";

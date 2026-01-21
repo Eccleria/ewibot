@@ -11,7 +11,7 @@ import {
 import {
   isAdmin,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)

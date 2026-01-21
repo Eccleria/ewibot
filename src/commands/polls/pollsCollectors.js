@@ -20,8 +20,8 @@ import {
   getPolls,
   removePoll,
 } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
-import { Poll, POLLS } from "../../polls.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { Poll, POLLS } from "../../classes/polls.js";
 
 export const initPollsCollector = (client) => {
   // once startup, init polls lookup

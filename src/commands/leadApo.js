@@ -11,7 +11,7 @@ import {
   isAdmin,
   removeApologyCount,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().leaderboardApology.name)

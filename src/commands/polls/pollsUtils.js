@@ -4,12 +4,12 @@ import {
   messageReply,
 } from "ewilib";
 
-import { PERSONALITY } from "../../personality.js";
+import { PERSONALITY } from "../../classes/personality.js";
 import {
   removePoll,
   removePunctuation,
 } from "../../helpers/index.js";
-import { POLLS } from "../../polls.js";
+import { POLLS } from "../../classes/polls.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
