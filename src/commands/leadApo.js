@@ -1,16 +1,9 @@
 import { Colors, EmbedBuilder, MessageFlags } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import {
-  channelSend,
-  fetchMember,
-  interactionReply,
-} from "ewilib";
+import { channelSend, fetchMember, interactionReply } from "ewilib";
 
 import { interactionEditReply } from "./polls/pollsUtils.js";
-import {
-  isAdmin,
-  removeApologyCount,
-} from "../helpers/index.js";
+import { isAdmin, removeApologyCount } from "../helpers/index.js";
 import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()

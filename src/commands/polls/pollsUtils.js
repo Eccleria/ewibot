@@ -1,14 +1,8 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
-import {
-  fetchMessage,
-  messageReply,
-} from "ewilib";
+import { fetchMessage, messageReply } from "ewilib";
 
 import { PERSONALITY } from "../../classes/personality.js";
-import {
-  removePoll,
-  removePunctuation,
-} from "../../helpers/index.js";
+import { removePoll, removePunctuation } from "../../helpers/index.js";
 import { POLLS } from "../../classes/polls.js";
 
 /**

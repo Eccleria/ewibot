@@ -4,10 +4,7 @@ import "dayjs/locale/fr.js";
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
 import { SlashCommandBuilder } from "@discordjs/builders";
-import {
-  channelSend,
-  interactionReply,
-} from "ewilib";
+import { channelSend, interactionReply } from "ewilib";
 
 import {
   addBirthday,

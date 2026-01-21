@@ -8,9 +8,7 @@ import {
   messageReply,
 } from "ewilib";
 
-import {
-  isAdmin,
-} from "../helpers/index.js";
+import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()

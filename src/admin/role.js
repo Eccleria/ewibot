@@ -1,10 +1,5 @@
 ﻿import { COMMONS } from "../classes/commons.js";
-import {
-  fetchChannel,
-  fetchGuild,
-  fetchMember,
-  fetchMessage,
-} from "ewilib";
+import { fetchChannel, fetchGuild, fetchMember, fetchMessage } from "ewilib";
 
 export const roleInit = async (client) => {
   console.log("role init");

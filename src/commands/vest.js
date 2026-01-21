@@ -2,15 +2,10 @@ import { SlashCommandBuilder, AttachmentBuilder } from "discord.js";
 import Canvas from "canvas";
 import path from "path";
 import fs from "fs";
-import {
-  fetchMember,
-  interactionReply,
-} from "ewilib";
+import { fetchMember, interactionReply } from "ewilib";
 
 import { PERSONALITY } from "../classes/personality.js";
-import {
-  removeEmote,
-} from "../helpers/index.js";
+import { removeEmote } from "../helpers/index.js";
 import { interactionEditReply } from "./polls/pollsUtils.js";
 
 const command = new SlashCommandBuilder()
