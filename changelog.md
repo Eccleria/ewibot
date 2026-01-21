@@ -5,6 +5,9 @@
 - Fix: apologies only detected 1 out of 2 apologies ([#403](https://github.com/Eccleria/ewibot/issues/403)) ([#405](https://github.com/Eccleria/ewibot/pull/405))
 - Fix: `isABCD` wrongly fired on a multi line message ([#380](https://github.com/Eccleria/ewibot/issues/380)) ([#397](https://github.com/Eccleria/ewibot/pull/397))
 - Fix: `gift` button giving access to gift message having wrong year in `customId` ([#416](https://github.com/Eccleria/ewibot/pull/416))
+- Refacto: ([#415](https://github.com/Eccleria/ewibot/issues/415)) ([#426](https://github.com/Eccleria/ewibot/pull/426))
+  - move `classes` files into specific folder 
+	- object attributes now have `_` as a prefix
 - Remove: unused functions left from Ewibot slicing ([#406](https://github.com/Eccleria/ewibot/pull/406))
 
 ## 7.0.0
