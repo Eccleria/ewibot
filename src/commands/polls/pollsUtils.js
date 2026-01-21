@@ -1,15 +1,9 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
-import {
-  fetchMessage,
-  messageReply,
-} from "ewilib";
+import { fetchMessage, messageReply } from "ewilib";
 
-import { PERSONALITY } from "../../personality.js";
-import {
-  removePoll,
-  removePunctuation,
-} from "../../helpers/index.js";
-import { POLLS } from "../../polls.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { removePoll, removePunctuation } from "../../helpers/index.js";
+import { POLLS } from "../../classes/polls.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -235,9 +229,9 @@ export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
 
   //clear data
   removePoll(db, pollMessage.id); //remove from db
-  if (!isFromCollector) pollData.collector.stop(); //stop collector if any
-  clearTimeout(pollData.timeout); //clear timeout
-  POLLS.removePoll(pollData.pollId);
+  if (!isFromCollector) pollData._collector.stop(); //stop collector if any
+  clearTimeout(pollData._timeout); //clear timeout
+  POLLS.removePoll(pollData._pollId);
 
   //edit original poll message
   pollMessage.edit(editedPollMessage);

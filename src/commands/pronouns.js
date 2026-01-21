@@ -1,15 +1,9 @@
 import { ActionRowBuilder, ButtonStyle, Colors } from "discord.js";
-import {
-  channelSend,
-  fetchChannel,
-  fetchGuild,
-} from "ewilib";
+import { channelSend, fetchChannel, fetchGuild } from "ewilib";
 
 import { createButton } from "./utils.js";
-import {
-  setupEmbed,
-} from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { setupEmbed } from "../helpers/index.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const action = async (message, _client, currentServer) => {
   const { pronounsRoleHandleChannelId } = currentServer;

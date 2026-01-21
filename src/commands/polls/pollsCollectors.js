@@ -7,21 +7,13 @@ dayjs.extend(Duration);
 dayjs.extend(relativeTime);
 
 import { ComponentType, MessageFlags } from "discord.js";
-import {
-  fetchChannel,
-  fetchMessage,
-  messageReply,
-} from "ewilib";
+import { fetchChannel, fetchMessage, messageReply } from "ewilib";
 
 import { pollsButtonHandler } from "./pollsHandlers.js";
 import { stopPoll } from "./pollsUtils.js";
-import {
-  getPoll,
-  getPolls,
-  removePoll,
-} from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
-import { Poll, POLLS } from "../../polls.js";
+import { getPoll, getPolls, removePoll } from "../../helpers/index.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { Poll, POLLS } from "../../classes/polls.js";
 
 export const initPollsCollector = (client) => {
   // once startup, init polls lookup

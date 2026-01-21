@@ -6,7 +6,7 @@ import {
   addStatsUser,
   removeStatsUser,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { dbReturnType } from "../helpers/index.js";
 
 const command = new SlashCommandBuilder()

@@ -12,7 +12,7 @@ import {
   hasApology,
   removePunctuation,
 } from "./helpers/index.js";
-import { COMMONS } from "./commons.js";
+import { COMMONS } from "./classes/commons.js";
 import { replaceLineBreak } from "./helpers/utils.js";
 
 //#region ACTIVITY

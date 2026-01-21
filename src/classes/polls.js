@@ -9,9 +9,9 @@ export class Poll {
    * @param {object} timeout The timeout object associated to this poll.
    */
   constructor(pollId, collector, timeout) {
-    this.pollId = pollId;
-    this.collector = collector;
-    this.timeout = timeout;
+    this._pollId = pollId;
+    this._collector = collector;
+    this._timeout = timeout;
   }
 }
 
@@ -30,8 +30,9 @@ class Polls {
    * @param {Poll} poll Poll object to add
    */
   addPoll(poll) {
-    this[poll.pollId] = poll;
-    console.log("Polls - addPoll", poll.pollId);
+    this[poll._pollId] = poll;
+    console.log("Polls - addPoll", poll._pollId);
+    console.log(this);
   }
 
   /**

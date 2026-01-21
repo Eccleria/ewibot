@@ -11,7 +11,7 @@ import {
 import { interactionEditReply } from "./pollsUtils.js";
 import { pollVoteHandler } from "./pollsVote.js";
 import { getPoll } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
+import { PERSONALITY } from "../../classes/personality.js";
 
 export const pollsButtonHandler = async (interaction) => {
   // Dispatch button action to corresponding functions

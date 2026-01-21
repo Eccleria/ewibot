@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { fetchMessage, interactionReply } from "ewilib";
 
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { isAdmin } from "../helpers/utils.js";
 
 const command = new SlashCommandBuilder()
