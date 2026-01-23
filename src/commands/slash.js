@@ -12,7 +12,7 @@ import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
 import eventRoles from "./eventRoles.js";
-import gift from "./gift/gift.js";
+import gift, { giftGetCommand } from "./gift/gift.js";
 import leaderboardApology from "./leadApo.js";
 import personality from "./personality.js";
 import polls from "./polls/polls.js";
@@ -182,14 +182,13 @@ const ignoreChannel = {
 
 //regroup all commands
 const contextCommands = [reverseTranslator]; //context commands (message, channel, user)
-const slashCommands = [
+const draftSlashCommands = [
   announce,
   birthday,
   botEmote,
   botMessage,
   concrete,
   eventRoles,
-  gift,
   ignoreChannel,
   ignoreUser,
   leaderboardApology,
@@ -203,6 +202,8 @@ const slashCommands = [
   stats,
   vest,
 ]; //command + action
+const gift = giftGetCommand();
+const slashCommands = gift ? [...draftSlashCommands, gift] : draftSlashCommands;
 
 // HELP
 

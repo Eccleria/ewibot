@@ -32,6 +32,8 @@ import {
 import { COMMONS } from "../../classes/commons.js";
 import { PERSONALITY } from "../../classes/personality.js";
 
+//#region Helpers
+
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button
   //get db data
@@ -88,6 +90,14 @@ export const giftButtonHandler = async (interaction) => {
   }
   interactionReply(interaction, personality.compensation);
 };
+
+export const giftGetCommand = () => {
+  const day = dayjs();
+  const isBeforeEnd = day.date() < 8 && day.month() === 0;
+  const isDecember = day.month() === 11;
+  if (isBeforeEnd && isDecember) return gift;
+  else return null;
+}
 
 const giftInteractionCreation = async (client, type) => {
   // handle the interaction creation once giftRecursiveTimeout is finished
@@ -188,6 +198,10 @@ export const setGiftTimeoutLoop = (client) => {
   }, timeToMidnight);
 };
 
+//#endregion
+
+//#region API Command
+
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().gift.name)
   .setDescription(PERSONALITY.getPersonality().gift.description)
@@ -248,6 +262,10 @@ const command = new SlashCommandBuilder()
           .setRequired(false),
       ),
   );
+
+//#endregion
+
+//#region Action
 
 const action = async (interaction) => {
   //get interaction data
@@ -404,6 +422,10 @@ const action = async (interaction) => {
   }
 };
 
+//#endregion
+
+//#region Command Declaration
+
 const gift = {
   action,
   command,
@@ -428,3 +450,5 @@ const gift = {
 };
 
 export default gift;
+
+//#endregion
