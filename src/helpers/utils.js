@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
 import { COMMONS } from "../classes/commons.js";
+import { TidyURL } from "tidy-url";
 
 //#region MISC
 
@@ -198,35 +199,31 @@ export const parseUnixTimestamp = (time, type = "R") => {
   return `<t:${time}:${type}>`;
 };
 
-const urlTrackers = ['?si=', '?t=', '?igsh='];
-
 export const clearURL = async (message) => {
   const { content } = message;
   const words = content.split(" ");
 
   if(words.every((str) => !str.includes("http"))) return;
 
-  const result = urlTrackers.reduce(
-    (acc, cur) => {
-      if (words.some((str) => str.includes(cur))) {
-        const index = words.findIndex((str) => str.includes(cur));
-        acc = { tracker: cur, index };
-      }
-      return acc;
-    },
-    { tracker: "", index: -1 },
-  );
+  const results = words.reduce((acc, cur) => {
+    if (cur.includes("http")) {
+      const cleaned = TidyURL.clean(cur);
+      return [...acc, cleaned];
+    }
+    else return acc;
+  }, []);
 
-  if (result.index != -1) {
-    const word = words[result.index];
-    console.log("Url with tracker found! ", word);
-
-    const wordIdx = word.indexOf(result.tracker);
-    const sanitizedContent = word.slice(0, wordIdx);
-
+  if (results.length != 0) {
     await message.suppressEmbeds(true);
+
+    let urls = "";
+    for (const result of results) {
+      urls = urls + result.url + '\n';
+      console.log("Url with tracker found! ", result.info.original);
+    }
+    
     message.reply({
-      content: "Voici un lien sans traqueur :\n" + sanitizedContent,
+      content: "Voici un lien sans traqueur :\n" + urls,
       allowedMentions: { repliedUser: false },
     });
   }
