@@ -5,7 +5,7 @@
 - Fix: apologies only detected 1 out of 2 apologies ([#403](https://github.com/Eccleria/ewibot/issues/403)) ([#405](https://github.com/Eccleria/ewibot/pull/405))
 - Fix: `isABCD` wrongly fired on a multi line message ([#380](https://github.com/Eccleria/ewibot/issues/380)) ([#397](https://github.com/Eccleria/ewibot/pull/397))
 - Fix: `gift` button giving access to gift message having wrong year in `customId` ([#416](https://github.com/Eccleria/ewibot/pull/416))
-- Fix: `role.setColor()` is deprecated, replaced with `role.setColors()` ([#412](https://github.com/Eccleria/ewibot/issues/412)) ([#427](https://github.com/Eccleria/ewibot/pull/427))
+- Fix: `role.setColor()` is deprecated, replaced with `role.setColors()` ([#412](https://github.com/Eccleria/ewibot/issues/412)) ([#427](https://github.com/Eccleria/ewibot/pull/427)) ([#430](https://github.com/Eccleria/ewibot/pull/430))
 - Fix: wrong command used to `send` in a channel instead of `fetching` a channel ([#419](https://github.com/Eccleria/ewibot/issues/419)) ([#428](https://github.com/Eccleria/ewibot/issues/428)) ([#429](https://github.com/Eccleria/ewibot/pull/429))
 - Refacto: ([#415](https://github.com/Eccleria/ewibot/issues/415)) ([#426](https://github.com/Eccleria/ewibot/pull/426))
   - move `classes` files into specific folder 
