@@ -212,20 +212,27 @@ export const clearURL = async (message) => {
     }
     else return acc;
   }, []);
-
+  
   if (results.length != 0) {
-    await message.suppressEmbeds(true);
-
+    //there are urls in the message, check if any got cleaned
     let urls = "";
     for (const result of results) {
-      urls = urls + result.url + '\n';
-      console.log("Url with tracker found! ", result.info.original);
+      if (result.info.reduction || result.info.difference) {
+        //cleaned!
+        urls = urls + result.url + '\n';
+        console.log("Url with tracker found! ", result.info.original);
+      }
     }
     
-    message.reply({
-      content: "Voici un lien sans traqueur :\n" + urls,
-      allowedMentions: { repliedUser: false },
-    });
+    if (urls.length !== 0) {
+      //urls got cleaned! Send sanitized urls
+      await message.suppressEmbeds(true); //remove any embed from dirty urls
+
+      message.reply({
+        content: "Voici un lien sans traqueur :\n" + urls,
+        allowedMentions: { repliedUser: false },
+      });
+    }
   }
 };
 

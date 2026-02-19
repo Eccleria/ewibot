@@ -1262,7 +1262,7 @@ caniuse-lite@^1.0.30001759:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001765.tgz#4a78d8a797fd4124ebaab2043df942eb091648ee"
   integrity sha512-LWcNtSyZrakjECqmpP4qdg0MMGdN368D7X8XvvAqOcqMv0RxnlqVKZl2V6/mBR68oYMxOZPLw/gO7DuisMHUvQ==
 
-canvas@^3.1.0:
+canvas@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/canvas/-/canvas-3.2.1.tgz#8f0390569f36b94bffba9c0e7aed6948875aec7b"
   integrity sha512-ej1sPFR5+0YWtaVp6S1N1FVz69TQCqmrkGeRvQxZeAB1nAIcjNTHVwrZtYtWFFBmQsF40/uDLehsW5KuYC99mg==
@@ -3300,10 +3300,9 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-tidy-url@^1.18.3:
-  version "1.18.3"
-  resolved "https://registry.yarnpkg.com/tidy-url/-/tidy-url-1.18.3.tgz#016bb5dd561272e4add6350aa3a3c35b4665e1c7"
-  integrity sha512-NnbmullqE/3loiDoopNltfLb/v6EhX5GYNUVU4EuZjnDjh/NIBzy5dHnhvH3EfIAnZZZMf3cW0HgNw9E+easyg==
+tidy-url@Eccleria/tidy-url:
+  version "1.18.5"
+  resolved "https://codeload.github.com/Eccleria/tidy-url/tar.gz/84d07cd694eccda8b9d5a50efcc87c7dcf5e65ca"
 
 tmpl@1.0.5:
   version "1.0.5"
