@@ -1,4 +1,7 @@
-﻿## 7.1.0
+﻿## 7.2.0
+- Feat: add `dependabot` ([#431](https://github.com/Eccleria/ewibot/pull/431))
+
+## 7.1.0
 - Debug: add `--trace-warnings` fro the `dev` script ([#413](https://github.com/Eccleria/ewibot/issues/413)) ([#414](https://github.com/Eccleria/ewibot/pull/414))
 - Debug: replace the majority of `.fetch()` methods using a wrapper, catching errors ([#390](https://github.com/Eccleria/ewibot/pull/390))
 - Feat: switch to `ewilib` library ([#425](https://github.com/Eccleria/ewibot/pull/425))
