@@ -203,27 +203,26 @@ export const clearURL = async (message) => {
   const { content } = message;
   const words = content.split(" ");
 
-  if(words.every((str) => !str.includes("http"))) return;
+  if (words.every((str) => !str.includes("http"))) return;
 
   const results = words.reduce((acc, cur) => {
     if (cur.includes("http")) {
       const cleaned = TidyURL.clean(cur);
       return [...acc, cleaned];
-    }
-    else return acc;
+    } else return acc;
   }, []);
-  
+
   if (results.length != 0) {
     //there are urls in the message, check if any got cleaned
     let urls = "";
     for (const result of results) {
       if (result.info.reduction || result.info.difference) {
         //cleaned!
-        urls = urls + result.url + '\n';
+        urls = urls + result.url + "\n";
         console.log("Url with tracker found! ", result.info.original);
       }
     }
-    
+
     if (urls.length !== 0) {
       //urls got cleaned! Send sanitized urls
       await message.suppressEmbeds(true); //remove any embed from dirty urls
