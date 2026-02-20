@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
 import { COMMONS } from "../classes/commons.js";
+import { TidyURL } from "tidy-url";
 
 //#region MISC
 
@@ -196,6 +197,49 @@ export const setupEmbed = (color, personality, object, type) => {
  */
 export const parseUnixTimestamp = (time, type = "R") => {
   return `<t:${time}:${type}>`;
+};
+
+export const clearURL = async (message) => {
+  const { content } = message;
+  const words = content.split(" ");
+
+  if (words.every((str) => !str.includes("http"))) return;
+
+  let results = [];
+  for (const word of words) {
+    if (word.includes("http")) {
+      try {
+        const cleaned = TidyURL.clean(word);
+        results = [...results, cleaned];
+      } catch (e) {
+        console.error("tidy-url", e);
+        results = [];
+        break; //skip further processing
+      }
+    }
+  }
+
+  if (results.length != 0) {
+    //there are urls in the message, check if any got cleaned
+    let urls = "";
+    for (const result of results) {
+      if (result.info.reduction || result.info.difference) {
+        //cleaned!
+        urls = urls + result.url + "\n";
+        console.log("Url with tracker found! ", result.info.original);
+      }
+    }
+
+    if (urls.length !== 0) {
+      //urls got cleaned! Send sanitized urls
+      await message.suppressEmbeds(true); //remove any embed from dirty urls
+
+      message.reply({
+        content: "Voici un lien sans traqueur :\n" + urls,
+        allowedMentions: { repliedUser: false },
+      });
+    }
+  }
 };
 
 //#endregion

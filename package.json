@@ -1,11 +1,11 @@
 {
   "name": "ewibot",
-  "version": "6.4.0",
+  "version": "7.1.0",
   "main": "bot.js",
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^3.1.0",
+    "canvas": "^3.2.1",
     "dayjs": "^1.11.13",
     "discord.js": "14.24.2",
     "dotenv": "^17.2.3",
@@ -13,7 +13,8 @@
     "gif-encoder-2": "^1.0.5",
     "jest": "^30.2.0",
     "lowdb": "^7.0.1",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "tidy-url": "Eccleria/tidy-url"
   },
   "devDependencies": {
     "eslint": "^9.28.0",
