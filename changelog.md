@@ -1,5 +1,5 @@
 ﻿## 7.2.0
-- Feat: add `dependabot` ([#431](https://github.com/Eccleria/ewibot/pull/431))
+- Feat: add `dependabot` ([#431](https://github.com/Eccleria/ewibot/pull/431)) ([#435](https://github.com/Eccleria/ewibot/pull/435))
 
 ## 7.1.0
 - Debug: add `--trace-warnings` fro the `dev` script ([#413](https://github.com/Eccleria/ewibot/issues/413)) ([#414](https://github.com/Eccleria/ewibot/pull/414))
