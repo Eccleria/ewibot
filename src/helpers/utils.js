@@ -205,12 +205,19 @@ export const clearURL = async (message) => {
 
   if (words.every((str) => !str.includes("http"))) return;
 
-  const results = words.reduce((acc, cur) => {
-    if (cur.includes("http")) {
-      const cleaned = TidyURL.clean(cur);
-      return [...acc, cleaned];
-    } else return acc;
-  }, []);
+  let results = [];
+  for (const word of words) {
+    if (word.includes("http")) {
+      try {
+        const cleaned = TidyURL.clean(word);
+        results = [...results, cleaned];
+      } catch (e) {
+        console.error("tidy-url", e);
+        results = [];
+        break; //skip further processing
+      }
+    }
+  }
 
   if (results.length != 0) {
     //there are urls in the message, check if any got cleaned
