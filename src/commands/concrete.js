@@ -10,6 +10,7 @@ import { fetchUser, interactionReply } from "ewilib";
 
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../logger.js";
 
 //personality
 const personality = PERSONALITY.getPersonality().concrete;
@@ -52,7 +53,7 @@ const action = async (object) => {
     user = options.getUser(cPerso.userOption.name);
   } catch (e) {
     interactionReply(interaction, personality.errorMention);
-    console.log("concrete error", e);
+    logger.error(e, "concrete");
     return;
   }
 

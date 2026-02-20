@@ -22,6 +22,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { logger } from "../logger.js";
 
 const addClientReminder = (client, authorId, botMessage, timeoutObj) => {
   //add the reminder in the client
@@ -55,7 +56,7 @@ export const initReminder = async (client) => {
       const now = dayjs();
       const difference = dayjs(element.reminderTime).diff(now);
       const newTiming = difference > 0 ? difference : 10000; //if passed, waiting time of 10s
-      console.log("newTiming", newTiming);
+      logger.info("newTiming : %d", newTiming);
 
       const timeoutObj = setTimeout(
         //set Timeout until reminder
@@ -143,7 +144,7 @@ const action = async (interaction) => {
     const content = PERSONALITY.getPersonality().reminder.error;
     interactionReply(interaction, content);
   } else {
-    console.log("reminder timing: ", timing);
+    logger.info("reminder timing: %d", timing);
     const cmnShared = COMMONS.getShared();
 
     const answer = await answerBot(interaction, cmnShared, timing);

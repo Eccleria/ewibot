@@ -7,13 +7,14 @@ import {
   isIgnoredChannel,
   isIgnoredUser,
   isStatsUser,
+  replaceLineBreak,
   statsKeys,
   //utils
   hasApology,
   removePunctuation,
 } from "./helpers/index.js";
 import { COMMONS } from "./classes/commons.js";
-import { replaceLineBreak } from "./helpers/utils.js";
+import { funLog } from "./logger.js";
 
 //#region ACTIVITY
 
@@ -170,7 +171,7 @@ export const readContentAndReact = async (message, currentServer) => {
     words[0] === cmnShared.helloEmoji //wave emote
   ) {
     if (addStatsData(db, authorId, "hello") === dbReturnType.isNotOk)
-      console.log(
+      funLog.warn(
         `addStatsData isNotOk with isStatsUser ${isStatsUser(
           db,
           authorId,

@@ -7,6 +7,7 @@ import { fetchMember, interactionReply } from "ewilib";
 import { PERSONALITY } from "../classes/personality.js";
 import { removeEmote } from "../helpers/index.js";
 import { interactionEditReply } from "./polls/pollsUtils.js";
+import { logger } from "../logger.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().vest.name)
@@ -37,7 +38,7 @@ const action = async (interaction) => {
   const separator = url.includes("guilds/") ? "avatars/" : `${target.id}/`;
   const urlHash = url.split(separator)[1].split(".")[0];
   const fileName = `${target.id}-${urlHash}.png`;
-  console.log("target image url", [url], [urlHash]);
+  logger.info({ url, urlHash }, "target image url");
 
   //check if older image exists
   const pngsPath = path.join(

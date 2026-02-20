@@ -4,6 +4,7 @@ import { fetchMessage, messageReply } from "ewilib";
 import { PERSONALITY } from "../../classes/personality.js";
 import { removePoll, removePunctuation } from "../../helpers/index.js";
 import { POLLS } from "../../classes/polls.js";
+import { pollLog } from "../../logger.js";
 
 /**
  * Extract votes values and ratios from poll embed fields
@@ -82,11 +83,12 @@ export const parsePollFields = (content, totalSize = 0) => {
       if (cur.length === 0) return acc; //filter empty choice
 
       const replaced = cur.split("&")[1];
-      console.log([cur], "replaced", [replaced]);
+      pollLog.info({ cur, replaced: String(replaced) }, "emotes");
+
       if (cur.includes("&")) {
         //if choices includes emote
         const content = cur.split("&")[0].trim();
-        console.log([content]);
+        pollLog.info(content, "parse emote");
         if (content.includes(":"))
           return {
             fields: [...acc.fields, replaced],
@@ -94,27 +96,24 @@ export const parsePollFields = (content, totalSize = 0) => {
           };
 
         const sanitizedContent = removePunctuation(content);
-        console.log(
-          [sanitizedContent],
-          /\p{Extended_Pictographic}/u.test(sanitizedContent),
-          /\W{2}/g.test(sanitizedContent),
-        );
+        pollLog.info({
+          sanitizedContent,
+          extended: /\p{Extended_Pictographic}/u.test(sanitizedContent),
+          W2: /\W{2}/g.test(sanitizedContent),
+        });
         if (
           (/\p{Extended_Pictographic}/u.test(sanitizedContent) &&
             !sanitizedContent.includes(" ")) ||
           /\W{2}/g.test(sanitizedContent)
         ) {
-          console.log(
-            /\p{Extended_Pictographic}/u.test(sanitizedContent),
-            "&&",
-            !sanitizedContent.includes(" "),
-            "||",
-            /\W{2}/g.test(sanitizedContent),
-          );
-          console.log(
+          pollLog.info({
+            extended: /\p{Extended_Pictographic}/u.test(sanitizedContent),
+            includesSpace: !sanitizedContent.includes(" "),
+            W2: /\W{2}/g.test(sanitizedContent),
+          });
+          pollLog.info(
+            { sanitizedContent },
             "Extended_Pictographic Emote found:",
-            [sanitizedContent],
-            sanitizedContent,
           );
           return {
             fields: [...acc.fields, replaced],
@@ -131,7 +130,7 @@ export const parsePollFields = (content, totalSize = 0) => {
     },
     { fields: [], emotes: [] },
   );
-  console.log("results", results);
+  pollLog.info(results, "results");
   return results;
 };
 
@@ -197,7 +196,7 @@ export const pollRefreshEmbed = async (pollMessage, dbPoll) => {
  * @param {boolean} isFromCollector boolean indicating if fonction is called by collector end
  */
 export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
-  console.log("stop poll");
+  pollLog.info("stop poll");
   const db = pollMessage.client.db;
   const editedPollMessage = {};
   const pollData = POLLS.getPoll(pollMessage.id);
@@ -209,7 +208,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
     clearTimeout(pollData.timeout); //clear timeout
     if (!isFromCollector) pollData.collector.stop(); //stop collector if any
     POLLS.removePoll(pollMessage.id);
-    console.log("pollMessage has been deleted, cannot reply 'stoped'", e);
+    pollLog.error(e, "pollMessage has been deleted, cannot reply 'stoped'");
     return;
   }
 
