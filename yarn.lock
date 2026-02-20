@@ -293,7 +293,7 @@
   resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-2.1.1.tgz#901917bc538c12b9c3613036d317847baee08cae"
   integrity sha512-LiSusze9Tc7qF03sLCujF5iZp7K+vRNEDBZ86FT9aQAv3vxMLihUvKvpsCWiQ2DJq1tVckopKm1rxomgNUc9hg==
 
-"@discordjs/formatters@^0.6.1", "@discordjs/formatters@^0.6.2":
+"@discordjs/formatters@^0.6.2":
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/@discordjs/formatters/-/formatters-0.6.2.tgz#93c4a213ceb49c9a28e8adb65d50a027579b8c30"
   integrity sha512-y4UPwWhH6vChKRkGdMB4odasUbHOUwy7KL+OVwF86PvT6QVOwElx+TiI1/6kcmcEe+g5YRXJFiXSXUdabqZOvQ==
@@ -1435,24 +1435,24 @@ detect-newline@^3.1.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-discord-api-types@^0.38.1, discord-api-types@^0.38.16, discord-api-types@^0.38.31, discord-api-types@^0.38.33, discord-api-types@^0.38.37:
+discord-api-types@^0.38.1, discord-api-types@^0.38.16, discord-api-types@^0.38.33, discord-api-types@^0.38.37:
   version "0.38.37"
   resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.38.37.tgz#0e9fa948e8483b0ff3b63a1902ea9a9c9b748921"
   integrity sha512-Cv47jzY1jkGkh5sv0bfHYqGgKOWO1peOrGMkDFM4UmaGMOTgOW8QSexhvixa9sVOiz8MnVOBryWYyw/CEVhj7w==
 
-discord.js@14.24.2:
-  version "14.24.2"
-  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.24.2.tgz#070519dd401cd2cf1f30f86a20d227999b13f610"
-  integrity sha512-VMEDbmguRdX/EeMaTsf9Mb0IQA90WdYF2cn4QDfslQFXgQ6LFtmlPn0FSotnS0kcFbFp+JBSIxtnF+bnAHG/hQ==
+discord.js@14.25.1:
+  version "14.25.1"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.25.1.tgz#ef8a298b814de2377776fcc732429cc53444d8ad"
+  integrity sha512-2l0gsPOLPs5t6GFZfQZKnL1OJNYFcuC/ETWsW4VtKVD/tg4ICa9x+jb9bkPffkMdRpRpuUaO/fKkHCBeiCKh8g==
   dependencies:
     "@discordjs/builders" "^1.13.0"
     "@discordjs/collection" "1.5.3"
-    "@discordjs/formatters" "^0.6.1"
+    "@discordjs/formatters" "^0.6.2"
     "@discordjs/rest" "^2.6.0"
-    "@discordjs/util" "^1.1.1"
+    "@discordjs/util" "^1.2.0"
     "@discordjs/ws" "^1.2.3"
     "@sapphire/snowflake" "3.5.3"
-    discord-api-types "^0.38.31"
+    discord-api-types "^0.38.33"
     fast-deep-equal "3.1.3"
     lodash.snakecase "4.1.1"
     magic-bytes.js "^1.10.0"
