@@ -77,6 +77,7 @@ import {
 
 import {
   //Misc
+  clearURL,
   gifRecovery,
   hasApology,
   isAdmin,
@@ -93,6 +94,7 @@ import {
 export {
   // utils
   //Misc
+  clearURL,
   gifRecovery,
   hasApology,
   isAdmin,
