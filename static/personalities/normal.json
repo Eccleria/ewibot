@@ -11,8 +11,8 @@
           "description": "**Note : Ces rôles sont pour toustes !**\n\nIci, vous pouvez choisir un ou plusieurs rôles, disponibles à chacune des personnes sur ce serveur. Le principe est le même que pour les roles d'évènements ci-dessus. Cela vous permettra d'être notifié.e lorsque le ou les évènements qui vous intéressent auront lieu.\n Pour ne plus être notifié, vous pouvez retirer le rôle en cliquant sur le bouton du rôle.",
           "fields": [
             {"name": "\u200b", "value": "\u200b"},
-            {"name": "<:lecture:822489141312618507> Lecture commune", "value": "Si vous voulez participer à la lecture commune des différentes trilogies du Gwendalaverse et avoir des rappels par rapport, entre autres, aux chapitres de la semaine et lorsque l'on commence à discuter, c'est par ici que ça se passe.", "inline": true},
-            {"name": "<:LEnvol:827160847017050132> Actus", "value": "Si jamais vous souhaitez recevoir des notifications pour toutes les annonces que feront Andarta Pictures concernant la série d'animation, n'hesitez pas à sélectionner ce rôle.", "inline": true}
+            {"name": "<:LEnvol:827160847017050132> Actus", "value": "Si jamais vous souhaitez recevoir des notifications pour toutes les annonces que feront Andarta Pictures concernant la série d'animation, n'hesitez pas à sélectionner ce rôle.", "inline": true},
+            {"name": "<:lecture:822489141312618507> Lecture commune", "value": "Si vous voulez participer à la lecture commune des différentes trilogies du Gwendalaverse et avoir des rappels par rapport, entre autres, aux chapitres de la semaine et lorsque l'on commence à discuter, c'est par ici que ça se passe.", "inline": true}
           ],
           "title": "Choix des rôles pour toustes"
       },
