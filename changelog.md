@@ -1,3 +1,6 @@
+﻿## 7.2.1
+- Fix: order not matching betweens `buttons` and `all-roles` description in `embed` ([#445](https://github.com/Eccleria/ewibot/pull/445))
+
 ## 7.2.0
 - Feat: add `dependabot` ([#431](https://github.com/Eccleria/ewibot/pull/431)) ([#435](https://github.com/Eccleria/ewibot/pull/435))
 - Feat: add `tidy-url` dependancy and a "cleanup" of messages having urls with trackers ([#325](https://github.com/Eccleria/ewibot/issues/325)) ([#423](https://github.com/Eccleria/ewibot/issues/423)) ([#351](https://github.com/Eccleria/ewibot/pull/351))
