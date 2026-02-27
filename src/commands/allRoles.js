@@ -28,13 +28,11 @@ export const allRolesButtonHandler = async (interaction) => {
 
   //give requested role
   const guild = await fetchGuild(client, guildId);
-  const guildMember =  !member
+  const guildMember = !member
     ? member
     : await fetchMember(guild.members, user.id); //get in cache new members
 
-  if (
-    guildMember
-  ) {
+  if (guildMember) {
     if (!guildMember.roles.cache.has(allRoleId)) {
       await guildMember.roles.add(allRoleId);
       interactionReply(interaction, perso.added);

@@ -33,7 +33,7 @@ export const buttonHandler = (interaction) => {
   const { customId } = interaction;
   if (customId.startsWith("gift")) giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
-  else if (customId.startsWith("allRoles")) allRolesButtonHandler(interaction)
+  else if (customId.startsWith("allRoles")) allRolesButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
     eventRolesButtonHandler(interaction);
   else if (customId.startsWith("polls_set")) settingsButtonHandler(interaction);
