@@ -1,4 +1,4 @@
-﻿## 7.2.0
+## 7.2.0
 - Feat: add `dependabot` ([#431](https://github.com/Eccleria/ewibot/pull/431)) ([#435](https://github.com/Eccleria/ewibot/pull/435))
 - Feat: add `tidy-url` dependancy and a "cleanup" of messages having urls with trackers ([#325](https://github.com/Eccleria/ewibot/issues/325)) ([#423](https://github.com/Eccleria/ewibot/issues/423)) ([#351](https://github.com/Eccleria/ewibot/pull/351))
 - Feat: add `all-roles` admin command to send the embed related to all roles `roles` ([#441](https://github.com/Eccleria/ewibot/pull/441))
