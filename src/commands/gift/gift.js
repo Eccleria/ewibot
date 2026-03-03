@@ -12,22 +12,25 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
+import {
+  channelSend,
+  fetchChannel,
+  fetchGuild,
+  interactionReply,
+} from "ewilib";
+
 import { createButton } from "../utils.js";
 import {
   addGiftSeparator,
   addGiftUser,
-  channelSend,
-  fetchChannel,
-  fetchGuild,
   getGiftMessage,
   getGiftUsers,
-  interactionReply,
   isGiftUser,
   removeGiftMessage,
   removeGiftUser,
 } from "../../helpers/index.js";
-import { COMMONS } from "../../commons.js";
-import { PERSONALITY } from "../../personality.js";
+import { COMMONS } from "../../classes/commons.js";
+import { PERSONALITY } from "../../classes/personality.js";
 
 export const giftButtonHandler = async (interaction) => {
   // handle user clicking on gift button

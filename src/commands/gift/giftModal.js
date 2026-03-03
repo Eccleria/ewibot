@@ -1,5 +1,7 @@
-import { addGiftMessage, interactionReply } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
+import { interactionReply } from "ewilib";
+
+import { addGiftMessage } from "../../helpers/index.js";
+import { PERSONALITY } from "../../classes/personality.js";
 
 export const giftModalHandler = (interaction) => {
   const { customId } = interaction;

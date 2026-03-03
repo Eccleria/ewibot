@@ -8,31 +8,31 @@ const colors = JSON.parse(readFileSync("static/colors.json"));
 
 class Personality {
   constructor(name, personality, announces, colors, personalities) {
-    this.name = name;
-    this.personality = personality;
-    this.announces = announces;
-    this.colors = colors;
-    this.personalities = personalities;
+    this._name = name;
+    this._personality = personality;
+    this._announces = announces;
+    this._colors = colors;
+    this._personalities = personalities;
   }
 
   setPersonality(name, personality) {
-    this.name = name;
-    this.personality = personality;
+    this._name = name;
+    this._personality = personality;
   }
   getPersonality() {
-    return this.personality;
+    return this._personality;
   }
   getPersonalities() {
-    return this.personalities;
+    return this._personalities;
   }
   getName() {
-    return this.name;
+    return this._name;
   }
   getAnnounces() {
-    return this.announces;
+    return this._announces;
   }
   getColors() {
-    return this.colors;
+    return this._colors;
   }
 }
 

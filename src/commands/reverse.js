@@ -3,8 +3,9 @@ import {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
 } from "@discordjs/builders";
-import { interactionReply } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { interactionReply } from "ewilib";
+
+import { PERSONALITY } from "../classes/personality.js";
 
 const reverseStr = (string) => {
   let reversed = "";

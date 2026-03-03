@@ -5,10 +5,11 @@ import {
   fetchChannel,
   fetchMessage,
   interactionReply,
-  isAdmin,
   messageReply,
-} from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+} from "ewilib";
+
+import { isAdmin } from "../helpers/index.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)

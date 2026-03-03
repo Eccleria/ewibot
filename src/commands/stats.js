@@ -1,11 +1,12 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { interactionReply } from "../helpers/index.js";
+import { interactionReply } from "ewilib";
+
 import {
   isStatsUser,
   addStatsUser,
   removeStatsUser,
 } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { dbReturnType } from "../helpers/index.js";
 
 const command = new SlashCommandBuilder()

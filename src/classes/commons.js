@@ -7,9 +7,9 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
  */
 class Commons {
   constructor(test, prod, shared) {
-    this.test = test;
-    this.prod = prod;
-    this.shared = shared;
+    this._test = test;
+    this._prod = prod;
+    this._shared = shared;
   }
 
   /**
@@ -17,7 +17,7 @@ class Commons {
    * @returns {object} specific values for test server
    */
   getTest() {
-    return this.test;
+    return this._test;
   }
 
   /**
@@ -25,7 +25,7 @@ class Commons {
    * @returns {object} specific values for prod server
    */
   getProd() {
-    return this.prod;
+    return this._prod;
   }
 
   /**
@@ -33,7 +33,7 @@ class Commons {
    * @returns {object} values shared for both servers
    */
   getShared() {
-    return this.shared;
+    return this._shared;
   }
 
   /**
@@ -49,7 +49,7 @@ class Commons {
    * @returns {object} Both test, prod object in a list
    */
   getList() {
-    return [this.test, this.prod];
+    return [this._test, this._prod];
   }
 }
 

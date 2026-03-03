@@ -4,15 +4,15 @@ import "dayjs/locale/fr.js";
 dayjs.locale("fr");
 dayjs.extend(CustomParseFormat);
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { channelSend, fetchChannel, interactionReply } from "ewilib";
+
 import {
   addBirthday,
-  channelSend,
-  interactionReply,
   isBirthdayDate,
   removeBirthday,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 export const initBirthdays = (client, tomorrowDiff, frequency) => {
   const db = client.db;
@@ -21,7 +21,7 @@ export const initBirthdays = (client, tomorrowDiff, frequency) => {
     // init birthday check
     const server =
       process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-    const channel = await channelSend(
+    const channel = await fetchChannel(
       client.channels,
       server.randomfloodChannelId,
     );

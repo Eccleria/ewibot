@@ -1,8 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, ButtonStyle, MessageFlags } from "discord.js";
+import { interactionReply } from "ewilib";
+
 import { createButton } from "./utils.js";
-import { interactionReply, isAdmin } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { isAdmin } from "../helpers/index.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 // ANNOUNCE
 

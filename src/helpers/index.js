@@ -76,17 +76,8 @@ import {
 } from "./db/dbStats.js";
 
 import {
-  //API
-  channelSend,
-  fetchChannel,
-  fetchGuild,
-  fetchMember,
-  fetchMessage,
-  fetchRole,
-  fetchUser,
-  interactionReply,
-  messageReply,
   //Misc
+  clearURL,
   gifRecovery,
   hasApology,
   isAdmin,
@@ -102,17 +93,8 @@ import {
 
 export {
   // utils
-  //API
-  channelSend,
-  fetchChannel,
-  fetchGuild,
-  fetchMember,
-  fetchMessage,
-  fetchRole,
-  fetchUser,
-  interactionReply,
-  messageReply,
   //Misc
+  clearURL,
   gifRecovery,
   hasApology,
   isAdmin,

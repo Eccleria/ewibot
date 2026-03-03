@@ -1,11 +1,13 @@
 import { ButtonBuilder } from "discord.js";
+import { interactionReply } from "ewilib";
+
 import { pronounsButtonHandler } from "../admin/pronouns.js";
 import { settingsButtonHandler } from "./polls/pollsHandlers.js";
 import { pollSelectMenuHandler } from "./polls/pollsSelectMenu.js";
+import { allRolesButtonHandler } from "./allRoles.js";
 import { announceButtonHandler } from "./announce.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift/gift.js";
-import { interactionReply } from "../helpers/index.js";
 import { giftModalHandler } from "./gift/giftModal.js";
 
 /**
@@ -31,6 +33,7 @@ export const buttonHandler = (interaction) => {
   const { customId } = interaction;
   if (customId.startsWith("gift")) giftButtonHandler(interaction);
   else if (customId.startsWith("announce")) announceButtonHandler(interaction);
+  else if (customId.startsWith("allRoles")) allRolesButtonHandler(interaction);
   else if (customId.startsWith("eventRole"))
     eventRolesButtonHandler(interaction);
   else if (customId.startsWith("polls_set")) settingsButtonHandler(interaction);

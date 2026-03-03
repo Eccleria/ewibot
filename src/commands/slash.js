@@ -4,7 +4,9 @@ import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
+import { interactionReply } from "ewilib";
 
+import allRoles from "./allRoles.js";
 import announce from "./announce.js";
 import birthday from "./birthday.js";
 import botEmote from "./botEmote.js";
@@ -29,13 +31,12 @@ import {
   isIgnoredUser,
   removeIgnoredUser,
   //utils
-  interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -183,6 +184,7 @@ const ignoreChannel = {
 //regroup all commands
 const contextCommands = [reverseTranslator]; //context commands (message, channel, user)
 const slashCommands = [
+  allRoles,
   announce,
   birthday,
   botEmote,

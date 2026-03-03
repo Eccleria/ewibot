@@ -3,6 +3,10 @@
     "name": "test",
     "guildId": "926909708072284170",
     "alavirienRoleId": "981493533598961706",
+    "allRoles": {
+      "actus": "1409269356839567411",
+      "reading": "1383499272011649094"
+    },
     "autoEmotes": {
       "bjornLoveReactId": "😍",
       "ewilhugReactId": "🥺",
@@ -75,6 +79,10 @@
     "name": "prod",
     "guildId": "816961245743808582",
     "alavirienRoleId": "826743423612092436",
+    "allRoles": {
+      "actus": "1476960762814664744",
+      "reading": "1432003910167691285"
+    },
     "autoEmotes": {
       "bjornLoveReactId": "822437083003355146",
       "ewilhugReactId": "843097186710716416",

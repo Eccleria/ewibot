@@ -36,7 +36,7 @@ import { slashCommandsInit } from "./commands/slash.js";
 // helpers imports
 
 // jsons import
-import { COMMONS } from "./commons.js";
+import { COMMONS } from "./classes/commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";

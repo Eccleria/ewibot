@@ -6,7 +6,7 @@ import {
   removePollIndex,
   getThisChoicePollIndex,
 } from "../../helpers/index.js";
-import { PERSONALITY } from "../../personality.js";
+import { PERSONALITY } from "../../classes/personality.js";
 
 const pollVoteMultiple = (
   interaction,

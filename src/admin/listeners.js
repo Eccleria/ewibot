@@ -1,10 +1,12 @@
-import { isTestServer, fetchMessage, removeUserFromDB } from "./utils.js";
+import { fetchMessage } from "ewilib";
+
+import { isTestServer, removeUserFromDB } from "./utils.js";
 import {
   addApologyCount,
   hasApology,
   removePunctuation,
 } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
+import { COMMONS } from "../classes/commons.js";
 
 //#region LISTENERS
 

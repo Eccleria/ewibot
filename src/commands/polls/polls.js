@@ -1,23 +1,26 @@
 import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ActionRowBuilder, EmbedBuilder, ButtonStyle } from "discord.js";
+import {
+  channelSend,
+  fetchChannel,
+  fetchMessage,
+  interactionReply,
+  messageReply,
+} from "ewilib";
+
 import { pollButtonCollector } from "./pollsCollectors.js";
 import { parsePollFields, stopPoll } from "./pollsUtils.js";
 import { createButton } from "../utils.js";
 import {
   addPoll,
   addPollChoices,
-  channelSend,
-  fetchChannel,
-  fetchMessage,
   getPollFromTitle,
   getPollsTitles,
-  interactionReply,
-  messageReply,
 } from "../../helpers/index.js";
-import { COMMONS } from "../../commons.js";
-import { PERSONALITY } from "../../personality.js";
-import { Poll, POLLS } from "../../polls.js";
+import { COMMONS } from "../../classes/commons.js";
+import { PERSONALITY } from "../../classes/personality.js";
+import { Poll, POLLS } from "../../classes/polls.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().polls.name)

@@ -1,4 +1,6 @@
 import { ChannelType } from "discord.js";
+import { interactionReply, messageReply } from "ewilib";
+
 import { roleAdd, roleRemove } from "./admin/role.js";
 import {
   buttonHandler,
@@ -9,15 +11,14 @@ import {
   addEmojiData,
   addServerEmojiCount,
   addServerStatsData,
-  interactionReply,
+  clearURL,
   isReleasedCommand,
-  messageReply,
   removeReminder,
 } from "./helpers/index.js";
-import { COMMONS } from "./commons.js";
+import { COMMONS } from "./classes/commons.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "./classes/personality.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -160,6 +161,7 @@ const onPublicMessage = (message, currentServer) => {
   readContentAndReact(message, currentServer);
   statsGifCount(message);
   emojiInContentHandler(message);
+  setTimeout(() => clearURL(message), 1500);
 };
 
 export const onRemoveReminderReaction = (
