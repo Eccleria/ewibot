@@ -139,9 +139,14 @@ export const parsePollFields = (content, totalSize = 0) => {
  * Compute each of poll embed fields according to db data
  * @param {object} dbPoll poll message data from db
  * @param {list} newFieldsInit init value for new fields
+ * @param {boolean} [isPollStop] boolean allowing to change the winning choice color
  * @returns {list} List of new fields objects [{name: , value: }, ...]
  */
-export const refreshPollFields = (dbPoll, newFieldsInit) => {
+export const refreshPollFields = (
+  dbPoll,
+  newFieldsInit,
+  isPollStop = false,
+) => {
   //compute ratios
   const values = dbPoll.votes.map((obj) => obj.votes.length);
   const max = values.reduce((acc, cur) => Math.max(acc, cur), 0); //get max count nb
@@ -155,15 +160,20 @@ export const refreshPollFields = (dbPoll, newFieldsInit) => {
 
   //get progress bar color
   const colorIdx = dbPoll.colorIdx; //db data
-  const emoteColor = PERSONALITY.getColors().progressBar[colorIdx]; //emoteId from personality
+  const progressBar = PERSONALITY.getColors().progressBar;
+  const emoteColor = progressBar[colorIdx]; //emoteId from personality
+  const emoteWiningColor =
+    ":green_square:" === emoteColor ? ":blue_square:" : ":green_square:";
   const black = PERSONALITY.getPersonality().polls.black; //empty bar color
 
   //return new fields
   return newFieldsInit.map((field, idx) => {
     //update values
     const nb = Math.floor(ratios[idx] / 10);
+    const color =
+      values[idx] === max && isPollStop ? emoteWiningColor : emoteColor;
     const newColorBar =
-      emoteColor.repeat(nb) +
+      color.repeat(nb) +
       black.repeat(10 - nb) +
       ` ${ratios[idx]}% (${values[idx]})\n`; //new colorBar
 
@@ -222,7 +232,7 @@ export const stopPoll = async (dbPoll, pollMessage, perso, isFromCollector) => {
   const newFieldsInit = pollEmbed.data.fields.map((obj) => {
     return { name: obj.name, value: "" };
   }); //init with old names
-  const newFields = refreshPollFields(dbPoll, newFieldsInit);
+  const newFields = refreshPollFields(dbPoll, newFieldsInit, true);
   pollEmbed.setFields(newFields);
   editedPollMessage.embeds = [pollEmbed, ...pollMessage.embeds.slice(1)];
   editedPollMessage.components = []; //remove polls buttons
