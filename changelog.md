@@ -1,4 +1,7 @@
-﻿## 7.2.1
+﻿## 7.3.0
+- Update: `polls` end embed now uses different colors to highlight wining choice ([#392](https://github.com/Eccleria/ewibot/issues/392)) ([#394](https://github.com/Eccleria/ewibot/pull/394))
+
+## 7.2.1
 - Fix: order not matching betweens `buttons` and `all-roles` description in `embed` ([#445](https://github.com/Eccleria/ewibot/pull/445))
 
 ## 7.2.0
