@@ -72,10 +72,10 @@ const command = new SlashCommandBuilder()
       .setName(PERSONALITY.getPersonality().botMessage.reply.name)
       .setDescription(PERSONALITY.getPersonality().botMessage.reply.description)
       .addStringOption((option) =>
-        option //url
-          .setName(PERSONALITY.getPersonality().botMessage.reply.urlOption.name)
+        option //id
+          .setName(PERSONALITY.getPersonality().botMessage.reply.idOption.name)
           .setDescription(
-            PERSONALITY.getPersonality().botMessage.reply.urlOption.description,
+            PERSONALITY.getPersonality().botMessage.reply.idOption.description,
           )
           .setMinLength(1)
           .setRequired(true),
@@ -181,27 +181,26 @@ const action = async (interaction) => {
       false,
     );
     const toSpoil = options.getBoolean(rPerso.spoilOption.name, false);
-    const url = options.getString(rPerso.urlOption.name);
+    const messageId = options.getString(rPerso.idOption.name);
     const toPing = options.getBoolean(rPerso.pingOption.name);
 
     //get message to reply
-    const sliced = url.split("/");
     let message;
     try {
       message = await fetchMessage(
         interaction.channel.messages,
-        sliced[sliced.length - 1],
+        messageId,
       );
     } catch (e) {
       console.log("botMessage message fetch error", e);
       try {
         const channel = await fetchChannel(
           interaction.client.channels,
-          sliced[sliced.length - 2],
+          interaction.channelId,
         );
         message = await fetchMessage(
           channel.messages,
-          sliced[sliced.length - 1],
+          messageId,
         );
       } catch (e2) {
         console.log("botMessage channel/message fetch error", e2);
