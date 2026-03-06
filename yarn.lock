@@ -3388,7 +3388,6 @@ test-exclude@^6.0.0:
 
 tidy-url@Eccleria/tidy-url:
   version "1.19.5"
-  uid "01709d6bc4718709ea2e454104e3e2f10fa9a8ac"
   resolved "https://codeload.github.com/Eccleria/tidy-url/tar.gz/01709d6bc4718709ea2e454104e3e2f10fa9a8ac"
   dependencies:
     ts-node "^10.9.2"
