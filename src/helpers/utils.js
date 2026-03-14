@@ -1,8 +1,23 @@
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
+import { fetchMessage } from "ewilib";
+
 import { COMMONS } from "../classes/commons.js";
 
 //#region MISC
+
+/**
+ * Get message from buttonInteraction
+ * @param {object} poll button settings interaction
+ * @returns message
+ */
+export const fetchSelectMenuReferenceMessage  = async (interaction) => {
+  const message = await fetchMessage(
+    interaction.channel.messages,
+    interaction.message.reference.messageId,
+  );
+  return message;
+};
 
 /**
  * Get strings corresponding to gif url.

@@ -77,6 +77,7 @@ import {
 
 import {
   //Misc
+  fetchSelectMenuReferenceMessage,
   gifRecovery,
   hasApology,
   isAdmin,
@@ -93,6 +94,7 @@ import {
 export {
   // utils
   //Misc
+  fetchSelectMenuReferenceMessage,
   gifRecovery,
   hasApology,
   isAdmin,
