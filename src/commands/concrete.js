@@ -11,9 +11,6 @@ import { fetchUser, interactionReply } from "ewilib";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 
-//personality
-const personality = PERSONALITY.getPersonality().concrete;
-
 //COMMAND
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().concrete.name)
@@ -51,7 +48,7 @@ const action = async (object) => {
   try {
     user = options.getUser(cPerso.userOption.name);
   } catch (e) {
-    interactionReply(interaction, personality.errorMention);
+    interactionReply(interaction, cPerso.errorMention);
     console.log("concrete error", e);
     return;
   }
@@ -139,6 +136,7 @@ const concrete = {
   command: command,
   action,
   help: (interaction) => {
+    const personality = PERSONALITY.getPersonality().concrete;
     interactionReply(interaction, {
       content: personality.help,
       flags: MessageFlags.Ephemeral,
