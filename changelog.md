@@ -3,6 +3,7 @@
 - Fix: `concrete` personality isn't hardcoded anymore ([#452](https://github.com/Eccleria/ewibot/issues/452)) ([#454](https://github.com/Eccleria/ewibot/pull/454))
 - Update: `polls` end embed now uses different colors to highlight wining choice ([#392](https://github.com/Eccleria/ewibot/issues/392)) ([#394](https://github.com/Eccleria/ewibot/pull/394))
 - Update: `messageReply` now use message id instead of `url` ([#437](https://github.com/Eccleria/ewibot/issues/437)) ([#446](https://github.com/Eccleria/ewibot/pull/446))
+- Update: `isABCD` now ignore sanitized words when they are empty ([#448](https://github.com/Eccleria/ewibot/issues/448)) ([#455](https://github.com/Eccleria/ewibot/pull/455))
 
 ## 7.2.1
 - Fix: order not matching betweens `buttons` and `all-roles` description in `embed` ([#445](https://github.com/Eccleria/ewibot/pull/445))
