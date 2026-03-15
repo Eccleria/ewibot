@@ -20,7 +20,7 @@ import { PERSONALITY } from "./classes/personality.js";
 import {
   accountabilityReactHandler,
   firstReactToAccountabilityMessage,
-} from "./buddy.js";
+} from "./commands/buddy/buddy.js";
 import { readContentAndReact } from "./fun.js";
 import { emojiInContentHandler, statsGifCount } from "./stats.js";
 

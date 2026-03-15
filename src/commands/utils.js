@@ -6,7 +6,7 @@ import { settingsButtonHandler } from "./polls/pollsHandlers.js";
 import { pollSelectMenuHandler } from "./polls/pollsSelectMenu.js";
 
 import { announceButtonHandler } from "./announce.js";
-import { accountabilityButtonHandler, accountabilitySelectMenuHandler } from "../buddy.js";
+import { accountabilityButtonHandler, accountabilitySelectMenuHandler } from "./buddy/buddy.js";
 import { eventRolesButtonHandler } from "./eventRoles.js";
 import { giftButtonHandler } from "./gift/gift.js";
 import { giftModalHandler } from "./gift/giftModal.js";

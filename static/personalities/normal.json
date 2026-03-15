@@ -1,11 +1,30 @@
 {
   "name": "normal",
   "normal": {
-    "accountabilityBuddy": {
-      "cancelButton": "aBuddy_cancel",
-      "currentButton": "aBuddy_current",
-      "doneButton": "aBuddy_done",
-      "pauseButton": "aBuddy_pause"
+    "buddy": {
+      "buttons": {
+        "cancelButton": "aBuddy_cancel",
+        "currentButton": "aBuddy_current",
+        "doneButton": "aBuddy_done",
+        "pauseButton": "aBuddy_pause"
+      },
+      "command": {
+        "description": "Pour créer une liste des tâches",
+        "name": "todo-list"
+      },
+      "help": "Cette commande permet de créer une to-do list à Ewibot pour la formater et avoir éventuellement des rappels.",
+      "modal": {
+        "label": "Votre liste",
+        "modal": {
+          "customId": "buddy_modal_prompt",
+          "title": "To-Do Liste"
+        },
+        "textDisplay": "Vous pouvez renseigner ici votre liste de tâches !",
+        "textInput": {
+          "customId": "buddy_modal_prompt_textInput",
+          "placeholder": "Ecrivez ici votre liste de tâches ^^"
+        }        
+      }
     },
     "announce": {
       "buttonLabel": "Confirmer",

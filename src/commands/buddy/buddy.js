@@ -3,21 +3,74 @@ import {
   ButtonStyle,
   Colors,
   EmbedBuilder,
+  LabelBuilder,
+  ModalBuilder,
+  SlashCommandBuilder,
   StringSelectMenuBuilder,
+  TextDisplayBuilder,
+  TextInputBuilder,
+  TextInputStyle,
 } from "discord.js";
 
-import { COMMONS } from "./classes/commons.js";
-import { PERSONALITY } from "./classes/personality.js";
+import { COMMONS } from "../../classes/commons.js";
+import { PERSONALITY } from "../../classes/personality.js";
 
-import { createButton } from "./commands/utils.js";
-import { interactionEditReply } from "./commands/polls/pollsUtils.js";
-import { fetchSelectMenuReferenceMessage } from "./helpers/utils.js";
+import { createButton } from "../utils.js";
+import { interactionEditReply } from "../polls/pollsUtils.js";
+import { fetchSelectMenuReferenceMessage } from "../../helpers/utils.js";
+import { interactionReply } from "ewilib";
 
 export const firstReactToAccountabilityMessage = (message) => {
   const commons = COMMONS.getShared();
 
   if (message.content.includes(":"))
     message.react(commons.accountabilityBuddy.toDoEmoteId);
+};
+
+//#region Command
+
+//COMMAND
+const command = new SlashCommandBuilder()
+  .setName(PERSONALITY.getPersonality().buddy.command.name)
+  .setDescription(PERSONALITY.getPersonality().buddy.command.description)
+
+//#endregion
+
+//#region Action
+
+const action = async (interaction) => {
+  //create the modal to get the buddy list
+  const personality = PERSONALITY.getPersonality().buddy;
+  const perso = personality.modal;
+
+  //build modal components
+  const textDisplay = new TextDisplayBuilder()
+    .setContent(perso.textDisplay);
+  
+  const textInput = new TextInputBuilder()
+    .setCustomId(perso.textInput.customId)
+    .setPlaceholder(perso.textInput.placeholder)
+    .setMinLength(1)
+    .setMaxLength(2000)
+    .setStyle(TextInputStyle.Paragraph)
+    .setRequired(true);
+
+  const label = new LabelBuilder()
+    .setLabel(perso.label)
+    .setTextInputComponent(textInput);
+
+  const modal = new ModalBuilder()
+    .setTitle(perso.modal.title)
+    .setCustomId(perso.modal.customId)
+    .addTextDisplayComponents(textDisplay)
+    .addLabelComponents(label);
+
+  console.log("Showing buddy modal to ", interaction.user.id);
+  try {
+    interaction.showModal(modal);
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const accountabilityReactHandler = (messageReaction, user) => {
@@ -159,3 +212,17 @@ export const accountabilitySelectMenuHandler = async (interaction) => {
   message.edit({ embeds: [embed] });
   interactionEditReply(interaction, { ephemeral: true, content: "completed" });
 };
+
+//#region Command Object
+
+const buddy = {
+  command,
+  action,
+  help: (interaction) => {
+    const perso = PERSONALITY.getPersonality().buddy;
+    interactionReply(interaction, perso.help);
+  },
+  admin: true,
+};
+
+export default buddy;
