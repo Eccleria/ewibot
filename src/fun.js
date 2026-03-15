@@ -151,7 +151,7 @@ export const readContentAndReact = async (message, currentServer) => {
     await message.react(currentServer.panDuomReactId); //add message reaction
   }
 
-  if (isAbcd(loweredContent)) await message.react(currentServer.eyeReactId);
+  if (isAbcd(sanitizedContent)) await message.react(currentServer.eyeReactId);
 
   const words = loweredContent.split(" "); //split message content into a list of words
 
@@ -230,6 +230,7 @@ const isAbcd = (content) => {
     const reduced = words.reduce(
       (precedent, current) => {
         const unicodeWord = current.charCodeAt(0);
+        if (current.length === 0) return precedent; //skip empty words
         if (unicodeWord >= 97 && unicodeWord <= 122)
           return {
             latestUnicode: unicodeWord,
