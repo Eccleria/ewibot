@@ -1,4 +1,12 @@
-﻿## 7.2.1
+## 7.3.0
+- CI: bump node version to `20.19.4` ([#447](https://github.com/Eccleria/ewibot/pull/447))
+- Fix: `concrete` personality isn't hardcoded anymore ([#452](https://github.com/Eccleria/ewibot/issues/452)) ([#454](https://github.com/Eccleria/ewibot/pull/454))
+- Update: `polls` end embed now uses different colors to highlight wining choice ([#392](https://github.com/Eccleria/ewibot/issues/392)) ([#394](https://github.com/Eccleria/ewibot/pull/394))
+- Update: `messageReply` now use message id instead of `url` ([#437](https://github.com/Eccleria/ewibot/issues/437)) ([#446](https://github.com/Eccleria/ewibot/pull/446))
+- Update: `isABCD` now ignore sanitized words when they are empty ([#448](https://github.com/Eccleria/ewibot/issues/448)) ([#455](https://github.com/Eccleria/ewibot/pull/455))
+- Upgrade: bump dependencies `dayjs`, `discordjs`, `nodemon`, `tidy-url` ([#450](https://github.com/Eccleria/ewibot/pull/450)) ([#433](https://github.com/Eccleria/ewibot/pull/433)) ([#439](https://github.com/Eccleria/ewibot/pull/439)) ([#438](https://github.com/Eccleria/ewibot/pull/438)) 
+
+## 7.2.1
 - Fix: order not matching betweens `buttons` and `all-roles` description in `embed` ([#445](https://github.com/Eccleria/ewibot/pull/445))
 
 ## 7.2.0

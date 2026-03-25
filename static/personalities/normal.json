@@ -120,9 +120,9 @@
           "description": "Contenu du message d'Ewibot",
           "name": "message"
         },
-        "urlOption":{
-          "description": "Le lien du message auquel répondre.",
-          "name": "url"
+        "idOption":{
+          "description": "L'id du message auquel répondre.",
+          "name": "id"
         }
       },
       "send":{
