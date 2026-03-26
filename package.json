@@ -17,7 +17,7 @@
     "tidy-url": "Eccleria/tidy-url"
   },
   "devDependencies": {
-    "eslint": "^9.28.0",
+    "eslint": "^10.1.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-node": "^11.1.0",
     "prettier": "^3.5.3"
