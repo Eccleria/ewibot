@@ -1,3 +1,6 @@
+﻿## 7.4.0
+- Chore: bump `flatted` because of vulnerability ([#456](https://github.com/Eccleria/ewibot/pull/456)) ([s17](https://github.com/Eccleria/ewibot/security/dependabot/17))
+
 ## 7.3.0
 - CI: bump node version to `20.19.4` ([#447](https://github.com/Eccleria/ewibot/pull/447))
 - Fix: `concrete` personality isn't hardcoded anymore ([#452](https://github.com/Eccleria/ewibot/issues/452)) ([#454](https://github.com/Eccleria/ewibot/pull/454))
