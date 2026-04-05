@@ -87,6 +87,20 @@ const buildActivityList = () => {
   return activityList;
 };
 
+const magic8Answers = [
+  "Oui",
+  "Très certainement",
+  "Très probablement",
+  "C'est possible",
+  "Je ne serais pas catégorique",
+  "C'est possible",
+  "Demandez encore",
+  "Peut-être",
+  "Probablement pas",
+  "Définitivement pas",
+  "Non"
+]
+
 /**
  * Set the timeout for bot activity update.
  * @param {Object} client The bot Client.
@@ -158,7 +172,7 @@ export const readContentAndReact = async (message, currentServer) => {
   //if ewibot is mentionned, react
   if (message.mentions.has(process.env.CLIENTID)) {
     if (isQuestion(loweredContent)) {
-      await message.reply("Oui");
+      await message.reply(magic8Answers[Math.floor(Math.random() * magic8Answers.length)]);
     }
     else await message.react(currentServer.rudolphslichId);
   }
