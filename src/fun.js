@@ -156,8 +156,12 @@ export const readContentAndReact = async (message, currentServer) => {
   const words = loweredContent.split(" "); //split message content into a list of words
 
   //if ewibot is mentionned, react
-  if (message.mentions.has(process.env.CLIENTID))
-    await message.react(currentServer.rudolphslichId);
+  if (message.mentions.has(process.env.CLIENTID)) {
+    if (isQuestion(loweredContent)) {
+      await message.reply("Oui");
+    }
+    else await message.react(currentServer.rudolphslichId);
+  }
 
   const frequency = Math.random() > 0.9; // Limit Ewibot react frequency
 
@@ -256,6 +260,14 @@ const isLuciferAge = (content) => {
   presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
   return presqueResult !== null;
 };
+
+const isQuestion = (content) => { //detect if message is a question for Ewibot
+  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gmi); //regex pour mention <@...> puis question
+  const questResult = questRegex.exec(content); //check if contains a question
+
+  questResult.lastIndex = 0; //idk, it works like that higher there
+  return questResult !== null;
+}
 
 const reactToContentEmotes = async (message, server, today, foundEmotes) => {
   if (today.getMonth() == 5)
