@@ -1,7 +1,7 @@
 ﻿## 7.4.0
 - Chore: bump `flatted` because of vulnerability ([#456](https://github.com/Eccleria/ewibot/pull/456)) ([s17](https://github.com/Eccleria/ewibot/security/dependabot/17))
+- Feat: Ewibot can now answer questions when asked, with a random sentence from a predefined list ([#404](https://github.com/Eccleria/ewibot/issues/404)) ([#465](https://github.com/Eccleria/ewibot/pull/465))
 - Upgrade: bump `eslint` ([#459](https://github.com/Eccleria/ewibot/pull/459))
-- Feat: Ewibot can now answer questions when asked, with a random sentence from a predefined list ([#465](https://github.com/Eccleria/ewibot/pull/465)) ([#404](https://github.com/Eccleria/ewibot/issues/404))
 
 ## 7.3.0
 - CI: bump node version to `20.19.4` ([#447](https://github.com/Eccleria/ewibot/pull/447))
