@@ -279,11 +279,16 @@ const isLuciferAge = (content) => {
   return presqueResult !== null;
 };
 
-const isQuestion = (content) => { //detect if message is a question for Ewibot
-  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gmi); //regex pour mention <@...> puis question
+/**
+ * Detect if a message is a question for Ewibot
+ * @param {string} content Said message
+ * @returns True if the content is a question
+ */
+const isQuestion = (content) => {
+  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gmi); //regex for a mention <@...> and a question
   const questResult = questRegex.exec(content); //check if contains a question
 
-  questResult.lastIndex = 0; //idk, it works like that higher there
+  questResult.lastIndex = 0; //set first index to look at to zero
   return questResult !== null;
 }
 
