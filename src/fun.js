@@ -102,8 +102,8 @@ const magic8Answers = [
   "Les feuilles de thé ne sont pas en votre faveur",
   "Probablement pas",
   "Définitivement pas",
-  "Non"
-]
+  "Non",
+];
 
 /**
  * Set the timeout for bot activity update.
@@ -176,9 +176,10 @@ export const readContentAndReact = async (message, currentServer) => {
   //if ewibot is mentionned, react
   if (message.mentions.has(process.env.CLIENTID)) {
     if (isQuestion(loweredContent)) {
-      await message.reply(magic8Answers[Math.floor(Math.random() * magic8Answers.length)]);
-    }
-    else await message.react(currentServer.rudolphslichId);
+      await message.reply(
+        magic8Answers[Math.floor(Math.random() * magic8Answers.length)],
+      );
+    } else await message.react(currentServer.rudolphslichId);
   }
 
   const frequency = Math.random() > 0.9; // Limit Ewibot react frequency
@@ -285,12 +286,12 @@ const isLuciferAge = (content) => {
  * @returns {boolean} True if the content is a question
  */
 const isQuestion = (content) => {
-  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gmi); //regex for a mention <@...> and a question
+  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gim); //regex for a mention <@...> and a question
   const questResult = questRegex.exec(content); //check if contains a question
 
   questResult.lastIndex = 0; //set first index to look at to zero
   return questResult !== null;
-}
+};
 
 const reactToContentEmotes = async (message, server, today, foundEmotes) => {
   if (today.getMonth() == 5)
