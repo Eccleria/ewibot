@@ -282,7 +282,7 @@ const isLuciferAge = (content) => {
 /**
  * Detect if a message is a question for Ewibot
  * @param {string} content Said message
- * @returns True if the content is a question
+ * @returns {boolean} True if the content is a question
  */
 const isQuestion = (content) => {
   const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gmi); //regex for a mention <@...> and a question
