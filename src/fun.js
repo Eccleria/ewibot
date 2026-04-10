@@ -97,7 +97,8 @@ const magic8Answers = [
   "Demandez encore",
   "Vous savez, moi je ne crois pas qu'il y ait de bonne ou mauvaise réponse",
   "Ptet bein que oui, ptet bein que non",
-  "Ma boule de crystal est en réparation",
+  "Ma boule de cristal est en réparation",
+  "```    _____     \n __/ ___ \\___\n(o__/   \\_))_)```", //an ascii worm
   "Peut-être",
   "Les feuilles de thé ne sont pas en votre faveur",
   "Probablement pas",
