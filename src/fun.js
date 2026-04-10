@@ -87,6 +87,25 @@ const buildActivityList = () => {
   return activityList;
 };
 
+const magic8Answers = [
+  "Oui",
+  "Très certainement",
+  "Très probablement",
+  "C'est possible",
+  "Les planètes sont alignées pour",
+  "Je ne serais pas catégorique",
+  "Demandez encore",
+  "Vous savez, moi je ne crois pas qu'il y ait de bonne ou mauvaise réponse",
+  "Ptet bein que oui, ptet bein que non",
+  "Ma boule de cristal est en réparation",
+  "```    _____     \n __/ ___ \\___\n(o__/   \\_))_)```", //an ascii worm
+  "Peut-être",
+  "Les feuilles de thé ne sont pas en votre faveur",
+  "Probablement pas",
+  "Définitivement pas",
+  "Non",
+];
+
 /**
  * Set the timeout for bot activity update.
  * @param {Object} client The bot Client.
@@ -156,8 +175,13 @@ export const readContentAndReact = async (message, currentServer) => {
   const words = loweredContent.split(" "); //split message content into a list of words
 
   //if ewibot is mentionned, react
-  if (message.mentions.has(process.env.CLIENTID))
-    await message.react(currentServer.rudolphslichId);
+  if (message.mentions.has(process.env.CLIENTID)) {
+    if (isQuestion(loweredContent)) {
+      await message.reply(
+        magic8Answers[Math.floor(Math.random() * magic8Answers.length)],
+      );
+    } else await message.react(currentServer.rudolphslichId);
+  }
 
   const frequency = Math.random() > 0.9; // Limit Ewibot react frequency
 
@@ -255,6 +279,19 @@ const isLuciferAge = (content) => {
 
   presqueRegex.lastIndex = 0; //reset lastIndex, needed for every check
   return presqueResult !== null;
+};
+
+/**
+ * Detect if a message is a question for Ewibot
+ * @param {string} content Said message
+ * @returns {boolean} True if the content is a question
+ */
+const isQuestion = (content) => {
+  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gim); //regex for a mention <@...> and a question
+  const questResult = questRegex.exec(content); //check if contains a question
+
+  questResult.lastIndex = 0; //set first index to look at to zero
+  return questResult !== null;
 };
 
 const reactToContentEmotes = async (message, server, today, foundEmotes) => {
