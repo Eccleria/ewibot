@@ -7,6 +7,13 @@ version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
-    schedule:
+    ignore: # ignore some packages and its options
+      - dependency-name: "canvas"
+        update-types: "version-update:semver-patch"
+    labels: # Raise all pull requests with custom labels
+      - "upgrade"
+      - "dependabot"
+    schedule: # dependabot check schedule
       interval: "weekly"
     target-branch: "dev"
+    
