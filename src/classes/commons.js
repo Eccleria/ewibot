@@ -1,6 +1,6 @@
 // jsons import
 import { readFileSync } from "fs";
-import { isProduction } from "./helpers/index.js";
+import { isProduction } from "../helpers/index.js";
 import { Colors } from "discord.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 

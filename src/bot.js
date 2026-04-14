@@ -13,6 +13,8 @@ import { JSONFile } from "lowdb/node";
 
 import { join } from "path";
 
+
+ import { channelSend, fetchGuild } from "ewilib";
 // listeners imports
 import { onMessageUpdate, onGuildMemberRemove } from "./admin/listeners.js";
 import {
@@ -34,8 +36,8 @@ import { initReminder } from "./commands/reminder.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
-import { onUncaughtException } from "./helpers/errors.js";
-import { channelSend, fetchGuild, fetchSpamThread, getHelloGif, isProduction, sendBotSpamEmbed } from "./helpers/index.js";
+import { onUncaughtException } from "./errors.js";
+import { fetchSpamThread, getHelloGif, isProduction, sendBotSpamEmbed } from "./helpers/index.js";
 
 // jsons import
 import { COMMONS } from "./classes/commons.js";
