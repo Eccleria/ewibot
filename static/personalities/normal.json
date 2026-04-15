@@ -75,6 +75,30 @@
       "removeUser": "Je ne te souhaiterai plus ton anniversaire.",
       "userNotFound": "Pas d'anniversaire stocké dans la base de données pour toi."
     },
+    "blacklist": {
+      "add": {
+        "description": "add description",
+        "name": "add",
+        "userOption": {
+          "description": "add userOption description",
+          "name": "user"
+        }
+      },
+      "description": "description",
+      "get": {
+        "description": "get description",
+        "name": "get"
+      },
+      "name": "blacklist",
+      "remove": {
+        "description": "remove description",
+        "name": "remove",
+        "userOption": {
+          "description": "remove userOption description",
+          "name": "user"
+        }
+      }
+    },
     "botEmote": {
       "description": "Cette commande permet de faire réagir Ewibot à un message",
       "emoteOption": {

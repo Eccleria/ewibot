@@ -9,6 +9,7 @@ import { interactionReply } from "ewilib";
 import allRoles from "./allRoles.js";
 import announce from "./announce.js";
 import birthday from "./birthday.js";
+import blacklist from "./blacklist.js";
 import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
 import concrete from "./concrete.js";
@@ -187,6 +188,7 @@ const slashCommands = [
   allRoles,
   announce,
   birthday,
+  blacklist,
   botEmote,
   botMessage,
   concrete,
