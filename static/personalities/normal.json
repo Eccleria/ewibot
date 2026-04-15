@@ -77,24 +77,25 @@
     },
     "blacklist": {
       "add": {
-        "description": "add description",
+        "description": "Pour ajouter un.e utilisateur.ice à la blacklist",
         "name": "add",
         "userOption": {
-          "description": "add userOption description",
+          "description": "La personne à ajouter à la liste",
           "name": "user"
         }
       },
-      "description": "description",
+      "description": "Cette commande permet de gérer la blacklist d'Ewibot",
+      "error": "Une erreur inattendue est arrivée. Veuillez la signaler dans le salon <#975315013206171738>.",
       "get": {
-        "description": "get description",
+        "description": "Pour avoir la liste des personnes actuellement dans la blacklist",
         "name": "get"
       },
       "name": "blacklist",
       "remove": {
-        "description": "remove description",
+        "description": "Pour enlever un.e utilisateur.ice de la blacklist",
         "name": "remove",
         "userOption": {
-          "description": "remove userOption description",
+          "description": "La personne à retirer",
           "name": "user"
         }
       }
