@@ -37,7 +37,7 @@ import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
 import { onUncaughtException } from "./errors.js";
-import { fetchSpamThread, getHelloGif, isProduction, sendBotSpamEmbed } from "./helpers/index.js";
+import { fetchSpamThread, getHelloGif, isProduction } from "./helpers/index.js";
 
 // jsons import
 import { COMMONS } from "./classes/commons.js";

@@ -1,10 +1,12 @@
-import dayjs from "dayjs";
-import { EmbedBuilder } from "discord.js";
-import { COMMONS } from "../classes/commons.js";
-import { TidyURL } from "tidy-url";
-
 import dotenv from "dotenv";
 dotenv.config();
+
+import dayjs from "dayjs";
+import { EmbedBuilder } from "discord.js";
+import { channelSend, fetchChannel } from "ewilib";
+import { TidyURL } from "tidy-url";
+
+import { COMMONS } from "../classes/commons.js";
 
 //#region API wrappers
 
@@ -308,7 +310,6 @@ const helloGifs = [
 ];
 
 export const getHelloGif = () => {
-  const randomIdx = Math.round(helloGifs.length * Math.random());
-  return helloGifs[0];
+  const randomIdx = Math.floor(helloGifs.length * Math.random());
   return helloGifs[randomIdx];
 }
