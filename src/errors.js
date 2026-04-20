@@ -3,7 +3,22 @@ import { channelSend, fetchGuild } from "ewilib";
 
 import { client } from "./bot.js";
 import { COMMONS } from "./classes/commons.js";
-import { fetchSpamThread, parseIdsIntoPings } from "./helpers/index.js";
+import { fetchSpamThread, parseIdsIntoPings, sendBotSpamEmbed } from "./helpers/index.js";
+
+export const onShardError = (error) => {
+  console.error("A websocket connection encountered an error:", error);
+};
+
+export const onUnhandledRejection = async (error) => {
+  console.error("❌ Unhandled promise rejection:", error);
+
+  //send a spam status
+  const server = COMMONS.fetchFromEnv();
+  const guild = await fetchGuild(client, server.guildId);
+  const spamChannel = await fetchSpamThread(guild);
+  const msg = "Unhandled promise rejection\n" + error;
+  sendBotSpamEmbed(spamChannel, msg, COMMONS.getKO());
+};
 
 export const onUncaughtException = async (error) => {
   console.error("Uncaught exception:", error);
