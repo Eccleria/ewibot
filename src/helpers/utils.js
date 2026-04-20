@@ -180,18 +180,16 @@ export const replaceLineBreak = (words, replace) => {
 };
 
 /**
- * 
- * @param {Channel} channel 
- * @param {string} msg 
- * @param {ColorResolvable} colour 
+ *
+ * @param {Channel} channel
+ * @param {string} msg
+ * @param {ColorResolvable} colour
  */
 export const sendBotSpamEmbed = async (channel, msg, colour) => {
-  const embed = new EmbedBuilder()
-    .setColor(colour)
-    .setDescription(msg);
+  const embed = new EmbedBuilder().setColor(colour).setDescription(msg);
 
   try {
-    await channelSend(channel, {embeds: [embed]});
+    await channelSend(channel, { embeds: [embed] });
   } catch (e) {
     console.error("Cannot send bot spam message", e);
   }
@@ -305,11 +303,9 @@ export const clearURL = async (message) => {
 
 //#region Gifs
 
-const helloGifs = [
-  "https://c.tenor.com/FHBMPAWxdF8AAAAC/tenor.gif"
-];
+const helloGifs = ["https://c.tenor.com/FHBMPAWxdF8AAAAC/tenor.gif"];
 
 export const getHelloGif = () => {
   const randomIdx = Math.floor(helloGifs.length * Math.random());
   return helloGifs[randomIdx];
-}
+};

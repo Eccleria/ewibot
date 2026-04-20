@@ -3,7 +3,11 @@ import { channelSend, fetchGuild } from "ewilib";
 
 import { client } from "./bot.js";
 import { COMMONS } from "./classes/commons.js";
-import { fetchSpamThread, parseIdsIntoPings, sendBotSpamEmbed } from "./helpers/index.js";
+import {
+  fetchSpamThread,
+  parseIdsIntoPings,
+  sendBotSpamEmbed,
+} from "./helpers/index.js";
 
 export const onShardError = (error) => {
   console.error("A websocket connection encountered an error:", error);
@@ -25,13 +29,13 @@ export const onUncaughtException = async (error) => {
   console.log("message", error.message);
   console.log("name", error.name);
   console.log("cause", error.cause);
-  
+
   //fetch required data
   const server = COMMONS.fetchFromEnv();
   const guild = await fetchGuild(client, server.guildId);
   const spamChannel = await fetchSpamThread(guild);
   const admins = COMMONS.getShared().admins;
-  
+
   //build spam data
   const msg = "❌ Uncaught Exception: " + error + "\n**Shutting down**";
   const embed = new EmbedBuilder()
@@ -46,7 +50,7 @@ export const onUncaughtException = async (error) => {
         embeds: [embed],
       });
     }
-  } catch(e) {
+  } catch (e) {
     console.error(e);
   } finally {
     //exit whereas status sent or not

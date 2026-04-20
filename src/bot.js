@@ -7,14 +7,19 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, EmbedBuilder, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  Client,
+  EmbedBuilder,
+  Events,
+  GatewayIntentBits,
+  Partials,
+} from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
 import { join } from "path";
 
-
- import { channelSend, fetchGuild } from "ewilib";
+import { channelSend, fetchGuild } from "ewilib";
 // listeners imports
 import { onMessageUpdate, onGuildMemberRemove } from "./admin/listeners.js";
 import {
@@ -99,7 +104,7 @@ client.once(Events.ClientReady, async () => {
   const server = isProduction ? COMMONS.getProd() : COMMONS.getTest();
   const guild = await fetchGuild(client, server.guildId);
   const spamThread = await fetchSpamThread(guild);
-  await channelSend(spamThread, {embeds: [embed]});
+  await channelSend(spamThread, { embeds: [embed] });
   roleInit(client); //role handler init
 
   //polls
