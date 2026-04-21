@@ -11,6 +11,7 @@ const hasABCDInputList = [
 const hasNotABCDInputList = [
   "ah bah d'accord\nsupaire\nje retiens",
   "ah bah d'accord\nsupaire\n je retiens",
+  "Bonne nuit Sto !",
 ];
 
 //tests

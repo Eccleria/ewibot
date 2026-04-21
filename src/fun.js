@@ -244,7 +244,7 @@ const hello = [
   "👋",
 ];
 
-const isAbcd = (content) => {
+export const isAbcd = (content) => {
   // Check if message content is having all words first letters in alphabetic order
   const replaced = replaceLineBreak(content, " ");
   const words = replaced.split(" "); //split message content into a list of words

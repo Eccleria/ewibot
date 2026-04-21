@@ -30,6 +30,7 @@
     "dev": "nodemon --ignore ./db/ --exec node --experimental-json-modules --trace-warnings src/bot.js",
     "lint": "eslint src",
     "prettier": "prettier --write src",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --detectOpenHandles"
+    "test": "node --trace-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "cov": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   }
 }
