@@ -4,9 +4,7 @@ import { isAbcd } from "../src/fun.js";
 
 //#region isAbcd
 //test input
-const hasABCDInputList = [
-  "ah bah d'accord x)",
-];
+const hasABCDInputList = ["ah bah d'accord x)"];
 
 const hasNotABCDInputList = [
   "ah bah d'accord\nsupaire\nje retiens",
@@ -21,7 +19,7 @@ test.each(hasABCDInputList)("is ABCD behaviour", (abcd) => {
   } catch (e) {
     console.log([abcd]);
     throw e;
-  };
+  }
 });
 
 test.each(hasNotABCDInputList)("is not ABCD behaviour", (abcd) => {
@@ -30,8 +28,7 @@ test.each(hasNotABCDInputList)("is not ABCD behaviour", (abcd) => {
   } catch (e) {
     console.log([abcd]);
     throw e;
-  };
+  }
 });
 
 //#endregion
-

@@ -29,7 +29,7 @@ test.each(hasApologyInputList)("hasApology behaviour", (apo) => {
   } catch (e) {
     console.log(apo);
     throw e;
-  };
+  }
 });
 
 test.each(hasNotApologyInputList)("hasNotApology behaviour", (apo) => {
@@ -38,7 +38,7 @@ test.each(hasNotApologyInputList)("hasNotApology behaviour", (apo) => {
   } catch (e) {
     console.log(apo);
     throw e;
-  };
+  }
 });
 
 //#endregion
