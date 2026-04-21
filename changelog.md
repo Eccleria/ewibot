@@ -4,6 +4,7 @@
 - Chore: move `jest` package to dev dependencies ([#471](https://github.com/Eccleria/ewibot/pull/471))
 - Dependabot: use custom labels on MR and prevent canvas patch MR ([#470](https://github.com/Eccleria/ewibot/issues/470)) ([#472](https://github.com/Eccleria/ewibot/pull/472)) ([#474](https://github.com/Eccleria/ewibot/pull/474))
 - Feat: Ewibot can now answer questions when asked, with a random sentence from a predefined list ([#404](https://github.com/Eccleria/ewibot/issues/404)) ([#465](https://github.com/Eccleria/ewibot/pull/465))
+- Feat: Ewibot now handle `uncaughtException`, `unhandledRejection` and `ShardError` more gracefully ([#417](https://github.com/Eccleria/ewibot/pull/417))
 - Upgrade: bump `eslint` ([#459](https://github.com/Eccleria/ewibot/pull/459))
 
 ## 7.3.0
