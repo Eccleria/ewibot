@@ -1,6 +1,7 @@
 ﻿## 7.4.0
 - Chore: bump `flatted` because of vulnerability ([#456](https://github.com/Eccleria/ewibot/pull/456)) ([s17](https://github.com/Eccleria/ewibot/security/dependabot/17))
 - Feat: Ewibot can now answer questions when asked, with a random sentence from a predefined list ([#404](https://github.com/Eccleria/ewibot/issues/404)) ([#465](https://github.com/Eccleria/ewibot/pull/465))
+- Feat: Ewibot now handle `uncaughtException`, `unhandledRejection` and `ShardError` more gracefully ([#417](https://github.com/Eccleria/ewibot/pull/417))
 - Upgrade: bump `eslint` ([#459](https://github.com/Eccleria/ewibot/pull/459))
 
 ## 7.3.0
