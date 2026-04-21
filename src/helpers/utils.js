@@ -240,7 +240,7 @@ export const setupEmbed = (color, personality, object, type) => {
  */
 export const parseIdsIntoPings = (ids, separator = " ") => {
   return ids.reduce((acc, cur, idx) => {
-    if (idx === 0) return acc + cur;
+    if (idx === 0) return `<@${cur}>`;
     else return `${acc}${separator}<@${cur}>`;
   }, "");
 };

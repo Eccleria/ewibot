@@ -41,7 +41,7 @@ import { initReminder } from "./commands/reminder.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
-import { onUncaughtException } from "./errors.js";
+import { onShardError, onUncaughtException, onUnhandledRejection } from "./errors.js";
 import { fetchSpamThread, getHelloGif, isProduction } from "./helpers/index.js";
 
 // jsons import
@@ -129,11 +129,10 @@ client.once(Events.ClientReady, async () => {
   initBirthdays(client, tomorrowDiff, frequency);
 });
 
-process.on("unhandledRejection", (error) => {
-  console.error("Unhandled promise rejection:", error);
-});
-
+// listeners for DEBUG
+process.on("unhandledRejection", onUnhandledRejection);
 process.on("uncaughtException", onUncaughtException);
+client.on(Events.ShardError, onShardError);
 
 // Create an event listener for messages
 client.on(Events.MessageCreate, onMessageCreate);
