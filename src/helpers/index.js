@@ -76,36 +76,52 @@ import {
 } from "./db/dbStats.js";
 
 import {
+  //API
+  fetchSpamThread,
+  fetchThread,
   //Misc
   clearURL,
   gifRecovery,
   hasApology,
   isAdmin,
+  isProduction,
   isReleasedCommand,
   isSentinelle,
   parseEmoji,
   parseUnixTimestamp,
+  parseIdsIntoPings,
   removeEmote,
   removePunctuation,
   replaceLineBreak,
+  sendBotSpamEmbed,
   setupEmbed,
+  //gif
+  getHelloGif,
 } from "./utils.js";
 
 export {
   // utils
+  //API
+  fetchSpamThread,
+  fetchThread,
   //Misc
   clearURL,
   gifRecovery,
   hasApology,
   isAdmin,
+  isProduction,
   isReleasedCommand,
   isSentinelle,
   parseEmoji,
   parseUnixTimestamp,
+  parseIdsIntoPings,
   removeEmote,
   removePunctuation,
   replaceLineBreak,
+  sendBotSpamEmbed,
   setupEmbed,
+  //Gif
+  getHelloGif,
   // dbHelper
   //apology
   isApologyUser,

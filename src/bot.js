@@ -7,12 +7,19 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  Client,
+  EmbedBuilder,
+  Events,
+  GatewayIntentBits,
+  Partials,
+} from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
 import { join } from "path";
 
+import { channelSend, fetchGuild } from "ewilib";
 // listeners imports
 import { onMessageUpdate, onGuildMemberRemove } from "./admin/listeners.js";
 import {
@@ -34,6 +41,12 @@ import { initReminder } from "./commands/reminder.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
+import {
+  onShardError,
+  onUncaughtException,
+  onUnhandledRejection,
+} from "./errors.js";
+import { fetchSpamThread, getHelloGif, isProduction } from "./helpers/index.js";
 
 // jsons import
 import { COMMONS } from "./classes/commons.js";
@@ -58,7 +71,7 @@ setInterval(async () => {
 }, 10000);
 
 // Discord CLIENT
-const client = new Client({
+export const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -88,6 +101,14 @@ client.once(Events.ClientReady, async () => {
 
   // Bot init
   console.log("I am ready!");
+  const embed = new EmbedBuilder()
+    .setColor(COMMONS.getOk())
+    .setDescription("I am ready!")
+    .setImage(getHelloGif());
+  const server = isProduction ? COMMONS.getProd() : COMMONS.getTest();
+  const guild = await fetchGuild(client, server.guildId);
+  const spamThread = await fetchSpamThread(guild);
+  await channelSend(spamThread, { embeds: [embed] });
   roleInit(client); //role handler init
 
   //polls
@@ -99,10 +120,8 @@ client.once(Events.ClientReady, async () => {
   updateActivity(client);
 
   //slash commands
-  const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
   const guildId = server.guildId;
-  slashCommandsInit(guildId, client); //commands submit to API
+  await slashCommandsInit(guildId, client); //commands submit to API
 
   //gift
   setGiftTimeoutLoop(client); //gift timeout loop init
@@ -114,9 +133,10 @@ client.once(Events.ClientReady, async () => {
   initBirthdays(client, tomorrowDiff, frequency);
 });
 
-process.on("unhandledRejection", (error) => {
-  console.error("Unhandled promise rejection:", error);
-});
+// listeners for DEBUG
+process.on("unhandledRejection", onUnhandledRejection);
+process.on("uncaughtException", onUncaughtException);
+client.on(Events.ShardError, onShardError);
 
 // Create an event listener for messages
 client.on(Events.MessageCreate, onMessageCreate);

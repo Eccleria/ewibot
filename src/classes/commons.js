@@ -1,5 +1,8 @@
 // jsons import
+import { Colors } from "discord.js";
 import { readFileSync } from "fs";
+
+import { isProduction } from "../helpers/index.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 /**
@@ -10,6 +13,8 @@ class Commons {
     this._test = test;
     this._prod = prod;
     this._shared = shared;
+    this._OK = Colors.DarkGreen;
+    this._KO = Colors.Red;
   }
 
   /**
@@ -36,6 +41,14 @@ class Commons {
     return this._shared;
   }
 
+  getOk() {
+    return this._OK;
+  }
+
+  getKO() {
+    return this._KO;
+  }
+
   /**
    * get correct commons.json data, according to given guildId
    * @param {string} guildId Guild id
@@ -44,6 +57,15 @@ class Commons {
   fetchFromGuildId(guildId) {
     return this.getList().find((obj) => guildId === obj.guildId);
   }
+
+  /**
+   * get correct commons data according to .env setup
+   * @returns
+   */
+  fetchFromEnv() {
+    return isProduction ? this.getProd() : this.getTest();
+  }
+
   /**
    * get both test & prod values in a list
    * @returns {object} Both test, prod object in a list
