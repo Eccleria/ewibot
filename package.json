@@ -8,7 +8,7 @@
     "canvas": "^3.2.1",
     "dayjs": "^1.11.20",
     "discord.js": "14.26.3",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "ewilib": "https://github.com/Eccleria/ewilib",
     "gif-encoder-2": "^1.0.5",
     "lowdb": "^7.0.1",
