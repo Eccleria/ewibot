@@ -2,6 +2,7 @@
 - CI: bump ci node version to latest (24.14.1) ([#471](https://github.com/Eccleria/ewibot/pull/471))
 - Chore: bump `flatted` because of vulnerability ([#456](https://github.com/Eccleria/ewibot/pull/456)) ([s17](https://github.com/Eccleria/ewibot/security/dependabot/17))
 - Chore: move `jest` package to dev dependencies ([#471](https://github.com/Eccleria/ewibot/pull/471))
+- Dependabot: use custom labels on MR and prevent canvas patch MR ([#470](https://github.com/Eccleria/ewibot/issues/470)) ([#472](https://github.com/Eccleria/ewibot/pull/472))
 - Feat: Ewibot can now answer questions when asked, with a random sentence from a predefined list ([#404](https://github.com/Eccleria/ewibot/issues/404)) ([#465](https://github.com/Eccleria/ewibot/pull/465))
 - Upgrade: bump `eslint` ([#459](https://github.com/Eccleria/ewibot/pull/459))
 
