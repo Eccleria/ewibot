@@ -9,7 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     ignore: # ignore some packages and its options
       - dependency-name: "canvas"
-        update-types: "version-update:semver-patch"
+        update-types: ["version-update:semver-patch"]
     labels: # Raise all pull requests with custom labels
       - "upgrade"
       - "dependabot"
