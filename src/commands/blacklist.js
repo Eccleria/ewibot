@@ -1,6 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { channelSend, fetchChannel, interactionReply } from "ewilib";
 
+import {
+  addBlacklist, 
+  removeBlacklist,
+  getBlacklist,
+} from "../helpers/index.js"
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 
@@ -39,11 +44,44 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getPersonality().blacklist.get.description),
   );
 
-//TODO: continue implementation for the blacklist :ablobsweat:
-
 const action = async (interaction) => {
-  
-  await interactionReply(interaction, "This is not yet implemented. Try again later ;)");
+  const authorId = interaction.member.id;
+  const db = interaction.client.db;
+
+  const whichCommand = interaction.options.getSubcommand();
+  const bPerso = PERSONALITY.getPersonality().blacklist;
+  switch (whichCommand) {
+    case bPerso.add.name:
+      const toAdd = interaction.options
+        .getUser(bPerso.add.userOption.name).id; // get user ID
+      var res = addBlacklist(db, toAdd);
+      if (res) {
+        await interactionReply(interaction, bPerso.add.response_pos);
+      } else {
+        await interactionReply(interaction, bPerso.add.response_neg);
+      }
+      break;
+    case bPerso.get.name:
+      var allIds = [];
+      getBlacklist(db).forEach(element => {
+          allIds.push(toMention(element));
+        })
+      await interactionReply(interaction, 
+        bPerso.get.response.concat(allIds.join('\n')));
+      break;
+    case bPerso.remove.name:
+      const toRemove = interaction.options
+        .getUser(bPerso.remove.userOption.name).id;
+      var res = removeBlacklist(db, toRemove);
+      if (res) {
+        await interactionReply(interaction, bPerso.remove.response_pos);
+      } else {
+        await interactionReply(interaction, bPerso.remove.response_neg);
+      }
+      break;
+    default:
+      await interactionReply(interaction, bPerso.error);
+  }
   return;
 };
 
@@ -64,5 +102,8 @@ const blacklist = {
   sentinelle: true,
   subcommands: ["blacklist", "blacklist add", "blacklist remove", "blacklist get"],
 };
+
+// Util method to get user mention under the form <@UserId>
+const toMention = ((userId) => `- <@${userId}>`);
 
 export default blacklist;

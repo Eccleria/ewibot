@@ -1,6 +1,7 @@
 {
   "apologiesCounting": [],
   "birthdaysUsers": [],
+  "blacklistUsers": [],
   "concreteRecipients": [],
   "eventRoles": [
     {
