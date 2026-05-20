@@ -91,6 +91,7 @@
       "get": {
         "description": "Pour avoir la liste des personnes actuellement dans la blacklist",
         "response": "Les utilisateur.ices dans la blacklist sont :\n",
+        "response_null": "Il n'y a actuellement personne dans la blacklist",
         "name": "get"
       },
       "name": "blacklist",

@@ -56,6 +56,7 @@ const action = async (interaction) => {
         .getUser(bPerso.add.userOption.name).id; // get user ID
       var res = addBlacklist(db, toAdd);
       if (res) {
+        console.log(`${interaction.options.getUser(bPerso.add.userOption.name).username} a été ajouté.e à la blacklist par ${interaction.user.username}`);
         await interactionReply(interaction, bPerso.add.response_pos);
       } else {
         await interactionReply(interaction, bPerso.add.response_neg);
@@ -66,14 +67,20 @@ const action = async (interaction) => {
       getBlacklist(db).forEach(element => {
           allIds.push(toMention(element));
         })
-      await interactionReply(interaction, 
-        bPerso.get.response.concat(allIds.join('\n')));
+      if (allIds.length == 0) {
+        await interactionReply(interaction,
+          bPerso.get.response_null);
+      } else {
+        await interactionReply(interaction, 
+          bPerso.get.response.concat(allIds.join('\n')));
+      }
       break;
     case bPerso.remove.name:
       const toRemove = interaction.options
         .getUser(bPerso.remove.userOption.name).id;
       var res = removeBlacklist(db, toRemove);
       if (res) {
+        console.log(`${interaction.options.getUser(bPerso.remove.userOption.name).username} a été retiré.e de la blacklist par ${interaction.user.username}`);
         await interactionReply(interaction, bPerso.remove.response_pos);
       } else {
         await interactionReply(interaction, bPerso.remove.response_neg);
