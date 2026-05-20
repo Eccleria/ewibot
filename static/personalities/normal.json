@@ -79,6 +79,8 @@
       "add": {
         "description": "Pour ajouter un.e utilisateur.ice à la blacklist",
         "name": "add",
+        "response_neg": "L'utilisateur.ice est déjà dans la blacklist, ou n'a pas pu être ajouté.e",
+        "response_pos": "L'utilisateur.ice a bien été ajouté.e",
         "userOption": {
           "description": "La personne à ajouter à la liste",
           "name": "user"
@@ -88,12 +90,15 @@
       "error": "Une erreur inattendue est arrivée. Veuillez la signaler dans le salon <#975315013206171738>.",
       "get": {
         "description": "Pour avoir la liste des personnes actuellement dans la blacklist",
+        "response": "Les utilisateur.ices dans la blacklist sont :\n",
         "name": "get"
       },
       "name": "blacklist",
       "remove": {
         "description": "Pour enlever un.e utilisateur.ice de la blacklist",
         "name": "remove",
+        "response_neg": "L'utilisateur.ice n'est pas dans la blacklist, ou n'a pas pu être retiré.e",
+        "response_pos": "L'utilisateur.ice a bien été retiré.e",
         "userOption": {
           "description": "La personne à retirer",
           "name": "user"
