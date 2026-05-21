@@ -8,7 +8,7 @@ export const logger = pino({
     target: "./loggerTransport.js",
     options: {
       colorize: true,
-      ignore: "hostname",
+      ignore: "pid,hostname",
       translateTime: "SYS:standard",
     },
   },

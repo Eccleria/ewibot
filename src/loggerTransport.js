@@ -66,11 +66,11 @@ const Modules = {
 export default (opts) => PinoPretty({
   ...opts,
   messageFormat: (log, messageKey) => {
-    let moduleText = '';
+    let moduleText = ' ';
     if (log.module) {
       const color = Modules[log.module];
       moduleText = `${color.start}${log.module}${color.end} - `;
-    } else moduleText = ' ';
+    }
     delete log.module; //no need to print it
     const text = moduleText + log[messageKey];
 
