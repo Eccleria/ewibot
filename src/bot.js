@@ -20,6 +20,9 @@ import { JSONFile } from "lowdb/node";
 import { join } from "path";
 
 import { channelSend, fetchGuild } from "ewilib";
+
+import { logger } from "./logger.js";
+
 // listeners imports
 import { onMessageUpdate, onGuildMemberRemove } from "./admin/listeners.js";
 import {
@@ -100,7 +103,7 @@ client.once(Events.ClientReady, async () => {
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
 
   // Bot init
-  console.log("I am ready!");
+  logger.info("I am ready!");
   const embed = new EmbedBuilder()
     .setColor(COMMONS.getOk())
     .setDescription("I am ready!")
@@ -152,6 +155,11 @@ client.on(Events.InteractionCreate, onInteractionCreate);
 // listeners for FUN
 client.on(Events.MessageUpdate, onMessageUpdate);
 client.on(Events.GuildMemberRemove, onGuildMemberRemove);
+
+// listeners for ERRORS
+client.on("debug", logger.debug);
+client.on("warn", logger.warn);
+client.on("error", logger.error);
 
 // Log the bot in
 client.login(process.env.TOKEN);
