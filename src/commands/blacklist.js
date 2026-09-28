@@ -1,12 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { channelSend, fetchChannel, interactionReply } from "ewilib";
+import { interactionReply } from "ewilib";
 
 import {
   addBlacklist, 
   removeBlacklist,
   getBlacklist,
 } from "../helpers/index.js"
-import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()
@@ -45,7 +44,6 @@ const command = new SlashCommandBuilder()
   );
 
 const action = async (interaction) => {
-  const authorId = interaction.member.id;
   const db = interaction.client.db;
 
   const whichCommand = interaction.options.getSubcommand();

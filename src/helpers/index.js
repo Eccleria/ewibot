@@ -12,8 +12,9 @@ import {
 
 import {
   addBlacklist,
-  removeBlacklist,
   getBlacklist,
+  isBlacklistedUser,
+  removeBlacklist,
 } from "./db/dbBlacklist.js"
 
 import {
@@ -123,8 +124,9 @@ export {
   removeBirthday,
   //blacklist
   addBlacklist,
-  removeBlacklist,
   getBlacklist,
+  isBlacklistedUser,
+  removeBlacklist,
   //eventRoles
   getEventRoles,
   addEventRole,

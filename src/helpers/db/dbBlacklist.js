@@ -21,4 +21,8 @@ const getBlacklist = (db) => {
     return db.data.blacklistUsers;
 }
 
-export { addBlacklist, getBlacklist, removeBlacklist };
+const isBlacklistedUser = (db, userId) => {
+    return db.data.blacklistUsers.includes(userId);
+}
+
+export { addBlacklist, getBlacklist, removeBlacklist, isBlacklistedUser };
