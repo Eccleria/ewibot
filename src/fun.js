@@ -290,7 +290,7 @@ const isLuciferAge = (content) => {
  * @returns {boolean} True if the content is a question
  */
 const isQuestion = (content) => {
-  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gim); //regex for a mention <@...> and a question
+  const questRegex = new RegExp(/^<@\d+> +est[-| ]ce .+ ?/gim); //regex for a mention <@...> and a question
   const questResult = questRegex.exec(content); //check if contains a question
 
   questResult.lastIndex = 0; //set first index to look at to zero
