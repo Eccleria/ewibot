@@ -51,6 +51,37 @@
       "removeUser": "Dommage, plus de cookie pour toi <:ManielShrug:843468437174091812>",
       "userNotFound": "Déso, je ne t'ai pas trouvé dans mes notes... J'ai du mal à lire tu sais ? <:Artuwu:822462344583708672>"
     },
+    "blacklist": {
+      "add": {
+        "description": "Pour que j'ignore quelqu'un, na !",
+        "name": "add",
+        "response_neg": "Ça tombe bien, cette personne était déjà dans ma liste.",
+        "response_pos": "J'ai noté son nom ! Cette personne n'a qu'à bien se tenir.",
+        "userOption": {
+          "description": "Le petit malin ou la petite maline",
+          "name": "user"
+        }
+      },
+      "description": "Cette commande permet de gérer la blacklist d'Ewibot",
+      "error": "Une erreur inattendue est arrivée. Veuillez la signaler dans le salon <#975315013206171738>. Nous vous remerçions de votre patience et vous souhaitons un agréable voyage.",
+      "get": {
+        "description": "Petit·e curieux·se, tu veux savoir qui j'ignore ?",
+        "response": "Les utilisateur.ices ~~qui n'auront pas de cadeau à Noël~~ qui sont dans la blacklist sont :\n",
+        "response_null": "Tout le monde a été sage, il n'y a actuellement personne dans la blacklist",
+        "name": "get"
+      },
+      "name": "blacklist",
+      "remove": {
+        "description": "Parce que certain·e·s ont bien droit à leur arc de rédemption",
+        "name": "remove",
+        "response_neg": "Est-ce que cette personne était vraiment dans ma liste ? Je ne l'ai pas trouvée",
+        "response_pos": "C'est bon, je n'ignore plus cette personne.",
+        "userOption": {
+          "description": "La personne à retirer",
+          "name": "user"
+        }
+      }
+    },
     "botMessage": {
       "attachmentOption":{
         "description":"Pièce-jointe a transmettre avec le message",
