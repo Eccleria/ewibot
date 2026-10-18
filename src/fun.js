@@ -162,7 +162,11 @@ export const readContentAndReact = async (message, currentServer) => {
   const cmnShared = COMMONS.getShared();
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
 
-  if (isIgnoredUser(db, authorId) || isBlacklistedUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
+  if (
+    isIgnoredUser(db, authorId) ||
+    isBlacklistedUser(db, authorId) ||
+    isIgnoredChannel(db, message.channel.id)
+  )
     return; //check for ignore users or channels, or blacklist users
 
   const sanitizedContent = removePunctuation(loweredContent); //remove punctuation

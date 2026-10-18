@@ -15,7 +15,7 @@ import {
   getBlacklist,
   isBlacklistedUser,
   removeBlacklist,
-} from "./db/dbBlacklist.js"
+} from "./db/dbBlacklist.js";
 
 import {
   getEventRoles,

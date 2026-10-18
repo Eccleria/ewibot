@@ -2,10 +2,10 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { interactionReply } from "ewilib";
 
 import {
-  addBlacklist, 
+  addBlacklist,
   removeBlacklist,
   getBlacklist,
-} from "../helpers/index.js"
+} from "../helpers/index.js";
 import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()
@@ -30,9 +30,12 @@ const command = new SlashCommandBuilder()
       .setDescription(PERSONALITY.getPersonality().blacklist.remove.description)
       .addUserOption((option) =>
         option
-          .setName(PERSONALITY.getPersonality().blacklist.remove.userOption.name)
+          .setName(
+            PERSONALITY.getPersonality().blacklist.remove.userOption.name,
+          )
           .setDescription(
-            PERSONALITY.getPersonality().blacklist.remove.userOption.description,
+            PERSONALITY.getPersonality().blacklist.remove.userOption
+              .description,
           )
           .setRequired(true),
       ),
@@ -48,37 +51,43 @@ const action = async (interaction) => {
 
   const whichCommand = interaction.options.getSubcommand();
   const bPerso = PERSONALITY.getPersonality().blacklist;
+  const toAdd = interaction.options.getUser(bPerso.add.userOption.name).id; // get user ID
+  const toRemove = interaction.options.getUser(
+    bPerso.remove.userOption.name,
+  ).id;
+  let res;
+  let allIds = [];
   switch (whichCommand) {
     case bPerso.add.name:
-      const toAdd = interaction.options
-        .getUser(bPerso.add.userOption.name).id; // get user ID
-      var res = addBlacklist(db, toAdd);
+      res = addBlacklist(db, toAdd);
       if (res) {
-        console.log(`${interaction.options.getUser(bPerso.add.userOption.name).username} a été ajouté.e à la blacklist par ${interaction.user.username}`);
+        console.log(
+          `${interaction.options.getUser(bPerso.add.userOption.name).username} a été ajouté.e à la blacklist par ${interaction.user.username}`,
+        );
         await interactionReply(interaction, bPerso.add.response_pos);
       } else {
         await interactionReply(interaction, bPerso.add.response_neg);
       }
       break;
     case bPerso.get.name:
-      var allIds = [];
-      getBlacklist(db).forEach(element => {
-          allIds.push(toMention(element));
-        })
+      getBlacklist(db).forEach((element) => {
+        allIds.push(toMention(element));
+      });
       if (allIds.length == 0) {
-        await interactionReply(interaction,
-          bPerso.get.response_null);
+        await interactionReply(interaction, bPerso.get.response_null);
       } else {
-        await interactionReply(interaction, 
-          bPerso.get.response.concat(allIds.join('\n')));
+        await interactionReply(
+          interaction,
+          bPerso.get.response.concat(allIds.join("\n")),
+        );
       }
       break;
     case bPerso.remove.name:
-      const toRemove = interaction.options
-        .getUser(bPerso.remove.userOption.name).id;
-      var res = removeBlacklist(db, toRemove);
+      res = removeBlacklist(db, toRemove);
       if (res) {
-        console.log(`${interaction.options.getUser(bPerso.remove.userOption.name).username} a été retiré.e de la blacklist par ${interaction.user.username}`);
+        console.log(
+          `${interaction.options.getUser(bPerso.remove.userOption.name).username} a été retiré.e de la blacklist par ${interaction.user.username}`,
+        );
         await interactionReply(interaction, bPerso.remove.response_pos);
       } else {
         await interactionReply(interaction, bPerso.remove.response_neg);
@@ -105,10 +114,15 @@ const blacklist = {
   admin: true,
   releaseDate: null,
   sentinelle: true,
-  subcommands: ["blacklist", "blacklist add", "blacklist remove", "blacklist get"],
+  subcommands: [
+    "blacklist",
+    "blacklist add",
+    "blacklist remove",
+    "blacklist get",
+  ],
 };
 
 // Util method to get user mention under the form <@UserId>
-const toMention = ((userId) => `- <@${userId}>`);
+const toMention = (userId) => `- <@${userId}>`;
 
 export default blacklist;
