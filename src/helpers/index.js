@@ -11,6 +11,13 @@ import {
 } from "./db/dbBirthday.js";
 
 import {
+  addBlacklist,
+  getBlacklist,
+  isBlacklistedUser,
+  removeBlacklist,
+} from "./db/dbBlacklist.js";
+
+import {
   getEventRoles,
   addEventRole,
   updateEventRoleMessageId,
@@ -131,6 +138,11 @@ export {
   addBirthday,
   isBirthdayDate,
   removeBirthday,
+  //blacklist
+  addBlacklist,
+  getBlacklist,
+  isBlacklistedUser,
+  removeBlacklist,
   //eventRoles
   getEventRoles,
   addEventRole,

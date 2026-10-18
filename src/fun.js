@@ -1,5 +1,7 @@
 import { ActivityType } from "discord.js";
 import {
+  //blacklist
+  isBlacklistedUser,
   //db
   addApologyCount,
   addStatsData,
@@ -87,6 +89,7 @@ const buildActivityList = () => {
   return activityList;
 };
 
+// list of all possible answers when directly asked a question
 const magic8Answers = [
   "Oui",
   "Très certainement",
@@ -159,8 +162,12 @@ export const readContentAndReact = async (message, currentServer) => {
   const cmnShared = COMMONS.getShared();
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
 
-  if (isIgnoredUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
-    return; //check for ignore users or channels
+  if (
+    isIgnoredUser(db, authorId) ||
+    isBlacklistedUser(db, authorId) ||
+    isIgnoredChannel(db, message.channel.id)
+  )
+    return; //check for ignore users or channels, or blacklist users
 
   const sanitizedContent = removePunctuation(loweredContent); //remove punctuation
 
@@ -287,7 +294,7 @@ const isLuciferAge = (content) => {
  * @returns {boolean} True if the content is a question
  */
 const isQuestion = (content) => {
-  const questRegex = new RegExp(/^<@\d+> est[-| ]ce .+ ?/gim); //regex for a mention <@...> and a question
+  const questRegex = new RegExp(/^<@\d+> +est[-| ]ce .+ ?/gim); //regex for a mention <@...> and a question
   const questResult = questRegex.exec(content); //check if contains a question
 
   questResult.lastIndex = 0; //set first index to look at to zero
