@@ -1,8 +1,8 @@
 import { ContextMenuCommandBuilder } from "@discordjs/builders";
-import { ActionRowBuilder, ButtonStyle, MessageFlags } from "discord.js";
+import { ApplicationCommandType } from "discord.js";
 import { interactionReply } from "ewilib";
 
-import { isAdmin } from "../helpers/index.js";
+import { addApologyCount, isAdmin } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 
@@ -10,30 +10,35 @@ import { PERSONALITY } from "../classes/personality.js";
 
 const command = new ContextMenuCommandBuilder()
   .setName(PERSONALITY.getPersonality().apology.name)
-  .setType(3);
+  .setType(ApplicationCommandType.Message);
 
 //apology action
-const action = (interaction) => {
+const action = async (interaction) => {
   // handle apology command interaction
-  const apologyP = PERSONALITY.getPersonality().apology; //get personality
+  const perso = PERSONALITY.getPersonality().apology; //get personality
 
   if (!isAdmin(interaction.user.id)) {
     //check for admin
-    interactionReply(interaction, apologyP.notAdmin);
+    interactionReply(interaction, perso.notAdmin);
     return;
   }
 
   //get interaction data
   const message = interaction.targetMessage;
-  const currentServer = COMMONS.fetchFromGuildId(channel.guildId);
+  const currentServer = COMMONS.fetchFromGuildId(message.guildId);
 
   //count the apology directly
-  addApologyCount(interaction.client.db, targetMessage.author.id);
+  addApologyCount(interaction.client.db, message.author.id);
 
   //react to the message
-  
-  await targetMessage.fetch()
-  if (targ
+  await message.fetch();
+  if (message) {
+    const result = await message.react(currentServer.panDuomReactId); //add message reaction
+    if (result) 
+      interactionReply(interaction, perso.OK);
+    else 
+      interactionReply(interaction, perso.KO);
+  }
 };
 
 const apology = {
