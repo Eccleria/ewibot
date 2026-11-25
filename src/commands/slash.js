@@ -8,6 +8,7 @@ import { interactionReply } from "ewilib";
 
 import allRoles from "./allRoles.js";
 import announce from "./announce.js";
+import apology from "./apology.js";
 import birthday from "./birthday.js";
 import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
@@ -182,7 +183,7 @@ const ignoreChannel = {
 };
 
 //regroup all commands
-const contextCommands = [reverseTranslator]; //context commands (message, channel, user)
+const contextCommands = [apology, reverseTranslator]; //context commands (message, channel, user)
 const slashCommands = [
   allRoles,
   announce,

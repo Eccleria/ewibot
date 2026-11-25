@@ -12,6 +12,13 @@
         "name": "which"
       }
     },
+    "apology": {
+      "help": "Cette commande contextuelle permet de punir les gens qui esquivent volontairement le détecteur d'excuse",
+      "KO": "erreur, réaction pas ajoutée",
+      "name": "apology",
+      "notAdmin":"Cette commande est réservée à mes développeurs.",
+      "OK": "reaction bien ajoutée"
+    },
     "birthday": {
       "add": {
         "dayOption": {
