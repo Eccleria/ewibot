@@ -183,10 +183,7 @@ const ignoreChannel = {
 };
 
 //regroup all commands
-const contextCommands = [
-  apology,
-  reverseTranslator,
-]; //context commands (message, channel, user)
+const contextCommands = [apology, reverseTranslator]; //context commands (message, channel, user)
 const slashCommands = [
   allRoles,
   announce,

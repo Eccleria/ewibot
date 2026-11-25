@@ -34,10 +34,8 @@ const action = async (interaction) => {
   await message.fetch();
   if (message) {
     const result = await message.react(currentServer.panDuomReactId); //add message reaction
-    if (result) 
-      interactionReply(interaction, perso.OK);
-    else 
-      interactionReply(interaction, perso.KO);
+    if (result) interactionReply(interaction, perso.OK);
+    else interactionReply(interaction, perso.KO);
   }
 };
 
